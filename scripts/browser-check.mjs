@@ -12,15 +12,6 @@ const context = await browser.newContext({
   permissions: ["microphone"],
 });
 const page = await context.newPage();
-// General UI checks exercise the offline/error path without spending Codex usage.
-// Live coaching and transcription are checked by browser-coach-check.mjs.
-await context.route("**/api/coach/**", (route) =>
-  route.fulfill({
-    status: 503,
-    contentType: "application/json",
-    body: JSON.stringify({ error: "Coach unavailable during the offline browser check." }),
-  }),
-);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 await mkdir("docs/screenshots", { recursive: true });

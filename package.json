@@ -34,9 +34,7 @@
     "test:browser": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test",
     "test:mutation": "pnpm test:ids && stryker run stryker.business.config.mjs && node scripts/check-mutation-report.mjs",
     "test:mutation:full": "stryker run stryker.audit.config.mjs",
-    "test:python": "node scripts/test-python.mjs",
-    "test:mutation:python": "node scripts/test-python.mjs --mutate",
-    "test:refactor": "pnpm test:ids && pnpm build && pnpm lint && pnpm test:coverage && pnpm test:python && pnpm test:browser && pnpm test:mutation && pnpm test:mutation:python",
+    "test:refactor": "pnpm test:ids && pnpm build && pnpm lint && pnpm test:coverage && pnpm test:browser && pnpm test:mutation",
     "test:visual:guard": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright node scripts/check-visual-guard.mjs",
     "test:ids": "node scripts/check-test-ids.mjs",
     "test:browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium"

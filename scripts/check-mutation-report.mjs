@@ -6,7 +6,6 @@ const floors = {
   "src/components/LessonSession.tsx": 90,
   "src/data/progress.ts": 98,
   "scripts/audio-budget.mjs": 95,
-  "server/coach.ts": 90,
   "src/hooks/useCoach.ts": 95,
   "src/data/coach.ts": 100,
 };

@@ -1,0 +1,99 @@
+{
+  "passed": true,
+  "source": "Fictional writing and existing course audio through a simulated microphone",
+  "checks": [
+    "sentence autoplay after correct check",
+    "previous objective answer ignored",
+    "live Codex writing feedback",
+    "mobile feedback layout",
+    "local recorded-speech transcription",
+    "live Codex speaking feedback"
+  ],
+  "sentenceAudio": {
+    "src": "http://127.0.0.1:5173/audio/fjnw4u.m4a",
+    "duration": 0.959002
+  },
+  "writing": "Hola, me llamo Ana. Soy de Polonia y vivo en Varsovia con mi familia. Soy veinte años. Estudio español en una escuela. Me gusta la clase. Como te llamas? Hasta pronto, Ana.",
+  "writingResult": {
+    "review": {
+      "summary": "You covered all the requested points. Your 32 words are within the 30–40 word range. Two small corrections will improve your message.",
+      "strengths": [
+        "You clearly give your name, origin, home and the language you study.",
+        "You include a friendly greeting, a farewell and a question for your classmate."
+      ],
+      "corrections": [
+        {
+          "original": "Soy veinte años.",
+          "corrected": "Tengo veinte años.",
+          "explanation": "Use tener to express age in Spanish."
+        },
+        {
+          "original": "Como te llamas?",
+          "corrected": "¿Cómo te llamas?",
+          "explanation": "In a question, cómo needs an accent. Spanish also uses an opening question mark."
+        }
+      ],
+      "coverage": [
+        {
+          "point": "I included a greeting and a farewell.",
+          "met": true,
+          "feedback": "You use “Hola” and “Hasta pronto.”"
+        },
+        {
+          "point": "I gave my name, origin, home and language.",
+          "met": true,
+          "feedback": "You say you are Ana, come from Poland, live in Warsaw and study Spanish."
+        },
+        {
+          "point": "I asked my classmate’s name.",
+          "met": true,
+          "feedback": "Your question asks your classmate’s name clearly."
+        },
+        {
+          "point": "Write 30–40 words.",
+          "met": true,
+          "feedback": "Your 32 words are within the requested range."
+        }
+      ],
+      "improvedAnswer": "Hola, me llamo Ana. Soy de Polonia y vivo en Varsovia con mi familia. Tengo veinte años. Estudio español en una escuela. Me gusta la clase. ¿Cómo te llamas? Hasta pronto, Ana.",
+      "nextStep": "Practise the pattern “Tengo … años” to help you remember how to express age."
+    }
+  },
+  "transcript": "Me llamo Anna. Soy polaca y tengo 30 años. Vivo en Varsovia. Soy profesora. Hablo polaco e inglés y estudio español. Soy una persona tranquila. Me gusta leer. Me llamo...",
+  "speakingResult": {
+    "review": {
+      "summary": "You included all seven personal details with clear, simple Spanish. To develop the introduction, add a little more information about each point.",
+      "strengths": [
+        "You gave your name, nationality, age, home, occupation, languages and a personality trait.",
+        "You correctly used “e” before “inglés”.",
+        "“Estudio español” and “Me gusta leer” add useful personal details."
+      ],
+      "corrections": [],
+      "coverage": [
+        {
+          "point": "I covered all seven personal details.",
+          "met": true,
+          "feedback": "All seven appear in your introduction."
+        },
+        {
+          "point": "My words were understandable when I replayed them.",
+          "met": null,
+          "feedback": "A transcript cannot show how understandable the recording was. Replay it and check whether you can hear each word clearly."
+        },
+        {
+          "point": "I used short sentences and added simple details.",
+          "met": true,
+          "feedback": "You used short sentences and added information about studying Spanish and enjoying reading. The task also asks you to expand each personal point; several still have no extra detail."
+        },
+        {
+          "point": "Speak for 1–2 minutes.",
+          "met": null,
+          "feedback": "Check the recording’s duration yourself; the transcript cannot establish how long you spoke."
+        }
+      ],
+      "improvedAnswer": "Me llamo Anna. Soy polaca y tengo 30 años. Vivo en Varsovia. Soy profesora. Hablo polaco e inglés y estudio español. Soy una persona tranquila. Me gusta leer.",
+      "nextStep": "Add one true, simple detail to each point that needs expansion, then record again and check that your introduction lasts 1–2 minutes."
+    }
+  },
+  "errors": []
+}

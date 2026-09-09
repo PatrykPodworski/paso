@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "hints": 96,
+  "checks": [
+    "hidden before answering",
+    "hasta luego wrong-answer feedback",
+    "saved mistake review",
+    "vocabulary card flip",
+    "mobile layout without overflow"
+  ],
+  "feedback": "A good moment to learn.\n\nYour answer: hello\nCorrect answer: see you later\n\n“hasta luego” means “see you later”.\n\nMemory hint\n\nHasta means “until” and luego means “later”: literally, “until later.” Picture waving to someone you’ll see again.\n\nAdded to your mistake review.\nContinue"
+}

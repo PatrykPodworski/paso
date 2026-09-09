@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-09T07:48:07.354Z",
+  "gate": {
+    "command": "pnpm test:refactor",
+    "outcome": "passed",
+    "stages": [
+      "stable test IDs",
+      "TypeScript and production build",
+      "lint",
+      "unit coverage",
+      "Python unit tests",
+      "desktop/mobile E2E and visual comparisons",
+      "JavaScript mutation and per-module floors",
+      "Python mutation"
+    ]
+  },
+  "environment": {
+    "os": "macOS 26.6.2",
+    "architecture": "arm64",
+    "node": "v26.0.0",
+    "pnpm": "10.33.0",
+    "vitest": "4.1.10",
+    "playwright": "1.62.1",
+    "chromium": "151.0.7922.34",
+    "browserRevision": "1234",
+    "browserCache": ".cache/playwright",
+    "stryker": "10.0.0"
+  },
+  "rules": {
+    "auditedContracts": 77,
+    "inventory": "docs/REFACTOR_TESTING.md"
+  },
+  "unit": {
+    "javascriptTypescript": 422,
+    "javascriptTestFiles": 19,
+    "python": 7,
+    "coverage": {
+      "lines": {
+        "total": 1075,
+        "covered": 1067,
+        "skipped": 0,
+        "pct": 99.25
+      },
+      "statements": {
+        "total": 1171,
+        "covered": 1163,
+        "skipped": 0,
+        "pct": 99.31
+      },
+      "functions": {
+        "total": 338,
+        "covered": 335,
+        "skipped": 0,
+        "pct": 99.11
+      },
+      "branches": {
+        "total": 1014,
+        "covered": 990,
+        "skipped": 0,
+        "pct": 97.63
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "browser": {
+    "journeys": 22,
+    "e2eRunsPassed": 44,
+    "visualRunsPassed": 69,
+    "baselines": 122,
+    "passed": 113,
+    "skipped": 1,
+    "skipReason": "Mobile navigation drawer is not a desktop view.",
+    "projects": [
+      {
+        "name": "desktop",
+        "viewport": [1440, 1080]
+      },
+      {
+        "name": "mobile",
+        "viewport": [390, 844]
+      }
+    ],
+    "maxDifferentPixels": 0,
+    "retries": 0
+  },
+  "mutation": {
+    "scope": "stryker.business.config.mjs",
+    "total": 2826,
+    "counts": {
+      "Killed": 2361,
+      "Survived": 423,
+      "Timeout": 21,
+      "NoCoverage": 18,
+      "RuntimeError": 3
+    },
+    "score": 84.38,
+    "overallRequired": 83,
+    "formula": "(Killed + Timeout) / (Killed + Timeout + Survived + NoCoverage)",
+    "perFile": {
+      "scripts/audio-budget.mjs": {
+        "counts": {
+          "Killed": 156,
+          "Survived": 4,
+          "Timeout": 1,
+          "NoCoverage": 1
+        },
+        "score": 96.91
+      },
+      "scripts/elevenlabs.mjs": {
+        "counts": {
+          "Killed": 193,
+          "Timeout": 3,
+          "Survived": 24,
+          "NoCoverage": 1
+        },
+        "score": 88.69
+      },
+      "scripts/generate-elevenlabs.mjs": {
+        "counts": {
+          "Survived": 29,
+          "Killed": 123,
+          "NoCoverage": 3
+        },
+        "score": 79.35
+      },
+      "server/coach.ts": {
+        "counts": {
+          "Killed": 282,
+          "Timeout": 1,
+          "Survived": 26,
+          "NoCoverage": 3
+        },
+        "score": 90.71
+      },
+      "src/App.tsx": {
+        "counts": {
+          "Killed": 381,
+          "Survived": 130,
+          "Timeout": 13,
+          "NoCoverage": 7
+        },
+        "score": 74.2
+      },
+      "src/components/Audio.tsx": {
+        "counts": {
+          "Killed": 126,
+          "Survived": 16,
+          "NoCoverage": 1
+        },
+        "score": 88.11
+      },
+      "src/components/CoachFeedback.tsx": {
+        "counts": {
+          "Killed": 6
+        },
+        "score": 100
+      },
+      "src/components/Dialog.tsx": {
+        "counts": {
+          "Survived": 8,
+          "Killed": 8
+        },
+        "score": 50
+      },
+      "src/components/Guide.tsx": {
+        "counts": {
+          "Killed": 18,
+          "Survived": 2
+        },
+        "score": 90
+      },
+      "src/components/LessonSession.tsx": {
+        "counts": {
+          "Killed": 90,
+          "Survived": 1
+        },
+        "score": 98.9
+      },
+      "src/components/MockExam.tsx": {
+        "counts": {
+          "Killed": 270,
+          "Survived": 82
+        },
+        "score": 76.7
+      },
+      "src/components/QuestionCard.tsx": {
+        "counts": {
+          "Killed": 275,
+          "Survived": 79,
+          "NoCoverage": 1,
+          "RuntimeError": 1
+        },
+        "score": 77.46
+      },
+      "src/components/Recorder.tsx": {
+        "counts": {
+          "Survived": 17,
+          "Killed": 100,
+          "RuntimeError": 2,
+          "NoCoverage": 1
+        },
+        "score": 84.75
+      },
+      "src/data/audio-sources.ts": {
+        "counts": {
+          "Killed": 3,
+          "Survived": 1
+        },
+        "score": 75
+      },
+      "src/data/audio.ts": {
+        "counts": {
+          "Killed": 2
+        },
+        "score": 100
+      },
+      "src/data/coach.ts": {
+        "counts": {
+          "Killed": 10
+        },
+        "score": 100
+      },
+      "src/data/progress.ts": {
+        "counts": {
+          "Killed": 203,
+          "Timeout": 3,
+          "Survived": 2
+        },
+        "score": 99.04
+      },
+      "src/hooks/useCoach.ts": {
+        "counts": {
+          "Killed": 115,
+          "Survived": 2
+        },
+        "score": 98.29
+      }
+    },
+    "sourceUnchangedCoreComparison": {
+      "files": ["src/data/progress.ts", "scripts/audio-budget.mjs"],
+      "before": {
+        "counts": {
+          "NoCoverage": 21,
+          "Killed": 256,
+          "Survived": 92,
+          "Timeout": 1
+        },
+        "score": 69.46
+      },
+      "after": {
+        "counts": {
+          "Killed": 359,
+          "Timeout": 4,
+          "Survived": 6,
+          "NoCoverage": 1
+        },
+        "score": 98.11
+      }
+    }
+  },
+  "pythonMutation": {
+    "source": "scripts/transcribe.py",
+    "total": 46,
+    "killed": 45,
+    "timeouts": 0,
+    "survived": 0,
+    "equivalent": 1,
+    "rawScore": 97.83,
+    "scoreExcludingReviewedEquivalents": 100
+  },
+  "negativeControls": {
+    "mutation": "Known exerciseBank = [] regression was killed by focused-practice assertions.",
+    "visual": "Intentional hero colour change failed the existing screenshot with a pixel mismatch; no baseline updated.",
+    "testSelection": "Preflight rejects duplicate or changing test names; mutation report rejects survivors with zero executed tests."
+  },
+  "defectsFixed": [
+    "Cleared exam drafts no longer restore a previously submitted answer.",
+    "Invalid saved exam question indices recover to the overview instead of crashing."
+  ],
+  "limits": [
+    "Mutation detection is not 100%; surviving changes remain visible in the HTML report and require review.",
+    "Live AI correction quality, pronunciation assessment, real Whisper model accuracy and provider availability are not proven by mocked boundary tests.",
+    "Screenshots are specific to macOS arm64 and pinned Chromium; Safari, Firefox, Windows and Linux rendering are not asserted.",
+    "Static teaching content and artwork are protected by content integrity checks and visual baselines, not code mutation."
+  ],
+  "externalServices": {
+    "routineTestsMockProviders": true,
+    "liveGenerationRequests": 0,
+    "elevenLabsCreditsUsed": 0
+  }
+}

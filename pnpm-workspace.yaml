@@ -1,0 +1,2 @@
+# Value is in minutes; 10080 = 7 days. See "Dependency policy" in the README.
+minimumReleaseAge: 10080

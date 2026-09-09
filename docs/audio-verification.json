@@ -1,0 +1,76 @@
+{
+  "verifiedAt": "2026-09-09T17:59:04.234532+00:00",
+  "installedClips": 305,
+  "totalClips": 305,
+  "coverage": {
+    "listening": {
+      "upgraded": 80,
+      "total": 80
+    },
+    "vocabulary": {
+      "upgraded": 96,
+      "total": 96
+    },
+    "unitExamples": {
+      "upgraded": 12,
+      "total": 12
+    },
+    "productiveModels": {
+      "upgraded": 28,
+      "total": 28
+    },
+    "allPhrases": {
+      "upgraded": 305,
+      "total": 305
+    }
+  },
+  "voices": {
+    "EXAVITQu4vr4xnSDxMaL": 155,
+    "jBlmi27XRORxjPquUeCh": 10,
+    "KHCvMklQZZo0O30ERnVn": 39,
+    "htFfPSZGJwjBv1CL0aMD": 101
+  },
+  "decodedClips": 305,
+  "decodeErrors": [],
+  "totalBytes": 22450182,
+  "apiKeyAbsentFromBrowserBundle": true,
+  "voiceNames": {
+    "EXAVITQu4vr4xnSDxMaL": "Sarah (existing)",
+    "htFfPSZGJwjBv1CL0aMD": "Antonio",
+    "KHCvMklQZZo0O30ERnVn": "Sara Martin",
+    "jBlmi27XRORxjPquUeCh": "Brian"
+  },
+  "newRecordings": 150,
+  "preservedRecordings": 155,
+  "newModelCounts": {
+    "eleven_v3": 146,
+    "eleven_multilingual_v2": 4
+  },
+  "selectedReplacementTakes": 15,
+  "auditionRequests": 9,
+  "correctiveRequests": 22,
+  "totalGenerationRequests": 178,
+  "localTranscriptionScreenedClips": 150,
+  "transcriptionReview": "audio-transcription-review.json",
+  "quota": {
+    "tier": "creator",
+    "accountUsed": 6934,
+    "usedSinceStartingAccountCheck": 6934,
+    "includedLimit": 121535,
+    "remainingIncluded": 114601,
+    "conservativeUsed": 12870,
+    "reserve": 500,
+    "overagesEnabled": false,
+    "reset": "2026-10-09T16:43:22+00:00"
+  },
+  "browserPlaybackVerified": true,
+  "browserTestsPassed": 48,
+  "unitTestsPassed": 453,
+  "notes": [
+    "All 305 course phrases have locally served ElevenLabs MP3 recordings.",
+    "The 155 original Sarah recordings were preserved.",
+    "146 new clips use v3 delivery tags. Four use Multilingual v2 with Antonio after v3 pronunciation screening.",
+    "Four reviewed spoken renderings expand times, numbers or email spellings; displayed course text and audio lookup keys remain unchanged.",
+    "Playback consumes no ElevenLabs credits."
+  ]
+}

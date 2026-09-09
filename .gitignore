@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+.audio-generation.lock
+.elevenlabs-usage.local.json
+.elevenlabs-usage.local.json.*.tmp
+public/audio/**/*.tmp
+src/data/audio-sources.json.*.tmp
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.venv-coach/
+__pycache__/
+
+# Regression test output (reviewed visual baselines remain tracked)
+coverage/
+reports/
+playwright-report/
+test-results/
+.stryker-tmp/
+.venv-tests/
+
+# Pinned browser isolated from shared Playwright cache cleanup
+.cache/playwright/
+
+# Local scratch space
+temp/

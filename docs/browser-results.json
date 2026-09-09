@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "desktop": "1440 × 1080",
+  "mobile": "390 × 844",
+  "checks": [
+    "initial dashboard",
+    "wrong-answer explanation",
+    "audio playback interaction",
+    "mistake persistence and clearing",
+    "vocabulary flip and search",
+    "writing form",
+    "checklist persistence",
+    "mock scoring, form persistence, oral preparation and full completion",
+    "profile persistence",
+    "microphone recording and playback",
+    "five mobile pages without overflow"
+  ],
+  "browserErrors": [],
+  "playedAudio": {
+    "src": "http://127.0.0.1:5173/audio/elevenlabs/f0f9fcf6e87d7db6c08cb08c.mp3",
+    "duration": 1.068118,
+    "event": "playing"
+  }
+}

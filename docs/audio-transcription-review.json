@@ -1,0 +1,1372 @@
+{
+  "method": "Local Whisper small transcription, targeted base-model checks and a weather-context check for the isolated word Llueve. Automated screening does not certify native pronunciation quality.",
+  "recordings": [
+    {
+      "key": "a8vk2q",
+      "text": "Hola, Mario. Hay una tienda de ropa junto al banco. Tiene camisas azules por veinte euros y chaquetas muy bonitas. Abre de diez a siete. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto.",
+      "src": "/audio/elevenlabs/0503d9fe32a5543311cb8ee1.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 15.12,
+      "transcript": "Hola Mario, hay una tienda de ropa junto al banco. Tiene camisas azules por 20 euros y chaquetas muy bonitas. Abre de 10 a 7. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto."
+    },
+    {
+      "key": "2x27q9",
+      "text": "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo. Muchas gracias.",
+      "src": "/audio/elevenlabs/eda797bd913f473509a793c8.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 13.6,
+      "transcript": "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo. Muchas gracias."
+    },
+    {
+      "key": "1a9dxh4",
+      "text": "Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
+      "src": "/audio/elevenlabs/0e6446ab41576efd25b4fc1e.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 14.88,
+      "transcript": "Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a la seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
+      "reviewNote": "The secondary decoder recovered the plural article; punctuation and number formatting differ."
+    },
+    {
+      "key": "xliq86",
+      "text": "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Qué te gusta hacer? ¿Quieres ir al cine el domingo?",
+      "src": "/audio/elevenlabs/75a3bf6b849a89b99af2aa18.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_multilingual_v2",
+      "durationSeconds": 10.21678,
+      "transcript": "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Qué te gusta hacer? ¿Quieres ir al cine el domingo?"
+    },
+    {
+      "key": "1g30v6u",
+      "text": "Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
+      "src": "/audio/elevenlabs/711b152fa11e70fbf5befa02.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 15.68,
+      "transcript": "Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana."
+    },
+    {
+      "key": "10gju85",
+      "text": "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Tengo una reserva en el hotel. Quiero una habitación doble para tres noches. Gracias.",
+      "src": "/audio/elevenlabs/53025f147371556f462ce1a1.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 11.68,
+      "transcript": "Buenos días, un billete a Madrid por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Tengo una reserva en el hotel. Quiero una habitación doble para tres noches. Gracias."
+    },
+    {
+      "key": "1ec0mev",
+      "text": "Hola, Sara. Hoy hace mucho sol y calor en mi ciudad. Estoy contenta porque no trabajo. ¿Quieres ir al parque conmigo? Podemos quedar a las cinco y tomar un zumo en el café. Un abrazo.",
+      "src": "/audio/elevenlabs/b225050f0128eaf7a7aa1648.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 12.8,
+      "transcript": "Hola, Sara. Hoy hace mucho sol y calor en mi ciudad. Estoy contenta porque no trabajo. ¿Quieres ir al parque conmigo? Podemos quedar a las 5 y tomar un zumo en el café. Un abrazo."
+    },
+    {
+      "key": "1w2gwwk",
+      "text": "Hoy hace sol y tengo calor. Quiero un vaso de agua. Me gusta el verano porque puedo nadar. Estoy contento. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
+      "src": "/audio/elevenlabs/482a72b91c680e263941986e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 13.36,
+      "transcript": "Hoy hace sol y tengo calor. Quiero un vaso de agua. Me gusta el verano porque puedo nadar. Estoy contento. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?"
+    },
+    {
+      "key": "j3bp1m",
+      "text": "Hola, Elena. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
+      "src": "/audio/elevenlabs/38db2dd1b9ccafbdc4f01715.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 12.8,
+      "transcript": "Hola Elena, me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo."
+    },
+    {
+      "key": "1jz71my",
+      "text": "Me llamo Pablo. Soy polaco y vivo en Madrid. Trabajo en una tienda. Estudio español los lunes. Mi clase es pequeña y mi profesora es simpática. ¿Dónde trabajas? ¿Qué lenguas hablas?",
+      "src": "/audio/elevenlabs/4e0a4c75173e1b6c958181ad.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 18.56,
+      "transcript": "Me llamo Pablo. Soy polaco y vivo en Madrid. Trabajo en una tienda. Estudio español los lunes. Mi clase es pequeña y mi profesora es simpática. ¿Dónde trabajas? ¿Qué lenguas hablas?"
+    },
+    {
+      "key": "1nbq59n",
+      "text": "Hola, Ana. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Elena.",
+      "src": "/audio/elevenlabs/679d5b2cdcb1017e503563aa.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 12.96,
+      "transcript": "Hola Anna. Sí, puedo quedar el domingo. Nos vemos a las 11 en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Elena."
+    },
+    {
+      "key": "1catfch",
+      "text": "Me llamo Elena. Soy polaca y tengo veintiséis años. Vivo en Varsovia. Soy profesora de música. Hablo polaco e inglés y estudio español. Soy tranquila y simpática.",
+      "src": "/audio/elevenlabs/51e5a39b2c4a3a6103a285b5.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 12.56,
+      "transcript": "Me llamo Elena. Soy polaca y tengo 26 años. Vivo en Barsovia. Soy profesora de música. Hablo polaco e inglés y estudio español. Soy tranquila y simpática."
+    },
+    {
+      "key": "4dn8pz",
+      "text": "Mi casa está cerca del centro. Es un piso pequeño con dos dormitorios, un salón y una cocina. Me gusta el salón porque tiene una ventana grande. Hay una mesa y dos sillas.",
+      "src": "/audio/elevenlabs/b633889f10f7d84d4d4ab177.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 12.96,
+      "transcript": "Mi casa está cerca del centro. Es un piso pequeño con dos dormitorios, un salón y una cocina. Me gusta el salón porque tiene una ventana grande. Hay una mesa y dos sillas."
+    },
+    {
+      "key": "xct90g",
+      "text": "Vivo con mi hermana. Cerca de mi casa hay una biblioteca y un parque. Me gusta mi barrio porque es tranquilo. ¿Dónde vives tú? ¿Cómo es tu casa?",
+      "src": "/audio/elevenlabs/44645f7ba81690c38b63d1eb.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 12.24,
+      "transcript": "Vivo con mi hermana. Cerca de mi casa hay una biblioteca y un parque. Me gusta mi barrio porque es tranquilo. ¿Dónde vives tú? ¿Cómo es tu casa?"
+    },
+    {
+      "key": "111o3av",
+      "text": "Yo soy Marta.",
+      "src": "/audio/elevenlabs/c531b23fc6f0672dae2d0b52.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "Yo soy Marta."
+    },
+    {
+      "key": "1iexxs0",
+      "text": "¿Cómo te llamas?",
+      "src": "/audio/elevenlabs/c3695f5284ba8ad0fedc3d3b.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.48,
+      "transcript": "¿Cómo te llamas?"
+    },
+    {
+      "key": "ezbmvj",
+      "text": "Ella es de México.",
+      "src": "/audio/elevenlabs/4fd58d4a80d1228b946d1df3.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "Ella es de México."
+    },
+    {
+      "key": "2hv8on",
+      "text": "¿Puedes repetir, por favor?",
+      "src": "/audio/elevenlabs/2b352cd81c6d61ab41ffdf2e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Puedes repetir por favor."
+    },
+    {
+      "key": "6kdbmg",
+      "text": "año",
+      "src": "/audio/elevenlabs/41864f2b8085cb0aab8930b0.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.84,
+      "transcript": "Año."
+    },
+    {
+      "key": "19hmr26",
+      "text": "Buenos días.",
+      "src": "/audio/elevenlabs/6aeec6836735d2e009839166.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "Buenos días."
+    },
+    {
+      "key": "x26am4",
+      "text": "Hola, soy Lucía. Soy de Sevilla, pero vivo en Madrid. Soy profesora de español. Mi amigo se llama David. Él es de México. Hablamos español en clase.",
+      "src": "/audio/elevenlabs/925797383000872fc5d40453.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 11.52,
+      "transcript": "Hola, soy Lucía. Soy de Sevilla, pero vivo en Madrid. Soy profesora de español. Mi amigo se llama David. Él es de México. Hablamos español en clase."
+    },
+    {
+      "key": "fjnw4u",
+      "text": "Hola me llamo Ana",
+      "src": "/audio/elevenlabs/2368d1c308ecf2fa8b718fd7.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.92,
+      "transcript": "Hola, me llamo Anna."
+    },
+    {
+      "key": "jndzux",
+      "text": "Soy de Polonia.",
+      "src": "/audio/elevenlabs/8ccd18a47aeb4e3b095091aa.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "Soy de Polonia."
+    },
+    {
+      "key": "14edysr",
+      "text": "Yo tengo veintidós años.",
+      "src": "/audio/elevenlabs/ee77702152b613d8da101a8b.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Yo tengo 22 años."
+    },
+    {
+      "key": "1wzcn5w",
+      "text": "¿Dónde vives? — En Málaga.",
+      "src": "/audio/elevenlabs/15125b257926c4557bcc4ce3.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.28,
+      "transcript": "¿Dónde vives? En Málaga."
+    },
+    {
+      "key": "93tfqh",
+      "text": "dieciséis",
+      "src": "/audio/elevenlabs/5f7584cc8691f712d8512ffc.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_multilingual_v2",
+      "durationSeconds": 1.393197,
+      "transcript": "16"
+    },
+    {
+      "key": "1sxbdz3",
+      "text": "Ana es de España. Es española.",
+      "src": "/audio/elevenlabs/9487618dbe2ad819a42f95e1.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.76,
+      "transcript": "Ana es de España. Es española."
+    },
+    {
+      "key": "v8wavk",
+      "text": "Nosotros somos estudiantes.",
+      "src": "/audio/elevenlabs/b3ebd05f1e467eb2990e1c01.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "Nosotros somos estudiantes."
+    },
+    {
+      "key": "ws4o8x",
+      "text": "¿Cuál es tu teléfono?",
+      "src": "/audio/elevenlabs/ed14e7186dff3bb7c9b32c99.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.28,
+      "transcript": "¿Cuál es tu teléfono?"
+    },
+    {
+      "key": "1nakwps",
+      "text": "apellidos",
+      "src": "/audio/elevenlabs/9e94408ed8987de066c338c8.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.28,
+      "transcript": "Apellidos."
+    },
+    {
+      "key": "14h24uf",
+      "text": "FICHA DE ESTUDIANTE\nNombre: Carlos\nApellidos: Ruiz López\nEdad: 28\nNacionalidad: argentina\nDomicilio: calle Luna, 12, Valencia\nTeléfono: 612 345 789\nCorreo: carlos@example.com",
+      "src": "/audio/elevenlabs/c85a2896b5fc4ead2c69656b.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 28.32,
+      "transcript": "Ficha de estudiante. Nombre Carlos. Apellidos Ruiz López. Edad 28. Nacionalidad Argentina. Domicilio. Calle Luna 12. Valencia. Telefono 612-345-7899. Correo. Carlosarrobaexample.com",
+      "spokenText": "Ficha de estudiante. Nombre: Carlos. Apellidos: Ruiz López. Edad: veintiocho. Nacionalidad: argentina. Domicilio: calle Luna, doce, Valencia. Teléfono: seis, uno, dos; tres, cuatro, cinco; siete, ocho, nueve. Correo: carlos, arroba, e, equis, a, eme, pe, ele, e, punto com.",
+      "reviewNote": "The secondary decoder recovered all nine telephone digits; the primary decoder recovered the email domain. The request explicitly spells the digits and domain letters."
+    },
+    {
+      "key": "b3i8q7",
+      "text": "Tengo veinticinco años",
+      "src": "/audio/elevenlabs/605a637d63dd6d32285e97f3.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.56,
+      "transcript": "Tengo 25 años."
+    },
+    {
+      "key": "8jczum",
+      "text": "Me llamo Carlos.",
+      "src": "/audio/elevenlabs/bb2c120384935f0c73b58c37.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.68,
+      "transcript": "Me llamo Carlos."
+    },
+    {
+      "key": "x9arpc",
+      "text": "Mis padres viven en Sevilla.",
+      "src": "/audio/elevenlabs/106434111ab38c721a4b1c66.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "Mis padres viven en Sevilla."
+    },
+    {
+      "key": "1ylvcvt",
+      "text": "Mi hermana es alta.",
+      "src": "/audio/elevenlabs/893ba4ee140aea6d6aded754.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.84,
+      "transcript": "Mi hermana es alta."
+    },
+    {
+      "key": "nf2iks",
+      "text": "El padre de mi madre es mi abuelo.",
+      "src": "/audio/elevenlabs/2df6210ef89fccd8e9a85d17.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.88,
+      "transcript": "El padre de mi madre es mi abuelo."
+    },
+    {
+      "key": "s3nkyz",
+      "text": "Tenemos dos hijas. Son nuestras hijas.",
+      "src": "/audio/elevenlabs/ccfa80cfa2a1228d7da837d5.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "Tenemos dos hijas, son nuestras hijas."
+    },
+    {
+      "key": "1lfe9vt",
+      "text": "Una mujer. Dos mujeres.",
+      "src": "/audio/elevenlabs/495f12c9340482ad61d6f454.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "Una mujer. Dos mujeres."
+    },
+    {
+      "key": "1eggyoo",
+      "text": "La profesora es simpática.",
+      "src": "/audio/elevenlabs/2d265495cf1283c57f294491.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "La profesora es simpática."
+    },
+    {
+      "key": "12qor38",
+      "text": "Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
+      "src": "/audio/elevenlabs/3f51ea126097d24b5ecee828.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 16.16,
+      "transcript": "Mi familia es pequeña. Mi madre, Rosa, tiene 50 años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene 16 años. Los domingos comemos con mi abuela Carmen."
+    },
+    {
+      "key": "1ynil3z",
+      "text": "Mi hermana es muy simpática",
+      "src": "/audio/elevenlabs/a7fbff5ab2809afb3e179d93.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.6,
+      "transcript": "Mi hermana es muy simpática."
+    },
+    {
+      "key": "pyzq2v",
+      "text": "Tengo dos hermanos.",
+      "src": "/audio/elevenlabs/702c38b8cfbd9a1419cfd3d3.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "Tengo dos hermanos."
+    },
+    {
+      "key": "13paqtp",
+      "text": "En mi casa hay tres dormitorios.",
+      "src": "/audio/elevenlabs/ae639f569bccacd2c315cea1.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.92,
+      "transcript": "En mi casa hay tres dormitorios."
+    },
+    {
+      "key": "1fln0e1",
+      "text": "La cocina está al lado del baño.",
+      "src": "/audio/elevenlabs/80e83ea76b3181b220eeb4ef.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.56,
+      "transcript": "La cocina está al lado del baño."
+    },
+    {
+      "key": "wora0u",
+      "text": "El libro está encima de la mesa.",
+      "src": "/audio/elevenlabs/6db84a1e42c037d0cf90b2de.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "El libro está encima de la mesa."
+    },
+    {
+      "key": "1xrpkdo",
+      "text": "una casa blanca",
+      "src": "/audio/elevenlabs/5b934e91566117a17f9834b8.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "una casa blanca."
+    },
+    {
+      "key": "kykozc",
+      "text": "¿Cuántas habitaciones hay?",
+      "src": "/audio/elevenlabs/66f9abbb64d25b1b7329d858.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "¿Cuántas habitaciones hay?"
+    },
+    {
+      "key": "7rchqv",
+      "text": "Voy al salón.",
+      "src": "/audio/elevenlabs/14c4f46219d3938b7da354bc.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "voy al salón."
+    },
+    {
+      "key": "1yuyt3k",
+      "text": "SE ALQUILA PISO\nPiso de dos dormitorios en el centro. Salón grande, cocina pequeña y un baño. Está cerca del metro. No tiene jardín. Precio: 650 euros al mes. Llamar por la tarde.",
+      "src": "/audio/elevenlabs/491e2fff638cd1aefab4db5d.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 15.04,
+      "transcript": "Se alquila piso. Piso de dos dormitorios en el centro. Salón grande, cocina pequeña y un baño. Está cerca del metro. No tiene jardín. Precio 650 euros al mes. Llamar por la tarde."
+    },
+    {
+      "key": "1irjm7h",
+      "text": "La cocina está al lado del baño",
+      "src": "/audio/elevenlabs/d9c2f60de40d941327dd4824.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.56,
+      "transcript": "La cocina está al lado del baño."
+    },
+    {
+      "key": "xnmamr",
+      "text": "Hay una mesa.",
+      "src": "/audio/elevenlabs/0a8c85cce56e33912b5c837d.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "Hay una mesa."
+    },
+    {
+      "key": "6dja2i",
+      "text": "Son las tres y media.",
+      "src": "/audio/elevenlabs/a9839dd7274060a92a97e91a.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Son las tres y media."
+    },
+    {
+      "key": "1yuayrz",
+      "text": "Yo me levanto a las siete.",
+      "src": "/audio/elevenlabs/c80a61943daab05436d8db56.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.92,
+      "transcript": "Yo me levanto a las siete."
+    },
+    {
+      "key": "qpd8ip",
+      "text": "Nosotros estudiamos español.",
+      "src": "/audio/elevenlabs/76777ed088a81db56171389e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Nosotros estudiamos español."
+    },
+    {
+      "key": "1571i0v",
+      "text": "La clase empieza a las nueve.",
+      "src": "/audio/elevenlabs/0382f5eadfcdd2bdc29a0444.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "La clase empieza a las nueve."
+    },
+    {
+      "key": "6ryxes",
+      "text": "Es la una.",
+      "src": "/audio/elevenlabs/f976590a0ab6a4cfd913911e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "Es la una."
+    },
+    {
+      "key": "3bs3x5",
+      "text": "Hoy es lunes. Mañana es martes.",
+      "src": "/audio/elevenlabs/d84318003054b33230022fb3.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.12,
+      "transcript": "Hoy es lunes, mañana es martes."
+    },
+    {
+      "key": "62o9oz",
+      "text": "HORARIO DE ANA\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
+      "src": "/audio/elevenlabs/352bdf1eb8a0dfe455af815f.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 14.0,
+      "transcript": "Horario de Ana De lunes a viernes trabaja de 9 a 5. Come a las 2. El martes y el jueves tiene clase de español a las 6. Los sábados no trabaja. Visita a sus padres."
+    },
+    {
+      "key": "1kmh7uw",
+      "text": "Me levanto a las siete de la mañana",
+      "src": "/audio/elevenlabs/c304bcdc74969e4fb8c714af.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "Me levanto a las 7 de la mañana."
+    },
+    {
+      "key": "15nsuy6",
+      "text": "Estudiamos español.",
+      "src": "/audio/elevenlabs/21cefb7d92327c99df96c6f2.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "estudiamos español."
+    },
+    {
+      "key": "lv0ils",
+      "text": "Me gustan las manzanas.",
+      "src": "/audio/elevenlabs/8d0c1ab93026ffcf7d6b005c.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "Me gustan las manzanas."
+    },
+    {
+      "key": "7xjulz",
+      "text": "Me gusta el café.",
+      "src": "/audio/elevenlabs/13982c87e03ecee2e33b2aa4.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "Me ustal café.",
+      "reviewNote": "The secondary decoder recovered the complete phrase."
+    },
+    {
+      "key": "12qkwcr",
+      "text": "La cuenta, por favor.",
+      "src": "/audio/elevenlabs/e1d9ffd0b137c005759e0679.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.64,
+      "transcript": "La cuenta por favor."
+    },
+    {
+      "key": "sbu5v5",
+      "text": "Yo quiero una ensalada.",
+      "src": "/audio/elevenlabs/11c479cc27db79f6b50b2153.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_multilingual_v2",
+      "durationSeconds": 1.578957,
+      "transcript": "Yo quiero una ensalada."
+    },
+    {
+      "key": "1gvyk8i",
+      "text": "Quiero café con leche.",
+      "src": "/audio/elevenlabs/b30986d49fa35b99715da474.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "Quiero café con leche."
+    },
+    {
+      "key": "p80m7p",
+      "text": "Dos euros con cincuenta.",
+      "src": "/audio/elevenlabs/f8173ba4a110639e8aba7e3b.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.68,
+      "transcript": "2 euros con 50"
+    },
+    {
+      "key": "1jidcpz",
+      "text": "CAFÉ LA PLAZA\nCafé solo: 1,50 €\nCafé con leche: 2 €\nTostada con tomate: 3 €\nBocadillo de queso: 4 €\nZumo de naranja: 2,50 €\nDesayunos hasta las 12:00. Cerrado los lunes.",
+      "src": "/audio/elevenlabs/1e483b254950496aa889b56e.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 18.0,
+      "transcript": "Café la plaza. Café solo 1,50€. Café con leche 2€. Tostada con tomate 3€. Bocadillo de queso 4€. Sumo de naranja 2,50€. Desayunos hasta las 12. Cerrado los lunes.",
+      "reviewNote": "Zumo/sumo are homophones for this Latin American speaker; currency and clock formatting are equivalent."
+    },
+    {
+      "key": "1vfe5p1",
+      "text": "Me gustan las manzanas y el pan",
+      "src": "/audio/elevenlabs/cc399dc1dde182d09a5d0aab.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.8,
+      "transcript": "Me gustan las manzanas y el pan."
+    },
+    {
+      "key": "1y4hh4e",
+      "text": "Un café, por favor.",
+      "src": "/audio/elevenlabs/63b7ee81e74410d575b142fb.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.4,
+      "transcript": "Un café, por favor."
+    },
+    {
+      "key": "19c9z9u",
+      "text": "La farmacia está enfrente del banco.",
+      "src": "/audio/elevenlabs/99e3114f57544fb5be28b776.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.48,
+      "transcript": "La farmacia está en frente del banco."
+    },
+    {
+      "key": "x558pv",
+      "text": "A la izquierda.",
+      "src": "/audio/elevenlabs/6c3be73788e6875938be4bd0.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.2,
+      "transcript": "a la izquierda"
+    },
+    {
+      "key": "g3bzgc",
+      "text": "En mi barrio hay un parque.",
+      "src": "/audio/elevenlabs/de78e693c85622c9e82c4177.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "En mi barrio hay un parque."
+    },
+    {
+      "key": "ikyv3o",
+      "text": "¿Dónde están los baños?",
+      "src": "/audio/elevenlabs/8911d118a812c349d246afc4.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.44,
+      "transcript": "¿Dónde están los baños?"
+    },
+    {
+      "key": "tslktv",
+      "text": "Voy a la biblioteca.",
+      "src": "/audio/elevenlabs/ab56646559736026315c54bd.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "voy a la biblioteca."
+    },
+    {
+      "key": "t7nzl5",
+      "text": "No fumar.",
+      "src": "/audio/elevenlabs/947be3b57b0b3cd9c98d1aac.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "No fumar."
+    },
+    {
+      "key": "1nb9cxq",
+      "text": "BIBLIOTECA MUNICIPAL\nAbierto de lunes a viernes, de 9:00 a 20:00. Sábados: de 10:00 a 14:00. Domingos cerrado. Entrada gratuita. Está al lado del parque, enfrente de la farmacia.",
+      "src": "/audio/elevenlabs/f75f64c3fc7eaf29ba3208e5.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 16.64,
+      "transcript": "Biblioteca Municipal. Abierto de lunes a viernes de las 9 de la mañana a las 8 de la tarde. Sábados de las 10 de la mañana a las 2 de la tarde. Domingos cerrado. Entrada gratuita. Está al lado del parque, enfrente de la farmacia.",
+      "spokenText": "Biblioteca municipal. Abierto de lunes a viernes, de las nueve de la mañana a las ocho de la tarde. Sábados: de las diez de la mañana a las dos de la tarde. Domingos cerrado. Entrada gratuita. Está al lado del parque, enfrente de la farmacia."
+    },
+    {
+      "key": "jtrpxk",
+      "text": "La farmacia está enfrente del banco",
+      "src": "/audio/elevenlabs/2fe3a35a82493b8a1056fd41.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.48,
+      "transcript": "La farmacia está en frente del banco."
+    },
+    {
+      "key": "1qtlsst",
+      "text": "¿Dónde está la estación?",
+      "src": "/audio/elevenlabs/73b30f1aa695680b766c68b6.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.48,
+      "transcript": "¿Dónde está la estación?"
+    },
+    {
+      "key": "immzl4",
+      "text": "Esta camisa es roja.",
+      "src": "/audio/elevenlabs/4e46299d0b24ef8312aecf6b.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.92,
+      "transcript": "Esta camisa es roja."
+    },
+    {
+      "key": "1snqtma",
+      "text": "¿Cuánto cuestan los zapatos?",
+      "src": "/audio/elevenlabs/b0dc2749237efc0823f43262.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 4.64,
+      "transcript": "¿Cuánto cuestan los zapatos?"
+    },
+    {
+      "key": "zzt49b",
+      "text": "Quiero una chaqueta negra.",
+      "src": "/audio/elevenlabs/dc072aa30f01b633197a652d.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_multilingual_v2",
+      "durationSeconds": 1.857596,
+      "transcript": "Quiero una chaqueta negra."
+    },
+    {
+      "key": "1u4wxkv",
+      "text": "Cuarenta y cinco euros.",
+      "src": "/audio/elevenlabs/944a3fee65e0bc91a5030d76.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "45 euros."
+    },
+    {
+      "key": "omdjzh",
+      "text": "Estos zapatos son azules.",
+      "src": "/audio/elevenlabs/bd77c231acdeaab46dd04d91.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "Estos zapatos son azules."
+    },
+    {
+      "key": "1fk3pi0",
+      "text": "¿Puedo pagar con tarjeta?",
+      "src": "/audio/elevenlabs/99337170f3926145a2e28c5b.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.56,
+      "transcript": "Puedo pagar con tarjeta."
+    },
+    {
+      "key": "iu1jr7",
+      "text": "TIENDA LUNA\nCamisetas: 12 €\nPantalones: 25 €\nChaquetas: 40 €\nTallas S, M y L. Abierto de 10:00 a 19:00 de lunes a sábado. Aceptamos tarjetas. Los domingos, cerrado.",
+      "src": "/audio/elevenlabs/916c7fb71d9f36ffab65d151.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 19.6,
+      "transcript": "Tienda Luna Camisetas 12 euros Pantalones 25 euros Chaquetas 40 euros Tallas S, M y L Abierto de las 10 de la mañana a las 7 de la tarde, de lunes a sábado Aceptamos tarjetas, cerrado los domingos",
+      "spokenText": "Tienda Luna. Camisetas: doce euros. Pantalones: veinticinco euros. Chaquetas: cuarenta euros. Tallas: ese, eme y ele. Abierto de las diez de la mañana a las siete de la tarde, de lunes a sábado. Aceptamos tarjetas. Cerrado los domingos.",
+      "reviewNote": "The decoder writes letter names as S, M and L; opening and closing times and the final phrase match."
+    },
+    {
+      "key": "11jss3l",
+      "text": "Quiero una camisa azul por favor",
+      "src": "/audio/elevenlabs/f08bb04eac79ed5fa9b38b16.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.92,
+      "transcript": "Quiero una camisa azul, por favor."
+    },
+    {
+      "key": "1tms2l6",
+      "text": "Me gusta leer libros.",
+      "src": "/audio/elevenlabs/6a46c809e79eb156b6802ebf.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.84,
+      "transcript": "Me gusta leer libros."
+    },
+    {
+      "key": "1sndd0j",
+      "text": "No voy al cine porque trabajo.",
+      "src": "/audio/elevenlabs/a2dbc5de92a373a8ada7b74f.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "No voy al cine porque trabajo."
+    },
+    {
+      "key": "1yhefzc",
+      "text": "Me gusta bailar, pero no me gusta cantar.",
+      "src": "/audio/elevenlabs/49532d501948e83fb055937c.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.8,
+      "transcript": "Me gusta bailar, pero no me gusta cantar."
+    },
+    {
+      "key": "1sawaqt",
+      "text": "Sí, gracias. Buena idea.",
+      "src": "/audio/elevenlabs/0d0d68c8c69ccd50496897eb.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Sí, gracias. Buena idea."
+    },
+    {
+      "key": "1g2fxue",
+      "text": "Ellos trabajan en una escuela.",
+      "src": "/audio/elevenlabs/13f4ded3fe9a919f009f98cf.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.84,
+      "transcript": "Ellos trabajan en una escuela."
+    },
+    {
+      "key": "84h6uq",
+      "text": "No me gusta el fútbol.",
+      "src": "/audio/elevenlabs/0e0d91663711f91b9bcc8d65.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.68,
+      "transcript": "No me gusta el fútbol."
+    },
+    {
+      "key": "hw6wqt",
+      "text": "Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
+      "src": "/audio/elevenlabs/c6212395a2315c5cd9cae72f.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 15.44,
+      "transcript": "Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta."
+    },
+    {
+      "key": "p5xlpj",
+      "text": "Me gusta leer porque es interesante",
+      "src": "/audio/elevenlabs/cecb1ff033324d6109768b45.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Me gusta leer porque es interesante."
+    },
+    {
+      "key": "tzetjn",
+      "text": "Voy a Barcelona en tren.",
+      "src": "/audio/elevenlabs/27bd26e0d34947024c624a81.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.68,
+      "transcript": "Voy a Barcelona en tren."
+    },
+    {
+      "key": "tz3mo4",
+      "text": "Un billete a Valencia, por favor.",
+      "src": "/audio/elevenlabs/a8daa595dcc720a53b424128.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "Un billete a Valencia, por favor."
+    },
+    {
+      "key": "9toyi6",
+      "text": "Una habitación para dos personas es doble.",
+      "src": "/audio/elevenlabs/fdefa051df3f38832f50e0d4.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.8,
+      "transcript": "Una habitación para dos personas es doble."
+    },
+    {
+      "key": "1xpiu7i",
+      "text": "Vamos al hotel.",
+      "src": "/audio/elevenlabs/b2fe107985c44868ecc0e487.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.48,
+      "transcript": "Vamos al hotel."
+    },
+    {
+      "key": "1n7qwmw",
+      "text": "El tren sale a las ocho menos cuarto.",
+      "src": "/audio/elevenlabs/666453abd9d9ed6e30b7f694.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "El tren sale a las 8 menos cuarto."
+    },
+    {
+      "key": "ayxro7",
+      "text": "Ida y vuelta.",
+      "src": "/audio/elevenlabs/fd925b7e15f6073995502385.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "ida y vuelta."
+    },
+    {
+      "key": "gu2kwz",
+      "text": "BILLETE DE TREN\nOrigen: Madrid\nDestino: Sevilla\nFecha: 18 de junio\nSalida: 09:15\nLlegada: 12:00\nCoche: 4 · Asiento: 12A\nPrecio: 35 €",
+      "src": "/audio/elevenlabs/95f74572086b00cb531be40d.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 19.6,
+      "transcript": "billete de tren, origen Madrid, destino Sevilla, fecha 18 de junio, salida las 9.15 de la mañana, llegada las 12 del mediodía, coche 4, asiento 12A, precio 35 euros.",
+      "spokenText": "Billete de tren. Origen: Madrid. Destino: Sevilla. Fecha: dieciocho de junio. Salida: las nueve y cuarto de la mañana. Llegada: las doce del mediodía. Coche: cuatro. Asiento: doce, a. Precio: treinta y cinco euros.",
+      "reviewNote": "The decoder writes nueve y cuarto as 9.15 and doce a as 12A; the spoken times and seat match."
+    },
+    {
+      "key": "vnp4dx",
+      "text": "Quiero una habitación para dos personas",
+      "src": "/audio/elevenlabs/05f39741713510c3d73e9acb.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "Quiero una habitación para dos personas."
+    },
+    {
+      "key": "1ik5mqq",
+      "text": "Un billete a Madrid, por favor.",
+      "src": "/audio/elevenlabs/4b2ce4a2ec2f82b7f306bf21.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.84,
+      "transcript": "Un billete a Madrid, por favor."
+    },
+    {
+      "key": "1w0hpna",
+      "text": "Hoy hace mucho frío.",
+      "src": "/audio/elevenlabs/3fe8149b2f137573cca093f9.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "Hoy hace mucho frío."
+    },
+    {
+      "key": "ag4tsq",
+      "text": "Quiero comer. Tengo hambre.",
+      "src": "/audio/elevenlabs/3cc16a0c27ee9d16d2f918fa.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Quiero comer. Tengo hambre."
+    },
+    {
+      "key": "eju6f1",
+      "text": "Estoy cansada porque trabajo mucho.",
+      "src": "/audio/elevenlabs/24932f6ac271ee3f5ba1c3be.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Estoy cansada porque trabajo mucho."
+    },
+    {
+      "key": "ea85gb",
+      "text": "En invierno normalmente hace frío.",
+      "src": "/audio/elevenlabs/f8df442e8c364833b2d3afdd.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.04,
+      "transcript": "En invierno normalmente hace frío."
+    },
+    {
+      "key": "5hetj0",
+      "text": "Necesito beber agua. Tengo sed.",
+      "src": "/audio/elevenlabs/74e0fb30b0211157261751e7.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.2,
+      "transcript": "Necesito beber agua. Tengo sed."
+    },
+    {
+      "key": "13zf2fw",
+      "text": "Llueve.",
+      "src": "/audio/elevenlabs/38d91b2066ab4a623834974b.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.4,
+      "transcript": "U.S.",
+      "reviewNote": "The isolated word confused the decoder. With a preceding recorded weather phrase, the unchanged selected audio was transcribed as llueve."
+    },
+    {
+      "key": "x3zenv",
+      "text": "Hola, Julia. Tu cita con la doctora García es el martes 12 de mayo a las once y media. La consulta está en la calle Sol, número 8, primera planta. Por favor, llega diez minutos antes.",
+      "src": "/audio/elevenlabs/11161436cb9b573b3a233b22.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 15.92,
+      "transcript": "Hola Julia, tu cita con la doctora García es el martes 12 de mayo a las 11 y media. La consulta está en la calle Sol Nº 8, primera planta. Por favor, llega 10 minutos antes.",
+      "reviewNote": "The decoder abbreviates número as nº and uses digits."
+    },
+    {
+      "key": "bem8tp",
+      "text": "Tengo sed y quiero un vaso de agua",
+      "src": "/audio/elevenlabs/019ebad3de31185674119f5e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "Tengo sed y quiero un vaso de agua."
+    },
+    {
+      "key": "1v4weso",
+      "text": "Hoy hace frío.",
+      "src": "/audio/elevenlabs/faa95ff0bae3696014afce78.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "Hoy hace frío."
+    },
+    {
+      "key": "fnw8h6",
+      "text": "¿Dónde vives?",
+      "src": "/audio/elevenlabs/b6a3f46cb44d4dd099142c9d.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.4,
+      "transcript": "donde vives."
+    },
+    {
+      "key": "5u15lk",
+      "text": "Soy profesora y vivo en Madrid.",
+      "src": "/audio/elevenlabs/768137b6991e15fded0a36af.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "Soy profesora y vivo en Madrid."
+    },
+    {
+      "key": "7adcxy",
+      "text": "Tengo dos hermanas. Mis hermanas son altas.",
+      "src": "/audio/elevenlabs/8d9a4144ef8e88f67cc39f49.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 4.08,
+      "transcript": "Tengo dos hermanas. Mis hermanas son altas."
+    },
+    {
+      "key": "1bg7yio",
+      "text": "Mi madre tiene treinta años.",
+      "src": "/audio/elevenlabs/3f3cbc5e64deff3960f6e171.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "Mi madre tiene 30 años."
+    },
+    {
+      "key": "ruf8hl",
+      "text": "No puedo ir el lunes. ¿El martes?",
+      "src": "/audio/elevenlabs/2d7b165cb0efcd3a368bb9c2.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "No puedo ir el lunes. El martes."
+    },
+    {
+      "key": "tcco7z",
+      "text": "Hola, Pablo. Soy Elena, tu nueva compañera de español. Soy italiana, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Elena.",
+      "src": "/audio/elevenlabs/3bf6e98cd743d67d899a64ae.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 21.28,
+      "transcript": "Hola, Pablo. Soy Elena, tu nueva compañera de español. Soy italiana, tengo 27 años y trabajo en un hotel. Las clases son los lunes y miércoles a las 6. Esta semana no puedo ir en lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las 5? Saludos, Elena.",
+      "reviewNote": "The secondary decoder recovered el lunes; number formatting differs."
+    },
+    {
+      "key": "1fksed1",
+      "text": "Estudio español porque quiero viajar a España",
+      "src": "/audio/elevenlabs/1baf5333d7a715eca1edec7c.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.56,
+      "transcript": "Estudio español porque quiero viajar a España."
+    },
+    {
+      "key": "1el98c0",
+      "text": "¿Puedes hablar más despacio?",
+      "src": "/audio/elevenlabs/5ba2043a9e3c6f9e4166846e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.56,
+      "transcript": "¿puedes hablar más despacio?"
+    },
+    {
+      "key": "1a92808",
+      "text": "mañana",
+      "src": "/audio/elevenlabs/6adc630b63708545357fdb14.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "mañana"
+    },
+    {
+      "key": "1wf7pja",
+      "text": "cien",
+      "src": "/audio/elevenlabs/6f9279500bf62d2897072291.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.64,
+      "transcript": "Sien.",
+      "reviewNote": "Cien and sien are homophones in Latin American Spanish."
+    },
+    {
+      "key": "1hwospz",
+      "text": "doscientas personas",
+      "src": "/audio/elevenlabs/824835a6ab4e0cee29a3ccfd.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.16,
+      "transcript": "200 personas.",
+      "reviewNote": "The primary decoder writes 200; the secondary decoder recovered doscientas personas."
+    },
+    {
+      "key": "y6becu",
+      "text": "décimo",
+      "src": "/audio/elevenlabs/961948e6fa91b97b45dbd9ae.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.08,
+      "transcript": "décimo."
+    },
+    {
+      "key": "16cfxx1",
+      "text": "septiembre",
+      "src": "/audio/elevenlabs/1f7cb812bcf56f62141f7a41.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "Septiembre"
+    },
+    {
+      "key": "18x85s0",
+      "text": "nuestras amigas",
+      "src": "/audio/elevenlabs/c30617b532f3fff4cc7be7cf.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "nuestras amigas."
+    },
+    {
+      "key": "11y45wj",
+      "text": "Vosotros sois españoles.",
+      "src": "/audio/elevenlabs/6381ef3805bb77b7280ec7b9.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.76,
+      "transcript": "Vosotros sois españoles."
+    },
+    {
+      "key": "10ukb0j",
+      "text": "Ustedes son estudiantes.",
+      "src": "/audio/elevenlabs/b84d5c1796291158aa1fa9f6.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "Ustedes son estudiantes."
+    },
+    {
+      "key": "1ymejq8",
+      "text": "aquellas casas",
+      "src": "/audio/elevenlabs/7f163067a1d76a8fcb1a3d86.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "aquellas casas."
+    },
+    {
+      "key": "gt9ulj",
+      "text": "¿Qué es esto?",
+      "src": "/audio/elevenlabs/44348cd538bfc8eebe5b0557.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "¿Qué es esto?"
+    },
+    {
+      "key": "13j7s5y",
+      "text": "No hablo francés.",
+      "src": "/audio/elevenlabs/cd17bdd57e1286519db74a57.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.04,
+      "transcript": "No hablo francés."
+    },
+    {
+      "key": "1h0n31d",
+      "text": "los papeles",
+      "src": "/audio/elevenlabs/ee6fdf1a042be32ddf5b415d.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "los papeles."
+    },
+    {
+      "key": "ambbyr",
+      "text": "¿Quién es ella?",
+      "src": "/audio/elevenlabs/b97b79655fadf0be1a020f84.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.24,
+      "transcript": "¿Quién es ella?"
+    },
+    {
+      "key": "12hldd1",
+      "text": "Hay muchos libros.",
+      "src": "/audio/elevenlabs/cf7b40654c3af208b6ff58b8.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.0,
+      "transcript": "Hay muchos libros."
+    },
+    {
+      "key": "14ldfa9",
+      "text": "La casa es muy pequeña.",
+      "src": "/audio/elevenlabs/c916845dcd60a207f00d272d.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.04,
+      "transcript": "La casa es muy pequeña."
+    },
+    {
+      "key": "vofx1r",
+      "text": "¿Por qué estudias?",
+      "src": "/audio/elevenlabs/10ce8f53a657ba403a0bdea7.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.2,
+      "transcript": "¿Por qué estudias?"
+    },
+    {
+      "key": "1thlc5a",
+      "text": "español",
+      "src": "/audio/elevenlabs/ab247e802bcb7a19f0b9261e.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "español"
+    },
+    {
+      "key": "zhmrhy",
+      "text": "enero",
+      "src": "/audio/elevenlabs/a7c7a731ed8d3fa0a147a116.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.12,
+      "transcript": "Enero"
+    },
+    {
+      "key": "3i60cu",
+      "text": "Mil quinientos.",
+      "src": "/audio/elevenlabs/c6e1c51f55f367d15048c975.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.52,
+      "transcript": "1500",
+      "reviewNote": "Mil quinientos is written as 1500 by the decoder."
+    },
+    {
+      "key": "rzflz6",
+      "text": "Tú bebes agua.",
+      "src": "/audio/elevenlabs/8c4c6ee34e56013b3a6a0080.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.84,
+      "transcript": "tú bebes agua."
+    },
+    {
+      "key": "15l5q40",
+      "text": "Ellas viven en Madrid.",
+      "src": "/audio/elevenlabs/33c3658767eb852ff4a4e3f2.mp3",
+      "voiceId": "KHCvMklQZZo0O30ERnVn",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "Ellas viven en Madrid."
+    },
+    {
+      "key": "pkfbv9",
+      "text": "¿Qué significa “billete”?",
+      "src": "/audio/elevenlabs/8409d225bf2f0eb0b8955d1a.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.32,
+      "transcript": "¿Qué significa? ¡Billete!"
+    },
+    {
+      "key": "om32n3",
+      "text": "también",
+      "src": "/audio/elevenlabs/2b2de229b833c66d2b1c3c70.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.16,
+      "transcript": "también."
+    },
+    {
+      "key": "im4ggf",
+      "text": "Un café y pan.",
+      "src": "/audio/elevenlabs/1d1c166acaefb9be7cdc45ef.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.88,
+      "transcript": "un café y pan."
+    },
+    {
+      "key": "1sghb6n",
+      "text": "A la derecha del café.",
+      "src": "/audio/elevenlabs/6cbc4a139d81deeb8ff0a271.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 3.28,
+      "transcript": "a la derecha del café."
+    },
+    {
+      "key": "t4ow7m",
+      "text": "La farmacia.",
+      "src": "/audio/elevenlabs/3f40c048b48b782d423725aa.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.72,
+      "transcript": "La farmacia."
+    },
+    {
+      "key": "4k49b9",
+      "text": "A la derecha del banco.",
+      "src": "/audio/elevenlabs/30d6c5a854a2a2797c50ed87.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 1.44,
+      "transcript": "a la derecha del banco."
+    },
+    {
+      "key": "eo7niz",
+      "text": "Un tren.",
+      "src": "/audio/elevenlabs/07067dbb7356fb8370566ae4.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 2.64,
+      "transcript": "Un tren."
+    },
+    {
+      "key": "m79umn",
+      "text": "Sevilla.",
+      "src": "/audio/elevenlabs/c45dc4ae0fdf0c18fc878ffb.mp3",
+      "voiceId": "htFfPSZGJwjBv1CL0aMD",
+      "modelId": "eleven_v3",
+      "durationSeconds": 0.96,
+      "transcript": "Sevilla"
+    },
+    {
+      "key": "hrtaab",
+      "text": "Nombre: Elena García. Nacionalidad: polaca. Ciudad: Varsovia. Profesión: profesora de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
+      "src": "/audio/elevenlabs/2e4a44137a37e77dc23b121c.mp3",
+      "voiceId": "jBlmi27XRORxjPquUeCh",
+      "modelId": "eleven_v3",
+      "durationSeconds": 15.2,
+      "transcript": "NOMBRE ELENA GARCÍA, NACIONALIDAD POLACA, CIUDAD BARSOVIA, PROFESION PROFESORA DE MÚSICA, LENGUAS POLACO E INGLÉS, AFFICIÓNES LEER Y ESCUCAR MÚSICA.",
+      "reviewNote": "The secondary decoder recovered aficiones and escuchar; b/v spellings do not distinguish Spanish pronunciation."
+    }
+  ]
+}

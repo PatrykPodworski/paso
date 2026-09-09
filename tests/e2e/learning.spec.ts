@@ -1,4 +1,4 @@
-import { test, expect, openLesson, answer, closeLesson, stored, review } from "../fixtures/app";
+import { test, expect, openLesson, answer, closeLesson, stored } from "../fixtures/app";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
@@ -157,10 +157,7 @@ test("sentence building supports removal and reads the sentence after checking",
   await expect(page.getByRole("textbox")).toHaveValue("");
 });
 
-test("writing persists drafts, reviews with Codex, retries errors, and permits revision", async ({
-  page,
-  coachRequests,
-}) => {
+test("writing persists drafts, reviews and permits revision", async ({ page }) => {
   const lesson = await openLesson(page, 3);
   for (const q of lesson.questions.slice(0, 2)) {
     await answer(page, q);
@@ -168,7 +165,6 @@ test("writing persists drafts, reviews with Codex, retries errors, and permits r
   }
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
   await input.fill("Me llamo Ana. Soy veinte años.");
-  expect(coachRequests).toHaveLength(0);
   await closeLesson(page);
   await openLesson(page, 3);
   for (const q of lesson.questions.slice(0, 2)) {
@@ -176,22 +172,13 @@ test("writing persists drafts, reviews with Codex, retries errors, and permits r
     await page.getByRole("button", { name: "Continue", exact: true }).click();
   }
   await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
-  await page.route(
-    "**/api/coach/review",
-    (route) =>
-      route.fulfill({ status: 503, json: { error: "Coach unavailable. Your answer is saved." } }),
-    { times: 1 },
-  );
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText("Coach unavailable. Your answer is saved.")).toBeVisible();
-  await page.getByRole("button", { name: "Try Codex again" }).click();
-  await expect(page.getByText(review.summary)).toBeVisible();
-  expect(JSON.parse(coachRequests.at(-1)!.body!).answer).toBe("Me llamo Ana. Soy veinte años.");
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
   await page.getByRole("button", { name: "Revise my answer" }).click();
   await expect(input).toBeEnabled();
   await input.fill("Me llamo Ana. Tengo veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText(review.summary)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
   expect(
     (await stored(page)).attempts
       .filter((a: any) => a.questionId === lesson.questions[2].id)
@@ -199,10 +186,7 @@ test("writing persists drafts, reviews with Codex, retries errors, and permits r
   ).toBe(true);
 });
 
-test("record, transcribe, correct the transcript, review, and download speaking", async ({
-  page,
-  coachRequests,
-}) => {
+test("record, review and download speaking", async ({ page }) => {
   await page.goto("/#today");
   await page.getByRole("button", { name: "Find your voice", exact: false }).click();
   await page.getByRole("button", { name: "Record your answer" }).click();
@@ -210,22 +194,15 @@ test("record, transcribe, correct the transcript, review, and download speaking"
   await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
   await expect.poll(() => page.locator(".recorder .mono").innerText()).not.toBe("00:00");
   await page.getByRole("button", { name: "Stop recording" }).click();
-  const text = page.getByRole("textbox", { name: "Your spoken Spanish" });
-  await expect(text).toHaveValue("Me llamo Ana. Soy veinte años.");
-  expect(coachRequests.filter((r) => r.path.endsWith("review"))).toHaveLength(0);
-  await text.fill("Me llamo Ana. Tengo veinte años.");
+  await expect(page.getByRole("button", { name: "Review my practice" })).toBeEnabled();
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText("Self-review needed:")).toBeVisible();
-  expect(JSON.parse(coachRequests.at(-1)!.body!).answer).toBe("Me llamo Ana. Tengo veinte años.");
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
   const download = page.waitForEvent("download");
   await page.getByRole("link", { name: "Save recording" }).click();
   expect((await download).suggestedFilename()).toMatch(/^paso-speaking\.(webm|m4a)$/);
 });
 
-test("speaking supports microphone denial and an honest self-review without AI", async ({
-  page,
-  coachRequests,
-}) => {
+test("speaking supports microphone denial and self-review", async ({ page }) => {
   await page.addInitScript(() => {
     navigator.mediaDevices.getUserMedia = async () => {
       throw new DOMException("Denied", "NotAllowedError");
@@ -237,43 +214,7 @@ test("speaking supports microphone denial and an honest self-review without AI",
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
   await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText(/Add a transcript of what you said/)).toBeVisible();
-  expect(coachRequests).toHaveLength(0);
-});
-
-test("failed transcription retries the saved recording and a new take clears previous feedback", async ({
-  page,
-  coachRequests,
-}) => {
-  await page.route(
-    "**/api/coach/transcribe",
-    (route) =>
-      route.fulfill({
-        status: 503,
-        json: { error: "The transcript could not be read. Please try again." },
-      }),
-    { times: 1 },
-  );
-  await page.goto("/");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
-  await page.getByRole("button", { name: "Record your answer" }).click();
-  await expect.poll(() => page.locator(".recorder .mono").innerText()).not.toBe("00:00");
-  await page.getByRole("button", { name: "Stop recording" }).click();
-  await expect(page.getByText("The transcript could not be read. Please try again.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Save recording" })).toBeVisible();
-  expect(coachRequests.filter((request) => request.path.endsWith("review"))).toHaveLength(0);
-  await page.getByRole("button", { name: "Try transcription again" }).click();
-  const transcript = page.getByRole("textbox", { name: "Your spoken Spanish" });
-  await expect(transcript).toHaveValue("Me llamo Ana. Soy veinte años.");
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText(review.summary)).toBeVisible();
-  await page.getByRole("button", { name: "Revise my answer" }).click();
-  await page.getByRole("button", { name: /Record again/ }).click();
-  await expect(page.getByRole("button", { name: "Stop recording" })).toBeVisible();
-  await expect(transcript).toHaveValue("");
-  await expect(page.getByText(review.summary)).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-  await page.getByRole("button", { name: "Stop recording" }).click();
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
 });
 
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {
@@ -348,10 +289,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await expect(pocket.locator(".vocabulary-list time")).toHaveCount(8);
 });
 
-test("form requires every field, saves labels and gives productive feedback", async ({
-  page,
-  coachRequests,
-}) => {
+test("form requires every field, saves labels and gives productive feedback", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
   await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
@@ -360,8 +298,7 @@ test("form requires every field, saves labels and gives productive feedback", as
     await fields.nth(i).fill(`Respuesta ${i}`);
   }
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText(review.summary)).toBeVisible();
-  expect(JSON.parse(coachRequests.at(-1)!.body!).answer).toContain("Nacionalidad: Respuesta 1");
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByText("creative practices")).toBeVisible();
 });

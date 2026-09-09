@@ -81,7 +81,7 @@ describe("recording lifecycle", () => {
       expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:recording-1");
     },
   );
-  it("does not submit an empty recording for transcription", async () => {
+  it("does not submit an empty recording", async () => {
     const saved = vi.fn();
     render(<Recorder onRecorded={saved} />);
     await start();

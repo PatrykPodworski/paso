@@ -1,27 +1,17 @@
 import { test as base, expect, type Page } from "@playwright/test";
 import { allLessons } from "../../src/data/curriculum";
 import type { Question } from "../../src/data/types";
-import { review } from "../../src/test/coach-fixture";
-export const test = base.extend<{ coachRequests: { path: string; body: string | null }[] }>({
-  coachRequests: [
+export const test = base.extend<{ blockExternal: void }>({
+  blockExternal: [
     async ({ context }, provide) => {
-      const requests: { path: string; body: string | null }[] = [];
       await context.route("**/*", async (route) => {
         const url = new URL(route.request().url());
         if (url.hostname !== "127.0.0.1" && url.protocol.startsWith("http")) {
           return route.abort("blockedbyclient");
         }
-        if (url.pathname.startsWith("/api/coach/")) {
-          requests.push({ path: url.pathname, body: route.request().postData() });
-          return route.fulfill({
-            json: url.pathname.endsWith("transcribe")
-              ? { text: "Me llamo Ana. Soy veinte años." }
-              : { review },
-          });
-        }
         return route.continue();
       });
-      await provide(requests);
+      await provide();
     },
     { auto: true },
   ],
@@ -33,7 +23,7 @@ export const test = base.extend<{ coachRequests: { path: string; body: string | 
     expect(errors, "Uncaught browser errors").toEqual([]);
   },
 });
-export { expect, review };
+export { expect };
 export const openLesson = async (page: Page, index: number) => {
   await page.goto("/#path");
   const lesson = allLessons[index];
@@ -70,13 +60,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
       await page.getByRole("textbox", { name: f.label, exact: true }).fill(f.example);
     }
   } else if (q.kind === "speak") {
-    if (exam) {
-      await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
-    } else {
-      await page
-        .getByRole("textbox", { name: "Your spoken Spanish" })
-        .fill("Me llamo Ana. Soy veinte años.");
-    }
+    await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
   } else {
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
   }

@@ -131,9 +131,9 @@ describe("learning interactions", () => {
     for (const word of q.answer.split(" ")) {
       fireEvent.click(screen.getByRole("button", { name: word }));
     }
-    fireEvent.click(screen.getByRole("button", { name: "Check answer" }));
     expect(screen.getByText("¡Muy bien! You’ve got it.")).toBeInTheDocument();
     expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Continue" }));
     expect(submit).toHaveBeenCalledWith(q.answer, true, false);
   });

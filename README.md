@@ -7,9 +7,9 @@ a rehearsal of the exam under its official time limits. The course content was
 written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
-It runs entirely in the browser and keeps your progress there. There is no
-account, no backend and, for now, no hosted version, so running it means cloning
-it.
+It runs in the browser and keeps your progress there. There is no account, no
+database and, for now, no hosted version, so running it means cloning it. One
+feature, the writing and speaking coach, needs the local dev server.
 
 ## Run it
 
@@ -20,7 +20,7 @@ pnpm install
 pnpm dev
 ```
 
-Open <http://127.0.0.1:5173>.
+Open <http://127.0.0.1:5173>. For a production build:
 
 ```sh
 pnpm build
@@ -38,8 +38,9 @@ one exception is the writing and speaking coach, which needs the server that
   speaking. Alongside the learning path there are foundation checks, picture
   questions, a personal information form and a full 55-item exam rehearsal.
 - **96 vocabulary cards** you can search, flip and hear, each with its own
-  memory hint: a pronunciation cue, a useful phrase, a breakdown of the word, or
-  a visual association. How those are written is in
+  memory hint: a familiar English word, a useful translated phrase, a breakdown
+  of the word, or a distinction from a Spanish word it gets confused with. The
+  house style for writing them is in
   [docs/VOCABULARY_HINTS.md](docs/VOCABULARY_HINTS.md).
 - **Audio on every Spanish phrase**, generated once and played from local files.
   Listening questions start on their own; a small icon next to each question

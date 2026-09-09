@@ -1,8 +1,9 @@
 # Writing and speaking coach
 
-The coach reviews free-text answers and speaking transcripts. It runs against the
-Codex CLI already signed in on the author's Mac, so it is a local-development
-feature: a copied `dist/` folder on a static host does not include it.
+The coach reviews free-text answers and speaking transcripts. It shells out to
+the Codex CLI on whichever Mac is running the dev server, so it is a
+local-development feature: a copied `dist/` folder on a static host does not
+include it.
 
 ## Using it
 
@@ -21,9 +22,10 @@ pronunciation or fluency, because it only ever sees text.
 The exam rehearsal keeps its own timing and self-review flow and does not use the
 coach.
 
-## Setup on another Mac
+## Setup
 
-Codex CLI, `uv` and `ffmpeg` must already be installed.
+On the machine that will run `pnpm dev`, with Codex CLI, `uv` and `ffmpeg`
+already installed:
 
 ```sh
 codex login

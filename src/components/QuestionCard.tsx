@@ -62,7 +62,7 @@ export const QuestionCard = ({
       ? built
       : q.kind === "form"
         ? formText
-        : q.kind === "speak" && (spoken || checks.length > 0)
+        : q.kind === "speak" && spoken
           ? "Practised aloud. Audio must be reviewed from the downloaded recording."
           : answer;
   const submission =

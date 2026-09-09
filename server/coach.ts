@@ -87,7 +87,7 @@ const run = (
         if (error.code === "ENOENT") {
           return reject(
             new CoachError(
-              "The local coach is not installed. See the setup instructions in the README.",
+              "The local coach is not installed. See the setup instructions in docs/COACH.md.",
             ),
           );
         }

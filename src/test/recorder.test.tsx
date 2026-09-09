@@ -56,12 +56,7 @@ describe("recording lifecycle", () => {
         changed = vi.fn(),
         began = vi.fn();
       const { unmount } = render(
-        <Recorder
-          onRecorded={saved}
-          onStart={began}
-          onRecordingChange={changed}
-          transcribeLocally
-        />,
+        <Recorder onRecorded={saved} onStart={began} onRecordingChange={changed} />,
       );
       await start();
       expect(getUserMedia).toHaveBeenCalledWith({ audio: true });

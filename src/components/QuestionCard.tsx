@@ -6,8 +6,6 @@ import type { AudioHandle } from "./Audio";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 import { Recorder } from "./Recorder";
-import { CoachFeedback } from "./CoachFeedback";
-import { useCoach, useTranscription } from "../hooks/useCoach";
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -26,8 +24,6 @@ export const QuestionCard = ({
   const heading = useRef<HTMLHeadingElement>(null);
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
-  const coach = useCoach(q.id);
-  const speech = useTranscription();
   const [recording, setRecording] = useState(false);
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
@@ -66,9 +62,8 @@ export const QuestionCard = ({
       ? built
       : q.kind === "form"
         ? formText
-        : q.kind === "speak" && (spoken || speech.text.trim())
-          ? speech.text.trim() ||
-            "Practised aloud. Audio must be reviewed from the downloaded recording."
+        : q.kind === "speak" && spoken
+          ? "Practised aloud. Audio must be reviewed from the downloaded recording."
           : answer;
   const submission =
     q.kind === "form"
@@ -79,7 +74,7 @@ export const QuestionCard = ({
   const hints = writingHints(value);
   const canSubmit =
     q.kind === "speak"
-      ? !recording && !speech.loading && (spoken || checks.length > 0 || !!speech.text.trim())
+      ? !recording && (spoken || checks.length > 0)
       : q.kind === "form"
         ? q.fields?.every((f) => fieldValues[f.label]?.trim())
         : q.kind === "order"
@@ -105,9 +100,6 @@ export const QuestionCard = ({
     // Read the Spanish model even after a mistake, never the incorrect answer.
     if (q.kind !== "listen") {
       (q.audio ? listeningAudio : answerAudio).current?.play();
-    }
-    if (productive && (q.kind !== "speak" || speech.text.trim())) {
-      void coach.check(submission);
     }
   };
   return (
@@ -346,52 +338,13 @@ export const QuestionCard = ({
       {q.kind === "speak" && (
         <>
           <Recorder
-            onRecorded={(blob) => {
-              setSpoken(true);
-              if (!exam) {
-                void speech.transcribe(blob);
-              }
-            }}
+            onRecorded={() => setSpoken(true)}
             onStart={() => {
               setSpoken(false);
-              speech.clear();
-              coach.reset();
               setFeedback(false);
             }}
             onRecordingChange={setRecording}
-            transcribeLocally={!exam}
           />
-          {!exam && (
-            <div className="speech-transcript">
-              <label htmlFor="spoken-transcript">Your spoken Spanish</label>
-              {speech.loading && (
-                <p role="status" className="field-note">
-                  Transcribing on this Mac…
-                </p>
-              )}
-              {speech.error && (
-                <div role="status" className="notice">
-                  <p>{speech.error}</p>
-                  <button type="button" className="text-link" onClick={speech.retry}>
-                    Try transcription again
-                  </button>
-                </div>
-              )}
-              <textarea
-                id="spoken-transcript"
-                lang="es"
-                rows={5}
-                value={speech.text}
-                onChange={(event) => speech.setText(event.target.value)}
-                disabled={recording || speech.loading || feedback}
-                placeholder="Your transcript will appear here after recording. You can also type what you said."
-              />
-              <p className="field-note">
-                Check for misheard words before reviewing. Codex will use this text to check your
-                Spanish and task coverage.
-              </p>
-            </div>
-          )}
           {!feedback && (
             <label className="check-row">
               <input
@@ -422,10 +375,7 @@ export const QuestionCard = ({
         </div>
       )}
       {productive && !exam && !feedback && (
-        <p className="coach-disclosure">
-          Reviewing sends your {q.kind === "speak" ? "transcript" : "answer"} and this task to Codex
-          for feedback.
-        </p>
+        <p className="coming-soon">AI feedback on your writing and speaking is coming soon.</p>
       )}
       {!feedback ? (
         <div className="question-footer">
@@ -473,20 +423,6 @@ export const QuestionCard = ({
           <MemoryHint text={q.memoryHint} />
           {productive && (
             <>
-              {q.kind !== "speak" || speech.text.trim() ? (
-                <CoachFeedback
-                  review={coach.review}
-                  loading={coach.loading}
-                  error={coach.error}
-                  speaking={q.kind === "speak"}
-                  onRetry={() => void coach.check(submission)}
-                />
-              ) : (
-                <p className="notice">
-                  Add a transcript of what you said to get Codex feedback. You can still use the
-                  self-review checklist.
-                </p>
-              )}
               <div className="model-answer">
                 <span className="eyebrow">One possible answer</span>
                 <p lang="es">{q.answer}</p>
@@ -541,7 +477,6 @@ export const QuestionCard = ({
                 className="button secondary"
                 onClick={() => {
                   stopAudio();
-                  coach.reset();
                   setFeedback(false);
                 }}
               >

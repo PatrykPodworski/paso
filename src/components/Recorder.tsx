@@ -4,12 +4,10 @@ export const Recorder = ({
   onRecorded,
   onStart,
   onRecordingChange,
-  transcribeLocally = false,
 }: {
   onRecorded: (blob: Blob) => void;
   onStart?: () => void;
   onRecordingChange?: (recording: boolean) => void;
-  transcribeLocally?: boolean;
 }) => {
   const [recording, setRecording] = useState(false);
   const [url, setUrl] = useState("");
@@ -129,9 +127,7 @@ export const Recorder = ({
         </span>
       </div>
       <p className="field-note">
-        {transcribeLocally
-          ? "Recorded in this tab and transcribed on this Mac. Check the transcript before sending it to Codex. Download to keep your recording."
-          : "Recorded in this tab. Download to keep it; it is not uploaded or automatically graded."}
+        Recorded in this tab. Download to keep it; it is not uploaded or automatically graded.
       </p>
       {url && (
         <div className="playback">

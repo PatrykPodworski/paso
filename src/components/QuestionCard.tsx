@@ -24,6 +24,7 @@ export const QuestionCard = ({
   const heading = useRef<HTMLHeadingElement>(null);
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
+  const passageAudio = useRef<AudioHandle>(null);
   const [recording, setRecording] = useState(false);
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
@@ -99,7 +100,8 @@ export const QuestionCard = ({
     setFeedback(true);
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
-    if (q.kind !== "listen") {
+    // A passage the learner is listening to must not be cut off by the model.
+    if (q.kind !== "listen" && !passageAudio.current?.playing()) {
       (q.audio ? listeningAudio : answerAudio).current?.play();
     }
   };
@@ -156,6 +158,15 @@ export const QuestionCard = ({
       {q.passage && (
         <div className="reading-passage" lang="es">
           <span className="paper-clip" aria-hidden="true" />
+          {!exam && (
+            <AudioButton
+              ref={passageAudio}
+              continuous
+              minimal
+              text={q.passage}
+              label="Play the reading passage"
+            />
+          )}
           <p>{q.passage}</p>
         </div>
       )}

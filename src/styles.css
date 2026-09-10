@@ -2747,6 +2747,20 @@ main {
   line-height: 1.85;
   color: #777c60;
 }
+.reading-passage > .audio-control {
+  margin-bottom: 14px;
+}
+.reading-passage .icon-button {
+  width: 38px;
+  height: 38px;
+  color: #8a8f6d;
+  background: #fffdf3;
+  border: 1px solid #e2ddc9;
+  border-radius: 50%;
+}
+.reading-passage .icon-button:hover {
+  background: #f2eedd;
+}
 .paper-clip {
   position: absolute;
   right: 25px;

@@ -90,6 +90,40 @@ test("a grammar choice plays the completed Spanish sentence from a local recordi
   expect(await page.evaluate(() => (window as any).__heard[0].duration)).toBeGreaterThan(0);
 });
 
+test("a reading passage plays from the start and keeps going across its questions", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    (window as any).__clips = [];
+    const play = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () {
+      (window as any).__clips.push(this);
+      return play.call(this);
+    };
+  });
+  const lesson = await openLesson(page, 2);
+  const clips = () => page.evaluate(() => (window as any).__clips.length);
+  await page.getByRole("button", { name: "Play the reading passage" }).click();
+  await expect.poll(clips).toBe(1);
+  await expect
+    .poll(() => page.evaluate(() => new URL((window as any).__clips[0].src).pathname))
+    .toBe(expectedAudio(lesson.questions[0].passage!));
+  await answer(page, lesson.questions[0]);
+  // The model answer must not interrupt a passage the learner is listening to.
+  expect(await clips()).toBe(1);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: lesson.questions[1].prompt, exact: true }),
+  ).toBeVisible();
+  expect(await page.evaluate(() => (window as any).__clips[0].paused)).toBe(false);
+  expect(await clips()).toBe(1);
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
+  await answer(page, lesson.questions[1]);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  // The next question is not about this passage, so the passage stops.
+  await expect.poll(() => page.evaluate(() => (window as any).__clips[0].paused)).toBe(true);
+});
+
 test("complete a lesson, persist progress, continue the path, and recover a mistake", async ({
   page,
 }) => {

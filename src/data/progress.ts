@@ -54,6 +54,8 @@ export const vocabularyReview = (
 };
 export const readProgress = (): Progress => {
   try {
+    // Stryker disable next-line StringLiteral: equivalent mutant. Any other placeholder
+    // either parses to a falsy value or throws, and both routes return emptyProgress().
     const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
     if (
       !raw ||
@@ -79,7 +81,7 @@ export const normalize = (s: string) =>
 export const isCorrect = (q: Question, answer: string) =>
   [q.answer, ...(q.accepted || [])].some((a) => normalize(a) === normalize(answer));
 export const countWords = (s: string) =>
-  s.trim().match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
+  s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
 export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   const mistakes = new Set(p.mistakes);
   const trackedMistakeReview =

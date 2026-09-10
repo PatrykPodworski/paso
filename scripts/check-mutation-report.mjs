@@ -4,10 +4,8 @@ const report = JSON.parse(readFileSync("reports/mutation/business.json", "utf8")
 const floors = {
   "src/components/Guide.tsx": 90,
   "src/components/LessonSession.tsx": 90,
-  // measured 97.20% at d24f796 (7 survivors, pre-existing); #11 raises it back to 98.
-  "src/data/progress.ts": 97,
-  // measured 94.09% at d24f796 (11 survivors, pre-existing); #11 raises it back to 95.
-  "scripts/audio-budget.mjs": 94,
+  "src/data/progress.ts": 98,
+  "scripts/audio-budget.mjs": 95,
 };
 const score = (mutants) => {
   const detected = mutants.filter((m) => ["Killed", "Timeout"].includes(m.status)).length;

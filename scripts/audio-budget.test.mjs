@@ -321,3 +321,15 @@ it("rejects unsafe-integer ledger values and preserves private reservation permi
   await budget.reserve(clip("hola"));
   expect((await stat(join(root, ".elevenlabs-usage.local.json"))).mode & 0o777).toBe(0o600);
 });
+it.each(["free", "starter", "creator", "pro", "scale", "business", "enterprise"])(
+  "accepts the %s tier and only caps the free allowance",
+  (tier) =>
+    expect(budgetStatus({ ...account(), tier, character_limit: 50_000 }).ceiling).toBe(
+      tier === "free" ? 9500 : 49_500,
+    ),
+);
+it("strips a v3 delivery tag that is not followed by a space", () => {
+  expect(clipCredits({ text: "Hola", body: { model_id: "eleven_v3", text: "[calm]Hola" } })).toBe(
+    10,
+  );
+});

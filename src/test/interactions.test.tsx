@@ -49,6 +49,23 @@ describe("learning interactions", () => {
     },
   );
   it.each([
+    ["u2-v0", () => fireEvent.click(screen.getByRole("button", { name: "first name" }))],
+    [
+      "u1-o1",
+      () => {
+        fireEvent.change(screen.getByLabelText("Your answer in Spanish"), {
+          target: { value: "Soy de Polonia." },
+        });
+        fireEvent.keyDown(screen.getByLabelText("Your answer in Spanish"), { key: "Enter" });
+      },
+    ],
+  ])("focuses Continue after checking %s so Enter moves on", (id, answer) => {
+    const q = allQuestions.find((question) => question.id === id)!;
+    render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+    answer();
+    expect(screen.getByRole("button", { name: "Continue" })).toHaveFocus();
+  });
+  it.each([
     ["u1-g0", "soy", "Yo soy Marta."],
     ["u2-g1", "Dónde", "¿Dónde vives? — En Málaga."],
     ["u2-g2", "dieciséis", "dieciséis"],

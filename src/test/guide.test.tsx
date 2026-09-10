@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import { Guide } from "../components/Guide";
 import { emptyProgress } from "../data/progress";
-import { requirementGroups } from "../data/research";
+import { requirementGroups, sources } from "../data/research";
 
 it("changes only the selected skill and combines the correct score pairs", () => {
   const { container } = render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
@@ -40,4 +40,10 @@ it("counts only recognized completed readiness checks against the full inventory
   ).toHaveLength(2);
   rerender(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
   expect(screen.getByText(`0/${count} checked`)).toBeInTheDocument();
+});
+it("numbers the primary sources from 01", () => {
+  const { container } = render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
+  expect([...container.querySelectorAll(".source-number")].map((n) => n.textContent)).toEqual(
+    sources.map((_, index) => String(index + 1).padStart(2, "0")),
+  );
 });

@@ -1,7 +1,7 @@
 {
   "name": "paso-dele-a1",
   "version": "1.0.0",
-  "description": "An interactive DELE A1 Spanish learning app with original course content, local audio, and an optional writing and speaking coach.",
+  "description": "An interactive DELE A1 Spanish learning app with original course content and local audio.",
   "homepage": "https://github.com/PatrykPodworski/paso#readme",
   "license": "MIT",
   "author": "Patryk Podworski",

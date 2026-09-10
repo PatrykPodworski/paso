@@ -7,10 +7,12 @@ a rehearsal of the exam under its official time limits. The course content was
 written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
-It runs in the browser and keeps your progress there. There is no account, no
-database and, for now, no hosted version, so running it means cloning it.
+It runs in the browser and keeps your progress there. There is no account and no
+database, so nothing you do leaves your device.
 
-## Run it
+Try it: **https://paso-two.vercel.app**
+
+## Run it locally
 
 ```sh
 git clone https://github.com/PatrykPodworski/paso.git

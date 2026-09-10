@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
-import { AudioButton, stopAudio } from "./Audio";
+import { AudioButton, playWord, stopAudio } from "./Audio";
 import type { AudioHandle } from "./Audio";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
@@ -85,7 +85,7 @@ export const QuestionCard = ({
     setAnswer(text);
     onDraft?.(text);
   };
-  const submit = (choice?: string) => {
+  const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
     if (!valid || feedback) {
       return;
@@ -100,9 +100,16 @@ export const QuestionCard = ({
     setFeedback(true);
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
-    // A passage the learner is listening to must not be cut off by the model.
+    // A tapped word is already speaking, so wait for it and read the sentence
+    // after it rather than cutting it off. A passage the learner is listening
+    // to must not be cut off by the model at all.
     if (q.kind !== "listen" && !passageAudio.current?.playing()) {
-      (q.audio ? listeningAudio : answerAudio).current?.play();
+      const player = q.audio ? listeningAudio : answerAudio;
+      if (after) {
+        void after.then(() => player.current?.play());
+      } else {
+        player.current?.play();
+      }
     }
   };
   return (
@@ -248,11 +255,12 @@ export const QuestionCard = ({
                 lang="es"
                 key={i}
                 onClick={() => {
+                  const spoken = playWord(token);
                   const next = [...selected, i];
                   setSelected(next);
                   const sentence = next.map((j) => q.tokens![j]).join(" ");
                   if (next.length === q.tokens!.length && isCorrect(q, sentence)) {
-                    submit(sentence);
+                    submit(sentence, spoken);
                   }
                 }}
                 disabled={feedback || selected.includes(i)}

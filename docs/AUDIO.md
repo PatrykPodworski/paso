@@ -15,15 +15,22 @@ If a generated file is missing, the player falls back to the original bundled
 recording, and then to browser speech, which it labels clearly as a fallback.
 Slowed playback preserves voice pitch.
 
+Tapping a tile in a sentence-builder exercise reads that single word, and the
+finished sentence is read once the answer is checked. A word tap has nowhere to
+show a status line, so it has no speed control and stays silent if its recording
+is missing rather than falling back to the device voice.
+
 Only the generator ever contacts ElevenLabs, and it sends original course text.
 Learner answers and microphone recordings are not sent.
 
 ## Coverage and voices
 
-All 305 unique Spanish phrases have ElevenLabs recordings, including the
-pronunciation of every practice question. The original 155 recordings use Sarah
-with Multilingual v2. The completion batch adds 146 tagged v3 recordings and four
-Multilingual v2 pronunciation corrections across three native Spanish voices:
+All 359 unique Spanish phrases have ElevenLabs recordings, including the
+pronunciation of every practice question and each sentence-builder tile. The
+original 155 recordings use Sarah with Multilingual v2. The completion batch adds
+146 tagged v3 recordings and four Multilingual v2 pronunciation corrections, and
+the sentence-builder batch a further 54 tagged v3 recordings, across three native
+Spanish voices:
 
 | Voice       | Used for                                   |
 | ----------- | ------------------------------------------ |
@@ -31,7 +38,8 @@ Multilingual v2 pronunciation corrections across three native Spanish voices:
 | Sara Martin | Sentence examples and female introductions |
 | Brian       | Longer narration                           |
 
-[audio-verification.json](audio-verification.json) records installed coverage.
+[audio-verification.json](audio-verification.json) records the coverage verified
+after the completion batch, before the 54 sentence-builder tiles were added.
 [audio-voice-review.md](audio-voice-review.md) covers the auditions, the voice
 assignment rule and the delivery choices.
 

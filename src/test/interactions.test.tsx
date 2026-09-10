@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
 import { stopAudio } from "../components/Audio";
@@ -151,7 +151,7 @@ describe("learning interactions", () => {
     fireEvent.click(screen.getByRole("button", { name: "Continue" }));
     expect(submit).toHaveBeenCalledWith(q.options![1], false, false);
   });
-  it("lets a learner build and correct sentence tiles", () => {
+  it("lets a learner build and correct sentence tiles", async () => {
     const submit = vi.fn();
     const q = allQuestions.find((q) => q.id === "u1-o0")!;
     render(<QuestionCard q={q} onSubmit={submit} />);
@@ -160,7 +160,12 @@ describe("learning interactions", () => {
       fireEvent.click(screen.getByRole("button", { name: word }));
     }
     expect(screen.getByText("¡Muy bien! You’ve got it.")).toBeInTheDocument();
-    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    // Every tapped word is read, then the completed sentence once the last one ends.
+    const words = q.answer.split(" ").length;
+    const play = vi.mocked(HTMLMediaElement.prototype.play);
+    expect(play).toHaveBeenCalledTimes(words);
+    fireEvent(play.mock.instances.at(-1) as HTMLAudioElement, new Event("ended"));
+    await waitFor(() => expect(play).toHaveBeenCalledTimes(words + 1));
     expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Continue" }));
     expect(submit).toHaveBeenCalledWith(q.answer, true, false);

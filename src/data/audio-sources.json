@@ -3046,5 +3046,815 @@
       "language_code": "es",
       "seed": 20260909
     }
+  },
+  "138plck": {
+    "src": "/audio/elevenlabs/01278d8815b8faa09ce5d7ab.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "llamo",
+    "request": {
+      "text": "[calm] [slowly] llamo",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "wxrodh": {
+    "src": "/audio/elevenlabs/37dfa79e3752ec502c7274c8.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Ana",
+    "request": {
+      "text": "[calm] [slowly] Ana",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "e4whpz": {
+    "src": "/audio/elevenlabs/c8e77e81a6a42e497487ef81.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Hola",
+    "request": {
+      "text": "[warmly] [slowly] Hola",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "swmmcn": {
+    "src": "/audio/elevenlabs/ae88e95f01d84fa4db47a014.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "me",
+    "request": {
+      "text": "[calm] [slowly] me",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1bkscxd": {
+    "src": "/audio/elevenlabs/af4633a286dbfbceeb955e09.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "años",
+    "request": {
+      "text": "[calm] [slowly] años",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "vfsnle": {
+    "src": "/audio/elevenlabs/24f93db16b80aee55a8f7b0c.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Tengo",
+    "request": {
+      "text": "[calm] [slowly] Tengo",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "18sdiwg": {
+    "src": "/audio/elevenlabs/26449f25123d926c75984f23.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "veinticinco",
+    "request": {
+      "text": "[calm] [slowly] veinticinco",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1pqogsq": {
+    "src": "/audio/elevenlabs/f28cb1afd1354248bf80d197.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "muy",
+    "request": {
+      "text": "[calm] [slowly] muy",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "egxdlk": {
+    "src": "/audio/elevenlabs/5e202ada1517ec279fd1065b.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "simpática",
+    "request": {
+      "text": "[calm] [slowly] simpática",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "phpnmr": {
+    "src": "/audio/elevenlabs/3306eb0edfa458990168e601.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Mi",
+    "request": {
+      "text": "[calm] [slowly] Mi",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "cm363v": {
+    "src": "/audio/elevenlabs/26e5f9d03147157064265f9d.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "hermana",
+    "request": {
+      "text": "[calm] [slowly] hermana",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "jg8p61": {
+    "src": "/audio/elevenlabs/48acfa885200827c570bfa72.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "es",
+    "request": {
+      "text": "[calm] [slowly] es",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "op2tf7": {
+    "src": "/audio/elevenlabs/4e5af79c6e7fc5a5f405d975.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "lado",
+    "request": {
+      "text": "[calm] [slowly] lado",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1lj5qve": {
+    "src": "/audio/elevenlabs/573889318c2fe0c1fbe5aa70.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "del",
+    "request": {
+      "text": "[calm] [slowly] del",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "f5fl4o": {
+    "src": "/audio/elevenlabs/ffa45b6bcec48469b6572eea.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "baño",
+    "request": {
+      "text": "[calm] [slowly] baño",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "jy0r9a": {
+    "src": "/audio/elevenlabs/67cdbac41b1a25d0f71bcc84.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "La",
+    "request": {
+      "text": "[calm] [slowly] La",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "i2ozty": {
+    "src": "/audio/elevenlabs/55bdc8c7869628adff25a6b1.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "cocina",
+    "request": {
+      "text": "[calm] [slowly] cocina",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "8w9g6q": {
+    "src": "/audio/elevenlabs/337c270e2af44d953458ad8a.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "está",
+    "request": {
+      "text": "[calm] [slowly] está",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "hiqaww": {
+    "src": "/audio/elevenlabs/5d8f997dc07d0fbe5a332821.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "al",
+    "request": {
+      "text": "[calm] [slowly] al",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "9kfnwn": {
+    "src": "/audio/elevenlabs/d3b743beb349abec91bfca3a.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "siete",
+    "request": {
+      "text": "[calm] [slowly] siete",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "pk33xe": {
+    "src": "/audio/elevenlabs/8413f1595c80924fa4c31e7b.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "de",
+    "request": {
+      "text": "[calm] [slowly] de",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "k14p9a": {
+    "src": "/audio/elevenlabs/c38b883b8c0cd6e7ca10e626.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "la",
+    "request": {
+      "text": "[calm] [slowly] la",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "stkvyf": {
+    "src": "/audio/elevenlabs/6c17f64c90314b694203f204.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Me",
+    "request": {
+      "text": "[calm] [slowly] Me",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1lqe5j2": {
+    "src": "/audio/elevenlabs/750c7de7c677d486118ed333.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "levanto",
+    "request": {
+      "text": "[calm] [slowly] levanto",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1r9wi7g": {
+    "src": "/audio/elevenlabs/184bca3e27a62ecae818d5ce.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "a",
+    "request": {
+      "text": "[calm] [slowly] a",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "n4ttnb": {
+    "src": "/audio/elevenlabs/795f6f3c3996eb2ba3da2a5e.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "las",
+    "request": {
+      "text": "[calm] [slowly] las",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1xxmyus": {
+    "src": "/audio/elevenlabs/bd5eb0ad5d90f543ca027623.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "y",
+    "request": {
+      "text": "[calm] [slowly] y",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "hibhb8": {
+    "src": "/audio/elevenlabs/95e2b652ac072222bc13e3fa.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "el",
+    "request": {
+      "text": "[calm] [slowly] el",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "m0gmp8": {
+    "src": "/audio/elevenlabs/ac15445edf3882519dc72285.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "pan",
+    "request": {
+      "text": "[calm] [slowly] pan",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "z5x5wp": {
+    "src": "/audio/elevenlabs/a718ea8a070ff60649d1cd43.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "gustan",
+    "request": {
+      "text": "[calm] [slowly] gustan",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "b7h23w": {
+    "src": "/audio/elevenlabs/810a4e065025398e1ed5fc32.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "manzanas",
+    "request": {
+      "text": "[calm] [slowly] manzanas",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "tbhwa6": {
+    "src": "/audio/elevenlabs/6ff8fc4b9d86809637e4843f.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "enfrente",
+    "request": {
+      "text": "[calm] [slowly] enfrente",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1ibfwkw": {
+    "src": "/audio/elevenlabs/348f418b928ff0f2ec03ffb8.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "banco",
+    "request": {
+      "text": "[calm] [slowly] banco",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1spmumj": {
+    "src": "/audio/elevenlabs/c98bc3035265d49009db2d18.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "farmacia",
+    "request": {
+      "text": "[calm] [slowly] farmacia",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "n32h9y": {
+    "src": "/audio/elevenlabs/55b49b58d43374e59bb17845.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "por",
+    "request": {
+      "text": "[calm] [slowly] por",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "dtv153": {
+    "src": "/audio/elevenlabs/f3b75fec8f0c4f1afa9aec4b.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "favor",
+    "request": {
+      "text": "[calm] [slowly] favor",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "v0rhzu": {
+    "src": "/audio/elevenlabs/809f9f046d828c1a375a1431.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Quiero",
+    "request": {
+      "text": "[calm] [slowly] Quiero",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "odbeg1": {
+    "src": "/audio/elevenlabs/aaf9304c85b727951c80daeb.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "una",
+    "request": {
+      "text": "[calm] [slowly] una",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1hgnbpb": {
+    "src": "/audio/elevenlabs/273e15eac8096c2663a6bf56.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "camisa",
+    "request": {
+      "text": "[calm] [slowly] camisa",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "lfu0of": {
+    "src": "/audio/elevenlabs/ac0111a1b9cd23a8b78f68e9.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "porque",
+    "request": {
+      "text": "[calm] [slowly] porque",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "18ushp5": {
+    "src": "/audio/elevenlabs/f2827676546656bb66c3f3a5.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "interesante",
+    "request": {
+      "text": "[calm] [slowly] interesante",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1fl1whp": {
+    "src": "/audio/elevenlabs/38bb7971d76cdd1d38a1cf9f.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "gusta",
+    "request": {
+      "text": "[calm] [slowly] gusta",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "t9i23v": {
+    "src": "/audio/elevenlabs/f1b72d4fcbdcbb1582e79ed0.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "para",
+    "request": {
+      "text": "[calm] [slowly] para",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1olmi3p": {
+    "src": "/audio/elevenlabs/b9e6acd3135cc2c4266bdad0.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "dos",
+    "request": {
+      "text": "[calm] [slowly] dos",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1ttks74": {
+    "src": "/audio/elevenlabs/0ce3739901b740e178b9ddfa.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "personas",
+    "request": {
+      "text": "[calm] [slowly] personas",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "533io1": {
+    "src": "/audio/elevenlabs/9c51440bfa5d2d8cc0779177.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "habitación",
+    "request": {
+      "text": "[calm] [slowly] habitación",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "qzj1p6": {
+    "src": "/audio/elevenlabs/15c4c8231feef209155d0a7b.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "un",
+    "request": {
+      "text": "[calm] [slowly] un",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "kpyly2": {
+    "src": "/audio/elevenlabs/566f224ff0c525022ce957ec.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "vaso",
+    "request": {
+      "text": "[calm] [slowly] vaso",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "11mo0vr": {
+    "src": "/audio/elevenlabs/778a6124f11f6f7ca13c5cec.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "agua",
+    "request": {
+      "text": "[calm] [slowly] agua",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1ejgs7n": {
+    "src": "/audio/elevenlabs/8dc11dd2594fafcb053e07cb.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "sed",
+    "request": {
+      "text": "[calm] [slowly] sed",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "bkqcoq": {
+    "src": "/audio/elevenlabs/27c882cf7a377faa71da8194.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "quiero",
+    "request": {
+      "text": "[calm] [slowly] quiero",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "1ztms4": {
+    "src": "/audio/elevenlabs/bb38cf864b956872e8f9f978.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "viajar",
+    "request": {
+      "text": "[calm] [slowly] viajar",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "17itf7o": {
+    "src": "/audio/elevenlabs/e8f2db939d4687e71c2459d9.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "España",
+    "request": {
+      "text": "[calm] [slowly] España",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
+  },
+  "vw27a": {
+    "src": "/audio/elevenlabs/87afc8514b451b36af80d76d.mp3",
+    "voiceId": "htFfPSZGJwjBv1CL0aMD",
+    "modelId": "eleven_v3",
+    "text": "Estudio",
+    "request": {
+      "text": "[calm] [slowly] Estudio",
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.5
+      },
+      "language_code": "es",
+      "seed": 20260909
+    }
   }
 }

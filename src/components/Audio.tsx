@@ -14,6 +14,37 @@ export const stopAudio = () => {
     window.speechSynthesis.cancel();
   }
 };
+// A word tap has nowhere to show a status line, so this player stays silent on
+// failure instead of falling back to the device voice. The full sentence is
+// still read once the answer is checked.
+// ponytail: no speed control, no error state, no fallback voice
+// eslint-disable-next-line react/only-export-components
+export const playWord = async (text: string) => {
+  stopAudio();
+  let cancelled = false;
+  let clip: HTMLAudioElement | null = null;
+  activePlayback = {
+    cancel: () => {
+      cancelled = true;
+      clip?.pause();
+    },
+  };
+  for (const src of audioSources(text)) {
+    clip = new Audio(src);
+    try {
+      await clip.play();
+      if (cancelled) {
+        clip.pause();
+      }
+      return;
+    } catch {
+      if (cancelled) {
+        return;
+      }
+      // A missing upgraded clip can still use the original local recording.
+    }
+  }
+};
 export const AudioButton = ({
   ref: controlsRef,
   text,

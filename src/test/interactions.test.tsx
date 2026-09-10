@@ -132,7 +132,8 @@ describe("learning interactions", () => {
       fireEvent.click(screen.getByRole("button", { name: word }));
     }
     expect(screen.getByText("¡Muy bien! You’ve got it.")).toBeInTheDocument();
-    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    // Every tapped word is read, then the completed sentence.
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(q.answer.split(" ").length + 1);
     expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Continue" }));
     expect(submit).toHaveBeenCalledWith(q.answer, true, false);

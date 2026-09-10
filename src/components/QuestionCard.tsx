@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
-import { AudioButton, stopAudio } from "./Audio";
+import { AudioButton, playWord, stopAudio } from "./Audio";
 import type { AudioHandle } from "./Audio";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
@@ -245,6 +245,7 @@ export const QuestionCard = ({
                 lang="es"
                 key={i}
                 onClick={() => {
+                  void playWord(token);
                   const next = [...selected, i];
                   setSelected(next);
                   const sentence = next.map((j) => q.tokens![j]).join(" ");

@@ -3,6 +3,7 @@ import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
 import { LessonSession } from "../components/LessonSession";
 import { Dialog } from "../components/Dialog";
+import { audioSources } from "../data/audio-sources";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import { emptyProgress } from "../data/progress";
@@ -72,15 +73,25 @@ describe("exercise rules and submission modes", () => {
       fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: token }));
     }
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
-    expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(order.tokens!.length);
     expect(screen.getByRole("button", { name: "Check answer" })).toBeEnabled();
     const tray = document.querySelector(".sentence-tray")!;
     fireEvent.click(within(tray as HTMLElement).getAllByRole("button")[0]);
     expect(screen.getByRole("button", { name: "Check answer" })).toBeDisabled();
     fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: order.tokens![0] }));
+    const beforeCheck = vi.mocked(HTMLMediaElement.prototype.play).mock.calls.length;
     click("Check answer");
     expect(screen.getByRole("heading", { name: "A good moment to learn." })).toBeInTheDocument();
-    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(beforeCheck + 1);
+  });
+  it("plays the tapped word before it lands in the sentence", () => {
+    render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+    const bank = document.querySelector(".word-bank")!;
+    const token = order.tokens![0];
+    fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: token }));
+    const play = vi.mocked(HTMLMediaElement.prototype.play);
+    expect(play).toHaveBeenCalledOnce();
+    expect((play.mock.instances[0] as HTMLAudioElement).src).toContain(audioSources(token)[0]);
   });
   it("auto-submits when the last chip completes the correct sentence, also after a removal", () => {
     render(<QuestionCard q={order} onSubmit={vi.fn()} />);
@@ -99,11 +110,13 @@ describe("exercise rules and submission modes", () => {
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
     fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: lastPlaced }));
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    const beforeLast = vi.mocked(HTMLMediaElement.prototype.play).mock.calls.length;
     fireEvent.click(
       within(bank as HTMLElement).getByRole("button", { name: words[words.length - 1] }),
     );
     expect(screen.getByRole("heading", { name: "¡Muy bien! You’ve got it." })).toBeInTheDocument();
-    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    // The final tap reads its own word, then the completed sentence.
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(beforeLast + 2);
     expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
   });
   it.each(["{broken", "null", "[]", "4", '{"Nacionalidad":8}'])(

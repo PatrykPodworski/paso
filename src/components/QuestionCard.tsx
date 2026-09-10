@@ -110,6 +110,39 @@ export const QuestionCard = ({
       }
     }
   };
+  const pickToken = (i: number) => {
+    const spoken = playWord(q.tokens![i]);
+    const next = [...selected, i];
+    setSelected(next);
+    const sentence = next.map((j) => q.tokens![j]).join(" ");
+    if (next.length === q.tokens!.length && isCorrect(q, sentence)) {
+      submit(sentence, spoken);
+    }
+  };
+  // Number keys answer the question, mirroring the badges on each button.
+  // ponytail: re-subscribed every render so the handler reads current state.
+  useEffect(() => {
+    const handle = (e: KeyboardEvent) => {
+      const typing = document.activeElement?.closest("input, textarea");
+      if (e.metaKey || e.ctrlKey || e.altKey || feedback || typing) {
+        return;
+      }
+      const i = Number(e.key) - 1;
+      if (!Number.isInteger(i) || i < 0) {
+        return;
+      }
+      if (q.options?.[i] !== undefined) {
+        e.preventDefault();
+        setText(q.options[i]);
+        submit(q.options[i]);
+      } else if (q.kind === "order" && q.tokens?.[i] !== undefined && !selected.includes(i)) {
+        e.preventDefault();
+        pickToken(i);
+      }
+    };
+    window.addEventListener("keydown", handle);
+    return () => window.removeEventListener("keydown", handle);
+  });
   return (
     <div className="question-card">
       <div className="question-kind">
@@ -211,7 +244,7 @@ export const QuestionCard = ({
               aria-pressed={answer === option}
             >
               <span className="option-key" aria-hidden="true">
-                {String.fromCharCode(65 + i)}
+                {i + 1}
               </span>
               <span>{option}</span>
               {feedback && option === q.answer && <Icon name="check" />}
@@ -243,17 +276,12 @@ export const QuestionCard = ({
                 type="button"
                 lang="es"
                 key={i}
-                onClick={() => {
-                  const spoken = playWord(token);
-                  const next = [...selected, i];
-                  setSelected(next);
-                  const sentence = next.map((j) => q.tokens![j]).join(" ");
-                  if (next.length === q.tokens!.length && isCorrect(q, sentence)) {
-                    submit(sentence, spoken);
-                  }
-                }}
+                onClick={() => pickToken(i)}
                 disabled={feedback || selected.includes(i)}
               >
+                <span className="option-key" aria-hidden="true">
+                  {i + 1}
+                </span>
                 {token}
               </button>
             ))}

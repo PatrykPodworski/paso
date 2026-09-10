@@ -2959,6 +2959,11 @@ main {
   align-items: center;
   gap: 8px;
 }
+.word-bank .option-key {
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+}
 .word-bank {
   display: flex;
   flex-wrap: wrap;

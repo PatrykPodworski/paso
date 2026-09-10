@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-10T10:12:01.000Z",
+  "recordedAt": "2026-09-10T12:14:30.000Z",
   "gate": {
     "command": "pnpm test:refactor",
     "outcome": "passed",
@@ -23,27 +23,28 @@
     "chromium": "151.0.7922.34",
     "browserRevision": "1234",
     "browserCache": ".cache/playwright",
-    "stryker": "10.0.0"
+    "stryker": "10.0.0",
+    "ci": "GitHub Actions (.github/workflows/ci.yml): pnpm install --frozen-lockfile, lint, build, test — unit tests only; coverage, browser and mutation gates run locally via pnpm test:refactor."
   },
   "rules": {
     "auditedContracts": 64,
     "inventory": "docs/REFACTOR_TESTING.md"
   },
   "unit": {
-    "javascriptTypescript": 356,
+    "javascriptTypescript": 357,
     "javascriptTestFiles": 17,
     "coverage": {
       "lines": {
-        "total": 1046,
-        "covered": 1024,
+        "total": 1051,
+        "covered": 1029,
         "skipped": 0,
-        "pct": 97.89
+        "pct": 97.9
       },
       "statements": {
-        "total": 1148,
-        "covered": 1125,
+        "total": 1153,
+        "covered": 1130,
         "skipped": 0,
-        "pct": 97.99
+        "pct": 98
       },
       "functions": {
         "total": 346,
@@ -52,10 +53,10 @@
         "pct": 99.13
       },
       "branches": {
-        "total": 1030,
-        "covered": 987,
+        "total": 1036,
+        "covered": 993,
         "skipped": 0,
-        "pct": 95.82
+        "pct": 95.84
       },
       "branchesTrue": {
         "total": 0,
@@ -88,15 +89,15 @@
   },
   "mutation": {
     "scope": "stryker.business.config.mjs",
-    "total": 2744,
+    "total": 2759,
     "counts": {
-      "Killed": 2171,
-      "Survived": 518,
-      "Timeout": 6,
+      "Killed": 2186,
+      "Survived": 519,
+      "Timeout": 5,
       "NoCoverage": 46,
       "RuntimeError": 3
     },
-    "score": 79.42,
+    "score": 79.5,
     "overallRequired": 79,
     "formula": "(Killed + Timeout) / (Killed + Timeout + Survived + NoCoverage)",
     "loadDependent": "Timeout counts as detected; with timeoutMS 2000 and concurrency 8 the Timeout↔Survived split moves with machine load. score, counts.Timeout, counts.Survived and per-file scores are one draw from a 79.42–80.20 band observed on identical source (#15). Killed is stable.",
@@ -188,12 +189,12 @@
       },
       "src/components/QuestionCard.tsx": {
         "counts": {
-          "Killed": 250,
-          "Survived": 74,
+          "Killed": 264,
+          "Survived": 75,
           "NoCoverage": 1,
           "RuntimeError": 1
         },
-        "score": 76.92
+        "score": 77.65
       },
       "src/components/Recorder.tsx": {
         "counts": {
@@ -218,8 +219,8 @@
       },
       "src/data/progress.ts": {
         "counts": {
-          "Killed": 240,
-          "Timeout": 3,
+          "Killed": 241,
+          "Timeout": 2,
           "Survived": 7
         },
         "score": 97.2
@@ -258,7 +259,7 @@
   ],
   "limits": [
     "Mutation detection is not 100%; surviving changes remain visible in the HTML report and require review.",
-    "Live AI correction quality, pronunciation assessment, real Whisper model accuracy and provider availability are not proven by mocked boundary tests.",
+    "No automated assessment exists for writing or speaking; both are self-reviewed against a checklist and a model answer.",
     "Screenshots are specific to macOS arm64 and pinned Chromium; Safari, Firefox, Windows and Linux rendering are not asserted.",
     "Static teaching content and artwork are protected by content integrity checks and visual baselines, not code mutation."
   ],

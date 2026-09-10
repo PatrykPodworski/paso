@@ -12,6 +12,8 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
+CI (`.github/workflows/ci.yml`) runs only lint, build and unit tests on pull requests and pushes to `main`; the coverage, browser and mutation gates run locally with this command.
+
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys and screenshots, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. Snapshot updates are **never** part of this command.
 
 No API key, login or ElevenLabs account is needed. Browser tests deny external HTTP requests. Unit tests reject unexpected `fetch` calls; provider tests use fake responses and temporary files. CLI tests replace environment-file loading and generation calls. No production audio or credit ledger is changed.
@@ -132,7 +134,7 @@ TypeScript 7 no longer exposes the JS compiler API used by Stryker's tsconfig-re
 
 ## Evidence and limits
 
-The complete gate passes with 356 JavaScript/TypeScript unit and component tests, 46 E2E runs and 71 visual runs against 134 images. Line coverage is 97.89%; branch coverage is 95.82%. The business mutation score is 79.42% on this run (load-dependent, see #15) (2,744 mutations), with 518 survivors and 46 uncovered mutations retained for review. Progress and audio-budget detection improved from 69.46% to 98.11% on the same unchanged source.
+The complete gate passes with 357 JavaScript/TypeScript unit and component tests, 46 E2E runs and 71 visual runs against 134 images. Line coverage is 97.90%; branch coverage is 95.84%. The business mutation score is 79.50% on this run (load-dependent, see #15) (2,759 mutations), with 519 survivors and 46 uncovered mutations retained for review. Progress and audio-budget detection improved from 69.46% to 98.11% on the same unchanged source.
 
 Current measured results, individual module scores and limits are in [TEST_BASELINE.json](TEST_BASELINE.json). Generated detail reports are local and ignored by Git:
 

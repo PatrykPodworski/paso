@@ -85,7 +85,8 @@ export const QuestionCard = ({
     onDraft?.(text);
   };
   const submit = (choice?: string) => {
-    if (!(choice ? q.options?.includes(choice) : canSubmit) || feedback) {
+    const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
+    if (!valid || feedback) {
       return;
     }
     const submitted = choice ?? submission;
@@ -235,7 +236,14 @@ export const QuestionCard = ({
                 type="button"
                 lang="es"
                 key={i}
-                onClick={() => setSelected((v) => [...v, i])}
+                onClick={() => {
+                  const next = [...selected, i];
+                  setSelected(next);
+                  const sentence = next.map((j) => q.tokens![j]).join(" ");
+                  if (next.length === q.tokens!.length && isCorrect(q, sentence)) {
+                    submit(sentence);
+                  }
+                }}
                 disabled={feedback || selected.includes(i)}
               >
                 {token}

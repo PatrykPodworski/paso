@@ -55,6 +55,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
         .first()
         .click();
     }
+    return;
   } else if (q.kind === "form") {
     for (const f of q.fields!) {
       await page.getByRole("textbox", { name: f.label, exact: true }).fill(f.example);

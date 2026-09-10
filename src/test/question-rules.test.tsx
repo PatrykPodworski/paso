@@ -65,6 +65,8 @@ describe("exercise rules and submission modes", () => {
     for (const token of order.tokens!) {
       fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: token }));
     }
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "Check answer" })).toBeEnabled();
     const tray = document.querySelector(".sentence-tray")!;
     fireEvent.click(within(tray as HTMLElement).getAllByRole("button")[0]);
@@ -73,6 +75,30 @@ describe("exercise rules and submission modes", () => {
     click("Check answer");
     expect(screen.getByRole("heading", { name: "A good moment to learn." })).toBeInTheDocument();
     expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+  });
+  it("auto-submits when the last chip completes the correct sentence, also after a removal", () => {
+    render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+    const bank = document.querySelector(".word-bank")!;
+    const tray = document.querySelector(".sentence-tray")!;
+    const words = order.answer.split(" ");
+    for (const word of words.slice(0, -1)) {
+      fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: word }));
+    }
+    const lastPlaced = words[words.length - 2];
+    fireEvent.click(
+      within(tray as HTMLElement)
+        .getAllByRole("button")
+        .at(-1)!,
+    );
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: lastPlaced }));
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    fireEvent.click(
+      within(bank as HTMLElement).getByRole("button", { name: words[words.length - 1] }),
+    );
+    expect(screen.getByRole("heading", { name: "¡Muy bien! You’ve got it." })).toBeInTheDocument();
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+    expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
   });
   it.each(["{broken", "null", "[]", "4", '{"Nacionalidad":8}'])(
     "rejects malformed form draft %s",

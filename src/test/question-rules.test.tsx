@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
 import { LessonSession } from "../components/LessonSession";
@@ -93,7 +93,19 @@ describe("exercise rules and submission modes", () => {
     expect(play).toHaveBeenCalledOnce();
     expect((play.mock.instances[0] as HTMLAudioElement).src).toContain(audioSources(token)[0]);
   });
-  it("auto-submits when the last chip completes the correct sentence, also after a removal", () => {
+  it("reads the final tapped word before the completed sentence", async () => {
+    render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+    const bank = document.querySelector(".word-bank")!;
+    const words = order.answer.split(" ");
+    for (const word of words) {
+      fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: word }));
+    }
+    const play = vi.mocked(HTMLMediaElement.prototype.play);
+    expect(play).toHaveBeenCalledTimes(words.length);
+    fireEvent(play.mock.instances.at(-1) as HTMLAudioElement, new Event("ended"));
+    await waitFor(() => expect(play).toHaveBeenCalledTimes(words.length + 1));
+  });
+  it("auto-submits when the last chip completes the correct sentence, also after a removal", async () => {
     render(<QuestionCard q={order} onSubmit={vi.fn()} />);
     const bank = document.querySelector(".word-bank")!;
     const tray = document.querySelector(".sentence-tray")!;
@@ -115,8 +127,11 @@ describe("exercise rules and submission modes", () => {
       within(bank as HTMLElement).getByRole("button", { name: words[words.length - 1] }),
     );
     expect(screen.getByRole("heading", { name: "¡Muy bien! You’ve got it." })).toBeInTheDocument();
-    // The final tap reads its own word, then the completed sentence.
-    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(beforeLast + 2);
+    // The final tap reads its own word, then the completed sentence once it ends.
+    const play = vi.mocked(HTMLMediaElement.prototype.play);
+    expect(play).toHaveBeenCalledTimes(beforeLast + 1);
+    fireEvent(play.mock.instances.at(-1) as HTMLAudioElement, new Event("ended"));
+    await waitFor(() => expect(play).toHaveBeenCalledTimes(beforeLast + 2));
     expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
   });
   it.each(["{broken", "null", "[]", "4", '{"Nacionalidad":8}'])(

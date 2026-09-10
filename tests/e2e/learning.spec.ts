@@ -170,14 +170,15 @@ test("sentence building supports removal and reads the sentence after checking",
   });
   await expect(page.getByRole("button", { name: "Check answer" })).toBeDisabled();
   const first = page.locator(".word-bank button").first();
-  const word = await first.innerText();
+  const word = q.tokens![0];
   await first.click();
   await page.locator(".sentence-tray").getByRole("button", { name: word, exact: false }).click();
   await expect(first).toBeEnabled();
-  expect(await page.evaluate(() => (window as any).__plays)).toEqual([]);
+  // Tapping a word reads that word; the sentence model waits for the check.
+  expect(await page.evaluate(() => (window as any).__plays.length)).toBe(1);
   await answer(page, q);
   await expect(page.getByRole("button", { name: "Stop audio" })).toBeVisible();
-  expect(await page.evaluate(() => (window as any).__plays.length)).toBe(1);
+  expect(await page.evaluate(() => (window as any).__plays.length)).toBe(q.tokens!.length + 2);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByRole("textbox")).toHaveValue("");
   await page.getByRole("textbox").fill("Soy de");

@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
 import { stopAudio } from "../components/Audio";
@@ -309,5 +309,27 @@ describe("learning interactions", () => {
       />,
     );
     expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
+  });
+  it("checks the numbered choice option when its digit is pressed", () => {
+    const q = allQuestions.find((question) => question.id === "u2-v0")!;
+    const evaluated = vi.fn();
+    render(<QuestionCard q={q} onSubmit={vi.fn()} onEvaluated={evaluated} />);
+    const first = q.options![0];
+    expect(screen.getByRole("button", { name: first })).toHaveTextContent("1");
+    fireEvent.keyDown(window, { key: "1", metaKey: true });
+    expect(evaluated).not.toHaveBeenCalled();
+    fireEvent.keyDown(window, { key: "1" });
+    expect(evaluated).toHaveBeenCalledExactlyOnceWith(first, first === q.answer, false);
+    fireEvent.keyDown(window, { key: "2" });
+    expect(evaluated).toHaveBeenCalledOnce();
+  });
+  it("adds the numbered word to the tray and ignores a repeat of the same digit", () => {
+    const q = allQuestions.find((question) => question.kind === "order")!;
+    render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+    fireEvent.keyDown(window, { key: "2" });
+    fireEvent.keyDown(window, { key: "2" });
+    const tray = screen.getByLabelText("Your sentence");
+    expect(within(tray).getAllByRole("button")).toHaveLength(1);
+    expect(tray).toHaveTextContent(q.tokens![1]);
   });
 });

@@ -89,27 +89,26 @@
   },
   "mutation": {
     "scope": "stryker.business.config.mjs",
-    "total": 2759,
+    "total": 2864,
     "counts": {
-      "Killed": 2186,
-      "Survived": 519,
+      "NoCoverage": 49,
+      "Killed": 2273,
+      "Survived": 528,
       "Timeout": 5,
-      "NoCoverage": 46,
-      "RuntimeError": 3
+      "RuntimeError": 3,
+      "Ignored": 6
     },
-    "score": 79.5,
+    "score": 79.79,
     "overallRequired": 79,
     "formula": "(Killed + Timeout) / (Killed + Timeout + Survived + NoCoverage)",
-    "loadDependent": "Timeout counts as detected; with timeoutMS 2000 and concurrency 8 the Timeout↔Survived split moves with machine load. score, counts.Timeout, counts.Survived and per-file scores are one draw from a 79.42–80.20 band observed on identical source (#15). Killed is stable.",
     "perFile": {
       "scripts/audio-budget.mjs": {
         "counts": {
+          "Ignored": 5,
           "Killed": 174,
-          "Survived": 10,
-          "Timeout": 1,
-          "NoCoverage": 1
+          "Timeout": 1
         },
-        "score": 94.09
+        "score": 100
       },
       "scripts/audio-direction.mjs": {
         "counts": {
@@ -120,36 +119,36 @@
       },
       "scripts/elevenlabs.mjs": {
         "counts": {
+          "NoCoverage": 1,
           "Killed": 222,
-          "Timeout": 2,
           "Survived": 25,
-          "NoCoverage": 1
+          "Timeout": 2
         },
         "score": 89.6
       },
       "scripts/generate-elevenlabs.mjs": {
         "counts": {
+          "NoCoverage": 3,
           "Survived": 29,
-          "Killed": 132,
-          "NoCoverage": 3
+          "Killed": 132
         },
         "score": 80.49
       },
       "src/App.tsx": {
         "counts": {
+          "NoCoverage": 25,
           "Killed": 356,
-          "Survived": 161,
-          "NoCoverage": 25
+          "Survived": 161
         },
         "score": 65.68
       },
       "src/components/Audio.tsx": {
         "counts": {
-          "Killed": 166,
-          "Survived": 25,
-          "NoCoverage": 6
+          "NoCoverage": 10,
+          "Killed": 190,
+          "Survived": 37
         },
-        "score": 84.26
+        "score": 80.17
       },
       "src/components/Dialog.tsx": {
         "counts": {
@@ -160,17 +159,16 @@
       },
       "src/components/Guide.tsx": {
         "counts": {
-          "Killed": 18,
-          "Survived": 2
+          "Killed": 20
         },
-        "score": 90
+        "score": 100
       },
       "src/components/LessonSession.tsx": {
         "counts": {
-          "Killed": 90,
-          "Survived": 1
+          "Killed": 98,
+          "Survived": 2
         },
-        "score": 98.9
+        "score": 98
       },
       "src/components/MockExam.tsx": {
         "counts": {
@@ -181,27 +179,27 @@
       },
       "src/components/PocketVocabulary.tsx": {
         "counts": {
+          "NoCoverage": 8,
           "Killed": 99,
-          "Survived": 60,
-          "NoCoverage": 8
+          "Survived": 60
         },
         "score": 59.28
       },
       "src/components/QuestionCard.tsx": {
         "counts": {
-          "Killed": 264,
-          "Survived": 75,
           "NoCoverage": 1,
+          "Killed": 312,
+          "Survived": 90,
           "RuntimeError": 1
         },
-        "score": 77.65
+        "score": 77.42
       },
       "src/components/Recorder.tsx": {
         "counts": {
-          "Survived": 16,
+          "NoCoverage": 1,
           "Killed": 100,
-          "RuntimeError": 2,
-          "NoCoverage": 1
+          "Survived": 16,
+          "RuntimeError": 2
         },
         "score": 85.47
       },
@@ -219,11 +217,11 @@
       },
       "src/data/progress.ts": {
         "counts": {
-          "Killed": 241,
-          "Timeout": 2,
-          "Survived": 7
+          "Ignored": 1,
+          "Killed": 246,
+          "Timeout": 2
         },
-        "score": 97.2
+        "score": 100
       }
     },
     "sourceUnchangedCoreComparison": {
@@ -246,7 +244,8 @@
         },
         "score": 98.11
       }
-    }
+    },
+    "determinism": "timeoutMS 30000 keeps the score off the timeout boundary. Three runs on identical source each scored 79.79, and all 16 per-file scores had zero spread (#15). One progress.ts mutant still alternates Timeout and Killed; both count as detected, so no score moves."
   },
   "negativeControls": {
     "mutation": "Known exerciseBank = [] regression was killed by focused-practice assertions.",

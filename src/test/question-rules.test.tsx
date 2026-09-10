@@ -397,9 +397,7 @@ it("each selected sentence tile is disabled until it is removed", () => {
 it("returns to the editable state when revising an answer", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, Ana." />);
   click("Review my practice");
-  expect(
-    screen.getByRole("heading", { name: "Let’s reflect on your answer" }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeInTheDocument();
   click("Revise my answer");
   expect(screen.getByRole("textbox")).toBeEnabled();
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeInTheDocument();

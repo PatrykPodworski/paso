@@ -25,11 +25,11 @@ pronunciation of every practice question. The original 155 recordings use Sarah
 with Multilingual v2. The completion batch adds 146 tagged v3 recordings and four
 Multilingual v2 pronunciation corrections across three native Spanish voices:
 
-| Voice       | Used for                                        |
-| ----------- | ----------------------------------------------- |
-| Antonio     | Vocabulary and short questions                   |
-| Sara Martin | Sentence examples and female introductions       |
-| Brian       | Longer narration                                 |
+| Voice       | Used for                                   |
+| ----------- | ------------------------------------------ |
+| Antonio     | Vocabulary and short questions             |
+| Sara Martin | Sentence examples and female introductions |
+| Brian       | Longer narration                           |
 
 [audio-verification.json](audio-verification.json) records installed coverage.
 [audio-voice-review.md](audio-voice-review.md) covers the auditions, the voice

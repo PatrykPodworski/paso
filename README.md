@@ -10,7 +10,7 @@ from a textbook.
 It runs in the browser and keeps your progress there. There is no account and no
 database, so nothing you do leaves your device.
 
-Try it: **https://paso-two.vercel.app**
+Try it: **https://paso.podwor.ski**
 
 ## Run it locally
 

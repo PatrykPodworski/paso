@@ -1,6 +1,7 @@
-import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
+import { stopAudio } from "../components/Audio";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import App from "../App";
@@ -13,6 +14,8 @@ beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
 });
 afterEach(() => {
+  // A passage player deliberately survives its own unmount; end it with the session.
+  act(stopAudio);
   cleanup();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
@@ -80,6 +83,21 @@ describe("learning interactions", () => {
     expect(document.querySelector(".question-heading")).toContainElement(
       screen.getByRole("button", { name: "Stop audio" }),
     );
+  });
+  it("plays the reading passage before an answer and is not cut off by the model", () => {
+    const q = allQuestions.find((question) => question.id === "u2-r0")!;
+    const { unmount } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+    const plays = vi.mocked(HTMLMediaElement.prototype.play);
+    fireEvent.click(screen.getByRole("button", { name: "Play the reading passage" }));
+    expect(plays).toHaveBeenCalledOnce();
+    expect((plays.mock.contexts[0] as HTMLAudioElement).src).toContain(audioSources(q.passage!)[0]);
+    fireEvent.click(screen.getByRole("button", { name: "Ruiz López" }));
+    expect(plays).toHaveBeenCalledOnce();
+    unmount();
+    render(<QuestionCard q={q} exam onSubmit={vi.fn()} />);
+    expect(
+      screen.queryByRole("button", { name: "Play the reading passage" }),
+    ).not.toBeInTheDocument();
   });
   it("starts each listening question on entry and cancels the previous clip", async () => {
     const first = allQuestions.find((q) => q.id === "u1-v1")!;

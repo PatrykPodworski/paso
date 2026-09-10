@@ -37,7 +37,10 @@ export const LessonSession = ({
   };
   const submit = (answer: string, correct: boolean | null, help: boolean) => {
     void answer;
-    stopAudio();
+    // A reading passage keeps playing across the questions that share it.
+    if (!question.passage || lesson.questions[index + 1]?.passage !== question.passage) {
+      stopAudio();
+    }
     const next = [...results, correct];
     setResults(next);
     if (help) {

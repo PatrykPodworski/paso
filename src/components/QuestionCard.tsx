@@ -24,6 +24,7 @@ export const QuestionCard = ({
   const heading = useRef<HTMLHeadingElement>(null);
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
+  const passageAudio = useRef<AudioHandle>(null);
   const [recording, setRecording] = useState(false);
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
@@ -100,8 +101,9 @@ export const QuestionCard = ({
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
     // A tapped word is already speaking, so wait for it and read the sentence
-    // after it rather than cutting it off.
-    if (q.kind !== "listen") {
+    // after it rather than cutting it off. A passage the learner is listening
+    // to must not be cut off by the model at all.
+    if (q.kind !== "listen" && !passageAudio.current?.playing()) {
       const player = q.audio ? listeningAudio : answerAudio;
       if (after) {
         void after.then(() => player.current?.play());
@@ -196,6 +198,15 @@ export const QuestionCard = ({
       {q.passage && (
         <div className="reading-passage" lang="es">
           <span className="paper-clip" aria-hidden="true" />
+          {!exam && (
+            <AudioButton
+              ref={passageAudio}
+              continuous
+              minimal
+              text={q.passage}
+              label="Play the reading passage"
+            />
+          )}
           <p>{q.passage}</p>
         </div>
       )}

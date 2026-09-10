@@ -2,8 +2,16 @@ import { useEffect, useEffectEvent, useImperativeHandle, useRef, useState } from
 import type { Ref } from "react";
 import { Icon } from "./Icon";
 import { audioSources } from "../data/audio-sources";
-type Playback = { cancel: () => void };
-export type AudioHandle = { play: () => void };
+type Playback = {
+  text: string;
+  audio: HTMLAudioElement | null;
+  resume: (() => Promise<void>) | null;
+  // Rebound when a later player adopts this playback, so the running clip
+  // drives the button that is currently on screen.
+  setPlaying: (playing: boolean) => void;
+  cancel: () => void;
+};
+export type AudioHandle = { play: () => void; playing: () => boolean };
 let activePlayback: Playback | null = null;
 // Shared playback coordination is intentionally exported alongside the player.
 // eslint-disable-next-line react/only-export-components
@@ -27,6 +35,10 @@ export const playWord = async (text: string) => {
   let cancelled = false;
   let clip: HTMLAudioElement | null = null;
   activePlayback = {
+    text,
+    audio: null,
+    resume: null,
+    setPlaying: () => {},
     cancel: () => {
       cancelled = true;
       clip?.pause();
@@ -62,6 +74,7 @@ export const AudioButton = ({
   compact = false,
   minimal = false,
   autoPlay = false,
+  continuous = false,
   limit,
   onPlayed,
 }: {
@@ -71,6 +84,7 @@ export const AudioButton = ({
   compact?: boolean;
   minimal?: boolean;
   autoPlay?: boolean;
+  continuous?: boolean;
   limit?: number;
   onPlayed?: () => void;
 }) => {
@@ -83,15 +97,32 @@ export const AudioButton = ({
   const resumePlayback = useRef<(() => Promise<void>) | null>(null);
   const iconOnly = compact || minimal;
   const pauseLabel = minimal ? "Pause audio" : "Stop audio";
+  useEffect(() => {
+    // Take over a clip that is still running for the same text, so a passage
+    // survives the move to the next question about it.
+    const running = activePlayback;
+    if (!continuous || !running || running.text !== text) {
+      return;
+    }
+    playbackRef.current = running;
+    running.setPlaying = setPlaying;
+    ref.current = running.audio;
+    resumePlayback.current = running.resume;
+    setPlaying(!running.audio?.paused);
+  }, [continuous, text]);
   useEffect(
     () => () => {
+      if (continuous) {
+        // The session stops shared playback once the passage changes.
+        return;
+      }
       if (playbackRef.current && activePlayback === playbackRef.current) {
         stopAudio();
       } else {
         playbackRef.current?.cancel();
       }
     },
-    [],
+    [continuous],
   );
   useEffect(() => {
     if (ref.current) {
@@ -125,12 +156,17 @@ export const AudioButton = ({
     stopAudio();
     setError("");
     let cancelled = false;
-    const playback = {
+    const playback: Playback = {
+      text,
+      audio: null,
+      resume: null,
+      setPlaying,
       cancel: () => {
         cancelled = true;
+        playback.resume = null;
         resumePlayback.current = null;
-        ref.current?.pause();
-        setPlaying(false);
+        playback.audio?.pause();
+        playback.setPlaying(false);
       },
     };
     activePlayback = playback;
@@ -139,17 +175,19 @@ export const AudioButton = ({
     for (const src of audioSources(text)) {
       const audio = new Audio(src);
       ref.current = audio;
+      playback.audio = audio;
       audio.playbackRate = speed;
       audio.preservesPitch = true;
       audio.onended = () => {
         if (!cancelled) {
+          playback.resume = null;
           resumePlayback.current = null;
-          setPlaying(false);
+          playback.setPlaying(false);
         }
       };
       audio.onpause = () => {
         if (!cancelled) {
-          setPlaying(false);
+          playback.setPlaying(false);
         }
       };
       try {
@@ -158,12 +196,13 @@ export const AudioButton = ({
           audio.pause();
           return;
         }
-        resumePlayback.current = async () => {
+        playback.resume = async () => {
           await audio.play();
           if (cancelled) {
             audio.pause();
           }
         };
+        resumePlayback.current = playback.resume;
         setCount((c) => c + 1);
         onPlayed?.();
         return;
@@ -197,14 +236,14 @@ export const AudioButton = ({
       };
       utterance.onend = () => {
         if (!cancelled) {
-          setPlaying(false);
+          playback.setPlaying(false);
         }
       };
       utterance.onerror = () => {
         if (cancelled) {
           return;
         }
-        setPlaying(false);
+        playback.setPlaying(false);
         setError("Audio is unavailable on this device. You can use the transcript in practice.");
       };
       setError("Using your device’s voice while the recording is unavailable.");
@@ -214,7 +253,7 @@ export const AudioButton = ({
       setError("Audio is unavailable on this device. You can use the transcript in practice.");
     }
   };
-  useImperativeHandle(controlsRef, () => ({ play: () => void play(true) }));
+  useImperativeHandle(controlsRef, () => ({ play: () => void play(true), playing: () => playing }));
   const startAutomatically = useEffectEvent(() => void play(true));
   useEffect(() => {
     if (autoPlay) {

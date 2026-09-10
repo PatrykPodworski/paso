@@ -10,10 +10,16 @@ class MockAudio {
   src: string;
   playbackRate = 1;
   preservesPitch = false;
+  paused = true;
   onended: (() => void) | null = null;
   onpause: (() => void) | null = null;
-  play = vi.fn(async () => {});
-  pause = vi.fn(() => this.onpause?.());
+  play = vi.fn(async () => {
+    this.paused = false;
+  });
+  pause = vi.fn(() => {
+    this.paused = true;
+    this.onpause?.();
+  });
   constructor(src: string) {
     this.src = src;
   }
@@ -174,6 +180,34 @@ describe("audio cancellation and device fallback", () => {
     expect(clips[0].playbackRate).toBe(1);
     act(() => clips[0].onpause?.());
     expect(screen.getByRole("button", { name: "Listen" })).toBeEnabled();
+  });
+  it("carries a continuous clip over to the next player mounted for the same text", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Passage" minimal continuous />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Passage" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Passage" minimal continuous />);
+    expect(clips[0].pause).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Passage" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+    act(stopAudio);
+    expect(clips[0].pause).toHaveBeenCalledTimes(2);
+    expect(screen.getByRole("button", { name: "Passage" })).toBeInTheDocument();
+  });
+  it("starts a fresh clip when the continuous player moves to different text", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Passage" minimal continuous />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Passage" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Adiós." label="Other passage" minimal continuous />);
+    fireEvent.click(screen.getByRole("button", { name: "Other passage" }));
+    await waitFor(() => expect(clips).toHaveLength(2));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
   });
   it("unmounting an old player does not stop the new active player", async () => {
     const { rerender } = render(

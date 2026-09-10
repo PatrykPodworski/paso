@@ -559,6 +559,7 @@ export const QuestionCard = ({
             <button
               type="button"
               className="button primary"
+              autoFocus
               onClick={() => onSubmit(submission, correct, assisted)}
             >
               Continue

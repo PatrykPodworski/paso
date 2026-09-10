@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests and the mutation gate on pull requests and pushes to `main`; the coverage and browser gates run locally with this command.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit` and the mutation gate on pull requests and pushes to `main`; the coverage and browser gates run locally with this command.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys and screenshots, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. Snapshot updates are **never** part of this command.
 
@@ -30,6 +30,7 @@ No API key, login or ElevenLabs account is needed. Browser tests deny external H
 | `pnpm test:mutation:full` | Broader audit including presentation mutations                 |
 | `pnpm test:ids`           | Verify unique, stable test names used for mutation selection   |
 | `pnpm test:visual:guard`  | Prove an intentional colour change fails the existing baseline |
+| `pnpm exec fallow audit`  | Dead code, complexity and duplication in the files a PR changes |
 
 ## Rule inventory
 

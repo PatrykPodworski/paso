@@ -25,7 +25,8 @@
     "reports",
     ".env.local",
     ".elevenlabs-usage.local.json",
-    ".cache"
+    ".cache",
+    ".claude"
   ],
   "concurrency": 8,
   "timeoutMS": 2000,

@@ -9,6 +9,8 @@ export const maximumRequestCharacters = 10_000;
 
 export const readSubscription = async (apiKey, request = fetch, pause = delay) => {
   let waitMs = 1000;
+  // Stryker disable next-line EqualityOperator: equivalent mutant. The last attempt always
+  // returns or throws, because `continue` below is gated on attempt < 2.
   for (let attempt = 0; attempt < 3; attempt++) {
     // Space out quota reads. Retrying this GET does not generate or bill speech.
     await pause(waitMs);
@@ -22,10 +24,11 @@ export const readSubscription = async (apiKey, request = fetch, pause = delay) =
     }
     if (response.status === 429 && attempt < 2) {
       const retryAfter = response.headers.get("retry-after");
-      const seconds = retryAfter === null ? NaN : Number(retryAfter);
+      // Number(null) is 0, which the Math.max below floors away exactly like a missing header.
+      const seconds = Number(retryAfter);
       const requestedWait = Number.isFinite(seconds)
         ? seconds * 1000
-        : Date.parse(retryAfter || "") - Date.now();
+        : Date.parse(retryAfter) - Date.now();
       waitMs = Math.max(2000 * (attempt + 1), Number.isFinite(requestedWait) ? requestedWait : 0);
       if (waitMs <= 30_000) {
         continue;
@@ -38,6 +41,7 @@ export const readSubscription = async (apiKey, request = fetch, pause = delay) =
       `Cannot verify remaining ElevenLabs allowance (HTTP ${response.status}). ${hint} No speech request was sent.`,
     );
   }
+  // Stryker disable next-line all: unreachable guard, see the loop bound above.
   throw new Error("Cannot verify the remaining allowance; generation blocked.");
 };
 
@@ -102,6 +106,8 @@ export const openBudget = async ({ root, getSubscription }) => {
   const path = join(root, ".elevenlabs-usage.local.json");
   let ledger = null;
   try {
+    // Stryker disable next-line StringLiteral: equivalent mutant. An unrecognised encoding
+    // yields a Buffer, which JSON.parse decodes as UTF-8 anyway.
     ledger = JSON.parse(await readFile(path, "utf8"));
   } catch (error) {
     if (error.code !== "ENOENT") {

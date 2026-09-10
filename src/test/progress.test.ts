@@ -6,9 +6,11 @@ import {
   isCorrect,
   localDate,
   nextReviewAt,
+  nextReviewLevel,
   normalize,
   passingGroups,
   readProgress,
+  REVIEW_WINDOWS,
   skillStats,
   STORAGE_KEY,
   streak,
@@ -103,6 +105,22 @@ describe("DELE scoring and progress", () => {
     const repaired = new Date(nextReviewAt("invalid saved date", 3)).getTime();
     expect(repaired).toBeGreaterThanOrEqual(before);
     expect(repaired).toBeLessThanOrEqual(Date.now());
+  });
+  it("caps spaced repetition at the longest review window", () => {
+    expect(nextReviewLevel(0)).toBe(1);
+    expect(nextReviewLevel(99)).toBe(REVIEW_WINDOWS.length - 1);
+    expect(nextReviewAt("2026-09-09T12:00:00.000Z", 1)).toBe("2026-09-10T12:00:00.000Z");
+    expect(nextReviewAt("2026-09-09T12:00:00.000Z", 99)).toBe("2026-10-09T12:00:00.000Z");
+  });
+  it("schedules only the questions actually missed and keeps other cards untouched", () => {
+    const other = { level: 3, nextAt: "2026-09-20T12:00:00.000Z" };
+    const p = { ...emptyProgress(), mistakeReviews: { "u1-o1": other } };
+    const missed = withAttempt(p, attempt({ correct: false, at: "2026-09-09T12:00:00.000Z" }));
+    expect(missed.mistakeReviews).toEqual({
+      "u1-o1": other,
+      "u1-v0": { level: 0, nextAt: "2026-09-09T12:00:00.000Z" },
+    });
+    expect(withAttempt(p, attempt()).mistakeReviews).toEqual({ "u1-o1": other });
   });
   it("counts Spanish words without counting punctuation", () => {
     expect(countWords("¡Hola! ¿Cómo estás?")).toBe(3);

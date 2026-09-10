@@ -18,18 +18,18 @@ The gate first verifies stable test IDs, then builds/type-checks the app, lints,
 
 No API key, login or ElevenLabs account is needed. Browser tests deny external HTTP requests. Unit tests reject unexpected `fetch` calls; provider tests use fake responses and temporary files. CLI tests replace environment-file loading and generation calls. No production audio or credit ledger is changed.
 
-| Command                     | Purpose                                                        |
-| --------------------------- | -------------------------------------------------------------- |
-| `pnpm test:unit`            | Fast unit/component/provider tests                             |
-| `pnpm test:coverage`        | Unit tests with enforced coverage floors and HTML report       |
-| `pnpm test:e2e`             | 22 journeys, each on desktop and mobile Chromium               |
-| `pnpm test:visual`          | Compare reviewed screenshots; never update them                |
-| `pnpm test:visual:update`   | Deliberately regenerate screenshots for review                 |
-| `pnpm test:browser`         | Both browser suites in one server session                      |
-| `pnpm test:mutation`        | Stryker business logic audit and score gate                    |
-| `pnpm test:mutation:full`   | Broader audit including presentation mutations                 |
-| `pnpm test:ids`             | Verify unique, stable test names used for mutation selection   |
-| `pnpm test:visual:guard`    | Prove an intentional colour change fails the existing baseline |
+| Command                   | Purpose                                                        |
+| ------------------------- | -------------------------------------------------------------- |
+| `pnpm test:unit`          | Fast unit/component/provider tests                             |
+| `pnpm test:coverage`      | Unit tests with enforced coverage floors and HTML report       |
+| `pnpm test:e2e`           | 22 journeys, each on desktop and mobile Chromium               |
+| `pnpm test:visual`        | Compare reviewed screenshots; never update them                |
+| `pnpm test:visual:update` | Deliberately regenerate screenshots for review                 |
+| `pnpm test:browser`       | Both browser suites in one server session                      |
+| `pnpm test:mutation`      | Stryker business logic audit and score gate                    |
+| `pnpm test:mutation:full` | Broader audit including presentation mutations                 |
+| `pnpm test:ids`           | Verify unique, stable test names used for mutation selection   |
+| `pnpm test:visual:guard`  | Prove an intentional colour change fails the existing baseline |
 
 ## Rule inventory
 

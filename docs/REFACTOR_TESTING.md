@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs only lint, build and unit tests on pull requests and pushes to `main`; the coverage, browser and mutation gates run locally with this command.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests and the mutation gate on pull requests and pushes to `main`; the coverage and browser gates run locally with this command.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys and screenshots, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. Snapshot updates are **never** part of this command.
 

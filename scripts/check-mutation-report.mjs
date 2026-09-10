@@ -6,6 +6,12 @@ const floors = {
   "src/components/LessonSession.tsx": 90,
   "src/data/progress.ts": 98,
   "scripts/audio-budget.mjs": 95,
+  "scripts/elevenlabs.mjs": 88,
+  "scripts/generate-elevenlabs.mjs": 80,
+  // 79.31 and 82.76 on two runs of identical source: six to eight of this file's 58 mutants
+  // time out, and Stryker counts a timeout as detected. 68 is the score if every timeout
+  // instead survives. #15 makes the timeouts deterministic; raise this once it lands.
+  "scripts/audio-direction.mjs": 68,
 };
 const score = (mutants) => {
   const detected = mutants.filter((m) => ["Killed", "Timeout"].includes(m.status)).length;

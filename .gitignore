@@ -30,8 +30,6 @@ src/data/audio-sources.json.*.tmp
 *.njsproj
 *.sln
 *.sw?
-.venv-coach/
-__pycache__/
 
 # Regression test output (reviewed visual baselines remain tracked)
 coverage/
@@ -39,7 +37,6 @@ reports/
 playwright-report/
 test-results/
 .stryker-tmp/
-.venv-tests/
 
 # Pinned browser isolated from shared Playwright cache cleanup
 .cache/playwright/

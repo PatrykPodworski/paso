@@ -10,17 +10,13 @@
     "src/data/progress.ts",
     "src/data/audio.ts",
     "src/data/audio-sources.ts",
-    "src/data/coach.ts",
-    "src/hooks/useCoach.ts",
-    "src/components/{Audio,Recorder,QuestionCard,LessonSession,MockExam,Dialog,Guide,CoachFeedback}.tsx",
+    "src/components/{Audio,Recorder,QuestionCard,LessonSession,MockExam,Dialog,Guide}.tsx",
     "src/App.tsx",
-    "server/coach.ts",
     "scripts/audio-budget.mjs",
     "scripts/elevenlabs.mjs",
     "scripts/generate-elevenlabs.mjs"
   ],
   "ignorePatterns": [
-    ".venv-coach",
     "docs/screenshots",
     "dist",
     "coverage",

@@ -1,7 +1,7 @@
 {
   "name": "paso-dele-a1",
   "version": "1.0.0",
-  "description": "An interactive DELE A1 Spanish learning app with original course content, local audio, and an optional writing and speaking coach.",
+  "description": "An interactive DELE A1 Spanish learning app with original course content and local audio.",
   "homepage": "https://github.com/PatrykPodworski/paso#readme",
   "license": "MIT",
   "author": "Patryk Podworski",
@@ -34,9 +34,7 @@
     "test:browser": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test",
     "test:mutation": "pnpm test:ids && stryker run stryker.business.config.mjs && node scripts/check-mutation-report.mjs",
     "test:mutation:full": "stryker run stryker.audit.config.mjs",
-    "test:python": "node scripts/test-python.mjs",
-    "test:mutation:python": "node scripts/test-python.mjs --mutate",
-    "test:refactor": "pnpm test:ids && pnpm build && pnpm lint && pnpm test:coverage && pnpm test:python && pnpm test:browser && pnpm test:mutation && pnpm test:mutation:python",
+    "test:refactor": "pnpm test:ids && pnpm build && pnpm lint && pnpm test:coverage && pnpm test:browser && pnpm test:mutation",
     "test:visual:guard": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright node scripts/check-visual-guard.mjs",
     "test:ids": "node scripts/check-test-ids.mjs",
     "test:browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium"
@@ -45,8 +43,7 @@
     "@tanstack/react-query": "^5.101.4",
     "@tanstack/react-router": "^1.170.18",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "zod": "^4.4.3"
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@babel/parser": "^8.0.4",
@@ -66,7 +63,6 @@
     "@vitejs/plugin-react": "^6.0.5",
     "@vitest/coverage-v8": "4.1.10",
     "jsdom": "^30.0.1",
-    "msw": "^2.15.0",
     "oxfmt": "0.61.0",
     "oxlint": "^1.76.0",
     "typescript": "~7.0.2",

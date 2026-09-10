@@ -3,7 +3,6 @@ import { mockSections } from "../../src/data/mock";
 
 test("complete all 55 exam questions with section reviews, oral prep, score calculation and export", async ({
   page,
-  coachRequests,
 }) => {
   test.setTimeout(90000);
   await page.goto("/#exam");
@@ -70,7 +69,6 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByText(/Both groups meet 30/)).toBeVisible();
   await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("4.99");
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
-  expect(coachRequests).toHaveLength(0);
   expect((await stored(page)).mockResults).toHaveLength(1);
   const downloaded = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export responses for review" }).click();

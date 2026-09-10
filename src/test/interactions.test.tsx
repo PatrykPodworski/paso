@@ -11,13 +11,6 @@ import { audioSources } from "../data/audio-sources";
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
-  vi.stubGlobal(
-    "fetch",
-    vi.fn(
-      async () =>
-        new Response(JSON.stringify({ error: "Coach offline during this test." }), { status: 503 }),
-    ),
-  );
 });
 afterEach(() => {
   cleanup();

@@ -1,4 +1,4 @@
-import { test, expect, openLesson, answer, review } from "../fixtures/app";
+import { test, expect, openLesson, answer } from "../fixtures/app";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
@@ -159,7 +159,7 @@ test("lesson completion", async ({ page }) => {
   }
   await shot(page, "lesson-complete");
 });
-test("question: sentence, typed answer, writing and coach feedback", async ({ page }) => {
+test("question: sentence, typed answer, writing and reflection", async ({ page }) => {
   const l = await openLesson(page, 3);
   await shot(page, "question-order");
   await answer(page, l.questions[0]);
@@ -175,8 +175,8 @@ test("question: sentence, typed answer, writing and coach feedback", async ({ pa
   await page.getByRole("textbox").fill("Me llamo Ana. Soy veinte años.");
   await shot(page, "question-writing");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText(review.summary)).toBeVisible();
-  await shot(page, "writing-coach-feedback");
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await shot(page, "writing-feedback");
 });
 test("question: form", async ({ page }) => {
   await page.goto("/#practice");
@@ -189,30 +189,14 @@ test("question: image", async ({ page }) => {
   await page.getByRole("button", { name: "Picture this", exact: false }).click();
   await shot(page, "question-image");
 });
-test("question: speaking and transcript feedback", async ({ page }) => {
+test("question: speaking and reflection", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Find your voice", exact: false }).click();
   await shot(page, "question-speaking");
-  await page
-    .getByRole("textbox", { name: "Your spoken Spanish" })
-    .fill("Me llamo Ana. Soy veinte años.");
+  await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText(review.summary)).toBeVisible();
-  await shot(page, "speaking-coach-feedback");
-});
-test("coach unavailable state", async ({ page }) => {
-  await page.route("**/api/coach/review", (route) =>
-    route.fulfill({
-      status: 503,
-      json: { error: "The coach is unavailable. Your answer is saved; please try again." },
-    }),
-  );
-  await page.goto("/");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
-  await page.getByRole("textbox", { name: "Your spoken Spanish" }).fill("Me llamo Ana.");
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("button", { name: "Try Codex again" })).toBeVisible();
-  await shot(page, "coach-error");
+  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await shot(page, "speaking-feedback");
 });
 const examCases = [
   ["reading", 0, 0, "run"],
@@ -256,7 +240,7 @@ for (const [name, section, index, stage] of examCases) {
   });
 }
 
-test("microphone denial and pending coach feedback", async ({ page }) => {
+test("microphone denial", async ({ page }) => {
   await page.addInitScript(() => {
     navigator.mediaDevices.getUserMedia = async () => {
       throw new DOMException("Denied", "NotAllowedError");
@@ -267,11 +251,6 @@ test("microphone denial and pending coach feedback", async ({ page }) => {
   await page.getByRole("button", { name: "Record your answer" }).click();
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
   await shot(page, "microphone-denied");
-  await page.route("**/api/coach/review", () => {});
-  await page.getByRole("textbox", { name: "Your spoken Spanish" }).fill("Me llamo Ana.");
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByText("Reading your Spanish and checking the task…")).toBeVisible();
-  await shot(page, "coach-loading");
 });
 
 test("illustrated scenarios in the picture studio", async ({ page }) => {

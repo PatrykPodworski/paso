@@ -20,12 +20,6 @@ vi.mock("../components/Recorder", () => ({
 }));
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 beforeEach(() => {
-  vi.stubGlobal(
-    "fetch",
-    vi.fn(
-      async () => new Response(JSON.stringify({ error: "Coach unavailable" }), { status: 503 }),
-    ),
-  );
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
 });
@@ -149,13 +143,12 @@ describe("exercise rules and submission modes", () => {
     [30, "Your word count (30) is within the practice target."],
     [40, "Your word count (40) is within the practice target."],
     [41, "keeping"],
-  ])("explains the writing target boundary at %s words", async (n, message) => {
+  ])("explains the writing target boundary at %s words", (n, message) => {
     render(<QuestionCard q={writing} onSubmit={vi.fn()} draft={Array(n).fill("hola").join(" ")} />);
     click("Review my practice");
-    await screen.findByText("Coach unavailable");
     expect(screen.getByText((text) => text.includes(message))).toBeInTheDocument();
   });
-  it("supports checklist-only speaking without sending a fictional transcript to Codex", () => {
+  it("checklist-only speaking submits ungraded practice", () => {
     const evaluated = vi.fn();
     render(<QuestionCard q={speaking} onSubmit={vi.fn()} onEvaluated={evaluated} />);
     const checkbox = screen.getByRole("checkbox", { name: speaking.checklist![0] });
@@ -165,43 +158,22 @@ describe("exercise rules and submission modes", () => {
     fireEvent.click(checkbox);
     click("Review my practice");
     expect(evaluated.mock.calls[0][1]).toBeNull();
-    expect(fetch).not.toHaveBeenCalled();
-    expect(screen.getByText(/Add a transcript/)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Let’s reflect on your answer" }),
+    ).toBeInTheDocument();
   });
-  it("blocks submission during recording/transcription and resets the old take", async () => {
-    let resolve!: (r: Response) => void;
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(
-        () =>
-          new Promise<Response>((r) => {
-            resolve = r;
-          }),
-      ),
-    );
+  it("blocks review while recording and enables it after the take", () => {
     render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
-    fireEvent.change(screen.getByRole("textbox"), { target: { value: "Old transcript" } });
     act(() => {
       recordingProps.onStart();
       recordingProps.onRecordingChange(true);
     });
-    expect(screen.getByRole("textbox")).toHaveValue("");
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
     act(() => {
       recordingProps.onRecordingChange(false);
       recordingProps.onRecorded(new Blob(["voice"]));
     });
-    expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-    await act(async () => resolve(new Response(JSON.stringify({ text: "Me llamo Ana." }))));
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
-    expect(screen.getByRole("textbox")).toHaveValue("Me llamo Ana.");
-  });
-  it("offers transcription retry while keeping manual text available after failure", async () => {
-    render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
-    act(() => recordingProps.onRecorded(new Blob(["audio"])));
-    await screen.findByText("Coach unavailable");
-    expect(screen.getByRole("button", { name: "Try transcription again" })).toBeInTheDocument();
-    expect(screen.getByRole("textbox")).toBeEnabled();
   });
 });
 // All productive and objective save paths run against the actual component.
@@ -236,7 +208,7 @@ for (const q of [type, writing, speaking, formPractice]) {
 }
 
 describe("lesson completion and dialog contracts", () => {
-  it("records objective, assisted and creative answers without conflating their scores", async () => {
+  it("records objective, assisted and creative answers without conflating their scores", () => {
     const choice = { ...allQuestions[0], audio: "Hola." };
     const qs: Question[] = [choice, { ...type, answer: "correcto" }, writing];
     const done = vi.fn(),
@@ -279,7 +251,6 @@ describe("lesson completion and dialog contracts", () => {
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
     expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Ana.");
     click("Review my practice");
-    await screen.findByText("Coach unavailable");
     click("Continue");
     expect(done).toHaveBeenCalledExactlyOnceWith(1, 2);
     expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
@@ -370,28 +341,13 @@ it("counts only form values toward the writing target", () => {
     screen.getByText("15 words · target 15–25. Use fictional personal details."),
   ).toBeInTheDocument();
 });
-it("does not request AI feedback for a whitespace-only spoken transcript", () => {
-  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
-  fireEvent.change(screen.getByRole("textbox"), { target: { value: "  \n " } });
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  click("Review my practice");
-  expect(fetch).not.toHaveBeenCalled();
-  expect(screen.getByText(/Add a transcript/)).toBeInTheDocument();
-});
-it("stores a trimmed spoken transcript and an explicit no-recording placeholder", () => {
+it("stores a placeholder answer for a practised-aloud submission", () => {
   const submitted = vi.fn();
   render(<QuestionCard q={speaking} onSubmit={submitted} />);
-  fireEvent.change(screen.getByRole("textbox"), { target: { value: "  Hola, Ana.  " } });
-  click("Review my practice");
-  click("Continue");
-  expect(submitted).toHaveBeenCalledWith("Hola, Ana.", null, false);
-  cleanup();
-  render(<QuestionCard q={speaking} onSubmit={submitted} />);
   fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
   click("Review my practice");
   click("Continue");
-  expect(submitted).toHaveBeenLastCalledWith(
+  expect(submitted).toHaveBeenCalledWith(
     "Practised aloud. Audio must be reviewed from the downloaded recording.",
     null,
     false,
@@ -413,7 +369,7 @@ it.each([
   );
   expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(1);
   expect(screen.queryAllByRole("textbox")).toHaveLength(
-    q.kind === "form" ? q.fields!.length : ["write", "type", "speak"].includes(q.kind) ? 1 : 0,
+    q.kind === "form" ? q.fields!.length : ["write", "type"].includes(q.kind) ? 1 : 0,
   );
   if (q.kind === "write" || q.kind === "type") {
     expect(screen.getByRole("textbox").tagName).toBe(q.kind === "write" ? "TEXTAREA" : "INPUT");
@@ -438,6 +394,16 @@ it("each selected sentence tile is disabled until it is removed", () => {
   expect(buttons[0]).toBeEnabled();
 });
 
+it("returns to the editable state when revising an answer", () => {
+  render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, Ana." />);
+  click("Review my practice");
+  expect(
+    screen.getByRole("heading", { name: "Let’s reflect on your answer" }),
+  ).toBeInTheDocument();
+  click("Revise my answer");
+  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(screen.getByRole("button", { name: "Review my practice" })).toBeInTheDocument();
+});
 it("unchecking one self-review point retains the others", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
   const boxes = screen.getAllByRole("checkbox");
@@ -447,27 +413,11 @@ it("unchecking one self-review point retains the others", () => {
   expect(boxes[0]).not.toBeChecked();
   expect(boxes[1]).toBeChecked();
 });
-it("editing a pending coach review aborts the request at the UI boundary", () => {
-  const fetcher = vi.fn<typeof fetch>(() => new Promise(() => {}));
-  vi.stubGlobal("fetch", fetcher);
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, Ana." />);
-  click("Review my practice");
-  const signal = fetcher.mock.calls[0][1]!.signal!;
-  expect(signal.aborted).toBe(false);
-  click("Revise my answer");
-  expect(signal.aborted).toBe(true);
-  expect(screen.getByRole("textbox")).toBeEnabled();
-});
-it("a new recording aborts a pending coach review and clears the practiced flag", () => {
-  const fetcher = vi.fn<typeof fetch>(() => new Promise(() => {}));
-  vi.stubGlobal("fetch", fetcher);
+it("a new recording clears the practised flag and blocks review", () => {
   render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
   fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
-  click("Review my practice");
-  const signal = fetcher.mock.calls[0][1]!.signal!;
+  expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
   act(() => recordingProps.onStart());
-  expect(signal.aborted).toBe(true);
   expect(screen.getByRole("checkbox", { name: /I practised aloud/ })).not.toBeChecked();
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
 });

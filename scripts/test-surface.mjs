@@ -3,7 +3,6 @@ import { globSync } from "node:fs";
 // visual comparisons. New application modules enter coverage automatically.
 export const sourceIncludes = [
   "src/**/*.{ts,tsx}",
-  "server/**/*.ts",
   "scripts/{audio-budget,audio-direction,elevenlabs,generate-elevenlabs}.mjs",
 ];
 export const sourceExcludes = [

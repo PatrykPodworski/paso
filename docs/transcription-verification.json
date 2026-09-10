@@ -1,7 +1,0 @@
-{
-  "passed": true,
-  "source": "local-whisper",
-  "expected": "Me llamo Ana. Soy polaca y tengo treinta años. Vivo en Varsovia. Soy profesora. Hablo polaco e inglés y estudio español. Soy una persona tranquila. Me gusta leer.",
-  "text": "Me llamo Ana, soy Polaca y tengo 30 años. Vivo en Barsovia, soy profesora, hablo Polaco en inglés y estudio español. Soy una persona tranquila, me gusta leer.",
-  "language": "es"
-}

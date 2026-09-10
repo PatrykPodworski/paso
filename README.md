@@ -8,8 +8,7 @@ written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
 It runs in the browser and keeps your progress there. There is no account, no
-database and, for now, no hosted version, so running it means cloning it. One
-feature, the writing and speaking coach, needs the local dev server.
+database and, for now, no hosted version, so running it means cloning it.
 
 ## Run it
 
@@ -28,9 +27,7 @@ pnpm preview
 ```
 
 `dist/` is a static site. Serve it over HTTP, because microphone access needs
-localhost or HTTPS. All teaching audio and illustrations are local assets. The
-one exception is the writing and speaking coach, which needs the server that
-`pnpm dev` and `pnpm preview` provide and will not work from a copied `dist/`.
+localhost or HTTPS. All teaching audio and illustrations are local assets.
 
 ## What is in it
 
@@ -65,9 +62,9 @@ original SVG illustrations.
 
 ## How it is built
 
-Vite, React and TypeScript, with pnpm. No runtime backend beyond the local dev
-server. The course is data rather than components, so the units, lessons and
-exercises live under `src/data/` and are edited without touching the UI.
+Vite, React and TypeScript, with pnpm. No runtime backend. The course is data
+rather than components, so the units, lessons and exercises live under
+`src/data/` and are edited without touching the UI.
 
 | Path                     | What lives there                          |
 | ------------------------ | ----------------------------------------- |
@@ -90,16 +87,13 @@ the player falls back to a bundled recording, then to labelled browser speech.
 Generating new clips, the voice assignments and the credit guards are in
 [docs/AUDIO.md](docs/AUDIO.md).
 
-## Writing and speaking coach
+## Writing and speaking
 
-Free writing and speaking answers can be reviewed by the Codex CLI signed in on
-the local machine, which returns corrections with explanations, task coverage, a
-suggested revision and a next step. Speech is transcribed locally with Whisper
-and shown to you as editable text before anything is reviewed. Setup, the
-security model and its limits are in [docs/COACH.md](docs/COACH.md).
-
-Without it, the word tiles, accent keys, model answers, recording, playback and
-self-review checklists all still work.
+Free writing, the personal form and speaking tasks end in a reflection panel:
+a model answer, word-count guidance, a few targeted pattern checks and a
+self-review checklist. Speaking tasks record in the browser with playback and
+download; nothing is uploaded. AI feedback on your writing and speaking is
+coming soon.
 
 ## Tests
 
@@ -107,11 +101,13 @@ self-review checklists all still work.
 pnpm test:refactor
 ```
 
-The gate builds, lints, enforces unit coverage and mutation scores, checks the
-local transcription boundary, and runs desktop and mobile browser journeys with
-screenshot comparison. It uses fake provider responses, so it spends no
-ElevenLabs or Codex allowance. Setup, individual commands and measured results
-are in [docs/REFACTOR_TESTING.md](docs/REFACTOR_TESTING.md).
+The gate builds, lints, enforces unit coverage and mutation scores, and runs
+desktop and mobile browser journeys with screenshot comparison. It uses fake
+provider responses, so it spends no ElevenLabs allowance. Setup, individual
+commands and measured results are in
+[docs/REFACTOR_TESTING.md](docs/REFACTOR_TESTING.md). GitHub Actions runs
+lint, build and unit tests on every pull request and push to `main`
+(`.github/workflows/ci.yml`); the full gate runs locally.
 
 ## Research
 
@@ -123,10 +119,9 @@ The part worth knowing up front is the pass rule. Reading plus writing must reac
 30 out of 50, and listening plus speaking must reach 30 out of 50, separately.
 A high total does not rescue a weak group.
 
-Official writing and speaking marks require a human examiner. The coach gives
-practice feedback, not a score, and cannot judge pronunciation from a transcript.
-The rehearsal uses browser-friendly navigation and controllable audio, so it is
-not a reproduction of exam-day administration.
+Official writing and speaking marks require a human examiner. The rehearsal
+uses browser-friendly navigation and controllable audio, so it is not a
+reproduction of exam-day administration.
 
 ## License
 

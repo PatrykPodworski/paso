@@ -56,12 +56,7 @@ describe("recording lifecycle", () => {
         changed = vi.fn(),
         began = vi.fn();
       const { unmount } = render(
-        <Recorder
-          onRecorded={saved}
-          onStart={began}
-          onRecordingChange={changed}
-          transcribeLocally
-        />,
+        <Recorder onRecorded={saved} onStart={began} onRecordingChange={changed} />,
       );
       await start();
       expect(getUserMedia).toHaveBeenCalledWith({ audio: true });
@@ -86,7 +81,7 @@ describe("recording lifecycle", () => {
       expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:recording-1");
     },
   );
-  it("does not submit an empty recording for transcription", async () => {
+  it("does not submit an empty recording", async () => {
     const saved = vi.fn();
     render(<Recorder onRecorded={saved} />);
     await start();

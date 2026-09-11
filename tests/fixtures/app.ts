@@ -24,6 +24,21 @@ export const test = base.extend<{ blockExternal: void }>({
   },
 });
 export { expect };
+// Everything that makes a screenshot reproducible and nothing that is specific to one
+// page: kill motion, wait for webfonts, drop focus rings and hover state, scroll to the
+// top. Shared by tests/visual/views.spec.ts and tests/visual/design-system.spec.ts.
+export const stabilise = async (page: Page) => {
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }",
+  });
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    (document.activeElement as HTMLElement)?.blur();
+    window.scrollTo(0, 0);
+  });
+  await page.mouse.move(0, 0);
+};
 export const openLesson = async (page: Page, index: number) => {
   await page.goto("/#path");
   const lesson = allLessons[index];

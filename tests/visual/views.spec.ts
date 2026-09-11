@@ -1,4 +1,4 @@
-import { test, expect, openLesson, answer } from "../fixtures/app";
+import { test, expect, openLesson, answer, stabilise } from "../fixtures/app";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
@@ -8,16 +8,7 @@ const shot = async (page: Page, name: string) => {
   if (await stop.isVisible()) {
     await stop.click();
   }
-  await page.addStyleTag({
-    content:
-      "*, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }",
-  });
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-    (document.activeElement as HTMLElement)?.blur();
-    window.scrollTo(0, 0);
-  });
-  await page.mouse.move(0, 0);
+  await stabilise(page);
   const dialog = page.getByRole("dialog");
   const modal = (await dialog.count()) > 0;
   if (modal) {

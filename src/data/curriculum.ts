@@ -1692,7 +1692,6 @@ export const units: Unit[] = seeds.map((s, ui) => {
 });
 export const allLessons = units.flatMap((u) => u.lessons);
 export const allQuestions = allLessons.flatMap((l) => l.questions);
-export const questionMap = new Map(allQuestions.map((q) => [q.id, q]));
 export const vocabulary = seeds.flatMap((s, ui) =>
   s.words.map((w) => ({
     es: w[0],

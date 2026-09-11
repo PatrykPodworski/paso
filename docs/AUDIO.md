@@ -116,14 +116,5 @@ access to download matching recordings from that voice's 100 most recent history
 items, without generating speech. Legacy recovery cannot recover directed v3
 batches.
 
-There is also an offline macOS generator:
-
-```sh
-node scripts/generate-audio.mjs
-```
-
-It needs the Mónica voice, `say`, and FFmpeg (currently
-`/opt/homebrew/bin/ffmpeg`). It writes deterministic filenames and skips clips
-that already exist. The ElevenLabs generator needs only Node 22.18+ and an API
-key, and does not need FFmpeg. Normal use of the finished app needs neither
-generator.
+The ElevenLabs generator needs only Node 22.18+ and an API key, and does not
+need FFmpeg. Normal use of the finished app needs no generator.

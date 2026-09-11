@@ -1,4 +1,5 @@
-import { test as base, expect, type Page } from "@playwright/test";
+import { test as base, expect, type Locator, type Page } from "@playwright/test";
+import { argosScreenshot } from "@argos-ci/playwright";
 import { allLessons } from "../../src/data/curriculum";
 import type { Question } from "../../src/data/types";
 export const test = base.extend<{ blockExternal: void }>({
@@ -27,6 +28,28 @@ export { expect };
 // Everything that makes a screenshot reproducible and nothing that is specific to one
 // page: kill motion, wait for webfonts, drop focus rings and hover state, scroll to the
 // top. Shared by tests/visual/views.spec.ts and tests/visual/design-system.spec.ts.
+// Set only by the Argos job in CI. When on, captures go to Argos, which compares them
+// against baselines it generated on the same runner; when off, they go to the committed
+// PNGs under tests/visual/baselines, which are macOS arm64 and are the local gate. Each
+// is authoritative for its own context; neither validates the other.
+const uploadToArgos = process.env.ARGOS_UPLOAD === "1";
+
+export const capture = async (
+  page: Page,
+  name: string,
+  { fullPage = false, element }: { fullPage?: boolean; element?: Locator } = {},
+) => {
+  if (uploadToArgos) {
+    await argosScreenshot(page, name, element ? { element } : { fullPage });
+    return;
+  }
+  if (element) {
+    await expect(element).toHaveScreenshot(`${name}.png`);
+    return;
+  }
+  await expect(page).toHaveScreenshot(`${name}.png`, { fullPage });
+};
+
 export const stabilise = async (page: Page) => {
   await page.addStyleTag({
     content:

@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests and the mutation gate on pull requests and pushes to `main`; the coverage and browser gates run locally with this command.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, the mutation gate and the Argos visual job on pull requests and pushes to `main`; the coverage gate and the E2E journeys run locally with this command.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys and screenshots, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. Snapshot updates are **never** part of this command.
 
@@ -112,9 +112,25 @@ Test paths without a directory above are in `src/test/` for TS/TSX and `scripts/
 
 Dates, timezone, locale, motion and AI responses are deterministic. Native recording and local audio playback are exercised in E2E tests. Screenshot comparisons use zero allowed differing pixels. They use the Playwright-managed Chromium revision installed from the lockfile in the ignored project-local `.cache/playwright` directory, **not** the locally auto-updating Chrome application.
 
-These reviewed images were generated on macOS arm64. Font rendering and native controls differ between operating systems. Run visual CI on a matching macOS environment, or establish and review a separate Linux baseline before enforcing it there. This is not a Safari/WebKit or Firefox compatibility claim.
+These reviewed images were generated on macOS arm64. Font rendering and native controls differ between operating systems. This is not a Safari/WebKit or Firefox compatibility claim.
 
-For an intentional design change, run the update command, inspect the actual PNG diffs and both screen sizes, and commit reviewed baselines with the change. A refactor that should preserve presentation must pass the existing images. Never use snapshot updates to clear an unexplained failure.
+### Two baselines, each authoritative for its own context
+Screenshots go through `capture()` in `tests/fixtures/app.ts`, which switches on the `ARGOS_UPLOAD` environment variable:
+
+| | Set by | Compares against | Reviewed in |
+| --- | --- | --- | --- |
+| Local | nothing; the default | the committed macOS arm64 PNGs under `tests/visual/baselines/` | `pnpm exec playwright show-report`, then `pnpm test:visual:update` |
+| CI | the `visual` job in `ci.yml` | baselines Argos generated on the same Linux runner | the Argos check on the pull request |
+
+This is why the operating-system difference above stops mattering: neither baseline set is ever compared against a machine that did not produce it. The cost is that **neither validates the other**. CI does not check the committed PNGs, and the local gate does not check Argos. A change that alters rendering will be flagged by Argos on the pull request, but the committed baselines only get updated when somebody runs the local gate.
+
+So an intentional visual change needs both: approve it in the Argos UI, and run `pnpm test:visual:update` locally and commit the reviewed images.
+
+Argos authenticates through GitHub Actions OIDC (`id-token: write` in the `visual` job), so there is no `ARGOS_TOKEN` secret to create or rotate. Running `ARGOS_UPLOAD=1 pnpm test:visual` outside CI fails at `Missing Argos repository token`, which is expected.
+
+The Argos reporter warns that the Chromium projects lack `--disable-lcd-text` and `--font-render-hinting=none`. Those are deliberately not set: they stabilise font rendering across different machines, which only matters when baselines are shared across platforms, and adding them would change local rendering and invalidate every committed PNG. Revisit only if Argos reports font flakiness.
+
+For an intentional design change, run the update command, inspect the actual PNG diffs and both screen sizes, and commit reviewed baselines with the change. Review before updating: once snapshots are updated the tests pass and the report has nothing left to show. A refactor that should preserve presentation must pass the existing images. Never use snapshot updates to clear an unexplained failure.
 
 ## Mutation scope and interpretation
 

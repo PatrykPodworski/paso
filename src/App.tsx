@@ -579,7 +579,7 @@ const App = () => {
                     </div>
                     <b>{progressPercent}%</b>
                   </div>
-                  <div className="unit-list">
+                  <div className="flex flex-col gap-3">
                     {units.slice(0, 3).map((u, i) => (
                       <UnitCard
                         key={u.id}

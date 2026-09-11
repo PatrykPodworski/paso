@@ -78,6 +78,18 @@ rather than components, so the units, lessons and exercises live under
 | `src/components/`        | Question types, exam, audio, recorder     |
 | `public/audio/`          | Generated speech and its manifest         |
 
+Styling is the hand-written `src/styles.css`. Tailwind utilities are available
+alongside it and new styling should use them; Tailwind's preflight is
+deliberately switched off, because resetting the base element styles would
+break that stylesheet and every visual baseline.
+
+Utilities are imported unlayered, so a utility class outranks the plain element
+rules at the top of `src/styles.css`. It does **not** outrank an existing class
+rule of equal or higher specificity: migrating an element to utilities means
+deleting the class rules that styled it in the same change, including any
+descendant and state selectors that target it. `tests/e2e/tailwind.spec.ts`
+guards the layering.
+
 Installs use a seven-day `minimumReleaseAge` (see `pnpm-workspace.yaml`), so a
 freshly published package version cannot land here for a week.
 

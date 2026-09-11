@@ -43,3 +43,6 @@ test-results/
 
 # Local scratch space
 temp/
+
+# Written by argosScreenshot only when the Argos reporter is not loaded
+screenshots/

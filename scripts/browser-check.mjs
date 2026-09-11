@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-file -- manual smoke check, excluded from every gate on purpose (docs/REFACTOR_TESTING.md)
 import { chromium } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { allLessons } from "../src/data/curriculum.ts";

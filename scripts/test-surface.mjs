@@ -12,6 +12,8 @@ export const sourceExcludes = [
   "src/main.tsx",
   "src/data/{curriculum,mock,research,types,vocabulary-hints}.ts",
   "src/components/{Art,Icon}.tsx",
+  // A visual-test harness with no logic; the screenshots are its coverage.
+  "src/design-system/{Gallery.tsx,sections.ts}",
 ];
 export const productionFiles = () =>
   [...globSync(sourceIncludes, { exclude: sourceExcludes })].sort();

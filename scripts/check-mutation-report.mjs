@@ -8,9 +8,8 @@ const floors = {
   "scripts/audio-budget.mjs": 95,
   "scripts/elevenlabs.mjs": 88,
   "scripts/generate-elevenlabs.mjs": 80,
-  // 79.31 and 82.76 on two runs of identical source: six to eight of this file's 58 mutants
-  // time out, and Stryker counts a timeout as detected. 68 is the score if every timeout
-  // instead survives. #15 makes the timeouts deterministic; raise this once it lands.
+  // Measures 68.97 now that timeouts are deterministic. The 79.31 and 82.76 readings that
+  // set this floor were spurious timeouts counted as kills, not tests doing their job.
   "scripts/audio-direction.mjs": 68,
 };
 const score = (mutants) => {

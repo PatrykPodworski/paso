@@ -13,9 +13,11 @@ export default {
   incrementalFile: "reports/stryker-business-incremental.json",
   jsonReporter: { fileName: "reports/mutation/business.json" },
   htmlReporter: { fileName: "reports/mutation/business.html" },
-  // break: stopgap, not a measurement. Four runs on identical source scored 79.42–80.20 because
-  // timeoutMS 2000 × concurrency 8 lets Timeout↔Survived drift with machine load and Stryker
-  // counts Timeout as detected. 79 is below the observed floor. #15 fixes the determinism and
-  // re-derives this number.
+  // timeoutMS 30000, not the default 2000: at 2000 the runner cut off slow-but-finite mutants
+  // at random, and Stryker counts a timeout as detected, so the score rose with machine load.
+  // Only 5 mutants genuinely fail to terminate, so the higher limit costs about 12s a run.
+  // break: derived from a deterministic measurement. Three runs on identical source at
+  // timeoutMS 30000 each scored 79.79, with zero spread on every per-file score. 79 leaves
+  // roughly 22 mutants of margin below that.
   thresholds: { high: 95, low: 85, break: 79 },
 };

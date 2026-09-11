@@ -29,7 +29,7 @@
     ".claude"
   ],
   "concurrency": 8,
-  "timeoutMS": 2000,
+  "timeoutMS": 30000,
   "reporters": ["clear-text", "progress", "html", "json"],
   "incremental": true,
   "thresholds": {

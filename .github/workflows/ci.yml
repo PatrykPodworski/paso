@@ -19,4 +19,22 @@ jobs:
       - run: pnpm lint
       - run: pnpm build
       - run: pnpm test
+
+  mutation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Stryker re-mutates only what changed since the restored run, so a typical pull
+      # request costs seconds. A cold cache falls back to a full run.
+      - uses: actions/cache@v4
+        with:
+          path: reports/stryker-business-incremental.json
+          key: stryker-${{ github.sha }}
+          restore-keys: stryker-
       - run: pnpm test:mutation

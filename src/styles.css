@@ -1,3 +1,13 @@
+/* Tailwind without preflight: preflight resets base element styles and would break
+   the hand-written rules below and every visual baseline.
+   Theme stays layered so the :root block below wins any token name collision.
+   Utilities are deliberately NOT layered. Normal unlayered declarations beat
+   normal layered ones whatever the specificity, so a layered utility would lose
+   to plain element rules like `button { color: inherit }` further down this file
+   and a text colour set with `text-*` would silently do nothing. Unlayered, a
+   utility class (0,1,0) outranks those element rules as intended. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
 :root {
   font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
   color: #293c34;
@@ -753,11 +763,6 @@ main {
 .path-overview .progress-track {
   flex: 1;
   height: 4px;
-}
-.unit-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 .unit-card {
   border: 1px solid var(--line);

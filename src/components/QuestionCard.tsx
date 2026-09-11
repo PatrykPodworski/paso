@@ -1,3 +1,5 @@
+import { Button } from "../design-system/Button";
+import { CONTEXT_SIZE } from "../design-system/button-context-sizes";
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
@@ -442,15 +444,15 @@ export const QuestionCard = ({
                 : "Take your time. Every mistake is a chance to learn."}
           </span>
           {!singleChoice && (
-            <button
+            <Button
               type="button"
-              className="button primary"
+              variant="primary" sizeClasses={CONTEXT_SIZE.questionFooter} className="whitespace-nowrap [@media(max-width:760px)]:w-full"
               onClick={() => submit()}
               disabled={!canSubmit}
             >
               {exam ? "Save answer" : productive ? "Review my practice" : "Check answer"}
               <Icon name="arrow" size={18} />
-            </button>
+            </Button>
           )}
         </div>
       ) : (
@@ -527,26 +529,26 @@ export const QuestionCard = ({
                     : "Keep taking those little steps."}
             </small>
             {productive && (
-              <button
+              <Button
                 type="button"
-                className="button secondary"
+                variant="secondary" sizeClasses={CONTEXT_SIZE.feedbackBottom} className="[@media(max-width:760px)]:ml-auto"
                 onClick={() => {
                   stopAudio();
                   setFeedback(false);
                 }}
               >
                 Revise my answer
-              </button>
+              </Button>
             )}
-            <button
+            <Button
               type="button"
-              className="button primary"
+              variant="primary" sizeClasses={CONTEXT_SIZE.feedbackBottom} className="[@media(max-width:760px)]:ml-auto"
               autoFocus
               onClick={() => onSubmit(submission, correct, assisted)}
             >
               Continue
               <Icon name="arrow" size={18} />
-            </button>
+            </Button>
           </div>
         </div>
       )}

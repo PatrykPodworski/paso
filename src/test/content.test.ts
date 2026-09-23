@@ -20,6 +20,8 @@ import { countWords } from "../data/progress";
 import { audioKey } from "../data/audio";
 import { audioSources } from "../data/audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
+import words from "../data/words.json";
+import examples from "../data/examples.json";
 const questions = [
   ...allQuestions,
   ...foundations,
@@ -108,6 +110,20 @@ describe("original curriculum integrity", () => {
   it("bundles every referenced scene illustration", () => {
     for (const q of questions.filter((q) => q.image)) {
       expect(existsSync(`public/illustrations/${q.image}.svg`)).toBe(true);
+    }
+  });
+});
+describe("topic vocabulary examples", () => {
+  const ids = words.flatMap((t) => t.words.map((w) => ("key" in w && w.key) || w.es));
+  it("gives every card exactly one example, keyed by card ID", () => {
+    expect(Object.keys(examples).sort()).toEqual([...ids].sort());
+  });
+  it("keeps every example a short, punctuated sentence with a translation", () => {
+    for (const { es, en } of Object.values(examples)) {
+      expect(es).toMatch(/[.?!]$/);
+      expect(es.includes("?")).toBe(es.includes("¿"));
+      expect(countWords(es)).toBeLessThanOrEqual(12);
+      expect(en.trim()).not.toBe("");
     }
   });
 });

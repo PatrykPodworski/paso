@@ -1,0 +1,3642 @@
+{
+  "hola": {
+    "es": "Hola, me llamo Lucía.",
+    "en": "Hi, my name is Lucía."
+  },
+  "adiós": {
+    "es": "Adiós, hasta mañana.",
+    "en": "Goodbye, see you tomorrow."
+  },
+  "gracias": {
+    "es": "Muchas gracias por el café.",
+    "en": "Thank you very much for the coffee."
+  },
+  "por favor": {
+    "es": "Un vaso de agua, por favor.",
+    "en": "A glass of water, please."
+  },
+  "buenos días": {
+    "es": "Buenos días, ¿qué tal?",
+    "en": "Good morning, how are you?"
+  },
+  "buenas noches": {
+    "es": "Buenas noches, mamá.",
+    "en": "Good night, Mum."
+  },
+  "hasta luego": {
+    "es": "Hasta luego, Pablo.",
+    "en": "See you later, Pablo."
+  },
+  "perdón": {
+    "es": "Perdón, ¿dónde está el baño?",
+    "en": "Excuse me, where is the toilet?"
+  },
+  "el nombre": {
+    "es": "¿Cuál es tu nombre?",
+    "en": "What is your name?"
+  },
+  "el apellido": {
+    "es": "Mi apellido es García.",
+    "en": "My surname is García."
+  },
+  "la dirección": {
+    "es": "Escribe tu dirección aquí.",
+    "en": "Write your address here."
+  },
+  "el teléfono": {
+    "es": "El teléfono está en la mesa.",
+    "en": "The telephone is on the table."
+  },
+  "veinte": {
+    "es": "Tengo veinte años.",
+    "en": "I am twenty years old."
+  },
+  "treinta": {
+    "es": "La clase tiene treinta alumnos.",
+    "en": "The class has thirty pupils."
+  },
+  "la nacionalidad": {
+    "es": "¿Cuál es tu nacionalidad?",
+    "en": "What is your nationality?"
+  },
+  "la amiga": {
+    "es": "Mi amiga vive en Sevilla.",
+    "en": "My friend lives in Seville."
+  },
+  "la mañana": {
+    "es": "Trabajo por la mañana.",
+    "en": "I work in the morning."
+  },
+  "la tarde": {
+    "es": "Por la tarde voy al parque.",
+    "en": "In the afternoon I go to the park."
+  },
+  "la noche": {
+    "es": "Leo un poco por la noche.",
+    "en": "I read a little at night."
+  },
+  "desayunar": {
+    "es": "Desayuno a las siete.",
+    "en": "I have breakfast at seven."
+  },
+  "la calle": {
+    "es": "Vivo en una calle tranquila.",
+    "en": "I live on a quiet street."
+  },
+  "la plaza": {
+    "es": "La plaza está en el centro.",
+    "en": "The square is in the centre."
+  },
+  "la farmacia": {
+    "es": "La farmacia abre a las nueve.",
+    "en": "The pharmacy opens at nine."
+  },
+  "el parque": {
+    "es": "Los niños juegan en el parque.",
+    "en": "The children play in the park."
+  },
+  "los zapatos": {
+    "es": "Mis zapatos son nuevos.",
+    "en": "My shoes are new."
+  },
+  "la talla": {
+    "es": "¿Tiene una talla más grande?",
+    "en": "Do you have a bigger size?"
+  },
+  "la tarjeta": {
+    "es": "¿Puedo pagar con tarjeta?",
+    "en": "Can I pay by card?"
+  },
+  "bailar": {
+    "es": "Me gusta bailar los sábados.",
+    "en": "I like dancing on Saturdays."
+  },
+  "la escuela": {
+    "es": "La escuela está cerca de casa.",
+    "en": "The school is near home."
+  },
+  "cansado": {
+    "es": "Hoy estoy muy cansado.",
+    "en": "I am very tired today."
+  },
+  "la pregunta": {
+    "es": "Tengo una pregunta.",
+    "en": "I have a question."
+  },
+  "la respuesta": {
+    "es": "La respuesta es correcta.",
+    "en": "The answer is correct."
+  },
+  "despacio": {
+    "es": "Habla más despacio, por favor.",
+    "en": "Speak more slowly, please."
+  },
+  "repetir": {
+    "es": "¿Puedes repetir, por favor?",
+    "en": "Can you repeat that, please?"
+  },
+  "hablar": {
+    "es": "Hablo con mi madre por teléfono.",
+    "en": "I talk to my mother on the phone."
+  },
+  "comer": {
+    "es": "Comemos a las dos.",
+    "en": "We have lunch at two."
+  },
+  "beber": {
+    "es": "¿Qué quieres beber?",
+    "en": "What do you want to drink?"
+  },
+  "leer": {
+    "es": "Leo el periódico en el tren.",
+    "en": "I read the newspaper on the train."
+  },
+  "escribir": {
+    "es": "Escribo una carta a mi abuela.",
+    "en": "I write a letter to my grandmother."
+  },
+  "trabajar": {
+    "es": "Mi hermano trabaja en un hospital.",
+    "en": "My brother works in a hospital."
+  },
+  "estudiar": {
+    "es": "Estudio en la biblioteca.",
+    "en": "I study in the library."
+  },
+  "dormir": {
+    "es": "Los niños duermen en su habitación.",
+    "en": "The children sleep in their room."
+  },
+  "correr": {
+    "es": "Corro por la playa los domingos.",
+    "en": "I run on the beach on Sundays."
+  },
+  "nadar": {
+    "es": "¿Sabes nadar?",
+    "en": "Can you swim?"
+  },
+  "cantar": {
+    "es": "Mi hija canta muy bien.",
+    "en": "My daughter sings very well."
+  },
+  "limpiar": {
+    "es": "Limpio la cocina después de comer.",
+    "en": "I clean the kitchen after lunch."
+  },
+  "jugar": {
+    "es": "Los niños juegan en la calle.",
+    "en": "The children play in the street."
+  },
+  "ver": {
+    "es": "Vemos una película en casa.",
+    "en": "We watch a film at home."
+  },
+  "oír": {
+    "es": "No oigo nada.",
+    "en": "I can't hear anything."
+  },
+  "comprar": {
+    "es": "Quiero comprar un regalo.",
+    "en": "I want to buy a present."
+  },
+  "vender": {
+    "es": "Mi vecino vende su piso.",
+    "en": "My neighbour is selling his flat."
+  },
+  "entender": {
+    "es": "No entiendo la pregunta.",
+    "en": "I don't understand the question."
+  },
+  "pensar": {
+    "es": "¿Qué piensas del libro?",
+    "en": "What do you think of the book?"
+  },
+  "amar": {
+    "es": "Los padres aman a sus hijos.",
+    "en": "Parents love their children."
+  },
+  "odiar": {
+    "es": "Odio el frío.",
+    "en": "I hate the cold."
+  },
+  "viajar": {
+    "es": "Me gusta viajar en tren.",
+    "en": "I like travelling by train."
+  },
+  "pedir": {
+    "es": "Pido la cuenta al camarero.",
+    "en": "I ask the waiter for the bill."
+  },
+  "reír": {
+    "es": "Mi abuelo se ríe mucho.",
+    "en": "My grandfather laughs a lot."
+  },
+  "llorar": {
+    "es": "El bebé llora por la noche.",
+    "en": "The baby cries at night."
+  },
+  "hacer": {
+    "es": "¿Qué haces esta tarde?",
+    "en": "What are you doing this afternoon?"
+  },
+  "bueno/a": {
+    "es": "Es una buena idea.",
+    "en": "It is a good idea."
+  },
+  "malo/a": {
+    "es": "Esta película es muy mala.",
+    "en": "This film is very bad."
+  },
+  "grande": {
+    "es": "Mi ciudad es muy grande.",
+    "en": "My city is very big."
+  },
+  "pequeño/a": {
+    "es": "Tengo un perro pequeño.",
+    "en": "I have a small dog."
+  },
+  "hermoso/a": {
+    "es": "Sevilla es una ciudad hermosa.",
+    "en": "Seville is a beautiful city."
+  },
+  "feo/a": {
+    "es": "Este jersey es un poco feo.",
+    "en": "This jumper is a bit ugly."
+  },
+  "nuevo/a": {
+    "es": "Mi teléfono es nuevo.",
+    "en": "My phone is new."
+  },
+  "antiguo/a": {
+    "es": "Vivo en un edificio antiguo.",
+    "en": "I live in an old building."
+  },
+  "fácil": {
+    "es": "El español no es difícil, es fácil.",
+    "en": "Spanish isn't difficult, it's easy."
+  },
+  "difícil": {
+    "es": "El examen es difícil.",
+    "en": "The exam is difficult."
+  },
+  "rápido/a": {
+    "es": "El tren es muy rápido.",
+    "en": "The train is very fast."
+  },
+  "triste": {
+    "es": "Mi amiga está triste hoy.",
+    "en": "My friend is sad today."
+  },
+  "rico/a": {
+    "es": "La paella está muy rica.",
+    "en": "The paella is very tasty."
+  },
+  "rico/a (rich)": {
+    "es": "Su familia es muy rica.",
+    "en": "His family is very rich."
+  },
+  "pobre": {
+    "es": "Es un barrio pobre.",
+    "en": "It is a poor neighbourhood."
+  },
+  "amable": {
+    "es": "El camarero es muy amable.",
+    "en": "The waiter is very kind."
+  },
+  "grosero/a": {
+    "es": "Ese chico es muy grosero.",
+    "en": "That boy is very rude."
+  },
+  "limpio/a": {
+    "es": "La habitación está limpia.",
+    "en": "The room is clean."
+  },
+  "sucio/a": {
+    "es": "El coche está sucio.",
+    "en": "The car is dirty."
+  },
+  "alto/a": {
+    "es": "Mi padre es alto.",
+    "en": "My father is tall."
+  },
+  "bajo/a": {
+    "es": "Mi hermana es baja.",
+    "en": "My sister is short."
+  },
+  "fuerte": {
+    "es": "El café está muy fuerte.",
+    "en": "The coffee is very strong."
+  },
+  "débil": {
+    "es": "Estoy débil después de la gripe.",
+    "en": "I am weak after the flu."
+  },
+  "gordo/a": {
+    "es": "Mi gato es muy gordo.",
+    "en": "My cat is very fat."
+  },
+  "delgado/a": {
+    "es": "Mi hermano es alto y delgado.",
+    "en": "My brother is tall and thin."
+  },
+  "caliente": {
+    "es": "La sopa está caliente.",
+    "en": "The soup is hot."
+  },
+  "frío/a": {
+    "es": "El agua del río está fría.",
+    "en": "The river water is cold."
+  },
+  "siempre": {
+    "es": "Siempre desayuno en casa.",
+    "en": "I always have breakfast at home."
+  },
+  "nunca": {
+    "es": "Nunca como carne.",
+    "en": "I never eat meat."
+  },
+  "a menudo": {
+    "es": "A menudo como con mis padres.",
+    "en": "I often have lunch with my parents."
+  },
+  "a veces": {
+    "es": "A veces voy al trabajo en bici.",
+    "en": "Sometimes I go to work by bike."
+  },
+  "rara vez": {
+    "es": "Rara vez veo la televisión.",
+    "en": "I rarely watch television."
+  },
+  "todavía": {
+    "es": "Todavía vivo con mis padres.",
+    "en": "I still live with my parents."
+  },
+  "ya": {
+    "es": "Ya son las diez.",
+    "en": "It's already ten o'clock."
+  },
+  "casi": {
+    "es": "Son casi las ocho.",
+    "en": "It's almost eight o'clock."
+  },
+  "de vez en cuando": {
+    "es": "De vez en cuando como en un restaurante.",
+    "en": "From time to time I eat in a restaurant."
+  },
+  "generalmente": {
+    "es": "Generalmente trabajo desde casa.",
+    "en": "I generally work from home."
+  },
+  "normalmente": {
+    "es": "Normalmente ceno a las nueve.",
+    "en": "I normally have dinner at nine."
+  },
+  "diariamente": {
+    "es": "Leo las noticias diariamente.",
+    "en": "I read the news daily."
+  },
+  "semanalmente": {
+    "es": "Limpio la casa semanalmente.",
+    "en": "I clean the house weekly."
+  },
+  "anualmente": {
+    "es": "La fiesta se celebra anualmente.",
+    "en": "The festival is held yearly."
+  },
+  "pocas veces": {
+    "es": "Pocas veces llego tarde.",
+    "en": "I am seldom late."
+  },
+  "usualmente": {
+    "es": "Usualmente tomo el metro.",
+    "en": "I usually take the metro."
+  },
+  "constantemente": {
+    "es": "Mi perro come constantemente.",
+    "en": "My dog eats constantly."
+  },
+  "a diario": {
+    "es": "Hablo español a diario.",
+    "en": "I speak Spanish every day."
+  },
+  "inmediatamente": {
+    "es": "Ven aquí inmediatamente.",
+    "en": "Come here immediately."
+  },
+  "finalmente": {
+    "es": "Finalmente llega el autobús.",
+    "en": "Finally the bus arrives."
+  },
+  "mensualmente": {
+    "es": "Pago el alquiler mensualmente.",
+    "en": "I pay the rent monthly."
+  },
+  "tarde": {
+    "es": "El tren llega tarde.",
+    "en": "The train arrives late."
+  },
+  "temprano": {
+    "es": "Mañana salgo temprano.",
+    "en": "Tomorrow I leave early."
+  },
+  "antes": {
+    "es": "Antes de comer, me lavo las manos.",
+    "en": "Before eating, I wash my hands."
+  },
+  "después": {
+    "es": "Después de clase, voy a casa.",
+    "en": "After class, I go home."
+  },
+  "rojo": {
+    "es": "Tengo un coche rojo.",
+    "en": "I have a red car."
+  },
+  "azul": {
+    "es": "El cielo está azul.",
+    "en": "The sky is blue."
+  },
+  "amarillo": {
+    "es": "El plátano es amarillo.",
+    "en": "The banana is yellow."
+  },
+  "blanco": {
+    "es": "Mi coche es blanco.",
+    "en": "My car is white."
+  },
+  "gris": {
+    "es": "Hoy el cielo está gris.",
+    "en": "Today the sky is grey."
+  },
+  "verde": {
+    "es": "Mi casa tiene una puerta verde.",
+    "en": "My house has a green door."
+  },
+  "negro": {
+    "es": "Mi gato es negro.",
+    "en": "My cat is black."
+  },
+  "marrón": {
+    "es": "Tengo los ojos marrones.",
+    "en": "I have brown eyes."
+  },
+  "naranja": {
+    "es": "Mi mochila es naranja.",
+    "en": "My backpack is orange."
+  },
+  "púrpura": {
+    "es": "Lleva un vestido púrpura.",
+    "en": "She is wearing a purple dress."
+  },
+  "plateado": {
+    "es": "Tengo un coche plateado.",
+    "en": "I have a silver car."
+  },
+  "beige": {
+    "es": "El sofá es beige.",
+    "en": "The sofa is beige."
+  },
+  "dorado": {
+    "es": "Llevo un reloj dorado.",
+    "en": "I'm wearing a gold watch."
+  },
+  "turquesa": {
+    "es": "El mar es de color turquesa.",
+    "en": "The sea is turquoise."
+  },
+  "coral": {
+    "es": "Compro una falda de color coral.",
+    "en": "I'm buying a coral skirt."
+  },
+  "granate": {
+    "es": "Mi jersey es granate.",
+    "en": "My jumper is maroon."
+  },
+  "el pan": {
+    "es": "Compro pan todos los días.",
+    "en": "I buy bread every day."
+  },
+  "la leche": {
+    "es": "¿Quieres leche en el café?",
+    "en": "Do you want milk in your coffee?"
+  },
+  "el queso": {
+    "es": "Me gusta el queso manchego.",
+    "en": "I like Manchego cheese."
+  },
+  "el arroz": {
+    "es": "La paella lleva arroz.",
+    "en": "Paella has rice in it."
+  },
+  "los huevos": {
+    "es": "Necesito seis huevos.",
+    "en": "I need six eggs."
+  },
+  "la mantequilla": {
+    "es": "Tomo pan con mantequilla.",
+    "en": "I have bread and butter."
+  },
+  "el aceite": {
+    "es": "En España usamos mucho aceite de oliva.",
+    "en": "In Spain we use a lot of olive oil."
+  },
+  "la sal": {
+    "es": "La sopa necesita sal.",
+    "en": "The soup needs salt."
+  },
+  "la pimienta": {
+    "es": "¿Me pasas la pimienta?",
+    "en": "Can you pass me the pepper?"
+  },
+  "el azúcar": {
+    "es": "Tomo el café sin azúcar.",
+    "en": "I have my coffee without sugar."
+  },
+  "el yogur": {
+    "es": "Como un yogur de postre.",
+    "en": "I have a yoghurt for dessert."
+  },
+  "las legumbres": {
+    "es": "Como legumbres dos veces por semana.",
+    "en": "I eat pulses twice a week."
+  },
+  "las nueces": {
+    "es": "Me gustan las nueces en la ensalada.",
+    "en": "I like walnuts in salad."
+  },
+  "la miel": {
+    "es": "Tomo leche con miel.",
+    "en": "I have milk with honey."
+  },
+  "el tofu": {
+    "es": "Mi hermana come tofu con verduras.",
+    "en": "My sister eats tofu with vegetables."
+  },
+  "la manzana": {
+    "es": "Como una manzana en el trabajo.",
+    "en": "I eat an apple at work."
+  },
+  "el plátano": {
+    "es": "Mi hijo come un plátano cada día.",
+    "en": "My son eats a banana every day."
+  },
+  "la naranja": {
+    "es": "Las naranjas de Valencia son famosas.",
+    "en": "Oranges from Valencia are famous."
+  },
+  "la fresa": {
+    "es": "Me encantan las fresas con nata.",
+    "en": "I love strawberries with cream."
+  },
+  "el limón": {
+    "es": "Un té con limón, por favor.",
+    "en": "A tea with lemon, please."
+  },
+  "la cereza": {
+    "es": "Las cerezas están muy dulces.",
+    "en": "The cherries are very sweet."
+  },
+  "el melocotón": {
+    "es": "Compro un kilo de melocotones.",
+    "en": "I buy a kilo of peaches."
+  },
+  "la pera": {
+    "es": "Esta pera está muy dura.",
+    "en": "This pear is very hard."
+  },
+  "la piña": {
+    "es": "La piña tiene mucha vitamina C.",
+    "en": "Pineapple has a lot of vitamin C."
+  },
+  "el kiwi": {
+    "es": "Desayuno un kiwi y un yogur.",
+    "en": "I have a kiwi and a yoghurt for breakfast."
+  },
+  "la frambuesa": {
+    "es": "Hay frambuesas en el jardín.",
+    "en": "There are raspberries in the garden."
+  },
+  "el mango": {
+    "es": "Este mango viene de Málaga.",
+    "en": "This mango comes from Málaga."
+  },
+  "la papaya": {
+    "es": "Nunca como papaya.",
+    "en": "I never eat papaya."
+  },
+  "el albaricoque": {
+    "es": "Hago mermelada de albaricoque.",
+    "en": "I make apricot jam."
+  },
+  "el melón": {
+    "es": "En verano como mucho melón.",
+    "en": "In summer I eat a lot of melon."
+  },
+  "la uva": {
+    "es": "En Nochevieja comemos doce uvas.",
+    "en": "On New Year's Eve we eat twelve grapes."
+  },
+  "la granada": {
+    "es": "La granada tiene muchas semillas.",
+    "en": "A pomegranate has lots of seeds."
+  },
+  "el coco": {
+    "es": "El agua de coco es muy buena.",
+    "en": "Coconut water is very good."
+  },
+  "la aceituna": {
+    "es": "Pedimos aceitunas con la cerveza.",
+    "en": "We order olives with the beer."
+  },
+  "el aguacate": {
+    "es": "Tomo tostadas con aguacate.",
+    "en": "I have toast with avocado."
+  },
+  "la ciruela": {
+    "es": "Hay ciruelas en la nevera.",
+    "en": "There are plums in the fridge."
+  },
+  "la grosella": {
+    "es": "Hago un zumo de grosellas.",
+    "en": "I make currant juice."
+  },
+  "el higo": {
+    "es": "Mi abuela tiene higos en el jardín.",
+    "en": "My grandmother has figs in her garden."
+  },
+  "la zanahoria": {
+    "es": "Compro zanahorias para la sopa.",
+    "en": "I buy carrots for the soup."
+  },
+  "el tomate": {
+    "es": "Compro tomates para la ensalada.",
+    "en": "I buy tomatoes for the salad."
+  },
+  "la cebolla": {
+    "es": "La tortilla lleva cebolla.",
+    "en": "The omelette has onion in it."
+  },
+  "la lechuga": {
+    "es": "Lavo la lechuga con agua fría.",
+    "en": "I wash the lettuce in cold water."
+  },
+  "el pepino": {
+    "es": "El gazpacho lleva pepino.",
+    "en": "Gazpacho has cucumber in it."
+  },
+  "la patata": {
+    "es": "Hago una tortilla de patatas.",
+    "en": "I'm making a potato omelette."
+  },
+  "el ajo": {
+    "es": "No me gusta el ajo.",
+    "en": "I don't like garlic."
+  },
+  "la berenjena": {
+    "es": "Cocino berenjenas al horno.",
+    "en": "I bake aubergines in the oven."
+  },
+  "la calabaza": {
+    "es": "Hago crema de calabaza.",
+    "en": "I make pumpkin soup."
+  },
+  "el maíz": {
+    "es": "Pongo maíz en la ensalada.",
+    "en": "I put sweetcorn in the salad."
+  },
+  "la espinaca": {
+    "es": "Mi hijo no come espinacas.",
+    "en": "My son doesn't eat spinach."
+  },
+  "el pimiento": {
+    "es": "Compro un pimiento rojo.",
+    "en": "I buy a red pepper."
+  },
+  "el guisante": {
+    "es": "Hay guisantes en el arroz.",
+    "en": "There are peas in the rice."
+  },
+  "la col": {
+    "es": "La sopa lleva col y patatas.",
+    "en": "The soup has cabbage and potatoes."
+  },
+  "el calabacín": {
+    "es": "Cocino calabacín con queso.",
+    "en": "I cook courgette with cheese."
+  },
+  "la alcachofa": {
+    "es": "En primavera comemos alcachofas.",
+    "en": "In spring we eat artichokes."
+  },
+  "el rábano": {
+    "es": "Pongo rábanos en el plato.",
+    "en": "I put radishes on the plate."
+  },
+  "el apio": {
+    "es": "Pongo apio en la sopa.",
+    "en": "I put celery in the soup."
+  },
+  "la remolacha": {
+    "es": "La remolacha es de color morado.",
+    "en": "Beetroot is purple."
+  },
+  "el puerro": {
+    "es": "Hago sopa de puerros.",
+    "en": "I make leek soup."
+  },
+  "la seta": {
+    "es": "En otoño buscamos setas.",
+    "en": "In autumn we look for mushrooms."
+  },
+  "la carne": {
+    "es": "No como mucha carne.",
+    "en": "I don't eat a lot of meat."
+  },
+  "el pollo": {
+    "es": "Hoy cenamos pollo con patatas.",
+    "en": "Today we have chicken and potatoes for dinner."
+  },
+  "el pavo": {
+    "es": "Compro pavo para los bocadillos.",
+    "en": "I buy turkey for the sandwiches."
+  },
+  "el pato": {
+    "es": "En este restaurante hay pato.",
+    "en": "This restaurant has duck."
+  },
+  "el conejo": {
+    "es": "La paella valenciana lleva conejo.",
+    "en": "Valencian paella has rabbit in it."
+  },
+  "el jamón": {
+    "es": "Quiero un bocadillo de jamón.",
+    "en": "I'd like a ham sandwich."
+  },
+  "el salchichón": {
+    "es": "Compro salchichón para la cena.",
+    "en": "I buy salami for dinner."
+  },
+  "el tocino, el beicon": {
+    "es": "Desayuno huevos con beicon.",
+    "en": "I have eggs and bacon for breakfast."
+  },
+  "el cerdo": {
+    "es": "No como cerdo.",
+    "en": "I don't eat pork."
+  },
+  "el cordero": {
+    "es": "El cordero está en el horno.",
+    "en": "The lamb is in the oven."
+  },
+  "el pescado": {
+    "es": "Comemos pescado los viernes.",
+    "en": "We eat fish on Fridays."
+  },
+  "el salmón": {
+    "es": "El salmón está muy rico.",
+    "en": "The salmon is very tasty."
+  },
+  "la sardina": {
+    "es": "En verano comemos sardinas en la playa.",
+    "en": "In summer we eat sardines on the beach."
+  },
+  "el arenque": {
+    "es": "Mi padre come arenque con cebolla.",
+    "en": "My father eats herring with onion."
+  },
+  "la trucha": {
+    "es": "Pido una trucha con ensalada.",
+    "en": "I order a trout with salad."
+  },
+  "el atún": {
+    "es": "Hago una ensalada con atún.",
+    "en": "I make a salad with tuna."
+  },
+  "el bacalao": {
+    "es": "En Portugal comen mucho bacalao.",
+    "en": "In Portugal they eat a lot of cod."
+  },
+  "el calamar": {
+    "es": "Pedimos un bocadillo de calamares.",
+    "en": "We order a squid sandwich."
+  },
+  "el cangrejo": {
+    "es": "Hay cangrejos en las rocas.",
+    "en": "There are crabs on the rocks."
+  },
+  "la langosta": {
+    "es": "La langosta es muy cara.",
+    "en": "Lobster is very expensive."
+  },
+  "el chocolate": {
+    "es": "Me encanta el chocolate negro.",
+    "en": "I love dark chocolate."
+  },
+  "el pastel": {
+    "es": "Hay un pastel en la mesa.",
+    "en": "There is a cake on the table."
+  },
+  "la galleta": {
+    "es": "Mi hijo come galletas con leche.",
+    "en": "My son eats biscuits with milk."
+  },
+  "el caramelo": {
+    "es": "El niño quiere un caramelo.",
+    "en": "The boy wants a sweet."
+  },
+  "el helado": {
+    "es": "Quiero un helado de vainilla.",
+    "en": "I want a vanilla ice cream."
+  },
+  "el bombón": {
+    "es": "Te regalo una caja de bombones.",
+    "en": "I'm giving you a box of chocolates."
+  },
+  "el donut": {
+    "es": "Tomo un café y un donut.",
+    "en": "I have a coffee and a doughnut."
+  },
+  "la tarta": {
+    "es": "Hago una tarta para tu cumpleaños.",
+    "en": "I'm making a cake for your birthday."
+  },
+  "el bizcocho": {
+    "es": "Mi abuela hace un bizcocho de limón.",
+    "en": "My grandmother makes a lemon sponge cake."
+  },
+  "el churro": {
+    "es": "Los domingos desayunamos churros.",
+    "en": "On Sundays we have churros for breakfast."
+  },
+  "el brownie": {
+    "es": "De postre hay brownie con helado.",
+    "en": "For dessert there is brownie with ice cream."
+  },
+  "el croissant": {
+    "es": "Pido un café con leche y un croissant.",
+    "en": "I order a white coffee and a croissant."
+  },
+  "el agua": {
+    "es": "¿Tiene agua sin gas?",
+    "en": "Do you have still water?"
+  },
+  "el café": {
+    "es": "Tomo un café después de comer.",
+    "en": "I have a coffee after lunch."
+  },
+  "el té": {
+    "es": "Por la tarde tomo té verde.",
+    "en": "In the afternoon I drink green tea."
+  },
+  "la cerveza": {
+    "es": "Dos cervezas, por favor.",
+    "en": "Two beers, please."
+  },
+  "el vino": {
+    "es": "Con la cena tomo una copa de vino.",
+    "en": "I have a glass of wine with dinner."
+  },
+  "el refresco": {
+    "es": "Los niños quieren un refresco.",
+    "en": "The children want a soft drink."
+  },
+  "el batido": {
+    "es": "Pido un batido de chocolate.",
+    "en": "I order a chocolate milkshake."
+  },
+  "el zumo": {
+    "es": "Desayuno un zumo de naranja.",
+    "en": "I have an orange juice for breakfast."
+  },
+  "la limonada": {
+    "es": "En verano hago limonada en casa.",
+    "en": "In summer I make lemonade at home."
+  },
+  "el chocolate caliente": {
+    "es": "Tomamos churros con chocolate caliente.",
+    "en": "We have churros with hot chocolate."
+  },
+  "la infusión": {
+    "es": "Antes de dormir tomo una infusión.",
+    "en": "Before bed I have a herbal tea."
+  },
+  "la cocina": {
+    "es": "Mi cocina es pequeña.",
+    "en": "My kitchen is small."
+  },
+  "el horno": {
+    "es": "La pizza está en el horno.",
+    "en": "The pizza is in the oven."
+  },
+  "la nevera": {
+    "es": "No hay leche en la nevera.",
+    "en": "There is no milk in the fridge."
+  },
+  "el congelador": {
+    "es": "Hay helado en el congelador.",
+    "en": "There is ice cream in the freezer."
+  },
+  "el microondas": {
+    "es": "Caliento la leche en el microondas.",
+    "en": "I heat the milk in the microwave."
+  },
+  "la cafetera": {
+    "es": "La cafetera está en la cocina.",
+    "en": "The coffee maker is in the kitchen."
+  },
+  "la tetera": {
+    "es": "La tetera es de mi abuela.",
+    "en": "The teapot is my grandmother's."
+  },
+  "el lavavajillas": {
+    "es": "Pongo los platos en el lavavajillas.",
+    "en": "I put the plates in the dishwasher."
+  },
+  "el cuchillo": {
+    "es": "Necesito un cuchillo para el pan.",
+    "en": "I need a knife for the bread."
+  },
+  "el tenedor": {
+    "es": "Falta un tenedor en la mesa.",
+    "en": "There is a fork missing on the table."
+  },
+  "la cuchara": {
+    "es": "¿Me das una cuchara para la sopa?",
+    "en": "Can you give me a spoon for the soup?"
+  },
+  "el vaso": {
+    "es": "Pongo los vasos en la mesa.",
+    "en": "I put the glasses on the table."
+  },
+  "la sartén": {
+    "es": "La sartén está muy caliente.",
+    "en": "The frying pan is very hot."
+  },
+  "la olla": {
+    "es": "Hay sopa en la olla.",
+    "en": "There is soup in the pot."
+  },
+  "el colador": {
+    "es": "Paso la pasta por el colador.",
+    "en": "I drain the pasta in the colander."
+  },
+  "la batidora": {
+    "es": "Hago un batido con la batidora.",
+    "en": "I make a smoothie with the blender."
+  },
+  "la tabla de cortar": {
+    "es": "Corto el pan en la tabla de cortar.",
+    "en": "I cut the bread on the chopping board."
+  },
+  "el rallador": {
+    "es": "¿Dónde está el rallador?",
+    "en": "Where is the grater?"
+  },
+  "el abrelatas": {
+    "es": "Necesito el abrelatas para el atún.",
+    "en": "I need the tin opener for the tuna."
+  },
+  "la jarra": {
+    "es": "Una jarra de agua, por favor.",
+    "en": "A jug of water, please."
+  },
+  "la cesta": {
+    "es": "Pongo la fruta en la cesta.",
+    "en": "I put the fruit in the basket."
+  },
+  "el hervidor": {
+    "es": "El hervidor es nuevo.",
+    "en": "The kettle is new."
+  },
+  "el pimentero": {
+    "es": "El pimentero está vacío.",
+    "en": "The pepper pot is empty."
+  },
+  "la bandeja": {
+    "es": "Llevo los cafés en una bandeja.",
+    "en": "I carry the coffees on a tray."
+  },
+  "la casa": {
+    "es": "Mi casa tiene tres habitaciones.",
+    "en": "My house has three bedrooms."
+  },
+  "el piso": {
+    "es": "Vivo en un piso en el centro.",
+    "en": "I live in a flat in the centre."
+  },
+  "la habitación": {
+    "es": "Mi habitación es pequeña pero bonita.",
+    "en": "My room is small but nice."
+  },
+  "el baño": {
+    "es": "El baño está al final del pasillo.",
+    "en": "The bathroom is at the end of the corridor."
+  },
+  "el salón": {
+    "es": "El sofá está en el salón.",
+    "en": "The sofa is in the living room."
+  },
+  "el dormitorio": {
+    "es": "Mi dormitorio tiene una ventana grande.",
+    "en": "My bedroom has a big window."
+  },
+  "la cama": {
+    "es": "Me voy a la cama a las once.",
+    "en": "I go to bed at eleven."
+  },
+  "el sofá": {
+    "es": "Mi gato duerme en el sofá.",
+    "en": "My cat sleeps on the sofa."
+  },
+  "la mesa": {
+    "es": "La comida está en la mesa.",
+    "en": "The food is on the table."
+  },
+  "la silla": {
+    "es": "Hay cuatro sillas en la cocina.",
+    "en": "There are four chairs in the kitchen."
+  },
+  "la ventana": {
+    "es": "Abro la ventana por la mañana.",
+    "en": "I open the window in the morning."
+  },
+  "la puerta": {
+    "es": "Cierra la puerta, por favor.",
+    "en": "Close the door, please."
+  },
+  "el televisor": {
+    "es": "Tenemos un televisor nuevo.",
+    "en": "We have a new television set."
+  },
+  "la lámpara": {
+    "es": "La lámpara está al lado de la cama.",
+    "en": "The lamp is next to the bed."
+  },
+  "el ordenador": {
+    "es": "Trabajo con el ordenador todo el día.",
+    "en": "I work on the computer all day."
+  },
+  "la ducha": {
+    "es": "Me doy una ducha por la mañana.",
+    "en": "I have a shower in the morning."
+  },
+  "el lavabo": {
+    "es": "El jabón está en el lavabo.",
+    "en": "The soap is on the washbasin."
+  },
+  "el espejo": {
+    "es": "Hay un espejo en el baño.",
+    "en": "There is a mirror in the bathroom."
+  },
+  "el escritorio": {
+    "es": "Mi escritorio está al lado de la ventana.",
+    "en": "My desk is next to the window."
+  },
+  "la alfombra": {
+    "es": "El perro duerme en la alfombra.",
+    "en": "The dog sleeps on the rug."
+  },
+  "el cuadro": {
+    "es": "Hay un cuadro bonito en el salón.",
+    "en": "There is a nice painting in the living room."
+  },
+  "la almohada": {
+    "es": "Necesito otra almohada.",
+    "en": "I need another pillow."
+  },
+  "la manta": {
+    "es": "En invierno duermo con dos mantas.",
+    "en": "In winter I sleep with two blankets."
+  },
+  "la chimenea": {
+    "es": "En Navidad encendemos la chimenea.",
+    "en": "At Christmas we light the fire in the fireplace."
+  },
+  "el jardín": {
+    "es": "Mis padres tienen un jardín con flores.",
+    "en": "My parents have a garden with flowers."
+  },
+  "la escalera": {
+    "es": "Subo por la escalera, no en el ascensor.",
+    "en": "I take the stairs, not the lift."
+  },
+  "el techo": {
+    "es": "Esta habitación tiene el techo alto.",
+    "en": "This room has a high ceiling."
+  },
+  "el sótano": {
+    "es": "Las bicicletas están en el sótano.",
+    "en": "The bikes are in the basement."
+  },
+  "el garaje": {
+    "es": "Mi casa no tiene garaje.",
+    "en": "My house doesn't have a garage."
+  },
+  "el balcón": {
+    "es": "Desayuno en el balcón en verano.",
+    "en": "I have breakfast on the balcony in summer."
+  },
+  "el pasillo": {
+    "es": "El pasillo es largo y estrecho.",
+    "en": "The corridor is long and narrow."
+  },
+  "el despertador": {
+    "es": "Mi despertador suena a las seis.",
+    "en": "My alarm clock goes off at six."
+  },
+  "la bañera": {
+    "es": "Los niños juegan en la bañera.",
+    "en": "The children play in the bathtub."
+  },
+  "en": {
+    "es": "Mis padres están en casa.",
+    "en": "My parents are at home."
+  },
+  "encima de": {
+    "es": "Las llaves están encima de la mesa.",
+    "en": "The keys are on top of the table."
+  },
+  "debajo de": {
+    "es": "El gato está debajo de la cama.",
+    "en": "The cat is under the bed."
+  },
+  "delante de": {
+    "es": "Te espero delante del cine.",
+    "en": "I'll wait for you in front of the cinema."
+  },
+  "detrás de": {
+    "es": "El jardín está detrás de la casa.",
+    "en": "The garden is behind the house."
+  },
+  "al lado de": {
+    "es": "La farmacia está al lado del banco.",
+    "en": "The pharmacy is next to the bank."
+  },
+  "entre": {
+    "es": "El baño está entre las dos habitaciones.",
+    "en": "The bathroom is between the two bedrooms."
+  },
+  "cerca de": {
+    "es": "Mi trabajo está cerca de mi casa.",
+    "en": "My work is near my house."
+  },
+  "lejos de": {
+    "es": "El aeropuerto está lejos de la ciudad.",
+    "en": "The airport is far from the city."
+  },
+  "dentro de": {
+    "es": "Tu móvil está dentro del bolso.",
+    "en": "Your mobile is inside the bag."
+  },
+  "fuera de": {
+    "es": "Los niños juegan fuera de casa.",
+    "en": "The children play outside the house."
+  },
+  "enfrente de": {
+    "es": "El hotel está enfrente de la estación.",
+    "en": "The hotel is opposite the station."
+  },
+  "alrededor de": {
+    "es": "Hay árboles alrededor de la casa.",
+    "en": "There are trees around the house."
+  },
+  "en medio de": {
+    "es": "La fuente está en medio de la plaza.",
+    "en": "The fountain is in the middle of the square."
+  },
+  "sorprendido/a": {
+    "es": "Estoy sorprendido con la noticia.",
+    "en": "I'm surprised by the news."
+  },
+  "contento": {
+    "es": "Estoy contento con mi nuevo trabajo.",
+    "en": "I'm happy with my new job."
+  },
+  "satisfecho/a": {
+    "es": "El cliente está satisfecho.",
+    "en": "The customer is satisfied."
+  },
+  "lleno/a de alegría": {
+    "es": "La casa está llena de alegría.",
+    "en": "The house is full of joy."
+  },
+  "encantado/a": {
+    "es": "Encantado de conocerte.",
+    "en": "Pleased to meet you."
+  },
+  "preocupado/a": {
+    "es": "Mi madre está preocupada por mí.",
+    "en": "My mother is worried about me."
+  },
+  "irritado/a": {
+    "es": "El profesor está irritado hoy.",
+    "en": "The teacher is irritated today."
+  },
+  "enfadado/a": {
+    "es": "¿Por qué estás enfadado?",
+    "en": "Why are you angry?"
+  },
+  "deprimido/a": {
+    "es": "Mi amigo está deprimido.",
+    "en": "My friend is depressed."
+  },
+  "decepcionado/a": {
+    "es": "Estoy decepcionado con el hotel.",
+    "en": "I'm disappointed with the hotel."
+  },
+  "desanimado/a": {
+    "es": "Hoy estoy un poco desanimada.",
+    "en": "Today I'm a bit discouraged."
+  },
+  "aplastado/a": {
+    "es": "Me siento aplastado por tanto trabajo.",
+    "en": "I feel crushed by so much work."
+  },
+  "descontento/a": {
+    "es": "Los trabajadores están descontentos.",
+    "en": "The workers are unhappy."
+  },
+  "relajado/a": {
+    "es": "En vacaciones estoy muy relajado.",
+    "en": "On holiday I'm very relaxed."
+  },
+  "sereno/a": {
+    "es": "Mi madre siempre está serena.",
+    "en": "My mother is always calm."
+  },
+  "asustado/a": {
+    "es": "El perro está asustado.",
+    "en": "The dog is scared."
+  },
+  "apático/a": {
+    "es": "Mi hijo está apático y no sale.",
+    "en": "My son is apathetic and doesn't go out."
+  },
+  "aterrado/a": {
+    "es": "Estoy aterrada en el avión.",
+    "en": "I'm terrified on the plane."
+  },
+  "la cabeza": {
+    "es": "Me duele mucho la cabeza.",
+    "en": "I have a bad headache."
+  },
+  "el ojo": {
+    "es": "Tengo algo en el ojo derecho.",
+    "en": "I have something in my right eye."
+  },
+  "la oreja": {
+    "es": "El perro tiene las orejas largas.",
+    "en": "The dog has long ears."
+  },
+  "la nariz": {
+    "es": "Tengo la nariz roja.",
+    "en": "My nose is red."
+  },
+  "la boca": {
+    "es": "Abre la boca, por favor.",
+    "en": "Open your mouth, please."
+  },
+  "el brazo": {
+    "es": "Me duele el brazo izquierdo.",
+    "en": "My left arm hurts."
+  },
+  "la mano": {
+    "es": "Me lavo las manos antes de comer.",
+    "en": "I wash my hands before eating."
+  },
+  "el dedo": {
+    "es": "Tengo un anillo en el dedo.",
+    "en": "I have a ring on my finger."
+  },
+  "el pecho": {
+    "es": "Tengo un dolor en el pecho.",
+    "en": "I have a pain in my chest."
+  },
+  "el estómago": {
+    "es": "Me duele el estómago.",
+    "en": "My stomach hurts."
+  },
+  "la espalda": {
+    "es": "Tengo dolor de espalda.",
+    "en": "I have backache."
+  },
+  "la rodilla": {
+    "es": "Me duele la rodilla al correr.",
+    "en": "My knee hurts when I run."
+  },
+  "el codo": {
+    "es": "Me duele el codo.",
+    "en": "My elbow hurts."
+  },
+  "el hombro": {
+    "es": "Llevo la mochila en un hombro.",
+    "en": "I carry my backpack on one shoulder."
+  },
+  "el cuello": {
+    "es": "Llevo una bufanda en el cuello.",
+    "en": "I wear a scarf around my neck."
+  },
+  "la piel": {
+    "es": "Tengo la piel muy blanca.",
+    "en": "I have very pale skin."
+  },
+  "el hueso": {
+    "es": "El perro come un hueso.",
+    "en": "The dog eats a bone."
+  },
+  "el músculo": {
+    "es": "Me duelen los músculos de las piernas.",
+    "en": "My leg muscles hurt."
+  },
+  "el pelo": {
+    "es": "Mi hermana tiene el pelo largo.",
+    "en": "My sister has long hair."
+  },
+  "el corazón": {
+    "es": "El corazón es un músculo.",
+    "en": "The heart is a muscle."
+  },
+  "los dientes": {
+    "es": "Me lavo los dientes tres veces al día.",
+    "en": "I brush my teeth three times a day."
+  },
+  "los ojos": {
+    "es": "Mi hija tiene los ojos verdes.",
+    "en": "My daughter has green eyes."
+  },
+  "las orejas": {
+    "es": "El conejo tiene las orejas grandes.",
+    "en": "The rabbit has big ears."
+  },
+  "la cara": {
+    "es": "Me lavo la cara con agua fría.",
+    "en": "I wash my face with cold water."
+  },
+  "el labio": {
+    "es": "Tengo el labio seco.",
+    "en": "My lip is dry."
+  },
+  "las cejas": {
+    "es": "Mi hermano tiene las cejas negras.",
+    "en": "My brother has black eyebrows."
+  },
+  "las pestañas": {
+    "es": "El bebé tiene las pestañas muy largas.",
+    "en": "The baby has very long eyelashes."
+  },
+  "la barba": {
+    "es": "Mi padre tiene barba.",
+    "en": "My father has a beard."
+  },
+  "el bigote": {
+    "es": "Mi abuelo lleva bigote.",
+    "en": "My grandfather has a moustache."
+  },
+  "la altura": {
+    "es": "¿Cuál es tu altura?",
+    "en": "What is your height?"
+  },
+  "el peso": {
+    "es": "Mi peso es normal.",
+    "en": "My weight is normal."
+  },
+  "el cabello": {
+    "es": "Tiene el cabello rubio.",
+    "en": "She has blonde hair."
+  },
+  "la barbilla": {
+    "es": "Tiene una barbilla pequeña.",
+    "en": "He has a small chin."
+  },
+  "las mejillas": {
+    "es": "El niño tiene las mejillas rojas.",
+    "en": "The boy has red cheeks."
+  },
+  "la frente": {
+    "es": "Tengo la frente caliente.",
+    "en": "My forehead is hot."
+  },
+  "las uñas": {
+    "es": "Me corto las uñas.",
+    "en": "I cut my nails."
+  },
+  "las arrugas": {
+    "es": "Mi abuela tiene muchas arrugas.",
+    "en": "My grandmother has lots of wrinkles."
+  },
+  "el lunar": {
+    "es": "Tengo un lunar en el brazo.",
+    "en": "I have a mole on my arm."
+  },
+  "la mancha de nacimiento": {
+    "es": "Mi hijo tiene una mancha de nacimiento.",
+    "en": "My son has a birthmark."
+  },
+  "parecer": {
+    "es": "Pareces muy contento hoy.",
+    "en": "You seem very happy today."
+  },
+  "maquillar": {
+    "es": "Mi hermana maquilla a la novia.",
+    "en": "My sister does the bride's make-up."
+  },
+  "peinar": {
+    "es": "Peino a mi hija por la mañana.",
+    "en": "I comb my daughter's hair in the morning."
+  },
+  "afeitarse": {
+    "es": "Mi padre se afeita todos los días.",
+    "en": "My father shaves every day."
+  },
+  "lavarse": {
+    "es": "Me lavo con agua caliente.",
+    "en": "I wash with hot water."
+  },
+  "cortar": {
+    "es": "Corto el pan para la cena.",
+    "en": "I cut the bread for dinner."
+  },
+  "teñir": {
+    "es": "Mi madre se tiñe el pelo.",
+    "en": "My mother dyes her hair."
+  },
+  "crecer": {
+    "es": "Los niños crecen muy rápido.",
+    "en": "Children grow very fast."
+  },
+  "bonito/a": {
+    "es": "Tienes una casa muy bonita.",
+    "en": "You have a very pretty house."
+  },
+  "joven": {
+    "es": "Mi profesora es muy joven.",
+    "en": "My teacher is very young."
+  },
+  "la camiseta": {
+    "es": "Llevo una camiseta blanca.",
+    "en": "I'm wearing a white T-shirt."
+  },
+  "el pantalón/los pantalones": {
+    "es": "Estos pantalones son muy cómodos.",
+    "en": "These trousers are very comfortable."
+  },
+  "el vestido": {
+    "es": "Me gusta tu vestido azul.",
+    "en": "I like your blue dress."
+  },
+  "la falda": {
+    "es": "La falda es demasiado corta.",
+    "en": "The skirt is too short."
+  },
+  "la blusa": {
+    "es": "Busco una blusa blanca.",
+    "en": "I'm looking for a white blouse."
+  },
+  "el jersey": {
+    "es": "Hace frío, llévate un jersey.",
+    "en": "It's cold, take a jumper."
+  },
+  "el traje": {
+    "es": "Mi padre lleva traje al trabajo.",
+    "en": "My father wears a suit to work."
+  },
+  "la corbata": {
+    "es": "Hoy no llevo corbata.",
+    "en": "Today I'm not wearing a tie."
+  },
+  "la chaqueta": {
+    "es": "Esta chaqueta es de mi hermano.",
+    "en": "This jacket is my brother's."
+  },
+  "el abrigo": {
+    "es": "Necesito un abrigo para el invierno.",
+    "en": "I need a coat for the winter."
+  },
+  "el sombrero": {
+    "es": "Mi abuelo siempre lleva sombrero.",
+    "en": "My grandfather always wears a hat."
+  },
+  "las botas": {
+    "es": "Llevo botas cuando llueve.",
+    "en": "I wear boots when it rains."
+  },
+  "los calcetines": {
+    "es": "Mis calcetines son de colores.",
+    "en": "My socks are colourful."
+  },
+  "los guantes": {
+    "es": "Llevo guantes en invierno.",
+    "en": "I wear gloves in winter."
+  },
+  "la bufanda": {
+    "es": "Mi abuela me hace una bufanda.",
+    "en": "My grandmother is making me a scarf."
+  },
+  "el gorro": {
+    "es": "El niño lleva un gorro rojo.",
+    "en": "The boy is wearing a red woolly hat."
+  },
+  "la camisa": {
+    "es": "Plancho mi camisa por la mañana.",
+    "en": "I iron my shirt in the morning."
+  },
+  "el cinturón": {
+    "es": "Necesito un cinturón nuevo.",
+    "en": "I need a new belt."
+  },
+  "los pantalones cortos": {
+    "es": "En verano llevo pantalones cortos.",
+    "en": "In summer I wear shorts."
+  },
+  "el bañador": {
+    "es": "Mete el bañador en la maleta.",
+    "en": "Put your swimsuit in the suitcase."
+  },
+  "la ropa interior": {
+    "es": "La ropa interior está en el cajón.",
+    "en": "The underwear is in the drawer."
+  },
+  "el sujetador": {
+    "es": "Compro un sujetador de algodón.",
+    "en": "I'm buying a cotton bra."
+  },
+  "el pijama": {
+    "es": "Los niños ya llevan el pijama.",
+    "en": "The children are already in their pyjamas."
+  },
+  "la bata": {
+    "es": "Por la mañana llevo una bata.",
+    "en": "In the morning I wear a dressing gown."
+  },
+  "el mono": {
+    "es": "El mecánico lleva un mono azul.",
+    "en": "The mechanic wears blue overalls."
+  },
+  "los vaqueros": {
+    "es": "Llevo vaqueros casi todos los días.",
+    "en": "I wear jeans almost every day."
+  },
+  "el chaleco": {
+    "es": "Lleva un chaleco debajo de la chaqueta.",
+    "en": "He wears a waistcoat under his jacket."
+  },
+  "el anillo": {
+    "es": "Llevo el anillo de mi abuela.",
+    "en": "I wear my grandmother's ring."
+  },
+  "el collar": {
+    "es": "Este collar es un regalo.",
+    "en": "This necklace is a present."
+  },
+  "la pulsera": {
+    "es": "Mi hija hace pulseras.",
+    "en": "My daughter makes bracelets."
+  },
+  "los pendientes": {
+    "es": "Mis pendientes son de plata.",
+    "en": "My earrings are silver."
+  },
+  "el reloj": {
+    "es": "Mi reloj no funciona.",
+    "en": "My watch doesn't work."
+  },
+  "el anillo de compromiso": {
+    "es": "Mi novio me compra un anillo de compromiso.",
+    "en": "My boyfriend is buying me an engagement ring."
+  },
+  "la joya": {
+    "es": "Esta joya es muy antigua.",
+    "en": "This jewel is very old."
+  },
+  "el trabajo": {
+    "es": "Busco trabajo en Madrid.",
+    "en": "I'm looking for a job in Madrid."
+  },
+  "el jefe": {
+    "es": "Mi jefe es muy simpático.",
+    "en": "My boss is very nice."
+  },
+  "el empleado": {
+    "es": "El empleado abre la tienda a las nueve.",
+    "en": "The employee opens the shop at nine."
+  },
+  "la oficina": {
+    "es": "La oficina está en el tercer piso.",
+    "en": "The office is on the third floor."
+  },
+  "el salario": {
+    "es": "Mi salario es bajo.",
+    "en": "My salary is low."
+  },
+  "el contrato": {
+    "es": "Firmo el contrato mañana.",
+    "en": "I sign the contract tomorrow."
+  },
+  "el compañero de trabajo": {
+    "es": "Como con un compañero de trabajo.",
+    "en": "I have lunch with a colleague."
+  },
+  "el descanso": {
+    "es": "Tengo un descanso a las once.",
+    "en": "I have a break at eleven."
+  },
+  "la reunión": {
+    "es": "La reunión empieza a las diez.",
+    "en": "The meeting starts at ten."
+  },
+  "el horario": {
+    "es": "¿Cuál es tu horario de trabajo?",
+    "en": "What is your work schedule?"
+  },
+  "la tarea": {
+    "es": "Tengo muchas tareas hoy.",
+    "en": "I have lots of tasks today."
+  },
+  "la carrera": {
+    "es": "Mi carrera profesional es muy importante para mí.",
+    "en": "My career is very important to me."
+  },
+  "el cliente": {
+    "es": "El cliente quiere hablar con el jefe.",
+    "en": "The customer wants to speak to the boss."
+  },
+  "el informe": {
+    "es": "Escribo un informe para mi jefe.",
+    "en": "I'm writing a report for my boss."
+  },
+  "el ascenso": {
+    "es": "Mi hermana espera un ascenso.",
+    "en": "My sister is hoping for a promotion."
+  },
+  "el equipo": {
+    "es": "Mi equipo trabaja muy bien.",
+    "en": "My team works very well."
+  },
+  "la responsabilidad": {
+    "es": "Es una gran responsabilidad.",
+    "en": "It is a big responsibility."
+  },
+  "la fecha límite": {
+    "es": "La fecha límite es el viernes.",
+    "en": "The deadline is Friday."
+  },
+  "el desempleo": {
+    "es": "El desempleo es alto en mi región.",
+    "en": "Unemployment is high in my region."
+  },
+  "la salud": {
+    "es": "El deporte es bueno para la salud.",
+    "en": "Sport is good for your health."
+  },
+  "el médico": {
+    "es": "Voy al médico esta tarde.",
+    "en": "I'm going to the doctor this afternoon."
+  },
+  "el hospital": {
+    "es": "Mi madre trabaja en el hospital.",
+    "en": "My mother works at the hospital."
+  },
+  "el medicamento": {
+    "es": "Tomo este medicamento cada mañana.",
+    "en": "I take this medicine every morning."
+  },
+  "el dolor": {
+    "es": "Tengo dolor de muelas.",
+    "en": "I have toothache."
+  },
+  "la fiebre": {
+    "es": "El niño tiene fiebre.",
+    "en": "The child has a fever."
+  },
+  "la dieta": {
+    "es": "Mi padre está a dieta.",
+    "en": "My father is on a diet."
+  },
+  "el ejercicio": {
+    "es": "Hago ejercicio tres veces por semana.",
+    "en": "I exercise three times a week."
+  },
+  "la enfermera": {
+    "es": "La enfermera es muy amable.",
+    "en": "The nurse is very kind."
+  },
+  "la clínica": {
+    "es": "La clínica está cerca de mi casa.",
+    "en": "The clinic is near my house."
+  },
+  "el paciente": {
+    "es": "El paciente espera al médico.",
+    "en": "The patient is waiting for the doctor."
+  },
+  "el tratamiento": {
+    "es": "El tratamiento dura dos semanas.",
+    "en": "The treatment lasts two weeks."
+  },
+  "el virus": {
+    "es": "Tengo un virus y no voy a trabajar.",
+    "en": "I have a virus and I'm not going to work."
+  },
+  "la alergia": {
+    "es": "Tengo alergia a los gatos.",
+    "en": "I'm allergic to cats."
+  },
+  "la vacuna": {
+    "es": "Los niños necesitan la vacuna.",
+    "en": "The children need the vaccine."
+  },
+  "el dentista": {
+    "es": "Voy al dentista una vez al año.",
+    "en": "I go to the dentist once a year."
+  },
+  "el insomnio": {
+    "es": "Tengo insomnio y duermo poco.",
+    "en": "I have insomnia and sleep little."
+  },
+  "la enfermedad": {
+    "es": "La gripe es una enfermedad común.",
+    "en": "Flu is a common illness."
+  },
+  "curar": {
+    "es": "Esta crema cura las quemaduras.",
+    "en": "This cream cures burns."
+  },
+  "enfermar": {
+    "es": "En invierno mucha gente enferma.",
+    "en": "In winter lots of people fall ill."
+  },
+  "sanar": {
+    "es": "La herida sana poco a poco.",
+    "en": "The wound heals little by little."
+  },
+  "recuperarse": {
+    "es": "Mi abuelo se recupera en casa.",
+    "en": "My grandfather is recovering at home."
+  },
+  "sufrir": {
+    "es": "Mi madre sufre de dolor de espalda.",
+    "en": "My mother suffers from backache."
+  },
+  "diagnosticar": {
+    "es": "El médico diagnostica una gripe.",
+    "en": "The doctor diagnoses flu."
+  },
+  "prevenir": {
+    "es": "El deporte previene muchas enfermedades.",
+    "en": "Sport prevents many illnesses."
+  },
+  "examinar": {
+    "es": "La doctora examina al niño.",
+    "en": "The doctor examines the child."
+  },
+  "tratar": {
+    "es": "El dentista trata a muchos niños.",
+    "en": "The dentist treats lots of children."
+  },
+  "cuidar": {
+    "es": "Cuido a mi abuela los fines de semana.",
+    "en": "I look after my grandmother at weekends."
+  },
+  "descansar": {
+    "es": "Necesito descansar un poco.",
+    "en": "I need to rest a little."
+  },
+  "mejorar": {
+    "es": "Mi español mejora cada día.",
+    "en": "My Spanish improves every day."
+  },
+  "doler": {
+    "es": "¿Te duele la pierna?",
+    "en": "Does your leg hurt?"
+  },
+  "medir": {
+    "es": "Mi hijo mide un metro.",
+    "en": "My son measures one metre."
+  },
+  "tomar": {
+    "es": "Tomo una pastilla después de comer.",
+    "en": "I take a pill after lunch."
+  },
+  "resfriarse": {
+    "es": "En invierno me resfrío mucho.",
+    "en": "In winter I often catch colds."
+  },
+  "inyectar": {
+    "es": "La enfermera me inyecta la vacuna.",
+    "en": "The nurse injects me with the vaccine."
+  },
+  "estornudar": {
+    "es": "Estornudo mucho en primavera.",
+    "en": "I sneeze a lot in spring."
+  },
+  "el tiempo": {
+    "es": "Hoy hace buen tiempo.",
+    "en": "The weather is nice today."
+  },
+  "el sol": {
+    "es": "Hoy hace sol.",
+    "en": "It's sunny today."
+  },
+  "la lluvia": {
+    "es": "No me gusta la lluvia.",
+    "en": "I don't like the rain."
+  },
+  "la nieve": {
+    "es": "Los niños juegan en la nieve.",
+    "en": "The children play in the snow."
+  },
+  "el viento": {
+    "es": "Hoy hace mucho viento.",
+    "en": "It's very windy today."
+  },
+  "la nube": {
+    "es": "Hay muchas nubes en el cielo.",
+    "en": "There are lots of clouds in the sky."
+  },
+  "la tormenta": {
+    "es": "Esta noche hay tormenta.",
+    "en": "There is a storm tonight."
+  },
+  "el arco iris, el arcoíris": {
+    "es": "Mira, hay un arcoíris.",
+    "en": "Look, there's a rainbow."
+  },
+  "el trueno": {
+    "es": "El perro tiene miedo de los truenos.",
+    "en": "The dog is scared of thunder."
+  },
+  "el rayo": {
+    "es": "Un rayo cae en el árbol.",
+    "en": "Lightning strikes the tree."
+  },
+  "el hielo": {
+    "es": "Quiero un refresco con hielo.",
+    "en": "I'd like a soft drink with ice."
+  },
+  "la temperatura": {
+    "es": "La temperatura hoy es de treinta grados.",
+    "en": "The temperature today is thirty degrees."
+  },
+  "el clima": {
+    "es": "El clima de Canarias es suave.",
+    "en": "The climate in the Canaries is mild."
+  },
+  "la brisa": {
+    "es": "En la playa hay una brisa agradable.",
+    "en": "There is a pleasant breeze on the beach."
+  },
+  "la llovizna": {
+    "es": "Hoy solo hay llovizna.",
+    "en": "Today there is only drizzle."
+  },
+  "el huracán": {
+    "es": "El huracán llega mañana.",
+    "en": "The hurricane arrives tomorrow."
+  },
+  "el calor": {
+    "es": "En agosto hace mucho calor.",
+    "en": "In August it's very hot."
+  },
+  "el frío": {
+    "es": "Tengo frío, cierra la ventana.",
+    "en": "I'm cold, close the window."
+  },
+  "el lunes": {
+    "es": "El lunes empiezo el curso.",
+    "en": "On Monday I start the course."
+  },
+  "el martes": {
+    "es": "Los martes tengo clase de inglés.",
+    "en": "On Tuesdays I have English class."
+  },
+  "el miércoles": {
+    "es": "El miércoles ceno con mis padres.",
+    "en": "On Wednesday I'm having dinner with my parents."
+  },
+  "el jueves": {
+    "es": "El jueves voy al médico.",
+    "en": "On Thursday I'm going to the doctor."
+  },
+  "el viernes": {
+    "es": "El viernes salimos a cenar.",
+    "en": "On Friday we're going out for dinner."
+  },
+  "el sábado": {
+    "es": "El sábado no trabajo.",
+    "en": "I don't work on Saturday."
+  },
+  "el domingo": {
+    "es": "Los domingos como con mi familia.",
+    "en": "On Sundays I have lunch with my family."
+  },
+  "enero": {
+    "es": "En enero hace mucho frío.",
+    "en": "In January it's very cold."
+  },
+  "febrero": {
+    "es": "Mi cumpleaños es en febrero.",
+    "en": "My birthday is in February."
+  },
+  "marzo": {
+    "es": "En marzo empieza la primavera.",
+    "en": "Spring starts in March."
+  },
+  "abril": {
+    "es": "En abril llueve mucho.",
+    "en": "It rains a lot in April."
+  },
+  "mayo": {
+    "es": "Me caso en mayo.",
+    "en": "I'm getting married in May."
+  },
+  "junio": {
+    "es": "En junio terminan las clases.",
+    "en": "Classes end in June."
+  },
+  "julio": {
+    "es": "En julio vamos a la playa.",
+    "en": "In July we go to the beach."
+  },
+  "agosto": {
+    "es": "Muchas tiendas cierran en agosto.",
+    "en": "Many shops close in August."
+  },
+  "septiembre": {
+    "es": "Vuelvo al trabajo en septiembre.",
+    "en": "I go back to work in September."
+  },
+  "octubre": {
+    "es": "En octubre caen las hojas.",
+    "en": "In October the leaves fall."
+  },
+  "noviembre": {
+    "es": "En noviembre llueve bastante.",
+    "en": "It rains quite a lot in November."
+  },
+  "diciembre": {
+    "es": "En diciembre celebramos la Navidad.",
+    "en": "In December we celebrate Christmas."
+  },
+  "la primavera": {
+    "es": "En primavera hay muchas flores.",
+    "en": "In spring there are lots of flowers."
+  },
+  "el verano": {
+    "es": "En verano voy a la playa.",
+    "en": "In summer I go to the beach."
+  },
+  "el otoño": {
+    "es": "Me gusta el otoño en el parque.",
+    "en": "I like autumn in the park."
+  },
+  "el invierno": {
+    "es": "En invierno esquiamos en la sierra.",
+    "en": "In winter we ski in the mountains."
+  },
+  "la familia": {
+    "es": "Mi familia es pequeña.",
+    "en": "My family is small."
+  },
+  "el padre": {
+    "es": "Mi padre trabaja en un banco.",
+    "en": "My father works in a bank."
+  },
+  "la madre": {
+    "es": "Mi madre es profesora.",
+    "en": "My mother is a teacher."
+  },
+  "el hermano": {
+    "es": "Mi hermano tiene doce años.",
+    "en": "My brother is twelve years old."
+  },
+  "la hermana": {
+    "es": "Mi hermana estudia en Barcelona.",
+    "en": "My sister studies in Barcelona."
+  },
+  "el hijo": {
+    "es": "Mi hijo va al colegio.",
+    "en": "My son goes to school."
+  },
+  "la hija": {
+    "es": "Tengo una hija y un hijo.",
+    "en": "I have a daughter and a son."
+  },
+  "el abuelo": {
+    "es": "Mi abuelo tiene ochenta años.",
+    "en": "My grandfather is eighty years old."
+  },
+  "la abuela": {
+    "es": "Mi abuela vive en el pueblo.",
+    "en": "My grandmother lives in the village."
+  },
+  "el nieto": {
+    "es": "Mi madre juega con su nieto.",
+    "en": "My mother plays with her grandson."
+  },
+  "la tía": {
+    "es": "Mi tía vive en Valencia.",
+    "en": "My aunt lives in Valencia."
+  },
+  "el primo": {
+    "es": "Mi primo trabaja en Londres.",
+    "en": "My cousin works in London."
+  },
+  "la prima": {
+    "es": "Mi prima tiene un perro.",
+    "en": "My cousin has a dog."
+  },
+  "el esposo": {
+    "es": "Mi esposo cocina muy bien.",
+    "en": "My husband cooks very well."
+  },
+  "la esposa": {
+    "es": "Te presento a mi esposa, Ana.",
+    "en": "This is my wife, Ana."
+  },
+  "el suegro": {
+    "es": "Mi suegro es de Bilbao.",
+    "en": "My father-in-law is from Bilbao."
+  },
+  "la suegra": {
+    "es": "Comemos en casa de mi suegra.",
+    "en": "We have lunch at my mother-in-law's."
+  },
+  "el yerno": {
+    "es": "Mi yerno es médico.",
+    "en": "My son-in-law is a doctor."
+  },
+  "la nuera": {
+    "es": "Mi nuera es muy simpática.",
+    "en": "My daughter-in-law is very nice."
+  },
+  "el cuñado": {
+    "es": "Mi cuñado vive con nosotros.",
+    "en": "My brother-in-law lives with us."
+  },
+  "la cuñada": {
+    "es": "Mi cuñada trabaja en una tienda.",
+    "en": "My sister-in-law works in a shop."
+  },
+  "el hijastro": {
+    "es": "Mi hijastro tiene diez años.",
+    "en": "My stepson is ten years old."
+  },
+  "la hijastra": {
+    "es": "Mi hijastra estudia música.",
+    "en": "My stepdaughter studies music."
+  },
+  "el medio hermano": {
+    "es": "Tengo un medio hermano en Francia.",
+    "en": "I have a half-brother in France."
+  },
+  "la media hermana": {
+    "es": "Mi media hermana es más joven que yo.",
+    "en": "My half-sister is younger than me."
+  },
+  "el sobrino": {
+    "es": "Mi sobrino juega al fútbol.",
+    "en": "My nephew plays football."
+  },
+  "la sobrina": {
+    "es": "Mi sobrina vive en México.",
+    "en": "My niece lives in Mexico."
+  },
+  "el perro": {
+    "es": "Paseo al perro por la mañana.",
+    "en": "I walk the dog in the morning."
+  },
+  "el gato": {
+    "es": "Mi gato duerme todo el día.",
+    "en": "My cat sleeps all day."
+  },
+  "el pájaro": {
+    "es": "Hay un pájaro en la ventana.",
+    "en": "There is a bird at the window."
+  },
+  "la vaca": {
+    "es": "En el campo hay muchas vacas.",
+    "en": "There are lots of cows in the countryside."
+  },
+  "el caballo": {
+    "es": "Mi prima monta a caballo.",
+    "en": "My cousin rides horses."
+  },
+  "el pez": {
+    "es": "Tengo un pez rojo.",
+    "en": "I have a goldfish."
+  },
+  "el elefante": {
+    "es": "El elefante tiene las orejas grandes.",
+    "en": "The elephant has big ears."
+  },
+  "la serpiente": {
+    "es": "Tengo miedo de las serpientes.",
+    "en": "I'm scared of snakes."
+  },
+  "la oveja": {
+    "es": "Las ovejas comen hierba.",
+    "en": "Sheep eat grass."
+  },
+  "la mariposa": {
+    "es": "Hay mariposas en el jardín.",
+    "en": "There are butterflies in the garden."
+  },
+  "el león": {
+    "es": "El león duerme mucho.",
+    "en": "The lion sleeps a lot."
+  },
+  "el tigre": {
+    "es": "En el zoo hay un tigre.",
+    "en": "There is a tiger at the zoo."
+  },
+  "el mono (monkey)": {
+    "es": "El mono come un plátano.",
+    "en": "The monkey eats a banana."
+  },
+  "la gallina": {
+    "es": "Mis abuelos tienen gallinas.",
+    "en": "My grandparents have hens."
+  },
+  "el pingüino": {
+    "es": "Los pingüinos no vuelan.",
+    "en": "Penguins don't fly."
+  },
+  "la rana": {
+    "es": "Hay ranas en el río.",
+    "en": "There are frogs in the river."
+  },
+  "el camello": {
+    "es": "El camello vive en el desierto.",
+    "en": "The camel lives in the desert."
+  },
+  "el oso": {
+    "es": "El oso come miel.",
+    "en": "The bear eats honey."
+  },
+  "el ciervo": {
+    "es": "Vemos un ciervo en el bosque.",
+    "en": "We see a deer in the forest."
+  },
+  "el delfín": {
+    "es": "Los delfines son muy inteligentes.",
+    "en": "Dolphins are very intelligent."
+  },
+  "la jirafa": {
+    "es": "La jirafa es muy alta.",
+    "en": "The giraffe is very tall."
+  },
+  "el lobo": {
+    "es": "El lobo vive en la montaña.",
+    "en": "The wolf lives in the mountains."
+  },
+  "la ardilla": {
+    "es": "Hay una ardilla en el árbol.",
+    "en": "There is a squirrel in the tree."
+  },
+  "el toro": {
+    "es": "El toro es negro y grande.",
+    "en": "The bull is black and big."
+  },
+  "el zorro": {
+    "es": "El zorro tiene la cola larga.",
+    "en": "The fox has a long tail."
+  },
+  "la paloma": {
+    "es": "Hay muchas palomas en la plaza.",
+    "en": "There are lots of pigeons in the square."
+  },
+  "el viaje": {
+    "es": "¡Buen viaje!",
+    "en": "Have a good trip!"
+  },
+  "el avión": {
+    "es": "Voy a Roma en avión.",
+    "en": "I'm going to Rome by plane."
+  },
+  "la maleta": {
+    "es": "Mi maleta pesa mucho.",
+    "en": "My suitcase is very heavy."
+  },
+  "la estación": {
+    "es": "¿Dónde está la estación de tren?",
+    "en": "Where is the train station?"
+  },
+  "el tren": {
+    "es": "El tren sale a las cinco.",
+    "en": "The train leaves at five."
+  },
+  "el billete": {
+    "es": "Compro un billete de ida y vuelta.",
+    "en": "I buy a return ticket."
+  },
+  "el aeropuerto": {
+    "es": "Llegamos al aeropuerto a las seis.",
+    "en": "We arrive at the airport at six."
+  },
+  "el pasaporte": {
+    "es": "Necesito el pasaporte para viajar.",
+    "en": "I need my passport to travel."
+  },
+  "el taxi": {
+    "es": "Llamo a un taxi.",
+    "en": "I call a taxi."
+  },
+  "el hotel": {
+    "es": "Nuestro hotel está cerca de la playa.",
+    "en": "Our hotel is near the beach."
+  },
+  "el mapa": {
+    "es": "¿Tienes un mapa de Madrid?",
+    "en": "Do you have a map of Madrid?"
+  },
+  "la guía": {
+    "es": "La guía habla cuatro idiomas.",
+    "en": "The guide speaks four languages."
+  },
+  "el turista": {
+    "es": "En verano hay muchos turistas.",
+    "en": "In summer there are lots of tourists."
+  },
+  "la aduana": {
+    "es": "Pasamos la aduana sin problemas.",
+    "en": "We go through customs with no problems."
+  },
+  "el crucero": {
+    "es": "Mis padres hacen un crucero.",
+    "en": "My parents are going on a cruise."
+  },
+  "el equipaje": {
+    "es": "¿Dónde recojo el equipaje?",
+    "en": "Where do I collect my luggage?"
+  },
+  "el destino": {
+    "es": "¿Cuál es tu destino?",
+    "en": "What is your destination?"
+  },
+  "la mochila": {
+    "es": "Llevo agua en la mochila.",
+    "en": "I carry water in my backpack."
+  },
+  "la reserva": {
+    "es": "Tengo una reserva a nombre de López.",
+    "en": "I have a booking under the name López."
+  },
+  "el hostal": {
+    "es": "Dormimos en un hostal barato.",
+    "en": "We sleep in a cheap guesthouse."
+  },
+  "el visado": {
+    "es": "Para ir a Cuba necesito un visado.",
+    "en": "To go to Cuba I need a visa."
+  },
+  "el coche": {
+    "es": "Voy al trabajo en coche.",
+    "en": "I go to work by car."
+  },
+  "la tarjeta de embarque": {
+    "es": "Aquí tiene su tarjeta de embarque.",
+    "en": "Here is your boarding pass."
+  },
+  "la salida": {
+    "es": "La salida del vuelo es a las diez.",
+    "en": "The flight's departure is at ten."
+  },
+  "el albergue": {
+    "es": "El albergue está en la montaña.",
+    "en": "The hostel is in the mountains."
+  },
+  "el monumento": {
+    "es": "Visitamos los monumentos de la ciudad.",
+    "en": "We visit the city's monuments."
+  },
+  "el viajero": {
+    "es": "Los viajeros esperan el tren.",
+    "en": "The travellers are waiting for the train."
+  },
+  "el vuelo": {
+    "es": "Mi vuelo llega a las tres.",
+    "en": "My flight arrives at three."
+  },
+  "llegar": {
+    "es": "¿A qué hora llegas?",
+    "en": "What time do you arrive?"
+  },
+  "salir": {
+    "es": "Salgo de casa a las ocho.",
+    "en": "I leave home at eight."
+  },
+  "reservar": {
+    "es": "Quiero reservar una mesa para dos.",
+    "en": "I want to book a table for two."
+  },
+  "empaquetar": {
+    "es": "Empaqueto los libros en cajas.",
+    "en": "I pack the books into boxes."
+  },
+  "alquilar": {
+    "es": "Alquilamos un piso en la playa.",
+    "en": "We rent a flat on the beach."
+  },
+  "explorar": {
+    "es": "Hoy exploramos el casco antiguo.",
+    "en": "Today we explore the old town."
+  },
+  "caminar": {
+    "es": "Camino una hora cada día.",
+    "en": "I walk for an hour every day."
+  },
+  "visitar": {
+    "es": "Visito a mis abuelos los domingos.",
+    "en": "I visit my grandparents on Sundays."
+  },
+  "descubrir": {
+    "es": "Me gusta descubrir restaurantes nuevos.",
+    "en": "I like discovering new restaurants."
+  },
+  "navegar": {
+    "es": "En verano navegamos por el Mediterráneo.",
+    "en": "In summer we sail the Mediterranean."
+  },
+  "tomar fotos, hacer fotos": {
+    "es": "Hago muchas fotos en mis viajes.",
+    "en": "I take lots of photos on my trips."
+  },
+  "hospedarse": {
+    "es": "Nos hospedamos en un hotel pequeño.",
+    "en": "We are staying at a small hotel."
+  },
+  "subir": {
+    "es": "Subimos al tren en Madrid.",
+    "en": "We get on the train in Madrid."
+  },
+  "bajar": {
+    "es": "Me bajo del autobús en la plaza.",
+    "en": "I get off the bus at the square."
+  },
+  "el autobús": {
+    "es": "Voy al colegio en autobús.",
+    "en": "I go to school by bus."
+  },
+  "la parada de autobús": {
+    "es": "La parada de autobús está enfrente.",
+    "en": "The bus stop is opposite."
+  },
+  "el metro": {
+    "es": "Tomo el metro para ir al trabajo.",
+    "en": "I take the metro to go to work."
+  },
+  "la estación de metro": {
+    "es": "¿Hay una estación de metro cerca?",
+    "en": "Is there a metro station nearby?"
+  },
+  "el tranvía": {
+    "es": "El tranvía pasa cada diez minutos.",
+    "en": "The tram comes every ten minutes."
+  },
+  "la bicicleta": {
+    "es": "Voy a la universidad en bicicleta.",
+    "en": "I go to university by bicycle."
+  },
+  "la tarifa": {
+    "es": "La tarifa del taxi es cara.",
+    "en": "The taxi fare is expensive."
+  },
+  "el conductor": {
+    "es": "El conductor del autobús es muy amable.",
+    "en": "The bus driver is very kind."
+  },
+  "el pasajero": {
+    "es": "El avión lleva doscientos pasajeros.",
+    "en": "The plane carries two hundred passengers."
+  },
+  "la ruta": {
+    "es": "Esta ruta es más corta.",
+    "en": "This route is shorter."
+  },
+  "el puente": {
+    "es": "Cruzamos el puente a pie.",
+    "en": "We cross the bridge on foot."
+  },
+  "el túnel": {
+    "es": "El tren pasa por un túnel.",
+    "en": "The train goes through a tunnel."
+  },
+  "la taquilla": {
+    "es": "La taquilla abre a las nueve.",
+    "en": "The ticket office opens at nine."
+  },
+  "la vía": {
+    "es": "No cruces la vía.",
+    "en": "Don't cross the track."
+  },
+  "la carretera": {
+    "es": "La carretera está cerrada por la nieve.",
+    "en": "The road is closed because of the snow."
+  },
+  "la acera": {
+    "es": "Los niños caminan por la acera.",
+    "en": "The children walk on the pavement."
+  },
+  "el paso de peatones": {
+    "es": "Cruza por el paso de peatones.",
+    "en": "Cross at the pedestrian crossing."
+  },
+  "la tienda": {
+    "es": "La tienda cierra a las ocho.",
+    "en": "The shop closes at eight."
+  },
+  "el supermercado": {
+    "es": "Voy al supermercado los sábados.",
+    "en": "I go to the supermarket on Saturdays."
+  },
+  "la caja": {
+    "es": "Pague en la caja, por favor.",
+    "en": "Please pay at the checkout."
+  },
+  "el carrito": {
+    "es": "El carrito está lleno de comida.",
+    "en": "The trolley is full of food."
+  },
+  "la lista de la compra": {
+    "es": "¿Dónde está la lista de la compra?",
+    "en": "Where is the shopping list?"
+  },
+  "el precio": {
+    "es": "¿Cuál es el precio de este libro?",
+    "en": "What is the price of this book?"
+  },
+  "la oferta": {
+    "es": "Hoy hay una oferta de fruta.",
+    "en": "There is an offer on fruit today."
+  },
+  "el descuento": {
+    "es": "Los estudiantes tienen descuento.",
+    "en": "Students get a discount."
+  },
+  "el recibo": {
+    "es": "¿Me da el recibo, por favor?",
+    "en": "Can I have the receipt, please?"
+  },
+  "el cambio": {
+    "es": "Aquí tiene su cambio.",
+    "en": "Here is your change."
+  },
+  "la devolución": {
+    "es": "La tienda no acepta devoluciones.",
+    "en": "The shop does not accept returns."
+  },
+  "la garantía": {
+    "es": "El ordenador tiene dos años de garantía.",
+    "en": "The computer has a two-year guarantee."
+  },
+  "la factura": {
+    "es": "La empresa me manda la factura por correo.",
+    "en": "The company sends me the invoice by email."
+  },
+  "el vendedor": {
+    "es": "El vendedor me ayuda a elegir.",
+    "en": "The shop assistant helps me choose."
+  },
+  "la compra": {
+    "es": "Hago la compra los viernes.",
+    "en": "I do the shopping on Fridays."
+  },
+  "la venta": {
+    "es": "Esta casa está en venta.",
+    "en": "This house is for sale."
+  },
+  "el pedido": {
+    "es": "Mi pedido llega el lunes.",
+    "en": "My order arrives on Monday."
+  },
+  "la cuenta": {
+    "es": "La cuenta, por favor.",
+    "en": "The bill, please."
+  },
+  "devolver": {
+    "es": "Quiero devolver esta camisa.",
+    "en": "I want to return this shirt."
+  },
+  "probar": {
+    "es": "¿Puedo probarme estos zapatos?",
+    "en": "Can I try on these shoes?"
+  },
+  "el negocio": {
+    "es": "Mi tío tiene un negocio de muebles.",
+    "en": "My uncle has a furniture business."
+  },
+  "la empresa": {
+    "es": "Trabajo en una empresa pequeña.",
+    "en": "I work at a small company."
+  },
+  "el mercado": {
+    "es": "Compro verdura en el mercado.",
+    "en": "I buy vegetables at the market."
+  },
+  "la inversión": {
+    "es": "Esta casa es una buena inversión.",
+    "en": "This house is a good investment."
+  },
+  "el beneficio": {
+    "es": "La tienda tiene pocos beneficios.",
+    "en": "The shop makes little profit."
+  },
+  "la pérdida": {
+    "es": "La empresa tiene pérdidas este año.",
+    "en": "The company is making a loss this year."
+  },
+  "el departamento": {
+    "es": "Trabajo en el departamento de ventas.",
+    "en": "I work in the sales department."
+  },
+  "la competencia": {
+    "es": "Hay mucha competencia en el sector.",
+    "en": "There is a lot of competition in the sector."
+  },
+  "el producto": {
+    "es": "Este producto es muy popular.",
+    "en": "This product is very popular."
+  },
+  "el proveedor": {
+    "es": "El proveedor llega el martes.",
+    "en": "The supplier arrives on Tuesday."
+  },
+  "la campaña": {
+    "es": "La campaña empieza en mayo.",
+    "en": "The campaign starts in May."
+  },
+  "el presupuesto": {
+    "es": "No tenemos presupuesto para eso.",
+    "en": "We don't have a budget for that."
+  },
+  "el socio": {
+    "es": "Mi socio y yo tenemos un bar.",
+    "en": "My business partner and I have a bar."
+  },
+  "el objetivo": {
+    "es": "Nuestro objetivo es vender más.",
+    "en": "Our goal is to sell more."
+  },
+  "la promoción": {
+    "es": "Esta semana hay una promoción: dos por uno.",
+    "en": "This week there is a special offer: two for one."
+  },
+  "la crisis": {
+    "es": "La crisis afecta a muchas familias.",
+    "en": "The crisis affects many families."
+  },
+  "la negociación": {
+    "es": "La negociación dura dos días.",
+    "en": "The negotiation lasts two days."
+  },
+  "el balance": {
+    "es": "El balance del año es positivo.",
+    "en": "The year's balance sheet is positive."
+  },
+  "la economía": {
+    "es": "La economía del país mejora.",
+    "en": "The country's economy is improving."
+  },
+  "la propuesta": {
+    "es": "Tengo una propuesta para ti.",
+    "en": "I have a proposal for you."
+  },
+  "el fútbol": {
+    "es": "Veo el fútbol con mis amigos.",
+    "en": "I watch football with my friends."
+  },
+  "la pelota": {
+    "es": "El niño juega con la pelota.",
+    "en": "The boy plays with the ball."
+  },
+  "el deportista": {
+    "es": "Es un deportista muy famoso.",
+    "en": "He is a very famous athlete."
+  },
+  "el baloncesto": {
+    "es": "Juego al baloncesto los jueves.",
+    "en": "I play basketball on Thursdays."
+  },
+  "el ciclismo": {
+    "es": "Me gusta ver el ciclismo en la tele.",
+    "en": "I like watching cycling on TV."
+  },
+  "la carrera (race)": {
+    "es": "Mañana corro una carrera de cinco kilómetros.",
+    "en": "Tomorrow I'm running a five-kilometre race."
+  },
+  "la natación": {
+    "es": "La natación es mi deporte favorito.",
+    "en": "Swimming is my favourite sport."
+  },
+  "el tenis": {
+    "es": "Juego al tenis con mi padre.",
+    "en": "I play tennis with my father."
+  },
+  "el gimnasio": {
+    "es": "Voy al gimnasio después del trabajo.",
+    "en": "I go to the gym after work."
+  },
+  "la pista": {
+    "es": "Los atletas corren en la pista.",
+    "en": "The athletes run on the track."
+  },
+  "el boxeo": {
+    "es": "Mi hermano hace boxeo.",
+    "en": "My brother does boxing."
+  },
+  "el yoga": {
+    "es": "Hago yoga por la mañana.",
+    "en": "I do yoga in the morning."
+  },
+  "el árbitro": {
+    "es": "El árbitro para el partido.",
+    "en": "The referee stops the match."
+  },
+  "la raqueta": {
+    "es": "Necesito una raqueta nueva.",
+    "en": "I need a new racket."
+  },
+  "el esquí": {
+    "es": "En invierno practicamos esquí.",
+    "en": "In winter we go skiing."
+  },
+  "el patinaje": {
+    "es": "El patinaje es difícil para mí.",
+    "en": "Skating is difficult for me."
+  },
+  "el balonmano": {
+    "es": "Mi hija juega al balonmano.",
+    "en": "My daughter plays handball."
+  },
+  "el judo, el yudo": {
+    "es": "Mi hijo hace judo los martes.",
+    "en": "My son does judo on Tuesdays."
+  },
+  "el entrenamiento": {
+    "es": "El entrenamiento empieza a las seis.",
+    "en": "Training starts at six."
+  },
+  "el trofeo": {
+    "es": "El equipo gana un trofeo.",
+    "en": "The team wins a trophy."
+  },
+  "el maratón": {
+    "es": "Mi tío corre el maratón de Valencia.",
+    "en": "My uncle runs the Valencia marathon."
+  },
+  "el gimnasta": {
+    "es": "El gimnasta salta muy alto.",
+    "en": "The gymnast jumps very high."
+  },
+  "el hockey": {
+    "es": "En Canadá el hockey es muy popular.",
+    "en": "In Canada hockey is very popular."
+  },
+  "saltar": {
+    "es": "Los niños saltan en la cama.",
+    "en": "The children jump on the bed."
+  },
+  "lanzar": {
+    "es": "Lanza la pelota a tu hermano.",
+    "en": "Throw the ball to your brother."
+  },
+  "dar una patada": {
+    "es": "El niño da patadas a la pelota.",
+    "en": "The boy kicks the ball."
+  },
+  "entrenar": {
+    "es": "Entreno tres días a la semana.",
+    "en": "I train three days a week."
+  },
+  "ganar": {
+    "es": "¿Quién gana el partido?",
+    "en": "Who is winning the match?"
+  },
+  "perder": {
+    "es": "Mi equipo pierde siempre.",
+    "en": "My team always loses."
+  },
+  "competir": {
+    "es": "Mi hermana compite en natación.",
+    "en": "My sister competes in swimming."
+  },
+  "practicar": {
+    "es": "Practico español con mi amiga.",
+    "en": "I practise Spanish with my friend."
+  },
+  "empatar": {
+    "es": "Los dos equipos empatan.",
+    "en": "The two teams draw."
+  },
+  "montar": {
+    "es": "Monto en bici los domingos.",
+    "en": "I ride my bike on Sundays."
+  },
+  "patinar": {
+    "es": "Los niños patinan en el parque.",
+    "en": "The children skate in the park."
+  },
+  "remar": {
+    "es": "Remamos en el lago.",
+    "en": "We row on the lake."
+  },
+  "levantar pesas": {
+    "es": "Levanto pesas en el gimnasio.",
+    "en": "I lift weights at the gym."
+  },
+  "luchar": {
+    "es": "Los dos chicos luchan en el suelo.",
+    "en": "The two boys fight on the floor."
+  },
+  "calentar": {
+    "es": "Calentamos antes del partido.",
+    "en": "We warm up before the match."
+  },
+  "el colegio": {
+    "es": "Mis hijos van al mismo colegio.",
+    "en": "My children go to the same school."
+  },
+  "la universidad": {
+    "es": "Estudio Medicina en la universidad.",
+    "en": "I study Medicine at university."
+  },
+  "el profesor (la profesora)": {
+    "es": "El profesor explica la lección.",
+    "en": "The teacher explains the lesson."
+  },
+  "el estudiante": {
+    "es": "Soy estudiante de español.",
+    "en": "I'm a student of Spanish."
+  },
+  "el libro": {
+    "es": "Estoy leyendo un libro muy bueno.",
+    "en": "I'm reading a very good book."
+  },
+  "el examen": {
+    "es": "El examen es el lunes.",
+    "en": "The exam is on Monday."
+  },
+  "la clase": {
+    "es": "La clase empieza a las nueve.",
+    "en": "The class starts at nine."
+  },
+  "el aula": {
+    "es": "El aula tiene veinte mesas.",
+    "en": "The classroom has twenty desks."
+  },
+  "el lápiz": {
+    "es": "Escribo con lápiz.",
+    "en": "I write in pencil."
+  },
+  "la pluma": {
+    "es": "Mi abuelo escribe con pluma.",
+    "en": "My grandfather writes with a fountain pen."
+  },
+  "la pizarra": {
+    "es": "Hay una pizarra en el aula.",
+    "en": "There is a blackboard in the classroom."
+  },
+  "la escuela primaria": {
+    "es": "Mi hija está en la escuela primaria.",
+    "en": "My daughter is at primary school."
+  },
+  "el recreo": {
+    "es": "En el recreo comemos un bocadillo.",
+    "en": "At break we eat a sandwich."
+  },
+  "el bolígrafo": {
+    "es": "¿Me dejas un bolígrafo?",
+    "en": "Can you lend me a pen?"
+  },
+  "la calculadora": {
+    "es": "Uso la calculadora en clase.",
+    "en": "I use a calculator in class."
+  },
+  "la lección": {
+    "es": "Hoy estudiamos la lección cinco.",
+    "en": "Today we study lesson five."
+  },
+  "la asignatura": {
+    "es": "Mi asignatura favorita es la historia.",
+    "en": "My favourite subject is history."
+  },
+  "la graduación": {
+    "es": "Mis padres vienen a mi graduación.",
+    "en": "My parents are coming to my graduation."
+  },
+  "el diccionario": {
+    "es": "Busco la palabra en el diccionario.",
+    "en": "I look up the word in the dictionary."
+  },
+  "la biblioteca": {
+    "es": "La biblioteca cierra a las ocho.",
+    "en": "The library closes at eight."
+  },
+  "el director": {
+    "es": "El director habla con los padres.",
+    "en": "The head teacher talks to the parents."
+  },
+  "la prueba": {
+    "es": "Mañana tenemos una prueba de inglés.",
+    "en": "Tomorrow we have an English test."
+  },
+  "el instituto": {
+    "es": "Mi hermano va al instituto.",
+    "en": "My brother goes to secondary school."
+  },
+  "aprender": {
+    "es": "Aprendo español en una academia.",
+    "en": "I learn Spanish at a language school."
+  },
+  "enseñar": {
+    "es": "Mi madre enseña inglés.",
+    "en": "My mother teaches English."
+  },
+  "escuchar": {
+    "es": "Escucho música en el metro.",
+    "en": "I listen to music on the metro."
+  },
+  "repasar": {
+    "es": "Repaso el vocabulario cada noche.",
+    "en": "I revise the vocabulary every night."
+  },
+  "dibujar": {
+    "es": "Mi hijo dibuja muy bien.",
+    "en": "My son draws very well."
+  },
+  "responder": {
+    "es": "Responde a la pregunta, por favor.",
+    "en": "Answer the question, please."
+  },
+  "corregir": {
+    "es": "La profesora corrige los ejercicios.",
+    "en": "The teacher corrects the exercises."
+  },
+  "tomar notas": {
+    "es": "Tomo notas en clase.",
+    "en": "I take notes in class."
+  },
+  "preguntar": {
+    "es": "Pregunto el camino a un policía.",
+    "en": "I ask a police officer the way."
+  },
+  "revisar": {
+    "es": "Reviso mi correo por la mañana.",
+    "en": "I check my email in the morning."
+  },
+  "la playa": {
+    "es": "Vamos a la playa el domingo.",
+    "en": "We're going to the beach on Sunday."
+  },
+  "el mar": {
+    "es": "El agua del mar está fría.",
+    "en": "The sea water is cold."
+  },
+  "la arena": {
+    "es": "Los niños juegan en la arena.",
+    "en": "The children play in the sand."
+  },
+  "la ola": {
+    "es": "Hoy hay olas grandes.",
+    "en": "There are big waves today."
+  },
+  "la palmera": {
+    "es": "Hay palmeras en el paseo.",
+    "en": "There are palm trees on the promenade."
+  },
+  "la toalla": {
+    "es": "Siempre olvido la toalla en la playa.",
+    "en": "I always leave my towel at the beach."
+  },
+  "la crema solar": {
+    "es": "Ponte crema solar.",
+    "en": "Put on sun cream."
+  },
+  "la sombrilla": {
+    "es": "Llevamos una sombrilla a la playa.",
+    "en": "We take a sunshade to the beach."
+  },
+  "la medusa": {
+    "es": "Hay medusas en el agua.",
+    "en": "There are jellyfish in the water."
+  },
+  "la silla de playa": {
+    "es": "Mi abuela lleva su silla de playa.",
+    "en": "My grandmother brings her deckchair."
+  },
+  "el castillo de arena": {
+    "es": "Hacemos un castillo de arena.",
+    "en": "We make a sandcastle."
+  },
+  "la puesta de sol": {
+    "es": "Vemos la puesta de sol desde el hotel.",
+    "en": "We watch the sunset from the hotel."
+  },
+  "las chanclas": {
+    "es": "Llevo chanclas en verano.",
+    "en": "I wear flip-flops in summer."
+  },
+  "el salvavidas": {
+    "es": "Hay un salvavidas en el barco.",
+    "en": "There is a lifebuoy on the boat."
+  },
+  "la concha": {
+    "es": "Mi hija busca conchas en la playa.",
+    "en": "My daughter looks for shells on the beach."
+  },
+  "la tabla de surf": {
+    "es": "Alquilo una tabla de surf.",
+    "en": "I rent a surfboard."
+  },
+  "el bikini": {
+    "es": "Me compro un bikini nuevo.",
+    "en": "I'm buying a new bikini."
+  },
+  "el barco": {
+    "es": "Vamos a la isla en barco.",
+    "en": "We go to the island by boat."
+  },
+  "la piscina": {
+    "es": "El hotel tiene piscina.",
+    "en": "The hotel has a swimming pool."
+  },
+  "el arte": {
+    "es": "Me interesa mucho el arte.",
+    "en": "I'm very interested in art."
+  },
+  "el artista": {
+    "es": "El artista vive en Barcelona.",
+    "en": "The artist lives in Barcelona."
+  },
+  "la pintura": {
+    "es": "Esta pintura es de Goya.",
+    "en": "This painting is by Goya."
+  },
+  "el museo": {
+    "es": "El museo abre los domingos.",
+    "en": "The museum opens on Sundays."
+  },
+  "la escultura": {
+    "es": "En el parque hay una escultura moderna.",
+    "en": "There is a modern sculpture in the park."
+  },
+  "la galería": {
+    "es": "La galería está en una calle pequeña.",
+    "en": "The gallery is on a small street."
+  },
+  "el dibujo": {
+    "es": "Mi hijo me da un dibujo.",
+    "en": "My son gives me a drawing."
+  },
+  "el pincel": {
+    "es": "Necesito un pincel más fino.",
+    "en": "I need a thinner paintbrush."
+  },
+  "la paleta": {
+    "es": "El pintor limpia su paleta.",
+    "en": "The painter cleans his palette."
+  },
+  "la cerámica": {
+    "es": "Hago cerámica los jueves.",
+    "en": "I do pottery on Thursdays."
+  },
+  "la fotografía": {
+    "es": "Me gusta mucho la fotografía.",
+    "en": "I really like photography."
+  },
+  "la música": {
+    "es": "Escucho música en el coche.",
+    "en": "I listen to music in the car."
+  },
+  "el teatro": {
+    "es": "Esta noche vamos al teatro.",
+    "en": "Tonight we're going to the theatre."
+  },
+  "la poesía": {
+    "es": "Mi abuela lee poesía.",
+    "en": "My grandmother reads poetry."
+  },
+  "el mural": {
+    "es": "Hay un mural en la pared del colegio.",
+    "en": "There is a mural on the school wall."
+  },
+  "la ópera": {
+    "es": "No me gusta la ópera.",
+    "en": "I don't like opera."
+  },
+  "el ballet": {
+    "es": "Mi hija estudia ballet.",
+    "en": "My daughter studies ballet."
+  },
+  "el cómic": {
+    "es": "Mi hermano lee cómics.",
+    "en": "My brother reads comics."
+  },
+  "la instalación": {
+    "es": "La instalación ocupa toda la sala.",
+    "en": "The installation fills the whole room."
+  },
+  "la estatua": {
+    "es": "Hay una estatua en la plaza.",
+    "en": "There is a statue in the square."
+  },
+  "la arquitectura": {
+    "es": "Me encanta la arquitectura de Gaudí.",
+    "en": "I love Gaudí's architecture."
+  },
+  "la película": {
+    "es": "Vemos una película el sábado.",
+    "en": "We're watching a film on Saturday."
+  },
+  "el cine": {
+    "es": "¿Vamos al cine esta tarde?",
+    "en": "Shall we go to the cinema this afternoon?"
+  },
+  "el actor": {
+    "es": "Este actor es muy famoso.",
+    "en": "This actor is very famous."
+  },
+  "la actriz": {
+    "es": "La actriz es española.",
+    "en": "The actress is Spanish."
+  },
+  "la pantalla": {
+    "es": "La pantalla del cine es enorme.",
+    "en": "The cinema screen is huge."
+  },
+  "el director (film director)": {
+    "es": "Almodóvar es un director de cine.",
+    "en": "Almodóvar is a film director."
+  },
+  "el guion": {
+    "es": "El guion de la película es muy bueno.",
+    "en": "The film's script is very good."
+  },
+  "la entrada": {
+    "es": "Compro dos entradas para el concierto.",
+    "en": "I buy two tickets for the concert."
+  },
+  "el cortometraje": {
+    "es": "Mi amigo hace un cortometraje.",
+    "en": "My friend is making a short film."
+  },
+  "la banda sonora": {
+    "es": "Me encanta la banda sonora de esta película.",
+    "en": "I love this film's soundtrack."
+  },
+  "la comedia": {
+    "es": "Esta noche vemos una comedia.",
+    "en": "Tonight we're watching a comedy."
+  },
+  "el drama": {
+    "es": "Prefiero las comedias al drama.",
+    "en": "I prefer comedies to drama."
+  },
+  "el documental": {
+    "es": "Veo un documental sobre animales.",
+    "en": "I'm watching a documentary about animals."
+  },
+  "el terror": {
+    "es": "No veo películas de terror.",
+    "en": "I don't watch horror films."
+  },
+  "el protagonista": {
+    "es": "El protagonista es un niño.",
+    "en": "The main character is a boy."
+  },
+  "la sesión": {
+    "es": "La sesión empieza a las ocho.",
+    "en": "The showing starts at eight."
+  },
+  "las palomitas (de maíz)": {
+    "es": "Compramos palomitas en el cine.",
+    "en": "We buy popcorn at the cinema."
+  },
+  "el doblaje": {
+    "es": "El doblaje de esta serie es malo.",
+    "en": "The dubbing of this series is bad."
+  },
+  "la ciencia ficción": {
+    "es": "Me gusta la ciencia ficción.",
+    "en": "I like science fiction."
+  },
+  "la animación": {
+    "es": "Los niños ven una película de animación.",
+    "en": "The children watch an animated film."
+  },
+  "la butaca": {
+    "es": "Mi butaca es la número doce.",
+    "en": "My seat is number twelve."
+  },
+  "la fila": {
+    "es": "Nos sentamos en la primera fila.",
+    "en": "We sit in the front row."
+  },
+  "la crítica": {
+    "es": "La crítica de la película es buena.",
+    "en": "The film's review is good."
+  },
+  "el estreno": {
+    "es": "El estreno es el viernes.",
+    "en": "The premiere is on Friday."
+  },
+  "la cámara": {
+    "es": "Mi cámara es muy antigua.",
+    "en": "My camera is very old."
+  },
+  "el micrófono": {
+    "es": "El cantante coge el micrófono.",
+    "en": "The singer takes the microphone."
+  },
+  "la canción": {
+    "es": "Esta canción es muy bonita.",
+    "en": "This song is very beautiful."
+  },
+  "el instrumento": {
+    "es": "¿Tocas algún instrumento?",
+    "en": "Do you play an instrument?"
+  },
+  "la guitarra": {
+    "es": "Mi hermano toca la guitarra.",
+    "en": "My brother plays the guitar."
+  },
+  "el piano": {
+    "es": "Hay un piano en el salón.",
+    "en": "There is a piano in the living room."
+  },
+  "el violín": {
+    "es": "Mi hija estudia violín.",
+    "en": "My daughter studies the violin."
+  },
+  "la batería": {
+    "es": "Mi vecino toca la batería.",
+    "en": "My neighbour plays the drums."
+  },
+  "el concierto": {
+    "es": "El concierto es el sábado.",
+    "en": "The concert is on Saturday."
+  },
+  "la melodía": {
+    "es": "Esta melodía es muy fácil.",
+    "en": "This melody is very easy."
+  },
+  "el ritmo": {
+    "es": "Esta canción tiene mucho ritmo.",
+    "en": "This song has a lot of rhythm."
+  },
+  "la cantante": {
+    "es": "La cantante es de Colombia.",
+    "en": "The singer is from Colombia."
+  },
+  "el álbum": {
+    "es": "Me gusta su nuevo álbum.",
+    "en": "I like her new album."
+  },
+  "la letra": {
+    "es": "No entiendo la letra de la canción.",
+    "en": "I don't understand the lyrics of the song."
+  },
+  "el dinero": {
+    "es": "No tengo dinero en efectivo.",
+    "en": "I don't have any cash."
+  },
+  "el banco": {
+    "es": "El banco está cerca de la plaza.",
+    "en": "The bank is near the square."
+  },
+  "la cuenta (account)": {
+    "es": "Abro una cuenta en el banco.",
+    "en": "I open an account at the bank."
+  },
+  "el cajero automático": {
+    "es": "¿Hay un cajero automático por aquí?",
+    "en": "Is there a cash machine around here?"
+  },
+  "la tarjeta de débito": {
+    "es": "Pago con tarjeta de débito.",
+    "en": "I pay by debit card."
+  },
+  "el préstamo": {
+    "es": "Pido un préstamo al banco.",
+    "en": "I ask the bank for a loan."
+  },
+  "la hipoteca": {
+    "es": "Pagamos la hipoteca cada mes.",
+    "en": "We pay the mortgage every month."
+  },
+  "el impuesto": {
+    "es": "Los impuestos suben este año.",
+    "en": "Taxes are going up this year."
+  },
+  "el ahorro": {
+    "es": "Tengo pocos ahorros.",
+    "en": "I don't have much in savings."
+  },
+  "el interés": {
+    "es": "El interés del préstamo es alto.",
+    "en": "The interest on the loan is high."
+  },
+  "el gasto": {
+    "es": "Este mes tengo muchos gastos.",
+    "en": "This month I have lots of expenses."
+  },
+  "la deuda": {
+    "es": "No tengo deudas.",
+    "en": "I have no debts."
+  },
+  "el saldo": {
+    "es": "Miro el saldo de mi cuenta.",
+    "en": "I check my account balance."
+  },
+  "el seguro": {
+    "es": "El coche tiene seguro.",
+    "en": "The car is insured."
+  },
+  "la bolsa": {
+    "es": "La bolsa sube hoy.",
+    "en": "The stock market is up today."
+  },
+  "la moneda": {
+    "es": "El euro es la moneda de España.",
+    "en": "The euro is Spain's currency."
+  },
+  "el valor": {
+    "es": "El valor de la casa sube.",
+    "en": "The value of the house is going up."
+  },
+  "el medio ambiente": {
+    "es": "Reciclar es bueno para el medio ambiente.",
+    "en": "Recycling is good for the environment."
+  },
+  "el río": {
+    "es": "El río pasa por la ciudad.",
+    "en": "The river runs through the city."
+  },
+  "la montaña": {
+    "es": "Los fines de semana vamos a la montaña.",
+    "en": "At weekends we go to the mountains."
+  },
+  "el bosque": {
+    "es": "Paseamos por el bosque.",
+    "en": "We walk in the forest."
+  },
+  "el árbol": {
+    "es": "Hay un árbol grande en el jardín.",
+    "en": "There is a big tree in the garden."
+  },
+  "la flor": {
+    "es": "Te compro unas flores.",
+    "en": "I'm buying you some flowers."
+  },
+  "el cielo": {
+    "es": "Hoy el cielo está muy azul.",
+    "en": "Today the sky is very blue."
+  },
+  "la luna": {
+    "es": "Esta noche hay luna llena.",
+    "en": "Tonight there is a full moon."
+  },
+  "la estrella": {
+    "es": "En el campo veo muchas estrellas.",
+    "en": "In the countryside I see lots of stars."
+  },
+  "la tierra": {
+    "es": "La Tierra gira alrededor del Sol.",
+    "en": "The Earth goes round the Sun."
+  },
+  "el desierto": {
+    "es": "En el desierto hace mucho calor.",
+    "en": "It's very hot in the desert."
+  },
+  "la hoja": {
+    "es": "En otoño las hojas son amarillas.",
+    "en": "In autumn the leaves are yellow."
+  },
+  "el periódico": {
+    "es": "Mi padre compra el periódico cada día.",
+    "en": "My father buys the newspaper every day."
+  },
+  "la revista": {
+    "es": "Leo una revista en el tren.",
+    "en": "I read a magazine on the train."
+  },
+  "la televisión": {
+    "es": "No veo mucho la televisión.",
+    "en": "I don't watch much television."
+  },
+  "la radio": {
+    "es": "Escucho la radio en la cocina.",
+    "en": "I listen to the radio in the kitchen."
+  },
+  "el canal": {
+    "es": "¿En qué canal está el partido?",
+    "en": "What channel is the match on?"
+  },
+  "el anuncio": {
+    "es": "Hay muchos anuncios en la tele.",
+    "en": "There are lots of adverts on TV."
+  },
+  "el periodista": {
+    "es": "Mi prima es periodista.",
+    "en": "My cousin is a journalist."
+  },
+  "el artículo": {
+    "es": "Leo un artículo sobre España.",
+    "en": "I'm reading an article about Spain."
+  },
+  "la noticia": {
+    "es": "Tengo una buena noticia.",
+    "en": "I have some good news."
+  },
+  "la entrevista": {
+    "es": "Mañana tengo una entrevista de trabajo.",
+    "en": "Tomorrow I have a job interview."
+  },
+  "el internet": {
+    "es": "En el hotel no hay internet.",
+    "en": "There is no internet in the hotel."
+  },
+  "el correo electrónico": {
+    "es": "Te mando un correo electrónico.",
+    "en": "I'll send you an email."
+  },
+  "la red social": {
+    "es": "Mi hija usa mucho las redes sociales.",
+    "en": "My daughter uses social networks a lot."
+  },
+  "la página web": {
+    "es": "La página web del museo es muy clara.",
+    "en": "The museum's website is very clear."
+  },
+  "el navegador": {
+    "es": "Abro el navegador.",
+    "en": "I open the browser."
+  },
+  "la contraseña": {
+    "es": "No recuerdo mi contraseña.",
+    "en": "I don't remember my password."
+  },
+  "el enlace": {
+    "es": "Te mando el enlace.",
+    "en": "I'll send you the link."
+  },
+  "el chat": {
+    "es": "Hablamos por el chat del grupo.",
+    "en": "We talk in the group chat."
+  },
+  "el video, el vídeo": {
+    "es": "Mira este vídeo de mi perro.",
+    "en": "Look at this video of my dog."
+  },
+  "el meme": {
+    "es": "Mi hermano me manda memes.",
+    "en": "My brother sends me memes."
+  },
+  "el emoji": {
+    "es": "Siempre uso este emoji.",
+    "en": "I always use this emoji."
+  },
+  "la búsqueda": {
+    "es": "La búsqueda no da resultados.",
+    "en": "The search gives no results."
+  },
+  "el perfil": {
+    "es": "Mi perfil tiene una foto nueva.",
+    "en": "My profile has a new photo."
+  },
+  "la publicación": {
+    "es": "Tu publicación tiene muchos comentarios.",
+    "en": "Your post has lots of comments."
+  },
+  "el hashtag, la etiqueta": {
+    "es": "Uso el hashtag del concierto.",
+    "en": "I use the concert's hashtag."
+  },
+  "la descarga": {
+    "es": "La descarga tarda cinco minutos.",
+    "en": "The download takes five minutes."
+  },
+  "la nube (cloud storage)": {
+    "es": "Guardo las fotos en la nube.",
+    "en": "I save the photos in the cloud."
+  },
+  "el virus (computer virus)": {
+    "es": "Este correo tiene un virus.",
+    "en": "This email has a virus."
+  },
+  "navegar (browse)": {
+    "es": "Navego por internet por la noche.",
+    "en": "I browse the internet at night."
+  },
+  "descargar": {
+    "es": "Descargo la aplicación del banco.",
+    "en": "I download the bank's app."
+  },
+  "subir (upload)": {
+    "es": "Subo una foto a internet.",
+    "en": "I upload a photo to the internet."
+  },
+  "publicar": {
+    "es": "Publico fotos de mis viajes.",
+    "en": "I post photos of my trips."
+  },
+  "compartir": {
+    "es": "Comparto la foto con mi familia.",
+    "en": "I share the photo with my family."
+  },
+  "actualizar": {
+    "es": "Tengo que actualizar el teléfono.",
+    "en": "I have to update my phone."
+  },
+  "buscar": {
+    "es": "Busco un piso en el centro.",
+    "en": "I'm looking for a flat in the centre."
+  },
+  "chatear": {
+    "es": "Chateo con mis amigos por la noche.",
+    "en": "I chat with my friends at night."
+  },
+  "cerrar sesión": {
+    "es": "No olvides cerrar sesión.",
+    "en": "Don't forget to log out."
+  },
+  "seguir": {
+    "es": "Sigo a mi actor favorito.",
+    "en": "I follow my favourite actor."
+  },
+  "bloquear": {
+    "es": "Bloqueo los mensajes de publicidad.",
+    "en": "I block advertising messages."
+  },
+  "etiquetar": {
+    "es": "Mi amiga me etiqueta en una foto.",
+    "en": "My friend tags me in a photo."
+  },
+  "comentar": {
+    "es": "Mis amigos comentan mis fotos.",
+    "en": "My friends comment on my photos."
+  },
+  "gustar": {
+    "es": "Me gusta tu foto.",
+    "en": "I like your photo."
+  },
+  "iniciar sesión": {
+    "es": "Inicio sesión con mi correo.",
+    "en": "I log in with my email."
+  },
+  "reenviar": {
+    "es": "Te reenvío el mensaje.",
+    "en": "I'm forwarding you the message."
+  },
+  "filtrar": {
+    "es": "Filtro los hoteles por precio.",
+    "en": "I filter the hotels by price."
+  },
+  "España": {
+    "es": "Vivo en España.",
+    "en": "I live in Spain."
+  },
+  "Polonia": {
+    "es": "Mi amigo es de Polonia.",
+    "en": "My friend is from Poland."
+  },
+  "Alemania": {
+    "es": "Alemania es un país grande.",
+    "en": "Germany is a big country."
+  },
+  "Francia": {
+    "es": "París es la capital de Francia.",
+    "en": "Paris is the capital of France."
+  },
+  "Portugal": {
+    "es": "Portugal está al lado de España.",
+    "en": "Portugal is next to Spain."
+  },
+  "Ucrania": {
+    "es": "Mi vecina es de Ucrania.",
+    "en": "My neighbour is from Ukraine."
+  },
+  "Italia": {
+    "es": "En Italia comen mucha pasta.",
+    "en": "In Italy they eat a lot of pasta."
+  },
+  "Gran Bretaña/Reino Unido": {
+    "es": "Mi hermano trabaja en el Reino Unido.",
+    "en": "My brother works in the United Kingdom."
+  },
+  "Inglaterra": {
+    "es": "Estudio inglés en Inglaterra.",
+    "en": "I study English in England."
+  },
+  "Irlanda": {
+    "es": "En Irlanda llueve mucho.",
+    "en": "It rains a lot in Ireland."
+  },
+  "Países Bajos": {
+    "es": "Ámsterdam está en los Países Bajos.",
+    "en": "Amsterdam is in the Netherlands."
+  },
+  "Dinamarca": {
+    "es": "Copenhague es la capital de Dinamarca.",
+    "en": "Copenhagen is the capital of Denmark."
+  },
+  "Noruega": {
+    "es": "En Noruega hace frío.",
+    "en": "It's cold in Norway."
+  },
+  "Grecia": {
+    "es": "En verano viajo a Grecia.",
+    "en": "In summer I travel to Greece."
+  },
+  "Letonia": {
+    "es": "Riga es la capital de Letonia.",
+    "en": "Riga is the capital of Latvia."
+  },
+  "Lituania": {
+    "es": "Mi abuelo es de Lituania.",
+    "en": "My grandfather is from Lithuania."
+  },
+  "Estonia": {
+    "es": "Estonia está en el norte de Europa.",
+    "en": "Estonia is in northern Europe."
+  },
+  "Hungría": {
+    "es": "Budapest es la capital de Hungría.",
+    "en": "Budapest is the capital of Hungary."
+  },
+  "Suecia": {
+    "es": "Mi prima vive en Suecia.",
+    "en": "My cousin lives in Sweden."
+  },
+  "Eslovaquia": {
+    "es": "Eslovaquia es un país pequeño.",
+    "en": "Slovakia is a small country."
+  },
+  "Croacia": {
+    "es": "Las playas de Croacia son bonitas.",
+    "en": "Croatia's beaches are beautiful."
+  },
+  "Bielorrusia": {
+    "es": "Bielorrusia está al este de Polonia.",
+    "en": "Belarus is east of Poland."
+  },
+  "Suiza": {
+    "es": "En Suiza hablan cuatro idiomas.",
+    "en": "In Switzerland they speak four languages."
+  },
+  "la fiesta": {
+    "es": "El lunes es fiesta y no trabajo.",
+    "en": "Monday is a holiday, so I'm not working."
+  },
+  "el cumpleaños": {
+    "es": "¡Feliz cumpleaños!",
+    "en": "Happy birthday!"
+  },
+  "la Navidad": {
+    "es": "¡Feliz Navidad!",
+    "en": "Merry Christmas!"
+  },
+  "el Año Nuevo": {
+    "es": "¡Feliz Año Nuevo!",
+    "en": "Happy New Year!"
+  },
+  "el Día de los Muertos": {
+    "es": "En México celebran el Día de los Muertos.",
+    "en": "In Mexico they celebrate the Day of the Dead."
+  },
+  "la Pascua": {
+    "es": "En Pascua comemos huevos de chocolate.",
+    "en": "At Easter we eat chocolate eggs."
+  },
+  "la Semana Santa": {
+    "es": "En Semana Santa no hay clase.",
+    "en": "There are no classes during Holy Week."
+  },
+  "el Día de la Madre": {
+    "es": "El Día de la Madre compro flores.",
+    "en": "On Mother's Day I buy flowers."
+  },
+  "el Día del Padre": {
+    "es": "El Día del Padre comemos juntos.",
+    "en": "On Father's Day we have lunch together."
+  },
+  "la Nochebuena": {
+    "es": "En Nochebuena cenamos con la familia.",
+    "en": "On Christmas Eve we have dinner with the family."
+  },
+  "la Nochevieja": {
+    "es": "En Nochevieja salimos con amigos.",
+    "en": "On New Year's Eve we go out with friends."
+  },
+  "el Carnaval": {
+    "es": "En Carnaval llevamos disfraces.",
+    "en": "At Carnival we wear costumes."
+  },
+  "el Día de San Valentín": {
+    "es": "El Día de San Valentín cenamos fuera.",
+    "en": "On Valentine's Day we eat out."
+  },
+  "el Día de Acción de Gracias": {
+    "es": "En Estados Unidos celebran el Día de Acción de Gracias.",
+    "en": "In the United States they celebrate Thanksgiving."
+  }
+}

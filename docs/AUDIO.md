@@ -116,5 +116,5 @@ access to download matching recordings from that voice's 100 most recent history
 items, without generating speech. Legacy recovery cannot recover directed v3
 batches.
 
-The ElevenLabs generator needs only Node 22.18+ and an API key, and does not
-need FFmpeg. Normal use of the finished app needs no generator.
+Generation runs on Node 22.18+ with an ElevenLabs API key. The finished app
+plays the committed clips from `public/audio`.

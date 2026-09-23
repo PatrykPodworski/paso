@@ -1,0 +1,3958 @@
+[
+  {
+    "topic": "Everyday basics",
+    "optional": false,
+    "words": [
+      {
+        "es": "hola",
+        "en": "hello"
+      },
+      {
+        "es": "adiós",
+        "en": "goodbye"
+      },
+      {
+        "es": "gracias",
+        "en": "thank you"
+      },
+      {
+        "es": "por favor",
+        "en": "please"
+      },
+      {
+        "es": "buenos días",
+        "en": "good morning"
+      },
+      {
+        "es": "buenas noches",
+        "en": "good evening / good night"
+      },
+      {
+        "es": "hasta luego",
+        "en": "see you later"
+      },
+      {
+        "es": "perdón",
+        "en": "sorry / excuse me"
+      },
+      {
+        "es": "el nombre",
+        "en": "first name"
+      },
+      {
+        "es": "el apellido",
+        "en": "surname"
+      },
+      {
+        "es": "la dirección",
+        "en": "address"
+      },
+      {
+        "es": "el teléfono",
+        "en": "telephone"
+      },
+      {
+        "es": "veinte",
+        "en": "twenty"
+      },
+      {
+        "es": "treinta",
+        "en": "thirty"
+      },
+      {
+        "es": "la nacionalidad",
+        "en": "nationality"
+      },
+      {
+        "es": "la amiga",
+        "en": "female friend"
+      },
+      {
+        "es": "la mañana",
+        "en": "morning"
+      },
+      {
+        "es": "la tarde",
+        "en": "afternoon"
+      },
+      {
+        "es": "la noche",
+        "en": "night"
+      },
+      {
+        "es": "desayunar",
+        "en": "to have breakfast"
+      },
+      {
+        "es": "la calle",
+        "en": "street"
+      },
+      {
+        "es": "la plaza",
+        "en": "square"
+      },
+      {
+        "es": "la farmacia",
+        "en": "pharmacy"
+      },
+      {
+        "es": "el parque",
+        "en": "park"
+      },
+      {
+        "es": "los zapatos",
+        "en": "shoes"
+      },
+      {
+        "es": "la talla",
+        "en": "size"
+      },
+      {
+        "es": "la tarjeta",
+        "en": "card"
+      },
+      {
+        "es": "bailar",
+        "en": "to dance"
+      },
+      {
+        "es": "la escuela",
+        "en": "school"
+      },
+      {
+        "es": "cansado",
+        "en": "tired (masculine)"
+      },
+      {
+        "es": "la pregunta",
+        "en": "question"
+      },
+      {
+        "es": "la respuesta",
+        "en": "answer"
+      },
+      {
+        "es": "despacio",
+        "en": "slowly"
+      },
+      {
+        "es": "repetir",
+        "en": "to repeat"
+      }
+    ]
+  },
+  {
+    "topic": "Basic verbs",
+    "optional": false,
+    "words": [
+      {
+        "es": "hablar",
+        "en": "to speak, talk"
+      },
+      {
+        "es": "comer",
+        "en": "to eat"
+      },
+      {
+        "es": "beber",
+        "en": "to drink"
+      },
+      {
+        "es": "leer",
+        "en": "to read"
+      },
+      {
+        "es": "escribir",
+        "en": "to write"
+      },
+      {
+        "es": "trabajar",
+        "en": "to work"
+      },
+      {
+        "es": "estudiar",
+        "en": "to study"
+      },
+      {
+        "es": "dormir",
+        "en": "to sleep"
+      },
+      {
+        "es": "correr",
+        "en": "to run"
+      },
+      {
+        "es": "nadar",
+        "en": "to swim"
+      },
+      {
+        "es": "cantar",
+        "en": "to sing"
+      },
+      {
+        "es": "limpiar",
+        "en": "to clean"
+      },
+      {
+        "es": "jugar",
+        "en": "to play"
+      },
+      {
+        "es": "ver",
+        "en": "to see, watch"
+      },
+      {
+        "es": "oír",
+        "en": "to hear"
+      },
+      {
+        "es": "comprar",
+        "en": "to buy"
+      },
+      {
+        "es": "vender",
+        "en": "to sell"
+      },
+      {
+        "es": "entender",
+        "en": "to understand"
+      },
+      {
+        "es": "pensar",
+        "en": "to think"
+      },
+      {
+        "es": "amar",
+        "en": "to love"
+      },
+      {
+        "es": "odiar",
+        "en": "to hate"
+      },
+      {
+        "es": "viajar",
+        "en": "to travel"
+      },
+      {
+        "es": "pedir",
+        "en": "to ask for, order"
+      },
+      {
+        "es": "reír",
+        "en": "to laugh"
+      },
+      {
+        "es": "llorar",
+        "en": "to cry"
+      },
+      {
+        "es": "hacer",
+        "en": "to do, make"
+      }
+    ]
+  },
+  {
+    "topic": "Basic adjectives",
+    "optional": false,
+    "words": [
+      {
+        "es": "bueno/a",
+        "en": "good"
+      },
+      {
+        "es": "malo/a",
+        "en": "bad"
+      },
+      {
+        "es": "grande",
+        "en": "big"
+      },
+      {
+        "es": "pequeño/a",
+        "en": "small"
+      },
+      {
+        "es": "hermoso/a",
+        "en": "beautiful"
+      },
+      {
+        "es": "feo/a",
+        "en": "ugly"
+      },
+      {
+        "es": "nuevo/a",
+        "en": "new"
+      },
+      {
+        "es": "antiguo/a",
+        "en": "old, ancient"
+      },
+      {
+        "es": "fácil",
+        "en": "easy"
+      },
+      {
+        "es": "difícil",
+        "en": "difficult"
+      },
+      {
+        "es": "rápido/a",
+        "en": "fast"
+      },
+      {
+        "es": "triste",
+        "en": "sad"
+      },
+      {
+        "es": "rico/a",
+        "en": "tasty"
+      },
+      {
+        "key": "rico/a (rich)",
+        "es": "rico/a",
+        "en": "rich"
+      },
+      {
+        "es": "pobre",
+        "en": "poor"
+      },
+      {
+        "es": "amable",
+        "en": "kind"
+      },
+      {
+        "es": "grosero/a",
+        "en": "rude"
+      },
+      {
+        "es": "limpio/a",
+        "en": "clean"
+      },
+      {
+        "es": "sucio/a",
+        "en": "dirty"
+      },
+      {
+        "es": "alto/a",
+        "en": "tall, high"
+      },
+      {
+        "es": "bajo/a",
+        "en": "short, low"
+      },
+      {
+        "es": "fuerte",
+        "en": "strong"
+      },
+      {
+        "es": "débil",
+        "en": "weak"
+      },
+      {
+        "es": "gordo/a",
+        "en": "fat"
+      },
+      {
+        "es": "delgado/a",
+        "en": "thin, slim"
+      },
+      {
+        "es": "caliente",
+        "en": "hot"
+      },
+      {
+        "es": "frío/a",
+        "en": "cold"
+      }
+    ]
+  },
+  {
+    "topic": "Adverbs of time and frequency",
+    "optional": false,
+    "words": [
+      {
+        "es": "siempre",
+        "en": "always"
+      },
+      {
+        "es": "nunca",
+        "en": "never"
+      },
+      {
+        "es": "a menudo",
+        "en": "often"
+      },
+      {
+        "es": "a veces",
+        "en": "sometimes"
+      },
+      {
+        "es": "rara vez",
+        "en": "rarely"
+      },
+      {
+        "es": "todavía",
+        "en": "still, yet"
+      },
+      {
+        "es": "ya",
+        "en": "already"
+      },
+      {
+        "es": "casi",
+        "en": "almost"
+      },
+      {
+        "es": "de vez en cuando",
+        "en": "from time to time"
+      },
+      {
+        "es": "generalmente",
+        "en": "generally"
+      },
+      {
+        "es": "normalmente",
+        "en": "normally, usually"
+      },
+      {
+        "es": "diariamente",
+        "en": "daily"
+      },
+      {
+        "es": "semanalmente",
+        "en": "weekly"
+      },
+      {
+        "es": "anualmente",
+        "en": "yearly"
+      },
+      {
+        "es": "pocas veces",
+        "en": "seldom"
+      },
+      {
+        "es": "usualmente",
+        "en": "usually"
+      },
+      {
+        "es": "constantemente",
+        "en": "constantly"
+      },
+      {
+        "es": "a diario",
+        "en": "every day"
+      },
+      {
+        "es": "inmediatamente",
+        "en": "immediately"
+      },
+      {
+        "es": "finalmente",
+        "en": "finally"
+      },
+      {
+        "es": "mensualmente",
+        "en": "monthly"
+      },
+      {
+        "es": "tarde",
+        "en": "late"
+      },
+      {
+        "es": "temprano",
+        "en": "early"
+      },
+      {
+        "es": "antes",
+        "en": "before"
+      },
+      {
+        "es": "después",
+        "en": "after, afterwards"
+      }
+    ]
+  },
+  {
+    "topic": "Colours",
+    "optional": false,
+    "words": [
+      {
+        "es": "rojo",
+        "en": "red"
+      },
+      {
+        "es": "azul",
+        "en": "blue"
+      },
+      {
+        "es": "amarillo",
+        "en": "yellow"
+      },
+      {
+        "es": "blanco",
+        "en": "white"
+      },
+      {
+        "es": "gris",
+        "en": "grey"
+      },
+      {
+        "es": "verde",
+        "en": "green"
+      },
+      {
+        "es": "negro",
+        "en": "black"
+      },
+      {
+        "es": "marrón",
+        "en": "brown"
+      },
+      {
+        "es": "naranja",
+        "en": "orange"
+      },
+      {
+        "es": "púrpura",
+        "en": "purple"
+      },
+      {
+        "es": "plateado",
+        "en": "silver"
+      },
+      {
+        "es": "beige",
+        "en": "beige"
+      },
+      {
+        "es": "dorado",
+        "en": "gold, golden"
+      },
+      {
+        "es": "turquesa",
+        "en": "turquoise"
+      },
+      {
+        "es": "coral",
+        "en": "coral"
+      },
+      {
+        "es": "granate",
+        "en": "maroon"
+      }
+    ]
+  },
+  {
+    "topic": "Groceries",
+    "optional": false,
+    "words": [
+      {
+        "es": "el pan",
+        "en": "bread"
+      },
+      {
+        "es": "la leche",
+        "en": "milk"
+      },
+      {
+        "es": "el queso",
+        "en": "cheese"
+      },
+      {
+        "es": "el arroz",
+        "en": "rice"
+      },
+      {
+        "es": "los huevos",
+        "en": "eggs"
+      },
+      {
+        "es": "la mantequilla",
+        "en": "butter"
+      },
+      {
+        "es": "el aceite",
+        "en": "oil"
+      },
+      {
+        "es": "la sal",
+        "en": "salt"
+      },
+      {
+        "es": "la pimienta",
+        "en": "pepper"
+      },
+      {
+        "es": "el azúcar",
+        "en": "sugar"
+      },
+      {
+        "es": "el yogur",
+        "en": "yoghurt"
+      },
+      {
+        "es": "las legumbres",
+        "en": "pulses, legumes"
+      },
+      {
+        "es": "las nueces",
+        "en": "nuts, walnuts"
+      },
+      {
+        "es": "la miel",
+        "en": "honey"
+      },
+      {
+        "es": "el tofu",
+        "en": "tofu"
+      }
+    ]
+  },
+  {
+    "topic": "Fruit",
+    "optional": false,
+    "words": [
+      {
+        "es": "la manzana",
+        "en": "apple"
+      },
+      {
+        "es": "el plátano",
+        "en": "banana"
+      },
+      {
+        "es": "la naranja",
+        "en": "orange"
+      },
+      {
+        "es": "la fresa",
+        "en": "strawberry"
+      },
+      {
+        "es": "el limón",
+        "en": "lemon"
+      },
+      {
+        "es": "la cereza",
+        "en": "cherry"
+      },
+      {
+        "es": "el melocotón",
+        "en": "peach"
+      },
+      {
+        "es": "la pera",
+        "en": "pear"
+      },
+      {
+        "es": "la piña",
+        "en": "pineapple"
+      },
+      {
+        "es": "el kiwi",
+        "en": "kiwi"
+      },
+      {
+        "es": "la frambuesa",
+        "en": "raspberry"
+      },
+      {
+        "es": "el mango",
+        "en": "mango"
+      },
+      {
+        "es": "la papaya",
+        "en": "papaya"
+      },
+      {
+        "es": "el albaricoque",
+        "en": "apricot"
+      },
+      {
+        "es": "el melón",
+        "en": "melon"
+      },
+      {
+        "es": "la uva",
+        "en": "grape"
+      },
+      {
+        "es": "la granada",
+        "en": "pomegranate"
+      },
+      {
+        "es": "el coco",
+        "en": "coconut"
+      },
+      {
+        "es": "la aceituna",
+        "en": "olive"
+      },
+      {
+        "es": "el aguacate",
+        "en": "avocado"
+      },
+      {
+        "es": "la ciruela",
+        "en": "plum"
+      },
+      {
+        "es": "la grosella",
+        "en": "currant"
+      },
+      {
+        "es": "el higo",
+        "en": "fig"
+      }
+    ]
+  },
+  {
+    "topic": "Vegetables",
+    "optional": false,
+    "words": [
+      {
+        "es": "la zanahoria",
+        "en": "carrot"
+      },
+      {
+        "es": "el tomate",
+        "en": "tomato"
+      },
+      {
+        "es": "la cebolla",
+        "en": "onion"
+      },
+      {
+        "es": "la lechuga",
+        "en": "lettuce"
+      },
+      {
+        "es": "el pepino",
+        "en": "cucumber"
+      },
+      {
+        "es": "la patata",
+        "en": "potato"
+      },
+      {
+        "es": "el ajo",
+        "en": "garlic"
+      },
+      {
+        "es": "la berenjena",
+        "en": "aubergine"
+      },
+      {
+        "es": "la calabaza",
+        "en": "pumpkin"
+      },
+      {
+        "es": "el maíz",
+        "en": "corn"
+      },
+      {
+        "es": "la espinaca",
+        "en": "spinach"
+      },
+      {
+        "es": "el pimiento",
+        "en": "pepper (vegetable)"
+      },
+      {
+        "es": "el guisante",
+        "en": "pea"
+      },
+      {
+        "es": "la col",
+        "en": "cabbage"
+      },
+      {
+        "es": "el calabacín",
+        "en": "courgette"
+      },
+      {
+        "es": "la alcachofa",
+        "en": "artichoke"
+      },
+      {
+        "es": "el rábano",
+        "en": "radish"
+      },
+      {
+        "es": "el apio",
+        "en": "celery"
+      },
+      {
+        "es": "la remolacha",
+        "en": "beetroot"
+      },
+      {
+        "es": "el puerro",
+        "en": "leek"
+      },
+      {
+        "es": "la seta",
+        "en": "mushroom"
+      }
+    ]
+  },
+  {
+    "topic": "Meat",
+    "optional": false,
+    "words": [
+      {
+        "es": "la carne",
+        "en": "meat"
+      },
+      {
+        "es": "el pollo",
+        "en": "chicken"
+      },
+      {
+        "es": "el pavo",
+        "en": "turkey"
+      },
+      {
+        "es": "el pato",
+        "en": "duck"
+      },
+      {
+        "es": "el conejo",
+        "en": "rabbit"
+      },
+      {
+        "es": "el jamón",
+        "en": "ham"
+      },
+      {
+        "es": "el salchichón",
+        "en": "salami-style sausage"
+      },
+      {
+        "es": "el tocino, el beicon",
+        "en": "bacon"
+      },
+      {
+        "es": "el cerdo",
+        "en": "pork"
+      },
+      {
+        "es": "el cordero",
+        "en": "lamb"
+      }
+    ]
+  },
+  {
+    "topic": "Fish and seafood",
+    "optional": false,
+    "words": [
+      {
+        "es": "el pescado",
+        "en": "fish (as food)"
+      },
+      {
+        "es": "el salmón",
+        "en": "salmon"
+      },
+      {
+        "es": "la sardina",
+        "en": "sardine"
+      },
+      {
+        "es": "el arenque",
+        "en": "herring"
+      },
+      {
+        "es": "la trucha",
+        "en": "trout"
+      },
+      {
+        "es": "el atún",
+        "en": "tuna"
+      },
+      {
+        "es": "el bacalao",
+        "en": "cod"
+      },
+      {
+        "es": "el calamar",
+        "en": "squid"
+      },
+      {
+        "es": "el cangrejo",
+        "en": "crab"
+      },
+      {
+        "es": "la langosta",
+        "en": "lobster"
+      }
+    ]
+  },
+  {
+    "topic": "Sweets",
+    "optional": false,
+    "words": [
+      {
+        "es": "el chocolate",
+        "en": "chocolate"
+      },
+      {
+        "es": "el pastel",
+        "en": "cake"
+      },
+      {
+        "es": "la galleta",
+        "en": "biscuit, cookie"
+      },
+      {
+        "es": "el caramelo",
+        "en": "sweet, candy"
+      },
+      {
+        "es": "el helado",
+        "en": "ice cream"
+      },
+      {
+        "es": "el bombón",
+        "en": "chocolate (praline)"
+      },
+      {
+        "es": "el donut",
+        "en": "doughnut"
+      },
+      {
+        "es": "la tarta",
+        "en": "cake, tart"
+      },
+      {
+        "es": "el bizcocho",
+        "en": "sponge cake"
+      },
+      {
+        "es": "el churro",
+        "en": "churro"
+      },
+      {
+        "es": "el brownie",
+        "en": "brownie"
+      },
+      {
+        "es": "el croissant",
+        "en": "croissant"
+      }
+    ]
+  },
+  {
+    "topic": "Drinks",
+    "optional": false,
+    "words": [
+      {
+        "es": "el agua",
+        "en": "water"
+      },
+      {
+        "es": "el café",
+        "en": "coffee"
+      },
+      {
+        "es": "el té",
+        "en": "tea"
+      },
+      {
+        "es": "la cerveza",
+        "en": "beer"
+      },
+      {
+        "es": "el vino",
+        "en": "wine"
+      },
+      {
+        "es": "el refresco",
+        "en": "soft drink"
+      },
+      {
+        "es": "el batido",
+        "en": "milkshake, smoothie"
+      },
+      {
+        "es": "el zumo",
+        "en": "juice"
+      },
+      {
+        "es": "la limonada",
+        "en": "lemonade"
+      },
+      {
+        "es": "el chocolate caliente",
+        "en": "hot chocolate"
+      },
+      {
+        "es": "la infusión",
+        "en": "herbal tea"
+      }
+    ]
+  },
+  {
+    "topic": "Kitchen",
+    "optional": false,
+    "words": [
+      {
+        "es": "la cocina",
+        "en": "kitchen"
+      },
+      {
+        "es": "el horno",
+        "en": "oven"
+      },
+      {
+        "es": "la nevera",
+        "en": "fridge"
+      },
+      {
+        "es": "el congelador",
+        "en": "freezer"
+      },
+      {
+        "es": "el microondas",
+        "en": "microwave"
+      },
+      {
+        "es": "la cafetera",
+        "en": "coffee maker"
+      },
+      {
+        "es": "la tetera",
+        "en": "teapot"
+      },
+      {
+        "es": "el lavavajillas",
+        "en": "dishwasher"
+      },
+      {
+        "es": "el cuchillo",
+        "en": "knife"
+      },
+      {
+        "es": "el tenedor",
+        "en": "fork"
+      },
+      {
+        "es": "la cuchara",
+        "en": "spoon"
+      },
+      {
+        "es": "el vaso",
+        "en": "glass"
+      },
+      {
+        "es": "la sartén",
+        "en": "frying pan"
+      },
+      {
+        "es": "la olla",
+        "en": "pot"
+      },
+      {
+        "es": "el colador",
+        "en": "colander"
+      },
+      {
+        "es": "la batidora",
+        "en": "blender"
+      },
+      {
+        "es": "la tabla de cortar",
+        "en": "chopping board"
+      },
+      {
+        "es": "el rallador",
+        "en": "grater"
+      },
+      {
+        "es": "el abrelatas",
+        "en": "tin opener"
+      },
+      {
+        "es": "la jarra",
+        "en": "jug"
+      },
+      {
+        "es": "la cesta",
+        "en": "basket"
+      },
+      {
+        "es": "el hervidor",
+        "en": "kettle"
+      },
+      {
+        "es": "el pimentero",
+        "en": "pepper pot"
+      },
+      {
+        "es": "la bandeja",
+        "en": "tray"
+      }
+    ]
+  },
+  {
+    "topic": "Home",
+    "optional": false,
+    "words": [
+      {
+        "es": "la casa",
+        "en": "house, home"
+      },
+      {
+        "es": "el piso",
+        "en": "flat, apartment"
+      },
+      {
+        "es": "la habitación",
+        "en": "room"
+      },
+      {
+        "es": "el baño",
+        "en": "bathroom"
+      },
+      {
+        "es": "el salón",
+        "en": "living room"
+      },
+      {
+        "es": "el dormitorio",
+        "en": "bedroom"
+      },
+      {
+        "es": "la cama",
+        "en": "bed"
+      },
+      {
+        "es": "el sofá",
+        "en": "sofa"
+      },
+      {
+        "es": "la mesa",
+        "en": "table"
+      },
+      {
+        "es": "la silla",
+        "en": "chair"
+      },
+      {
+        "es": "la ventana",
+        "en": "window"
+      },
+      {
+        "es": "la puerta",
+        "en": "door"
+      },
+      {
+        "es": "el televisor",
+        "en": "television set"
+      },
+      {
+        "es": "la lámpara",
+        "en": "lamp"
+      },
+      {
+        "es": "el ordenador",
+        "en": "computer"
+      },
+      {
+        "es": "la ducha",
+        "en": "shower"
+      },
+      {
+        "es": "el lavabo",
+        "en": "washbasin"
+      },
+      {
+        "es": "el espejo",
+        "en": "mirror"
+      },
+      {
+        "es": "el escritorio",
+        "en": "desk"
+      },
+      {
+        "es": "la alfombra",
+        "en": "rug, carpet"
+      },
+      {
+        "es": "el cuadro",
+        "en": "painting, picture"
+      },
+      {
+        "es": "la almohada",
+        "en": "pillow"
+      },
+      {
+        "es": "la manta",
+        "en": "blanket"
+      },
+      {
+        "es": "la chimenea",
+        "en": "fireplace"
+      },
+      {
+        "es": "el jardín",
+        "en": "garden"
+      },
+      {
+        "es": "la escalera",
+        "en": "stairs"
+      },
+      {
+        "es": "el techo",
+        "en": "ceiling"
+      },
+      {
+        "es": "el sótano",
+        "en": "basement"
+      },
+      {
+        "es": "el garaje",
+        "en": "garage"
+      },
+      {
+        "es": "el balcón",
+        "en": "balcony"
+      },
+      {
+        "es": "el pasillo",
+        "en": "corridor, hallway"
+      },
+      {
+        "es": "el despertador",
+        "en": "alarm clock"
+      },
+      {
+        "es": "la bañera",
+        "en": "bathtub"
+      }
+    ]
+  },
+  {
+    "topic": "Location",
+    "optional": false,
+    "words": [
+      {
+        "es": "en",
+        "en": "in, at"
+      },
+      {
+        "es": "encima de",
+        "en": "on top of, above"
+      },
+      {
+        "es": "debajo de",
+        "en": "under"
+      },
+      {
+        "es": "delante de",
+        "en": "in front of"
+      },
+      {
+        "es": "detrás de",
+        "en": "behind"
+      },
+      {
+        "es": "al lado de",
+        "en": "next to"
+      },
+      {
+        "es": "entre",
+        "en": "between"
+      },
+      {
+        "es": "cerca de",
+        "en": "near"
+      },
+      {
+        "es": "lejos de",
+        "en": "far from"
+      },
+      {
+        "es": "dentro de",
+        "en": "inside"
+      },
+      {
+        "es": "fuera de",
+        "en": "outside"
+      },
+      {
+        "es": "enfrente de",
+        "en": "opposite"
+      },
+      {
+        "es": "alrededor de",
+        "en": "around"
+      },
+      {
+        "es": "en medio de",
+        "en": "in the middle of"
+      }
+    ]
+  },
+  {
+    "topic": "Emotions",
+    "optional": false,
+    "words": [
+      {
+        "es": "sorprendido/a",
+        "en": "surprised"
+      },
+      {
+        "es": "contento",
+        "en": "happy, pleased"
+      },
+      {
+        "es": "satisfecho/a",
+        "en": "satisfied"
+      },
+      {
+        "es": "lleno/a de alegría",
+        "en": "full of joy"
+      },
+      {
+        "es": "encantado/a",
+        "en": "delighted"
+      },
+      {
+        "es": "preocupado/a",
+        "en": "worried"
+      },
+      {
+        "es": "irritado/a",
+        "en": "irritated"
+      },
+      {
+        "es": "enfadado/a",
+        "en": "angry"
+      },
+      {
+        "es": "deprimido/a",
+        "en": "depressed"
+      },
+      {
+        "es": "decepcionado/a",
+        "en": "disappointed"
+      },
+      {
+        "es": "desanimado/a",
+        "en": "discouraged"
+      },
+      {
+        "es": "aplastado/a",
+        "en": "crushed"
+      },
+      {
+        "es": "descontento/a",
+        "en": "unhappy, dissatisfied"
+      },
+      {
+        "es": "relajado/a",
+        "en": "relaxed"
+      },
+      {
+        "es": "sereno/a",
+        "en": "calm"
+      },
+      {
+        "es": "asustado/a",
+        "en": "scared"
+      },
+      {
+        "es": "apático/a",
+        "en": "apathetic"
+      },
+      {
+        "es": "aterrado/a",
+        "en": "terrified"
+      }
+    ]
+  },
+  {
+    "topic": "Body parts",
+    "optional": false,
+    "words": [
+      {
+        "es": "la cabeza",
+        "en": "head"
+      },
+      {
+        "es": "el ojo",
+        "en": "eye"
+      },
+      {
+        "es": "la oreja",
+        "en": "ear"
+      },
+      {
+        "es": "la nariz",
+        "en": "nose"
+      },
+      {
+        "es": "la boca",
+        "en": "mouth"
+      },
+      {
+        "es": "el brazo",
+        "en": "arm"
+      },
+      {
+        "es": "la mano",
+        "en": "hand"
+      },
+      {
+        "es": "el dedo",
+        "en": "finger"
+      },
+      {
+        "es": "el pecho",
+        "en": "chest"
+      },
+      {
+        "es": "el estómago",
+        "en": "stomach"
+      },
+      {
+        "es": "la espalda",
+        "en": "back"
+      },
+      {
+        "es": "la rodilla",
+        "en": "knee"
+      },
+      {
+        "es": "el codo",
+        "en": "elbow"
+      },
+      {
+        "es": "el hombro",
+        "en": "shoulder"
+      },
+      {
+        "es": "el cuello",
+        "en": "neck"
+      },
+      {
+        "es": "la piel",
+        "en": "skin"
+      },
+      {
+        "es": "el hueso",
+        "en": "bone"
+      },
+      {
+        "es": "el músculo",
+        "en": "muscle"
+      },
+      {
+        "es": "el pelo",
+        "en": "hair"
+      },
+      {
+        "es": "el corazón",
+        "en": "heart"
+      },
+      {
+        "es": "los dientes",
+        "en": "teeth"
+      }
+    ]
+  },
+  {
+    "topic": "Appearance (nouns)",
+    "optional": false,
+    "words": [
+      {
+        "es": "los ojos",
+        "en": "eyes"
+      },
+      {
+        "es": "las orejas",
+        "en": "ears"
+      },
+      {
+        "es": "la cara",
+        "en": "face"
+      },
+      {
+        "es": "el labio",
+        "en": "lip"
+      },
+      {
+        "es": "las cejas",
+        "en": "eyebrows"
+      },
+      {
+        "es": "las pestañas",
+        "en": "eyelashes"
+      },
+      {
+        "es": "la barba",
+        "en": "beard"
+      },
+      {
+        "es": "el bigote",
+        "en": "moustache"
+      },
+      {
+        "es": "la altura",
+        "en": "height"
+      },
+      {
+        "es": "el peso",
+        "en": "weight"
+      },
+      {
+        "es": "el cabello",
+        "en": "hair"
+      },
+      {
+        "es": "la barbilla",
+        "en": "chin"
+      },
+      {
+        "es": "las mejillas",
+        "en": "cheeks"
+      },
+      {
+        "es": "la frente",
+        "en": "forehead"
+      },
+      {
+        "es": "las uñas",
+        "en": "nails"
+      },
+      {
+        "es": "las arrugas",
+        "en": "wrinkles"
+      },
+      {
+        "es": "el lunar",
+        "en": "mole, beauty spot"
+      },
+      {
+        "es": "la mancha de nacimiento",
+        "en": "birthmark"
+      }
+    ]
+  },
+  {
+    "topic": "Appearance (verbs)",
+    "optional": true,
+    "words": [
+      {
+        "es": "parecer",
+        "en": "to seem, look"
+      },
+      {
+        "es": "maquillar",
+        "en": "to put make-up on"
+      },
+      {
+        "es": "peinar",
+        "en": "to comb"
+      },
+      {
+        "es": "afeitarse",
+        "en": "to shave"
+      },
+      {
+        "es": "lavarse",
+        "en": "to wash (oneself)"
+      },
+      {
+        "es": "cortar",
+        "en": "to cut"
+      },
+      {
+        "es": "teñir",
+        "en": "to dye"
+      },
+      {
+        "es": "crecer",
+        "en": "to grow"
+      }
+    ]
+  },
+  {
+    "topic": "Appearance (adjectives)",
+    "optional": false,
+    "words": [
+      {
+        "es": "bonito/a",
+        "en": "pretty"
+      },
+      {
+        "es": "joven",
+        "en": "young"
+      }
+    ]
+  },
+  {
+    "topic": "Clothes",
+    "optional": false,
+    "words": [
+      {
+        "es": "la camiseta",
+        "en": "T-shirt"
+      },
+      {
+        "es": "el pantalón/los pantalones",
+        "en": "trousers"
+      },
+      {
+        "es": "el vestido",
+        "en": "dress"
+      },
+      {
+        "es": "la falda",
+        "en": "skirt"
+      },
+      {
+        "es": "la blusa",
+        "en": "blouse"
+      },
+      {
+        "es": "el jersey",
+        "en": "jumper, sweater"
+      },
+      {
+        "es": "el traje",
+        "en": "suit"
+      },
+      {
+        "es": "la corbata",
+        "en": "tie"
+      },
+      {
+        "es": "la chaqueta",
+        "en": "jacket"
+      },
+      {
+        "es": "el abrigo",
+        "en": "coat"
+      },
+      {
+        "es": "el sombrero",
+        "en": "hat"
+      },
+      {
+        "es": "las botas",
+        "en": "boots"
+      },
+      {
+        "es": "los calcetines",
+        "en": "socks"
+      },
+      {
+        "es": "los guantes",
+        "en": "gloves"
+      },
+      {
+        "es": "la bufanda",
+        "en": "scarf"
+      },
+      {
+        "es": "el gorro",
+        "en": "woolly hat, beanie"
+      },
+      {
+        "es": "la camisa",
+        "en": "shirt"
+      },
+      {
+        "es": "el cinturón",
+        "en": "belt"
+      },
+      {
+        "es": "los pantalones cortos",
+        "en": "shorts"
+      },
+      {
+        "es": "el bañador",
+        "en": "swimsuit"
+      },
+      {
+        "es": "la ropa interior",
+        "en": "underwear"
+      },
+      {
+        "es": "el sujetador",
+        "en": "bra"
+      },
+      {
+        "es": "el pijama",
+        "en": "pyjamas"
+      },
+      {
+        "es": "la bata",
+        "en": "dressing gown"
+      },
+      {
+        "es": "el mono",
+        "en": "overalls"
+      },
+      {
+        "es": "los vaqueros",
+        "en": "jeans"
+      },
+      {
+        "es": "el chaleco",
+        "en": "waistcoat, vest"
+      }
+    ]
+  },
+  {
+    "topic": "Jewellery",
+    "optional": true,
+    "words": [
+      {
+        "es": "el anillo",
+        "en": "ring"
+      },
+      {
+        "es": "el collar",
+        "en": "necklace"
+      },
+      {
+        "es": "la pulsera",
+        "en": "bracelet"
+      },
+      {
+        "es": "los pendientes",
+        "en": "earrings"
+      },
+      {
+        "es": "el reloj",
+        "en": "watch"
+      },
+      {
+        "es": "el anillo de compromiso",
+        "en": "engagement ring"
+      },
+      {
+        "es": "la joya",
+        "en": "jewel"
+      }
+    ]
+  },
+  {
+    "topic": "Work",
+    "optional": false,
+    "words": [
+      {
+        "es": "el trabajo",
+        "en": "work, job"
+      },
+      {
+        "es": "el jefe",
+        "en": "boss"
+      },
+      {
+        "es": "el empleado",
+        "en": "employee"
+      },
+      {
+        "es": "la oficina",
+        "en": "office"
+      },
+      {
+        "es": "el salario",
+        "en": "salary"
+      },
+      {
+        "es": "el contrato",
+        "en": "contract"
+      },
+      {
+        "es": "el compañero de trabajo",
+        "en": "colleague, co-worker"
+      },
+      {
+        "es": "el descanso",
+        "en": "break"
+      },
+      {
+        "es": "la reunión",
+        "en": "meeting"
+      },
+      {
+        "es": "el horario",
+        "en": "schedule, timetable"
+      },
+      {
+        "es": "la tarea",
+        "en": "task"
+      },
+      {
+        "es": "la carrera",
+        "en": "career"
+      },
+      {
+        "es": "el cliente",
+        "en": "client, customer"
+      },
+      {
+        "es": "el informe",
+        "en": "report"
+      },
+      {
+        "es": "la promoción",
+        "en": "promotion"
+      },
+      {
+        "es": "el equipo",
+        "en": "team"
+      },
+      {
+        "es": "la responsabilidad",
+        "en": "responsibility"
+      },
+      {
+        "es": "la fecha límite",
+        "en": "deadline"
+      },
+      {
+        "es": "el desempleo",
+        "en": "unemployment"
+      }
+    ]
+  },
+  {
+    "topic": "Health (nouns)",
+    "optional": false,
+    "words": [
+      {
+        "es": "la salud",
+        "en": "health"
+      },
+      {
+        "es": "el médico",
+        "en": "doctor"
+      },
+      {
+        "es": "el hospital",
+        "en": "hospital"
+      },
+      {
+        "es": "el medicamento",
+        "en": "medicine"
+      },
+      {
+        "es": "el dolor",
+        "en": "pain"
+      },
+      {
+        "es": "la fiebre",
+        "en": "fever"
+      },
+      {
+        "es": "la dieta",
+        "en": "diet"
+      },
+      {
+        "es": "el ejercicio",
+        "en": "exercise"
+      },
+      {
+        "es": "la enfermera",
+        "en": "nurse"
+      },
+      {
+        "es": "la clínica",
+        "en": "clinic"
+      },
+      {
+        "es": "el paciente",
+        "en": "patient"
+      },
+      {
+        "es": "el tratamiento",
+        "en": "treatment"
+      },
+      {
+        "es": "el virus",
+        "en": "virus"
+      },
+      {
+        "es": "la alergia",
+        "en": "allergy"
+      },
+      {
+        "es": "la vacuna",
+        "en": "vaccine"
+      },
+      {
+        "es": "el dentista",
+        "en": "dentist"
+      },
+      {
+        "es": "el insomnio",
+        "en": "insomnia"
+      },
+      {
+        "es": "la enfermedad",
+        "en": "illness, disease"
+      }
+    ]
+  },
+  {
+    "topic": "Health (verbs)",
+    "optional": false,
+    "words": [
+      {
+        "es": "curar",
+        "en": "to cure"
+      },
+      {
+        "es": "enfermar",
+        "en": "to fall ill"
+      },
+      {
+        "es": "sanar",
+        "en": "to heal"
+      },
+      {
+        "es": "recuperarse",
+        "en": "to recover"
+      },
+      {
+        "es": "sufrir",
+        "en": "to suffer"
+      },
+      {
+        "es": "diagnosticar",
+        "en": "to diagnose"
+      },
+      {
+        "es": "prevenir",
+        "en": "to prevent"
+      },
+      {
+        "es": "examinar",
+        "en": "to examine"
+      },
+      {
+        "es": "tratar",
+        "en": "to treat"
+      },
+      {
+        "es": "cuidar",
+        "en": "to look after"
+      },
+      {
+        "es": "descansar",
+        "en": "to rest"
+      },
+      {
+        "es": "mejorar",
+        "en": "to improve, get better"
+      },
+      {
+        "es": "doler",
+        "en": "to hurt, ache"
+      },
+      {
+        "es": "medir",
+        "en": "to measure"
+      },
+      {
+        "es": "tomar",
+        "en": "to take"
+      },
+      {
+        "es": "resfriarse",
+        "en": "to catch a cold"
+      },
+      {
+        "es": "inyectar",
+        "en": "to inject"
+      },
+      {
+        "es": "estornudar",
+        "en": "to sneeze"
+      }
+    ]
+  },
+  {
+    "topic": "Weather",
+    "optional": false,
+    "words": [
+      {
+        "es": "el tiempo",
+        "en": "weather"
+      },
+      {
+        "es": "el sol",
+        "en": "sun"
+      },
+      {
+        "es": "la lluvia",
+        "en": "rain"
+      },
+      {
+        "es": "la nieve",
+        "en": "snow"
+      },
+      {
+        "es": "el viento",
+        "en": "wind"
+      },
+      {
+        "es": "la nube",
+        "en": "cloud"
+      },
+      {
+        "es": "la tormenta",
+        "en": "storm"
+      },
+      {
+        "es": "el arco iris, el arcoíris",
+        "en": "rainbow"
+      },
+      {
+        "es": "el trueno",
+        "en": "thunder"
+      },
+      {
+        "es": "el rayo",
+        "en": "lightning"
+      },
+      {
+        "es": "el hielo",
+        "en": "ice"
+      },
+      {
+        "es": "la temperatura",
+        "en": "temperature"
+      },
+      {
+        "es": "el clima",
+        "en": "climate"
+      },
+      {
+        "es": "la brisa",
+        "en": "breeze"
+      },
+      {
+        "es": "la llovizna",
+        "en": "drizzle"
+      },
+      {
+        "es": "el huracán",
+        "en": "hurricane"
+      },
+      {
+        "es": "el calor",
+        "en": "heat"
+      },
+      {
+        "es": "el frío",
+        "en": "cold"
+      }
+    ]
+  },
+  {
+    "topic": "Days of the week",
+    "optional": false,
+    "words": [
+      {
+        "es": "el lunes",
+        "en": "Monday"
+      },
+      {
+        "es": "el martes",
+        "en": "Tuesday"
+      },
+      {
+        "es": "el miércoles",
+        "en": "Wednesday"
+      },
+      {
+        "es": "el jueves",
+        "en": "Thursday"
+      },
+      {
+        "es": "el viernes",
+        "en": "Friday"
+      },
+      {
+        "es": "el sábado",
+        "en": "Saturday"
+      },
+      {
+        "es": "el domingo",
+        "en": "Sunday"
+      }
+    ]
+  },
+  {
+    "topic": "Months and seasons",
+    "optional": false,
+    "words": [
+      {
+        "es": "enero",
+        "en": "January"
+      },
+      {
+        "es": "febrero",
+        "en": "February"
+      },
+      {
+        "es": "marzo",
+        "en": "March"
+      },
+      {
+        "es": "abril",
+        "en": "April"
+      },
+      {
+        "es": "mayo",
+        "en": "May"
+      },
+      {
+        "es": "junio",
+        "en": "June"
+      },
+      {
+        "es": "julio",
+        "en": "July"
+      },
+      {
+        "es": "agosto",
+        "en": "August"
+      },
+      {
+        "es": "septiembre",
+        "en": "September"
+      },
+      {
+        "es": "octubre",
+        "en": "October"
+      },
+      {
+        "es": "noviembre",
+        "en": "November"
+      },
+      {
+        "es": "diciembre",
+        "en": "December"
+      },
+      {
+        "es": "la primavera",
+        "en": "spring"
+      },
+      {
+        "es": "el verano",
+        "en": "summer"
+      },
+      {
+        "es": "el otoño",
+        "en": "autumn"
+      },
+      {
+        "es": "el invierno",
+        "en": "winter"
+      }
+    ]
+  },
+  {
+    "topic": "Family",
+    "optional": false,
+    "words": [
+      {
+        "es": "la familia",
+        "en": "family"
+      },
+      {
+        "es": "el padre",
+        "en": "father"
+      },
+      {
+        "es": "la madre",
+        "en": "mother"
+      },
+      {
+        "es": "el hermano",
+        "en": "brother"
+      },
+      {
+        "es": "la hermana",
+        "en": "sister"
+      },
+      {
+        "es": "el hijo",
+        "en": "son"
+      },
+      {
+        "es": "la hija",
+        "en": "daughter"
+      },
+      {
+        "es": "el abuelo",
+        "en": "grandfather"
+      },
+      {
+        "es": "la abuela",
+        "en": "grandmother"
+      },
+      {
+        "es": "el nieto",
+        "en": "grandson"
+      },
+      {
+        "es": "la tía",
+        "en": "aunt"
+      },
+      {
+        "es": "el primo",
+        "en": "cousin (male)"
+      },
+      {
+        "es": "la prima",
+        "en": "cousin (female)"
+      },
+      {
+        "es": "el esposo",
+        "en": "husband"
+      },
+      {
+        "es": "la esposa",
+        "en": "wife"
+      },
+      {
+        "es": "el suegro",
+        "en": "father-in-law"
+      },
+      {
+        "es": "la suegra",
+        "en": "mother-in-law"
+      },
+      {
+        "es": "el yerno",
+        "en": "son-in-law"
+      },
+      {
+        "es": "la nuera",
+        "en": "daughter-in-law"
+      },
+      {
+        "es": "el cuñado",
+        "en": "brother-in-law"
+      },
+      {
+        "es": "la cuñada",
+        "en": "sister-in-law"
+      },
+      {
+        "es": "el hijastro",
+        "en": "stepson"
+      },
+      {
+        "es": "la hijastra",
+        "en": "stepdaughter"
+      },
+      {
+        "es": "el medio hermano",
+        "en": "half-brother"
+      },
+      {
+        "es": "la media hermana",
+        "en": "half-sister"
+      },
+      {
+        "es": "el sobrino",
+        "en": "nephew"
+      },
+      {
+        "es": "la sobrina",
+        "en": "niece"
+      }
+    ]
+  },
+  {
+    "topic": "Animals",
+    "optional": false,
+    "words": [
+      {
+        "es": "el perro",
+        "en": "dog"
+      },
+      {
+        "es": "el gato",
+        "en": "cat"
+      },
+      {
+        "es": "el pájaro",
+        "en": "bird"
+      },
+      {
+        "es": "la vaca",
+        "en": "cow"
+      },
+      {
+        "es": "el caballo",
+        "en": "horse"
+      },
+      {
+        "es": "el pez",
+        "en": "fish (animal)"
+      },
+      {
+        "es": "el elefante",
+        "en": "elephant"
+      },
+      {
+        "es": "la serpiente",
+        "en": "snake"
+      },
+      {
+        "es": "la oveja",
+        "en": "sheep"
+      },
+      {
+        "es": "la mariposa",
+        "en": "butterfly"
+      },
+      {
+        "es": "el león",
+        "en": "lion"
+      },
+      {
+        "es": "el tigre",
+        "en": "tiger"
+      },
+      {
+        "key": "el mono (monkey)",
+        "es": "el mono",
+        "en": "monkey"
+      },
+      {
+        "es": "la gallina",
+        "en": "hen"
+      },
+      {
+        "es": "el pingüino",
+        "en": "penguin"
+      },
+      {
+        "es": "la rana",
+        "en": "frog"
+      },
+      {
+        "es": "el camello",
+        "en": "camel"
+      },
+      {
+        "es": "el oso",
+        "en": "bear"
+      },
+      {
+        "es": "el ciervo",
+        "en": "deer"
+      },
+      {
+        "es": "el delfín",
+        "en": "dolphin"
+      },
+      {
+        "es": "la jirafa",
+        "en": "giraffe"
+      },
+      {
+        "es": "el lobo",
+        "en": "wolf"
+      },
+      {
+        "es": "la ardilla",
+        "en": "squirrel"
+      },
+      {
+        "es": "el toro",
+        "en": "bull"
+      },
+      {
+        "es": "el zorro",
+        "en": "fox"
+      },
+      {
+        "es": "la paloma",
+        "en": "pigeon, dove"
+      }
+    ]
+  },
+  {
+    "topic": "Travel (nouns)",
+    "optional": false,
+    "words": [
+      {
+        "es": "el viaje",
+        "en": "trip, journey"
+      },
+      {
+        "es": "el avión",
+        "en": "plane"
+      },
+      {
+        "es": "la maleta",
+        "en": "suitcase"
+      },
+      {
+        "es": "la estación",
+        "en": "station"
+      },
+      {
+        "es": "el tren",
+        "en": "train"
+      },
+      {
+        "es": "el billete",
+        "en": "ticket"
+      },
+      {
+        "es": "el aeropuerto",
+        "en": "airport"
+      },
+      {
+        "es": "el pasaporte",
+        "en": "passport"
+      },
+      {
+        "es": "el taxi",
+        "en": "taxi"
+      },
+      {
+        "es": "el hotel",
+        "en": "hotel"
+      },
+      {
+        "es": "el mapa",
+        "en": "map"
+      },
+      {
+        "es": "la guía",
+        "en": "guide, guidebook"
+      },
+      {
+        "es": "el turista",
+        "en": "tourist"
+      },
+      {
+        "es": "la aduana",
+        "en": "customs"
+      },
+      {
+        "es": "el crucero",
+        "en": "cruise"
+      },
+      {
+        "es": "el equipaje",
+        "en": "luggage"
+      },
+      {
+        "es": "el destino",
+        "en": "destination"
+      },
+      {
+        "es": "la mochila",
+        "en": "backpack"
+      },
+      {
+        "es": "la reserva",
+        "en": "booking, reservation"
+      },
+      {
+        "es": "el hostal",
+        "en": "hostel, guesthouse"
+      },
+      {
+        "es": "la visa",
+        "en": "visa"
+      },
+      {
+        "es": "el coche",
+        "en": "car"
+      },
+      {
+        "es": "la tarjeta de embarque",
+        "en": "boarding pass"
+      },
+      {
+        "es": "la salida",
+        "en": "departure"
+      },
+      {
+        "es": "el albergue",
+        "en": "hostel"
+      },
+      {
+        "es": "el monumento",
+        "en": "monument"
+      },
+      {
+        "es": "el viajero",
+        "en": "traveller"
+      },
+      {
+        "es": "el vuelo",
+        "en": "flight"
+      }
+    ]
+  },
+  {
+    "topic": "Travel (verbs)",
+    "optional": false,
+    "words": [
+      {
+        "es": "llegar",
+        "en": "to arrive"
+      },
+      {
+        "es": "salir",
+        "en": "to leave, go out"
+      },
+      {
+        "es": "reservar",
+        "en": "to book, reserve"
+      },
+      {
+        "es": "empaquetar",
+        "en": "to pack"
+      },
+      {
+        "es": "alquilar",
+        "en": "to rent, hire"
+      },
+      {
+        "es": "explorar",
+        "en": "to explore"
+      },
+      {
+        "es": "caminar",
+        "en": "to walk"
+      },
+      {
+        "es": "visitar",
+        "en": "to visit"
+      },
+      {
+        "es": "descubrir",
+        "en": "to discover"
+      },
+      {
+        "es": "navegar",
+        "en": "to sail"
+      },
+      {
+        "es": "tomar fotos, hacer fotos",
+        "en": "to take photos"
+      },
+      {
+        "es": "hospedarse",
+        "en": "to stay (at a hotel)"
+      },
+      {
+        "es": "subir",
+        "en": "to get on"
+      },
+      {
+        "es": "bajar",
+        "en": "to get off"
+      }
+    ]
+  },
+  {
+    "topic": "Public transport",
+    "optional": false,
+    "words": [
+      {
+        "es": "el autobús",
+        "en": "bus"
+      },
+      {
+        "es": "la parada de autobús",
+        "en": "bus stop"
+      },
+      {
+        "es": "el metro",
+        "en": "underground, metro"
+      },
+      {
+        "es": "la estación de metro",
+        "en": "metro station"
+      },
+      {
+        "es": "el tranvía",
+        "en": "tram"
+      },
+      {
+        "es": "la bicicleta",
+        "en": "bicycle"
+      },
+      {
+        "es": "la tarifa",
+        "en": "fare"
+      },
+      {
+        "es": "el conductor",
+        "en": "driver"
+      },
+      {
+        "es": "el pasajero",
+        "en": "passenger"
+      },
+      {
+        "es": "la ruta",
+        "en": "route"
+      },
+      {
+        "es": "el puente",
+        "en": "bridge"
+      },
+      {
+        "es": "el túnel",
+        "en": "tunnel"
+      },
+      {
+        "es": "la taquilla",
+        "en": "ticket office"
+      },
+      {
+        "es": "la vía",
+        "en": "track"
+      },
+      {
+        "es": "la carretera",
+        "en": "road"
+      },
+      {
+        "es": "la acera",
+        "en": "pavement"
+      },
+      {
+        "es": "el paso de peatones",
+        "en": "pedestrian crossing"
+      }
+    ]
+  },
+  {
+    "topic": "Shopping (nouns)",
+    "optional": false,
+    "words": [
+      {
+        "es": "la tienda",
+        "en": "shop"
+      },
+      {
+        "es": "el supermercado",
+        "en": "supermarket"
+      },
+      {
+        "es": "la caja",
+        "en": "checkout"
+      },
+      {
+        "es": "el carrito",
+        "en": "trolley"
+      },
+      {
+        "es": "la lista de compras",
+        "en": "shopping list"
+      },
+      {
+        "es": "el precio",
+        "en": "price"
+      },
+      {
+        "es": "la oferta",
+        "en": "offer"
+      },
+      {
+        "es": "el descuento",
+        "en": "discount"
+      },
+      {
+        "es": "el recibo",
+        "en": "receipt"
+      },
+      {
+        "es": "el cambio",
+        "en": "change"
+      },
+      {
+        "es": "la devolución",
+        "en": "return, refund"
+      },
+      {
+        "es": "la garantía",
+        "en": "guarantee, warranty"
+      },
+      {
+        "es": "la factura",
+        "en": "invoice"
+      },
+      {
+        "es": "el vendedor",
+        "en": "shop assistant, seller"
+      },
+      {
+        "es": "la compra",
+        "en": "purchase, shopping"
+      },
+      {
+        "es": "la venta",
+        "en": "sale"
+      },
+      {
+        "es": "el pedido",
+        "en": "order"
+      },
+      {
+        "es": "la cuenta",
+        "en": "bill"
+      }
+    ]
+  },
+  {
+    "topic": "Shopping (verbs)",
+    "optional": false,
+    "words": [
+      {
+        "es": "devolver",
+        "en": "to return, give back"
+      },
+      {
+        "es": "probar",
+        "en": "to try on, try"
+      }
+    ]
+  },
+  {
+    "topic": "Business",
+    "optional": true,
+    "words": [
+      {
+        "es": "el negocio",
+        "en": "business"
+      },
+      {
+        "es": "la empresa",
+        "en": "company"
+      },
+      {
+        "es": "el mercado",
+        "en": "market"
+      },
+      {
+        "es": "la inversión",
+        "en": "investment"
+      },
+      {
+        "es": "el beneficio",
+        "en": "profit"
+      },
+      {
+        "es": "la pérdida",
+        "en": "loss"
+      },
+      {
+        "es": "el departamento",
+        "en": "department"
+      },
+      {
+        "es": "la competencia",
+        "en": "competition"
+      },
+      {
+        "es": "el producto",
+        "en": "product"
+      },
+      {
+        "es": "el proveedor",
+        "en": "supplier"
+      },
+      {
+        "es": "la campaña",
+        "en": "campaign"
+      },
+      {
+        "es": "el presupuesto",
+        "en": "budget"
+      },
+      {
+        "es": "el socio",
+        "en": "business partner"
+      },
+      {
+        "es": "el objetivo",
+        "en": "goal"
+      },
+      {
+        "key": "la promoción (special offer)",
+        "es": "la promoción",
+        "en": "special offer"
+      },
+      {
+        "es": "la crisis",
+        "en": "crisis"
+      },
+      {
+        "es": "la negociación",
+        "en": "negotiation"
+      },
+      {
+        "es": "el balance",
+        "en": "balance sheet"
+      },
+      {
+        "es": "la economía",
+        "en": "economy"
+      },
+      {
+        "es": "la propuesta",
+        "en": "proposal"
+      }
+    ]
+  },
+  {
+    "topic": "Sport (nouns)",
+    "optional": false,
+    "words": [
+      {
+        "es": "el fútbol",
+        "en": "football"
+      },
+      {
+        "es": "la pelota",
+        "en": "ball"
+      },
+      {
+        "es": "el deportista",
+        "en": "athlete"
+      },
+      {
+        "es": "el baloncesto",
+        "en": "basketball"
+      },
+      {
+        "es": "el ciclismo",
+        "en": "cycling"
+      },
+      {
+        "key": "la carrera (race)",
+        "es": "la carrera",
+        "en": "race"
+      },
+      {
+        "es": "la natación",
+        "en": "swimming"
+      },
+      {
+        "es": "el tenis",
+        "en": "tennis"
+      },
+      {
+        "es": "el gimnasio",
+        "en": "gym"
+      },
+      {
+        "es": "la pista",
+        "en": "track"
+      },
+      {
+        "es": "el boxeo",
+        "en": "boxing"
+      },
+      {
+        "es": "el yoga",
+        "en": "yoga"
+      },
+      {
+        "es": "el árbitro",
+        "en": "referee"
+      },
+      {
+        "es": "la raqueta",
+        "en": "racket"
+      },
+      {
+        "es": "el esquí",
+        "en": "skiing"
+      },
+      {
+        "es": "el patinaje",
+        "en": "skating"
+      },
+      {
+        "es": "el balonmano",
+        "en": "handball"
+      },
+      {
+        "es": "el judo, el yudo",
+        "en": "judo"
+      },
+      {
+        "es": "el entrenamiento",
+        "en": "training"
+      },
+      {
+        "es": "el trofeo",
+        "en": "trophy"
+      },
+      {
+        "es": "el maratón",
+        "en": "marathon"
+      },
+      {
+        "es": "el gimnasta",
+        "en": "gymnast"
+      },
+      {
+        "es": "el hockey",
+        "en": "hockey"
+      }
+    ]
+  },
+  {
+    "topic": "Sport (verbs)",
+    "optional": false,
+    "words": [
+      {
+        "es": "saltar",
+        "en": "to jump"
+      },
+      {
+        "es": "lanzar",
+        "en": "to throw"
+      },
+      {
+        "es": "patear",
+        "en": "to kick"
+      },
+      {
+        "es": "entrenar",
+        "en": "to train"
+      },
+      {
+        "es": "ganar",
+        "en": "to win"
+      },
+      {
+        "es": "perder",
+        "en": "to lose"
+      },
+      {
+        "es": "competir",
+        "en": "to compete"
+      },
+      {
+        "es": "practicar",
+        "en": "to practise"
+      },
+      {
+        "es": "empatar",
+        "en": "to draw (a match)"
+      },
+      {
+        "es": "montar",
+        "en": "to ride"
+      },
+      {
+        "es": "patinar",
+        "en": "to skate"
+      },
+      {
+        "es": "remar",
+        "en": "to row"
+      },
+      {
+        "es": "levantar pesas",
+        "en": "to lift weights"
+      },
+      {
+        "es": "luchar",
+        "en": "to fight"
+      },
+      {
+        "es": "calentar",
+        "en": "to warm up"
+      }
+    ]
+  },
+  {
+    "topic": "School (nouns)",
+    "optional": false,
+    "words": [
+      {
+        "es": "el colegio",
+        "en": "school"
+      },
+      {
+        "es": "la universidad",
+        "en": "university"
+      },
+      {
+        "es": "el profesor (la profesora)",
+        "en": "teacher"
+      },
+      {
+        "es": "el estudiante",
+        "en": "student"
+      },
+      {
+        "es": "el libro",
+        "en": "book"
+      },
+      {
+        "es": "el examen",
+        "en": "exam"
+      },
+      {
+        "es": "la clase",
+        "en": "class, lesson"
+      },
+      {
+        "es": "el aula",
+        "en": "classroom"
+      },
+      {
+        "es": "el lápiz",
+        "en": "pencil"
+      },
+      {
+        "es": "la pluma",
+        "en": "fountain pen"
+      },
+      {
+        "es": "la pizarra",
+        "en": "blackboard"
+      },
+      {
+        "es": "la escuela primaria",
+        "en": "primary school"
+      },
+      {
+        "es": "el recreo",
+        "en": "break (at school)"
+      },
+      {
+        "es": "el bolígrafo",
+        "en": "pen"
+      },
+      {
+        "es": "la calculadora",
+        "en": "calculator"
+      },
+      {
+        "es": "la lección",
+        "en": "lesson"
+      },
+      {
+        "es": "la asignatura",
+        "en": "school subject"
+      },
+      {
+        "es": "la graduación",
+        "en": "graduation"
+      },
+      {
+        "es": "el diccionario",
+        "en": "dictionary"
+      },
+      {
+        "es": "la biblioteca",
+        "en": "library"
+      },
+      {
+        "es": "el director",
+        "en": "head teacher"
+      },
+      {
+        "es": "la prueba",
+        "en": "test"
+      },
+      {
+        "es": "el instituto",
+        "en": "secondary school"
+      }
+    ]
+  },
+  {
+    "topic": "School (verbs)",
+    "optional": false,
+    "words": [
+      {
+        "es": "aprender",
+        "en": "to learn"
+      },
+      {
+        "es": "enseñar",
+        "en": "to teach"
+      },
+      {
+        "es": "escuchar",
+        "en": "to listen"
+      },
+      {
+        "es": "repasar",
+        "en": "to revise, review"
+      },
+      {
+        "es": "dibujar",
+        "en": "to draw"
+      },
+      {
+        "es": "responder",
+        "en": "to answer"
+      },
+      {
+        "es": "corregir",
+        "en": "to correct"
+      },
+      {
+        "es": "tomar notas",
+        "en": "to take notes"
+      },
+      {
+        "es": "preguntar",
+        "en": "to ask"
+      },
+      {
+        "es": "revisar",
+        "en": "to check"
+      }
+    ]
+  },
+  {
+    "topic": "Beach",
+    "optional": false,
+    "words": [
+      {
+        "es": "la playa",
+        "en": "beach"
+      },
+      {
+        "es": "el mar",
+        "en": "sea"
+      },
+      {
+        "es": "la arena",
+        "en": "sand"
+      },
+      {
+        "es": "la ola",
+        "en": "wave"
+      },
+      {
+        "es": "la palmera",
+        "en": "palm tree"
+      },
+      {
+        "es": "la toalla",
+        "en": "towel"
+      },
+      {
+        "es": "la crema solar",
+        "en": "sun cream"
+      },
+      {
+        "es": "la sombrilla",
+        "en": "beach umbrella"
+      },
+      {
+        "es": "la medusa",
+        "en": "jellyfish"
+      },
+      {
+        "es": "la silla de playa",
+        "en": "deckchair"
+      },
+      {
+        "es": "el castillo de arena",
+        "en": "sandcastle"
+      },
+      {
+        "es": "la puesta de sol",
+        "en": "sunset"
+      },
+      {
+        "es": "las chanclas",
+        "en": "flip-flops"
+      },
+      {
+        "es": "el salvavidas",
+        "en": "lifebuoy"
+      },
+      {
+        "es": "la concha",
+        "en": "shell"
+      },
+      {
+        "es": "la tabla de surf",
+        "en": "surfboard"
+      },
+      {
+        "es": "el bikini",
+        "en": "bikini"
+      },
+      {
+        "es": "el barco",
+        "en": "boat, ship"
+      },
+      {
+        "es": "la piscina",
+        "en": "swimming pool"
+      }
+    ]
+  },
+  {
+    "topic": "Art",
+    "optional": true,
+    "words": [
+      {
+        "es": "el arte",
+        "en": "art"
+      },
+      {
+        "es": "el artista",
+        "en": "artist"
+      },
+      {
+        "es": "la pintura",
+        "en": "painting"
+      },
+      {
+        "es": "el museo",
+        "en": "museum"
+      },
+      {
+        "es": "la escultura",
+        "en": "sculpture"
+      },
+      {
+        "es": "la galería",
+        "en": "gallery"
+      },
+      {
+        "es": "el dibujo",
+        "en": "drawing"
+      },
+      {
+        "es": "el pincel",
+        "en": "paintbrush"
+      },
+      {
+        "es": "la paleta",
+        "en": "palette"
+      },
+      {
+        "es": "la cerámica",
+        "en": "pottery, ceramics"
+      },
+      {
+        "es": "la fotografía",
+        "en": "photography, photo"
+      },
+      {
+        "es": "la música",
+        "en": "music"
+      },
+      {
+        "es": "el teatro",
+        "en": "theatre"
+      },
+      {
+        "es": "la poesía",
+        "en": "poetry"
+      },
+      {
+        "es": "el mural",
+        "en": "mural"
+      },
+      {
+        "es": "la ópera",
+        "en": "opera"
+      },
+      {
+        "es": "el ballet",
+        "en": "ballet"
+      },
+      {
+        "es": "el cómic",
+        "en": "comic"
+      },
+      {
+        "es": "la instalación",
+        "en": "installation"
+      },
+      {
+        "es": "la estatua",
+        "en": "statue"
+      },
+      {
+        "es": "la arquitectura",
+        "en": "architecture"
+      }
+    ]
+  },
+  {
+    "topic": "Cinema",
+    "optional": true,
+    "words": [
+      {
+        "es": "la película",
+        "en": "film"
+      },
+      {
+        "es": "el cine",
+        "en": "cinema"
+      },
+      {
+        "es": "el actor",
+        "en": "actor"
+      },
+      {
+        "es": "la actriz",
+        "en": "actress"
+      },
+      {
+        "es": "la pantalla",
+        "en": "screen"
+      },
+      {
+        "key": "el director (film director)",
+        "es": "el director",
+        "en": "film director"
+      },
+      {
+        "es": "el guion",
+        "en": "script"
+      },
+      {
+        "es": "la entrada",
+        "en": "ticket"
+      },
+      {
+        "es": "el cortometraje",
+        "en": "short film"
+      },
+      {
+        "es": "la banda sonora",
+        "en": "soundtrack"
+      },
+      {
+        "es": "la comedia",
+        "en": "comedy"
+      },
+      {
+        "es": "el drama",
+        "en": "drama"
+      },
+      {
+        "es": "el documental",
+        "en": "documentary"
+      },
+      {
+        "es": "el terror",
+        "en": "horror"
+      },
+      {
+        "es": "el protagonista",
+        "en": "main character"
+      },
+      {
+        "es": "la sesión",
+        "en": "showing"
+      },
+      {
+        "es": "las palomitas (de maíz)",
+        "en": "popcorn"
+      },
+      {
+        "es": "el doblaje",
+        "en": "dubbing"
+      },
+      {
+        "es": "la ciencia ficción",
+        "en": "science fiction"
+      },
+      {
+        "es": "la animación",
+        "en": "animation"
+      },
+      {
+        "es": "la butaca",
+        "en": "seat (in a cinema)"
+      },
+      {
+        "es": "la fila",
+        "en": "row"
+      },
+      {
+        "es": "la crítica",
+        "en": "review"
+      },
+      {
+        "es": "el estreno",
+        "en": "premiere"
+      },
+      {
+        "es": "la cámara",
+        "en": "camera"
+      },
+      {
+        "es": "el micrófono",
+        "en": "microphone"
+      }
+    ]
+  },
+  {
+    "topic": "Music",
+    "optional": true,
+    "words": [
+      {
+        "es": "la canción",
+        "en": "song"
+      },
+      {
+        "es": "el instrumento",
+        "en": "instrument"
+      },
+      {
+        "es": "la guitarra",
+        "en": "guitar"
+      },
+      {
+        "es": "el piano",
+        "en": "piano"
+      },
+      {
+        "es": "el violín",
+        "en": "violin"
+      },
+      {
+        "es": "la batería",
+        "en": "drums"
+      },
+      {
+        "es": "el concierto",
+        "en": "concert"
+      },
+      {
+        "es": "la melodía",
+        "en": "melody"
+      },
+      {
+        "es": "el ritmo",
+        "en": "rhythm"
+      },
+      {
+        "es": "la cantante",
+        "en": "singer"
+      },
+      {
+        "es": "el álbum",
+        "en": "album"
+      },
+      {
+        "es": "la letra",
+        "en": "lyrics"
+      }
+    ]
+  },
+  {
+    "topic": "Finance",
+    "optional": true,
+    "words": [
+      {
+        "es": "el dinero",
+        "en": "money"
+      },
+      {
+        "es": "el banco",
+        "en": "bank"
+      },
+      {
+        "key": "la cuenta (account)",
+        "es": "la cuenta",
+        "en": "account"
+      },
+      {
+        "es": "el cajero automático",
+        "en": "cash machine"
+      },
+      {
+        "es": "la tarjeta de débito",
+        "en": "debit card"
+      },
+      {
+        "es": "el préstamo",
+        "en": "loan"
+      },
+      {
+        "es": "la hipoteca",
+        "en": "mortgage"
+      },
+      {
+        "es": "el impuesto",
+        "en": "tax"
+      },
+      {
+        "es": "el ahorro",
+        "en": "savings"
+      },
+      {
+        "es": "el interés",
+        "en": "interest"
+      },
+      {
+        "es": "el gasto",
+        "en": "expense"
+      },
+      {
+        "es": "la deuda",
+        "en": "debt"
+      },
+      {
+        "es": "el saldo",
+        "en": "balance"
+      },
+      {
+        "es": "el seguro",
+        "en": "insurance"
+      },
+      {
+        "es": "la bolsa",
+        "en": "stock market"
+      },
+      {
+        "es": "la moneda",
+        "en": "currency"
+      },
+      {
+        "es": "el valor",
+        "en": "value"
+      }
+    ]
+  },
+  {
+    "topic": "Environment",
+    "optional": true,
+    "words": [
+      {
+        "es": "el medio ambiente",
+        "en": "environment"
+      },
+      {
+        "es": "el río",
+        "en": "river"
+      },
+      {
+        "es": "la montaña",
+        "en": "mountain"
+      },
+      {
+        "es": "el bosque",
+        "en": "forest"
+      },
+      {
+        "es": "el árbol",
+        "en": "tree"
+      },
+      {
+        "es": "la flor",
+        "en": "flower"
+      },
+      {
+        "es": "el cielo",
+        "en": "sky"
+      },
+      {
+        "es": "la luna",
+        "en": "moon"
+      },
+      {
+        "es": "la estrella",
+        "en": "star"
+      },
+      {
+        "es": "la tierra",
+        "en": "earth"
+      },
+      {
+        "es": "el desierto",
+        "en": "desert"
+      },
+      {
+        "es": "la hoja",
+        "en": "leaf"
+      }
+    ]
+  },
+  {
+    "topic": "Media",
+    "optional": true,
+    "words": [
+      {
+        "es": "el periódico",
+        "en": "newspaper"
+      },
+      {
+        "es": "la revista",
+        "en": "magazine"
+      },
+      {
+        "es": "la televisión",
+        "en": "television"
+      },
+      {
+        "es": "la radio",
+        "en": "radio"
+      },
+      {
+        "es": "el canal",
+        "en": "channel"
+      },
+      {
+        "es": "el anuncio",
+        "en": "advert"
+      },
+      {
+        "es": "el periodista",
+        "en": "journalist"
+      },
+      {
+        "es": "el artículo",
+        "en": "article"
+      },
+      {
+        "es": "la noticia",
+        "en": "news item"
+      },
+      {
+        "es": "la entrevista",
+        "en": "interview"
+      }
+    ]
+  },
+  {
+    "topic": "Internet (nouns)",
+    "optional": true,
+    "words": [
+      {
+        "es": "el internet",
+        "en": "internet"
+      },
+      {
+        "es": "el correo electrónico",
+        "en": "email"
+      },
+      {
+        "es": "la red social",
+        "en": "social network"
+      },
+      {
+        "es": "la página web",
+        "en": "website"
+      },
+      {
+        "es": "el navegador",
+        "en": "browser"
+      },
+      {
+        "es": "la contraseña",
+        "en": "password"
+      },
+      {
+        "es": "el enlace",
+        "en": "link"
+      },
+      {
+        "es": "el chat",
+        "en": "chat"
+      },
+      {
+        "es": "el video, el vídeo",
+        "en": "video"
+      },
+      {
+        "es": "el meme",
+        "en": "meme"
+      },
+      {
+        "es": "el emoji",
+        "en": "emoji"
+      },
+      {
+        "es": "la búsqueda",
+        "en": "search"
+      },
+      {
+        "es": "el perfil",
+        "en": "profile"
+      },
+      {
+        "es": "la publicación",
+        "en": "post"
+      },
+      {
+        "es": "el hashtag, la etiqueta",
+        "en": "hashtag"
+      },
+      {
+        "es": "la descarga",
+        "en": "download"
+      },
+      {
+        "key": "la nube (cloud storage)",
+        "es": "la nube",
+        "en": "cloud storage"
+      },
+      {
+        "key": "el virus (computer virus)",
+        "es": "el virus",
+        "en": "computer virus"
+      }
+    ]
+  },
+  {
+    "topic": "Internet (verbs)",
+    "optional": true,
+    "words": [
+      {
+        "key": "navegar (browse)",
+        "es": "navegar",
+        "en": "to browse"
+      },
+      {
+        "es": "descargar",
+        "en": "to download"
+      },
+      {
+        "key": "subir (upload)",
+        "es": "subir",
+        "en": "to upload"
+      },
+      {
+        "es": "publicar",
+        "en": "to post, publish"
+      },
+      {
+        "es": "compartir",
+        "en": "to share"
+      },
+      {
+        "es": "actualizar",
+        "en": "to update"
+      },
+      {
+        "es": "buscar",
+        "en": "to look for, search"
+      },
+      {
+        "es": "chatear",
+        "en": "to chat"
+      },
+      {
+        "es": "cerrar sesión",
+        "en": "to log out"
+      },
+      {
+        "es": "seguir",
+        "en": "to follow"
+      },
+      {
+        "es": "bloquear",
+        "en": "to block"
+      },
+      {
+        "es": "etiquetar",
+        "en": "to tag"
+      },
+      {
+        "es": "comentar",
+        "en": "to comment"
+      },
+      {
+        "es": "gustar",
+        "en": "to like"
+      },
+      {
+        "es": "iniciar sesión",
+        "en": "to log in"
+      },
+      {
+        "es": "reenviar",
+        "en": "to forward"
+      },
+      {
+        "es": "filtrar",
+        "en": "to filter"
+      }
+    ]
+  },
+  {
+    "topic": "Countries (Europe)",
+    "optional": false,
+    "words": [
+      {
+        "es": "España",
+        "en": "Spain"
+      },
+      {
+        "es": "Polonia",
+        "en": "Poland"
+      },
+      {
+        "es": "Alemania",
+        "en": "Germany"
+      },
+      {
+        "es": "Francia",
+        "en": "France"
+      },
+      {
+        "es": "Portugal",
+        "en": "Portugal"
+      },
+      {
+        "es": "Ucrania",
+        "en": "Ukraine"
+      },
+      {
+        "es": "Italia",
+        "en": "Italy"
+      },
+      {
+        "es": "Gran Bretaña/Reino Unido",
+        "en": "Great Britain, United Kingdom"
+      },
+      {
+        "es": "Inglaterra",
+        "en": "England"
+      },
+      {
+        "es": "Irlanda",
+        "en": "Ireland"
+      },
+      {
+        "es": "Países Bajos",
+        "en": "the Netherlands"
+      },
+      {
+        "es": "Dinamarca",
+        "en": "Denmark"
+      },
+      {
+        "es": "Noruega",
+        "en": "Norway"
+      },
+      {
+        "es": "Grecia",
+        "en": "Greece"
+      },
+      {
+        "es": "Letonia",
+        "en": "Latvia"
+      },
+      {
+        "es": "Lituania",
+        "en": "Lithuania"
+      },
+      {
+        "es": "Estonia",
+        "en": "Estonia"
+      },
+      {
+        "es": "Hungría",
+        "en": "Hungary"
+      },
+      {
+        "es": "Suecia",
+        "en": "Sweden"
+      },
+      {
+        "es": "Eslovaquia",
+        "en": "Slovakia"
+      },
+      {
+        "es": "Croacia",
+        "en": "Croatia"
+      },
+      {
+        "es": "Bielorrusia",
+        "en": "Belarus"
+      },
+      {
+        "es": "Suiza",
+        "en": "Switzerland"
+      }
+    ]
+  },
+  {
+    "topic": "Holidays",
+    "optional": false,
+    "words": [
+      {
+        "es": "la fiesta",
+        "en": "holiday"
+      },
+      {
+        "es": "el cumpleaños",
+        "en": "birthday"
+      },
+      {
+        "es": "la Navidad",
+        "en": "Christmas"
+      },
+      {
+        "es": "el Año Nuevo",
+        "en": "New Year"
+      },
+      {
+        "es": "el Día de los Muertos",
+        "en": "Day of the Dead"
+      },
+      {
+        "es": "la Pascua",
+        "en": "Easter"
+      },
+      {
+        "es": "la Semana Santa",
+        "en": "Holy Week"
+      },
+      {
+        "es": "el Día de la Madre",
+        "en": "Mother's Day"
+      },
+      {
+        "es": "el Día del Padre",
+        "en": "Father's Day"
+      },
+      {
+        "es": "la Nochebuena",
+        "en": "Christmas Eve"
+      },
+      {
+        "es": "la Nochevieja",
+        "en": "New Year's Eve"
+      },
+      {
+        "es": "el Carnaval",
+        "en": "Carnival"
+      },
+      {
+        "es": "el Día de San Valentín",
+        "en": "Valentine's Day"
+      },
+      {
+        "es": "el Día de Acción de Gracias",
+        "en": "Thanksgiving"
+      }
+    ]
+  }
+]

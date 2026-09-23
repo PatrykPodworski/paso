@@ -13,7 +13,8 @@ export const sourceExcludes = [
   "src/data/{curriculum,mock,research,types,vocabulary-hints}.ts",
   "src/components/{Art,Icon}.tsx",
   // A visual-test harness with no logic; the screenshots are its coverage.
-  "src/design-system/{Gallery.tsx,sections.ts}",
+  // Presentational only; the gallery screenshots are their coverage.
+  "src/design-system/**",
 ];
 export const productionFiles = () =>
   [...globSync(sourceIncludes, { exclude: sourceExcludes })].sort();

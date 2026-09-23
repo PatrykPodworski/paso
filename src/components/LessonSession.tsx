@@ -1,3 +1,4 @@
+import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "./Icon";
@@ -79,12 +80,12 @@ export const LessonSession = ({
             time.
           </p>
           <div className="button-row">
-            <button className="button secondary" onClick={() => setConfirmExit(false)}>
+            <Button variant="secondary" onClick={() => setConfirmExit(false)}>
               Keep learning
-            </button>
-            <button className="button primary" onClick={onClose}>
+            </Button>
+            <Button variant="primary" onClick={onClose}>
               Save & leave
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -123,10 +124,10 @@ export const LessonSession = ({
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}
           </p>
-          <button className="button primary" onClick={onClose}>
+          <Button variant="primary" className="mt-[25px]" onClick={onClose}>
             Back to my journey
             <Icon name="arrow" />
-          </button>
+          </Button>
         </div>
       ) : (
         <div hidden={confirmExit}>

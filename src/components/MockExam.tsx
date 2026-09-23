@@ -1,3 +1,5 @@
+import { Button } from "../design-system/Button";
+import { CONTEXT_SIZE } from "../design-system/button-context-sizes";
 import { useEffect, useState } from "react";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
@@ -195,10 +197,10 @@ export const MockExam = ({
                   <Icon name="book" />4 skills · 100 possible points
                 </span>
               </div>
-              <button className="button primary" onClick={start}>
+              <Button variant="primary" onClick={start}>
                 Start exam rehearsal
                 <Icon name="arrow" />
-              </button>
+              </Button>
             </div>
           </div>
           <div className="exam-section-grid">
@@ -334,14 +336,14 @@ export const MockExam = ({
             )}
           </div>
           <div className="button-row">
-            <button className="button secondary" onClick={download}>
+            <Button variant="secondary" sizeClasses={CONTEXT_SIZE.examResults} className="[@media(max-width:760px)]:w-full" onClick={download}>
               <Icon name="download" />
               Export responses for review
-            </button>
-            <button className="button primary" onClick={() => setRun(fresh())}>
+            </Button>
+            <Button variant="primary" sizeClasses={CONTEXT_SIZE.examResults} className="[@media(max-width:760px)]:w-full" onClick={() => setRun(fresh())}>
               Return to exam overview
               <Icon name="arrow" />
-            </button>
+            </Button>
           </div>
         </div>
       ) : (
@@ -395,8 +397,8 @@ export const MockExam = ({
                   placeholder="Nombre · nacionalidad · edad…"
                 />
               </label>
-              <button
-                className="button primary"
+              <Button
+                variant="primary"
                 onClick={() => {
                   setNow(Date.now());
                   setRun((r) => ({ ...r, stage: "run", deadline: Date.now() + 600000 }));
@@ -404,7 +406,7 @@ export const MockExam = ({
               >
                 I’m ready · start speaking
                 <Icon name="mic" />
-              </button>
+              </Button>
             </div>
           ) : run.stage === "review" ? (
             <div className="panel section-review">
@@ -420,14 +422,14 @@ export const MockExam = ({
                   : "Open responses require human judgment. Compare your response with the model and cover every requested point."}
               </p>
               <div className="button-row">
-                <button className="button primary" onClick={nextSection}>
+                <Button variant="primary" onClick={nextSection}>
                   {run.section === 3
                     ? "See my results"
                     : run.section === 2
                       ? "Continue to speaking preparation"
                       : `Continue to ${mockSections[run.section + 1].title.toLowerCase()}`}
                   <Icon name="arrow" />
-                </button>
+                </Button>
               </div>
               <div className="answer-review-list">
                 {section.questions.map((q, i) => {
@@ -529,9 +531,9 @@ export const MockExam = ({
                 >
                   Skip for now →
                 </button>
-                <button className="button secondary small" onClick={() => setConfirm(true)}>
+                <Button variant="secondary" size="small" className="[@media(max-width:760px)]:w-full" onClick={() => setConfirm(true)}>
                   Finish section
-                </button>
+                </Button>
               </div>
               {confirm && (
                 <div className="finish-confirm" role="alert">
@@ -541,12 +543,12 @@ export const MockExam = ({
                     finishing, answers in this section cannot be changed.
                   </p>
                   <div className="button-row">
-                    <button className="button secondary" onClick={() => setConfirm(false)}>
+                    <Button variant="secondary" onClick={() => setConfirm(false)}>
                       Keep working
-                    </button>
-                    <button className="button primary" onClick={endSection}>
+                    </Button>
+                    <Button variant="primary" onClick={endSection}>
                       Finish & review
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}

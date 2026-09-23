@@ -1,3 +1,5 @@
+import { Button } from "./design-system/Button";
+import { CONTEXT_SIZE } from "./design-system/button-context-sizes";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
@@ -201,12 +203,12 @@ const Settings = ({
         data. Microphone recordings stay only in the active tab unless downloaded.
       </p>
       <div className="button-row">
-        <button className="button secondary" onClick={exportProgress}>
+        <Button variant="secondary" sizeClasses={CONTEXT_SIZE.settingsDialog} className="[@media(max-width:760px)]:w-full" onClick={exportProgress}>
           <Icon name="download" size={17} />
           Export progress
-        </button>
-        <button
-          className="button primary"
+        </Button>
+        <Button
+          variant="primary" sizeClasses={CONTEXT_SIZE.settingsDialog} className="[@media(max-width:760px)]:w-full"
           onClick={() => {
             onSave({ name: name.trim(), goal, examDate: date });
             onClose();
@@ -214,7 +216,7 @@ const Settings = ({
         >
           Save preferences
           <Icon name="check" size={17} />
-        </button>
+        </Button>
       </div>
       <details className="data-settings">
         <summary>Start over</summary>
@@ -225,12 +227,12 @@ const Settings = ({
               browser.
             </p>
             <div className="button-row">
-              <button className="button secondary small" onClick={() => setReset(false)}>
+              <Button variant="secondary" size="small" onClick={() => setReset(false)}>
                 Cancel
-              </button>
-              <button className="button danger small" onClick={onReset}>
+              </Button>
+              <Button variant="danger" size="small" onClick={onReset}>
                 Clear my practice data
-              </button>
+              </Button>
             </div>
           </div>
         ) : (
@@ -548,10 +550,10 @@ const App = () => {
                         <br />A world of <em>Spanish.</em>
                       </h2>
                       <p>Real-life Spanish, little wins, and a clear path to your first diploma.</p>
-                      <button className="button primary" onClick={() => setSession(nextLesson)}>
+                      <Button variant="primary" sizeClasses={CONTEXT_SIZE.heroCard} className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]" onClick={() => setSession(nextLesson)}>
                         {completed ? "Continue my journey" : "Let’s take the first step"}
                         <Icon name="arrow" size={19} />
-                      </button>
+                      </Button>
                       <span className="hero-caption">
                         <Icon name="clock" size={13} />
                         {nextLesson.minutes} minutes is a lovely start
@@ -772,10 +774,10 @@ const App = () => {
                     {completed}/{allLessons.length} complete · {progressPercent}% of your path
                   </p>
                 </div>
-                <button className="button primary" onClick={() => setSession(nextLesson)}>
+                <Button variant="primary" sizeClasses={CONTEXT_SIZE.pathBanner} className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]" onClick={() => setSession(nextLesson)}>
                   Continue learning
                   <Icon name="arrow" />
-                </button>
+                </Button>
               </div>
               <div className="path-layout">
                 <div className="full-path">
@@ -806,10 +808,10 @@ const App = () => {
                       <h3>The next chapter is yours.</h3>
                       <p>Put your skills together in the exam rehearsal.</p>
                     </div>
-                    <button className="button primary" onClick={() => navigate("exam")}>
+                    <Button variant="primary" sizeClasses={CONTEXT_SIZE.pathFinish} className="[@media(min-width:761px)]:ml-auto" onClick={() => navigate("exam")}>
                       Meet the exam
                       <Icon name="arrow" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <aside className="path-sidebar panel">
@@ -888,13 +890,13 @@ const App = () => {
                       ? `${mistakeQuestions.length} questions are ready for another look. A correct answer without transcript assistance clears a question from this queue.`
                       : "No mistakes waiting here yet. As you practise, tricky questions will collect here with their explanations."}
                   </p>
-                  <button
-                    className="button primary"
+                  <Button
+                    variant="primary" className="my-[20px]"
                     onClick={() => practice(mistakeQuestions.length ? "mistakes" : "all")}
                   >
                     {mistakeQuestions.length ? "Review my mistakes" : "Try a daily mix"}
                     <Icon name="arrow" />
-                  </button>
+                  </Button>
                   {mistakeQuestions.slice(0, 12).map((q) => (
                     <details key={q.id}>
                       <summary>
@@ -945,10 +947,10 @@ const App = () => {
                         Fresh questions come first. Revisit the ones you’ve seen as your confidence
                         grows.
                       </p>
-                      <button className="button primary" onClick={() => practice(filter)}>
+                      <Button variant="primary" onClick={() => practice(filter)}>
                         Start {filter === "all" ? "my daily mix" : `${filter} practice`}
                         <Icon name="arrow" />
-                      </button>
+                      </Button>
                     </div>
                     <div className={`practice-orb ${filter}`}>
                       <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />

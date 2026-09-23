@@ -149,46 +149,6 @@ label {
 svg {
   flex-shrink: 0;
 }
-.button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid transparent;
-  padding: 13px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1.5;
-  min-height: 44px;
-  text-decoration: none;
-}
-.button.primary {
-  background: var(--green);
-  color: #fffdf4;
-  box-shadow: 0 2px 3px #223c3010;
-}
-.button.primary:hover:not(:disabled) {
-  background: #193e2e;
-  box-shadow: 0 4px 10px #223c3020;
-}
-.button.secondary {
-  background: var(--paper);
-  border-color: #d9dfd4;
-}
-.button.secondary:hover:not(:disabled) {
-  background: #eff3e9;
-}
-.button.small {
-  padding: 8px 13px;
-  min-height: 38px;
-  font-size: 14px;
-}
-.button.danger {
-  color: #a14031;
-  background: #fff0e8;
-  border-color: #e7c9bc;
-}
 .button-row {
   display: flex;
   gap: 12px;
@@ -667,12 +627,6 @@ main {
   color: #8a8e76;
   line-height: 1.8;
   margin-bottom: 20px;
-}
-.hero-card .button {
-  font-size: 14px;
-  padding: 12px 15px;
-  gap: 13px;
-  min-height: 41px;
 }
 .hero-caption {
   display: flex;
@@ -1457,12 +1411,6 @@ main {
   font-size: 13px;
   margin-top: 5px;
 }
-.path-finish .button {
-  font-size: 14px;
-  min-height: 37px;
-  padding: 8px 11px;
-  margin-left: auto;
-}
 .practice-tabs {
   display: flex;
   gap: 7px;
@@ -1668,9 +1616,6 @@ main {
   color: #59675d;
   margin-top: 6px;
 }
-.vocabulary-start > .button {
-  flex-shrink: 0;
-}
 .vocabulary-collection {
   margin-top: 26px;
 }
@@ -1785,10 +1730,6 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-}
-.flashcard-ratings .button {
-  padding: 15px 12px;
-  white-space: normal;
 }
 .flashcard-ratings small {
   display: block;
@@ -1942,9 +1883,6 @@ main {
   max-width: 570px;
   font-size: 14px;
   color: #929d83;
-}
-.mistakes-panel > .button {
-  margin: 20px 0;
 }
 .mistakes-panel details {
   border-top: 1px solid var(--line);
@@ -2945,10 +2883,6 @@ main {
   max-width: 300px;
   line-height: 1.7;
 }
-.question-footer > .button {
-  font-size: 14px;
-  white-space: nowrap;
-}
 .sentence-tray {
   min-height: 85px;
   border: 1px solid #dce5ce;
@@ -3227,11 +3161,6 @@ main {
   color: #96a480;
   line-height: 1.7;
 }
-.feedback-bottom .button {
-  min-height: 40px;
-  padding: 10px 17px;
-  font-size: 14px;
-}
 .model-answer {
   background: #fffdf6;
   border-radius: 8px;
@@ -3343,9 +3272,6 @@ main {
   margin-top: 6px;
   color: #a0ad8b;
 }
-.session-complete > .button {
-  margin-top: 25px;
-}
 .exit-confirm > svg {
   color: #9eaf85;
   margin-bottom: 22px;
@@ -3392,10 +3318,6 @@ main {
 }
 .settings-dialog > .button-row {
   justify-content: space-between;
-}
-.settings-dialog > .button-row > .button {
-  font-size: 14px;
-  padding: 12px 15px;
 }
 .data-settings {
   margin-top: 25px;
@@ -3472,9 +3394,6 @@ main {
   .hero-card p {
     font-size: 15px;
     max-width: 310px;
-  }
-  .hero-card .button {
-    font-size: 14px;
   }
   .journey-art {
     right: -35px;
@@ -3579,11 +3498,6 @@ main {
     font-size: 10px;
     letter-spacing: 1px;
   }
-  .hero-card .button {
-    font-size: 13px;
-    gap: 8px;
-    padding: 11px 12px;
-  }
   .hero-caption {
     font-size: 10px;
   }
@@ -3685,9 +3599,6 @@ main {
   }
   .path-banner h3 {
     font-size: 15px;
-  }
-  .path-banner > .button {
-    font-size: 14px;
   }
   .practice-skill-card {
     padding: 20px 15px;
@@ -3799,9 +3710,6 @@ main {
   .hero-eyebrow {
     font-size: 11px;
   }
-  .hero-card .button {
-    font-size: 14px;
-  }
   .hero-text {
     max-width: 54%;
   }
@@ -3906,9 +3814,6 @@ main {
   }
   .path-banner > div {
     min-width: 250px;
-  }
-  .path-banner > .button {
-    margin-left: 65px;
   }
   .practice-orb {
     width: 125px;
@@ -4109,9 +4014,6 @@ main {
   .hero-card p {
     font-size: 14px;
   }
-  .hero-card .button {
-    font-size: 14px;
-  }
   .hero-caption {
     font-size: 11px;
   }
@@ -4224,9 +4126,6 @@ main {
   .path-banner h3 {
     font-size: 15px;
   }
-  .path-banner > .button {
-    margin-left: 0;
-  }
   .path-stop {
     gap: 11px;
   }
@@ -4284,9 +4183,6 @@ main {
   }
   .path-finish h3 {
     font-size: 20px;
-  }
-  .path-finish .button {
-    margin-left: 0;
   }
   .stamp {
     width: 80px;
@@ -4461,9 +4357,6 @@ main {
     flex-wrap: wrap;
     gap: 17px;
   }
-  .exam-navigation > .button {
-    width: 100%;
-  }
   .exam-navigation > .text-link {
     font-size: 14px;
   }
@@ -4491,10 +4384,6 @@ main {
   }
   .score-calculator .form-inline {
     flex-direction: column;
-  }
-  .exam-results > .button-row > .button {
-    width: 100%;
-    font-size: 14px;
   }
   .oral-prep {
     padding: 25px;
@@ -4557,9 +4446,6 @@ main {
     text-align: center;
     font-size: 12px;
   }
-  .question-footer > .button {
-    width: 100%;
-  }
   .waveform {
     gap: 2px;
     margin-left: 1px;
@@ -4589,9 +4475,6 @@ main {
   }
   .feedback-bottom small {
     font-size: 12px;
-  }
-  .feedback-bottom .button {
-    margin-left: auto;
   }
   .model-answer {
     padding: 15px;
@@ -4646,9 +4529,6 @@ main {
   .settings-dialog h2 {
     font-size: 26px;
   }
-  .settings-dialog > .button-row > .button {
-    width: 100%;
-  }
   .main-footer {
     margin-top: 32px;
     flex-wrap: wrap;
@@ -4702,10 +4582,6 @@ main {
   .hero-eyebrow {
     font-size: 10px;
   }
-  .hero-card .button {
-    font-size: 13px;
-    padding: 11px 13px;
-  }
   .journey-art {
     width: 74%;
     height: 68%;
@@ -4715,7 +4591,6 @@ main {
     opacity: 0.96;
   }
   .hero-card p,
-  .hero-card .button,
   .hero-caption {
     position: relative;
     z-index: 3;
@@ -4725,9 +4600,6 @@ main {
   }
   .hero-caption {
     font-size: 10px;
-  }
-  .hero-card .button {
-    margin-top: 4px;
   }
   .hero-text .hero-caption {
     max-width: 155px;
@@ -5062,9 +4934,6 @@ main {
   .question-scene {
     max-height: 130px;
   }
-  .button {
-    font-size: 14px;
-  }
   .main-footer > button {
     font-size: 10px;
   }
@@ -5126,10 +4995,6 @@ main {
   .hero-card p {
     max-width: 280px;
     font-size: 13px;
-  }
-  .hero-card .button {
-    font-size: 13px;
-    padding: 14px 18px;
   }
   .hero-caption {
     font-size: 10px;
@@ -5342,9 +5207,6 @@ main {
   font-size: 13px;
   color: #758763;
 }
-.question-footer > .button {
-  font-size: 14px;
-}
 .question-kind {
   color: #7c8c68;
 }
@@ -5381,9 +5243,6 @@ main {
   }
   .hero-card p {
     font-size: 13px;
-  }
-  .hero-card .button {
-    font-size: 12px;
   }
   .hero-caption {
     font-size: 10px;
@@ -5473,9 +5332,6 @@ main {
   }
   .hero-card p {
     max-width: 230px;
-    font-size: 12px;
-  }
-  .hero-card .button {
     font-size: 12px;
   }
   .hero-eyebrow {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { vocabulary } from "../data/curriculum";
 import { emptyProgress } from "../data/progress";
-import { cardStatus, topicCounts, topics } from "../data/topics";
+import { addWords, cardStatus, topicCounts, topics } from "../data/topics";
 
 const cards = topics.flatMap((t) => t.cards);
 const card = (id: string) => cards.find((c) => c.id === id)!;
@@ -64,5 +64,26 @@ describe("card status and topic counts", () => {
     progress.vocabularyReviews["el mono"] = review(0);
     expect(cardStatus(card("el mono"), progress)).toBe("learning");
     expect(cardStatus(card("el mono (monkey)"), progress)).toBe("new");
+  });
+});
+
+describe("adding words from a topic", () => {
+  const at = "2026-09-25T10:00:00.000Z";
+  const weather = topics.find((t) => t.topic === "Weather")!.cards;
+  it("adds the next five new words in list order, due at once", () => {
+    const progress = emptyProgress();
+    progress.vocabularyReviews[weather[1].id] = { level: 2, nextAt: at };
+    const added = addWords(weather, progress, at);
+    expect(Object.keys(added)).toEqual([0, 2, 3, 4, 5].map((i) => weather[i].id));
+    expect(Object.values(added).every((r) => r.level === 0 && r.nextAt === at)).toBe(true);
+  });
+  it("adds only what is left, and nothing once the topic is exhausted", () => {
+    const progress = emptyProgress();
+    for (const c of weather.slice(0, -3)) {
+      progress.vocabularyReviews[c.id] = { level: 1, nextAt: at };
+    }
+    expect(Object.keys(addWords(weather, progress, at))).toHaveLength(3);
+    Object.assign(progress.vocabularyReviews, addWords(weather, progress, at));
+    expect(addWords(weather, progress, at)).toEqual({});
   });
 });

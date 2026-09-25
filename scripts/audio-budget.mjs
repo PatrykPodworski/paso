@@ -5,7 +5,7 @@ import { setTimeout as delay } from "node:timers/promises";
 // One shared allowance, not a separate allowance for every model or every run.
 export const freeCreditLimit = 10_000;
 export const creditReserve = 500;
-export const maximumRequestCharacters = 10_000;
+const maximumRequestCharacters = 10_000;
 
 export const readSubscription = async (apiKey, request = fetch, pause = delay) => {
   let waitMs = 1000;

@@ -25,11 +25,13 @@ Learner answers and microphone recordings are not sent.
 
 ## Coverage and voices
 
-All 359 unique Spanish phrases have ElevenLabs recordings, including the
-pronunciation of every practice question and each sentence-builder tile. The
+All 2,066 unique Spanish phrases have ElevenLabs recordings, including the
+pronunciation of every practice question, each sentence-builder tile, and every
+topic flashcard word and example sentence. The
 original 155 recordings use Sarah with Multilingual v2. The completion batch adds
 146 tagged v3 recordings and four Multilingual v2 pronunciation corrections, and
-the sentence-builder batch a further 54 tagged v3 recordings, across three native
+the sentence-builder batch a further 54 tagged v3 recordings. The topic
+vocabulary batch adds 1,707 tagged v3 recordings. All of them use three native
 Spanish voices:
 
 | Voice       | Used for                                   |
@@ -37,6 +39,13 @@ Spanish voices:
 | Antonio     | Vocabulary and short questions             |
 | Sara Martin | Sentence examples and female introductions |
 | Brian       | Longer narration                           |
+
+Topic words always go to Antonio and their example sentences to Sara Martin,
+except male first-person examples such as _Estoy contento_, which Antonio reads.
+Compact card forms are read in full (_bueno/a_ is read as "bueno, buena") while
+the displayed text and lookup key stay unchanged. For a few phrases, v3 returns
+an empty clip with the default tags; `retagged` in `scripts/audio-direction.mjs`
+gives those phrases different tags.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

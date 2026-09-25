@@ -6,6 +6,8 @@ import {
   vocabulary,
 } from "../src/data/curriculum.ts";
 import { formPractice, mockQuestions } from "../src/data/mock.ts";
+import words from "../src/data/words.json" with { type: "json" };
+import examples from "../src/data/examples.json" with { type: "json" };
 
 export const phrases = [
   ...new Set(
@@ -28,6 +30,9 @@ export const phrases = [
         [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(
           (q) => q.pronunciation || q.audio || q.passage || q.answer,
         ),
+        // Topic flashcards: each word, then its example sentence on reveal.
+        words.flatMap((t) => t.words.map((w) => w.es)),
+        Object.values(examples).map((e) => e.es),
       ),
   ),
 ];

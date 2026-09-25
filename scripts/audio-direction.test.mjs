@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { audioKey } from "../src/data/audio.ts";
 import { phrases } from "./audio-catalog.mjs";
-import { courseVoices, createMissingPlan, directPhrase } from "./audio-direction.mjs";
+import { courseVoices, createMissingPlan, directPhrase, spokenWord } from "./audio-direction.mjs";
 import { createPlan, generateClips } from "./elevenlabs.mjs";
 import { clipCredits } from "./audio-budget.mjs";
 
@@ -32,12 +32,35 @@ describe("directed Spanish recordings", () => {
         language_code: "es",
         voice_settings: { stability: 0.5 },
       });
-      expect(clip.body.text.replace(/\[[a-z]+\]\s*/g, "")).toBe(text);
+      expect(clip.body.text.replace(/\[[a-z]+\]\s*/g, "")).toBe(direction.spokenText ?? text);
       expect(clipCredits(clip)).toBe(clip.body.text.length);
       expect(courseVoices.some((v) => v.id === clip.voiceId)).toBe(true);
       voices.add(clip.voiceId);
     }
     expect(voices.size).toBe(3);
+  });
+  it("reads topic words with Antonio and their example sentences with Sara Martin", () => {
+    expect(directPhrase("el Día de Acción de Gracias").voiceId).toBe(courseVoices[1].id);
+    expect(directPhrase("la mancha de nacimiento").voiceId).toBe(courseVoices[1].id);
+    expect(directPhrase("Mi hijo tiene una mancha de nacimiento.").voiceId).toBe(
+      courseVoices[0].id,
+    );
+    expect(directPhrase("¿Cuál es tu nacionalidad?").voiceId).toBe(courseVoices[0].id);
+    // A male first-person example keeps a male voice.
+    expect(directPhrase("Estoy decepcionado con el hotel.").voiceId).toBe(courseVoices[1].id);
+    expect(directPhrase("Encantado de conocerte.").voiceId).toBe(courseVoices[1].id);
+    expect(directPhrase("Hoy estoy un poco desanimada.").voiceId).toBe(courseVoices[0].id);
+  });
+  it("reads compact word forms in full without changing the lookup key", () => {
+    expect(spokenWord("bueno/a")).toBe("bueno, buena");
+    expect(spokenWord("lleno/a de alegría")).toBe("lleno de alegría, llena de alegría");
+    expect(spokenWord("el pantalón/los pantalones")).toBe("el pantalón, los pantalones");
+    expect(spokenWord("el profesor (la profesora)")).toBe("el profesor, la profesora");
+    expect(directPhrase("el pan").spokenText).toBeUndefined();
+    const direction = directPhrase("frío/a");
+    const [clip] = createPlan(["frío/a"], direction.voiceId, direction);
+    expect(clip.key).toBe(audioKey("frío/a"));
+    expect(clip.body.text).toBe("[confidently] frío, fría");
   });
   it("matches first-person speakers and varies delivery without changing the lesson", () => {
     expect(directPhrase("Yo soy Marta.").voiceId).toBe(courseVoices[0].id);

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { vocabulary } from "../data/curriculum";
 import { emptyProgress } from "../data/progress";
-import { addWords, cardStatus, topicCounts, topics } from "../data/topics";
+import { addWords, cardStatus, deckCards, topicCounts, topics } from "../data/topics";
 
 const cards = topics.flatMap((t) => t.cards);
 const card = (id: string) => cards.find((c) => c.id === id)!;
@@ -85,5 +85,24 @@ describe("adding words from a topic", () => {
     expect(Object.keys(addWords(weather, progress, at))).toHaveLength(3);
     Object.assign(progress.vocabularyReviews, addWords(weather, progress, at));
     expect(addWords(weather, progress, at)).toEqual({});
+  });
+});
+
+describe("the learner's deck", () => {
+  it("is empty on new progress", () => {
+    expect(deckCards(emptyProgress())).toEqual([]);
+  });
+  it("holds added topic words and completed unit words once each", () => {
+    const progress = emptyProgress();
+    const unit = card("hola").unit!;
+    progress.completed[`u${unit}-words`] = { score: 1, total: 1, at: "2026-09-25" };
+    const unitWords = vocabulary.filter((w) => w.unit === unit).map((w) => w.es);
+    const animals = topics.find((t) => t.topic === "Animals")!.cards;
+    Object.assign(progress.vocabularyReviews, addWords(animals, progress), {
+      hola: { level: 1, nextAt: "2026-09-25T00:00:00.000Z" },
+    });
+    const ids = deckCards(progress).map((c) => c.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids.sort()).toEqual([...unitWords, ...animals.slice(0, 5).map((c) => c.id)].sort());
   });
 });

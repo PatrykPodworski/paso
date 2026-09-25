@@ -70,3 +70,7 @@ export const addWords = (cards: Card[], progress: Progress, at = new Date().toIS
       .slice(0, WORDS_PER_ADD)
       .map((card) => [card.id, { level: 0, nextAt: at }]),
   );
+
+// Every card the learner is studying, from topics or completed unit lessons.
+export const deckCards = (progress: Progress) =>
+  topics.flatMap((t) => t.cards).filter((card) => inDeck(card, progress));

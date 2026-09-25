@@ -28,41 +28,44 @@ export const courseVoices = [
   { name: "Brian", id: "jBlmi27XRORxjPquUeCh", accent: "Latin America" },
 ];
 
-export const directPhrase = (text) => {
-  const female =
-    /\b(?:soy polaca|soy italiana|soy profesora|estoy contenta|estoy cansada|soy tranquila|soy Marta|me llamo (?:Ana|Elena)|(?:abrazo|saludos), (?:Ana|Elena|Marta))\b/i.test(
-      text,
-    );
-  const male =
-    /\b(?:soy polaco|estoy contento|me llamo Pablo)\b|\b(?:estoy (?:muy |un poco )?|me siento )\w+[ai]do\b|^Encantado\b/i.test(
-      text,
-    );
-  // Example sentences are read by Sara Martin and topic words by Antonio,
-  // whatever their length, so a long word is never hashed to another voice.
-  const voice = female
-    ? courseVoices[0]
-    : male || vocabularyWords.has(text)
-      ? courseVoices[1]
-      : exampleSentences.has(text)
-        ? courseVoices[0]
-        : text.length < 20 || text.startsWith("¿")
-          ? courseVoices[1]
-          : courseVoices[parseInt(audioKey(text), 36) % (text.length > 100 ? 3 : 2)];
-  const mood = text.startsWith("¿")
+const female =
+  /\b(?:soy polaca|soy italiana|soy profesora|estoy contenta|estoy cansada|soy tranquila|soy Marta|me llamo (?:Ana|Elena)|(?:abrazo|saludos), (?:Ana|Elena|Marta))\b/i;
+const male =
+  /\b(?:soy polaco|estoy contento|me llamo Pablo)\b|\b(?:estoy (?:muy |un poco )?|me siento )\w+[ai]do\b|^Encantado\b/i;
+// Example sentences are read by Sara Martin and topic words by Antonio,
+// whatever their length, so a long word is never hashed to another voice.
+const voiceFor = (text) => {
+  if (female.test(text)) {
+    return courseVoices[0];
+  }
+  if (male.test(text) || vocabularyWords.has(text)) {
+    return courseVoices[1];
+  }
+  if (exampleSentences.has(text)) {
+    return courseVoices[0];
+  }
+  if (text.length < 20 || text.startsWith("¿")) {
+    return courseVoices[1];
+  }
+  return courseVoices[parseInt(audioKey(text), 36) % (text.length > 100 ? 3 : 2)];
+};
+const moodFor = (text) =>
+  text.startsWith("¿")
     ? "curious"
     : /^(Hola|Buenos días|Sí, gracias)/.test(text)
       ? "warmly"
       : "calm";
+
+export const directPhrase = (text) => {
+  const word = vocabularyWords.has(text);
   return {
-    voiceId: voice.id,
+    voiceId: voiceFor(text).id,
     modelId: "eleven_v3",
     // Topic words sound flat and breathy with "[calm] [slowly]"; "[confidently]"
     // gives them energy without the throat noise "[clearly]" triggers.
-    tags: retagged[text] ?? (vocabularyWords.has(text) ? "[confidently]" : `[${mood}] [slowly]`),
+    tags: retagged[text] ?? (word ? "[confidently]" : `[${moodFor(text)}] [slowly]`),
     voiceSettings: { stability: 0.5 },
-    ...(vocabularyWords.has(text) && spokenWord(text) !== text
-      ? { spokenText: spokenWord(text) }
-      : {}),
+    ...(word && spokenWord(text) !== text ? { spokenText: spokenWord(text) } : {}),
   };
 };
 

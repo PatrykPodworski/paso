@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { vocabulary } from "../data/curriculum";
-import { topics } from "../data/topics";
+import { emptyProgress } from "../data/progress";
+import { cardStatus, topicCounts, topics } from "../data/topics";
 
 const cards = topics.flatMap((t) => t.cards);
 const card = (id: string) => cards.find((c) => c.id === id)!;
@@ -29,5 +30,39 @@ describe("topic cards", () => {
     expect(art.optional).toBe(true);
     expect(art.cards.every((c) => c.optional)).toBe(true);
     expect(card("el pan").optional).toBe(false);
+  });
+});
+
+describe("card status and topic counts", () => {
+  const family = topics.find((t) => t.topic === "Family")!.cards;
+  const review = (level: number) => ({ level, nextAt: "2026-09-25T00:00:00.000Z" });
+  it("counts every word of a topic as new on empty progress", () => {
+    expect(topicCounts(family, emptyProgress())).toEqual({
+      total: family.length,
+      new: family.length,
+      learning: 0,
+      known: 0,
+    });
+  });
+  it("treats a completed unit's words as learning before their first review", () => {
+    const progress = emptyProgress();
+    const unit = card("la madre").unit!;
+    progress.completed[`u${unit}-words`] = { score: 1, total: 1, at: "2026-09-25" };
+    expect(cardStatus(card("la madre"), progress)).toBe("learning");
+    expect(cardStatus(card("el suegro"), progress)).toBe("new");
+  });
+  it("marks a word known from review level 4", () => {
+    const progress = emptyProgress();
+    progress.vocabularyReviews["el suegro"] = review(3);
+    progress.vocabularyReviews["la suegra"] = review(4);
+    expect(cardStatus(card("el suegro"), progress)).toBe("learning");
+    expect(cardStatus(card("la suegra"), progress)).toBe("known");
+    expect(topicCounts(family, progress)).toMatchObject({ learning: 1, known: 1 });
+  });
+  it("tracks each meaning of a word separately", () => {
+    const progress = emptyProgress();
+    progress.vocabularyReviews["el mono"] = review(0);
+    expect(cardStatus(card("el mono"), progress)).toBe("learning");
+    expect(cardStatus(card("el mono (monkey)"), progress)).toBe("new");
   });
 });

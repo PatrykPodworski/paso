@@ -145,6 +145,19 @@ const VocabularySession = ({
             <div className="flashcard-answer">
               <span className="eyebrow">THE MEANING</span>
               <h3 lang="en">{word.en}</h3>
+              {word.example && (
+                <div className="flashcard-example">
+                  <p lang="es">{word.example.es}</p>
+                  <p lang="en">{word.example.en}</p>
+                  {/* Starting this clip stops the word clip through stopAudio(). */}
+                  <AudioButton
+                    text={word.example.es}
+                    label="Play example sentence"
+                    minimal
+                    autoPlay
+                  />
+                </div>
+              )}
               <MemoryHint text={word.memoryHint} />
             </div>
           )}

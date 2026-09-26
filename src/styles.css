@@ -1715,6 +1715,17 @@ main {
   font-size: 26px;
   margin-top: 8px;
 }
+.flashcard-example {
+  margin-top: 16px;
+}
+.flashcard-example p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.flashcard-example p[lang="en"] {
+  font-size: 14px;
+  color: #59675d;
+}
 .flashcard-actions {
   display: flex;
   flex-direction: column;

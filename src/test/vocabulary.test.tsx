@@ -1,10 +1,19 @@
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import App from "../App";
+import { audioSources } from "../data/audio-sources";
 import { vocabulary } from "../data/curriculum";
 import { emptyProgress, STORAGE_KEY, vocabularyReview } from "../data/progress";
 import { deckCards } from "../data/topics";
 import type { Progress } from "../data/types";
+
+// One split-sense card without an example, for the no-sentence case.
+vi.mock("../data/examples.json", async (importOriginal) => {
+  const { "el mono (monkey)": _, ...examples } = (
+    await importOriginal<{ default: Record<string, unknown> }>()
+  ).default;
+  return { default: examples };
+});
 
 const now = "2026-09-09T12:00:00.000Z";
 const tomorrow = "2026-09-10T12:00:00.000Z";
@@ -29,11 +38,23 @@ const mount = (p = progressWithDue()) => {
   window.location.hash = "#practice";
   return render(<App />);
 };
+let playing: string[] = [];
+const clip = (text: string) => new URL(audioSources(text)[0], window.location.href).href;
 beforeEach(() => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date(now));
-  vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(() => new Promise(() => {}));
-  vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+  playing = [];
+  vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(
+    function (this: HTMLMediaElement) {
+      playing.push(this.src);
+      return Promise.resolve();
+    },
+  );
+  vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(
+    function (this: HTMLMediaElement) {
+      playing = playing.filter((src) => src !== this.src);
+    },
+  );
 });
 afterEach(() => {
   cleanup();
@@ -181,6 +202,36 @@ it("saves a split-sense card's rating under its own id", () => {
     nextAt: tomorrow,
   });
   expect(saved().vocabularyReviews["el mono"]).toBeUndefined();
+});
+
+it("shows and plays the example sentence only after reveal, and stops it on rating", async () => {
+  mount();
+  const card = deckCards(progressWithDue()).find((c) => c.id === words[0].es)!;
+  const example = card.example!;
+  click("Review flashcards");
+  const dialog = screen.getByRole("dialog");
+  await act(async () => {});
+  expect(playing).toEqual([clip(card.es)]);
+  expect(within(dialog).queryByText(example.es)).not.toBeInTheDocument();
+  expect(within(dialog).queryByRole("button", { name: "Play example sentence" })).toBeNull();
+  click("Reveal answer");
+  await act(async () => {});
+  expect(within(dialog).getByText(example.es)).toHaveAttribute("lang", "es");
+  expect(within(dialog).getByText(example.en)).toHaveAttribute("lang", "en");
+  expect(playing).toEqual([clip(example.es)]);
+  click(/Got it right/);
+  await act(async () => {});
+  expect(playing).not.toContain(clip(example.es));
+});
+
+it("shows no sentence block for a card without an example", () => {
+  const p = progressWithDue(0);
+  p.vocabularyReviews["el mono (monkey)"] = { level: 0, nextAt: now };
+  mount(p);
+  click("Review flashcards");
+  click("Reveal answer");
+  expect(document.querySelector(".flashcard-example")).toBeNull();
+  expect(screen.queryByRole("button", { name: "Play example sentence" })).toBeNull();
 });
 
 it("spaces successful recall over 1, 3, 7, 14 and 30 days, caps the interval and resets missed words", () => {

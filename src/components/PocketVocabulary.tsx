@@ -1,15 +1,14 @@
 import { Button } from "../design-system/Button";
 import { CONTEXT_SIZE } from "../design-system/button-context-sizes";
 import { useEffect, useRef, useState } from "react";
-import { vocabulary } from "../data/curriculum";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
+import { type Card, deckCards } from "../data/topics";
 import type { Progress } from "../data/types";
 import { AudioButton, stopAudio } from "./Audio";
 import { Dialog } from "./Dialog";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 
-type Word = (typeof vocabulary)[number];
 type Review = Progress["vocabularyReviews"][string];
 type Props = {
   progress: Progress;
@@ -44,7 +43,7 @@ const VocabularySession = ({
   onReview,
   onClose,
 }: Omit<Props, "onLearn"> & {
-  words: Word[];
+  words: Card[];
   onClose: () => void;
 }) => {
   const [index, setIndex] = useState(0);
@@ -58,7 +57,7 @@ const VocabularySession = ({
   const nextSessionReview = results.map((r) => r.review.nextAt).sort()[0];
   const now = new Date();
   const nextRight =
-    word && vocabularyReview(progress.vocabularyReviews[word.es], true, now.toISOString());
+    word && vocabularyReview(progress.vocabularyReviews[word.id], true, now.toISOString());
   useEffect(() => {
     action.current?.focus();
   }, [index, revealed]);
@@ -69,8 +68,8 @@ const VocabularySession = ({
     }
     ratingLock.current = true;
     stopAudio();
-    const review = vocabularyReview(progress.vocabularyReviews[word.es], correct);
-    onReview(word.es, review);
+    const review = vocabularyReview(progress.vocabularyReviews[word.id], correct);
+    onReview(word.id, review);
     setResults((previous) => [...previous, { correct, review }]);
     setIndex((i) => i + 1);
     setRevealed(false);
@@ -137,12 +136,10 @@ const VocabularySession = ({
       ) : (
         <div className="flashcard-review">
           <div className="flashcard-prompt">
-            <span className="eyebrow">
-              UNIT {String(word.unit).padStart(2, "0")} · SPANISH → ENGLISH
-            </span>
+            <span className="eyebrow">{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</span>
             <p>Can you remember the meaning?</p>
             <h2 lang="es">{word.es}</h2>
-            <AudioButton key={word.es} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
+            <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
             <div className="flashcard-answer">
@@ -169,13 +166,24 @@ const VocabularySession = ({
             <div className="flashcard-actions">
               <p>Did you get it right? Choose when this card returns.</p>
               <div className="flashcard-ratings">
-                <Button ref={action} variant="secondary" sizeClasses={CONTEXT_SIZE.flashcardRatings} className="whitespace-normal" onClick={() => rate(false)}>
+                <Button
+                  ref={action}
+                  variant="secondary"
+                  sizeClasses={CONTEXT_SIZE.flashcardRatings}
+                  className="whitespace-normal"
+                  onClick={() => rate(false)}
+                >
                   <Icon name="repeat" />
                   <span>
                     Got it wrong<small>Review in 10 min</small>
                   </span>
                 </Button>
-                <Button variant="primary" sizeClasses={CONTEXT_SIZE.flashcardRatings} className="whitespace-normal" onClick={() => rate(true)}>
+                <Button
+                  variant="primary"
+                  sizeClasses={CONTEXT_SIZE.flashcardRatings}
+                  className="whitespace-normal"
+                  onClick={() => rate(true)}
+                >
                   <Icon name="check" />
                   <span>
                     Got it right<small>Review {reviewWait(nextRight.nextAt, now)}</small>
@@ -195,23 +203,23 @@ const VocabularySession = ({
 
 export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
   const [search, setSearch] = useState("");
-  const [session, setSession] = useState<Word[] | null>(null);
+  const [session, setSession] = useState<Card[] | null>(null);
   const [now, setNow] = useState(() => new Date());
-  const words = vocabulary.filter((w) => progress.completed[`u${w.unit}-words`]);
+  const words = deckCards(progress);
   const due = words
-    .filter((w) => reviewDue(progress.vocabularyReviews[w.es], now))
+    .filter((w) => reviewDue(progress.vocabularyReviews[w.id], now))
     .sort((a, b) =>
-      (progress.vocabularyReviews[a.es]?.nextAt ?? "").localeCompare(
-        progress.vocabularyReviews[b.es]?.nextAt ?? "",
+      (progress.vocabularyReviews[a.id]?.nextAt ?? "").localeCompare(
+        progress.vocabularyReviews[b.id]?.nextAt ?? "",
       ),
     );
-  const scheduled = words.filter((w) => !reviewDue(progress.vocabularyReviews[w.es], now));
-  const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.es].nextAt).sort()[0];
+  const scheduled = words.filter((w) => !reviewDue(progress.vocabularyReviews[w.id], now));
+  const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.id].nextAt).sort()[0];
   const reviewedToday = words.filter((w) => {
-    const at = progress.vocabularyReviews[w.es]?.reviewedAt;
+    const at = progress.vocabularyReviews[w.id]?.reviewedAt;
     return at && localDate(new Date(at)) === localDate(now);
   }).length;
-  const newCount = words.filter((w) => !progress.vocabularyReviews[w.es]).length;
+  const newCount = due.filter((w) => !progress.vocabularyReviews[w.id]?.reviewedAt).length;
   const filtered = words.filter((w) =>
     `${w.es} ${w.en}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
   );
@@ -283,7 +291,8 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
             </Button>
           ) : (
             <Button
-              variant="primary" className="shrink-0"
+              variant="primary"
+              className="shrink-0"
               disabled={!due.length}
               onClick={() => setSession(due)}
             >
@@ -312,15 +321,15 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
           {filtered.length ? (
             <ul className="vocabulary-list">
               {filtered.map((w) => {
-                const entry = progress.vocabularyReviews[w.es];
+                const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
                 return (
-                  <li key={w.es}>
+                  <li key={w.id}>
                     <span className="vocabulary-word">
                       <strong lang="es">{w.es}</strong>
                       <span lang="en">{w.en}</span>
                     </span>
-                    <span className="vocabulary-unit">Unit {String(w.unit).padStart(2, "0")}</span>
+                    <span className="vocabulary-unit">{w.topic}</span>
                     <span className={`vocabulary-availability ${isDue ? "is-due" : ""}`}>
                       <strong>
                         {isDue

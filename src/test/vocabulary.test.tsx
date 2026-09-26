@@ -3,6 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import App from "../App";
 import { vocabulary } from "../data/curriculum";
 import { emptyProgress, STORAGE_KEY, vocabularyReview } from "../data/progress";
+import { deckCards } from "../data/topics";
 import type { Progress } from "../data/types";
 
 const now = "2026-09-09T12:00:00.000Z";
@@ -144,6 +145,42 @@ it("updates today's count and availability when returning to the tab on another 
   });
   count("Reviewed today", 0);
   count("To review", words.length);
+});
+
+it("labels a completed unit's words with their topic", () => {
+  mount();
+  const card = deckCards(progressWithDue()).find((c) => c.id === words[0].es)!;
+  const row = screen.getByText(words[0].es, { selector: ".vocabulary-list strong" }).closest("li")!;
+  expect(within(row).getByText(card.topic, { exact: true })).toBeInTheDocument();
+  click("Review flashcards");
+  expect(
+    within(screen.getByRole("dialog")).getByText(
+      `${card.topic.toLocaleUpperCase()} · SPANISH → ENGLISH`,
+    ),
+  ).toBeInTheDocument();
+});
+
+it("counts added words with no review yet as new", () => {
+  const p = progressWithDue(0);
+  p.vocabularyReviews["el mono (monkey)"] = { level: 0, nextAt: now };
+  mount(p);
+  count("To review", 1);
+  expect(screen.getByText(/1 card is ready, including 1 new/)).toBeInTheDocument();
+});
+
+it("saves a split-sense card's rating under its own id", () => {
+  const p = progressWithDue(0);
+  p.vocabularyReviews["el mono (monkey)"] = { level: 0, nextAt: now };
+  mount(p);
+  click("Review flashcards");
+  click("Reveal answer");
+  click(/Got it right/);
+  expect(saved().vocabularyReviews["el mono (monkey)"]).toEqual({
+    level: 1,
+    reviewedAt: now,
+    nextAt: tomorrow,
+  });
+  expect(saved().vocabularyReviews["el mono"]).toBeUndefined();
 });
 
 it("spaces successful recall over 1, 3, 7, 14 and 30 days, caps the interval and resets missed words", () => {

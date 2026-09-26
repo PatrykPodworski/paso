@@ -7,7 +7,7 @@ import type { Progress } from "./types";
 const KNOWN_LEVEL = 4;
 const WORDS_PER_ADD = 5;
 
-type Card = {
+export type Card = {
   // SRS and example key. A second sense of a word carries its own key.
   id: string;
   es: string;

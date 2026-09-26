@@ -5,6 +5,7 @@ import type { Progress } from "./types";
 
 // Level 4 reviews come back after 14 days or more.
 const KNOWN_LEVEL = 4;
+const WORDS_PER_ADD = 5;
 
 type Card = {
   // SRS and example key. A second sense of a word carries its own key.
@@ -60,3 +61,16 @@ export const topicCounts = (cards: Card[], progress: Progress) => {
   }
   return counts;
 };
+
+// Review entries for the topic's next new cards, in list order, due immediately.
+export const addWords = (cards: Card[], progress: Progress, at = new Date().toISOString()) =>
+  Object.fromEntries(
+    cards
+      .filter((card) => cardStatus(card, progress) === "new")
+      .slice(0, WORDS_PER_ADD)
+      .map((card) => [card.id, { level: 0, nextAt: at }]),
+  );
+
+// Every card the learner is studying, from topics or completed unit lessons.
+export const deckCards = (progress: Progress) =>
+  topics.flatMap((t) => t.cards).filter((card) => inDeck(card, progress));

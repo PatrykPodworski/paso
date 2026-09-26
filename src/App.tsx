@@ -1,5 +1,4 @@
 import { Button } from "./design-system/Button";
-import { CONTEXT_SIZE } from "./design-system/button-context-sizes";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
@@ -203,12 +202,12 @@ const Settings = ({
         data. Microphone recordings stay only in the active tab unless downloaded.
       </p>
       <div className="button-row">
-        <Button variant="secondary" sizeClasses={CONTEXT_SIZE.settingsDialog} className="[@media(max-width:760px)]:w-full" onClick={exportProgress}>
+        <Button variant="secondary" size="compact" className="[@media(max-width:760px)]:w-full" onClick={exportProgress}>
           <Icon name="download" size={17} />
           Export progress
         </Button>
         <Button
-          variant="primary" sizeClasses={CONTEXT_SIZE.settingsDialog} className="[@media(max-width:760px)]:w-full"
+          variant="primary" size="compact" className="[@media(max-width:760px)]:w-full"
           onClick={() => {
             onSave({ name: name.trim(), goal, examDate: date });
             onClose();
@@ -550,7 +549,7 @@ const App = () => {
                         <br />A world of <em>Spanish.</em>
                       </h2>
                       <p>Real-life Spanish, little wins, and a clear path to your first diploma.</p>
-                      <Button variant="primary" sizeClasses={CONTEXT_SIZE.heroCard} className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]" onClick={() => setSession(nextLesson)}>
+                      <Button variant="primary" size="compact" className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]" onClick={() => setSession(nextLesson)}>
                         {completed ? "Continue my journey" : "Let’s take the first step"}
                         <Icon name="arrow" size={19} />
                       </Button>
@@ -774,7 +773,7 @@ const App = () => {
                     {completed}/{allLessons.length} complete · {progressPercent}% of your path
                   </p>
                 </div>
-                <Button variant="primary" sizeClasses={CONTEXT_SIZE.pathBanner} className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]" onClick={() => setSession(nextLesson)}>
+                <Button variant="primary" className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]" onClick={() => setSession(nextLesson)}>
                   Continue learning
                   <Icon name="arrow" />
                 </Button>
@@ -808,7 +807,7 @@ const App = () => {
                       <h3>The next chapter is yours.</h3>
                       <p>Put your skills together in the exam rehearsal.</p>
                     </div>
-                    <Button variant="primary" sizeClasses={CONTEXT_SIZE.pathFinish} className="[@media(min-width:761px)]:ml-auto" onClick={() => navigate("exam")}>
+                    <Button variant="primary" size="small" className="[@media(min-width:761px)]:ml-auto" onClick={() => navigate("exam")}>
                       Meet the exam
                       <Icon name="arrow" />
                     </Button>

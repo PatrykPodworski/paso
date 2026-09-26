@@ -1,4 +1,4 @@
-import { test, expect, openLesson, answer, stabilise } from "../fixtures/app";
+import { test, expect, openLesson, answer, stabilise, capture } from "../fixtures/app";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
@@ -14,10 +14,10 @@ const shot = async (page: Page, name: string) => {
   if (modal) {
     await dialog.evaluate((el) => (el.scrollTop = 0));
   }
-  await expect(page).toHaveScreenshot(`${name}.png`, { fullPage: !modal });
+  await capture(page, name, { fullPage: !modal });
   if (modal && (await dialog.evaluate((el) => el.scrollHeight > el.clientHeight + 4))) {
     await dialog.evaluate((el) => (el.scrollTop = el.scrollHeight));
-    await expect(page).toHaveScreenshot(`${name}-bottom.png`, { fullPage: false });
+    await capture(page, `${name}-bottom`);
   }
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),

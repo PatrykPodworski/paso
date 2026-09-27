@@ -18,18 +18,18 @@ The gate first verifies stable test IDs, then builds/type-checks the app, lints,
 
 No API key, login or ElevenLabs account is needed. Browser tests deny external HTTP requests. Unit tests reject unexpected `fetch` calls; provider tests use fake responses and temporary files. CLI tests replace environment-file loading and generation calls. No production audio or credit ledger is changed.
 
-| Command                   | Purpose                                                        |
-| ------------------------- | -------------------------------------------------------------- |
-| `pnpm test:unit`          | Fast unit/component/provider tests                             |
-| `pnpm test:coverage`      | Unit tests with enforced coverage floors and HTML report       |
-| `pnpm test:e2e`           | 22 journeys, each on desktop and mobile Chromium               |
-| `pnpm test:visual`        | Compare reviewed screenshots; never update them                |
-| `pnpm test:visual:update` | Deliberately regenerate screenshots for review                 |
-| `pnpm test:browser`       | Both browser suites in one server session                      |
-| `pnpm test:mutation`      | Stryker business logic audit and score gate                    |
-| `pnpm test:mutation:full` | Broader audit including presentation mutations                 |
-| `pnpm test:ids`           | Verify unique, stable test names used for mutation selection   |
-| `pnpm test:visual:guard`  | Prove an intentional colour change fails the existing baseline |
+| Command                   | Purpose                                                         |
+| ------------------------- | --------------------------------------------------------------- |
+| `pnpm test:unit`          | Fast unit/component/provider tests                              |
+| `pnpm test:coverage`      | Unit tests with enforced coverage floors and HTML report        |
+| `pnpm test:e2e`           | 22 journeys, each on desktop and mobile Chromium                |
+| `pnpm test:visual`        | Compare reviewed screenshots; never update them                 |
+| `pnpm test:visual:update` | Deliberately regenerate screenshots for review                  |
+| `pnpm test:browser`       | Both browser suites in one server session                       |
+| `pnpm test:mutation`      | Stryker business logic audit and score gate                     |
+| `pnpm test:mutation:full` | Broader audit including presentation mutations                  |
+| `pnpm test:ids`           | Verify unique, stable test names used for mutation selection    |
+| `pnpm test:visual:guard`  | Prove an intentional colour change fails the existing baseline  |
 | `pnpm exec fallow audit`  | Dead code, complexity and duplication in the files a PR changes |
 
 ## Rule inventory
@@ -116,12 +116,13 @@ Dates, timezone, locale, motion and AI responses are deterministic. Native recor
 These reviewed images were generated on macOS arm64. Font rendering and native controls differ between operating systems. This is not a Safari/WebKit or Firefox compatibility claim.
 
 ### Two baselines, each authoritative for its own context
+
 Screenshots go through `capture()` in `tests/fixtures/app.ts`, which switches on the `ARGOS_UPLOAD` environment variable:
 
-| | Set by | Compares against | Reviewed in |
-| --- | --- | --- | --- |
-| Local | nothing; the default | the committed macOS arm64 PNGs under `tests/visual/baselines/` | `pnpm exec playwright show-report`, then `pnpm test:visual:update` |
-| CI | the `visual` job in `ci.yml` | baselines Argos generated on the same Linux runner | the Argos check on the pull request |
+|       | Set by                       | Compares against                                               | Reviewed in                                                        |
+| ----- | ---------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Local | nothing; the default         | the committed macOS arm64 PNGs under `tests/visual/baselines/` | `pnpm exec playwright show-report`, then `pnpm test:visual:update` |
+| CI    | the `visual` job in `ci.yml` | baselines Argos generated on the same Linux runner             | the Argos check on the pull request                                |
 
 This is why the operating-system difference above stops mattering: neither baseline set is ever compared against a machine that did not produce it. The cost is that **neither validates the other**. CI does not check the committed PNGs, and the local gate does not check Argos. A change that alters rendering will be flagged by Argos on the pull request, but the committed baselines only get updated when somebody runs the local gate.
 

@@ -1,5 +1,4 @@
 import { Button } from "./design-system/Button";
-import { CONTEXT_SIZE } from "./design-system/button-context-sizes";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
@@ -205,7 +204,7 @@ const Settings = ({
       <div className="button-row">
         <Button
           variant="secondary"
-          sizeClasses={CONTEXT_SIZE.settingsDialog}
+          size="compact"
           className="[@media(max-width:760px)]:w-full"
           onClick={exportProgress}
         >
@@ -214,7 +213,7 @@ const Settings = ({
         </Button>
         <Button
           variant="primary"
-          sizeClasses={CONTEXT_SIZE.settingsDialog}
+          size="compact"
           className="[@media(max-width:760px)]:w-full"
           onClick={() => {
             onSave({ name: name.trim(), goal, examDate: date });
@@ -559,7 +558,7 @@ const App = () => {
                       <p>Real-life Spanish, little wins, and a clear path to your first diploma.</p>
                       <Button
                         variant="primary"
-                        sizeClasses={CONTEXT_SIZE.heroCard}
+                        size="compact"
                         className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]"
                         onClick={() => setSession(nextLesson)}
                       >
@@ -788,7 +787,6 @@ const App = () => {
                 </div>
                 <Button
                   variant="primary"
-                  sizeClasses={CONTEXT_SIZE.pathBanner}
                   className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]"
                   onClick={() => setSession(nextLesson)}
                 >
@@ -827,7 +825,7 @@ const App = () => {
                     </div>
                     <Button
                       variant="primary"
-                      sizeClasses={CONTEXT_SIZE.pathFinish}
+                      size="small"
                       className="[@media(min-width:761px)]:ml-auto"
                       onClick={() => navigate("exam")}
                     >

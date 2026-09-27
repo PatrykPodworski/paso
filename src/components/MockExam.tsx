@@ -1,5 +1,4 @@
 import { Button } from "../design-system/Button";
-import { CONTEXT_SIZE } from "../design-system/button-context-sizes";
 import { useEffect, useState } from "react";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
@@ -338,7 +337,6 @@ export const MockExam = ({
           <div className="button-row">
             <Button
               variant="secondary"
-              sizeClasses={CONTEXT_SIZE.examResults}
               className="[@media(max-width:760px)]:w-full"
               onClick={download}
             >
@@ -347,7 +345,6 @@ export const MockExam = ({
             </Button>
             <Button
               variant="primary"
-              sizeClasses={CONTEXT_SIZE.examResults}
               className="[@media(max-width:760px)]:w-full"
               onClick={() => setRun(fresh())}
             >

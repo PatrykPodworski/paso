@@ -1,5 +1,4 @@
 import { Button } from "../design-system/Button";
-import { CONTEXT_SIZE } from "../design-system/button-context-sizes";
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
@@ -447,7 +446,6 @@ export const QuestionCard = ({
             <Button
               type="button"
               variant="primary"
-              sizeClasses={CONTEXT_SIZE.questionFooter}
               className="whitespace-nowrap [@media(max-width:760px)]:w-full"
               onClick={() => submit()}
               disabled={!canSubmit}
@@ -534,7 +532,7 @@ export const QuestionCard = ({
               <Button
                 type="button"
                 variant="secondary"
-                sizeClasses={CONTEXT_SIZE.feedbackBottom}
+                size="compact"
                 className="[@media(max-width:760px)]:ml-auto"
                 onClick={() => {
                   stopAudio();
@@ -547,7 +545,7 @@ export const QuestionCard = ({
             <Button
               type="button"
               variant="primary"
-              sizeClasses={CONTEXT_SIZE.feedbackBottom}
+              size="compact"
               className="[@media(max-width:760px)]:ml-auto"
               autoFocus
               onClick={() => onSubmit(submission, correct, assisted)}

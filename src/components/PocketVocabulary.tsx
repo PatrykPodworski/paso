@@ -168,13 +168,24 @@ const VocabularySession = ({
             <div className="flashcard-actions">
               <p>Did you get it right? Choose when this card returns.</p>
               <div className="flashcard-ratings">
-                <Button ref={action} variant="secondary" size="small" className="whitespace-normal" onClick={() => rate(false)}>
+                <Button
+                  ref={action}
+                  variant="secondary"
+                  size="small"
+                  className="whitespace-normal"
+                  onClick={() => rate(false)}
+                >
                   <Icon name="repeat" />
                   <span>
                     Got it wrong<small>Review in 10 min</small>
                   </span>
                 </Button>
-                <Button variant="primary" size="small" className="whitespace-normal" onClick={() => rate(true)}>
+                <Button
+                  variant="primary"
+                  size="small"
+                  className="whitespace-normal"
+                  onClick={() => rate(true)}
+                >
                   <Icon name="check" />
                   <span>
                     Got it right<small>Review {reviewWait(nextRight.nextAt, now)}</small>

@@ -10,12 +10,8 @@ const VARIANT = {
   danger: "text-[#a14031] bg-[#fff0e8] border-[#e7c9bc]",
 };
 
-// An unconditional base value plus max-width overrides, mirroring the CSS this replaces.
-// Disjoint min/max pairs would leave 430 < w < 431 matching neither, which a 125% zoom
-// reaches: the property then falls back to the browser default.
 const SIZE = {
-  // 15px sits between text-sm and text-base; kept so every default button in the app keeps its size.
-  default: "px-5 py-3 min-h-11 text-[0.9375rem] [@media(max-width:430px)]:text-sm",
+  default: "px-5 py-3 min-h-11 text-sm",
   compact: "px-4 py-2.5 min-h-11 text-sm",
   small: "px-3 py-2 min-h-9.5 text-sm",
 };
@@ -27,14 +23,6 @@ type Props = {
   className?: string;
 } & Omit<ComponentProps<"button">, "className">;
 
-export const Button = ({
-  variant,
-  size = "default",
-  className = "",
-  ...rest
-}: Props) => (
-  <button
-    className={`${BASE} ${VARIANT[variant]} ${SIZE[size]} ${className}`}
-    {...rest}
-  />
+export const Button = ({ variant, size = "default", className = "", ...rest }: Props) => (
+  <button className={`${BASE} ${VARIANT[variant]} ${SIZE[size]} ${className}`} {...rest} />
 );

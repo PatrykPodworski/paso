@@ -14,10 +14,10 @@ const VARIANT = {
 // Disjoint min/max pairs would leave 430 < w < 431 matching neither, which a 125% zoom
 // reaches: the property then falls back to the browser default.
 const SIZE = {
-  default: "gap-[12px] px-[20px] py-[13px] min-h-[44px] text-[15px] [@media(max-width:430px)]:text-[14px]",
+  default:
+    "gap-[12px] px-[20px] py-[13px] min-h-[44px] text-[15px] [@media(max-width:430px)]:text-[14px]",
   small: "gap-[12px] px-[13px] py-[8px] min-h-[38px] text-[14px]",
 };
-
 
 type Props = {
   variant: keyof typeof VARIANT;

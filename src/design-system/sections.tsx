@@ -16,7 +16,12 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           <div key={variant} className="flex flex-wrap items-center gap-3">
             {(["default", "small"] as const).map((size) =>
               [false, true].map((disabled) => (
-                <Button key={`${size}${disabled}`} variant={variant} size={size} disabled={disabled}>
+                <Button
+                  key={`${size}${disabled}`}
+                  variant={variant}
+                  size={size}
+                  disabled={disabled}
+                >
                   {variant} {size}
                   {disabled ? " disabled" : ""}
                 </Button>

@@ -31,7 +31,7 @@ src/data/audio-sources.json.*.tmp
 *.sln
 *.sw?
 
-# Regression test output (reviewed visual baselines remain tracked)
+# Regression test output
 coverage/
 reports/
 playwright-report/
@@ -44,5 +44,5 @@ test-results/
 # Local scratch space
 temp/
 
-# Written by argosScreenshot only when the Argos reporter is not loaded
+# Written by argosScreenshot when the Argos reporter is not uploading
 screenshots/

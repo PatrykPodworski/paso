@@ -30,12 +30,10 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test tests/e2e",
     "test:visual": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test tests/visual",
-    "test:visual:update": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test tests/visual --update-snapshots",
     "test:browser": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test",
     "test:mutation": "pnpm test:ids && stryker run stryker.business.config.mjs && node scripts/check-mutation-report.mjs",
     "test:mutation:full": "stryker run stryker.audit.config.mjs",
     "test:refactor": "pnpm test:ids && pnpm build && pnpm lint && pnpm test:coverage && pnpm test:browser && pnpm test:mutation",
-    "test:visual:guard": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright node scripts/check-visual-guard.mjs",
     "test:ids": "node scripts/check-test-ids.mjs",
     "test:browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium"
   },

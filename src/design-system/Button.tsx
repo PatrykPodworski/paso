@@ -1,11 +1,11 @@
 import type { ComponentProps } from "react";
 
 const BASE =
-  "inline-flex justify-center items-center border border-transparent gap-3 rounded-lg font-semibold leading-normal";
+  "inline-flex justify-center items-center border gap-3 rounded-lg font-semibold leading-normal";
 
 const VARIANT = {
   primary:
-    "bg-green text-[#fffdf4] shadow-[0_2px_3px_#223c3010] [&:hover:not(:disabled)]:bg-[#193e2e] [&:hover:not(:disabled)]:shadow-[0_4px_10px_#223c3020]",
+    "bg-green border-transparent text-[#fffdf4] shadow-[0_2px_3px_#223c3010] [&:hover:not(:disabled)]:bg-[#193e2e] [&:hover:not(:disabled)]:shadow-[0_4px_10px_#223c3020]",
   secondary: "bg-paper border-[#d9dfd4] [&:hover:not(:disabled)]:bg-[#eff3e9]",
   danger: "text-[#a14031] bg-[#fff0e8] border-[#e7c9bc]",
 };

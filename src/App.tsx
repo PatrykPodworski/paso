@@ -27,6 +27,7 @@ import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
+import { FieldNote } from "./design-system/FieldNote";
 import { TextLink } from "./design-system/TextLink";
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
@@ -202,10 +203,10 @@ const Settings = ({
         Exam date <span className="subtle">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
-      <p className="field-note">
+      <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
-      </p>
+      </FieldNote>
       <div className="button-row">
         <Button
           variant="secondary"
@@ -883,10 +884,10 @@ const App = () => {
                       </section>
                     </div>
                   ))}
-                  <p className="field-note">
+                  <FieldNote className="max-laptop:col-span-full">
                     All lessons are open. Completion tracks practice, not exam readiness. Review
                     mistakes and use the A1 checklist to find gaps.
-                  </p>
+                  </FieldNote>
                 </aside>
               </div>
             </>

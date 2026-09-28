@@ -3,6 +3,7 @@ import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
 import { Icon } from "../components/Icon";
 import { TextLink } from "./TextLink";
+import { FieldNote } from "./FieldNote";
 import { PageHeading } from "./PageHeading";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
@@ -75,6 +76,18 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           Anchor
           <Icon name="external" size={15} />
         </TextLink>
+      </div>
+    ),
+  },
+  {
+    id: "field-note",
+    name: "FieldNote",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <FieldNote>Progress and writing drafts stay in this browser.</FieldNote>
+        <FieldNote>
+          A note with a link inside. <a href="#design-system">Official structure ↗</a>
+        </FieldNote>
       </div>
     ),
   },

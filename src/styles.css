@@ -186,22 +186,6 @@ svg {
 .icon-button:hover {
   background: #254b3e0b;
 }
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #4a6d55;
-}
-.text-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
 .subtle {
   font-size: 14px;
   color: var(--muted);
@@ -672,9 +656,6 @@ main {
   font-size: 14px;
   color: #8a9382;
   margin-top: 5px;
-}
-.section-heading .text-link {
-  font-size: 13px;
 }
 .path-heading {
   margin-top: 30px;
@@ -1156,15 +1137,6 @@ main {
 }
 .skill-row > svg {
   color: #a2ad91;
-}
-.skills-panel > .text-link {
-  font-size: 12px;
-  border-top: 1px solid #eef0e6;
-  padding-top: 14px;
-  width: 100%;
-  justify-content: space-between;
-  font-weight: 400;
-  color: #8b9879;
 }
 .phrase-card {
   padding: 22px;
@@ -2120,12 +2092,6 @@ main {
   display: block;
   margin-top: 5px;
 }
-.requirement-group > .text-link {
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-  margin-top: 5px;
-  font-size: 13px;
-}
 .exam-day {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -3013,10 +2979,6 @@ main {
   width: 100%;
   height: 37px;
 }
-.playback .text-link {
-  font-size: 13px;
-  color: #b38d6a;
-}
 .feedback {
   margin-top: 24px;
   border: 1px solid #dce5cc;
@@ -3292,11 +3254,6 @@ main {
 }
 .data-settings > summary {
   cursor: pointer;
-}
-.data-settings .text-link {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #b19475;
 }
 .data-settings p {
   margin: 14px 0;
@@ -3729,9 +3686,6 @@ main {
     font-size: 11px;
   }
   .skills-panel > p {
-    font-size: 13px;
-  }
-  .skills-panel > .text-link {
     font-size: 13px;
   }
   .skill-row {
@@ -4299,9 +4253,6 @@ main {
     flex-wrap: wrap;
     gap: 17px;
   }
-  .exam-navigation > .text-link {
-    font-size: 14px;
-  }
   .section-review {
     padding: 24px;
   }
@@ -4616,9 +4567,6 @@ main {
   }
   .section-heading h2 {
     font-size: 22px;
-  }
-  .section-heading .text-link {
-    font-size: 12px;
   }
   .quick-practice {
     grid-template-columns: 1fr;
@@ -5022,9 +4970,6 @@ main {
   .skills-panel > p {
     font-size: 12px;
   }
-  .skills-panel > .text-link {
-    font-size: 12px;
-  }
   .phrase-card {
     padding: 24px;
   }
@@ -5263,9 +5208,6 @@ main {
   }
   .hero-caption {
     font-size: 10px;
-  }
-  .section-heading .text-link {
-    font-size: 11px;
   }
   .section-heading {
     gap: 12px;

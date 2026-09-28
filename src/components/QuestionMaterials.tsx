@@ -1,3 +1,4 @@
+import { TextLink } from "../design-system/TextLink";
 import { useState } from "react";
 import type { Ref } from "react";
 import type { Question } from "../data/types";
@@ -48,16 +49,16 @@ export const QuestionMaterials = ({
       {q.audio && (
         <>
           {!exam && (
-            <button
+            <TextLink
               type="button"
-              className="text-link transcript-toggle"
+              className="transcript-toggle"
               onClick={() => {
                 setTranscript((t) => !t);
                 onTranscript();
               }}
             >
               {transcript ? "Hide transcript" : "Need a hand? Show transcript"}
-            </button>
+            </TextLink>
           )}
           {transcript && (
             <div className="transcript" lang="es">

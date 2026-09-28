@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useEffect, useState } from "react";
 import { mockSections } from "../data/mock";
@@ -156,7 +157,9 @@ export const MockExam = ({
     <div className="mock-page">
       <div className="page-heading">
         <div>
-          <span className="eyebrow">A CALM DRESS REHEARSAL</span>
+          <Eyebrow variant="page" className="mb-[9px]">
+            A CALM DRESS REHEARSAL
+          </Eyebrow>
           <h1>Meet the exam.</h1>
           <p>Familiar tasks. A little focus. A more confident you.</p>
         </div>
@@ -177,7 +180,7 @@ export const MockExam = ({
               <span>DELE A1</span>
             </div>
             <div>
-              <span className="eyebrow">YOUR FIRST FULL REHEARSAL</span>
+              <Eyebrow>YOUR FIRST FULL REHEARSAL</Eyebrow>
               <h2>
                 One exam. Four ways
                 <br />
@@ -255,7 +258,7 @@ export const MockExam = ({
           <div className="completion-art">
             <Icon name="trophy" size={48} />
           </div>
-          <span className="eyebrow">REHEARSAL COMPLETE</span>
+          <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
           <h2>You’ve met the exam.</h2>
           <p>Now you know where your next steps can take you.</p>
           <div className="result-score-grid">
@@ -373,7 +376,7 @@ export const MockExam = ({
           </div>
           {run.stage === "prep" ? (
             <div className="panel oral-prep">
-              <span className="eyebrow">10 MINUTES TO PREPARE</span>
+              <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
               <h2>A moment to find your words.</h2>
               <p>
                 Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather
@@ -409,7 +412,7 @@ export const MockExam = ({
             </div>
           ) : run.stage === "review" ? (
             <div className="panel section-review">
-              <span className="eyebrow">{section.title.toUpperCase()} · SECTION REVIEW</span>
+              <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
               <h2>
                 {run.section < 2
                   ? `${score(run.section)} out of 25.`

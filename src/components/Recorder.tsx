@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Icon";
 import { FieldNote } from "../design-system/FieldNote";
+import { TextLink } from "../design-system/TextLink";
 export const Recorder = ({
   onRecorded,
   onStart,
@@ -133,13 +134,13 @@ export const Recorder = ({
       {url && (
         <div className="playback">
           <audio controls src={url} />
-          <a
+          <TextLink
             href={url}
             download={`paso-speaking.${recorder.current?.mimeType.includes("mp4") ? "m4a" : "webm"}`}
-            className="text-link"
+            className="text-[13px]! text-[#b38d6a]!"
           >
             <Icon name="download" size={16} /> Save recording
-          </a>
+          </TextLink>
         </div>
       )}
       {error && (

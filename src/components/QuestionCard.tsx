@@ -9,6 +9,7 @@ import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 import { Recorder } from "./Recorder";
 import { FieldNote } from "../design-system/FieldNote";
+import { TextLink } from "../design-system/TextLink";
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -216,16 +217,16 @@ export const QuestionCard = ({
       {q.audio && (
         <>
           {!exam && (
-            <button
+            <TextLink
               type="button"
-              className="text-link transcript-toggle"
+              className="transcript-toggle"
               onClick={() => {
                 setTranscript((t) => !t);
                 setAssisted(true);
               }}
             >
               {transcript ? "Hide transcript" : "Need a hand? Show transcript"}
-            </button>
+            </TextLink>
           )}
           {transcript && (
             <div className="transcript" lang="es">

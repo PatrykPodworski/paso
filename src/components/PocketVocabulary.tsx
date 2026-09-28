@@ -8,6 +8,7 @@ import { AudioButton, stopAudio } from "./Audio";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
+import { TextLink } from "../design-system/TextLink";
 
 type Review = Progress["vocabularyReviews"][string];
 type Props = {
@@ -394,9 +395,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
               <Icon name="search" />
               <h3>No word found yet.</h3>
               <p>Try a Spanish word or its English meaning.</p>
-              <button className="text-link" onClick={() => setSearch("")}>
-                Clear search
-              </button>
+              <TextLink onClick={() => setSearch("")}>Clear search</TextLink>
             </div>
           )}
         </div>

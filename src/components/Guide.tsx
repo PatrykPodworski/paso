@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Badge } from "../design-system/Badge";
 import { PageHeading } from "../design-system/PageHeading";
 import { useState } from "react";
 import type { Progress } from "../data/types";
@@ -27,9 +28,9 @@ export const Guide = ({
         title="Your guide to DELE A1."
         description="Know what’s expected. Practise with a purpose."
       >
-        <span className="outline-badge max-tablet:hidden!">
+        <Badge className="max-tablet:hidden">
           <Icon name="check" size={16} /> Researched 7 Sep 2026
-        </span>
+        </Badge>
       </PageHeading>
       <div className="guide-overview panel">
         <div>
@@ -202,13 +203,13 @@ export const Guide = ({
           <h2>Your A1 readiness checklist</h2>
           <p>Self-assess these abilities as you work through the path.</p>
         </div>
-        <span className="outline-badge">
+        <Badge>
           {
             requirementGroups.flatMap((g) => g.items).filter(([id]) => progress.checks.includes(id))
               .length
           }
           /{requirementGroups.flatMap((g) => g.items).length} checked
-        </span>
+        </Badge>
       </div>
       <div className="notice">
         <Icon name="info" />

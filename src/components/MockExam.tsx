@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Badge } from "../design-system/Badge";
 import { PageHeading } from "../design-system/PageHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useState } from "react";
@@ -167,9 +168,9 @@ export const MockExam = ({
         title="Meet the exam."
         description="Familiar tasks. A little focus. A more confident you."
       >
-        <span className="outline-badge max-tablet:hidden!">
+        <Badge className="max-tablet:hidden">
           <Icon name="clock" size={16} /> Official section timings
-        </span>
+        </Badge>
       </PageHeading>
       {storageError && (
         <p className="notice" role="status">

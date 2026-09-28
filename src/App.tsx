@@ -1,4 +1,5 @@
 import { Button } from "./design-system/Button";
+import { Badge } from "./design-system/Badge";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
@@ -903,10 +904,10 @@ const App = () => {
                 title="Your practice studio."
                 description="Follow your curiosity, or give a tricky word another chance."
               >
-                <span className="outline-badge max-tablet:hidden!">
+                <Badge className="max-tablet:hidden">
                   <Icon name="spark" size={16} />
                   {exerciseBank.length} exercises to explore
-                </span>
+                </Badge>
               </PageHeading>
               <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
                 {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (

@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
+import { Icon } from "../components/Icon";
+import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
-import { Icon } from "../components/Icon";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
 import { PageHeading } from "./PageHeading";
@@ -92,6 +93,18 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     ),
   },
   {
+    id: "badge",
+    name: "Badge",
+    render: () => (
+      <div className="flex flex-wrap items-center gap-3">
+        <Badge>
+          <Icon name="check" size={16} /> With icon
+        </Badge>
+        <Badge>3/12 checked</Badge>
+      </div>
+    ),
+  },
+  {
     id: "page-heading",
     name: "PageHeading",
     render: () => (
@@ -105,7 +118,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           title="Page heading with an aside."
           description="The aside sits on the right."
         >
-          <span className="outline-badge max-tablet:hidden!">Aside badge</span>
+          <Badge className="max-tablet:hidden">Aside badge</Badge>
         </PageHeading>
         <PageHeading
           eyebrow={

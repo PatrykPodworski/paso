@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
@@ -80,7 +81,9 @@ const VocabularySession = ({
           <Icon name="x" />
         </button>
         <div>
-          <span className="eyebrow">POCKET VOCABULARY</span>
+          <Eyebrow variant="small" className="mb-[5px]">
+            POCKET VOCABULARY
+          </Eyebrow>
           <h3>A little Spanish, remembered.</h3>
         </div>
         <span className="lesson-counter">
@@ -135,14 +138,14 @@ const VocabularySession = ({
       ) : (
         <div className="flashcard-review">
           <div className="flashcard-prompt">
-            <span className="eyebrow">{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</span>
+            <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p>Can you remember the meaning?</p>
             <h2 lang="es">{word.es}</h2>
             <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
             <div className="flashcard-answer">
-              <span className="eyebrow">THE MEANING</span>
+              <Eyebrow>THE MEANING</Eyebrow>
               <h3 lang="en">{word.en}</h3>
               {word.example && (
                 <div className="flashcard-example">
@@ -253,7 +256,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
       <div className="section-heading word-heading">
         <div>
-          <span className="eyebrow">A LITTLE PRACTICE, A LASTING MEMORY</span>
+          <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
           <h2 id="vocabulary-title">Your pocket vocabulary</h2>
           <p>Words from your completed vocabulary lessons, ready to remember.</p>
         </div>

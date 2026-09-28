@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { countWords, writingHints } from "../data/progress";
 import type { Question } from "../data/types";
@@ -32,7 +33,7 @@ const WritingNotes = ({ q, value }: { q: Question; value: string }) => {
 const PracticeReview = ({ q, value, checked }: { q: Question; value: string; checked: number }) => (
   <>
     <div className="model-answer">
-      <span className="eyebrow">One possible answer</span>
+      <Eyebrow>One possible answer</Eyebrow>
       <p lang="es">{q.answer}</p>
     </div>
     {q.kind !== "speak" && <WritingNotes q={q} value={value} />}
@@ -70,7 +71,7 @@ const FeedbackBottom = ({
         type="button"
         variant="secondary"
         size="compact"
-        className="[@media(max-width:760px)]:ml-auto"
+        className="max-tablet:ml-auto"
         onClick={onRevise}
       >
         Revise my answer
@@ -80,7 +81,7 @@ const FeedbackBottom = ({
       type="button"
       variant="primary"
       size="compact"
-      className="[@media(max-width:760px)]:ml-auto"
+      className="max-tablet:ml-auto"
       autoFocus
       onClick={onContinue}
     >

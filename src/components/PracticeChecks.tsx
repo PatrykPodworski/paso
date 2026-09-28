@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import type { Question } from "../data/types";
 import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
@@ -36,7 +37,9 @@ export const PracticeChecks = ({
     )}
     {practice.productive && !exam && (
       <div className="self-checks">
-        <span className="eyebrow">Your self-review checklist</span>
+        <Eyebrow variant="checklist" className="mb-[13px]">
+          Your self-review checklist
+        </Eyebrow>
         {q.checklist?.map((c, i) => (
           <label className="check-row" key={c}>
             <input

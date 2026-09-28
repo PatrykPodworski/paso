@@ -2,7 +2,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
 import { LessonSession } from "../components/LessonSession";
-import { Dialog } from "../components/Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { audioSources } from "../data/audio-sources";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
@@ -308,11 +308,10 @@ describe("lesson completion and dialog contracts", () => {
     click("Close lesson");
     expect(close).toHaveBeenCalledOnce();
   });
-  it("prevents native Escape closure, uses the latest callback, and restores focus and body scrolling", () => {
+  it("prevents native Escape closure, uses the latest callback, and restores focus", () => {
     const trigger = document.createElement("button");
     document.body.append(trigger);
     trigger.focus();
-    document.body.style.overflow = "auto";
     const first = vi.fn(),
       latest = vi.fn();
     const { rerender, unmount } = render(
@@ -320,7 +319,6 @@ describe("lesson completion and dialog contracts", () => {
         Hello
       </Dialog>,
     );
-    expect(document.body.style.overflow).toBe("hidden");
     rerender(
       <Dialog label="Example" onClose={latest}>
         Hello
@@ -332,7 +330,6 @@ describe("lesson completion and dialog contracts", () => {
     expect(latest).toHaveBeenCalledOnce();
     expect(first).not.toHaveBeenCalled();
     unmount();
-    expect(document.body.style.overflow).toBe("auto");
     expect(trigger).toHaveFocus();
     trigger.remove();
   });

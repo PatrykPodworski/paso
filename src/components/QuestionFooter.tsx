@@ -28,7 +28,7 @@ export const QuestionFooter = ({
         <Button
           type="button"
           variant="primary"
-          className="whitespace-nowrap [@media(max-width:760px)]:w-full"
+          className="whitespace-nowrap max-tablet:w-full"
           onClick={onCheck}
           disabled={!canSubmit}
         >

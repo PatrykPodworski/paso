@@ -1,8 +1,9 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "./Icon";
-import { Dialog } from "./Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";
 export const LessonSession = ({
@@ -61,7 +62,9 @@ export const LessonSession = ({
           <Icon name="x" />
         </button>
         <div>
-          <span className="eyebrow">PASO · YOUR LEARNING PATH</span>
+          <Eyebrow variant="small" className="mb-[5px]">
+            PASO · YOUR LEARNING PATH
+          </Eyebrow>
           <h3>{lesson.title}</h3>
         </div>
         <span className="lesson-counter">
@@ -96,7 +99,7 @@ export const LessonSession = ({
             <Icon name="flag" size={50} />
             <span>✧</span>
           </div>
-          <span className="eyebrow">ONE STEP CLOSER</span>
+          <Eyebrow>ONE STEP CLOSER</Eyebrow>
           <h2>Look at you go.</h2>
           <p>Another little piece of Spanish, yours to keep.</p>
           <div className="completion-stats">

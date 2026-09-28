@@ -210,11 +210,6 @@ svg {
   background: #edf3e5;
   border-color: #dbe6d1;
 }
-.panel {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 13px;
-}
 .outline-badge {
   border: 1px solid #dde3d7;
   border-radius: 20px;
@@ -952,19 +947,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 18px;
-}
-.panel-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.panel-heading h3 {
-  font-size: 14px;
-  font-weight: 600;
-}
-.panel-heading > svg {
-  color: #a0a68f;
 }
 .daily-goal {
   padding: 16px 20px 19px;
@@ -3320,9 +3302,6 @@ main {
   .lesson-row small {
     font-size: 12px;
   }
-  .panel-heading h3 {
-    font-size: 16px;
-  }
   .skills-panel {
     padding: 24px;
   }
@@ -3401,9 +3380,6 @@ main {
   }
   .daily-goal {
     padding: 16px;
-  }
-  .panel-heading h3 {
-    font-size: 14px;
   }
   .goal-ring {
     width: 139px;
@@ -3649,9 +3625,6 @@ main {
   }
   .quick-practice small {
     font-size: 12px;
-  }
-  .panel-heading h3 {
-    font-size: 15px;
   }
   .skill-row strong {
     font-size: 14px;
@@ -3946,9 +3919,6 @@ main {
   .goal-ring {
     width: 130px;
     height: 130px;
-  }
-  .panel-heading h3 {
-    font-size: 14px;
   }
   .daily-goal {
     padding: 15px;
@@ -4469,9 +4439,6 @@ main {
   .daily-goal {
     padding: 20px 25px;
   }
-  .panel-heading h3 {
-    font-size: 16px;
-  }
   .goal-ring {
     width: 145px;
     height: 145px;
@@ -4896,9 +4863,6 @@ main {
   .lesson-tip summary {
     font-size: 11px;
   }
-  .panel-heading h3 {
-    font-size: 15px;
-  }
   .daily-goal {
     padding: 20px;
   }
@@ -5087,9 +5051,6 @@ main {
   }
   .dashboard-heading h1 {
     font-size: 29px;
-  }
-  .panel-heading h3 {
-    font-size: 14px;
   }
   .daily-goal > p {
     font-size: 11px;

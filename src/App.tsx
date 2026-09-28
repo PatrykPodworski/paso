@@ -27,6 +27,7 @@ import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
 import { FieldNote } from "./design-system/FieldNote";
+import { Panel, PanelHeading } from "./design-system/Panel";
 import { TextLink } from "./design-system/TextLink";
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
@@ -658,9 +659,8 @@ const App = () => {
                   </div>
                 </div>
                 <aside className="dashboard-aside">
-                  <section className="panel daily-goal">
-                    <div className="panel-heading">
-                      <h3>Your daily little win</h3>
+                  <Panel as="section" className="daily-goal">
+                    <PanelHeading title="Your daily little win">
                       <button
                         className="icon-button"
                         onClick={() => setSettings(true)}
@@ -668,7 +668,7 @@ const App = () => {
                       >
                         <Icon name="settings" size={16} />
                       </button>
-                    </div>
+                    </PanelHeading>
                     <div
                       className="goal-ring"
                       style={
@@ -715,12 +715,11 @@ const App = () => {
                         );
                       })}
                     </div>
-                  </section>
-                  <section className="panel skills-panel">
-                    <div className="panel-heading">
-                      <h3>A little of every skill</h3>
+                  </Panel>
+                  <Panel as="section" className="skills-panel">
+                    <PanelHeading title="A little of every skill">
                       <Icon name="layers" size={17} />
-                    </div>
+                    </PanelHeading>
                     <p>Four ways to grow your Spanish.</p>
                     {skills.map((s) => {
                       const stats = skillStats(progress, s.id);
@@ -750,7 +749,7 @@ const App = () => {
                       How the exam works
                       <Icon name="arrow" size={15} />
                     </TextLink>
-                  </section>
+                  </Panel>
                   <section className="phrase-card">
                     <Eyebrow variant="phrase">
                       <Icon name="spark" size={14} /> A PHRASE FOR TODAY
@@ -790,7 +789,7 @@ const App = () => {
                 </div>
                 <Stamp />
               </div>
-              <div className="path-banner panel">
+              <Panel className="path-banner">
                 <span className={`unit-icon ${nextUnit.color}`}>
                   <Icon name={nextUnit.icon} size={28} />
                 </span>
@@ -813,7 +812,7 @@ const App = () => {
                   Continue learning
                   <Icon name="arrow" />
                 </Button>
-              </div>
+              </Panel>
               <div className="path-layout">
                 <div className="full-path">
                   {units.map((u, i) => (
@@ -855,7 +854,7 @@ const App = () => {
                     </Button>
                   </div>
                 </div>
-                <aside className="path-sidebar panel">
+                <Panel as="aside" className="path-sidebar">
                   <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
                   <h3>
                     Learn it. Try it.
@@ -884,7 +883,7 @@ const App = () => {
                     All lessons are open. Completion tracks practice, not exam readiness. Review
                     mistakes and use the A1 checklist to find gaps.
                   </FieldNote>
-                </aside>
+                </Panel>
               </div>
             </>
           )}
@@ -919,7 +918,7 @@ const App = () => {
                 ))}
               </div>
               {filter === "mistakes" ? (
-                <div className="panel mistakes-panel">
+                <Panel className="mistakes-panel">
                   <span className="quick-icon peach">
                     <Icon name="repeat" size={28} />
                   </span>
@@ -969,10 +968,10 @@ const App = () => {
                       </TextLink>
                     </details>
                   ))}
-                </div>
+                </Panel>
               ) : (
                 <>
-                  <div className="practice-hero panel">
+                  <Panel className="practice-hero">
                     <div>
                       <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
                       <h2>
@@ -999,16 +998,17 @@ const App = () => {
                       <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />
                       <i>¡Tú puedes!</i>
                     </div>
-                  </div>
+                  </Panel>
                   <div className="practice-skill-grid">
                     {skills
                       .filter((s) => filter === "all" || filter === s.id)
                       .map((s) => {
                         const stats = skillStats(progress, s.id);
                         return (
-                          <button
+                          <Panel
+                            as="button"
                             key={s.id}
-                            className="panel practice-skill-card"
+                            className="practice-skill-card"
                             onClick={() => practice(s.id)}
                           >
                             <span className={`skill-icon ${s.id}`}>
@@ -1023,13 +1023,14 @@ const App = () => {
                                 : `${stats.accuracy}% unassisted objective accuracy`}
                             </span>
                             <Icon name="arrow" size={19} />
-                          </button>
+                          </Panel>
                         );
                       })}
                   </div>
                   <div className="focused-practice">
-                    <button
-                      className="panel"
+                    <Panel
+                      as="button"
+
                       onClick={() =>
                         setSession({
                           id: "pictures",
@@ -1049,9 +1050,10 @@ const App = () => {
                         <p>6 visual puzzles · cafés, trains & your neighborhood</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
+                    </Panel>
+                    <Panel
+                      as="button"
+
                       onClick={() =>
                         setSession({
                           id: "foundations",
@@ -1071,9 +1073,10 @@ const App = () => {
                         <p>24 checks · sounds, spelling, numbers & patterns</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
+                    </Panel>
+                    <Panel
+                      as="button"
+
                       onClick={() =>
                         setSession({
                           id: "form",
@@ -1093,7 +1096,7 @@ const App = () => {
                         <p>A personal form · 15–25 words · exam task 1</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
+                    </Panel>
                   </div>
                 </>
               )}

@@ -4,6 +4,7 @@ import { Eyebrow } from "./Eyebrow";
 import { Icon } from "../components/Icon";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
+import { Panel, PanelHeading } from "./Panel";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
@@ -87,6 +88,23 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         <FieldNote>
           A note with a link inside. <a href="#design-system">Official structure ↗</a>
         </FieldNote>
+      </div>
+    ),
+  },
+  {
+    id: "panel",
+    name: "Panel",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <Panel className="p-5">Plain panel</Panel>
+        <Panel as="section" className="p-5">
+          <PanelHeading title="Heading with icon">
+            <Icon name="layers" size={17} />
+          </PanelHeading>
+        </Panel>
+        <Panel as="button" className="p-5 text-left">
+          Button panel
+        </Panel>
       </div>
     ),
   },

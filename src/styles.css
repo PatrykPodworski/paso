@@ -186,30 +186,9 @@ svg {
 .icon-button:hover {
   background: #254b3e0b;
 }
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #4a6d55;
-}
-.text-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
 .subtle {
   font-size: 14px;
   color: var(--muted);
-}
-.field-note {
-  font-size: 14px !important;
-  line-height: 1.6 !important;
-  color: var(--muted) !important;
 }
 .notice {
   display: flex;
@@ -661,9 +640,6 @@ main {
   font-size: 14px;
   color: #8a9382;
   margin-top: 5px;
-}
-.section-heading .text-link {
-  font-size: 13px;
 }
 .path-heading {
   margin-top: 30px;
@@ -1145,15 +1121,6 @@ main {
 }
 .skill-row > svg {
   color: #a2ad91;
-}
-.skills-panel > .text-link {
-  font-size: 12px;
-  border-top: 1px solid #eef0e6;
-  padding-top: 14px;
-  width: 100%;
-  justify-content: space-between;
-  font-weight: 400;
-  color: #8b9879;
 }
 .phrase-card {
   padding: 22px;
@@ -1967,9 +1934,6 @@ main {
 .exam-table td:last-child {
   font-weight: 600;
 }
-.exam-table-wrap > .field-note {
-  margin-top: 15px;
-}
 .guide-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2067,11 +2031,6 @@ main {
   color: #89977a;
   margin-top: 6px;
 }
-.examiner-notes > .field-note {
-  border-top: 1px solid var(--line);
-  padding-top: 17px;
-  margin-top: 22px;
-}
 .requirement-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2108,12 +2067,6 @@ main {
   color: #a5ae98;
   display: block;
   margin-top: 5px;
-}
-.requirement-group > .text-link {
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-  margin-top: 5px;
-  font-size: 13px;
 }
 .exam-day {
   display: grid;
@@ -2614,10 +2567,6 @@ main {
   margin: -12px 0 16px;
   white-space: nowrap;
 }
-.question-pronunciation .field-note {
-  grid-column: 1 / -1;
-  margin: -8px 0 18px;
-}
 .question-heading h2 {
   grid-column: 1;
   grid-row: 1;
@@ -2953,9 +2902,6 @@ main {
   font-size: 14px;
   color: #84986f;
 }
-.form-fields > .field-note {
-  grid-column: 1/-1;
-}
 .recorder {
   padding: 22px;
   background: #f5ece5;
@@ -2989,9 +2935,6 @@ main {
   font-size: 21px;
   color: #b29777;
 }
-.recorder > .field-note {
-  margin-top: 13px;
-}
 .playback {
   margin-top: 18px;
   display: flex;
@@ -3001,10 +2944,6 @@ main {
 .playback audio {
   width: 100%;
   height: 37px;
-}
-.playback .text-link {
-  font-size: 13px;
-  color: #b38d6a;
 }
 .feedback {
   margin-top: 24px;
@@ -3266,9 +3205,6 @@ main {
 .settings-dialog > label > .subtle {
   font-size: 13px;
 }
-.settings-dialog > .field-note {
-  margin-bottom: 22px;
-}
 .settings-dialog > .button-row {
   justify-content: space-between;
 }
@@ -3281,11 +3217,6 @@ main {
 }
 .data-settings > summary {
   cursor: pointer;
-}
-.data-settings .text-link {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #b19475;
 }
 .data-settings p {
   margin: 14px 0;
@@ -3720,9 +3651,6 @@ main {
   .skills-panel > p {
     font-size: 13px;
   }
-  .skills-panel > .text-link {
-    font-size: 13px;
-  }
   .skill-row {
     margin-bottom: 20px;
     gap: 12px;
@@ -3742,8 +3670,7 @@ main {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .path-sidebar > h3,
-  .path-sidebar > .field-note {
+  .path-sidebar > h3 {
     grid-column: 1/-1;
   }
   .path-sidebar > h3 {
@@ -4285,9 +4212,6 @@ main {
     flex-wrap: wrap;
     gap: 17px;
   }
-  .exam-navigation > .text-link {
-    font-size: 14px;
-  }
   .section-review {
     padding: 24px;
   }
@@ -4602,9 +4526,6 @@ main {
   }
   .section-heading h2 {
     font-size: 22px;
-  }
-  .section-heading .text-link {
-    font-size: 12px;
   }
   .quick-practice {
     grid-template-columns: 1fr;
@@ -5008,9 +4929,6 @@ main {
   .skills-panel > p {
     font-size: 12px;
   }
-  .skills-panel > .text-link {
-    font-size: 12px;
-  }
   .phrase-card {
     padding: 24px;
   }
@@ -5058,9 +4976,6 @@ main {
 .lesson-tip,
 .subtle {
   color: #75816b;
-}
-.field-note {
-  color: #748067 !important;
 }
 .hero-card p,
 .hero-caption {
@@ -5249,9 +5164,6 @@ main {
   }
   .hero-caption {
     font-size: 10px;
-  }
-  .section-heading .text-link {
-    font-size: 11px;
   }
   .section-heading {
     gap: 12px;

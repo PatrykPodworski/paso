@@ -27,6 +27,8 @@ import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
+import { FieldNote } from "./design-system/FieldNote";
+import { TextLink } from "./design-system/TextLink";
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
 type Page = "today" | "path" | "practice" | "exam" | "guide";
@@ -201,10 +203,10 @@ const Settings = ({
         Exam date <span className="subtle">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
-      <p className="field-note">
+      <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
-      </p>
+      </FieldNote>
       <div className="button-row">
         <Button
           variant="secondary"
@@ -246,9 +248,12 @@ const Settings = ({
             </div>
           </div>
         ) : (
-          <button className="text-link" onClick={() => setReset(true)}>
+          <TextLink
+            className="mt-[12px] text-[13px]! text-[#b19475]!"
+            onClick={() => setReset(true)}
+          >
             Reset my progress
-          </button>
+          </TextLink>
         )}
       </details>
     </Dialog>
@@ -584,10 +589,13 @@ const App = () => {
                       </Eyebrow>
                       <h2>Your learning path</h2>
                     </div>
-                    <button className="text-link" onClick={() => navigate("path")}>
+                    <TextLink
+                      className="text-[13px]! max-phone:text-[11px]!"
+                      onClick={() => navigate("path")}
+                    >
                       View full path
                       <Icon name="arrow" size={16} />
-                    </button>
+                    </TextLink>
                   </div>
                   <div className="path-overview">
                     <span>
@@ -736,10 +744,13 @@ const App = () => {
                         </button>
                       );
                     })}
-                    <button className="text-link" onClick={() => navigate("guide")}>
+                    <TextLink
+                      className="w-full justify-between border-t border-t-[#eef0e6] pt-[14px] text-[12px]! font-normal! text-[#8b9879]! max-laptop:text-[13px]! desktop:text-[12px]!"
+                      onClick={() => navigate("guide")}
+                    >
                       How the exam works
                       <Icon name="arrow" size={15} />
-                    </button>
+                    </TextLink>
                   </section>
                   <section className="phrase-card">
                     <Eyebrow variant="phrase">
@@ -870,10 +881,10 @@ const App = () => {
                       </section>
                     </div>
                   ))}
-                  <p className="field-note">
+                  <FieldNote className="max-laptop:col-span-full">
                     All lessons are open. Completion tracks practice, not exam readiness. Review
                     mistakes and use the A1 checklist to find gaps.
-                  </p>
+                  </FieldNote>
                 </aside>
               </div>
             </>
@@ -942,8 +953,7 @@ const App = () => {
                       </p>
                       <p>{q.explanation}</p>
                       <MemoryHint text={q.memoryHint} />
-                      <button
-                        className="text-link"
+                      <TextLink
                         onClick={() =>
                           setSession({
                             id: "review-one",
@@ -957,7 +967,7 @@ const App = () => {
                       >
                         Try again
                         <Icon name="arrow" size={15} />
-                      </button>
+                      </TextLink>
                     </details>
                   ))}
                 </div>

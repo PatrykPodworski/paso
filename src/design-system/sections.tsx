@@ -3,6 +3,8 @@ import { Icon } from "../components/Icon";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
+import { TextLink } from "./TextLink";
+import { FieldNote } from "./FieldNote";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
@@ -56,6 +58,36 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             {variant.toUpperCase()} <i>·</i> EYEBROW
           </Eyebrow>
         ))}
+      </div>
+    ),
+  },
+  {
+    id: "text-link",
+    name: "TextLink",
+    render: () => (
+      <div className="flex flex-wrap items-center gap-6">
+        <TextLink>Button</TextLink>
+        <TextLink>
+          With icon
+          <Icon name="arrow" size={16} />
+        </TextLink>
+        <TextLink disabled>Disabled</TextLink>
+        <TextLink href="#design-system">
+          Anchor
+          <Icon name="external" size={15} />
+        </TextLink>
+      </div>
+    ),
+  },
+  {
+    id: "field-note",
+    name: "FieldNote",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <FieldNote>Progress and writing drafts stay in this browser.</FieldNote>
+        <FieldNote>
+          A note with a link inside. <a href="#design-system">Official structure ↗</a>
+        </FieldNote>
       </div>
     ),
   },

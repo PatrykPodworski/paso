@@ -8,6 +8,8 @@ import type { AudioHandle } from "./Audio";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 import { Recorder } from "./Recorder";
+import { FieldNote } from "../design-system/FieldNote";
+import { TextLink } from "../design-system/TextLink";
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -215,16 +217,16 @@ export const QuestionCard = ({
       {q.audio && (
         <>
           {!exam && (
-            <button
+            <TextLink
               type="button"
-              className="text-link transcript-toggle"
+              className="transcript-toggle"
               onClick={() => {
                 setTranscript((t) => !t);
                 setAssisted(true);
               }}
             >
               {transcript ? "Hide transcript" : "Need a hand? Show transcript"}
-            </button>
+            </TextLink>
           )}
           {transcript && (
             <div className="transcript" lang="es">
@@ -387,9 +389,9 @@ export const QuestionCard = ({
               />
             </label>
           ))}
-          <p className="field-note">
+          <FieldNote className="col-[1/-1]">
             {words} words · target {q.minWords}–{q.maxWords}. Use fictional personal details.
-          </p>
+          </FieldNote>
         </div>
       )}
       {q.kind === "speak" && (
@@ -501,18 +503,18 @@ export const QuestionCard = ({
                       <Icon name="info" size={16} /> {h}
                     </p>
                   ))}
-                  <p className="field-note">
+                  <FieldNote>
                     {hints.length
                       ? "These are targeted checks, not a complete correction."
                       : "No issue found by the small set of pattern checks. This does not mean every sentence is correct."}{" "}
                     A teacher can assess the full response.
-                  </p>
+                  </FieldNote>
                 </div>
               )}
-              <p className="field-note">
+              <FieldNote>
                 {checks.length}/{q.checklist?.length || 0} self-review points checked. Productive
                 practice is saved without a numerical grade.
-              </p>
+              </FieldNote>
             </>
           )}
           {q.audio && (

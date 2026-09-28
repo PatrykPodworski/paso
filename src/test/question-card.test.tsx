@@ -150,6 +150,18 @@ describe("question card sections", () => {
     expect(screen.getByText("Your practice is saved.")).toBeInTheDocument();
     expect(screen.queryByText(note)).not.toBeInTheDocument();
   });
+  it("shows which self-review points are ticked", () => {
+    render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
+    const [first, second, third] = writing.checklist!.map((name) =>
+      screen.getByRole("checkbox", { name }),
+    );
+    fireEvent.click(first);
+    fireEvent.click(third);
+    fireEvent.click(third);
+    expect(first).toBeChecked();
+    expect(second).not.toBeChecked();
+    expect(third).not.toBeChecked();
+  });
   it("hides the self-review checklist in the exam", () => {
     render(<QuestionCard q={formPractice} exam onSubmit={vi.fn()} />);
     expect(screen.queryByText("Your self-review checklist")).not.toBeInTheDocument();

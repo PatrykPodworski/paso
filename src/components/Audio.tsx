@@ -223,25 +223,31 @@ const useAudioPlayer = ({
       ref.current.playbackRate = speed;
     }
   }, [speed]);
+  const pause = () => {
+    if (minimal && resumePlayback.current) {
+      ref.current?.pause();
+    } else {
+      stopAudio();
+    }
+    setPlaying(false);
+  };
+  const resume = async (resumeClip: () => Promise<void>) => {
+    setError("");
+    setPlaying(true);
+    try {
+      await resumeClip();
+    } catch {
+      setPlaying(false);
+      setError("Tap the play button to start the audio.");
+    }
+  };
   const play = async (restart = false) => {
     if (playing && !restart) {
-      if (minimal && resumePlayback.current) {
-        ref.current?.pause();
-      } else {
-        stopAudio();
-      }
-      setPlaying(false);
+      pause();
       return;
     }
     if (minimal && !restart && resumePlayback.current) {
-      setError("");
-      setPlaying(true);
-      try {
-        await resumePlayback.current();
-      } catch {
-        setPlaying(false);
-        setError("Tap the play button to start the audio.");
-      }
+      await resume(resumePlayback.current);
       return;
     }
     if (limit && count >= limit) {
@@ -313,6 +319,16 @@ const useAudioPlayer = ({
   }, [autoPlay, text]);
   return { playing, speed, setSpeed, count, error, play };
 };
+const PlayLabel = ({ label, playing }: { label: string; playing: boolean }) => (
+  <>
+    <span>{playing ? "Playing…" : label}</span>
+    <span className={`waveform ${playing ? "playing" : ""}`} aria-hidden="true">
+      {[9, 17, 26, 13, 21, 30, 17, 24, 10, 18, 27, 13].map((h, i) => (
+        <i key={i} style={{ height: h, animationDelay: `${i * 0.08}s` }} />
+      ))}
+    </span>
+  </>
+);
 const PlayButton = ({
   label,
   iconOnly,
@@ -339,16 +355,7 @@ const PlayButton = ({
       disabled={disabled}
     >
       <Icon name={playing ? "pause" : minimal ? "play" : "volume"} size={iconOnly ? 18 : 22} />
-      {!iconOnly && (
-        <>
-          <span>{playing ? "Playing…" : label}</span>
-          <span className={`waveform ${playing ? "playing" : ""}`} aria-hidden="true">
-            {[9, 17, 26, 13, 21, 30, 17, 24, 10, 18, 27, 13].map((h, i) => (
-              <i key={i} style={{ height: h, animationDelay: `${i * 0.08}s` }} />
-            ))}
-          </span>
-        </>
-      )}
+      {!iconOnly && <PlayLabel label={label} playing={playing} />}
     </button>
   );
 };

@@ -5,6 +5,7 @@ import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
+import { Panel, PanelHeading } from "./Panel";
 import { PageHeading } from "./PageHeading";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
@@ -101,6 +102,23 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           <Icon name="check" size={16} /> With icon
         </Badge>
         <Badge>3/12 checked</Badge>
+      </div>
+    ),
+  },
+  {
+    id: "panel",
+    name: "Panel",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <Panel className="p-5">Plain panel</Panel>
+        <Panel as="section" className="p-5">
+          <PanelHeading title="Heading with icon">
+            <Icon name="layers" size={17} />
+          </PanelHeading>
+        </Panel>
+        <Panel as="button" className="p-5 text-left">
+          Button panel
+        </Panel>
       </div>
     ),
   },

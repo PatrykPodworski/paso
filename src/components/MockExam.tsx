@@ -10,6 +10,7 @@ import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
 import { stopAudio } from "./Audio";
 import { FieldNote } from "../design-system/FieldNote";
+import { Panel } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 interface Run {
   section: number;
@@ -179,7 +180,7 @@ export const MockExam = ({
       )}
       {run.stage === "intro" ? (
         <>
-          <div className="mock-intro panel">
+          <Panel className="mock-intro">
             <div className="mock-intro-art">
               <Icon name="flag" size={70} />
               <span>DELE A1</span>
@@ -209,10 +210,10 @@ export const MockExam = ({
                 <Icon name="arrow" />
               </Button>
             </div>
-          </div>
+          </Panel>
           <div className="exam-section-grid">
             {mockSections.map((s, i) => (
-              <article className="panel" key={s.title}>
+              <Panel as="article" key={s.title}>
                 <div className={`skill-icon ${s.title.toLowerCase()}`}>
                   <Icon name={["book", "headphones", "pen", "mic"][i]} />
                 </div>
@@ -222,7 +223,7 @@ export const MockExam = ({
                 <span>
                   {s.questions.length} {i < 2 ? "questions · 4 tasks" : "tasks"}
                 </span>
-              </article>
+              </Panel>
             ))}
           </div>
           <div className="notice">
@@ -242,7 +243,7 @@ export const MockExam = ({
             </p>
           </div>
           {progress.mockResults.length > 0 && (
-            <div className="panel previous-exams">
+            <Panel className="previous-exams">
               <h3>Your previous rehearsals</h3>
               {progress.mockResults
                 .slice()
@@ -255,11 +256,11 @@ export const MockExam = ({
                     <small>Productive skills ungraded</small>
                   </div>
                 ))}
-            </div>
+            </Panel>
           )}
         </>
       ) : run.stage === "done" ? (
-        <div className="panel exam-results">
+        <Panel className="exam-results">
           <div className="completion-art">
             <Icon name="trophy" size={48} />
           </div>
@@ -352,7 +353,7 @@ export const MockExam = ({
               <Icon name="arrow" />
             </Button>
           </div>
-        </div>
+        </Panel>
       ) : (
         <>
           <div className="exam-topbar">
@@ -380,7 +381,7 @@ export const MockExam = ({
             )}
           </div>
           {run.stage === "prep" ? (
-            <div className="panel oral-prep">
+            <Panel className="oral-prep">
               <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
               <h2>A moment to find your words.</h2>
               <p>
@@ -414,9 +415,9 @@ export const MockExam = ({
                 I’m ready · start speaking
                 <Icon name="mic" />
               </Button>
-            </div>
+            </Panel>
           ) : run.stage === "review" ? (
-            <div className="panel section-review">
+            <Panel className="section-review">
               <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
               <h2>
                 {run.section < 2
@@ -487,9 +488,9 @@ export const MockExam = ({
                   );
                 })}
               </div>
-            </div>
+            </Panel>
           ) : (
-            <div className="panel exam-running">
+            <Panel className="exam-running">
               <div className="exam-question-nav">
                 <span>{q.task}</span>
                 <strong>
@@ -562,7 +563,7 @@ export const MockExam = ({
                   </div>
                 </div>
               )}
-            </div>
+            </Panel>
           )}
         </>
       )}

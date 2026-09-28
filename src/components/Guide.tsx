@@ -31,33 +31,36 @@ export const Guide = ({
           <Icon name="check" size={16} /> Researched 7 Sep 2026
         </Badge>
       </div>
-      <Panel className="guide-overview">
-        <div>
+      <Panel className="p-[32px] max-desktop:p-[27px] max-tablet:p-[25px] max-phone:p-[22px] flex max-laptop:block justify-between items-center gap-[35px] max-desktop:gap-[20px] bg-[#edf0e3]!">
+        <div className="max-w-[680px]">
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
-          <h2>
+          <h2 className="text-[32px] max-desktop:text-[28px] max-phone:text-[25px] m-[11px_0_14px]">
             You don’t need perfect Spanish.
             <br />
             You need to connect.
           </h2>
-          <p>
+          <p className="text-[#829174] text-[14px]">
             A1 is about understanding familiar expressions, giving basic personal information and
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
           </p>
-          <TextLink href={sources[0].url} target="_blank" rel="noreferrer">
+          <TextLink className="mt-[15px]" href={sources[0].url} target="_blank" rel="noreferrer">
             Read the official guide
             <Icon name="external" size={15} />
           </TextLink>
         </div>
-        <div className="a1-emblem">
-          A1<span>UN PEQUEÑO GRAN PASO</span>
+        <div className="w-[145px] h-[160px] max-desktop:w-[115px] max-desktop:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-desktop:text-[65px] font-(family-name:--serif) font-medium flex max-laptop:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
+          A1
+          <span className="font-[family-name:'Avenir_Next',sans-serif] text-[9px] tracking-[1.4px] mt-[17px]">
+            UN PEQUEÑO GRAN PASO
+          </span>
         </div>
       </Panel>
       <div className="section-heading">
         <h2>Four skills. Two passing groups.</h2>
       </div>
-      <Panel className="exam-table-wrap">
-        <table className="exam-table">
+      <Panel className="pt-[8px] px-[25px] pb-[17px] max-tablet:px-[12px] overflow-x-auto">
+        <table className="w-full border-collapse text-[14px] max-desktop:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-phone:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-tablet:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-tablet:[&_td]:text-[13px] max-phone:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
           <thead>
             <tr>
               <th>Skill</th>
@@ -113,11 +116,15 @@ export const Guide = ({
           </a>
         </FieldNote>
       </Panel>
-      <div className="guide-two-col">
-        <Panel className="pass-simulator">
+      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[22px] mt-[24px]">
+        <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px]">
           <Eyebrow>TRY THE PASSING RULE</Eyebrow>
-          <h3>Does this score pass?</h3>
-          <p>Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.</p>
+          <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
+            Does this score pass?
+          </h3>
+          <p className="text-[14px] text-[#768762] mb-[23px]">
+            Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.
+          </p>
           {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
             <label key={s} className="score-slider">
               <span>
@@ -154,9 +161,11 @@ export const Guide = ({
             <Icon name="external" size={14} />
           </TextLink>
         </Panel>
-        <Panel className="examiner-notes">
+        <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
-          <h3>Be clear. Cover the task.</h3>
+          <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
+            Be clear. Cover the task.
+          </h3>
           <div>
             <Icon name="pen" />
             <section>
@@ -222,23 +231,29 @@ export const Guide = ({
           records your self-assessment.
         </p>
       </div>
-      <div className="requirement-grid">
+      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[21px]">
         {requirementGroups.map((g) => (
-          <Panel as="section" className="requirement-group" key={g.title}>
-            <h3>
-              <Icon name={g.icon} />
+          <Panel as="section" className="p-[25px] max-desktop:p-[23px]" key={g.title}>
+            <h3 className="flex items-center gap-[10px] mb-[23px] text-[17px]">
+              <Icon name={g.icon} className="text-[#9ca987] w-[20px]" />
               {g.title}
             </h3>
             {g.items.map(([id, title, mapping]) => (
-              <label className="requirement-row" key={id}>
+              <label
+                className="flex gap-[11px] m-[17px_0] items-start text-[#6d7e5c] text-[14px] leading-[1.65]"
+                key={id}
+              >
                 <input
+                  className="m-[3px_0_0]"
                   type="checkbox"
                   checked={progress.checks.includes(id)}
                   onChange={() => onCheck(id)}
                 />
                 <span>
                   {title}
-                  <small>{mapping}</small>
+                  <small className="text-[11px] max-tablet:text-[12px] text-[#a5ae98] block mt-[5px]">
+                    {mapping}
+                  </small>
                 </span>
               </label>
             ))}
@@ -257,7 +272,7 @@ export const Guide = ({
       <div className="section-heading">
         <h2>Before you walk through the door</h2>
       </div>
-      <Panel className="exam-day">
+      <Panel className="grid grid-cols-[repeat(3,1fr)] max-laptop:grid-cols-[1fr] p-[27px] gap-[28px] max-laptop:gap-[20px] max-laptop:[&>div]:relative max-laptop:[&>div]:pl-[43px] [&>div>span]:font-(family-name:--serif) [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-laptop:[&>div>span]:absolute max-laptop:[&>div>span]:left-0 max-laptop:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
         <div>
           <span>01</span>
           <h3>Book the right exam</h3>
@@ -296,15 +311,25 @@ export const Guide = ({
         <h2>Go straight to the source</h2>
         <span className="subtle">Instituto Cervantes · Primary sources</span>
       </div>
-      <div className="source-list">
+      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (
-          <a key={s.url} className="source-card" href={s.url} target="_blank" rel="noreferrer">
+          <a
+            key={s.url}
+            className="border border-(--line) rounded-[9px] flex items-center gap-[15px] max-desktop:gap-[10px] p-[17px] max-desktop:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
+            href={s.url}
+            target="_blank"
+            rel="noreferrer"
+          >
             <span className="source-number">{String(i + 1).padStart(2, "0")}</span>
-            <span>
-              <strong>{s.title}</strong>
-              <small>{s.description}</small>
+            <span className="flex-1">
+              <strong className="text-[14px] max-desktop:text-[13px] max-tablet:text-[14px] font-semibold block leading-[1.5]">
+                {s.title}
+              </strong>
+              <small className="text-[12px] max-desktop:text-[11px] max-tablet:text-[12px] leading-[1.5] block text-[#7e8d6c] mt-[4px]">
+                {s.description}
+              </small>
             </span>
-            <Icon name="external" size={17} />
+            <Icon name="external" size={17} className="text-[#9eac8b]" />
           </a>
         ))}
       </div>

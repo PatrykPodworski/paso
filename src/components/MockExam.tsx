@@ -335,19 +335,11 @@ export const MockExam = ({
             )}
           </div>
           <div className="button-row">
-            <Button
-              variant="secondary"
-              className="max-tablet:w-full"
-              onClick={download}
-            >
+            <Button variant="secondary" className="max-tablet:w-full" onClick={download}>
               <Icon name="download" />
               Export responses for review
             </Button>
-            <Button
-              variant="primary"
-              className="max-tablet:w-full"
-              onClick={() => setRun(fresh())}
-            >
+            <Button variant="primary" className="max-tablet:w-full" onClick={() => setRun(fresh())}>
               Return to exam overview
               <Icon name="arrow" />
             </Button>

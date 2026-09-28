@@ -74,8 +74,8 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
         {progress.mockResults
           .slice()
           .reverse()
-          .map((r, i) => (
-            <div className="history-row" key={`${r.at}-${i}`}>
+          .map((r) => (
+            <div className="history-row" key={r.at}>
               <span>{new Date(r.at).toLocaleDateString()}</span>
               <strong>Reading {r.reading}/25</strong>
               <strong>Listening {r.listening}/25</strong>

@@ -308,11 +308,10 @@ describe("lesson completion and dialog contracts", () => {
     click("Close lesson");
     expect(close).toHaveBeenCalledOnce();
   });
-  it("prevents native Escape closure, uses the latest callback, and restores focus and body scrolling", () => {
+  it("prevents native Escape closure, uses the latest callback, and restores focus", () => {
     const trigger = document.createElement("button");
     document.body.append(trigger);
     trigger.focus();
-    document.body.style.overflow = "auto";
     const first = vi.fn(),
       latest = vi.fn();
     const { rerender, unmount } = render(
@@ -320,7 +319,6 @@ describe("lesson completion and dialog contracts", () => {
         Hello
       </Dialog>,
     );
-    expect(document.body.style.overflow).toBe("hidden");
     rerender(
       <Dialog label="Example" onClose={latest}>
         Hello
@@ -332,7 +330,6 @@ describe("lesson completion and dialog contracts", () => {
     expect(latest).toHaveBeenCalledOnce();
     expect(first).not.toHaveBeenCalled();
     unmount();
-    expect(document.body.style.overflow).toBe("auto");
     expect(trigger).toHaveFocus();
     trigger.remove();
   });

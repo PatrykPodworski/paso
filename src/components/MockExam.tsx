@@ -8,6 +8,7 @@ import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
 import { stopAudio } from "./Audio";
+import { TextLink } from "../design-system/TextLink";
 interface Run {
   section: number;
   index: number;
@@ -588,8 +589,7 @@ const ExamRunning = ({
         }}
       />
       <div className="exam-navigation">
-        <button
-          className="text-link"
+        <TextLink
           disabled={run.index === 0}
           onClick={() => {
             stopAudio();
@@ -597,9 +597,8 @@ const ExamRunning = ({
           }}
         >
           ← Previous question
-        </button>
-        <button
-          className="text-link"
+        </TextLink>
+        <TextLink
           onClick={() => {
             stopAudio();
             if (run.index === section.questions.length - 1) {
@@ -610,7 +609,7 @@ const ExamRunning = ({
           }}
         >
           Skip for now →
-        </button>
+        </TextLink>
         <Button
           variant="secondary"
           size="small"

@@ -13,8 +13,6 @@ jobs:
       # Sticky summary comment and inline review comments.
       pull-requests: write
       issues: write
-      # Commit status with the error and warning counts.
-      statuses: write
     env:
       # Keeps the scan's Sentry and Axiom telemetry off. doctor.config.json turns off
       # the score upload and share link.
@@ -32,3 +30,6 @@ jobs:
           scope: changed
           blocking: error
           comment: true
+          # Without a score, the action labels every blocking failure "Scan could not
+          # complete". The job's own check already shows pass or fail.
+          commit-status: false

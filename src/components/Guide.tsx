@@ -5,6 +5,7 @@ import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
+import { TextLink } from "../design-system/TextLink";
 export const Guide = ({
   progress,
   onCheck,
@@ -41,10 +42,10 @@ export const Guide = ({
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
           </p>
-          <a className="text-link" href={sources[0].url} target="_blank" rel="noreferrer">
+          <TextLink href={sources[0].url} target="_blank" rel="noreferrer">
             Read the official guide
             <Icon name="external" size={15} />
-          </a>
+          </TextLink>
         </div>
         <div className="a1-emblem">
           A1<span>UN PEQUEÑO GRAN PASO</span>
@@ -146,10 +147,10 @@ export const Guide = ({
               ? "These example scores meet the passing rule."
               : "These example scores do not meet the passing rule."}
           </div>
-          <a className="text-link" href={sources[1].url} target="_blank" rel="noreferrer">
+          <TextLink href={sources[1].url} target="_blank" rel="noreferrer">
             Official scoring rules
             <Icon name="external" size={14} />
-          </a>
+          </TextLink>
         </div>
         <div className="panel examiner-notes">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
@@ -239,10 +240,15 @@ export const Guide = ({
                 </span>
               </label>
             ))}
-            <a className="text-link" href={sources[g.source].url} target="_blank" rel="noreferrer">
+            <TextLink
+              className="mt-[5px] border-t border-t-(--line) pt-[14px] text-[13px]!"
+              href={sources[g.source].url}
+              target="_blank"
+              rel="noreferrer"
+            >
               Official reference
               <Icon name="external" size={14} />
-            </a>
+            </TextLink>
           </section>
         ))}
       </div>

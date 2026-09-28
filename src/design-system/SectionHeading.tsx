@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 
-// Descendant variants keep the old `.section-heading h2|p|.text-link` specificity, so
-// rules like `.text-link { font-size }` still lose to them. One variant per context the
-// old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
+// Descendant variants keep the old `.section-heading h2|p` specificity. One variant per
+// context the old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
 const TITLE =
-  "[&_h2]:text-[25px] max-desktop:[&_h2]:text-[22px] max-tablet:[&_h2]:text-[25px] max-phone:[&_h2]:text-[23px] [&_.text-link]:text-[13px] max-phone:[&_.text-link]:text-[11px]";
+  "[&_h2]:text-[25px] max-desktop:[&_h2]:text-[22px] max-tablet:[&_h2]:text-[25px] max-phone:[&_h2]:text-[23px]";
 const TEXT = "[&_p]:mt-[5px] [&_p]:text-[14px] [&_p]:text-[#75816b]";
 const VARIANT = {
   default: `mt-[28px] max-tablet:mt-[26px] gap-[16px] max-phone:gap-[12px] ${TEXT}`,

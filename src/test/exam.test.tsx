@@ -405,12 +405,12 @@ describe("exam rehearsal views", () => {
     }
     expect(screen.queryByText(/^Transcript: /)).not.toBeInTheDocument();
   });
-  it("leaves a finished section in review after its deadline passes", () => {
-    seed({ stage: "review", deadline: now - 1 });
+  it("keeps the results page after the last deadline has passed", () => {
+    seed({ section: 3, stage: "done", deadline: now - 1 });
     mount();
     act(() => vi.advanceTimersByTime(3000));
-    expect(state().stage).toBe("review");
-    expect(screen.getByRole("heading", { name: "0 out of 25." })).toBeInTheDocument();
+    expect(state().stage).toBe("done");
+    expect(screen.getByRole("heading", { name: "You’ve met the exam." })).toBeInTheDocument();
   });
   it("shows the objective scores on the results page", () => {
     const answers = Object.fromEntries(

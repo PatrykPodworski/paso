@@ -1,4 +1,5 @@
-import { test as base, expect, type Page } from "@playwright/test";
+import { test as base, expect, type Locator, type Page } from "@playwright/test";
+import { argosScreenshot } from "@argos-ci/playwright";
 import { allLessons } from "../../src/data/curriculum";
 import type { Question } from "../../src/data/types";
 export const test = base.extend<{ blockExternal: void }>({
@@ -24,6 +25,16 @@ export const test = base.extend<{ blockExternal: void }>({
   },
 });
 export { expect };
+// Argos is the only baseline. In CI the reporter uploads these captures and Argos
+// compares them against the main build; locally nothing is compared.
+export const capture = async (
+  page: Page,
+  name: string,
+  { fullPage = false, element }: { fullPage?: boolean; element?: Locator } = {},
+) => {
+  await argosScreenshot(page, name, element ? { element } : { fullPage });
+};
+
 // Everything that makes a screenshot reproducible and nothing that is specific to one
 // page: kill motion, wait for webfonts, drop focus rings and hover state, scroll to the
 // top. Shared by tests/visual/views.spec.ts and tests/visual/design-system.spec.ts.

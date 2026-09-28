@@ -8,6 +8,15 @@
    utility class (0,1,0) outranks those element rules as intended. */
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css";
+@theme {
+  --color-green: #284f40;
+  --color-green-dark: #203f33;
+  --color-coral: #ce7657;
+  --color-sage: #e7eddf;
+  --color-paper: #fffefa;
+  --color-line: #e5e8df;
+  --color-muted: #7d867f;
+}
 :root {
   font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
   color: #293c34;

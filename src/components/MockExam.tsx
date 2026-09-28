@@ -11,6 +11,7 @@ import { Icon } from "./Icon";
 import { stopAudio } from "./Audio";
 import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
+import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
 interface Run {
   section: number;
@@ -174,9 +175,9 @@ export const MockExam = ({
         </Badge>
       </PageHeading>
       {storageError && (
-        <p className="notice" role="status">
+        <Notice as="p" role="status">
           This browser could not save the rehearsal. Keep this page open to retain your work.
-        </p>
+        </Notice>
       )}
       {run.stage === "intro" ? (
         <>
@@ -226,7 +227,7 @@ export const MockExam = ({
               </Panel>
             ))}
           </div>
-          <div className="notice">
+          <Notice>
             <Icon name="info" />
             <p>
               This is an independent guided rehearsal. Shorter listening clips, visual symbols and
@@ -241,7 +242,7 @@ export const MockExam = ({
               to practise exact formatting and continuous audio. The timer keeps running if you
               leave this page.
             </p>
-          </div>
+          </Notice>
           {progress.mockResults.length > 0 && (
             <Panel className="previous-exams">
               <h3>Your previous rehearsals</h3>
@@ -324,7 +325,7 @@ export const MockExam = ({
               </label>
             </div>
             {entered ? (
-              <div className={`notice ${groups.pass ? "positive" : ""}`}>
+              <Notice positive={groups.pass}>
                 <p>
                   Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
                   <br />
@@ -335,7 +336,7 @@ export const MockExam = ({
                     : "At least one group is below 30/50 based on the entered scores."}{" "}
                   This is not an official result or a prediction.
                 </p>
-              </div>
+              </Notice>
             ) : (
               <FieldNote>
                 A pass cannot be determined from reading and listening alone. Enter both scores

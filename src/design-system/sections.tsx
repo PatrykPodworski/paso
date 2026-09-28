@@ -6,6 +6,7 @@ import { Eyebrow } from "./Eyebrow";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
 import { Panel, PanelHeading } from "./Panel";
+import { PageHeading } from "./PageHeading";
 import { Notice } from "./Notice";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
@@ -141,6 +142,34 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             Reading + writing: <strong>36.00/50</strong>
           </p>
         </Notice>
+      </div>
+    ),
+  },
+  {
+    id: "page-heading",
+    name: "PageHeading",
+    render: () => (
+      <div className="flex flex-col">
+        <PageHeading
+          eyebrow={
+            <Eyebrow variant="page" className="mb-[9px]">
+              PAGE <i>·</i> EYEBROW
+            </Eyebrow>
+          }
+          title="Page heading with an aside."
+          description="The aside sits on the right."
+        >
+          <Badge className="max-tablet:hidden">Aside badge</Badge>
+        </PageHeading>
+        <PageHeading
+          eyebrow={
+            <Eyebrow variant="page" className="mb-[9px]">
+              PAGE <i>·</i> EYEBROW
+            </Eyebrow>
+          }
+          title="Page heading without an aside."
+          description="Title and description only."
+        />
       </div>
     ),
   },

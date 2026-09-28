@@ -1,5 +1,6 @@
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Badge } from "../design-system/Badge";
+import { PageHeading } from "../design-system/PageHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useState } from "react";
 import { mockSections } from "../data/mock";
@@ -160,18 +161,19 @@ export const MockExam = ({
   const groups = passingGroups(score(0), +writing, score(1), +speaking);
   return (
     <div className="mock-page">
-      <div className="page-heading">
-        <div>
+      <PageHeading
+        eyebrow={
           <Eyebrow variant="page" className="mb-[9px]">
             A CALM DRESS REHEARSAL
           </Eyebrow>
-          <h1>Meet the exam.</h1>
-          <p>Familiar tasks. A little focus. A more confident you.</p>
-        </div>
+        }
+        title="Meet the exam."
+        description="Familiar tasks. A little focus. A more confident you."
+      >
         <Badge className="max-tablet:hidden">
           <Icon name="clock" size={16} /> Official section timings
         </Badge>
-      </div>
+      </PageHeading>
       {storageError && (
         <Notice as="p" role="status">
           This browser could not save the rehearsal. Keep this page open to retain your work.

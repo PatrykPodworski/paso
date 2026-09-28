@@ -1031,7 +1031,6 @@ const App = () => {
                   <div className="focused-practice">
                     <Panel
                       as="button"
-
                       onClick={() =>
                         setSession({
                           id: "pictures",
@@ -1054,7 +1053,6 @@ const App = () => {
                     </Panel>
                     <Panel
                       as="button"
-
                       onClick={() =>
                         setSession({
                           id: "foundations",
@@ -1077,7 +1075,6 @@ const App = () => {
                     </Panel>
                     <Panel
                       as="button"
-
                       onClick={() =>
                         setSession({
                           id: "form",

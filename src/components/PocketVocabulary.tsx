@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
@@ -254,16 +255,18 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
   }, [now, nextAt]);
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
-      <div className="section-heading word-heading">
+      <SectionHeading variant="word">
         <div>
           <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
-          <h2 id="vocabulary-title">Your pocket vocabulary</h2>
+          <h2 id="vocabulary-title" className="mt-[8px]">
+            Your pocket vocabulary
+          </h2>
           <p>Words from your completed vocabulary lessons, ready to remember.</p>
         </div>
         <span className="pocket-icon" aria-hidden="true">
           <Icon name="layers" size={28} />
         </span>
-      </div>
+      </SectionHeading>
       <div className="vocabulary-overview">
         <dl className="vocabulary-stats">
           {[
@@ -348,7 +351,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
       </section>
       {words.length > 0 && (
         <div className="vocabulary-collection">
-          <div className="section-heading">
+          <SectionHeading variant="collection">
             <div>
               <h3>Your flashcards</h3>
               <p>Every unlocked word, with its next review.</p>
@@ -362,7 +365,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
                 aria-label="Search vocabulary"
               />
             </label>
-          </div>
+          </SectionHeading>
           {filtered.length ? (
             <ul className="vocabulary-list">
               {filtered.map((w) => {

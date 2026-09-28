@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { SectionHeading } from "../design-system/SectionHeading";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
@@ -49,9 +50,9 @@ export const Guide = ({
           A1<span>UN PEQUEÑO GRAN PASO</span>
         </div>
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Four skills. Two passing groups.</h2>
-      </div>
+      </SectionHeading>
       <div className="panel exam-table-wrap">
         <table className="exam-table">
           <thead>
@@ -193,7 +194,7 @@ export const Guide = ({
           </p>
         </div>
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <div>
           <h2>Your A1 readiness checklist</h2>
           <p>Self-assess these abilities as you work through the path.</p>
@@ -205,7 +206,7 @@ export const Guide = ({
           }
           /{requirementGroups.flatMap((g) => g.items).length} checked
         </span>
-      </div>
+      </SectionHeading>
       <div className="notice">
         <Icon name="info" />
         <p>
@@ -245,9 +246,9 @@ export const Guide = ({
           </section>
         ))}
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Before you walk through the door</h2>
-      </div>
+      </SectionHeading>
       <div className="panel exam-day">
         <div>
           <span>01</span>
@@ -283,10 +284,10 @@ export const Guide = ({
           </p>
         </div>
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Go straight to the source</h2>
         <span className="subtle">Instituto Cervantes · Primary sources</span>
-      </div>
+      </SectionHeading>
       <div className="source-list">
         {sources.map((s, i) => (
           <a key={s.url} className="source-card" href={s.url} target="_blank" rel="noreferrer">

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
+import { SectionHeading } from "./SectionHeading";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
@@ -53,6 +54,23 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           <Eyebrow key={variant} variant={variant}>
             {variant.toUpperCase()} <i>·</i> EYEBROW
           </Eyebrow>
+        ))}
+      </div>
+    ),
+  },
+  {
+    id: "section-heading",
+    name: "SectionHeading",
+    render: () => (
+      <div>
+        {(["default", "path", "word", "collection"] as const).map((variant) => (
+          <SectionHeading key={variant} variant={variant}>
+            <div>
+              {variant === "collection" ? <h3>Collection heading</h3> : <h2>{variant} heading</h2>}
+              <p>A short line of supporting text.</p>
+            </div>
+            <button className="text-link">Text link</button>
+          </SectionHeading>
         ))}
       </div>
     ),

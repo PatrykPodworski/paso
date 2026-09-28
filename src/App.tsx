@@ -22,6 +22,7 @@ import { JourneyArt, Stamp } from "./components/Art";
 import { AudioButton } from "./components/Audio";
 import { Dialog } from "./design-system/Dialog";
 import { Eyebrow } from "./design-system/Eyebrow";
+import { SectionHeading } from "./design-system/SectionHeading";
 import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
@@ -576,7 +577,7 @@ const App = () => {
                     <JourneyArt />
                     <span className="hero-footnote">POCO A POCO, PASO A PASO.</span>
                   </section>
-                  <div className="section-heading path-heading">
+                  <SectionHeading variant="path">
                     <div>
                       <Eyebrow variant="heading" className="mb-[6px]">
                         A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
@@ -587,7 +588,7 @@ const App = () => {
                       View full path
                       <Icon name="arrow" size={16} />
                     </button>
-                  </div>
+                  </SectionHeading>
                   <div className="path-overview">
                     <span>
                       <b>{completed}</b> of {allLessons.length} lessons complete
@@ -614,10 +615,10 @@ const App = () => {
                     Home, cafés, adventures & 6 more chapters
                     <Icon name="arrow" size={16} />
                   </button>
-                  <div className="section-heading">
+                  <SectionHeading>
                     <h2>A little change of pace</h2>
                     <span className="subtle">Make it yours</span>
-                  </div>
+                  </SectionHeading>
                   <div className="quick-practice">
                     <button onClick={() => practice("listening")}>
                       <span className="quick-icon lavender">

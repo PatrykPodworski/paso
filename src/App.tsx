@@ -16,7 +16,7 @@ import {
   withAttempt,
   xp,
 } from "./data/progress";
-import { Icon } from "./components/Icon";
+import { Icon } from "./design-system/Icon";
 import { MemoryHint } from "./components/MemoryHint";
 import { JourneyArt, Stamp } from "./components/Art";
 import { AudioButton } from "./components/Audio";

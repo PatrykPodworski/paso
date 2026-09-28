@@ -52,5 +52,5 @@ not a queue; only the rows with an issue are scheduled.
 | PageHeading    | `.page-heading`                                    |          5 | —                                                                                                                  |
 | Badge          | `.outline-badge`                                   |          4 | —                                                                                                                  |
 | ProgressTrack  | `.progress-track`                                  |          2 | —                                                                                                                  |
-| Icon           | already `src/components/Icon.tsx`                  |          — | move only                                                                                                          |
+| Icon           | none; moved from `src/components/`                 |          — | [#92](https://github.com/PatrykPodworski/paso/issues/92)                                                           |
 | Dialog         | already `src/components/Dialog.tsx`                |          — | move only                                                                                                          |

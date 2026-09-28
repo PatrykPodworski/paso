@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useImperativeHandle, useRef, useState } from "react";
 import type { Ref } from "react";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { audioSources } from "../data/audio-sources";
 type Playback = {
   text: string;

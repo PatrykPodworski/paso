@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 export const Recorder = ({
   onRecorded,
   onStart,

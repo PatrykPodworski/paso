@@ -5,7 +5,7 @@ import { type Card, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
 import { AudioButton, stopAudio } from "./Audio";
 import { Dialog } from "./Dialog";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { MemoryHint } from "./MemoryHint";
 
 type Review = Progress["vocabularyReviews"][string];

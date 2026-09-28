@@ -4,7 +4,7 @@ import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { stopAudio } from "./Audio";
 interface Run {
   section: number;

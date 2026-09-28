@@ -1,7 +1,7 @@
 import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { Dialog } from "./Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";

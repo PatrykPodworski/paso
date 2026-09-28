@@ -1,4 +1,4 @@
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 
 export const MemoryHint = ({ text }: { text?: string }) =>
   text ? (

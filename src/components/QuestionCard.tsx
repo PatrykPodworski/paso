@@ -4,7 +4,7 @@ import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
 import { AudioButton, playWord, stopAudio } from "./Audio";
 import type { AudioHandle } from "./Audio";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { MemoryHint } from "./MemoryHint";
 import { Recorder } from "./Recorder";
 export const QuestionCard = ({

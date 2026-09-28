@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Button } from "./Button";
+import { Icon, iconNames } from "./Icon";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
@@ -28,6 +29,27 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             )}
           </div>
         ))}
+      </div>
+    ),
+  },
+  {
+    id: "icon",
+    name: "Icon",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap gap-3">
+          {iconNames.map((name) => (
+            <div key={name} className="flex w-20 flex-col items-center gap-1 text-xs">
+              <Icon name={name} />
+              {name}
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          {[16, 20, 32].map((size) => (
+            <Icon key={size} name="star" size={size} />
+          ))}
+        </div>
       </div>
     ),
   },

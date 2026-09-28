@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 export const Guide = ({
   progress,
   onCheck,

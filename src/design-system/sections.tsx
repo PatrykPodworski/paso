@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
+import { Icon } from "../components/Icon";
+import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
-import { Icon } from "../components/Icon";
 import { SectionHeading } from "./SectionHeading";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
@@ -88,6 +89,18 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         <FieldNote>
           A note with a link inside. <a href="#design-system">Official structure ↗</a>
         </FieldNote>
+      </div>
+    ),
+  },
+  {
+    id: "badge",
+    name: "Badge",
+    render: () => (
+      <div className="flex flex-wrap items-center gap-3">
+        <Badge>
+          <Icon name="check" size={16} /> With icon
+        </Badge>
+        <Badge>3/12 checked</Badge>
       </div>
     ),
   },

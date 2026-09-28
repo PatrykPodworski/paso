@@ -215,17 +215,6 @@ svg {
   border: 1px solid var(--line);
   border-radius: 13px;
 }
-.outline-badge {
-  border: 1px solid #dde3d7;
-  border-radius: 20px;
-  padding: 8px 13px;
-  display: inline-flex;
-  gap: 7px;
-  align-items: center;
-  font-size: 14px;
-  white-space: nowrap;
-  background: #fdfef9;
-}
 .app-shell {
   min-height: 100vh;
 }
@@ -3838,9 +3827,6 @@ main {
   }
   .page-heading p {
     font-size: 14px;
-  }
-  .page-heading > .outline-badge {
-    display: none;
   }
   .dashboard-heading h1 {
     font-size: 29px;

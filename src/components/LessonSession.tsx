@@ -7,6 +7,7 @@ import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";
 import { FieldNote } from "../design-system/FieldNote";
+import { COMPLETION_STATS } from "./PocketVocabulary";
 export const LessonSession = ({
   lesson,
   progress,
@@ -57,18 +58,22 @@ export const LessonSession = ({
     }
   };
   return (
-    <Dialog label={lesson.title} onClose={close} className="lesson-dialog">
-      <header className="lesson-header">
+    <Dialog
+      label={lesson.title}
+      onClose={close}
+      className="w-[min(810px,calc(100vw-36px))] max-tablet:w-[calc(100vw_-_22px)]"
+    >
+      <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
         <button className="icon-button" onClick={close} aria-label="Close lesson">
           <Icon name="x" />
         </button>
-        <div>
+        <div className="flex-1">
           <Eyebrow variant="small" className="mb-[5px]">
             PASO · YOUR LEARNING PATH
           </Eyebrow>
-          <h3>{lesson.title}</h3>
+          <h3 className="text-[15px] max-tablet:text-[14px]">{lesson.title}</h3>
         </div>
-        <span className="lesson-counter">
+        <span className="lesson-counter text-[14px] text-[#9aa88c] max-tablet:text-[12px]">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
@@ -94,16 +99,16 @@ export const LessonSession = ({
         </div>
       )}
       {finished ? (
-        <div className="session-complete">
+        <div className="p-[50px_30px] text-center max-tablet:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
           <div className="completion-art">
             <span>✦</span>
             <Icon name="flag" size={50} />
             <span>✧</span>
           </div>
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
-          <h2>Look at you go.</h2>
+          <h2 className="text-[39px] m-[12px_0] max-tablet:text-[34px]">Look at you go.</h2>
           <p>Another little piece of Spanish, yours to keep.</p>
-          <div className="completion-stats">
+          <div className={COMPLETION_STATS}>
             <div>
               <strong>
                 {results.filter((r) => r).length}

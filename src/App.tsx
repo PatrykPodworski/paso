@@ -1,6 +1,6 @@
 import { Button } from "./design-system/Button";
 import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
 import type { Attempt, Lesson, Progress, Skill, Unit } from "./data/types";
@@ -250,51 +250,9 @@ const Settings = ({
     </Dialog>
   );
 };
-const App = () => {
-  const [progress, setProgress] = useState<Progress>(readProgress);
-  const [page, setPage] = useState<Page>(pageFromHash);
-  const [session, setSession] = useState<Lesson | null>(null);
-  const [settings, setSettings] = useState(false);
-  const [mobileNav, setMobileNav] = useState(false);
-  const [expanded, setExpanded] = useState("u1");
-  const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
-  const [storageError, setStorageError] = useState(false);
-  const [toast, setToast] = useState("");
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-      setStorageError(false);
-    } catch {
-      setStorageError(true);
-    }
-  }, [progress]);
-  useEffect(() => {
-    const handle = () => {
-      setPage(pageFromHash());
-      setMobileNav(false);
-    };
-    window.addEventListener("hashchange", handle);
-    return () => window.removeEventListener("hashchange", handle);
-  }, []);
-  useEffect(() => {
-    if (!toast) {
-      return;
-    }
-    const id = setTimeout(() => setToast(""), 4000);
-    return () => clearTimeout(id);
-  }, [toast]);
-  const navigate = (target: Page) => {
-    setPage(target);
-    window.location.hash = target;
-    setMobileNav(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-  const nextLesson = allLessons.find((l) => !progress.completed[l.id]) || allLessons[0];
-  const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
-  const today = dailyAnswers(progress);
-  const completed = Object.keys(progress.completed).length;
-  const progressPercent = Math.round((completed / allLessons.length) * 100);
-  const now = new Date();
+type Session = (lesson: Lesson) => void;
+type Practice = (skill: Skill | "all" | "mistakes") => void;
+const mistakeQueue = (progress: Progress, now: Date) => {
   const mistakeEntries = new Map<
     string,
     { id: string; q: (typeof allQuestions)[number]; insertion: number; inQueue: boolean }
@@ -319,7 +277,7 @@ const App = () => {
       mistakeEntries.set(id, { id, q, insertion, inQueue: false });
     }
   }
-  const mistakeQuestions = [...mistakeEntries.values()]
+  return [...mistakeEntries.values()]
     .filter((entry) => entry.inQueue || reviewDue(progress.mistakeReviews[entry.id], now))
     .sort((a, b) => {
       const aDue = progress.mistakeReviews[a.id]?.nextAt
@@ -334,6 +292,819 @@ const App = () => {
       return a.insertion - b.insertion;
     })
     .map(({ q }) => q);
+};
+const TodayHeading = ({
+  progress,
+  openSettings,
+}: {
+  progress: Progress;
+  openSettings: () => void;
+}) => {
+  const daysToExam = progress.examDate
+    ? Math.ceil(
+        (new Date(`${progress.examDate}T00:00:00`).getTime() -
+          new Date(`${localDate()}T00:00:00`).getTime()) /
+          86400000,
+      )
+    : null;
+  return (
+    <div className="page-heading dashboard-heading">
+      <div>
+        <div className="eyebrow greeting">
+          {new Date().getHours() < 12
+            ? "BUENOS DÍAS"
+            : new Date().getHours() < 20
+              ? "BUENAS TARDES"
+              : "BUENAS NOCHES"}{" "}
+          <span>✦</span>
+        </div>
+        <h1>{progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}</h1>
+        <p>Your next chapter starts with a small step.</p>
+      </div>
+      <button className="date-chip" onClick={() => openSettings()}>
+        <Icon name="sun" size={17} />
+        {daysToExam === null
+          ? "At your own pace"
+          : daysToExam > 0
+            ? `${daysToExam} days to your exam`
+            : daysToExam === 0
+              ? "Your exam day"
+              : "Keep your Spanish growing"}
+        <Icon name="down" size={13} />
+      </button>
+    </div>
+  );
+};
+const TodayPage = ({
+  progress,
+  nextLesson,
+  completed,
+  progressPercent,
+  mistakeCount,
+  expanded,
+  setExpanded,
+  setSession,
+  openSettings,
+  navigate,
+  practice,
+}: {
+  progress: Progress;
+  nextLesson: Lesson;
+  completed: number;
+  progressPercent: number;
+  mistakeCount: number;
+  expanded: string;
+  setExpanded: (id: string) => void;
+  setSession: Session;
+  openSettings: () => void;
+  navigate: (target: Page) => void;
+  practice: Practice;
+}) => {
+  const today = dailyAnswers(progress);
+  return (
+    <>
+      <TodayHeading progress={progress} openSettings={openSettings} />
+      <div className="dashboard-grid">
+        <div className="dashboard-primary">
+          <section className="hero-card">
+            <div className="hero-text">
+              <span className="hero-eyebrow">
+                <i />
+                YOUR JOURNEY TO DELE A1
+              </span>
+              <h2>
+                Small steps.
+                <br />A world of <em>Spanish.</em>
+              </h2>
+              <p>Real-life Spanish, little wins, and a clear path to your first diploma.</p>
+              <Button
+                variant="primary"
+                size="compact"
+                className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]"
+                onClick={() => setSession(nextLesson)}
+              >
+                {completed ? "Continue my journey" : "Let’s take the first step"}
+                <Icon name="arrow" size={19} />
+              </Button>
+              <span className="hero-caption">
+                <Icon name="clock" size={13} />
+                {nextLesson.minutes} minutes is a lovely start
+              </span>
+            </div>
+            <JourneyArt />
+            <span className="hero-footnote">POCO A POCO, PASO A PASO.</span>
+          </section>
+          <div className="section-heading path-heading">
+            <div>
+              <span className="eyebrow">A LITTLE STRUCTURE. A LOT OF POSSIBILITY.</span>
+              <h2>Your learning path</h2>
+            </div>
+            <button className="text-link" onClick={() => navigate("path")}>
+              View full path
+              <Icon name="arrow" size={16} />
+            </button>
+          </div>
+          <div className="path-overview">
+            <span>
+              <b>{completed}</b> of {allLessons.length} lessons complete
+            </span>
+            <div className="progress-track">
+              <div style={{ width: `${progressPercent}%` }} />
+            </div>
+            <b>{progressPercent}%</b>
+          </div>
+          <div className="flex flex-col gap-3">
+            {units.slice(0, 3).map((u, i) => (
+              <UnitCard
+                key={u.id}
+                unit={u}
+                index={i}
+                progress={progress}
+                start={setSession}
+                expanded={expanded === u.id}
+                onExpand={() => setExpanded(expanded === u.id ? "" : u.id)}
+              />
+            ))}
+          </div>
+          <button className="remaining-units" onClick={() => navigate("path")}>
+            Home, cafés, adventures & 6 more chapters
+            <Icon name="arrow" size={16} />
+          </button>
+          <div className="section-heading">
+            <h2>A little change of pace</h2>
+            <span className="subtle">Make it yours</span>
+          </div>
+          <div className="quick-practice">
+            <button onClick={() => practice("listening")}>
+              <span className="quick-icon lavender">
+                <Icon name="headphones" size={23} />
+              </span>
+              <strong>Tune your ear</strong>
+              <small>Listen to everyday Spanish</small>
+              <Icon name="arrow" size={17} />
+            </button>
+            <button onClick={() => practice("speaking")}>
+              <span className="quick-icon peach">
+                <Icon name="mic" size={23} />
+              </span>
+              <strong>Find your voice</strong>
+              <small>A safe space to speak</small>
+              <Icon name="arrow" size={17} />
+            </button>
+            <button onClick={() => practice(mistakeCount ? "mistakes" : "all")}>
+              <span className="quick-icon sage">
+                <Icon name="repeat" size={23} />
+              </span>
+              <strong>Make it stick</strong>
+              <small>
+                {mistakeCount
+                  ? `${mistakeCount} mistakes to revisit`
+                  : "A fresh mix of little challenges"}
+              </small>
+              <Icon name="arrow" size={17} />
+            </button>
+          </div>
+        </div>
+        <aside className="dashboard-aside">
+          <section className="panel daily-goal">
+            <div className="panel-heading">
+              <h3>Your daily little win</h3>
+              <button
+                className="icon-button"
+                onClick={() => openSettings()}
+                aria-label="Adjust your daily goal"
+              >
+                <Icon name="settings" size={16} />
+              </button>
+            </div>
+            <div
+              className="goal-ring"
+              style={
+                {
+                  "--goal": `${Math.min(today / progress.goal, 1) * 100}%`,
+                } as CSSProperties
+              }
+            >
+              <div>
+                <Icon name={today >= progress.goal ? "check" : "spark"} size={24} />
+                <strong>
+                  {today}
+                  <span>/{progress.goal}</span>
+                </strong>
+                <small>exercises today</small>
+              </div>
+            </div>
+            <p>
+              {today >= progress.goal
+                ? "Daily goal reached. ¡Muy bien!"
+                : today
+                  ? "You’re building a lovely habit."
+                  : "A few minutes. A little more confidence."}
+            </p>
+            <div className="week-dots">
+              {Array.from({ length: 7 }, (_, i) => {
+                const d = new Date();
+                d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
+                const n = dailyAnswers(progress, localDate(d));
+                return (
+                  <div key={i} className={localDate(d) === localDate() ? "is-today" : ""}>
+                    <span>{["M", "T", "W", "T", "F", "S", "S"][i]}</span>
+                    <i
+                      className={n ? "done" : ""}
+                      title={`${d.toLocaleDateString()}: ${n} exercises`}
+                    >
+                      {n ? (
+                        <Icon name="check" size={12} />
+                      ) : localDate(d) === localDate() ? (
+                        <b />
+                      ) : null}
+                    </i>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+          <section className="panel skills-panel">
+            <div className="panel-heading">
+              <h3>A little of every skill</h3>
+              <Icon name="layers" size={17} />
+            </div>
+            <p>Four ways to grow your Spanish.</p>
+            {skills.map((s) => {
+              const stats = skillStats(progress, s.id);
+              const total = exerciseBank.filter((q) => q.skill === s.id).length;
+              return (
+                <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
+                  <span className={`skill-icon ${s.id}`}>
+                    <Icon name={s.icon} size={17} />
+                  </span>
+                  <span>
+                    <strong>
+                      {s.name}
+                      <small>{stats.practised} practised</small>
+                    </strong>
+                    <span className="progress-track">
+                      <span style={{ width: `${(stats.practised / total) * 100}%` }} />
+                    </span>
+                  </span>
+                  <Icon name="chevron" size={13} />
+                </button>
+              );
+            })}
+            <button className="text-link" onClick={() => navigate("guide")}>
+              How the exam works
+              <Icon name="arrow" size={15} />
+            </button>
+          </section>
+          <section className="phrase-card">
+            <span className="eyebrow">
+              <Icon name="spark" size={14} /> A PHRASE FOR TODAY
+            </span>
+            <h3 lang="es">Poco a poco.</h3>
+            <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
+            <p>Little by little.</p>
+            <div>
+              <span>Progress has its own pace.</span>
+              <AudioButton compact text="Poco a poco." label="Listen to poco a poco" />
+            </div>
+          </section>
+          <div className="quiet-note">
+            <Icon name="heart" size={16} />
+            <p>
+              No rush. No lost hearts.
+              <br />
+              Just you, getting a little better.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </>
+  );
+};
+const PathPage = ({
+  progress,
+  nextLesson,
+  completed,
+  progressPercent,
+  expanded,
+  setExpanded,
+  setSession,
+  navigate,
+}: {
+  progress: Progress;
+  nextLesson: Lesson;
+  completed: number;
+  progressPercent: number;
+  expanded: string;
+  setExpanded: (id: string) => void;
+  setSession: Session;
+  navigate: (target: Page) => void;
+}) => {
+  const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
+  return (
+    <>
+      <div className="page-heading">
+        <div>
+          <span className="eyebrow">FROM YOUR FIRST HOLA TO YOUR A1</span>
+          <h1>Every step has a story.</h1>
+          <p>
+            {units.length} units · {allLessons.length} lessons · {allQuestions.length} exercises.
+            Explore freely, or follow the path.
+          </p>
+        </div>
+        <Stamp />
+      </div>
+      <div className="path-banner panel">
+        <span className={`unit-icon ${nextUnit.color}`}>
+          <Icon name={nextUnit.icon} size={28} />
+        </span>
+        <div>
+          <span className="eyebrow">YOUR NEXT SMALL STEP</span>
+          <h3>
+            {nextUnit.title} · {nextLesson.title}
+          </h3>
+          <p>
+            {completed}/{allLessons.length} complete · {progressPercent}% of your path
+          </p>
+        </div>
+        <Button
+          variant="primary"
+          className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]"
+          onClick={() => setSession(nextLesson)}
+        >
+          Continue learning
+          <Icon name="arrow" />
+        </Button>
+      </div>
+      <div className="path-layout">
+        <div className="full-path">
+          {units.map((u, i) => (
+            <div className="path-stop" key={u.id}>
+              <span
+                className={`path-number ${u.lessons.every((l) => progress.completed[l.id]) ? "done" : ""}`}
+              >
+                {u.lessons.every((l) => progress.completed[l.id]) ? (
+                  <Icon name="check" size={16} />
+                ) : (
+                  String(i + 1).padStart(2, "0")
+                )}
+              </span>
+              <UnitCard
+                unit={u}
+                index={i}
+                progress={progress}
+                start={setSession}
+                expanded={expanded === u.id}
+                onExpand={() => setExpanded(expanded === u.id ? "" : u.id)}
+              />
+            </div>
+          ))}
+          <div className="path-finish">
+            <Icon name="flag" size={28} />
+            <div>
+              <h3>The next chapter is yours.</h3>
+              <p>Put your skills together in the exam rehearsal.</p>
+            </div>
+            <Button
+              variant="primary"
+              size="small"
+              className="[@media(min-width:761px)]:ml-auto"
+              onClick={() => navigate("exam")}
+            >
+              Meet the exam
+              <Icon name="arrow" />
+            </Button>
+          </div>
+        </div>
+        <aside className="path-sidebar panel">
+          <span className="eyebrow">HOW YOUR PATH WORKS</span>
+          <h3>
+            Learn it. Try it.
+            <br />
+            Make it yours.
+          </h3>
+          {[
+            ["spark", "Discover the words", "Connect Spanish words with meaning and sound."],
+            ["layers", "Understand the pattern", "Learn the why behind each answer."],
+            ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
+            ["mic", "Use your own voice", "Write, record and reflect on your progress."],
+          ].map(([icon, title, body]) => (
+            <div key={title}>
+              <Icon name={icon} size={20} />
+              <section>
+                <h4>{title}</h4>
+                <p>{body}</p>
+              </section>
+            </div>
+          ))}
+          <p className="field-note">
+            All lessons are open. Completion tracks practice, not exam readiness. Review mistakes
+            and use the A1 checklist to find gaps.
+          </p>
+        </aside>
+      </div>
+    </>
+  );
+};
+const MistakesPanel = ({
+  mistakeQuestions,
+  setSession,
+  practice,
+}: {
+  mistakeQuestions: Lesson["questions"];
+  setSession: Session;
+  practice: Practice;
+}) => (
+  <div className="panel mistakes-panel">
+    <span className="quick-icon peach">
+      <Icon name="repeat" size={28} />
+    </span>
+    <h2>
+      {mistakeQuestions.length ? "Mistakes are little signposts." : "A fresh page. A fresh start."}
+    </h2>
+    <p>
+      {mistakeQuestions.length
+        ? `${mistakeQuestions.length} questions are ready for another look. A correct answer without transcript assistance clears a question from this queue.`
+        : "No mistakes waiting here yet. As you practise, tricky questions will collect here with their explanations."}
+    </p>
+    <Button
+      variant="primary"
+      className="my-[20px]"
+      onClick={() => practice(mistakeQuestions.length ? "mistakes" : "all")}
+    >
+      {mistakeQuestions.length ? "Review my mistakes" : "Try a daily mix"}
+      <Icon name="arrow" />
+    </Button>
+    {mistakeQuestions.slice(0, 12).map((q) => (
+      <details key={q.id}>
+        <summary>
+          <span className={`skill-dot ${q.skill}`} />
+          {q.prompt}
+        </summary>
+        <p>
+          Correct answer: <strong>{q.answer}</strong>
+        </p>
+        <p>{q.explanation}</p>
+        <MemoryHint text={q.memoryHint} />
+        <button
+          className="text-link"
+          onClick={() =>
+            setSession({
+              id: "review-one",
+              title: "Another little chance",
+              subtitle: "Mistake review",
+              minutes: 2,
+              icon: "repeat",
+              questions: [q],
+            })
+          }
+        >
+          Try again
+          <Icon name="arrow" size={15} />
+        </button>
+      </details>
+    ))}
+  </div>
+);
+const SkillPractice = ({
+  progress,
+  filter,
+  setSession,
+  practice,
+}: {
+  progress: Progress;
+  filter: Skill | "all";
+  setSession: Session;
+  practice: Practice;
+}) => (
+  <>
+    <div className="practice-hero panel">
+      <div>
+        <span className="eyebrow">A SMALL SESSION, CHOSEN FOR YOU</span>
+        <h2>
+          {filter === "all"
+            ? "A little bit of everything."
+            : filter === "listening"
+              ? "Let Spanish find your ear."
+              : filter === "speaking"
+                ? "Your voice belongs here."
+                : filter === "writing"
+                  ? "Make a little room for your words."
+                  : "Find the meaning in the details."}
+        </h2>
+        <p>Fresh questions come first. Revisit the ones you’ve seen as your confidence grows.</p>
+        <Button variant="primary" onClick={() => practice(filter)}>
+          Start {filter === "all" ? "my daily mix" : `${filter} practice`}
+          <Icon name="arrow" />
+        </Button>
+      </div>
+      <div className={`practice-orb ${filter}`}>
+        <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />
+        <i>¡Tú puedes!</i>
+      </div>
+    </div>
+    <div className="practice-skill-grid">
+      {skills
+        .filter((s) => filter === "all" || filter === s.id)
+        .map((s) => {
+          const stats = skillStats(progress, s.id);
+          return (
+            <button key={s.id} className="panel practice-skill-card" onClick={() => practice(s.id)}>
+              <span className={`skill-icon ${s.id}`}>
+                <Icon name={s.icon} size={24} />
+              </span>
+              <span className="eyebrow">{s.spanish}</span>
+              <h3>{s.name}</h3>
+              <p>{stats.practised} questions practised</p>
+              <span>
+                {stats.accuracy === null
+                  ? "A lovely place to start"
+                  : `${stats.accuracy}% unassisted objective accuracy`}
+              </span>
+              <Icon name="arrow" size={19} />
+            </button>
+          );
+        })}
+    </div>
+    <div className="focused-practice">
+      <button
+        className="panel"
+        onClick={() =>
+          setSession({
+            id: "pictures",
+            title: "Picture a little Spanish",
+            subtitle: "Read the visual clues",
+            minutes: 4,
+            icon: "map",
+            questions: visualQuestions,
+          })
+        }
+      >
+        <span className="quick-icon sage">
+          <Icon name="map" />
+        </span>
+        <div>
+          <h3>Picture this</h3>
+          <p>6 visual puzzles · cafés, trains & your neighborhood</p>
+        </div>
+        <Icon name="arrow" />
+      </button>
+      <button
+        className="panel"
+        onClick={() =>
+          setSession({
+            id: "foundations",
+            title: "The little foundations",
+            subtitle: "Sounds, numbers and patterns",
+            minutes: 8,
+            icon: "layers",
+            questions: foundations,
+          })
+        }
+      >
+        <span className="quick-icon sand">
+          <Icon name="layers" />
+        </span>
+        <div>
+          <h3>The foundation lab</h3>
+          <p>24 checks · sounds, spelling, numbers & patterns</p>
+        </div>
+        <Icon name="arrow" />
+      </button>
+      <button
+        className="panel"
+        onClick={() =>
+          setSession({
+            id: "form",
+            title: "A form, a little Spanish",
+            subtitle: "Writing task 1",
+            minutes: 5,
+            icon: "pen",
+            questions: [formPractice],
+          })
+        }
+      >
+        <span className="quick-icon lavender">
+          <Icon name="pen" />
+        </span>
+        <div>
+          <h3>Fill in your story</h3>
+          <p>A personal form · 15–25 words · exam task 1</p>
+        </div>
+        <Icon name="arrow" />
+      </button>
+    </div>
+  </>
+);
+const PracticePage = ({
+  progress,
+  setProgress,
+  mistakeQuestions,
+  filter,
+  setFilter,
+  setSession,
+  navigate,
+  practice,
+}: {
+  progress: Progress;
+  setProgress: (update: (p: Progress) => Progress) => void;
+  mistakeQuestions: Lesson["questions"];
+  filter: Skill | "all" | "mistakes";
+  setFilter: (filter: Skill | "all" | "mistakes") => void;
+  setSession: Session;
+  navigate: (target: Page) => void;
+  practice: Practice;
+}) => (
+  <>
+    <div className="page-heading">
+      <div>
+        <span className="eyebrow">MORE PLAY. MORE PRACTICE. MORE YOU.</span>
+        <h1>Your practice studio.</h1>
+        <p>Follow your curiosity, or give a tricky word another chance.</p>
+      </div>
+      <span className="outline-badge">
+        <Icon name="spark" size={16} />
+        {exerciseBank.length} exercises to explore
+      </span>
+    </div>
+    <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
+      {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
+        <button key={s} className={filter === s ? "active" : ""} onClick={() => setFilter(s)}>
+          {s === "all"
+            ? "All skills"
+            : s === "mistakes"
+              ? `My mistakes (${mistakeQuestions.length})`
+              : s[0].toUpperCase() + s.slice(1)}
+        </button>
+      ))}
+    </div>
+    {filter === "mistakes" ? (
+      <MistakesPanel
+        mistakeQuestions={mistakeQuestions}
+        setSession={setSession}
+        practice={practice}
+      />
+    ) : (
+      <SkillPractice
+        progress={progress}
+        filter={filter}
+        setSession={setSession}
+        practice={practice}
+      />
+    )}
+    <PocketVocabulary
+      progress={progress}
+      onReview={(word, review) =>
+        setProgress((p) => ({
+          ...p,
+          vocabularyReviews: { ...p.vocabularyReviews, [word]: review },
+        }))
+      }
+      onLearn={() => navigate("path")}
+    />
+  </>
+);
+const Sidebar = ({
+  page,
+  navigate,
+  mobileNav,
+  closeNav,
+  mistakeCount,
+  name,
+  openSettings,
+}: {
+  page: Page;
+  navigate: (target: Page) => void;
+  mobileNav: boolean;
+  closeNav: () => void;
+  mistakeCount: number;
+  name: string;
+  openSettings: () => void;
+}) => (
+  <>
+    {mobileNav && (
+      <button className="nav-backdrop" onClick={() => closeNav()} aria-label="Close navigation" />
+    )}
+    <aside className={`sidebar ${mobileNav ? "open" : ""}`}>
+      <a
+        href="#today"
+        className="brand"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("today");
+        }}
+        aria-label="Paso home"
+      >
+        <span className="brand-mark">
+          p<span>•</span>
+        </span>
+        <span>
+          paso<span className="brand-period">.</span>
+        </span>
+      </a>
+      <div className="course-switch">
+        <span className="spanish-flag" aria-label="Spanish flag" />
+        <div>
+          <strong>Spanish for your world</strong>
+          <span>DELE A1 · Beginner</span>
+        </div>
+        <span className="course-badge">A1</span>
+      </div>
+      <span className="nav-label">YOUR LEARNING SPACE</span>
+      <nav aria-label="Main navigation">
+        {navigation.map((n) => (
+          <button
+            key={n.id}
+            className={`nav-item ${page === n.id ? "active" : ""}`}
+            onClick={() => navigate(n.id)}
+            aria-current={page === n.id ? "page" : undefined}
+          >
+            <Icon name={n.icon} />
+            <span>{n.label}</span>
+            {n.id === "practice" && mistakeCount > 0 && <small>{mistakeCount}</small>}
+            {page === n.id && <i />}
+          </button>
+        ))}
+      </nav>
+      <div className="sidebar-note">
+        <span className="small-sun">✺</span>
+        <p>Un poquito cada día.</p>
+        <span>
+          A little every day
+          <br />
+          takes you a long way.
+        </span>
+        <div className="handdrawn-line" />
+      </div>
+      <div className="sidebar-bottom">
+        <button className="help-link" onClick={() => navigate("guide")}>
+          <Icon name="info" size={17} />
+          Your exam, explained
+          <Icon name="external" size={13} />
+        </button>
+        <button className="profile" onClick={() => openSettings()}>
+          <span className="avatar">{name ? name[0].toUpperCase() : "P"}</span>
+          <span>
+            <strong>{name || "Your Spanish journey"}</strong>
+            <small>Learning at your pace</small>
+          </span>
+          <Icon name="settings" size={18} />
+        </button>
+      </div>
+    </aside>
+  </>
+);
+const usePersistedProgress = () => {
+  const [progress, setProgress] = useState<Progress>(readProgress);
+  const [storageError, setStorageError] = useState(false);
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      setStorageError(false);
+    } catch {
+      setStorageError(true);
+    }
+  }, [progress]);
+  return [progress, setProgress, storageError] as const;
+};
+const useToast = () => {
+  const [toast, setToast] = useState("");
+  useEffect(() => {
+    if (!toast) {
+      return;
+    }
+    const id = setTimeout(() => setToast(""), 4000);
+    return () => clearTimeout(id);
+  }, [toast]);
+  return [toast, setToast] as const;
+};
+const App = () => {
+  const [progress, setProgress, storageError] = usePersistedProgress();
+  const [page, setPage] = useState<Page>(pageFromHash);
+  const [session, setSession] = useState<Lesson | null>(null);
+  const [settings, setSettings] = useState(false);
+  const [mobileNav, setMobileNav] = useState(false);
+  const [expanded, setExpanded] = useState("u1");
+  const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
+  const [toast, setToast] = useToast();
+  useEffect(() => {
+    const handle = () => {
+      setPage(pageFromHash());
+      setMobileNav(false);
+    };
+    window.addEventListener("hashchange", handle);
+    return () => window.removeEventListener("hashchange", handle);
+  }, []);
+  const navigate = (target: Page) => {
+    setPage(target);
+    window.location.hash = target;
+    setMobileNav(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const nextLesson = allLessons.find((l) => !progress.completed[l.id]) || allLessons[0];
+  const completed = Object.keys(progress.completed).length;
+  const progressPercent = Math.round((completed / allLessons.length) * 100);
+  const mistakeQuestions = mistakeQueue(progress, new Date());
 
   const practice = (skill: Skill | "all" | "mistakes") => {
     let questions =
@@ -376,13 +1147,66 @@ const App = () => {
       }));
     }
   };
-  const daysToExam = progress.examDate
-    ? Math.ceil(
-        (new Date(`${progress.examDate}T00:00:00`).getTime() -
-          new Date(`${localDate()}T00:00:00`).getTime()) /
-          86400000,
-      )
-    : null;
+  const pages: Record<Page, ReactNode> = {
+    today: (
+      <TodayPage
+        progress={progress}
+        nextLesson={nextLesson}
+        completed={completed}
+        progressPercent={progressPercent}
+        mistakeCount={mistakeQuestions.length}
+        expanded={expanded}
+        setExpanded={setExpanded}
+        setSession={setSession}
+        openSettings={() => setSettings(true)}
+        navigate={navigate}
+        practice={practice}
+      />
+    ),
+    path: (
+      <PathPage
+        progress={progress}
+        nextLesson={nextLesson}
+        completed={completed}
+        progressPercent={progressPercent}
+        expanded={expanded}
+        setExpanded={setExpanded}
+        setSession={setSession}
+        navigate={navigate}
+      />
+    ),
+    practice: (
+      <PracticePage
+        progress={progress}
+        setProgress={setProgress}
+        mistakeQuestions={mistakeQuestions}
+        filter={filter}
+        setFilter={setFilter}
+        setSession={setSession}
+        navigate={navigate}
+        practice={practice}
+      />
+    ),
+    exam: (
+      <MockExam
+        progress={progress}
+        onResult={(result) =>
+          setProgress((p) => ({ ...p, mockResults: [...p.mockResults, result] }))
+        }
+      />
+    ),
+    guide: (
+      <Guide
+        progress={progress}
+        onCheck={(id) =>
+          setProgress((p) => ({
+            ...p,
+            checks: p.checks.includes(id) ? p.checks.filter((c) => c !== id) : [...p.checks, id],
+          }))
+        }
+      />
+    ),
+  };
   return (
     <div className="app-shell">
       <a
@@ -396,82 +1220,15 @@ const App = () => {
       >
         Skip to content
       </a>
-      {mobileNav && (
-        <button
-          className="nav-backdrop"
-          onClick={() => setMobileNav(false)}
-          aria-label="Close navigation"
-        />
-      )}
-      <aside className={`sidebar ${mobileNav ? "open" : ""}`}>
-        <a
-          href="#today"
-          className="brand"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("today");
-          }}
-          aria-label="Paso home"
-        >
-          <span className="brand-mark">
-            p<span>•</span>
-          </span>
-          <span>
-            paso<span className="brand-period">.</span>
-          </span>
-        </a>
-        <div className="course-switch">
-          <span className="spanish-flag" aria-label="Spanish flag" />
-          <div>
-            <strong>Spanish for your world</strong>
-            <span>DELE A1 · Beginner</span>
-          </div>
-          <span className="course-badge">A1</span>
-        </div>
-        <span className="nav-label">YOUR LEARNING SPACE</span>
-        <nav aria-label="Main navigation">
-          {navigation.map((n) => (
-            <button
-              key={n.id}
-              className={`nav-item ${page === n.id ? "active" : ""}`}
-              onClick={() => navigate(n.id)}
-              aria-current={page === n.id ? "page" : undefined}
-            >
-              <Icon name={n.icon} />
-              <span>{n.label}</span>
-              {n.id === "practice" && mistakeQuestions.length > 0 && (
-                <small>{mistakeQuestions.length}</small>
-              )}
-              {page === n.id && <i />}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-note">
-          <span className="small-sun">✺</span>
-          <p>Un poquito cada día.</p>
-          <span>
-            A little every day
-            <br />
-            takes you a long way.
-          </span>
-          <div className="handdrawn-line" />
-        </div>
-        <div className="sidebar-bottom">
-          <button className="help-link" onClick={() => navigate("guide")}>
-            <Icon name="info" size={17} />
-            Your exam, explained
-            <Icon name="external" size={13} />
-          </button>
-          <button className="profile" onClick={() => setSettings(true)}>
-            <span className="avatar">{progress.name ? progress.name[0].toUpperCase() : "P"}</span>
-            <span>
-              <strong>{progress.name || "Your Spanish journey"}</strong>
-              <small>Learning at your pace</small>
-            </span>
-            <Icon name="settings" size={18} />
-          </button>
-        </div>
-      </aside>
+      <Sidebar
+        page={page}
+        navigate={navigate}
+        mobileNav={mobileNav}
+        closeNav={() => setMobileNav(false)}
+        mistakeCount={mistakeQuestions.length}
+        name={progress.name}
+        openSettings={() => setSettings(true)}
+      />
       <div className="main-shell">
         <header className="topbar">
           <div>
@@ -514,600 +1271,7 @@ const App = () => {
               in preferences to save a copy.
             </p>
           )}
-          {page === "today" && (
-            <>
-              <div className="page-heading dashboard-heading">
-                <div>
-                  <div className="eyebrow greeting">
-                    {new Date().getHours() < 12
-                      ? "BUENOS DÍAS"
-                      : new Date().getHours() < 20
-                        ? "BUENAS TARDES"
-                        : "BUENAS NOCHES"}{" "}
-                    <span>✦</span>
-                  </div>
-                  <h1>
-                    {progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
-                  </h1>
-                  <p>Your next chapter starts with a small step.</p>
-                </div>
-                <button className="date-chip" onClick={() => setSettings(true)}>
-                  <Icon name="sun" size={17} />
-                  {daysToExam === null
-                    ? "At your own pace"
-                    : daysToExam > 0
-                      ? `${daysToExam} days to your exam`
-                      : daysToExam === 0
-                        ? "Your exam day"
-                        : "Keep your Spanish growing"}
-                  <Icon name="down" size={13} />
-                </button>
-              </div>
-              <div className="dashboard-grid">
-                <div className="dashboard-primary">
-                  <section className="hero-card">
-                    <div className="hero-text">
-                      <span className="hero-eyebrow">
-                        <i />
-                        YOUR JOURNEY TO DELE A1
-                      </span>
-                      <h2>
-                        Small steps.
-                        <br />A world of <em>Spanish.</em>
-                      </h2>
-                      <p>Real-life Spanish, little wins, and a clear path to your first diploma.</p>
-                      <Button
-                        variant="primary"
-                        size="compact"
-                        className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]"
-                        onClick={() => setSession(nextLesson)}
-                      >
-                        {completed ? "Continue my journey" : "Let’s take the first step"}
-                        <Icon name="arrow" size={19} />
-                      </Button>
-                      <span className="hero-caption">
-                        <Icon name="clock" size={13} />
-                        {nextLesson.minutes} minutes is a lovely start
-                      </span>
-                    </div>
-                    <JourneyArt />
-                    <span className="hero-footnote">POCO A POCO, PASO A PASO.</span>
-                  </section>
-                  <div className="section-heading path-heading">
-                    <div>
-                      <span className="eyebrow">A LITTLE STRUCTURE. A LOT OF POSSIBILITY.</span>
-                      <h2>Your learning path</h2>
-                    </div>
-                    <button className="text-link" onClick={() => navigate("path")}>
-                      View full path
-                      <Icon name="arrow" size={16} />
-                    </button>
-                  </div>
-                  <div className="path-overview">
-                    <span>
-                      <b>{completed}</b> of {allLessons.length} lessons complete
-                    </span>
-                    <div className="progress-track">
-                      <div style={{ width: `${progressPercent}%` }} />
-                    </div>
-                    <b>{progressPercent}%</b>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    {units.slice(0, 3).map((u, i) => (
-                      <UnitCard
-                        key={u.id}
-                        unit={u}
-                        index={i}
-                        progress={progress}
-                        start={setSession}
-                        expanded={expanded === u.id}
-                        onExpand={() => setExpanded(expanded === u.id ? "" : u.id)}
-                      />
-                    ))}
-                  </div>
-                  <button className="remaining-units" onClick={() => navigate("path")}>
-                    Home, cafés, adventures & 6 more chapters
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <div className="section-heading">
-                    <h2>A little change of pace</h2>
-                    <span className="subtle">Make it yours</span>
-                  </div>
-                  <div className="quick-practice">
-                    <button onClick={() => practice("listening")}>
-                      <span className="quick-icon lavender">
-                        <Icon name="headphones" size={23} />
-                      </span>
-                      <strong>Tune your ear</strong>
-                      <small>Listen to everyday Spanish</small>
-                      <Icon name="arrow" size={17} />
-                    </button>
-                    <button onClick={() => practice("speaking")}>
-                      <span className="quick-icon peach">
-                        <Icon name="mic" size={23} />
-                      </span>
-                      <strong>Find your voice</strong>
-                      <small>A safe space to speak</small>
-                      <Icon name="arrow" size={17} />
-                    </button>
-                    <button onClick={() => practice(mistakeQuestions.length ? "mistakes" : "all")}>
-                      <span className="quick-icon sage">
-                        <Icon name="repeat" size={23} />
-                      </span>
-                      <strong>Make it stick</strong>
-                      <small>
-                        {mistakeQuestions.length
-                          ? `${mistakeQuestions.length} mistakes to revisit`
-                          : "A fresh mix of little challenges"}
-                      </small>
-                      <Icon name="arrow" size={17} />
-                    </button>
-                  </div>
-                </div>
-                <aside className="dashboard-aside">
-                  <section className="panel daily-goal">
-                    <div className="panel-heading">
-                      <h3>Your daily little win</h3>
-                      <button
-                        className="icon-button"
-                        onClick={() => setSettings(true)}
-                        aria-label="Adjust your daily goal"
-                      >
-                        <Icon name="settings" size={16} />
-                      </button>
-                    </div>
-                    <div
-                      className="goal-ring"
-                      style={
-                        {
-                          "--goal": `${Math.min(today / progress.goal, 1) * 100}%`,
-                        } as CSSProperties
-                      }
-                    >
-                      <div>
-                        <Icon name={today >= progress.goal ? "check" : "spark"} size={24} />
-                        <strong>
-                          {today}
-                          <span>/{progress.goal}</span>
-                        </strong>
-                        <small>exercises today</small>
-                      </div>
-                    </div>
-                    <p>
-                      {today >= progress.goal
-                        ? "Daily goal reached. ¡Muy bien!"
-                        : today
-                          ? "You’re building a lovely habit."
-                          : "A few minutes. A little more confidence."}
-                    </p>
-                    <div className="week-dots">
-                      {Array.from({ length: 7 }, (_, i) => {
-                        const d = new Date();
-                        d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
-                        const n = dailyAnswers(progress, localDate(d));
-                        return (
-                          <div key={i} className={localDate(d) === localDate() ? "is-today" : ""}>
-                            <span>{["M", "T", "W", "T", "F", "S", "S"][i]}</span>
-                            <i
-                              className={n ? "done" : ""}
-                              title={`${d.toLocaleDateString()}: ${n} exercises`}
-                            >
-                              {n ? (
-                                <Icon name="check" size={12} />
-                              ) : localDate(d) === localDate() ? (
-                                <b />
-                              ) : null}
-                            </i>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </section>
-                  <section className="panel skills-panel">
-                    <div className="panel-heading">
-                      <h3>A little of every skill</h3>
-                      <Icon name="layers" size={17} />
-                    </div>
-                    <p>Four ways to grow your Spanish.</p>
-                    {skills.map((s) => {
-                      const stats = skillStats(progress, s.id);
-                      const total = exerciseBank.filter((q) => q.skill === s.id).length;
-                      return (
-                        <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
-                          <span className={`skill-icon ${s.id}`}>
-                            <Icon name={s.icon} size={17} />
-                          </span>
-                          <span>
-                            <strong>
-                              {s.name}
-                              <small>{stats.practised} practised</small>
-                            </strong>
-                            <span className="progress-track">
-                              <span style={{ width: `${(stats.practised / total) * 100}%` }} />
-                            </span>
-                          </span>
-                          <Icon name="chevron" size={13} />
-                        </button>
-                      );
-                    })}
-                    <button className="text-link" onClick={() => navigate("guide")}>
-                      How the exam works
-                      <Icon name="arrow" size={15} />
-                    </button>
-                  </section>
-                  <section className="phrase-card">
-                    <span className="eyebrow">
-                      <Icon name="spark" size={14} /> A PHRASE FOR TODAY
-                    </span>
-                    <h3 lang="es">Poco a poco.</h3>
-                    <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
-                    <p>Little by little.</p>
-                    <div>
-                      <span>Progress has its own pace.</span>
-                      <AudioButton compact text="Poco a poco." label="Listen to poco a poco" />
-                    </div>
-                  </section>
-                  <div className="quiet-note">
-                    <Icon name="heart" size={16} />
-                    <p>
-                      No rush. No lost hearts.
-                      <br />
-                      Just you, getting a little better.
-                    </p>
-                  </div>
-                </aside>
-              </div>
-            </>
-          )}
-          {page === "path" && (
-            <>
-              <div className="page-heading">
-                <div>
-                  <span className="eyebrow">FROM YOUR FIRST HOLA TO YOUR A1</span>
-                  <h1>Every step has a story.</h1>
-                  <p>
-                    {units.length} units · {allLessons.length} lessons · {allQuestions.length}{" "}
-                    exercises. Explore freely, or follow the path.
-                  </p>
-                </div>
-                <Stamp />
-              </div>
-              <div className="path-banner panel">
-                <span className={`unit-icon ${nextUnit.color}`}>
-                  <Icon name={nextUnit.icon} size={28} />
-                </span>
-                <div>
-                  <span className="eyebrow">YOUR NEXT SMALL STEP</span>
-                  <h3>
-                    {nextUnit.title} · {nextLesson.title}
-                  </h3>
-                  <p>
-                    {completed}/{allLessons.length} complete · {progressPercent}% of your path
-                  </p>
-                </div>
-                <Button
-                  variant="primary"
-                  className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]"
-                  onClick={() => setSession(nextLesson)}
-                >
-                  Continue learning
-                  <Icon name="arrow" />
-                </Button>
-              </div>
-              <div className="path-layout">
-                <div className="full-path">
-                  {units.map((u, i) => (
-                    <div className="path-stop" key={u.id}>
-                      <span
-                        className={`path-number ${u.lessons.every((l) => progress.completed[l.id]) ? "done" : ""}`}
-                      >
-                        {u.lessons.every((l) => progress.completed[l.id]) ? (
-                          <Icon name="check" size={16} />
-                        ) : (
-                          String(i + 1).padStart(2, "0")
-                        )}
-                      </span>
-                      <UnitCard
-                        unit={u}
-                        index={i}
-                        progress={progress}
-                        start={setSession}
-                        expanded={expanded === u.id}
-                        onExpand={() => setExpanded(expanded === u.id ? "" : u.id)}
-                      />
-                    </div>
-                  ))}
-                  <div className="path-finish">
-                    <Icon name="flag" size={28} />
-                    <div>
-                      <h3>The next chapter is yours.</h3>
-                      <p>Put your skills together in the exam rehearsal.</p>
-                    </div>
-                    <Button
-                      variant="primary"
-                      size="small"
-                      className="[@media(min-width:761px)]:ml-auto"
-                      onClick={() => navigate("exam")}
-                    >
-                      Meet the exam
-                      <Icon name="arrow" />
-                    </Button>
-                  </div>
-                </div>
-                <aside className="path-sidebar panel">
-                  <span className="eyebrow">HOW YOUR PATH WORKS</span>
-                  <h3>
-                    Learn it. Try it.
-                    <br />
-                    Make it yours.
-                  </h3>
-                  {[
-                    [
-                      "spark",
-                      "Discover the words",
-                      "Connect Spanish words with meaning and sound.",
-                    ],
-                    ["layers", "Understand the pattern", "Learn the why behind each answer."],
-                    ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
-                    ["mic", "Use your own voice", "Write, record and reflect on your progress."],
-                  ].map(([icon, title, body]) => (
-                    <div key={title}>
-                      <Icon name={icon} size={20} />
-                      <section>
-                        <h4>{title}</h4>
-                        <p>{body}</p>
-                      </section>
-                    </div>
-                  ))}
-                  <p className="field-note">
-                    All lessons are open. Completion tracks practice, not exam readiness. Review
-                    mistakes and use the A1 checklist to find gaps.
-                  </p>
-                </aside>
-              </div>
-            </>
-          )}
-          {page === "practice" && (
-            <>
-              <div className="page-heading">
-                <div>
-                  <span className="eyebrow">MORE PLAY. MORE PRACTICE. MORE YOU.</span>
-                  <h1>Your practice studio.</h1>
-                  <p>Follow your curiosity, or give a tricky word another chance.</p>
-                </div>
-                <span className="outline-badge">
-                  <Icon name="spark" size={16} />
-                  {exerciseBank.length} exercises to explore
-                </span>
-              </div>
-              <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
-                {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
-                  <button
-                    key={s}
-                    className={filter === s ? "active" : ""}
-                    onClick={() => setFilter(s)}
-                  >
-                    {s === "all"
-                      ? "All skills"
-                      : s === "mistakes"
-                        ? `My mistakes (${mistakeQuestions.length})`
-                        : s[0].toUpperCase() + s.slice(1)}
-                  </button>
-                ))}
-              </div>
-              {filter === "mistakes" ? (
-                <div className="panel mistakes-panel">
-                  <span className="quick-icon peach">
-                    <Icon name="repeat" size={28} />
-                  </span>
-                  <h2>
-                    {mistakeQuestions.length
-                      ? "Mistakes are little signposts."
-                      : "A fresh page. A fresh start."}
-                  </h2>
-                  <p>
-                    {mistakeQuestions.length
-                      ? `${mistakeQuestions.length} questions are ready for another look. A correct answer without transcript assistance clears a question from this queue.`
-                      : "No mistakes waiting here yet. As you practise, tricky questions will collect here with their explanations."}
-                  </p>
-                  <Button
-                    variant="primary"
-                    className="my-[20px]"
-                    onClick={() => practice(mistakeQuestions.length ? "mistakes" : "all")}
-                  >
-                    {mistakeQuestions.length ? "Review my mistakes" : "Try a daily mix"}
-                    <Icon name="arrow" />
-                  </Button>
-                  {mistakeQuestions.slice(0, 12).map((q) => (
-                    <details key={q.id}>
-                      <summary>
-                        <span className={`skill-dot ${q.skill}`} />
-                        {q.prompt}
-                      </summary>
-                      <p>
-                        Correct answer: <strong>{q.answer}</strong>
-                      </p>
-                      <p>{q.explanation}</p>
-                      <MemoryHint text={q.memoryHint} />
-                      <button
-                        className="text-link"
-                        onClick={() =>
-                          setSession({
-                            id: "review-one",
-                            title: "Another little chance",
-                            subtitle: "Mistake review",
-                            minutes: 2,
-                            icon: "repeat",
-                            questions: [q],
-                          })
-                        }
-                      >
-                        Try again
-                        <Icon name="arrow" size={15} />
-                      </button>
-                    </details>
-                  ))}
-                </div>
-              ) : (
-                <>
-                  <div className="practice-hero panel">
-                    <div>
-                      <span className="eyebrow">A SMALL SESSION, CHOSEN FOR YOU</span>
-                      <h2>
-                        {filter === "all"
-                          ? "A little bit of everything."
-                          : filter === "listening"
-                            ? "Let Spanish find your ear."
-                            : filter === "speaking"
-                              ? "Your voice belongs here."
-                              : filter === "writing"
-                                ? "Make a little room for your words."
-                                : "Find the meaning in the details."}
-                      </h2>
-                      <p>
-                        Fresh questions come first. Revisit the ones you’ve seen as your confidence
-                        grows.
-                      </p>
-                      <Button variant="primary" onClick={() => practice(filter)}>
-                        Start {filter === "all" ? "my daily mix" : `${filter} practice`}
-                        <Icon name="arrow" />
-                      </Button>
-                    </div>
-                    <div className={`practice-orb ${filter}`}>
-                      <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />
-                      <i>¡Tú puedes!</i>
-                    </div>
-                  </div>
-                  <div className="practice-skill-grid">
-                    {skills
-                      .filter((s) => filter === "all" || filter === s.id)
-                      .map((s) => {
-                        const stats = skillStats(progress, s.id);
-                        return (
-                          <button
-                            key={s.id}
-                            className="panel practice-skill-card"
-                            onClick={() => practice(s.id)}
-                          >
-                            <span className={`skill-icon ${s.id}`}>
-                              <Icon name={s.icon} size={24} />
-                            </span>
-                            <span className="eyebrow">{s.spanish}</span>
-                            <h3>{s.name}</h3>
-                            <p>{stats.practised} questions practised</p>
-                            <span>
-                              {stats.accuracy === null
-                                ? "A lovely place to start"
-                                : `${stats.accuracy}% unassisted objective accuracy`}
-                            </span>
-                            <Icon name="arrow" size={19} />
-                          </button>
-                        );
-                      })}
-                  </div>
-                  <div className="focused-practice">
-                    <button
-                      className="panel"
-                      onClick={() =>
-                        setSession({
-                          id: "pictures",
-                          title: "Picture a little Spanish",
-                          subtitle: "Read the visual clues",
-                          minutes: 4,
-                          icon: "map",
-                          questions: visualQuestions,
-                        })
-                      }
-                    >
-                      <span className="quick-icon sage">
-                        <Icon name="map" />
-                      </span>
-                      <div>
-                        <h3>Picture this</h3>
-                        <p>6 visual puzzles · cafés, trains & your neighborhood</p>
-                      </div>
-                      <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
-                      onClick={() =>
-                        setSession({
-                          id: "foundations",
-                          title: "The little foundations",
-                          subtitle: "Sounds, numbers and patterns",
-                          minutes: 8,
-                          icon: "layers",
-                          questions: foundations,
-                        })
-                      }
-                    >
-                      <span className="quick-icon sand">
-                        <Icon name="layers" />
-                      </span>
-                      <div>
-                        <h3>The foundation lab</h3>
-                        <p>24 checks · sounds, spelling, numbers & patterns</p>
-                      </div>
-                      <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
-                      onClick={() =>
-                        setSession({
-                          id: "form",
-                          title: "A form, a little Spanish",
-                          subtitle: "Writing task 1",
-                          minutes: 5,
-                          icon: "pen",
-                          questions: [formPractice],
-                        })
-                      }
-                    >
-                      <span className="quick-icon lavender">
-                        <Icon name="pen" />
-                      </span>
-                      <div>
-                        <h3>Fill in your story</h3>
-                        <p>A personal form · 15–25 words · exam task 1</p>
-                      </div>
-                      <Icon name="arrow" />
-                    </button>
-                  </div>
-                </>
-              )}
-              <PocketVocabulary
-                progress={progress}
-                onReview={(word, review) =>
-                  setProgress((p) => ({
-                    ...p,
-                    vocabularyReviews: { ...p.vocabularyReviews, [word]: review },
-                  }))
-                }
-                onLearn={() => navigate("path")}
-              />
-            </>
-          )}
-          {page === "exam" && (
-            <MockExam
-              progress={progress}
-              onResult={(result) =>
-                setProgress((p) => ({ ...p, mockResults: [...p.mockResults, result] }))
-              }
-            />
-          )}
-          {page === "guide" && (
-            <Guide
-              progress={progress}
-              onCheck={(id) =>
-                setProgress((p) => ({
-                  ...p,
-                  checks: p.checks.includes(id)
-                    ? p.checks.filter((c) => c !== id)
-                    : [...p.checks, id],
-                }))
-              }
-            />
-          )}
+          {pages[page]}
           <footer className="main-footer">
             <span>Made for the joy of getting there.</span>
             <span>

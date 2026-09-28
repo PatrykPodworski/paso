@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Panel, PanelHeading } from "../design-system/Panel";
 import { dailyAnswers, localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
@@ -11,9 +12,8 @@ export const DailyGoal = ({
 }) => {
   const today = dailyAnswers(progress);
   return (
-    <section className="panel daily-goal">
-      <div className="panel-heading">
-        <h3>Your daily little win</h3>
+    <Panel as="section" className="daily-goal">
+      <PanelHeading title="Your daily little win">
         <button
           className="icon-button"
           onClick={() => openSettings()}
@@ -21,7 +21,7 @@ export const DailyGoal = ({
         >
           <Icon name="settings" size={16} />
         </button>
-      </div>
+      </PanelHeading>
       <div
         className="goal-ring"
         style={
@@ -61,6 +61,6 @@ export const DailyGoal = ({
           );
         })}
       </div>
-    </section>
+    </Panel>
   );
 };

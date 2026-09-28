@@ -1,6 +1,8 @@
 import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { PageHeading } from "../design-system/PageHeading";
+import { Panel } from "../design-system/Panel";
 import { allLessons, allQuestions, units } from "../data/curriculum";
 import type { Lesson, Progress } from "../data/types";
 import { Stamp } from "./Art";
@@ -30,20 +32,23 @@ export const PathPage = ({
   const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
   return (
     <>
-      <div className="page-heading">
-        <div>
+      <PageHeading
+        eyebrow={
           <Eyebrow variant="page" className="mb-[9px]">
             FROM YOUR FIRST HOLA TO YOUR A1
           </Eyebrow>
-          <h1>Every step has a story.</h1>
-          <p>
+        }
+        title="Every step has a story."
+        description={
+          <>
             {units.length} units · {allLessons.length} lessons · {allQuestions.length} exercises.
             Explore freely, or follow the path.
-          </p>
-        </div>
+          </>
+        }
+      >
         <Stamp />
-      </div>
-      <div className="path-banner panel">
+      </PageHeading>
+      <Panel className="path-banner">
         <span className={`unit-icon ${nextUnit.color}`}>
           <Icon name={nextUnit.icon} size={28} />
         </span>
@@ -66,7 +71,7 @@ export const PathPage = ({
           Continue learning
           <Icon name="arrow" />
         </Button>
-      </div>
+      </Panel>
       <div className="path-layout">
         <div className="full-path">
           {units.map((u, i) => (
@@ -108,7 +113,7 @@ export const PathPage = ({
             </Button>
           </div>
         </div>
-        <aside className="path-sidebar panel">
+        <Panel as="aside" className="path-sidebar">
           <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
           <h3>
             Learn it. Try it.
@@ -133,7 +138,7 @@ export const PathPage = ({
             All lessons are open. Completion tracks practice, not exam readiness. Review mistakes
             and use the A1 checklist to find gaps.
           </FieldNote>
-        </aside>
+        </Panel>
       </div>
     </>
   );

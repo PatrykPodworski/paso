@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { PageHeading } from "../design-system/PageHeading";
 import { localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
@@ -17,8 +18,9 @@ export const TodayHeading = ({
       )
     : null;
   return (
-    <div className="page-heading dashboard-heading">
-      <div>
+    <PageHeading
+      className="dashboard-heading"
+      eyebrow={
         <Eyebrow className="greeting mb-[9px]">
           {new Date().getHours() < 12
             ? "BUENOS DÍAS"
@@ -27,9 +29,10 @@ export const TodayHeading = ({
               : "BUENAS NOCHES"}{" "}
           <span>✦</span>
         </Eyebrow>
-        <h1>{progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}</h1>
-        <p>Your next chapter starts with a small step.</p>
-      </div>
+      }
+      title={progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
+      description="Your next chapter starts with a small step."
+    >
       <button className="date-chip" onClick={() => openSettings()}>
         <Icon name="sun" size={17} />
         {daysToExam === null
@@ -41,6 +44,6 @@ export const TodayHeading = ({
               : "Keep your Spanish growing"}
         <Icon name="down" size={13} />
       </button>
-    </div>
+    </PageHeading>
   );
 };

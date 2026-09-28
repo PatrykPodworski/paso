@@ -1,3 +1,4 @@
+import { Panel, PanelHeading } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 import { skillStats } from "../data/progress";
 import type { Progress } from "../data/types";
@@ -13,11 +14,10 @@ export const SkillsPanel = ({
   navigate: (target: Page) => void;
   practice: Practice;
 }) => (
-  <section className="panel skills-panel">
-    <div className="panel-heading">
-      <h3>A little of every skill</h3>
+  <Panel as="section" className="skills-panel">
+    <PanelHeading title="A little of every skill">
       <Icon name="layers" size={17} />
-    </div>
+    </PanelHeading>
     <p>Four ways to grow your Spanish.</p>
     {skills.map((s) => {
       const stats = skillStats(progress, s.id);
@@ -47,5 +47,5 @@ export const SkillsPanel = ({
       How the exam works
       <Icon name="arrow" size={15} />
     </TextLink>
-  </section>
+  </Panel>
 );

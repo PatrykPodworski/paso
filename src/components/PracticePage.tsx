@@ -1,4 +1,6 @@
+import { Badge } from "../design-system/Badge";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { PageHeading } from "../design-system/PageHeading";
 import type { Lesson, Progress, Skill } from "../data/types";
 import { Icon } from "./Icon";
 import { MistakesPanel } from "./MistakesPanel";
@@ -26,19 +28,20 @@ export const PracticePage = ({
   practice: Practice;
 }) => (
   <>
-    <div className="page-heading">
-      <div>
+    <PageHeading
+      eyebrow={
         <Eyebrow variant="page" className="mb-[9px]">
           MORE PLAY. MORE PRACTICE. MORE YOU.
         </Eyebrow>
-        <h1>Your practice studio.</h1>
-        <p>Follow your curiosity, or give a tricky word another chance.</p>
-      </div>
-      <span className="outline-badge">
+      }
+      title="Your practice studio."
+      description="Follow your curiosity, or give a tricky word another chance."
+    >
+      <Badge className="max-tablet:hidden">
         <Icon name="spark" size={16} />
         {exerciseBank.length} exercises to explore
-      </span>
-    </div>
+      </Badge>
+    </PageHeading>
     <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
       {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
         <button key={s} className={filter === s ? "active" : ""} onClick={() => setFilter(s)}>

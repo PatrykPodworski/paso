@@ -1,5 +1,6 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Panel } from "../design-system/Panel";
 import { foundations, visualQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import { skillStats } from "../data/progress";
@@ -18,7 +19,7 @@ export const SkillPractice = ({
   practice: Practice;
 }) => (
   <>
-    <div className="practice-hero panel">
+    <Panel className="practice-hero">
       <div>
         <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
         <h2>
@@ -42,14 +43,19 @@ export const SkillPractice = ({
         <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />
         <i>¡Tú puedes!</i>
       </div>
-    </div>
+    </Panel>
     <div className="practice-skill-grid">
       {skills
         .filter((s) => filter === "all" || filter === s.id)
         .map((s) => {
           const stats = skillStats(progress, s.id);
           return (
-            <button key={s.id} className="panel practice-skill-card" onClick={() => practice(s.id)}>
+            <Panel
+              as="button"
+              key={s.id}
+              className="practice-skill-card"
+              onClick={() => practice(s.id)}
+            >
               <span className={`skill-icon ${s.id}`}>
                 <Icon name={s.icon} size={24} />
               </span>
@@ -62,13 +68,13 @@ export const SkillPractice = ({
                   : `${stats.accuracy}% unassisted objective accuracy`}
               </span>
               <Icon name="arrow" size={19} />
-            </button>
+            </Panel>
           );
         })}
     </div>
     <div className="focused-practice">
-      <button
-        className="panel"
+      <Panel
+        as="button"
         onClick={() =>
           setSession({
             id: "pictures",
@@ -88,9 +94,9 @@ export const SkillPractice = ({
           <p>6 visual puzzles · cafés, trains & your neighborhood</p>
         </div>
         <Icon name="arrow" />
-      </button>
-      <button
-        className="panel"
+      </Panel>
+      <Panel
+        as="button"
         onClick={() =>
           setSession({
             id: "foundations",
@@ -110,9 +116,9 @@ export const SkillPractice = ({
           <p>24 checks · sounds, spelling, numbers & patterns</p>
         </div>
         <Icon name="arrow" />
-      </button>
-      <button
-        className="panel"
+      </Panel>
+      <Panel
+        as="button"
         onClick={() =>
           setSession({
             id: "form",
@@ -132,7 +138,7 @@ export const SkillPractice = ({
           <p>A personal form · 15–25 words · exam task 1</p>
         </div>
         <Icon name="arrow" />
-      </button>
+      </Panel>
     </div>
   </>
 );

@@ -1,4 +1,5 @@
 import { Button } from "../design-system/Button";
+import { Panel } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 import type { Lesson } from "../data/types";
 import { Icon } from "./Icon";
@@ -13,7 +14,7 @@ export const MistakesPanel = ({
   setSession: Session;
   practice: Practice;
 }) => (
-  <div className="panel mistakes-panel">
+  <Panel className="mistakes-panel">
     <span className="quick-icon peach">
       <Icon name="repeat" size={28} />
     </span>
@@ -61,5 +62,5 @@ export const MistakesPanel = ({
         </TextLink>
       </details>
     ))}
-  </div>
+  </Panel>
 );

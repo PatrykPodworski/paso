@@ -1,0 +1,24 @@
+import type { ReactNode } from "react";
+
+type Props = {
+  eyebrow: ReactNode;
+  title: ReactNode;
+  description: ReactNode;
+  /** Right-hand element: a badge, a stamp, a chip. */
+  children?: ReactNode;
+  /** Placement only. Never sizing or colour. */
+  className?: string;
+};
+
+export const PageHeading = ({ eyebrow, title, description, children, className = "" }: Props) => (
+  <div
+    className={`flex items-center justify-between gap-6 mb-[29px] max-tablet:gap-[15px] max-tablet:mb-6 ${className}`}
+  >
+    <div>
+      {eyebrow}
+      <h1 className="max-tablet:text-[30px] max-phone:text-[28px]">{title}</h1>
+      <p className="mt-[9px] text-[14px] text-[#75816b]">{description}</p>
+    </div>
+    {children}
+  </div>
+);

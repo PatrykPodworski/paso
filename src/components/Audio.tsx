@@ -67,24 +67,120 @@ export const playWord = async (text: string) => {
     }
   }
 };
-export const AudioButton = ({
-  ref: controlsRef,
+const UNAVAILABLE = "Audio is unavailable on this device. You can use the transcript in practice.";
+// Resolves true once a clip started, was cancelled or was blocked by the
+// browser, and false when every source failed so the caller can fall back to
+// the device voice.
+const playClips = async (
+  text: string,
+  speed: number,
+  playback: Playback,
+  events: {
+    cancelled: () => boolean;
+    onClip: (audio: HTMLAudioElement) => void;
+    onEnded: () => void;
+    onStarted: () => void;
+    onBlocked: () => void;
+  },
+) => {
+  for (const src of audioSources(text)) {
+    const audio = new Audio(src);
+    events.onClip(audio);
+    playback.audio = audio;
+    audio.playbackRate = speed;
+    audio.preservesPitch = true;
+    audio.onended = () => {
+      if (!events.cancelled()) {
+        events.onEnded();
+      }
+    };
+    audio.onpause = () => {
+      if (!events.cancelled()) {
+        playback.setPlaying(false);
+      }
+    };
+    try {
+      await audio.play();
+      if (events.cancelled()) {
+        audio.pause();
+        return true;
+      }
+      playback.resume = async () => {
+        await audio.play();
+        if (events.cancelled()) {
+          audio.pause();
+        }
+      };
+      events.onStarted();
+      return true;
+    } catch (error) {
+      if (events.cancelled()) {
+        return true;
+      }
+      if (error instanceof DOMException && error.name === "NotAllowedError") {
+        events.onBlocked();
+        return true;
+      }
+      // A missing upgraded clip can still use the original local recording.
+    }
+  }
+  return false;
+};
+const speakFallback = (
+  text: string,
+  speed: number,
+  playback: Playback,
+  events: {
+    cancelled: () => boolean;
+    onStarted: () => void;
+    onStatus: (message: string) => void;
+    onUnavailable: () => void;
+  },
+) => {
+  if (!("speechSynthesis" in window)) {
+    events.onUnavailable();
+    return;
+  }
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "es-ES";
+  utterance.rate = 0.85 * speed;
+  const voices = window.speechSynthesis.getVoices();
+  utterance.voice =
+    voices.find((v) => v.lang === "es-ES") || voices.find((v) => v.lang.startsWith("es")) || null;
+  utterance.onstart = () => {
+    if (!events.cancelled()) {
+      events.onStarted();
+    }
+  };
+  utterance.onend = () => {
+    if (!events.cancelled()) {
+      playback.setPlaying(false);
+    }
+  };
+  utterance.onerror = () => {
+    if (events.cancelled()) {
+      return;
+    }
+    playback.setPlaying(false);
+    events.onStatus(UNAVAILABLE);
+  };
+  events.onStatus("Using your device’s voice while the recording is unavailable.");
+  window.speechSynthesis.speak(utterance);
+};
+const useAudioPlayer = ({
+  controlsRef,
   text,
-  label = "Listen",
-  compact = false,
-  minimal = false,
-  autoPlay = false,
-  continuous = false,
+  minimal,
+  autoPlay,
+  continuous,
   limit,
   onPlayed,
 }: {
-  ref?: Ref<AudioHandle>;
+  controlsRef?: Ref<AudioHandle>;
   text: string;
-  label?: string;
-  compact?: boolean;
-  minimal?: boolean;
-  autoPlay?: boolean;
-  continuous?: boolean;
+  minimal: boolean;
+  autoPlay: boolean;
+  continuous: boolean;
   limit?: number;
   onPlayed?: () => void;
 }) => {
@@ -95,8 +191,6 @@ export const AudioButton = ({
   const ref = useRef<HTMLAudioElement | null>(null);
   const playbackRef = useRef<Playback | null>(null);
   const resumePlayback = useRef<(() => Promise<void>) | null>(null);
-  const iconOnly = compact || minimal;
-  const pauseLabel = minimal ? "Pause audio" : "Stop audio";
   useEffect(() => {
     // Take over a clip that is still running for the same text, so a passage
     // survives the move to the next question about it.
@@ -156,6 +250,15 @@ export const AudioButton = ({
     stopAudio();
     setError("");
     let cancelled = false;
+    const isCancelled = () => cancelled;
+    const clearResume = () => {
+      playback.resume = null;
+      resumePlayback.current = null;
+    };
+    const countPlay = () => {
+      setCount((c) => c + 1);
+      onPlayed?.();
+    };
     const playback: Playback = {
       text,
       audio: null,
@@ -163,8 +266,7 @@ export const AudioButton = ({
       setPlaying,
       cancel: () => {
         cancelled = true;
-        playback.resume = null;
-        resumePlayback.current = null;
+        clearResume();
         playback.audio?.pause();
         playback.setPlaying(false);
       },
@@ -172,85 +274,34 @@ export const AudioButton = ({
     activePlayback = playback;
     playbackRef.current = playback;
     setPlaying(true);
-    for (const src of audioSources(text)) {
-      const audio = new Audio(src);
-      ref.current = audio;
-      playback.audio = audio;
-      audio.playbackRate = speed;
-      audio.preservesPitch = true;
-      audio.onended = () => {
-        if (!cancelled) {
-          playback.resume = null;
-          resumePlayback.current = null;
-          playback.setPlaying(false);
-        }
-      };
-      audio.onpause = () => {
-        if (!cancelled) {
-          playback.setPlaying(false);
-        }
-      };
-      try {
-        await audio.play();
-        if (cancelled) {
-          audio.pause();
-          return;
-        }
-        playback.resume = async () => {
-          await audio.play();
-          if (cancelled) {
-            audio.pause();
-          }
-        };
-        resumePlayback.current = playback.resume;
-        setCount((c) => c + 1);
-        onPlayed?.();
-        return;
-      } catch (error) {
-        if (cancelled) {
-          return;
-        }
-        if (error instanceof DOMException && error.name === "NotAllowedError") {
-          setPlaying(false);
-          setError("Tap the play button to start the audio.");
-          return;
-        }
-        // A missing upgraded clip can still use the original local recording.
-      }
-    }
-    if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "es-ES";
-      utterance.rate = 0.85 * speed;
-      const voices = window.speechSynthesis.getVoices();
-      utterance.voice =
-        voices.find((v) => v.lang === "es-ES") ||
-        voices.find((v) => v.lang.startsWith("es")) ||
-        null;
-      utterance.onstart = () => {
-        if (cancelled) {
-          return;
-        }
-        setCount((c) => c + 1);
-        onPlayed?.();
-      };
-      utterance.onend = () => {
-        if (!cancelled) {
-          playback.setPlaying(false);
-        }
-      };
-      utterance.onerror = () => {
-        if (cancelled) {
-          return;
-        }
+    const started = await playClips(text, speed, playback, {
+      cancelled: isCancelled,
+      onClip: (audio) => {
+        ref.current = audio;
+      },
+      onEnded: () => {
+        clearResume();
         playback.setPlaying(false);
-        setError("Audio is unavailable on this device. You can use the transcript in practice.");
-      };
-      setError("Using your device’s voice while the recording is unavailable.");
-      window.speechSynthesis.speak(utterance);
-    } else {
-      setPlaying(false);
-      setError("Audio is unavailable on this device. You can use the transcript in practice.");
+      },
+      onStarted: () => {
+        resumePlayback.current = playback.resume;
+        countPlay();
+      },
+      onBlocked: () => {
+        setPlaying(false);
+        setError("Tap the play button to start the audio.");
+      },
+    });
+    if (!started) {
+      speakFallback(text, speed, playback, {
+        cancelled: isCancelled,
+        onStarted: countPlay,
+        onStatus: setError,
+        onUnavailable: () => {
+          setPlaying(false);
+          setError(UNAVAILABLE);
+        },
+      });
     }
   };
   useImperativeHandle(controlsRef, () => ({ play: () => void play(true), playing: () => playing }));
@@ -260,28 +311,88 @@ export const AudioButton = ({
       startAutomatically();
     }
   }, [autoPlay, text]);
+  return { playing, speed, setSpeed, count, error, play };
+};
+const PlayButton = ({
+  label,
+  iconOnly,
+  minimal,
+  playing,
+  disabled,
+  onClick,
+}: {
+  label: string;
+  iconOnly: boolean;
+  minimal: boolean;
+  playing: boolean;
+  disabled: boolean;
+  onClick: () => void;
+}) => {
+  const pauseLabel = minimal ? "Pause audio" : "Stop audio";
+  return (
+    <button
+      type="button"
+      className={iconOnly ? "icon-button" : "audio-play"}
+      onClick={onClick}
+      aria-label={playing ? pauseLabel : label}
+      title={playing ? pauseLabel : label}
+      disabled={disabled}
+    >
+      <Icon name={playing ? "pause" : minimal ? "play" : "volume"} size={iconOnly ? 18 : 22} />
+      {!iconOnly && (
+        <>
+          <span>{playing ? "Playing…" : label}</span>
+          <span className={`waveform ${playing ? "playing" : ""}`} aria-hidden="true">
+            {[9, 17, 26, 13, 21, 30, 17, 24, 10, 18, 27, 13].map((h, i) => (
+              <i key={i} style={{ height: h, animationDelay: `${i * 0.08}s` }} />
+            ))}
+          </span>
+        </>
+      )}
+    </button>
+  );
+};
+export const AudioButton = ({
+  ref: controlsRef,
+  text,
+  label = "Listen",
+  compact = false,
+  minimal = false,
+  autoPlay = false,
+  continuous = false,
+  limit,
+  onPlayed,
+}: {
+  ref?: Ref<AudioHandle>;
+  text: string;
+  label?: string;
+  compact?: boolean;
+  minimal?: boolean;
+  autoPlay?: boolean;
+  continuous?: boolean;
+  limit?: number;
+  onPlayed?: () => void;
+}) => {
+  const { playing, speed, setSpeed, count, error, play } = useAudioPlayer({
+    controlsRef,
+    text,
+    minimal,
+    autoPlay,
+    continuous,
+    limit,
+    onPlayed,
+  });
+  const iconOnly = compact || minimal;
   return (
     <div className={`audio-control ${iconOnly ? "compact" : ""}`}>
-      <button
-        type="button"
-        className={iconOnly ? "icon-button" : "audio-play"}
-        onClick={() => void play()}
-        aria-label={playing ? pauseLabel : label}
-        title={playing ? pauseLabel : label}
+      <PlayButton
+        label={label}
+        iconOnly={iconOnly}
+        minimal={minimal}
+        playing={playing}
         disabled={!!limit && count >= limit && !playing}
-      >
-        <Icon name={playing ? "pause" : minimal ? "play" : "volume"} size={iconOnly ? 18 : 22} />
-        {!iconOnly && (
-          <>
-            <span>{playing ? "Playing…" : label}</span>
-            <span className={`waveform ${playing ? "playing" : ""}`} aria-hidden="true">
-              {[9, 17, 26, 13, 21, 30, 17, 24, 10, 18, 27, 13].map((h, i) => (
-                <i key={i} style={{ height: h, animationDelay: `${i * 0.08}s` }} />
-              ))}
-            </span>
-          </>
-        )}
-      </button>
+        onClick={() => void play()}
+      />
       {!iconOnly && !limit && (
         <button
           type="button"

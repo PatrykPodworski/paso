@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
+import { Icon } from "../components/Icon";
+import { TextLink } from "./TextLink";
 import { PageHeading } from "./PageHeading";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
@@ -55,6 +57,24 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             {variant.toUpperCase()} <i>·</i> EYEBROW
           </Eyebrow>
         ))}
+      </div>
+    ),
+  },
+  {
+    id: "text-link",
+    name: "TextLink",
+    render: () => (
+      <div className="flex flex-wrap items-center gap-6">
+        <TextLink>Button</TextLink>
+        <TextLink>
+          With icon
+          <Icon name="arrow" size={16} />
+        </TextLink>
+        <TextLink disabled>Disabled</TextLink>
+        <TextLink href="#design-system">
+          Anchor
+          <Icon name="external" size={15} />
+        </TextLink>
       </div>
     ),
   },

@@ -1,5 +1,6 @@
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Badge } from "../design-system/Badge";
+import { SectionHeading } from "../design-system/SectionHeading";
 import { PageHeading } from "../design-system/PageHeading";
 import { useState } from "react";
 import type { Progress } from "../data/types";
@@ -59,9 +60,9 @@ export const Guide = ({
           </span>
         </div>
       </Panel>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Four skills. Two passing groups.</h2>
-      </div>
+      </SectionHeading>
       <Panel className="pt-[8px] px-[25px] pb-[17px] max-tablet:px-[12px] overflow-x-auto">
         <table className="w-full border-collapse text-[14px] max-desktop:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-phone:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-tablet:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-tablet:[&_td]:text-[13px] max-phone:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
           <thead>
@@ -209,7 +210,7 @@ export const Guide = ({
           </FieldNote>
         </Panel>
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <div>
           <h2>Your A1 readiness checklist</h2>
           <p>Self-assess these abilities as you work through the path.</p>
@@ -221,7 +222,7 @@ export const Guide = ({
           }
           /{requirementGroups.flatMap((g) => g.items).length} checked
         </Badge>
-      </div>
+      </SectionHeading>
       <Notice>
         <Icon name="info" />
         <p>
@@ -272,9 +273,9 @@ export const Guide = ({
           </Panel>
         ))}
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Before you walk through the door</h2>
-      </div>
+      </SectionHeading>
       <Panel className="grid grid-cols-[repeat(3,1fr)] max-laptop:grid-cols-[1fr] p-[27px] gap-[28px] max-laptop:gap-[20px] max-laptop:[&>div]:relative max-laptop:[&>div]:pl-[43px] [&>div>span]:font-(family-name:--serif) [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-laptop:[&>div>span]:absolute max-laptop:[&>div>span]:left-0 max-laptop:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
         <div>
           <span>01</span>
@@ -310,10 +311,10 @@ export const Guide = ({
           </p>
         </div>
       </Panel>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Go straight to the source</h2>
         <span className="subtle">Instituto Cervantes · Primary sources</span>
-      </div>
+      </SectionHeading>
       <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (
           <a

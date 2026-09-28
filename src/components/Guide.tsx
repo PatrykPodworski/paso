@@ -9,6 +9,7 @@ import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
 import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
+import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
 export const Guide = ({
   progress,
@@ -222,7 +223,7 @@ export const Guide = ({
           /{requirementGroups.flatMap((g) => g.items).length} checked
         </Badge>
       </SectionHeading>
-      <div className="notice">
+      <Notice>
         <Icon name="info" />
         <p>
           There is no official fixed word list or separate grammar test to memorize for a guaranteed
@@ -233,7 +234,7 @@ export const Guide = ({
           is the reference for exhaustive detail; A1 and A2 are separate columns. A checked box
           records your self-assessment.
         </p>
-      </div>
+      </Notice>
       <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[21px]">
         {requirementGroups.map((g) => (
           <Panel as="section" className="p-[25px] max-desktop:p-[23px]" key={g.title}>

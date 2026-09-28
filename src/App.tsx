@@ -23,6 +23,7 @@ import { JourneyArt, Stamp } from "./components/Art";
 import { AudioButton } from "./components/Audio";
 import { Dialog } from "./design-system/Dialog";
 import { Eyebrow } from "./design-system/Eyebrow";
+import { PageHeading } from "./design-system/PageHeading";
 import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
@@ -526,8 +527,9 @@ const App = () => {
           )}
           {page === "today" && (
             <>
-              <div className="page-heading dashboard-heading">
-                <div>
+              <PageHeading
+                className="dashboard-heading"
+                eyebrow={
                   <Eyebrow className="greeting mb-[9px]">
                     {new Date().getHours() < 12
                       ? "BUENOS DÍAS"
@@ -536,11 +538,10 @@ const App = () => {
                         : "BUENAS NOCHES"}{" "}
                     <span>✦</span>
                   </Eyebrow>
-                  <h1>
-                    {progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
-                  </h1>
-                  <p>Your next chapter starts with a small step.</p>
-                </div>
+                }
+                title={progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
+                description="Your next chapter starts with a small step."
+              >
                 <button className="date-chip" onClick={() => setSettings(true)}>
                   <Icon name="sun" size={17} />
                   {daysToExam === null
@@ -552,7 +553,7 @@ const App = () => {
                         : "Keep your Spanish growing"}
                   <Icon name="down" size={13} />
                 </button>
-              </div>
+              </PageHeading>
               <div className="dashboard-grid">
                 <div className="dashboard-primary">
                   <section className="hero-card">
@@ -777,19 +778,22 @@ const App = () => {
           )}
           {page === "path" && (
             <>
-              <div className="page-heading">
-                <div>
+              <PageHeading
+                eyebrow={
                   <Eyebrow variant="page" className="mb-[9px]">
                     FROM YOUR FIRST HOLA TO YOUR A1
                   </Eyebrow>
-                  <h1>Every step has a story.</h1>
-                  <p>
+                }
+                title="Every step has a story."
+                description={
+                  <>
                     {units.length} units · {allLessons.length} lessons · {allQuestions.length}{" "}
                     exercises. Explore freely, or follow the path.
-                  </p>
-                </div>
+                  </>
+                }
+              >
                 <Stamp />
-              </div>
+              </PageHeading>
               <Panel className="path-banner">
                 <span className={`unit-icon ${nextUnit.color}`}>
                   <Icon name={nextUnit.icon} size={28} />
@@ -890,19 +894,20 @@ const App = () => {
           )}
           {page === "practice" && (
             <>
-              <div className="page-heading">
-                <div>
+              <PageHeading
+                eyebrow={
                   <Eyebrow variant="page" className="mb-[9px]">
                     MORE PLAY. MORE PRACTICE. MORE YOU.
                   </Eyebrow>
-                  <h1>Your practice studio.</h1>
-                  <p>Follow your curiosity, or give a tricky word another chance.</p>
-                </div>
+                }
+                title="Your practice studio."
+                description="Follow your curiosity, or give a tricky word another chance."
+              >
                 <Badge className="max-tablet:hidden">
                   <Icon name="spark" size={16} />
                   {exerciseBank.length} exercises to explore
                 </Badge>
-              </div>
+              </PageHeading>
               <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
                 {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
                   <button

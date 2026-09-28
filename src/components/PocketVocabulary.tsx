@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
@@ -270,7 +271,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
   }, [now, nextAt]);
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
-      <div className="section-heading mt-[37px]! max-tablet:mt-[26px]! max-tablet:flex-col max-tablet:items-start! max-tablet:gap-[15px]! max-phone:gap-[12px]!">
+      <SectionHeading variant="word">
         <div>
           <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
           <h2 id="vocabulary-title" className="mt-[8px]">
@@ -284,7 +285,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
         >
           <Icon name="layers" size={28} />
         </span>
-      </div>
+      </SectionHeading>
       <div className="vocabulary-overview">
         <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-(--line) max-[651px]:grid-cols-[repeat(2,1fr)]">
           {[
@@ -374,12 +375,10 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
       </section>
       {words.length > 0 && (
         <div className="mt-[26px] [&_h3]:text-[17px]">
-          <div className="section-heading max-[651px]:flex-col max-[651px]:items-stretch! max-[651px]:gap-[16px]!">
+          <SectionHeading variant="collection">
             <div>
               <h3>Your flashcards</h3>
-              <p className="text-[13px]! leading-[1.6] text-[#59675d]! mt-[6px]!">
-                Every unlocked word, with its next review.
-              </p>
+              <p>Every unlocked word, with its next review.</p>
             </div>
             <label className="flex items-center gap-[8px] bg-[#fffefa] border border-(--line) rounded-[8px] pl-[11px] w-[210px] max-tablet:w-full text-[#a6ae97]">
               <Icon name="search" size={17} />
@@ -391,7 +390,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
                 className="border-0! outline-none! p-[10px_10px_10px_0]! bg-transparent! text-[14px]"
               />
             </label>
-          </div>
+          </SectionHeading>
           {filtered.length ? (
             <ul className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-(--line) rounded-[12px] bg-(--paper)">
               {filtered.map((w) => {

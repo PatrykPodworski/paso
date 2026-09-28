@@ -3,6 +3,7 @@ import { Icon } from "../components/Icon";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
+import { SectionHeading } from "./SectionHeading";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
 import { Panel, PanelHeading } from "./Panel";
@@ -103,6 +104,23 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           <Icon name="check" size={16} /> With icon
         </Badge>
         <Badge>3/12 checked</Badge>
+      </div>
+    ),
+  },
+  {
+    id: "section-heading",
+    name: "SectionHeading",
+    render: () => (
+      <div>
+        {(["default", "path", "word", "collection"] as const).map((variant) => (
+          <SectionHeading key={variant} variant={variant}>
+            <div>
+              {variant === "collection" ? <h3>Collection heading</h3> : <h2>{variant} heading</h2>}
+              <p>A short line of supporting text.</p>
+            </div>
+            <TextLink>Text link</TextLink>
+          </SectionHeading>
+        ))}
       </div>
     ),
   },

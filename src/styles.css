@@ -589,25 +589,6 @@ main {
   color: #a3a087;
   z-index: 2;
 }
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 28px 0 17px;
-}
-.section-heading h2 {
-  font-size: 25px;
-}
-.section-heading p {
-  font-size: 14px;
-  color: #8a9382;
-  margin-top: 5px;
-}
-.path-heading {
-  margin-top: 30px;
-  margin-bottom: 17px;
-}
 .path-overview {
   display: flex;
   align-items: center;
@@ -2878,9 +2859,6 @@ main {
   .lesson-row {
     gap: 9px;
   }
-  .section-heading h2 {
-    font-size: 22px;
-  }
   .quick-practice > button {
     padding: 15px 11px;
   }
@@ -3231,12 +3209,6 @@ main {
   }
   .hero-footnote {
     font-size: 9px;
-  }
-  .section-heading {
-    margin-top: 26px;
-  }
-  .section-heading h2 {
-    font-size: 25px;
   }
   .unit-summary {
     padding: 18px 17px;
@@ -3752,9 +3724,6 @@ main {
   .lesson-tip summary {
     font-size: 12px;
   }
-  .section-heading h2 {
-    font-size: 22px;
-  }
   .quick-practice {
     grid-template-columns: 1fr;
   }
@@ -4170,7 +4139,6 @@ main {
 .daily-goal > p,
 .phrase-card > div > span,
 .quick-practice small,
-.section-heading p,
 .question-footer > span,
 .lesson-tip,
 .subtle {
@@ -4338,12 +4306,6 @@ main {
   }
   .hero-caption {
     font-size: 10px;
-  }
-  .section-heading {
-    gap: 12px;
-  }
-  .section-heading h2 {
-    font-size: 23px;
   }
   .path-overview {
     font-size: 11px;

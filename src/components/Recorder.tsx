@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Icon";
+import { FieldNote } from "../design-system/FieldNote";
 export const Recorder = ({
   onRecorded,
   onStart,
@@ -126,9 +127,9 @@ export const Recorder = ({
           {String(seconds % 60).padStart(2, "0")}
         </span>
       </div>
-      <p className="field-note">
+      <FieldNote className="mt-[13px]">
         Recorded in this tab. Download to keep it; it is not uploaded or automatically graded.
-      </p>
+      </FieldNote>
       {url && (
         <div className="playback">
           <audio controls src={url} />

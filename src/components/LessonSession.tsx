@@ -5,6 +5,7 @@ import { Icon } from "./Icon";
 import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";
+import { FieldNote } from "../design-system/FieldNote";
 export const LessonSession = ({
   lesson,
   progress,
@@ -116,9 +117,7 @@ export const LessonSession = ({
               <span>moments to review</span>
             </div>
           </div>
-          {assisted > 0 && (
-            <p className="field-note">{assisted} answers used transcript assistance.</p>
-          )}
+          {assisted > 0 && <FieldNote>{assisted} answers used transcript assistance.</FieldNote>}
           <p>
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."

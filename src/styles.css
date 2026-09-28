@@ -199,14 +199,6 @@ svg {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.eyebrow {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.6px;
-  line-height: 1.6;
-  color: #818879;
-}
 .subtle {
   font-size: 14px;
   color: var(--muted);
@@ -549,10 +541,6 @@ main {
   gap: 24px;
   margin-bottom: 29px;
 }
-.page-heading > .eyebrow,
-.page-heading > div > .eyebrow {
-  margin-bottom: 9px;
-}
 .page-heading p {
   font-size: 14px;
   color: #8b9386;
@@ -689,11 +677,6 @@ main {
   margin-top: 30px;
   margin-bottom: 17px;
 }
-.path-heading .eyebrow {
-  font-size: 10px;
-  letter-spacing: 1.4px;
-  margin-bottom: 6px;
-}
 .path-overview {
   display: flex;
   align-items: center;
@@ -788,16 +771,6 @@ main {
 .unit-info {
   flex: 1;
   min-width: 0;
-}
-.unit-info .eyebrow {
-  font-size: 10px;
-  letter-spacing: 1px;
-  font-weight: 500;
-  color: #8c9980;
-}
-.unit-info .eyebrow > i {
-  font-style: normal;
-  padding: 0 5px;
 }
 .unit-info h3 {
   font-size: 16px;
@@ -1196,14 +1169,6 @@ main {
   border: 1px solid #eee1cd;
   border-radius: 12px;
 }
-.phrase-card > .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  color: #b19673;
-  letter-spacing: 1.1px;
-}
 .phrase-card h3 {
   font-family: var(--serif);
   font-style: italic;
@@ -1321,10 +1286,6 @@ main {
 }
 .path-banner > div {
   flex: 1;
-}
-.path-banner .eyebrow {
-  font-size: 11px;
-  margin-bottom: 7px;
 }
 .path-banner h3 {
   font-size: 17px;
@@ -1512,9 +1473,6 @@ main {
   width: 45px;
   height: 45px;
   margin-bottom: 17px;
-}
-.practice-skill-card .eyebrow {
-  font-size: 10px;
 }
 .practice-skill-card h3 {
   font-size: 18px;
@@ -2599,10 +2557,6 @@ main {
 .lesson-header > div {
   flex: 1;
 }
-.lesson-header .eyebrow {
-  font-size: 10px;
-  margin-bottom: 5px;
-}
 .lesson-header h3 {
   font-size: 15px;
 }
@@ -2996,10 +2950,6 @@ main {
   padding: 19px 20px;
   background: #f5f7ef;
   border-radius: 9px;
-}
-.self-checks > .eyebrow {
-  font-size: 11px;
-  margin-bottom: 13px;
 }
 .check-row {
   display: flex;
@@ -3441,9 +3391,6 @@ main {
   .unit-info p {
     font-size: 14px;
   }
-  .unit-info .eyebrow {
-    font-size: 11px;
-  }
   .lesson-row {
     padding: 11px 0;
   }
@@ -3603,9 +3550,6 @@ main {
   .lesson-row {
     gap: 9px;
   }
-  .path-heading .eyebrow {
-    font-size: 10px;
-  }
   .section-heading h2 {
     font-size: 22px;
   }
@@ -3756,9 +3700,6 @@ main {
   .unit-info p {
     font-size: 13px;
   }
-  .unit-info .eyebrow {
-    font-size: 11px;
-  }
   .unit-status > span {
     font-size: 12px;
   }
@@ -3823,7 +3764,6 @@ main {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .path-sidebar > .eyebrow,
   .path-sidebar > h3,
   .path-sidebar > .field-note {
     grid-column: 1/-1;
@@ -4020,9 +3960,6 @@ main {
   .page-heading > .outline-badge {
     display: none;
   }
-  .page-heading .eyebrow {
-    font-size: 11px;
-  }
   .dashboard-heading h1 {
     font-size: 29px;
   }
@@ -4056,9 +3993,6 @@ main {
   .section-heading {
     margin-top: 26px;
   }
-  .path-heading .eyebrow {
-    font-size: 10px;
-  }
   .section-heading h2 {
     font-size: 25px;
   }
@@ -4070,9 +4004,6 @@ main {
   }
   .unit-info p {
     font-size: 12px;
-  }
-  .unit-info .eyebrow {
-    font-size: 10px;
   }
   .unit-status > span {
     font-size: 11px;
@@ -4174,9 +4105,6 @@ main {
   }
   .path-stop .unit-status > span {
     display: none;
-  }
-  .path-stop .unit-info .eyebrow {
-    font-size: 10px;
   }
   .path-stop .unit-icon {
     width: 35px;
@@ -4430,9 +4358,6 @@ main {
   .lesson-header h3 {
     font-size: 14px;
   }
-  .lesson-header .eyebrow {
-    font-size: 10px;
-  }
   .lesson-counter {
     font-size: 12px;
   }
@@ -4675,9 +4600,6 @@ main {
   .unit-status > span {
     display: none;
   }
-  .unit-info .eyebrow {
-    font-size: 10px;
-  }
   .unit-info h3 {
     font-size: 16px;
   }
@@ -4706,9 +4628,6 @@ main {
   }
   .lesson-tip summary {
     font-size: 12px;
-  }
-  .path-heading .eyebrow {
-    font-size: 9px;
   }
   .section-heading h2 {
     font-size: 22px;
@@ -4754,9 +4673,6 @@ main {
   .path-banner h3 {
     font-size: 14px;
   }
-  .path-banner .eyebrow {
-    font-size: 10px;
-  }
   .path-banner .unit-icon {
     width: 34px;
     height: 37px;
@@ -4772,9 +4688,6 @@ main {
   }
   .path-stop .unit-info p {
     display: none;
-  }
-  .path-stop .unit-info .eyebrow {
-    font-size: 9px;
   }
   .path-stop .unit-icon {
     width: 31px;
@@ -5040,9 +4953,6 @@ main {
   .unit-info p {
     font-size: 12px;
   }
-  .unit-info .eyebrow {
-    font-size: 10px;
-  }
   .unit-status {
     font-size: 11px;
   }
@@ -5132,9 +5042,6 @@ main {
   }
   .phrase-card {
     padding: 24px;
-  }
-  .phrase-card > .eyebrow {
-    font-size: 9px;
   }
   .phrase-card h3 {
     font-size: 34px;
@@ -5299,9 +5206,6 @@ main {
   .unit-status > span {
     display: none;
   }
-  .unit-info .eyebrow {
-    font-size: 9px;
-  }
   .lesson-row strong {
     font-size: 13px;
   }
@@ -5378,10 +5282,6 @@ main {
   .section-heading .text-link {
     font-size: 11px;
   }
-  .path-heading .eyebrow {
-    font-size: 8px;
-    letter-spacing: 0.9px;
-  }
   .section-heading {
     gap: 12px;
   }
@@ -5394,10 +5294,6 @@ main {
   }
   .unit-info h3 {
     font-size: 17px;
-  }
-  .unit-info .eyebrow {
-    font-size: 9px;
-    line-height: 1.5;
   }
   .unit-info p {
     font-size: 11px;
@@ -5436,9 +5332,6 @@ main {
   }
   .path-stop .unit-info h3 {
     font-size: 15px;
-  }
-  .path-stop .unit-info .eyebrow {
-    font-size: 8px;
   }
   .path-stop .lesson-row strong {
     font-size: 12px;

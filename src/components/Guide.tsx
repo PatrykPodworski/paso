@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
@@ -16,7 +17,9 @@ export const Guide = ({
     <div className="guide-page">
       <div className="page-heading">
         <div>
-          <span className="eyebrow">THE BIG PICTURE, MADE SIMPLE</span>
+          <Eyebrow variant="page" className="mb-[9px]">
+            THE BIG PICTURE, MADE SIMPLE
+          </Eyebrow>
           <h1>Your guide to DELE A1.</h1>
           <p>Know what’s expected. Practise with a purpose.</p>
         </div>
@@ -26,7 +29,7 @@ export const Guide = ({
       </div>
       <div className="guide-overview panel">
         <div>
-          <span className="eyebrow">A1 · THE EVERYDAY ESSENTIALS</span>
+          <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
           <h2>
             You don’t need perfect Spanish.
             <br />
@@ -108,7 +111,7 @@ export const Guide = ({
       </div>
       <div className="guide-two-col">
         <div className="panel pass-simulator">
-          <span className="eyebrow">TRY THE PASSING RULE</span>
+          <Eyebrow>TRY THE PASSING RULE</Eyebrow>
           <h3>Does this score pass?</h3>
           <p>Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.</p>
           {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
@@ -148,7 +151,7 @@ export const Guide = ({
           </a>
         </div>
         <div className="panel examiner-notes">
-          <span className="eyebrow">WHAT THE EXAMINER LOOKS FOR</span>
+          <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3>Be clear. Cover the task.</h3>
           <div>
             <Icon name="pen" />

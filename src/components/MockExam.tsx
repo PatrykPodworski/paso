@@ -335,19 +335,11 @@ export const MockExam = ({
             )}
           </div>
           <div className="button-row">
-            <Button
-              variant="secondary"
-              className="[@media(max-width:760px)]:w-full"
-              onClick={download}
-            >
+            <Button variant="secondary" className="max-tablet:w-full" onClick={download}>
               <Icon name="download" />
               Export responses for review
             </Button>
-            <Button
-              variant="primary"
-              className="[@media(max-width:760px)]:w-full"
-              onClick={() => setRun(fresh())}
-            >
+            <Button variant="primary" className="max-tablet:w-full" onClick={() => setRun(fresh())}>
               Return to exam overview
               <Icon name="arrow" />
             </Button>
@@ -541,7 +533,7 @@ export const MockExam = ({
                 <Button
                   variant="secondary"
                   size="small"
-                  className="[@media(max-width:760px)]:w-full"
+                  className="max-tablet:w-full"
                   onClick={() => setConfirm(true)}
                 >
                   Finish section

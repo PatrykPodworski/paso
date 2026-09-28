@@ -205,7 +205,7 @@ const Settings = ({
         <Button
           variant="secondary"
           size="compact"
-          className="[@media(max-width:760px)]:w-full"
+          className="max-tablet:w-full"
           onClick={exportProgress}
         >
           <Icon name="download" size={17} />
@@ -214,7 +214,7 @@ const Settings = ({
         <Button
           variant="primary"
           size="compact"
-          className="[@media(max-width:760px)]:w-full"
+          className="max-tablet:w-full"
           onClick={() => {
             onSave({ name: name.trim(), goal, examDate: date });
             onClose();
@@ -559,7 +559,7 @@ const App = () => {
                       <Button
                         variant="primary"
                         size="compact"
-                        className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]"
+                        className="max-phone:mt-[4px] max-phone:relative max-phone:z-[3]"
                         onClick={() => setSession(nextLesson)}
                       >
                         {completed ? "Continue my journey" : "Let’s take the first step"}
@@ -787,7 +787,7 @@ const App = () => {
                 </div>
                 <Button
                   variant="primary"
-                  className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]"
+                  className="tablet:max-laptop:ml-[65px]"
                   onClick={() => setSession(nextLesson)}
                 >
                   Continue learning
@@ -826,7 +826,7 @@ const App = () => {
                     <Button
                       variant="primary"
                       size="small"
-                      className="[@media(min-width:761px)]:ml-auto"
+                      className="tablet:ml-auto"
                       onClick={() => navigate("exam")}
                     >
                       Meet the exam

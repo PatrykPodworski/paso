@@ -16,6 +16,11 @@
   --color-paper: #fffefa;
   --color-line: #e5e8df;
   --color-muted: #7d867f;
+  --breakpoint-*: initial;
+  --breakpoint-phone: 431px;
+  --breakpoint-tablet: 761px;
+  --breakpoint-laptop: 1051px;
+  --breakpoint-desktop: 1241px;
 }
 :root {
   font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;

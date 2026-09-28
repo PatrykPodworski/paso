@@ -337,7 +337,7 @@ export const MockExam = ({
           <div className="button-row">
             <Button
               variant="secondary"
-              className="[@media(max-width:760px)]:w-full"
+              className="max-tablet:w-full"
               onClick={download}
             >
               <Icon name="download" />
@@ -345,7 +345,7 @@ export const MockExam = ({
             </Button>
             <Button
               variant="primary"
-              className="[@media(max-width:760px)]:w-full"
+              className="max-tablet:w-full"
               onClick={() => setRun(fresh())}
             >
               Return to exam overview
@@ -541,7 +541,7 @@ export const MockExam = ({
                 <Button
                   variant="secondary"
                   size="small"
-                  className="[@media(max-width:760px)]:w-full"
+                  className="max-tablet:w-full"
                   onClick={() => setConfirm(true)}
                 >
                   Finish section

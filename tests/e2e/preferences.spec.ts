@@ -73,7 +73,10 @@ test("navigation, deep links, unknown routes and modal keyboard focus work", asy
   const open = page.getByRole("button", { name: "Open your learning preferences" });
   await open.click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  const overflow = () => page.evaluate(() => getComputedStyle(document.body).overflow);
+  expect(await overflow(), "page does not scroll behind an open dialog").toBe("hidden");
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect(open).toBeFocused();
+  expect(await overflow()).toBe("visible");
 });

@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
@@ -147,7 +148,9 @@ export const MockExam = ({
     <div className="mock-page">
       <div className="page-heading">
         <div>
-          <span className="eyebrow">A CALM DRESS REHEARSAL</span>
+          <Eyebrow variant="page" className="mb-[9px]">
+            A CALM DRESS REHEARSAL
+          </Eyebrow>
           <h1>Meet the exam.</h1>
           <p>Familiar tasks. A little focus. A more confident you.</p>
         </div>
@@ -196,7 +199,7 @@ const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: () => v
         <span>DELE A1</span>
       </div>
       <div>
-        <span className="eyebrow">YOUR FIRST FULL REHEARSAL</span>
+        <Eyebrow>YOUR FIRST FULL REHEARSAL</Eyebrow>
         <h2>
           One exam. Four ways
           <br />
@@ -302,7 +305,7 @@ const MockResults = ({
       <div className="completion-art">
         <Icon name="trophy" size={48} />
       </div>
-      <span className="eyebrow">REHEARSAL COMPLETE</span>
+      <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
       <h2>You’ve met the exam.</h2>
       <p>Now you know where your next steps can take you.</p>
       <div className="result-score-grid">
@@ -382,15 +385,11 @@ const MockResults = ({
         )}
       </div>
       <div className="button-row">
-        <Button
-          variant="secondary"
-          className="[@media(max-width:760px)]:w-full"
-          onClick={onDownload}
-        >
+        <Button variant="secondary" className="max-tablet:w-full" onClick={onDownload}>
           <Icon name="download" />
           Export responses for review
         </Button>
-        <Button variant="primary" className="[@media(max-width:760px)]:w-full" onClick={onReset}>
+        <Button variant="primary" className="max-tablet:w-full" onClick={onReset}>
           Return to exam overview
           <Icon name="arrow" />
         </Button>
@@ -435,7 +434,7 @@ const OralPrep = ({
   setNow: (now: number) => void;
 }) => (
   <div className="panel oral-prep">
-    <span className="eyebrow">10 MINUTES TO PREPARE</span>
+    <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
     <h2>A moment to find your words.</h2>
     <p>
       Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather than
@@ -480,7 +479,7 @@ const SectionReview = ({
   const section = mockSections[run.section];
   return (
     <div className="panel section-review">
-      <span className="eyebrow">{section.title.toUpperCase()} · SECTION REVIEW</span>
+      <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
       <h2>
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
       </h2>
@@ -615,7 +614,7 @@ const ExamRunning = ({
         <Button
           variant="secondary"
           size="small"
-          className="[@media(max-width:760px)]:w-full"
+          className="max-tablet:w-full"
           onClick={() => setConfirm(true)}
         >
           Finish section

@@ -261,7 +261,6 @@ const Settings = ({
   );
 };
 const App = () => {
-  // Temporary: an edit inside App to check React Doctor does not re-flag it (#132).
   const [progress, setProgress] = useState<Progress>(readProgress);
   const [page, setPage] = useState<Page>(pageFromHash);
   const [session, setSession] = useState<Lesson | null>(null);

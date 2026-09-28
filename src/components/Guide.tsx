@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { PageHeading } from "../design-system/PageHeading";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
@@ -15,18 +16,19 @@ export const Guide = ({
   const groups = passingGroups(scores[0], scores[1], scores[2], scores[3]);
   return (
     <div className="guide-page">
-      <div className="page-heading">
-        <div>
+      <PageHeading
+        eyebrow={
           <Eyebrow variant="page" className="mb-[9px]">
             THE BIG PICTURE, MADE SIMPLE
           </Eyebrow>
-          <h1>Your guide to DELE A1.</h1>
-          <p>Know what’s expected. Practise with a purpose.</p>
-        </div>
-        <span className="outline-badge">
+        }
+        title="Your guide to DELE A1."
+        description="Know what’s expected. Practise with a purpose."
+      >
+        <span className="outline-badge max-tablet:hidden!">
           <Icon name="check" size={16} /> Researched 7 Sep 2026
         </span>
-      </div>
+      </PageHeading>
       <div className="guide-overview panel">
         <div>
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>

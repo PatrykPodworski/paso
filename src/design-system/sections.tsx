@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
+import { PageHeading } from "./PageHeading";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
@@ -54,6 +55,34 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             {variant.toUpperCase()} <i>·</i> EYEBROW
           </Eyebrow>
         ))}
+      </div>
+    ),
+  },
+  {
+    id: "page-heading",
+    name: "PageHeading",
+    render: () => (
+      <div className="flex flex-col">
+        <PageHeading
+          eyebrow={
+            <Eyebrow variant="page" className="mb-[9px]">
+              PAGE <i>·</i> EYEBROW
+            </Eyebrow>
+          }
+          title="Page heading with an aside."
+          description="The aside sits on the right."
+        >
+          <span className="outline-badge max-tablet:hidden!">Aside badge</span>
+        </PageHeading>
+        <PageHeading
+          eyebrow={
+            <Eyebrow variant="page" className="mb-[9px]">
+              PAGE <i>·</i> EYEBROW
+            </Eyebrow>
+          }
+          title="Page heading without an aside."
+          description="Title and description only."
+        />
       </div>
     ),
   },

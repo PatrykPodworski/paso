@@ -1,6 +1,8 @@
+import { createRef } from "react";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AudioButton, stopAudio } from "../components/Audio";
+import { AudioButton, playWord, stopAudio } from "../components/Audio";
+import type { AudioHandle } from "../components/Audio";
 
 vi.mock("../data/audio-sources", () => ({
   audioSources: () => ["/audio/elevenlabs/test.mp3", "/audio/original.m4a"],
@@ -13,6 +15,7 @@ class MockAudio {
   paused = true;
   onended: (() => void) | null = null;
   onpause: (() => void) | null = null;
+  onerror: (() => void) | null = null;
   play = vi.fn(async () => {
     this.paused = false;
   });
@@ -224,6 +227,16 @@ describe("audio cancellation and device fallback", () => {
     expect(clips[1].pause).not.toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
   });
+  it("ignores the late end of a stopped clip while the replay is playing", async () => {
+    render(<AudioButton text="Hola." />);
+    fireEvent.click(screen.getByRole("button", { name: "Listen" }));
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Stop audio" }));
+    fireEvent.click(screen.getByRole("button", { name: "Listen" }));
+    await waitFor(() => expect(clips[1]?.play).toHaveBeenCalledOnce());
+    act(() => clips[0].onended?.());
+    expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
+  });
   const fallback = (voices: { lang: string; name: string }[] = []) => {
     vi.stubGlobal(
       "Audio",
@@ -327,5 +340,196 @@ describe("audio cancellation and device fallback", () => {
     expect(played).not.toHaveBeenCalled();
     expect(screen.getByText("0/2 plays")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Listen" })).toBeEnabled();
+  });
+});
+
+describe("word playback", () => {
+  it.each(["onended", "onpause", "onerror"] as const)(
+    "resolves a tapped word only once its clip fires %s",
+    async (event) => {
+      let done = false;
+      const spoken = playWord("hola").then(() => {
+        done = true;
+      });
+      await act(async () => {});
+      expect(clips[0].play).toHaveBeenCalledOnce();
+      expect(done).toBe(false);
+      clips[0][event]?.();
+      await spoken;
+      expect(done).toBe(true);
+      expect(clips).toHaveLength(1);
+    },
+  );
+  it("reads the original recording when the upgraded word clip is missing", async () => {
+    nextPlay = async () => {
+      throw new Error("Missing upgraded clip");
+    };
+    const spoken = playWord("hola");
+    await waitFor(() => expect(clips).toHaveLength(2));
+    expect(clips.map((clip) => clip.src)).toEqual([
+      "/audio/elevenlabs/test.mp3",
+      "/audio/original.m4a",
+    ]);
+    clips[1].onended?.();
+    await expect(spoken).resolves.toBeUndefined();
+  });
+  it("stays silent without a device voice when no word recording plays", async () => {
+    vi.stubGlobal(
+      "Audio",
+      class extends MockAudio {
+        play = vi.fn(async () => {
+          throw new Error("offline");
+        });
+        constructor(src: string) {
+          super(src);
+          clips.push(this);
+        }
+      },
+    );
+    const synth = { cancel: vi.fn(), getVoices: () => [], speak: vi.fn() };
+    vi.stubGlobal("speechSynthesis", synth);
+    await expect(playWord("hola")).resolves.toBeUndefined();
+    expect(clips).toHaveLength(2);
+    expect(synth.speak).not.toHaveBeenCalled();
+  });
+  it("keeps a word silent when it is stopped before its clip starts", async () => {
+    let start!: () => void;
+    nextPlay = () =>
+      new Promise<void>((resolve) => {
+        start = () => {
+          clips[0].paused = false;
+          resolve();
+        };
+      });
+    const spoken = playWord("hola");
+    stopAudio();
+    start();
+    await expect(spoken).resolves.toBeUndefined();
+    expect(clips[0].paused).toBe(true);
+  });
+  it("does not try the next recording for a word stopped while it loads", async () => {
+    let fail!: (error: Error) => void;
+    nextPlay = () =>
+      new Promise<void>((_resolve, reject) => {
+        fail = reject;
+      });
+    const spoken = playWord("hola");
+    stopAudio();
+    fail(new Error("Playback interrupted"));
+    await expect(spoken).resolves.toBeUndefined();
+    expect(clips).toHaveLength(1);
+  });
+  it("stops the previous word when the next one is tapped", async () => {
+    const first = playWord("uno");
+    const second = playWord("dos");
+    await expect(first).resolves.toBeUndefined();
+    expect(clips[0].paused).toBe(true);
+    expect(clips[1].pause).not.toHaveBeenCalled();
+    clips[1].onended?.();
+    await expect(second).resolves.toBeUndefined();
+  });
+  it("stops a playing player when a word is tapped", async () => {
+    render(<AudioButton text="Hola." />);
+    fireEvent.click(screen.getByRole("button", { name: "Listen" }));
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    act(() => void playWord("hola"));
+    expect(clips[0].paused).toBe(true);
+    expect(clips[1].play).toHaveBeenCalledOnce();
+    expect(screen.getByRole("button", { name: "Listen" })).toBeInTheDocument();
+  });
+});
+
+describe("player controls", () => {
+  it("shows the full player's playing state and speed until the clip ends", async () => {
+    const { container } = render(<AudioButton text="Hola." />);
+    const play = screen.getByRole("button", { name: "Listen" });
+    expect(play).toHaveAttribute("title", "Listen");
+    expect(play).toHaveTextContent("Listen");
+    expect(container.querySelector(".waveform")).not.toHaveClass("playing");
+    fireEvent.click(play);
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    expect(play).toHaveAccessibleName("Stop audio");
+    expect(play).toHaveAttribute("title", "Stop audio");
+    expect(play).toHaveTextContent("Playing…");
+    expect(container.querySelector(".waveform")).toHaveClass("playing");
+    const speed = screen.getByRole("button", { name: "Audio speed 1 times. Click to change" });
+    expect(speed).toHaveTextContent("1×");
+    fireEvent.click(speed);
+    expect(speed).toHaveAccessibleName("Audio speed 0.75 times. Click to change");
+    expect(speed).toHaveTextContent("0.75×");
+    act(() => clips[0].onended?.());
+    expect(play).toHaveAccessibleName("Listen");
+    expect(play).toHaveTextContent("Listen");
+  });
+  it.each([
+    [{ compact: true }, "Stop audio"],
+    [{ minimal: true }, "Pause audio"],
+  ])("shows an icon-only player for %j that offers %s while playing", async (props, pause) => {
+    render(<AudioButton text="Hola." label="Play Hola" {...props} />);
+    const play = screen.getByRole("button", { name: "Play Hola" });
+    expect(screen.getAllByRole("button")).toHaveLength(1);
+    expect(play.textContent).toBe("");
+    expect(play).toHaveAttribute("title", "Play Hola");
+    fireEvent.click(play);
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    expect(play).toHaveAccessibleName(pause);
+    expect(play).toHaveAttribute("title", pause);
+  });
+  it("shows the exam play count instead of a speed control", () => {
+    render(<AudioButton text="Hola." limit={2} />);
+    expect(screen.getByText("0/2 plays")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Audio speed/ })).not.toBeInTheDocument();
+  });
+});
+
+describe("resuming and replay limits", () => {
+  it("asks for a tap when resuming a paused clip is blocked, then resumes on the tap", async () => {
+    render(<AudioButton text="Hola." label="Play Hola" minimal />);
+    fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    clips[0].play.mockRejectedValueOnce(new DOMException("Blocked", "NotAllowedError"));
+    fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
+    await screen.findByText("Tap the play button to start the audio.");
+    fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(3));
+    expect(clips).toHaveLength(1);
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+  it("keeps a clip paused when it is stopped while resuming", async () => {
+    render(<AudioButton text="Hola." label="Play Hola" minimal />);
+    fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    let start!: () => void;
+    clips[0].play.mockImplementationOnce(
+      () =>
+        new Promise<void>((resolve) => {
+          start = () => {
+            clips[0].paused = false;
+            resolve();
+          };
+        }),
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
+    act(stopAudio);
+    await act(async () => start());
+    expect(clips[0].paused).toBe(true);
+    expect(screen.getByRole("button", { name: "Play Hola" })).toBeInTheDocument();
+  });
+  it("refuses a replay request once the plays are used up", async () => {
+    const ref = createRef<AudioHandle>();
+    const played = vi.fn();
+    render(<AudioButton ref={ref} text="Hola." limit={1} onPlayed={played} />);
+    act(() => ref.current!.play());
+    await waitFor(() => expect(played).toHaveBeenCalledOnce());
+    expect(ref.current!.playing()).toBe(true);
+    act(() => clips[0].onended?.());
+    expect(ref.current!.playing()).toBe(false);
+    await act(async () => ref.current!.play());
+    expect(clips).toHaveLength(1);
+    expect(played).toHaveBeenCalledOnce();
+    expect(screen.getByText("1/1 plays")).toBeInTheDocument();
   });
 });

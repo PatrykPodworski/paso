@@ -53,4 +53,4 @@ not a queue; only the rows with an issue are scheduled.
 | Badge          | `.outline-badge`                                   |          4 | —                                                                                                                  |
 | ProgressTrack  | `.progress-track`                                  |          2 | —                                                                                                                  |
 | Icon           | none; moved from `src/components/`                 |          — | [#92](https://github.com/PatrykPodworski/paso/issues/92)                                                           |
-| Dialog         | already `src/components/Dialog.tsx`                |          — | move only                                                                                                          |
+| Dialog         | `.dialog`                                          |          — | [#93](https://github.com/PatrykPodworski/paso/issues/93); no gallery: `showModal()` on mount covers the page       |

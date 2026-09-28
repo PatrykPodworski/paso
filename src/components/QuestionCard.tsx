@@ -446,7 +446,7 @@ export const QuestionCard = ({
             <Button
               type="button"
               variant="primary"
-              className="whitespace-nowrap [@media(max-width:760px)]:w-full"
+              className="whitespace-nowrap max-tablet:w-full"
               onClick={() => submit()}
               disabled={!canSubmit}
             >
@@ -533,7 +533,7 @@ export const QuestionCard = ({
                 type="button"
                 variant="secondary"
                 size="compact"
-                className="[@media(max-width:760px)]:ml-auto"
+                className="max-tablet:ml-auto"
                 onClick={() => {
                   stopAudio();
                   setFeedback(false);
@@ -546,7 +546,7 @@ export const QuestionCard = ({
               type="button"
               variant="primary"
               size="compact"
-              className="[@media(max-width:760px)]:ml-auto"
+              className="max-tablet:ml-auto"
               autoFocus
               onClick={() => onSubmit(submission, correct, assisted)}
             >

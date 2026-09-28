@@ -29,6 +29,7 @@ import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
 import { FieldNote } from "./design-system/FieldNote";
 import { Panel, PanelHeading } from "./design-system/Panel";
+import { Notice } from "./design-system/Notice";
 import { TextLink } from "./design-system/TextLink";
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
@@ -519,10 +520,10 @@ const App = () => {
         </header>
         <main id="main-content" tabIndex={-1}>
           {storageError && (
-            <p className="notice" role="status">
+            <Notice as="p" role="status">
               Browser storage is unavailable. Progress is kept for this visit; use Export progress
               in preferences to save a copy.
-            </p>
+            </Notice>
           )}
           {page === "today" && (
             <>

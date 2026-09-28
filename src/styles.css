@@ -190,26 +190,6 @@ svg {
   font-size: 14px;
   color: var(--muted);
 }
-.notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 17px 20px;
-  background: #f4efdf;
-  border: 1px solid #e9e0c7;
-  border-radius: 9px;
-  margin: 18px 0;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.notice > svg {
-  margin-top: 2px;
-  width: 18px;
-}
-.notice.positive {
-  background: #edf3e5;
-  border-color: #dbe6d1;
-}
 .app-shell {
   min-height: 100vh;
 }
@@ -4117,11 +4097,6 @@ main {
   }
   .exam-day p {
     font-size: 14px;
-  }
-  .notice {
-    padding: 16px;
-    font-size: 14px;
-    gap: 9px;
   }
   .source-card strong {
     font-size: 14px;

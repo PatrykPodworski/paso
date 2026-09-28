@@ -6,6 +6,7 @@ import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
 import { stopAudio } from "./Audio";
+import { TextLink } from "../design-system/TextLink";
 interface Run {
   section: number;
   index: number;
@@ -507,8 +508,7 @@ export const MockExam = ({
                 }}
               />
               <div className="exam-navigation">
-                <button
-                  className="text-link"
+                <TextLink
                   disabled={run.index === 0}
                   onClick={() => {
                     stopAudio();
@@ -516,9 +516,8 @@ export const MockExam = ({
                   }}
                 >
                   ← Previous question
-                </button>
-                <button
-                  className="text-link"
+                </TextLink>
+                <TextLink
                   onClick={() => {
                     stopAudio();
                     if (run.index === section.questions.length - 1) {
@@ -529,7 +528,7 @@ export const MockExam = ({
                   }}
                 >
                   Skip for now →
-                </button>
+                </TextLink>
                 <Button
                   variant="secondary"
                   size="small"

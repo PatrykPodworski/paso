@@ -1,5 +1,6 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Panel } from "../design-system/Panel";
 import { mockSections } from "../data/mock";
 import { Icon } from "./Icon";
 import type { Run, SetRun } from "./useMockRun";
@@ -12,7 +13,7 @@ export const OralPrep = ({
   setRun: SetRun;
   setNow: (now: number) => void;
 }) => (
-  <div className="panel oral-prep">
+  <Panel className="oral-prep">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
     <h2>A moment to find your words.</h2>
     <p>
@@ -44,5 +45,5 @@ export const OralPrep = ({
       I’m ready · start speaking
       <Icon name="mic" />
     </Button>
-  </div>
+  </Panel>
 );

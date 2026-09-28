@@ -1,9 +1,12 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Badge } from "../design-system/Badge";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
+import { FieldNote } from "../design-system/FieldNote";
+import { Panel } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 export const Guide = ({
   progress,
@@ -24,11 +27,11 @@ export const Guide = ({
           <h1>Your guide to DELE A1.</h1>
           <p>Know what’s expected. Practise with a purpose.</p>
         </div>
-        <span className="outline-badge">
+        <Badge className="max-tablet:hidden">
           <Icon name="check" size={16} /> Researched 7 Sep 2026
-        </span>
+        </Badge>
       </div>
-      <div className="guide-overview panel">
+      <Panel className="guide-overview">
         <div>
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
           <h2>
@@ -49,11 +52,11 @@ export const Guide = ({
         <div className="a1-emblem">
           A1<span>UN PEQUEÑO GRAN PASO</span>
         </div>
-      </div>
+      </Panel>
       <div className="section-heading">
         <h2>Four skills. Two passing groups.</h2>
       </div>
-      <div className="panel exam-table-wrap">
+      <Panel className="exam-table-wrap">
         <table className="exam-table">
           <thead>
             <tr>
@@ -102,16 +105,16 @@ export const Guide = ({
             </tr>
           </tbody>
         </table>
-        <p className="field-note">
+        <FieldNote className="mt-[15px]">
           Administration order is reading, listening, writing, then the oral appointment as arranged
           by your centre. Older A1 guides have different timings.{" "}
           <a href={sources[0].url} target="_blank" rel="noreferrer">
             Official structure ↗
           </a>
-        </p>
-      </div>
+        </FieldNote>
+      </Panel>
       <div className="guide-two-col">
-        <div className="panel pass-simulator">
+        <Panel className="pass-simulator">
           <Eyebrow>TRY THE PASSING RULE</Eyebrow>
           <h3>Does this score pass?</h3>
           <p>Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.</p>
@@ -150,8 +153,8 @@ export const Guide = ({
             Official scoring rules
             <Icon name="external" size={14} />
           </TextLink>
-        </div>
-        <div className="panel examiner-notes">
+        </Panel>
+        <Panel className="examiner-notes">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3>Be clear. Cover the task.</h3>
           <div>
@@ -185,27 +188,27 @@ export const Guide = ({
               </p>
             </section>
           </div>
-          <p className="field-note">
+          <FieldNote className="border-t border-t-line pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
             <a href={sources[0].url} target="_blank" rel="noreferrer">
               Assessment scales ↗
             </a>
-          </p>
-        </div>
+          </FieldNote>
+        </Panel>
       </div>
       <div className="section-heading">
         <div>
           <h2>Your A1 readiness checklist</h2>
           <p>Self-assess these abilities as you work through the path.</p>
         </div>
-        <span className="outline-badge">
+        <Badge>
           {
             requirementGroups.flatMap((g) => g.items).filter(([id]) => progress.checks.includes(id))
               .length
           }
           /{requirementGroups.flatMap((g) => g.items).length} checked
-        </span>
+        </Badge>
       </div>
       <div className="notice">
         <Icon name="info" />
@@ -221,7 +224,7 @@ export const Guide = ({
       </div>
       <div className="requirement-grid">
         {requirementGroups.map((g) => (
-          <section className="panel requirement-group" key={g.title}>
+          <Panel as="section" className="requirement-group" key={g.title}>
             <h3>
               <Icon name={g.icon} />
               {g.title}
@@ -248,13 +251,13 @@ export const Guide = ({
               Official reference
               <Icon name="external" size={14} />
             </TextLink>
-          </section>
+          </Panel>
         ))}
       </div>
       <div className="section-heading">
         <h2>Before you walk through the door</h2>
       </div>
-      <div className="panel exam-day">
+      <Panel className="exam-day">
         <div>
           <span>01</span>
           <h3>Book the right exam</h3>
@@ -288,7 +291,7 @@ export const Guide = ({
             and your centre’s current instructions.
           </p>
         </div>
-      </div>
+      </Panel>
       <div className="section-heading">
         <h2>Go straight to the source</h2>
         <span className="subtle">Instituto Cervantes · Primary sources</span>

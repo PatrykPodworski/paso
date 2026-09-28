@@ -1,5 +1,6 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Panel } from "../design-system/Panel";
 import { mockSections } from "../data/mock";
 import { AnswerReview } from "./AnswerReview";
 import { Icon } from "./Icon";
@@ -15,7 +16,7 @@ export const SectionReview = ({
 }) => {
   const section = mockSections[run.section];
   return (
-    <div className="panel section-review">
+    <Panel className="section-review">
       <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
       <h2>
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
@@ -46,6 +47,6 @@ export const SectionReview = ({
           />
         ))}
       </div>
-    </div>
+    </Panel>
   );
 };

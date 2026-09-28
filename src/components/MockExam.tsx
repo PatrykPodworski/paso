@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Badge } from "../design-system/Badge";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
@@ -43,9 +44,9 @@ export const MockExam = ({
           <h1>Meet the exam.</h1>
           <p>Familiar tasks. A little focus. A more confident you.</p>
         </div>
-        <span className="outline-badge">
+        <Badge className="max-tablet:hidden">
           <Icon name="clock" size={16} /> Official section timings
-        </span>
+        </Badge>
       </div>
       {storageError && (
         <p className="notice" role="status">

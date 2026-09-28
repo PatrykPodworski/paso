@@ -1,3 +1,4 @@
+import { Panel } from "../design-system/Panel";
 import { Button } from "../design-system/Button";
 import { TextLink } from "../design-system/TextLink";
 import { mockSections } from "../data/mock";
@@ -20,7 +21,7 @@ export const ExamRunning = ({
   const section = mockSections[run.section];
   const q = section.questions[run.index];
   return (
-    <div className="panel exam-running">
+    <Panel className="exam-running">
       <div className="exam-question-nav">
         <span>{q.task}</span>
         <strong>
@@ -93,6 +94,6 @@ export const ExamRunning = ({
           </div>
         </div>
       )}
-    </div>
+    </Panel>
   );
 };

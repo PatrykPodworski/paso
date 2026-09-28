@@ -1,11 +1,12 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Panel } from "../design-system/Panel";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: () => void }) => (
   <>
-    <div className="mock-intro panel">
+    <Panel className="mock-intro">
       <div className="mock-intro-art">
         <Icon name="flag" size={70} />
         <span>DELE A1</span>
@@ -35,10 +36,10 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
           <Icon name="arrow" />
         </Button>
       </div>
-    </div>
+    </Panel>
     <div className="exam-section-grid">
       {mockSections.map((s, i) => (
-        <article className="panel" key={s.title}>
+        <Panel as="article" key={s.title}>
           <div className={`skill-icon ${s.title.toLowerCase()}`}>
             <Icon name={["book", "headphones", "pen", "mic"][i]} />
           </div>
@@ -48,7 +49,7 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
           <span>
             {s.questions.length} {i < 2 ? "questions · 4 tasks" : "tasks"}
           </span>
-        </article>
+        </Panel>
       ))}
     </div>
     <div className="notice">
@@ -68,7 +69,7 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
       </p>
     </div>
     {progress.mockResults.length > 0 && (
-      <div className="panel previous-exams">
+      <Panel className="previous-exams">
         <h3>Your previous rehearsals</h3>
         {progress.mockResults
           .slice()
@@ -81,7 +82,7 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
               <small>Productive skills ungraded</small>
             </div>
           ))}
-      </div>
+      </Panel>
     )}
   </>
 );

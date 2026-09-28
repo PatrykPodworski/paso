@@ -1,5 +1,6 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { Panel } from "../design-system/Panel";
 import { Icon } from "./Icon";
 import { ScoreCalculator } from "./ScoreCalculator";
 export const MockResults = ({
@@ -21,7 +22,7 @@ export const MockResults = ({
   onDownload: () => void;
   onReset: () => void;
 }) => (
-  <div className="panel exam-results">
+  <Panel className="exam-results">
     <div className="completion-art">
       <Icon name="trophy" size={48} />
     </div>
@@ -70,5 +71,5 @@ export const MockResults = ({
         <Icon name="arrow" />
       </Button>
     </div>
-  </div>
+  </Panel>
 );

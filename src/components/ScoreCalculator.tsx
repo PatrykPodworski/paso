@@ -1,3 +1,4 @@
+import { FieldNote } from "../design-system/FieldNote";
 import { passingGroups } from "../data/progress";
 export const ScoreCalculator = ({
   reading,
@@ -69,10 +70,10 @@ export const ScoreCalculator = ({
           </p>
         </div>
       ) : (
-        <p className="field-note">
+        <FieldNote>
           A pass cannot be determined from reading and listening alone. Enter both scores between 0
           and 25.
-        </p>
+        </FieldNote>
       )}
     </div>
   );

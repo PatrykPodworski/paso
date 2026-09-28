@@ -1,3 +1,4 @@
+import { FieldNote } from "../design-system/FieldNote";
 import type { Question } from "../data/types";
 export const FormFields = ({
   q,
@@ -25,8 +26,8 @@ export const FormFields = ({
         />
       </label>
     ))}
-    <p className="field-note">
+    <FieldNote className="col-[1/-1]">
       {words} words · target {q.minWords}–{q.maxWords}. Use fictional personal details.
-    </p>
+    </FieldNote>
   </div>
 );

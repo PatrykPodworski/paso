@@ -190,11 +190,6 @@ svg {
   font-size: 14px;
   color: var(--muted);
 }
-.field-note {
-  font-size: 14px !important;
-  line-height: 1.6 !important;
-  color: var(--muted) !important;
-}
 .notice {
   display: flex;
   align-items: flex-start;
@@ -1950,9 +1945,6 @@ main {
 .exam-table td:last-child {
   font-weight: 600;
 }
-.exam-table-wrap > .field-note {
-  margin-top: 15px;
-}
 .guide-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2049,11 +2041,6 @@ main {
   font-size: 14px;
   color: #89977a;
   margin-top: 6px;
-}
-.examiner-notes > .field-note {
-  border-top: 1px solid var(--line);
-  padding-top: 17px;
-  margin-top: 22px;
 }
 .requirement-grid {
   display: grid;
@@ -2591,10 +2578,6 @@ main {
   margin: -12px 0 16px;
   white-space: nowrap;
 }
-.question-pronunciation .field-note {
-  grid-column: 1 / -1;
-  margin: -8px 0 18px;
-}
 .question-heading h2 {
   grid-column: 1;
   grid-row: 1;
@@ -2930,9 +2913,6 @@ main {
   font-size: 14px;
   color: #84986f;
 }
-.form-fields > .field-note {
-  grid-column: 1/-1;
-}
 .recorder {
   padding: 22px;
   background: #f5ece5;
@@ -2965,9 +2945,6 @@ main {
   font-family: monospace;
   font-size: 21px;
   color: #b29777;
-}
-.recorder > .field-note {
-  margin-top: 13px;
 }
 .playback {
   margin-top: 18px;
@@ -3238,9 +3215,6 @@ main {
 }
 .settings-dialog > label > .subtle {
   font-size: 13px;
-}
-.settings-dialog > .field-note {
-  margin-bottom: 22px;
 }
 .settings-dialog > .button-row {
   justify-content: space-between;
@@ -3707,8 +3681,7 @@ main {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .path-sidebar > h3,
-  .path-sidebar > .field-note {
+  .path-sidebar > h3 {
     grid-column: 1/-1;
   }
   .path-sidebar > h3 {
@@ -5017,9 +4990,6 @@ main {
 .lesson-tip,
 .subtle {
   color: #75816b;
-}
-.field-note {
-  color: #748067 !important;
 }
 .hero-card p,
 .hero-caption {

@@ -1,4 +1,5 @@
 import { Eyebrow } from "../design-system/Eyebrow";
+import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { countWords, writingHints } from "../data/progress";
 import type { Question } from "../data/types";
@@ -21,12 +22,12 @@ const WritingNotes = ({ q, value }: { q: Question; value: string }) => {
           <Icon name="info" size={16} /> {h}
         </p>
       ))}
-      <p className="field-note">
+      <FieldNote>
         {hints.length
           ? "These are targeted checks, not a complete correction."
           : "No issue found by the small set of pattern checks. This does not mean every sentence is correct."}{" "}
         A teacher can assess the full response.
-      </p>
+      </FieldNote>
     </div>
   );
 };
@@ -37,10 +38,10 @@ const PracticeReview = ({ q, value, checked }: { q: Question; value: string; che
       <p lang="es">{q.answer}</p>
     </div>
     {q.kind !== "speak" && <WritingNotes q={q} value={value} />}
-    <p className="field-note">
+    <FieldNote>
       {checked}/{q.checklist?.length || 0} self-review points checked. Productive practice is saved
       without a numerical grade.
-    </p>
+    </FieldNote>
   </>
 );
 const FeedbackBottom = ({

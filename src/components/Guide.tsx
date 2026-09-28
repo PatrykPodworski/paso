@@ -4,6 +4,7 @@ import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
+import { FieldNote } from "../design-system/FieldNote";
 import { TextLink } from "../design-system/TextLink";
 export const Guide = ({
   progress,
@@ -102,13 +103,13 @@ export const Guide = ({
             </tr>
           </tbody>
         </table>
-        <p className="field-note">
+        <FieldNote className="mt-[15px]">
           Administration order is reading, listening, writing, then the oral appointment as arranged
           by your centre. Older A1 guides have different timings.{" "}
           <a href={sources[0].url} target="_blank" rel="noreferrer">
             Official structure ↗
           </a>
-        </p>
+        </FieldNote>
       </div>
       <div className="guide-two-col">
         <div className="panel pass-simulator">
@@ -185,13 +186,13 @@ export const Guide = ({
               </p>
             </section>
           </div>
-          <p className="field-note">
+          <FieldNote className="border-t border-t-line pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
             <a href={sources[0].url} target="_blank" rel="noreferrer">
               Assessment scales ↗
             </a>
-          </p>
+          </FieldNote>
         </div>
       </div>
       <div className="section-heading">

@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
@@ -415,7 +416,9 @@ export const QuestionCard = ({
       )}
       {productive && !exam && (
         <div className="self-checks">
-          <span className="eyebrow">Your self-review checklist</span>
+          <Eyebrow variant="checklist" className="mb-[13px]">
+            Your self-review checklist
+          </Eyebrow>
           {q.checklist?.map((c, i) => (
             <label className="check-row" key={c}>
               <input
@@ -446,7 +449,7 @@ export const QuestionCard = ({
             <Button
               type="button"
               variant="primary"
-              className="whitespace-nowrap [@media(max-width:760px)]:w-full"
+              className="whitespace-nowrap max-tablet:w-full"
               onClick={() => submit()}
               disabled={!canSubmit}
             >
@@ -481,7 +484,7 @@ export const QuestionCard = ({
           {productive && (
             <>
               <div className="model-answer">
-                <span className="eyebrow">One possible answer</span>
+                <Eyebrow>One possible answer</Eyebrow>
                 <p lang="es">{q.answer}</p>
               </div>
               {q.kind !== "speak" && (
@@ -533,7 +536,7 @@ export const QuestionCard = ({
                 type="button"
                 variant="secondary"
                 size="compact"
-                className="[@media(max-width:760px)]:ml-auto"
+                className="max-tablet:ml-auto"
                 onClick={() => {
                   stopAudio();
                   setFeedback(false);
@@ -546,7 +549,7 @@ export const QuestionCard = ({
               type="button"
               variant="primary"
               size="compact"
-              className="[@media(max-width:760px)]:ml-auto"
+              className="max-tablet:ml-auto"
               autoFocus
               onClick={() => onSubmit(submission, correct, assisted)}
             >

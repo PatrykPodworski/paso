@@ -4,7 +4,7 @@ import { localDate, reviewDue, vocabularyReview } from "../data/progress";
 import { type Card, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
 import { AudioButton, stopAudio } from "./Audio";
-import { Dialog } from "./Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 

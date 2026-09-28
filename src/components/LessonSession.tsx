@@ -2,7 +2,7 @@ import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "./Icon";
-import { Dialog } from "./Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";
 export const LessonSession = ({

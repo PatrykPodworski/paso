@@ -20,7 +20,7 @@ import { Icon } from "./components/Icon";
 import { MemoryHint } from "./components/MemoryHint";
 import { JourneyArt, Stamp } from "./components/Art";
 import { AudioButton } from "./components/Audio";
-import { Dialog } from "./components/Dialog";
+import { Dialog } from "./design-system/Dialog";
 import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";

@@ -1,6 +1,6 @@
 # Refactor regression contract
 
-This suite protects the existing Paso learning experience before its implementation is reorganized. It tests observable results, durable state, provider boundaries, and screenshots. It does not replace review of Spanish teaching content or a teacher's assessment.
+This suite protects the existing Paso learning experience before its implementation is reorganized. It tests observable results, durable state and provider boundaries; screenshots are compared by Argos on pull requests, not by this suite. It does not replace review of Spanish teaching content or a teacher's assessment.
 
 ## Run the gate
 
@@ -12,25 +12,23 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit` and the mutation gate on pull requests and pushes to `main`; the coverage and browser gates run locally with this command.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit`, the mutation gate and the Argos visual job on pull requests and pushes to `main`; the coverage gate and the E2E journeys run locally with this command. The visual comparison runs only in CI: there is no offline visual gate, so a presentation regression surfaces on the pull request, not before pushing.
 
-The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys and screenshots, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. Snapshot updates are **never** part of this command.
+The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. It does **not** cover presentation: the browser run takes screenshots but compares none of them.
 
 No API key, login or ElevenLabs account is needed. Browser tests deny external HTTP requests. Unit tests reject unexpected `fetch` calls; provider tests use fake responses and temporary files. CLI tests replace environment-file loading and generation calls. No production audio or credit ledger is changed.
 
-| Command                   | Purpose                                                        |
-| ------------------------- | -------------------------------------------------------------- |
-| `pnpm test:unit`          | Fast unit/component/provider tests                             |
-| `pnpm test:coverage`      | Unit tests with enforced coverage floors and HTML report       |
-| `pnpm test:e2e`           | 22 journeys, each on desktop and mobile Chromium               |
-| `pnpm test:visual`        | Compare reviewed screenshots; never update them                |
-| `pnpm test:visual:update` | Deliberately regenerate screenshots for review                 |
-| `pnpm test:browser`       | Both browser suites in one server session                      |
-| `pnpm test:mutation`      | Stryker business logic audit and score gate                    |
-| `pnpm test:mutation:full` | Broader audit including presentation mutations                 |
-| `pnpm test:ids`           | Verify unique, stable test names used for mutation selection   |
-| `pnpm test:visual:guard`  | Prove an intentional colour change fails the existing baseline |
-| `pnpm exec fallow audit`  | Dead code, complexity and duplication in the files a PR changes |
+| Command                   | Purpose                                                                                |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| `pnpm test:unit`          | Fast unit/component/provider tests                                                     |
+| `pnpm test:coverage`      | Unit tests with enforced coverage floors and HTML report                               |
+| `pnpm test:e2e`           | 22 journeys, each on desktop and mobile Chromium                                       |
+| `pnpm test:visual`        | Drive every view and assert no horizontal overflow; locally it compares no screenshots |
+| `pnpm test:browser`       | Both browser suites in one server session                                              |
+| `pnpm test:mutation`      | Stryker business logic audit and score gate                                            |
+| `pnpm test:mutation:full` | Broader audit including presentation mutations                                         |
+| `pnpm test:ids`           | Verify unique, stable test names used for mutation selection                           |
+| `pnpm exec fallow audit`  | Dead code, complexity and duplication in the files a PR changes                        |
 
 ## Rule inventory
 
@@ -109,17 +107,25 @@ Test paths without a directory above are in `src/test/` for TS/TSX and `scripts/
 
 `tests/e2e/` covers: lesson completion and mistake recovery; immediate choice feedback and pronunciation; listening autoplay and manual replay; sentence editing/autoplay; writing draft/retry/revision; recording/review/download; microphone denial; vocabulary; forms; listening assistance; all 55 exam questions; timer expiry; two-play limit and cleared exam drafts; preferences/export/reset; guide checks/scores; navigation/focus; each of the four focused skills; picture practice; foundation practice; and daily-mix prioritization. Every journey runs at 1440×1080 and 390×844.
 
-`tests/visual/views.spec.ts` names each view/state. Baselines include the five pages, personalized progress, four practice filters, empty/populated mistakes, vocabulary flip/empty search, preferences/reset, phone navigation, seven exercise types, correct/incorrect/transcript feedback, leave/completion dialogs, writing/speaking reflection, and all exam stages/reviews/results. Tall dialogs have separate top and bottom captures. Tests also assert no horizontal overflow.
+`tests/visual/views.spec.ts` names each view/state. Captures include the five pages, personalized progress, four practice filters, empty/populated mistakes, vocabulary flip/empty search, preferences/reset, phone navigation, seven exercise types, correct/incorrect/transcript feedback, leave/completion dialogs, writing/speaking reflection, and all exam stages/reviews/results. Tall dialogs have separate top and bottom captures. Tests also assert no horizontal overflow.
 
-Dates, timezone, locale, motion and AI responses are deterministic. Native recording and local audio playback are exercised in E2E tests. Screenshot comparisons use zero allowed differing pixels. They use the Playwright-managed Chromium revision installed from the lockfile in the ignored project-local `.cache/playwright` directory, **not** the locally auto-updating Chrome application.
+Dates, timezone, locale, motion and AI responses are deterministic. Native recording and local audio playback are exercised in E2E tests. Browser tests use the Playwright-managed Chromium revision installed from the lockfile in the ignored project-local `.cache/playwright` directory, **not** the locally auto-updating Chrome application. This is not a Safari/WebKit or Firefox compatibility claim.
 
-These reviewed images were generated on macOS arm64. Font rendering and native controls differ between operating systems. Run visual CI on a matching macOS environment, or establish and review a separate Linux baseline before enforcing it there. This is not a Safari/WebKit or Firefox compatibility claim.
+### Argos is the only baseline
 
-For an intentional design change, run the update command, inspect the actual PNG diffs and both screen sizes, and commit reviewed baselines with the change. A refactor that should preserve presentation must pass the existing images. Never use snapshot updates to clear an unexplained failure.
+Screenshots go through `capture()` in `tests/fixtures/app.ts`, which calls `argosScreenshot`. In CI (`CI` is set) the Argos reporter uploads the captures from the `visual` job, and Argos compares them against the build from `main`, generated on the same Linux runner. Nothing is compared locally, and no baseline images are committed.
+
+A passing `pnpm test:visual` therefore does **not** mean the screenshots match. It means every view rendered, every journey step it drives succeeded, and `views.spec.ts` found no horizontal overflow. Locally the captures land in the ignored `screenshots/` directory for inspection.
+
+Review happens on the pull request: the Argos check links to the diff for every changed screenshot, on both screen sizes. Approving an intentional change happens in the Argos UI and nowhere else; once the pull request merges, the build from `main` carries the approved screenshots and becomes the new baseline. A refactor that should preserve presentation must produce no Argos diff. Never approve a diff you cannot explain.
+
+Argos authenticates through GitHub Actions OIDC (`id-token: write` in the `visual` job), so there is no `ARGOS_TOKEN` secret to create or rotate. Running `CI=1 pnpm test:visual` outside CI fails at `Missing Argos repository token`, which is expected.
+
+The Argos reporter warns that the Chromium projects lack `--disable-lcd-text` and `--font-render-hinting=none`. Those stabilise font rendering across different machines; every Argos build comes from the same runner, so they are not set. Revisit only if Argos reports font flakiness.
 
 ## Mutation scope and interpretation
 
-`stryker.business.config.mjs` uses syntax-derived ranges from `scripts/mutation-scope.mjs`. It includes state, decisions, calculations and event handlers; authored UI copy, styling and artwork belong to the screenshot checks. The scope helper has its own regression test. Non-UI production modules—including budget, generation, CLI and progress—are mutated in full. No Stryker mutation operator is globally disabled. `test:mutation:full` additionally mutates the entire UI.
+`stryker.business.config.mjs` uses syntax-derived ranges from `scripts/mutation-scope.mjs`. It includes state, decisions, calculations and event handlers; authored UI copy, styling and artwork belong to the Argos screenshot review. The scope helper has its own regression test. Non-UI production modules—including budget, generation, CLI and progress—are mutated in full. No Stryker mutation operator is globally disabled. `test:mutation:full` additionally mutates the entire UI.
 
 `test-surface.mjs` discovers new application modules automatically, so moving logic into a new file cannot silently remove it from coverage. Authored curriculum/reference data, type declarations, bootstrap and artwork are explicitly excluded from code mutation; course data has exhaustive integrity assertions, while screenshots check artwork and presentation.
 
@@ -147,6 +153,6 @@ Two regression defects found while adding this suite were fixed: an intentionall
 
 The pre-existing `scripts/browser-check.mjs` is a manual smoke check excluded from every routine gate. ElevenLabs generation is never invoked live by the suite.
 
-During the refactor, preserve these tests' observable expectations. For a changed rule, update its inventory row and add a counterexample or boundary that fails if the rule is removed or reversed. Add a browser journey for a new flow and reviewed screenshots for a new view. Keep test inputs and expected outcomes independent of the helper being tested. A moved file should keep its tests and enter automatic source discovery; never reduce thresholds, narrow the mutation scope, or update screenshots merely to make a refactor pass.
+During the refactor, preserve these tests' observable expectations. For a changed rule, update its inventory row and add a counterexample or boundary that fails if the rule is removed or reversed. Add a browser journey for a new flow and a `capture()` for a new view. Keep test inputs and expected outcomes independent of the helper being tested. A moved file should keep its tests and enter automatic source discovery; never reduce thresholds, narrow the mutation scope, or approve Argos diffs merely to make a refactor pass.
 
 Additional mutation-driven checks: `lesson.test.tsx` asserts mixed and pure session totals, draft routing and audio cleanup; `guide.test.tsx` asserts independent score sliders and exact readiness counts. These supplement rules Q01, L01–L02, P12 and U07.

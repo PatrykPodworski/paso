@@ -1,5 +1,4 @@
 import { Button } from "../design-system/Button";
-import { CONTEXT_SIZE } from "../design-system/button-context-sizes";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
 import { type Card, deckCards } from "../data/topics";
@@ -169,7 +168,7 @@ const VocabularySession = ({
                 <Button
                   ref={action}
                   variant="secondary"
-                  sizeClasses={CONTEXT_SIZE.flashcardRatings}
+                  size="small"
                   className="whitespace-normal"
                   onClick={() => rate(false)}
                 >
@@ -180,7 +179,7 @@ const VocabularySession = ({
                 </Button>
                 <Button
                   variant="primary"
-                  sizeClasses={CONTEXT_SIZE.flashcardRatings}
+                  size="small"
                   className="whitespace-normal"
                   onClick={() => rate(true)}
                 >

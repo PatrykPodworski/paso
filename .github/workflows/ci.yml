@@ -17,6 +17,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
+      - run: pnpm fmt:check
       - run: pnpm build
       - run: pnpm test
 
@@ -53,3 +54,29 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec fallow audit
+
+  visual:
+    runs-on: ubuntu-latest
+    permissions:
+      # Lets the Argos SDK exchange the GitHub Actions OIDC token for an Argos one,
+      # so no ARGOS_TOKEN secret has to be created or rotated.
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Argos resolves the baseline build from git history; a shallow clone hides it.
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/cache@v4
+        with:
+          path: .cache/playwright
+          key: playwright-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: PLAYWRIGHT_BROWSERS_PATH=.cache/playwright pnpm exec playwright install --with-deps chromium
+      # CI arms the Argos reporter's upload; Argos compares against the main build.
+      - run: pnpm test:visual

@@ -1,4 +1,5 @@
 import { defineConfig } from "@playwright/test";
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
@@ -6,11 +7,15 @@ export default defineConfig({
   retries: 0,
   workers: 4,
   timeout: 30000,
-  expect: {
-    timeout: 5000,
-    toHaveScreenshot: { animations: "disabled", caret: "hide", maxDiffPixels: 0 },
-  },
-  reporter: [["list"], ["html", { open: "never" }]],
+  expect: { timeout: 5000 },
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    [
+      "@argos-ci/playwright/reporter",
+      createArgosReporterOptions({ uploadToArgos: !!process.env.CI }),
+    ],
+  ],
   use: {
     baseURL: "http://127.0.0.1:4174",
     locale: "en-GB",
@@ -50,5 +55,4 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 30000,
   },
-  snapshotPathTemplate: "{testDir}/visual/baselines/{projectName}/{arg}{ext}",
 });

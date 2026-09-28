@@ -7,7 +7,5 @@ import "./styles.css";
 // the hash in a running app. Deliberately not part of App's navigation array, which
 // drives the visible nav bar and would move every page baseline.
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    {window.location.hash === "#design-system" ? <Gallery /> : <App />}
-  </StrictMode>,
+  <StrictMode>{window.location.hash === "#design-system" ? <Gallery /> : <App />}</StrictMode>,
 );

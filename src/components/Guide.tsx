@@ -1,8 +1,11 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
+import { FieldNote } from "../design-system/FieldNote";
+import { TextLink } from "../design-system/TextLink";
 export const Guide = ({
   progress,
   onCheck,
@@ -16,7 +19,9 @@ export const Guide = ({
     <div className="guide-page">
       <div className="page-heading">
         <div>
-          <span className="eyebrow">THE BIG PICTURE, MADE SIMPLE</span>
+          <Eyebrow variant="page" className="mb-[9px]">
+            THE BIG PICTURE, MADE SIMPLE
+          </Eyebrow>
           <h1>Your guide to DELE A1.</h1>
           <p>Know what’s expected. Practise with a purpose.</p>
         </div>
@@ -26,7 +31,7 @@ export const Guide = ({
       </div>
       <div className="guide-overview panel">
         <div>
-          <span className="eyebrow">A1 · THE EVERYDAY ESSENTIALS</span>
+          <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
           <h2>
             You don’t need perfect Spanish.
             <br />
@@ -37,10 +42,10 @@ export const Guide = ({
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
           </p>
-          <a className="text-link" href={sources[0].url} target="_blank" rel="noreferrer">
+          <TextLink href={sources[0].url} target="_blank" rel="noreferrer">
             Read the official guide
             <Icon name="external" size={15} />
-          </a>
+          </TextLink>
         </div>
         <div className="a1-emblem">
           A1<span>UN PEQUEÑO GRAN PASO</span>
@@ -98,17 +103,17 @@ export const Guide = ({
             </tr>
           </tbody>
         </table>
-        <p className="field-note">
+        <FieldNote className="mt-[15px]">
           Administration order is reading, listening, writing, then the oral appointment as arranged
           by your centre. Older A1 guides have different timings.{" "}
           <a href={sources[0].url} target="_blank" rel="noreferrer">
             Official structure ↗
           </a>
-        </p>
+        </FieldNote>
       </div>
       <div className="guide-two-col">
         <div className="panel pass-simulator">
-          <span className="eyebrow">TRY THE PASSING RULE</span>
+          <Eyebrow>TRY THE PASSING RULE</Eyebrow>
           <h3>Does this score pass?</h3>
           <p>Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.</p>
           {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
@@ -142,13 +147,13 @@ export const Guide = ({
               ? "These example scores meet the passing rule."
               : "These example scores do not meet the passing rule."}
           </div>
-          <a className="text-link" href={sources[1].url} target="_blank" rel="noreferrer">
+          <TextLink href={sources[1].url} target="_blank" rel="noreferrer">
             Official scoring rules
             <Icon name="external" size={14} />
-          </a>
+          </TextLink>
         </div>
         <div className="panel examiner-notes">
-          <span className="eyebrow">WHAT THE EXAMINER LOOKS FOR</span>
+          <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3>Be clear. Cover the task.</h3>
           <div>
             <Icon name="pen" />
@@ -181,13 +186,13 @@ export const Guide = ({
               </p>
             </section>
           </div>
-          <p className="field-note">
+          <FieldNote className="border-t border-t-line pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
             <a href={sources[0].url} target="_blank" rel="noreferrer">
               Assessment scales ↗
             </a>
-          </p>
+          </FieldNote>
         </div>
       </div>
       <div className="section-heading">
@@ -235,10 +240,15 @@ export const Guide = ({
                 </span>
               </label>
             ))}
-            <a className="text-link" href={sources[g.source].url} target="_blank" rel="noreferrer">
+            <TextLink
+              className="mt-[5px] border-t border-t-(--line) pt-[14px] text-[13px]!"
+              href={sources[g.source].url}
+              target="_blank"
+              rel="noreferrer"
+            >
               Official reference
               <Icon name="external" size={14} />
-            </a>
+            </TextLink>
           </section>
         ))}
       </div>

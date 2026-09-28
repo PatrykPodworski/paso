@@ -2,6 +2,7 @@ import { useEffect, useEffectEvent, useImperativeHandle, useRef, useState } from
 import type { Ref } from "react";
 import { Icon } from "./Icon";
 import { audioSources } from "../data/audio-sources";
+import { FieldNote } from "../design-system/FieldNote";
 type Playback = {
   text: string;
   audio: HTMLAudioElement | null;
@@ -416,9 +417,12 @@ export const AudioButton = ({
         </small>
       )}
       {error && (
-        <p role="status" className="field-note">
+        <FieldNote
+          role="status"
+          className="[.question-pronunciation_&]:col-span-full [.question-pronunciation_&]:m-[-8px_0_18px]"
+        >
           {error}
-        </p>
+        </FieldNote>
       )}
     </div>
   );

@@ -1,3 +1,4 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useEffect, useState } from "react";
 import { mockSections } from "../data/mock";
@@ -6,6 +7,8 @@ import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
 import { stopAudio } from "./Audio";
+import { FieldNote } from "../design-system/FieldNote";
+import { TextLink } from "../design-system/TextLink";
 interface Run {
   section: number;
   index: number;
@@ -156,7 +159,9 @@ export const MockExam = ({
     <div className="mock-page">
       <div className="page-heading">
         <div>
-          <span className="eyebrow">A CALM DRESS REHEARSAL</span>
+          <Eyebrow variant="page" className="mb-[9px]">
+            A CALM DRESS REHEARSAL
+          </Eyebrow>
           <h1>Meet the exam.</h1>
           <p>Familiar tasks. A little focus. A more confident you.</p>
         </div>
@@ -177,7 +182,7 @@ export const MockExam = ({
               <span>DELE A1</span>
             </div>
             <div>
-              <span className="eyebrow">YOUR FIRST FULL REHEARSAL</span>
+              <Eyebrow>YOUR FIRST FULL REHEARSAL</Eyebrow>
               <h2>
                 One exam. Four ways
                 <br />
@@ -255,7 +260,7 @@ export const MockExam = ({
           <div className="completion-art">
             <Icon name="trophy" size={48} />
           </div>
-          <span className="eyebrow">REHEARSAL COMPLETE</span>
+          <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
           <h2>You’ve met the exam.</h2>
           <p>Now you know where your next steps can take you.</p>
           <div className="result-score-grid">
@@ -328,26 +333,18 @@ export const MockExam = ({
                 </p>
               </div>
             ) : (
-              <p className="field-note">
+              <FieldNote>
                 A pass cannot be determined from reading and listening alone. Enter both scores
                 between 0 and 25.
-              </p>
+              </FieldNote>
             )}
           </div>
           <div className="button-row">
-            <Button
-              variant="secondary"
-              className="[@media(max-width:760px)]:w-full"
-              onClick={download}
-            >
+            <Button variant="secondary" className="max-tablet:w-full" onClick={download}>
               <Icon name="download" />
               Export responses for review
             </Button>
-            <Button
-              variant="primary"
-              className="[@media(max-width:760px)]:w-full"
-              onClick={() => setRun(fresh())}
-            >
+            <Button variant="primary" className="max-tablet:w-full" onClick={() => setRun(fresh())}>
               Return to exam overview
               <Icon name="arrow" />
             </Button>
@@ -381,7 +378,7 @@ export const MockExam = ({
           </div>
           {run.stage === "prep" ? (
             <div className="panel oral-prep">
-              <span className="eyebrow">10 MINUTES TO PREPARE</span>
+              <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
               <h2>A moment to find your words.</h2>
               <p>
                 Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather
@@ -417,7 +414,7 @@ export const MockExam = ({
             </div>
           ) : run.stage === "review" ? (
             <div className="panel section-review">
-              <span className="eyebrow">{section.title.toUpperCase()} · SECTION REVIEW</span>
+              <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
               <h2>
                 {run.section < 2
                   ? `${score(run.section)} out of 25.`
@@ -515,8 +512,7 @@ export const MockExam = ({
                 }}
               />
               <div className="exam-navigation">
-                <button
-                  className="text-link"
+                <TextLink
                   disabled={run.index === 0}
                   onClick={() => {
                     stopAudio();
@@ -524,9 +520,8 @@ export const MockExam = ({
                   }}
                 >
                   ← Previous question
-                </button>
-                <button
-                  className="text-link"
+                </TextLink>
+                <TextLink
                   onClick={() => {
                     stopAudio();
                     if (run.index === section.questions.length - 1) {
@@ -537,11 +532,11 @@ export const MockExam = ({
                   }}
                 >
                   Skip for now →
-                </button>
+                </TextLink>
                 <Button
                   variant="secondary"
                   size="small"
-                  className="[@media(max-width:760px)]:w-full"
+                  className="max-tablet:w-full"
                   onClick={() => setConfirm(true)}
                 >
                   Finish section

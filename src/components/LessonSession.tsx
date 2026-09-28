@@ -1,10 +1,12 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "./Icon";
-import { Dialog } from "./Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";
+import { FieldNote } from "../design-system/FieldNote";
 export const LessonSession = ({
   lesson,
   progress,
@@ -61,7 +63,9 @@ export const LessonSession = ({
           <Icon name="x" />
         </button>
         <div>
-          <span className="eyebrow">PASO · YOUR LEARNING PATH</span>
+          <Eyebrow variant="small" className="mb-[5px]">
+            PASO · YOUR LEARNING PATH
+          </Eyebrow>
           <h3>{lesson.title}</h3>
         </div>
         <span className="lesson-counter">
@@ -96,7 +100,7 @@ export const LessonSession = ({
             <Icon name="flag" size={50} />
             <span>✧</span>
           </div>
-          <span className="eyebrow">ONE STEP CLOSER</span>
+          <Eyebrow>ONE STEP CLOSER</Eyebrow>
           <h2>Look at you go.</h2>
           <p>Another little piece of Spanish, yours to keep.</p>
           <div className="completion-stats">
@@ -116,9 +120,7 @@ export const LessonSession = ({
               <span>moments to review</span>
             </div>
           </div>
-          {assisted > 0 && (
-            <p className="field-note">{assisted} answers used transcript assistance.</p>
-          )}
+          {assisted > 0 && <FieldNote>{assisted} answers used transcript assistance.</FieldNote>}
           <p>
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."

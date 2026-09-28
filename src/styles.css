@@ -16,6 +16,11 @@
   --color-paper: #fffefa;
   --color-line: #e5e8df;
   --color-muted: #7d867f;
+  --breakpoint-*: initial;
+  --breakpoint-phone: 431px;
+  --breakpoint-tablet: 761px;
+  --breakpoint-laptop: 1051px;
+  --breakpoint-desktop: 1241px;
 }
 :root {
   font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
@@ -38,6 +43,9 @@
 }
 body {
   margin: 0;
+}
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 button,
 input,
@@ -178,38 +186,9 @@ svg {
 .icon-button:hover {
   background: #254b3e0b;
 }
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #4a6d55;
-}
-.text-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.eyebrow {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.6px;
-  line-height: 1.6;
-  color: #818879;
-}
 .subtle {
   font-size: 14px;
   color: var(--muted);
-}
-.field-note {
-  font-size: 14px !important;
-  line-height: 1.6 !important;
-  color: var(--muted) !important;
 }
 .notice {
   display: flex;
@@ -544,10 +523,6 @@ main {
   gap: 24px;
   margin-bottom: 29px;
 }
-.page-heading > .eyebrow,
-.page-heading > div > .eyebrow {
-  margin-bottom: 9px;
-}
 .page-heading p {
   font-size: 14px;
   color: #8b9386;
@@ -677,17 +652,9 @@ main {
   color: #8a9382;
   margin-top: 5px;
 }
-.section-heading .text-link {
-  font-size: 13px;
-}
 .path-heading {
   margin-top: 30px;
   margin-bottom: 17px;
-}
-.path-heading .eyebrow {
-  font-size: 10px;
-  letter-spacing: 1.4px;
-  margin-bottom: 6px;
 }
 .path-overview {
   display: flex;
@@ -783,16 +750,6 @@ main {
 .unit-info {
   flex: 1;
   min-width: 0;
-}
-.unit-info .eyebrow {
-  font-size: 10px;
-  letter-spacing: 1px;
-  font-weight: 500;
-  color: #8c9980;
-}
-.unit-info .eyebrow > i {
-  font-style: normal;
-  padding: 0 5px;
 }
 .unit-info h3 {
   font-size: 16px;
@@ -1176,28 +1133,11 @@ main {
 .skill-row > svg {
   color: #a2ad91;
 }
-.skills-panel > .text-link {
-  font-size: 12px;
-  border-top: 1px solid #eef0e6;
-  padding-top: 14px;
-  width: 100%;
-  justify-content: space-between;
-  font-weight: 400;
-  color: #8b9879;
-}
 .phrase-card {
   padding: 22px;
   background: #f3ebdd;
   border: 1px solid #eee1cd;
   border-radius: 12px;
-}
-.phrase-card > .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  color: #b19673;
-  letter-spacing: 1.1px;
 }
 .phrase-card h3 {
   font-family: var(--serif);
@@ -1316,10 +1256,6 @@ main {
 }
 .path-banner > div {
   flex: 1;
-}
-.path-banner .eyebrow {
-  font-size: 11px;
-  margin-bottom: 7px;
 }
 .path-banner h3 {
   font-size: 17px;
@@ -1507,9 +1443,6 @@ main {
   width: 45px;
   height: 45px;
   margin-bottom: 17px;
-}
-.practice-skill-card .eyebrow {
-  font-size: 10px;
 }
 .practice-skill-card h3 {
   font-size: 18px;
@@ -1723,6 +1656,17 @@ main {
   font-family: var(--serif);
   font-size: 26px;
   margin-top: 8px;
+}
+.flashcard-example {
+  margin-top: 16px;
+}
+.flashcard-example p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.flashcard-example p[lang="en"] {
+  font-size: 14px;
+  color: #59675d;
 }
 .flashcard-actions {
   display: flex;
@@ -2001,9 +1945,6 @@ main {
 .exam-table td:last-child {
   font-weight: 600;
 }
-.exam-table-wrap > .field-note {
-  margin-top: 15px;
-}
 .guide-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2101,11 +2042,6 @@ main {
   color: #89977a;
   margin-top: 6px;
 }
-.examiner-notes > .field-note {
-  border-top: 1px solid var(--line);
-  padding-top: 17px;
-  margin-top: 22px;
-}
 .requirement-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2142,12 +2078,6 @@ main {
   color: #a5ae98;
   display: block;
   margin-top: 5px;
-}
-.requirement-group > .text-link {
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-  margin-top: 5px;
-  font-size: 13px;
 }
 .exam-day {
   display: grid;
@@ -2557,20 +2487,6 @@ main {
 .exam-results > .button-row {
   justify-content: center;
 }
-.dialog {
-  border: 1px solid #e0e6d5;
-  border-radius: 17px;
-  padding: 0;
-  color: var(--green-dark);
-  background: var(--paper);
-  box-shadow: 0 25px 100px #13261735;
-  max-height: 92dvh;
-  overscroll-behavior: contain;
-}
-.dialog::backdrop {
-  background: #20362cb0;
-  backdrop-filter: blur(5px);
-}
 .lesson-dialog {
   width: min(810px, calc(100vw - 36px));
 }
@@ -2582,10 +2498,6 @@ main {
 }
 .lesson-header > div {
   flex: 1;
-}
-.lesson-header .eyebrow {
-  font-size: 10px;
-  margin-bottom: 5px;
 }
 .lesson-header h3 {
   font-size: 15px;
@@ -2665,10 +2577,6 @@ main {
   text-align: center;
   margin: -12px 0 16px;
   white-space: nowrap;
-}
-.question-pronunciation .field-note {
-  grid-column: 1 / -1;
-  margin: -8px 0 18px;
 }
 .question-heading h2 {
   grid-column: 1;
@@ -2981,10 +2889,6 @@ main {
   background: #f5f7ef;
   border-radius: 9px;
 }
-.self-checks > .eyebrow {
-  font-size: 11px;
-  margin-bottom: 13px;
-}
 .check-row {
   display: flex;
   align-items: flex-start;
@@ -3008,9 +2912,6 @@ main {
   gap: 8px;
   font-size: 14px;
   color: #84986f;
-}
-.form-fields > .field-note {
-  grid-column: 1/-1;
 }
 .recorder {
   padding: 22px;
@@ -3045,9 +2946,6 @@ main {
   font-size: 21px;
   color: #b29777;
 }
-.recorder > .field-note {
-  margin-top: 13px;
-}
 .playback {
   margin-top: 18px;
   display: flex;
@@ -3057,10 +2955,6 @@ main {
 .playback audio {
   width: 100%;
   height: 37px;
-}
-.playback .text-link {
-  font-size: 13px;
-  color: #b38d6a;
 }
 .feedback {
   margin-top: 24px;
@@ -3322,9 +3216,6 @@ main {
 .settings-dialog > label > .subtle {
   font-size: 13px;
 }
-.settings-dialog > .field-note {
-  margin-bottom: 22px;
-}
 .settings-dialog > .button-row {
   justify-content: space-between;
 }
@@ -3337,11 +3228,6 @@ main {
 }
 .data-settings > summary {
   cursor: pointer;
-}
-.data-settings .text-link {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #b19475;
 }
 .data-settings p {
   margin: 14px 0;
@@ -3424,9 +3310,6 @@ main {
   }
   .unit-info p {
     font-size: 14px;
-  }
-  .unit-info .eyebrow {
-    font-size: 11px;
   }
   .lesson-row {
     padding: 11px 0;
@@ -3587,9 +3470,6 @@ main {
   .lesson-row {
     gap: 9px;
   }
-  .path-heading .eyebrow {
-    font-size: 10px;
-  }
   .section-heading h2 {
     font-size: 22px;
   }
@@ -3740,9 +3620,6 @@ main {
   .unit-info p {
     font-size: 13px;
   }
-  .unit-info .eyebrow {
-    font-size: 11px;
-  }
   .unit-status > span {
     font-size: 12px;
   }
@@ -3785,9 +3662,6 @@ main {
   .skills-panel > p {
     font-size: 13px;
   }
-  .skills-panel > .text-link {
-    font-size: 13px;
-  }
   .skill-row {
     margin-bottom: 20px;
     gap: 12px;
@@ -3807,9 +3681,7 @@ main {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .path-sidebar > .eyebrow,
-  .path-sidebar > h3,
-  .path-sidebar > .field-note {
+  .path-sidebar > h3 {
     grid-column: 1/-1;
   }
   .path-sidebar > h3 {
@@ -4004,9 +3876,6 @@ main {
   .page-heading > .outline-badge {
     display: none;
   }
-  .page-heading .eyebrow {
-    font-size: 11px;
-  }
   .dashboard-heading h1 {
     font-size: 29px;
   }
@@ -4040,9 +3909,6 @@ main {
   .section-heading {
     margin-top: 26px;
   }
-  .path-heading .eyebrow {
-    font-size: 10px;
-  }
   .section-heading h2 {
     font-size: 25px;
   }
@@ -4054,9 +3920,6 @@ main {
   }
   .unit-info p {
     font-size: 12px;
-  }
-  .unit-info .eyebrow {
-    font-size: 10px;
   }
   .unit-status > span {
     font-size: 11px;
@@ -4158,9 +4021,6 @@ main {
   }
   .path-stop .unit-status > span {
     display: none;
-  }
-  .path-stop .unit-info .eyebrow {
-    font-size: 10px;
   }
   .path-stop .unit-icon {
     width: 35px;
@@ -4366,9 +4226,6 @@ main {
     flex-wrap: wrap;
     gap: 17px;
   }
-  .exam-navigation > .text-link {
-    font-size: 14px;
-  }
   .section-review {
     padding: 24px;
   }
@@ -4400,10 +4257,6 @@ main {
   .oral-prep h2 {
     font-size: 28px;
   }
-  .dialog {
-    max-height: 94dvh;
-    border-radius: 13px;
-  }
   .lesson-dialog {
     width: calc(100vw - 22px);
   }
@@ -4413,9 +4266,6 @@ main {
   }
   .lesson-header h3 {
     font-size: 14px;
-  }
-  .lesson-header .eyebrow {
-    font-size: 10px;
   }
   .lesson-counter {
     font-size: 12px;
@@ -4659,9 +4509,6 @@ main {
   .unit-status > span {
     display: none;
   }
-  .unit-info .eyebrow {
-    font-size: 10px;
-  }
   .unit-info h3 {
     font-size: 16px;
   }
@@ -4691,14 +4538,8 @@ main {
   .lesson-tip summary {
     font-size: 12px;
   }
-  .path-heading .eyebrow {
-    font-size: 9px;
-  }
   .section-heading h2 {
     font-size: 22px;
-  }
-  .section-heading .text-link {
-    font-size: 12px;
   }
   .quick-practice {
     grid-template-columns: 1fr;
@@ -4738,9 +4579,6 @@ main {
   .path-banner h3 {
     font-size: 14px;
   }
-  .path-banner .eyebrow {
-    font-size: 10px;
-  }
   .path-banner .unit-icon {
     width: 34px;
     height: 37px;
@@ -4756,9 +4594,6 @@ main {
   }
   .path-stop .unit-info p {
     display: none;
-  }
-  .path-stop .unit-info .eyebrow {
-    font-size: 9px;
   }
   .path-stop .unit-icon {
     width: 31px;
@@ -5024,9 +4859,6 @@ main {
   .unit-info p {
     font-size: 12px;
   }
-  .unit-info .eyebrow {
-    font-size: 10px;
-  }
   .unit-status {
     font-size: 11px;
   }
@@ -5111,14 +4943,8 @@ main {
   .skills-panel > p {
     font-size: 12px;
   }
-  .skills-panel > .text-link {
-    font-size: 12px;
-  }
   .phrase-card {
     padding: 24px;
-  }
-  .phrase-card > .eyebrow {
-    font-size: 9px;
   }
   .phrase-card h3 {
     font-size: 34px;
@@ -5164,9 +4990,6 @@ main {
 .lesson-tip,
 .subtle {
   color: #75816b;
-}
-.field-note {
-  color: #748067 !important;
 }
 .hero-card p,
 .hero-caption {
@@ -5283,9 +5106,6 @@ main {
   .unit-status > span {
     display: none;
   }
-  .unit-info .eyebrow {
-    font-size: 9px;
-  }
   .lesson-row strong {
     font-size: 13px;
   }
@@ -5359,13 +5179,6 @@ main {
   .hero-caption {
     font-size: 10px;
   }
-  .section-heading .text-link {
-    font-size: 11px;
-  }
-  .path-heading .eyebrow {
-    font-size: 8px;
-    letter-spacing: 0.9px;
-  }
   .section-heading {
     gap: 12px;
   }
@@ -5378,10 +5191,6 @@ main {
   }
   .unit-info h3 {
     font-size: 17px;
-  }
-  .unit-info .eyebrow {
-    font-size: 9px;
-    line-height: 1.5;
   }
   .unit-info p {
     font-size: 11px;
@@ -5420,9 +5229,6 @@ main {
   }
   .path-stop .unit-info h3 {
     font-size: 15px;
-  }
-  .path-stop .unit-info .eyebrow {
-    font-size: 8px;
   }
   .path-stop .lesson-row strong {
     font-size: 12px;

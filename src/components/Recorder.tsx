@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Icon";
+import { FieldNote } from "../design-system/FieldNote";
+import { TextLink } from "../design-system/TextLink";
 export const Recorder = ({
   onRecorded,
   onStart,
@@ -126,19 +128,19 @@ export const Recorder = ({
           {String(seconds % 60).padStart(2, "0")}
         </span>
       </div>
-      <p className="field-note">
+      <FieldNote className="mt-[13px]">
         Recorded in this tab. Download to keep it; it is not uploaded or automatically graded.
-      </p>
+      </FieldNote>
       {url && (
         <div className="playback">
           <audio controls src={url} />
-          <a
+          <TextLink
             href={url}
             download={`paso-speaking.${recorder.current?.mimeType.includes("mp4") ? "m4a" : "webm"}`}
-            className="text-link"
+            className="text-[13px]! text-[#b38d6a]!"
           >
             <Icon name="download" size={16} /> Save recording
-          </a>
+          </TextLink>
         </div>
       )}
       {error && (

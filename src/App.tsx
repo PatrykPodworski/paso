@@ -20,11 +20,14 @@ import { Icon } from "./components/Icon";
 import { MemoryHint } from "./components/MemoryHint";
 import { JourneyArt, Stamp } from "./components/Art";
 import { AudioButton } from "./components/Audio";
-import { Dialog } from "./components/Dialog";
+import { Dialog } from "./design-system/Dialog";
+import { Eyebrow } from "./design-system/Eyebrow";
 import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
+import { FieldNote } from "./design-system/FieldNote";
+import { TextLink } from "./design-system/TextLink";
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
 type Page = "today" | "path" | "practice" | "exam" | "guide";
@@ -47,6 +50,7 @@ const pageFromHash = (): Page => {
 };
 const UnitCard = ({
   unit,
+  onPath = false,
   index,
   progress,
   start,
@@ -54,6 +58,7 @@ const UnitCard = ({
   onExpand,
 }: {
   unit: Unit;
+  onPath?: boolean;
   index: number;
   progress: Progress;
   start: (l: Lesson) => void;
@@ -68,9 +73,9 @@ const UnitCard = ({
           <Icon name={unit.icon} size={25} />
         </div>
         <div className="unit-info">
-          <span className="eyebrow">
+          <Eyebrow variant={onPath ? "pathUnit" : "unit"}>
             UNIT {String(index + 1).padStart(2, "0")} <i>·</i> {unit.spanish}
-          </span>
+          </Eyebrow>
           <h3>{unit.title}</h3>
           <p>{unit.subtitle}</p>
         </div>
@@ -169,7 +174,7 @@ const Settings = ({
     <Dialog label="Your learning preferences" onClose={onClose} className="settings-dialog">
       <header>
         <div>
-          <span className="eyebrow">MAKE YOURSELF AT HOME</span>
+          <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
           <h2>Your little preferences.</h2>
         </div>
         <button className="icon-button" onClick={onClose} aria-label="Close preferences">
@@ -197,15 +202,15 @@ const Settings = ({
         Exam date <span className="subtle">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
-      <p className="field-note">
+      <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
-      </p>
+      </FieldNote>
       <div className="button-row">
         <Button
           variant="secondary"
           size="compact"
-          className="[@media(max-width:760px)]:w-full"
+          className="max-tablet:w-full"
           onClick={exportProgress}
         >
           <Icon name="download" size={17} />
@@ -214,7 +219,7 @@ const Settings = ({
         <Button
           variant="primary"
           size="compact"
-          className="[@media(max-width:760px)]:w-full"
+          className="max-tablet:w-full"
           onClick={() => {
             onSave({ name: name.trim(), goal, examDate: date });
             onClose();
@@ -242,9 +247,12 @@ const Settings = ({
             </div>
           </div>
         ) : (
-          <button className="text-link" onClick={() => setReset(true)}>
+          <TextLink
+            className="mt-[12px] text-[13px]! text-[#b19475]!"
+            onClick={() => setReset(true)}
+          >
             Reset my progress
-          </button>
+          </TextLink>
         )}
       </details>
     </Dialog>
@@ -518,14 +526,14 @@ const App = () => {
             <>
               <div className="page-heading dashboard-heading">
                 <div>
-                  <div className="eyebrow greeting">
+                  <Eyebrow className="greeting mb-[9px]">
                     {new Date().getHours() < 12
                       ? "BUENOS DÍAS"
                       : new Date().getHours() < 20
                         ? "BUENAS TARDES"
                         : "BUENAS NOCHES"}{" "}
                     <span>✦</span>
-                  </div>
+                  </Eyebrow>
                   <h1>
                     {progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
                   </h1>
@@ -559,7 +567,7 @@ const App = () => {
                       <Button
                         variant="primary"
                         size="compact"
-                        className="[@media(max-width:430px)]:mt-[4px] [@media(max-width:430px)]:relative [@media(max-width:430px)]:z-[3]"
+                        className="max-phone:mt-[4px] max-phone:relative max-phone:z-[3]"
                         onClick={() => setSession(nextLesson)}
                       >
                         {completed ? "Continue my journey" : "Let’s take the first step"}
@@ -575,13 +583,18 @@ const App = () => {
                   </section>
                   <div className="section-heading path-heading">
                     <div>
-                      <span className="eyebrow">A LITTLE STRUCTURE. A LOT OF POSSIBILITY.</span>
+                      <Eyebrow variant="heading" className="mb-[6px]">
+                        A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
+                      </Eyebrow>
                       <h2>Your learning path</h2>
                     </div>
-                    <button className="text-link" onClick={() => navigate("path")}>
+                    <TextLink
+                      className="text-[13px]! max-phone:text-[11px]!"
+                      onClick={() => navigate("path")}
+                    >
                       View full path
                       <Icon name="arrow" size={16} />
-                    </button>
+                    </TextLink>
                   </div>
                   <div className="path-overview">
                     <span>
@@ -730,15 +743,18 @@ const App = () => {
                         </button>
                       );
                     })}
-                    <button className="text-link" onClick={() => navigate("guide")}>
+                    <TextLink
+                      className="w-full justify-between border-t border-t-[#eef0e6] pt-[14px] text-[12px]! font-normal! text-[#8b9879]! max-laptop:text-[13px]! desktop:text-[12px]!"
+                      onClick={() => navigate("guide")}
+                    >
                       How the exam works
                       <Icon name="arrow" size={15} />
-                    </button>
+                    </TextLink>
                   </section>
                   <section className="phrase-card">
-                    <span className="eyebrow">
+                    <Eyebrow variant="phrase">
                       <Icon name="spark" size={14} /> A PHRASE FOR TODAY
-                    </span>
+                    </Eyebrow>
                     <h3 lang="es">Poco a poco.</h3>
                     <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
                     <p>Little by little.</p>
@@ -763,7 +779,9 @@ const App = () => {
             <>
               <div className="page-heading">
                 <div>
-                  <span className="eyebrow">FROM YOUR FIRST HOLA TO YOUR A1</span>
+                  <Eyebrow variant="page" className="mb-[9px]">
+                    FROM YOUR FIRST HOLA TO YOUR A1
+                  </Eyebrow>
                   <h1>Every step has a story.</h1>
                   <p>
                     {units.length} units · {allLessons.length} lessons · {allQuestions.length}{" "}
@@ -777,7 +795,9 @@ const App = () => {
                   <Icon name={nextUnit.icon} size={28} />
                 </span>
                 <div>
-                  <span className="eyebrow">YOUR NEXT SMALL STEP</span>
+                  <Eyebrow variant="banner" className="mb-[7px]">
+                    YOUR NEXT SMALL STEP
+                  </Eyebrow>
                   <h3>
                     {nextUnit.title} · {nextLesson.title}
                   </h3>
@@ -787,7 +807,7 @@ const App = () => {
                 </div>
                 <Button
                   variant="primary"
-                  className="[@media(min-width:761px)_and_(max-width:1050px)]:ml-[65px]"
+                  className="tablet:max-laptop:ml-[65px]"
                   onClick={() => setSession(nextLesson)}
                 >
                   Continue learning
@@ -808,6 +828,7 @@ const App = () => {
                         )}
                       </span>
                       <UnitCard
+                        onPath
                         unit={u}
                         index={i}
                         progress={progress}
@@ -826,7 +847,7 @@ const App = () => {
                     <Button
                       variant="primary"
                       size="small"
-                      className="[@media(min-width:761px)]:ml-auto"
+                      className="tablet:ml-auto"
                       onClick={() => navigate("exam")}
                     >
                       Meet the exam
@@ -835,7 +856,7 @@ const App = () => {
                   </div>
                 </div>
                 <aside className="path-sidebar panel">
-                  <span className="eyebrow">HOW YOUR PATH WORKS</span>
+                  <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
                   <h3>
                     Learn it. Try it.
                     <br />
@@ -859,10 +880,10 @@ const App = () => {
                       </section>
                     </div>
                   ))}
-                  <p className="field-note">
+                  <FieldNote className="max-laptop:col-span-full">
                     All lessons are open. Completion tracks practice, not exam readiness. Review
                     mistakes and use the A1 checklist to find gaps.
-                  </p>
+                  </FieldNote>
                 </aside>
               </div>
             </>
@@ -871,7 +892,9 @@ const App = () => {
             <>
               <div className="page-heading">
                 <div>
-                  <span className="eyebrow">MORE PLAY. MORE PRACTICE. MORE YOU.</span>
+                  <Eyebrow variant="page" className="mb-[9px]">
+                    MORE PLAY. MORE PRACTICE. MORE YOU.
+                  </Eyebrow>
                   <h1>Your practice studio.</h1>
                   <p>Follow your curiosity, or give a tricky word another chance.</p>
                 </div>
@@ -929,8 +952,7 @@ const App = () => {
                       </p>
                       <p>{q.explanation}</p>
                       <MemoryHint text={q.memoryHint} />
-                      <button
-                        className="text-link"
+                      <TextLink
                         onClick={() =>
                           setSession({
                             id: "review-one",
@@ -944,7 +966,7 @@ const App = () => {
                       >
                         Try again
                         <Icon name="arrow" size={15} />
-                      </button>
+                      </TextLink>
                     </details>
                   ))}
                 </div>
@@ -952,7 +974,7 @@ const App = () => {
                 <>
                   <div className="practice-hero panel">
                     <div>
-                      <span className="eyebrow">A SMALL SESSION, CHOSEN FOR YOU</span>
+                      <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
                       <h2>
                         {filter === "all"
                           ? "A little bit of everything."
@@ -992,7 +1014,7 @@ const App = () => {
                             <span className={`skill-icon ${s.id}`}>
                               <Icon name={s.icon} size={24} />
                             </span>
-                            <span className="eyebrow">{s.spanish}</span>
+                            <Eyebrow variant="small">{s.spanish}</Eyebrow>
                             <h3>{s.name}</h3>
                             <p>{stats.practised} questions practised</p>
                             <span>

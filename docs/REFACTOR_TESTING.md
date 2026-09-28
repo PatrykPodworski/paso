@@ -141,9 +141,11 @@ TypeScript 7 no longer exposes the JS compiler API used by Stryker's tsconfig-re
 
 ## Evidence and limits
 
-The complete gate passes with 357 JavaScript/TypeScript unit and component tests, 46 E2E runs and 71 visual runs against 134 images. Line coverage is 97.90%; branch coverage is 95.84%. The business mutation score is 79.79% (2,864 mutations), with 528 survivors and 49 uncovered mutations retained for review. Progress and audio-budget detection improved from 69.46% to 98.11% on the same unchanged source.
+At the time of writing the complete gate passes with 394 JavaScript/TypeScript unit and component tests, 50 E2E runs and 75 visual runs, line coverage at 97.87%, branch coverage at 95.91%, and a business mutation score of 80.07% over 2,955 mutations. Those figures move with every change; the numbers that are actually enforced live in `vitest.config.ts` for coverage and `stryker.config.json` and `stryker.business.config.mjs` for mutation, and a run that falls below them fails rather than being recorded.
 
-Current measured results, individual module scores and limits are in [TEST_BASELINE.json](TEST_BASELINE.json). Generated detail reports are local and ignored by Git:
+Two limits are not visible in any of those numbers. Mutation detection is not 100%, so surviving changes stay in the HTML report and need review rather than being assumed harmless. And there is no automated assessment of writing or speaking; both are self-reviewed against a checklist and a model answer.
+
+Generated detail reports are local and ignored by Git:
 
 - `coverage/index.html` — line/branch coverage.
 - `reports/mutation/business.html` — mutation locations and surviving replacements.

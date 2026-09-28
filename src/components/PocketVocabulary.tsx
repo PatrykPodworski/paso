@@ -1,12 +1,14 @@
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
-import { type Card, deckCards } from "../data/topics";
+import { type Card, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
 import { AudioButton, stopAudio } from "./Audio";
-import { Dialog } from "./Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
+import { TextLink } from "../design-system/TextLink";
 
 type Review = Progress["vocabularyReviews"][string];
 type Props = {
@@ -80,7 +82,9 @@ const VocabularySession = ({
           <Icon name="x" />
         </button>
         <div>
-          <span className="eyebrow">POCKET VOCABULARY</span>
+          <Eyebrow variant="small" className="mb-[5px]">
+            POCKET VOCABULARY
+          </Eyebrow>
           <h3>A little Spanish, remembered.</h3>
         </div>
         <span className="lesson-counter">
@@ -135,15 +139,28 @@ const VocabularySession = ({
       ) : (
         <div className="flashcard-review">
           <div className="flashcard-prompt">
-            <span className="eyebrow">{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</span>
+            <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p>Can you remember the meaning?</p>
             <h2 lang="es">{word.es}</h2>
             <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
             <div className="flashcard-answer">
-              <span className="eyebrow">THE MEANING</span>
+              <Eyebrow>THE MEANING</Eyebrow>
               <h3 lang="en">{word.en}</h3>
+              {word.example && (
+                <div className="flashcard-example">
+                  <p lang="es">{word.example.es}</p>
+                  <p lang="en">{word.example.en}</p>
+                  {/* Starting this clip stops the word clip through stopAudio(). */}
+                  <AudioButton
+                    text={word.example.es}
+                    label="Play example sentence"
+                    minimal
+                    autoPlay
+                  />
+                </div>
+              )}
               <MemoryHint text={word.memoryHint} />
             </div>
           )}
@@ -240,7 +257,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
       <div className="section-heading word-heading">
         <div>
-          <span className="eyebrow">A LITTLE PRACTICE, A LASTING MEMORY</span>
+          <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
           <h2 id="vocabulary-title">Your pocket vocabulary</h2>
           <p>Words from your completed vocabulary lessons, ready to remember.</p>
         </div>
@@ -300,6 +317,36 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
           )}
         </div>
       </div>
+      <section className="mt-6" aria-labelledby="topics-title">
+        <h3 id="topics-title">Topics</h3>
+        <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
+          {topics.map(({ topic, optional, cards }) => {
+            const counts = topicCounts(cards, progress);
+            return (
+              <li
+                key={topic}
+                className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t"
+              >
+                <span className="flex items-center gap-2 font-semibold">
+                  <span>{topic}</span>
+                  {optional && (
+                    <span className="rounded-full border border-line px-2 text-xs font-normal text-muted">
+                      Optional
+                    </span>
+                  )}
+                </span>
+                <span className="flex gap-3 text-xs text-muted">
+                  {(["total", "learning", "new", "known"] as const).map((key) => (
+                    <span key={key}>
+                      {counts[key]} {key}
+                    </span>
+                  ))}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
       {words.length > 0 && (
         <div className="vocabulary-collection">
           <div className="section-heading">
@@ -348,9 +395,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
               <Icon name="search" />
               <h3>No word found yet.</h3>
               <p>Try a Spanish word or its English meaning.</p>
-              <button className="text-link" onClick={() => setSearch("")}>
-                Clear search
-              </button>
+              <TextLink onClick={() => setSearch("")}>Clear search</TextLink>
             </div>
           )}
         </div>

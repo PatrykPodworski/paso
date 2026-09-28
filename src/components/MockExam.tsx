@@ -7,6 +7,7 @@ import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
 import { stopAudio } from "./Audio";
+import { FieldNote } from "../design-system/FieldNote";
 import { TextLink } from "../design-system/TextLink";
 interface Run {
   section: number;
@@ -332,10 +333,10 @@ export const MockExam = ({
                 </p>
               </div>
             ) : (
-              <p className="field-note">
+              <FieldNote>
                 A pass cannot be determined from reading and listening alone. Enter both scores
                 between 0 and 25.
-              </p>
+              </FieldNote>
             )}
           </div>
           <div className="button-row">

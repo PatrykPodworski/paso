@@ -1,3 +1,4 @@
+import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { allLessons, allQuestions, units } from "../data/curriculum";
@@ -128,10 +129,10 @@ export const PathPage = ({
               </section>
             </div>
           ))}
-          <p className="field-note">
+          <FieldNote className="max-laptop:col-span-full">
             All lessons are open. Completion tracks practice, not exam readiness. Review mistakes
             and use the A1 checklist to find gaps.
-          </p>
+          </FieldNote>
         </aside>
       </div>
     </>

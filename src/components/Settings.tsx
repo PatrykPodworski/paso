@@ -1,3 +1,4 @@
+import { FieldNote } from "../design-system/FieldNote";
 import { useState } from "react";
 import { Button } from "../design-system/Button";
 import { Dialog } from "../design-system/Dialog";
@@ -63,10 +64,10 @@ export const Settings = ({
         Exam date <span className="subtle">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
-      <p className="field-note">
+      <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
-      </p>
+      </FieldNote>
       <div className="button-row">
         <Button
           variant="secondary"

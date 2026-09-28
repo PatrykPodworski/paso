@@ -1,0 +1,51 @@
+import { TextLink } from "../design-system/TextLink";
+import { skillStats } from "../data/progress";
+import type { Progress } from "../data/types";
+import { Icon } from "./Icon";
+import type { Page } from "./navigation";
+import { exerciseBank, skills, type Practice } from "./practice";
+export const SkillsPanel = ({
+  progress,
+  navigate,
+  practice,
+}: {
+  progress: Progress;
+  navigate: (target: Page) => void;
+  practice: Practice;
+}) => (
+  <section className="panel skills-panel">
+    <div className="panel-heading">
+      <h3>A little of every skill</h3>
+      <Icon name="layers" size={17} />
+    </div>
+    <p>Four ways to grow your Spanish.</p>
+    {skills.map((s) => {
+      const stats = skillStats(progress, s.id);
+      const total = exerciseBank.filter((q) => q.skill === s.id).length;
+      return (
+        <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
+          <span className={`skill-icon ${s.id}`}>
+            <Icon name={s.icon} size={17} />
+          </span>
+          <span>
+            <strong>
+              {s.name}
+              <small>{stats.practised} practised</small>
+            </strong>
+            <span className="progress-track">
+              <span style={{ width: `${(stats.practised / total) * 100}%` }} />
+            </span>
+          </span>
+          <Icon name="chevron" size={13} />
+        </button>
+      );
+    })}
+    <TextLink
+      className="w-full justify-between border-t border-t-[#eef0e6] pt-[14px] text-[12px]! font-normal! text-[#8b9879]! max-laptop:text-[13px]! desktop:text-[12px]!"
+      onClick={() => navigate("guide")}
+    >
+      How the exam works
+      <Icon name="arrow" size={15} />
+    </TextLink>
+  </section>
+);

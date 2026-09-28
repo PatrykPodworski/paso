@@ -1,0 +1,78 @@
+import { Eyebrow } from "../design-system/Eyebrow";
+import type { Lesson, Progress, Skill } from "../data/types";
+import { Icon } from "./Icon";
+import { MistakesPanel } from "./MistakesPanel";
+import type { Page } from "./navigation";
+import { PocketVocabulary } from "./PocketVocabulary";
+import { exerciseBank, skills, type Practice, type Session } from "./practice";
+import { SkillPractice } from "./SkillPractice";
+export const PracticePage = ({
+  progress,
+  setProgress,
+  mistakeQuestions,
+  filter,
+  setFilter,
+  setSession,
+  navigate,
+  practice,
+}: {
+  progress: Progress;
+  setProgress: (update: (p: Progress) => Progress) => void;
+  mistakeQuestions: Lesson["questions"];
+  filter: Skill | "all" | "mistakes";
+  setFilter: (filter: Skill | "all" | "mistakes") => void;
+  setSession: Session;
+  navigate: (target: Page) => void;
+  practice: Practice;
+}) => (
+  <>
+    <div className="page-heading">
+      <div>
+        <Eyebrow variant="page" className="mb-[9px]">
+          MORE PLAY. MORE PRACTICE. MORE YOU.
+        </Eyebrow>
+        <h1>Your practice studio.</h1>
+        <p>Follow your curiosity, or give a tricky word another chance.</p>
+      </div>
+      <span className="outline-badge">
+        <Icon name="spark" size={16} />
+        {exerciseBank.length} exercises to explore
+      </span>
+    </div>
+    <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
+      {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
+        <button key={s} className={filter === s ? "active" : ""} onClick={() => setFilter(s)}>
+          {s === "all"
+            ? "All skills"
+            : s === "mistakes"
+              ? `My mistakes (${mistakeQuestions.length})`
+              : s[0].toUpperCase() + s.slice(1)}
+        </button>
+      ))}
+    </div>
+    {filter === "mistakes" ? (
+      <MistakesPanel
+        mistakeQuestions={mistakeQuestions}
+        setSession={setSession}
+        practice={practice}
+      />
+    ) : (
+      <SkillPractice
+        progress={progress}
+        filter={filter}
+        setSession={setSession}
+        practice={practice}
+      />
+    )}
+    <PocketVocabulary
+      progress={progress}
+      onReview={(word, review) =>
+        setProgress((p) => ({
+          ...p,
+          vocabularyReviews: { ...p.vocabularyReviews, [word]: review },
+        }))
+      }
+      onLearn={() => navigate("path")}
+    />
+  </>
+);

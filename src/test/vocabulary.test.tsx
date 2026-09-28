@@ -4,7 +4,7 @@ import App from "../App";
 import { audioSources } from "../data/audio-sources";
 import { vocabulary } from "../data/curriculum";
 import { emptyProgress, STORAGE_KEY, vocabularyReview } from "../data/progress";
-import { deckCards } from "../data/topics";
+import { deckCards, topics } from "../data/topics";
 import type { Progress } from "../data/types";
 
 // One split-sense card without an example, for the no-sentence case.
@@ -33,6 +33,10 @@ const progressWithDue = (due = words.length) => {
   });
   return p;
 };
+const topicRow = (topic: string) =>
+  within(screen.getByRole("region", { name: "Topics" }))
+    .getByText(topic, { exact: true })
+    .closest("li")!;
 const mount = (p = progressWithDue()) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
   window.location.hash = "#practice";
@@ -202,6 +206,34 @@ it("saves a split-sense card's rating under its own id", () => {
     nextAt: tomorrow,
   });
   expect(saved().vocabularyReviews["el mono"]).toBeUndefined();
+});
+
+it("lists every topic in file order, even with an empty deck", () => {
+  mount(emptyProgress());
+  const rows = within(screen.getByRole("region", { name: "Topics" })).getAllByRole("listitem");
+  expect(rows).toHaveLength(51);
+  expect(rows.map((row) => row.firstChild!.firstChild!.textContent)).toEqual(
+    topics.map((t) => t.topic),
+  );
+  expect(rows[0]).toHaveTextContent("Everyday basics");
+});
+
+it("counts a completed unit's words as learning in their topic", () => {
+  mount();
+  const { topic, cards } = topics.find((t) => t.cards.some((c) => c.id === words[0].es))!;
+  const unitWords = cards.filter((c) => c.unit === 1).length;
+  expect(unitWords).toBeGreaterThan(0);
+  const row = topicRow(topic);
+  expect(row).toHaveTextContent(`${cards.length} total`);
+  expect(row).toHaveTextContent(`${unitWords} learning`);
+  expect(row).toHaveTextContent(`${cards.length - unitWords} new`);
+  expect(row).toHaveTextContent("0 known");
+});
+
+it("marks optional topics", () => {
+  mount(emptyProgress());
+  expect(within(topicRow("Art")).getByText("Optional")).toBeInTheDocument();
+  expect(within(topicRow("Family")).queryByText("Optional")).not.toBeInTheDocument();
 });
 
 it("shows and plays the example sentence only after reveal, and stops it on rating", async () => {

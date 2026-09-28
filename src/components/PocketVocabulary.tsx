@@ -1,7 +1,7 @@
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
-import { type Card, deckCards } from "../data/topics";
+import { type Card, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
 import { AudioButton, stopAudio } from "./Audio";
 import { Dialog } from "./Dialog";
@@ -313,6 +313,36 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
           )}
         </div>
       </div>
+      <section className="mt-6" aria-labelledby="topics-title">
+        <h3 id="topics-title">Topics</h3>
+        <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
+          {topics.map(({ topic, optional, cards }) => {
+            const counts = topicCounts(cards, progress);
+            return (
+              <li
+                key={topic}
+                className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t"
+              >
+                <span className="flex items-center gap-2 font-semibold">
+                  <span>{topic}</span>
+                  {optional && (
+                    <span className="rounded-full border border-line px-2 text-xs font-normal text-muted">
+                      Optional
+                    </span>
+                  )}
+                </span>
+                <span className="flex gap-3 text-xs text-muted">
+                  {(["total", "learning", "new", "known"] as const).map((key) => (
+                    <span key={key}>
+                      {counts[key]} {key}
+                    </span>
+                  ))}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
       {words.length > 0 && (
         <div className="vocabulary-collection">
           <div className="section-heading">

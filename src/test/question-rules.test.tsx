@@ -2,7 +2,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
 import { LessonSession } from "../components/LessonSession";
-import { Dialog } from "../components/Dialog";
+import { Dialog } from "../design-system/Dialog";
 import { audioSources } from "../data/audio-sources";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";

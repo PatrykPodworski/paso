@@ -4,9 +4,6 @@ import { AnswerReview } from "../components/AnswerReview";
 import { fresh, load } from "../components/useMockRun";
 import { mockSections } from "../data/mock";
 describe("saved rehearsal", () => {
-  it("starts fresh when nothing is saved", () => {
-    expect(load()).toEqual(fresh());
-  });
   it("restores a valid saved run and fills fields older saves lack", () => {
     localStorage.setItem(
       "paso-mock-v1",

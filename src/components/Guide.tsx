@@ -6,6 +6,7 @@ import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
 import { FieldNote } from "../design-system/FieldNote";
+import { Panel } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 export const Guide = ({
   progress,
@@ -30,7 +31,7 @@ export const Guide = ({
           <Icon name="check" size={16} /> Researched 7 Sep 2026
         </Badge>
       </div>
-      <div className="guide-overview panel">
+      <Panel className="guide-overview">
         <div>
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
           <h2>
@@ -51,11 +52,11 @@ export const Guide = ({
         <div className="a1-emblem">
           A1<span>UN PEQUEÑO GRAN PASO</span>
         </div>
-      </div>
+      </Panel>
       <div className="section-heading">
         <h2>Four skills. Two passing groups.</h2>
       </div>
-      <div className="panel exam-table-wrap">
+      <Panel className="exam-table-wrap">
         <table className="exam-table">
           <thead>
             <tr>
@@ -111,9 +112,9 @@ export const Guide = ({
             Official structure ↗
           </a>
         </FieldNote>
-      </div>
+      </Panel>
       <div className="guide-two-col">
-        <div className="panel pass-simulator">
+        <Panel className="pass-simulator">
           <Eyebrow>TRY THE PASSING RULE</Eyebrow>
           <h3>Does this score pass?</h3>
           <p>Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.</p>
@@ -152,8 +153,8 @@ export const Guide = ({
             Official scoring rules
             <Icon name="external" size={14} />
           </TextLink>
-        </div>
-        <div className="panel examiner-notes">
+        </Panel>
+        <Panel className="examiner-notes">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3>Be clear. Cover the task.</h3>
           <div>
@@ -194,7 +195,7 @@ export const Guide = ({
               Assessment scales ↗
             </a>
           </FieldNote>
-        </div>
+        </Panel>
       </div>
       <div className="section-heading">
         <div>
@@ -223,7 +224,7 @@ export const Guide = ({
       </div>
       <div className="requirement-grid">
         {requirementGroups.map((g) => (
-          <section className="panel requirement-group" key={g.title}>
+          <Panel as="section" className="requirement-group" key={g.title}>
             <h3>
               <Icon name={g.icon} />
               {g.title}
@@ -250,13 +251,13 @@ export const Guide = ({
               Official reference
               <Icon name="external" size={14} />
             </TextLink>
-          </section>
+          </Panel>
         ))}
       </div>
       <div className="section-heading">
         <h2>Before you walk through the door</h2>
       </div>
-      <div className="panel exam-day">
+      <Panel className="exam-day">
         <div>
           <span>01</span>
           <h3>Book the right exam</h3>
@@ -290,7 +291,7 @@ export const Guide = ({
             and your centre’s current instructions.
           </p>
         </div>
-      </div>
+      </Panel>
       <div className="section-heading">
         <h2>Go straight to the source</h2>
         <span className="subtle">Instituto Cervantes · Primary sources</span>

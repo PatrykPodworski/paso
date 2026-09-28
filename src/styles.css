@@ -500,18 +500,6 @@ main {
   margin: auto;
   outline: none;
 }
-.page-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 29px;
-}
-.page-heading p {
-  font-size: 14px;
-  color: #8b9386;
-  margin-top: 9px;
-}
 .greeting {
   color: #a38761 !important;
   font-size: 11px !important;
@@ -3549,16 +3537,6 @@ main {
   main {
     padding: 26px 20px 0;
   }
-  .page-heading {
-    gap: 15px;
-    margin-bottom: 24px;
-  }
-  .page-heading h1 {
-    font-size: 30px;
-  }
-  .page-heading p {
-    font-size: 14px;
-  }
   .dashboard-heading h1 {
     font-size: 29px;
   }
@@ -4209,9 +4187,6 @@ main {
     font-size: 12px;
     padding: 14px 0;
   }
-  .page-heading h1 {
-    font-size: 28px;
-  }
   .path-banner > div {
     min-width: 160px;
   }
@@ -4615,7 +4590,6 @@ main {
 .phrase-card > div > span,
 .quick-practice small,
 .section-heading p,
-.page-heading p,
 .question-footer > span,
 .lesson-tip,
 .subtle {

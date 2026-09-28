@@ -1,0 +1,80 @@
+import { useState } from "react";
+import type { Ref } from "react";
+import type { Question } from "../data/types";
+import { AudioButton } from "./Audio";
+import type { AudioHandle } from "./Audio";
+export const QuestionMaterials = ({
+  q,
+  exam,
+  passageAudio,
+  onTranscript,
+}: {
+  q: Question;
+  exam: boolean;
+  passageAudio: Ref<AudioHandle>;
+  onTranscript: () => void;
+}) => {
+  const [transcript, setTranscript] = useState(false);
+  return (
+    <>
+      {q.image && (
+        <img
+          className="question-scene"
+          src={`/illustrations/${q.image}.svg`}
+          alt={
+            q.image === "cafe"
+              ? "Illustrated café counter with coffee and bread"
+              : q.image === "town"
+                ? "A neighborhood with a park, pharmacy and train station"
+                : "A train waiting at a station"
+          }
+        />
+      )}
+      {q.passage && (
+        <div className="reading-passage" lang="es">
+          <span className="paper-clip" aria-hidden="true" />
+          {!exam && (
+            <AudioButton
+              ref={passageAudio}
+              continuous
+              minimal
+              text={q.passage}
+              label="Play the reading passage"
+            />
+          )}
+          <p>{q.passage}</p>
+        </div>
+      )}
+      {q.audio && (
+        <>
+          {!exam && (
+            <button
+              type="button"
+              className="text-link transcript-toggle"
+              onClick={() => {
+                setTranscript((t) => !t);
+                onTranscript();
+              }}
+            >
+              {transcript ? "Hide transcript" : "Need a hand? Show transcript"}
+            </button>
+          )}
+          {transcript && (
+            <div className="transcript" lang="es">
+              {q.audio}
+              <small>
+                Transcript assistance is recorded; this answer will not count toward unassisted
+                accuracy.
+              </small>
+            </div>
+          )}
+        </>
+      )}
+      {q.visual && (
+        <div className="vocab-visual" role="img" aria-label="Vocabulary illustration">
+          {q.visual}
+        </div>
+      )}
+    </>
+  );
+};

@@ -1,5 +1,6 @@
 import { Icon } from "./Icon";
 import { navigation, type Page } from "./navigation";
+
 export const Sidebar = ({
   page,
   navigate,

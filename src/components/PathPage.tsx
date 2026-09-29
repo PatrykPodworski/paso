@@ -10,6 +10,7 @@ import { Icon } from "./Icon";
 import type { Page } from "./navigation";
 import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
+
 export const PathPage = ({
   progress,
   nextLesson,
@@ -30,6 +31,7 @@ export const PathPage = ({
   navigate: (target: Page) => void;
 }) => {
   const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
+
   return (
     <>
       <PageHeading

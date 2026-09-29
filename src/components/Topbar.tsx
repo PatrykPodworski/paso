@@ -2,6 +2,7 @@ import { streak, xp } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 import { navigation, type Page } from "./navigation";
+
 export const Topbar = ({
   page,
   progress,

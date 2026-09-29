@@ -5,6 +5,7 @@ import type { Lesson } from "../data/types";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 import type { Practice, Session } from "./practice";
+
 export const MistakesPanel = ({
   mistakeQuestions,
   setSession,

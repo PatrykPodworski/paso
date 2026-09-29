@@ -2,6 +2,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, Progress, Unit } from "../data/types";
 import { AudioButton } from "./Audio";
 import { Icon } from "./Icon";
+
 export const UnitCard = ({
   unit,
   onPath = false,
@@ -20,6 +21,7 @@ export const UnitCard = ({
   onExpand: () => void;
 }) => {
   const done = unit.lessons.filter((l) => progress.completed[l.id]).length;
+
   return (
     <article className={`unit-card ${expanded ? "expanded" : ""}`}>
       <button type="button" className="unit-summary" onClick={onExpand} aria-expanded={expanded}>

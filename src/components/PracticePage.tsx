@@ -8,6 +8,7 @@ import type { Page } from "./navigation";
 import { PocketVocabulary } from "./PocketVocabulary";
 import { exerciseBank, skills, type Practice, type Session } from "./practice";
 import { SkillPractice } from "./SkillPractice";
+
 export const PracticePage = ({
   progress,
   setProgress,

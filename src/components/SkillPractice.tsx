@@ -7,6 +7,7 @@ import { skillStats } from "../data/progress";
 import type { Progress, Skill } from "../data/types";
 import { Icon } from "./Icon";
 import { skills, type Practice, type Session } from "./practice";
+
 export const SkillPractice = ({
   progress,
   filter,
@@ -49,6 +50,7 @@ export const SkillPractice = ({
         .filter((s) => filter === "all" || filter === s.id)
         .map((s) => {
           const stats = skillStats(progress, s.id);
+
           return (
             <Panel
               as="button"

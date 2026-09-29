@@ -5,6 +5,7 @@ import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 import type { Page } from "./navigation";
 import { exerciseBank, skills, type Practice } from "./practice";
+
 export const SkillsPanel = ({
   progress,
   navigate,
@@ -22,6 +23,7 @@ export const SkillsPanel = ({
     {skills.map((s) => {
       const stats = skillStats(progress, s.id);
       const total = exerciseBank.filter((q) => q.skill === s.id).length;
+
       return (
         <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
           <span className={`skill-icon ${s.id}`}>

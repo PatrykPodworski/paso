@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+
 const paths: Record<string, string> = {
   arrow: "M4 12h15m-6-6 6 6-6 6",
   chevron: "m9 5 7 7-7 7",
@@ -40,6 +41,7 @@ const paths: Record<string, string> = {
   menu: "M3 5h18M3 12h18M3 19h18",
   star: "m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6Z",
 };
+
 export const Icon = ({
   name,
   size = 20,

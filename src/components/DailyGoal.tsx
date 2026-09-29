@@ -3,6 +3,7 @@ import { Panel, PanelHeading } from "../design-system/Panel";
 import { dailyAnswers, localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
+
 export const DailyGoal = ({
   progress,
   openSettings,
@@ -11,6 +12,7 @@ export const DailyGoal = ({
   openSettings: () => void;
 }) => {
   const today = dailyAnswers(progress);
+
   return (
     <Panel as="section" className="daily-goal">
       <PanelHeading title="Your daily little win">
@@ -49,8 +51,10 @@ export const DailyGoal = ({
       <div className="week-dots">
         {Array.from({ length: 7 }, (_, i) => {
           const d = new Date();
+
           d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
           const n = dailyAnswers(progress, localDate(d));
+
           return (
             <div key={i} className={localDate(d) === localDate() ? "is-today" : ""}>
               <span>{["M", "T", "W", "T", "F", "S", "S"][i]}</span>

@@ -20,6 +20,7 @@ import { useNavigation } from "./components/useNavigation";
 import { usePersistedProgress } from "./components/usePersistedProgress";
 import { useToast } from "./components/useToast";
 import { Notice } from "./design-system/Notice";
+
 const App = () => {
   const [progress, setProgress, storageError] = usePersistedProgress();
   const { page, setPage, navigate, mobileNav, setMobileNav } = useNavigation();
@@ -35,17 +36,23 @@ const App = () => {
 
   const practice = (skill: Skill | "all" | "mistakes") => {
     const lesson = practiceLesson(skill, progress, mistakeQuestions);
+
     if (!lesson) {
       setToast("Nothing to review yet. Your future mistakes will appear here.");
+
       return;
     }
+
     setSession(lesson);
   };
+
   const saveAttempt = (a: Attempt) => setProgress((p) => withAttempt(p, a));
+
   const complete = (score: number, total: number) => {
     if (!session) {
       return;
     }
+
     if (allLessons.some((l) => l.id === session.id)) {
       setProgress((p) => ({
         ...p,
@@ -53,6 +60,7 @@ const App = () => {
       }));
     }
   };
+
   const pages: Record<Page, ReactNode> = {
     today: (
       <TodayPage
@@ -113,6 +121,7 @@ const App = () => {
       />
     ),
   };
+
   return (
     <div className="app-shell">
       <a
@@ -181,11 +190,13 @@ const App = () => {
           onSave={(patch) => setProgress((p) => ({ ...p, ...patch }))}
           onReset={() => {
             setProgress(emptyProgress());
+
             try {
               localStorage.removeItem("paso-mock-v1");
             } catch {
               /* State still resets for this visit. */
             }
+
             setSettings(false);
             setPage("today");
             window.location.hash = "today";
@@ -202,4 +213,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;

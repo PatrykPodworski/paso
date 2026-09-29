@@ -1,5 +1,6 @@
 import type { Lesson, Progress, Skill } from "../data/types";
 import { exerciseBank } from "./practice";
+
 export const practiceLesson = (
   skill: Skill | "all" | "mistakes",
   progress: Progress,
@@ -9,15 +10,19 @@ export const practiceLesson = (
     skill === "mistakes"
       ? mistakeQuestions
       : exerciseBank.filter((q) => skill === "all" || q.skill === skill);
+
   if (!questions.length) {
     return null;
   }
+
   if (skill !== "mistakes") {
     const practiced = new Map(progress.attempts.map((a) => [a.questionId, a.at]));
+
     questions = [...questions].sort((a, b) =>
       (practiced.get(a.id) || "").localeCompare(practiced.get(b.id) || ""),
     );
   }
+
   return {
     id: `practice-${skill}`,
     title:

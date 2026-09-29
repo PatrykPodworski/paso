@@ -14,6 +14,7 @@ import { QuickPractice } from "./QuickPractice";
 import { SkillsPanel } from "./SkillsPanel";
 import { TodayHeading } from "./TodayHeading";
 import { UnitCard } from "./UnitCard";
+
 export const TodayPage = ({
   progress,
   nextLesson,

@@ -1,5 +1,6 @@
 import { Icon } from "./Icon";
 import type { Practice } from "./practice";
+
 export const QuickPractice = ({
   mistakeCount,
   practice,

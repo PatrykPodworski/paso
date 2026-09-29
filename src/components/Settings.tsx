@@ -7,6 +7,7 @@ import { TextLink } from "../design-system/TextLink";
 import { localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
+
 export const Settings = ({
   progress,
   onSave,
@@ -22,16 +23,20 @@ export const Settings = ({
   const [goal, setGoal] = useState(progress.goal);
   const [date, setDate] = useState(progress.examDate);
   const [reset, setReset] = useState(false);
+
   const exportProgress = () => {
     const url = URL.createObjectURL(
       new Blob([JSON.stringify(progress, null, 2)], { type: "application/json" }),
     );
+
     const a = document.createElement("a");
+
     a.href = url;
     a.download = `paso-progress-${localDate()}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+
   return (
     <Dialog label="Your learning preferences" onClose={onClose} className="settings-dialog">
       <header>

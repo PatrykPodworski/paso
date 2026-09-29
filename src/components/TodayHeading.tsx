@@ -3,6 +3,7 @@ import { PageHeading } from "../design-system/PageHeading";
 import { localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
+
 export const TodayHeading = ({
   progress,
   openSettings,
@@ -17,6 +18,7 @@ export const TodayHeading = ({
           86400000,
       )
     : null;
+
   return (
     <PageHeading
       className="dashboard-heading"

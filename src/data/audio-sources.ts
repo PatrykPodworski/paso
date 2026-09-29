@@ -8,5 +8,6 @@ export const audioSources = (text: string) => {
   const key = audioKey(text);
   const generated = recordings[key];
   const bundled = `/audio/${key}.m4a`;
+
   return generated ? [generated.src, bundled] : [bundled];
 };

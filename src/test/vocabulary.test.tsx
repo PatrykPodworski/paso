@@ -216,6 +216,33 @@ it("lists every topic in file order, even with an empty deck", () => {
     topics.map((t) => t.topic),
   );
   expect(rows[0]).toHaveTextContent("Everyday basics");
+  expect(
+    screen.getByText("Add words from a topic below or complete a vocabulary lesson."),
+  ).toBeInTheDocument();
+});
+
+it("adds five words from a topic to the deck as new cards", () => {
+  mount(progressWithDue(2));
+  const row = topicRow("Weather");
+  expect(row).toHaveTextContent("0 learning");
+  fireEvent.click(within(row).getByRole("button", { name: "Add 5 words" }));
+  count("To review", 2 + 5);
+  expect(row).toHaveTextContent("5 learning");
+  expect(Object.keys(saved().vocabularyReviews)).toHaveLength(words.length - 2 + 5);
+  const added = topics.find((t) => t.topic === "Weather")!.cards[0];
+  const card = screen.getByText(added.es, { selector: ".vocabulary-list strong" }).closest("li")!;
+  expect(card).toHaveTextContent("New · ready now");
+});
+
+it("adds only the words a topic has left, then shows it as all added", () => {
+  const p = emptyProgress();
+  const [first] = topics.find((t) => t.topic === "Appearance (adjectives)")!.cards;
+  p.vocabularyReviews[first.id] = { level: 1, nextAt: tomorrow };
+  mount(p);
+  const row = topicRow("Appearance (adjectives)");
+  fireEvent.click(within(row).getByRole("button", { name: "Add 1 word" }));
+  expect(within(row).getByRole("button", { name: "All added" })).toBeDisabled();
+  expect(row).toHaveTextContent("0 new");
 });
 
 it("counts a completed unit's words as learning in their topic", () => {

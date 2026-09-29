@@ -5,7 +5,7 @@ import type { Progress } from "./types";
 
 // Level 4 reviews come back after 14 days or more.
 const KNOWN_LEVEL = 4;
-const WORDS_PER_ADD = 5;
+export const WORDS_PER_ADD = 5;
 
 export type Card = {
   // SRS and example key. A second sense of a word carries its own key.

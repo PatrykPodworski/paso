@@ -1113,6 +1113,12 @@ const App = () => {
                     vocabularyReviews: { ...p.vocabularyReviews, [word]: review },
                   }))
                 }
+                onAddWords={(entries) =>
+                  setProgress((p) => ({
+                    ...p,
+                    vocabularyReviews: { ...p.vocabularyReviews, ...entries },
+                  }))
+                }
                 onLearn={() => navigate("path")}
               />
             </>

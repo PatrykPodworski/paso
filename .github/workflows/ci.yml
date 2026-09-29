@@ -98,7 +98,7 @@ jobs:
       - run: PLAYWRIGHT_BROWSERS_PATH=.cache/playwright pnpm exec playwright install --with-deps chromium
       # The configured Argos reporter uploads whenever CI is set, which would post a second
       # Argos build next to the visual job's; this run keeps only list and html.
-      - run: pnpm test:e2e --reporter=list,html --workers=2
+      - run: pnpm test:e2e --reporter=list,html
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

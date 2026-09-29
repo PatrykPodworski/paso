@@ -1,6 +1,7 @@
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Badge } from "../design-system/Badge";
 import { PageHeading } from "../design-system/PageHeading";
+import { Notice } from "../design-system/Notice";
 import { useState } from "react";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
@@ -51,9 +52,9 @@ export const MockExam = ({
         </Badge>
       </PageHeading>
       {storageError && (
-        <p className="notice" role="status">
+        <Notice as="p" role="status">
           This browser could not save the rehearsal. Keep this page open to retain your work.
-        </p>
+        </Notice>
       )}
       {run.stage === "intro" && <MockIntro progress={progress} onStart={start} />}
       {run.stage === "done" && (

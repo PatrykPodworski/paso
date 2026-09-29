@@ -190,26 +190,6 @@ svg {
   font-size: 14px;
   color: var(--muted);
 }
-.notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 17px 20px;
-  background: #f4efdf;
-  border: 1px solid #e9e0c7;
-  border-radius: 9px;
-  margin: 18px 0;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.notice > svg {
-  margin-top: 2px;
-  width: 18px;
-}
-.notice.positive {
-  background: #edf3e5;
-  border-color: #dbe6d1;
-}
 .app-shell {
   min-height: 100vh;
 }
@@ -608,25 +588,6 @@ main {
   letter-spacing: 1.7px;
   color: #a3a087;
   z-index: 2;
-}
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 28px 0 17px;
-}
-.section-heading h2 {
-  font-size: 25px;
-}
-.section-heading p {
-  font-size: 14px;
-  color: #8a9382;
-  margin-top: 5px;
-}
-.path-heading {
-  margin-top: 30px;
-  margin-bottom: 17px;
 }
 .path-overview {
   display: flex;
@@ -1448,100 +1409,13 @@ main {
   color: #99a589;
   width: 17px;
 }
-.word-heading {
-  margin-top: 37px;
-}
-.pocket-vocabulary .word-heading h2 {
-  margin-top: 8px;
-}
-.pocket-icon {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: var(--sage);
-  color: var(--green);
-}
 .vocabulary-overview {
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
   background: var(--paper);
 }
-.vocabulary-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 0;
-  border-bottom: 1px solid var(--line);
-}
-.vocabulary-stats > div {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 7px;
-  padding: 24px;
-}
-.vocabulary-stats > div + div {
-  border-left: 1px solid var(--line);
-}
-.vocabulary-stats .is-due {
-  background: var(--sage);
-}
-.vocabulary-stats dt {
-  font-size: 12px;
-  color: #59675d;
-}
-.vocabulary-stats dd {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 36px;
-  line-height: 1;
-  color: var(--green);
-}
-.vocabulary-start {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px;
-}
-.vocabulary-start h3,
-.vocabulary-collection h3 {
-  font-size: 17px;
-}
-.vocabulary-start p,
-.vocabulary-collection .section-heading p {
-  font-size: 13px;
-  line-height: 1.6;
-  color: #59675d;
-  margin-top: 6px;
-}
-.vocabulary-collection {
-  margin-top: 26px;
-}
-.vocabulary-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 380px;
-  overflow-y: auto;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--paper);
-}
-.vocabulary-list li {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 70px minmax(150px, auto);
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-}
-.vocabulary-list li + li {
-  border-top: 1px solid var(--line);
-}
-.vocabulary-word,
-.vocabulary-availability {
+.vocabulary-word {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -1551,21 +1425,9 @@ main {
   font-size: 18px;
   overflow-wrap: anywhere;
 }
-.vocabulary-word > span,
-.vocabulary-unit,
-.vocabulary-availability {
+.vocabulary-word > span {
   font-size: 12px;
   color: #59675d;
-}
-.vocabulary-availability {
-  align-items: flex-end;
-  text-align: right;
-}
-.vocabulary-availability.is-due strong {
-  color: var(--green);
-}
-.flashcard-review {
-  padding: 28px 36px;
 }
 .flashcard-last-review {
   display: flex;
@@ -1576,34 +1438,6 @@ main {
   line-height: 1.6;
   color: #59675d;
   background: var(--sage);
-}
-.flashcard-prompt {
-  text-align: center;
-  padding: 24px 16px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: var(--paper);
-}
-.flashcard-prompt p {
-  color: #59675d;
-  font-size: 14px;
-  margin-top: 24px;
-}
-.flashcard-prompt h2 {
-  font-family: var(--serif);
-  font-size: clamp(30px, 6vw, 44px);
-  margin: 18px 0;
-  overflow-wrap: anywhere;
-}
-.flashcard-prompt > .audio-control {
-  justify-content: center;
-}
-.flashcard-prompt .icon-button {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--sage);
-  color: var(--green);
 }
 .flashcard-answer {
   margin-top: 20px;
@@ -1656,134 +1490,10 @@ main {
   color: #59675d;
   margin-top: 20px;
 }
-@media (max-width: 650px) {
-  .vocabulary-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .vocabulary-stats > div {
-    padding: 20px;
-  }
-  .vocabulary-stats > div:nth-child(3) {
-    border-left: 0;
-  }
-  .vocabulary-stats > div:nth-child(n + 3) {
-    border-top: 1px solid var(--line);
-  }
-  .vocabulary-start {
-    align-items: stretch;
-    flex-direction: column;
-    padding: 20px;
-    gap: 18px;
-  }
-  .pocket-icon {
-    display: none;
-  }
-  .vocabulary-collection .section-heading {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
-  }
-  .vocabulary-collection .search-field {
-    width: 100%;
-  }
-  .vocabulary-list li {
-    grid-template-columns: minmax(0, 1fr) minmax(120px, auto);
-    padding: 16px;
-    gap: 8px 12px;
-  }
-  .vocabulary-unit {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .vocabulary-availability {
-    grid-column: 2;
-    grid-row: 1 / 3;
-  }
-  .flashcard-review {
-    padding: 20px 16px;
-  }
-  .flashcard-prompt {
-    padding: 20px 12px;
-  }
-}
-.search-field {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #fffefa;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding-left: 11px;
-  width: 210px;
-  color: #a6ae97;
-}
-.search-field input {
-  border: 0 !important;
-  outline: none !important;
-  padding: 10px 10px 10px 0 !important;
-  background: none !important;
-  font-size: 14px;
-}
-.vocabulary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-}
-.vocab-card {
-  position: relative;
-  background: #fffefa;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  min-width: 0;
-  transition: background 0.3s;
-}
-.vocab-card.flipped {
-  background: #eff3e7;
-}
-.vocab-flip {
-  background: none;
-  border: 0;
-  width: 100%;
-  height: 205px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.vocab-unit {
-  align-self: flex-start;
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: #b0b6a2;
-  margin-bottom: 17px;
-}
 .vocab-emoji {
   font-size: 35px;
   line-height: 1.3;
   margin-bottom: 14px;
-}
-.vocab-flip strong {
-  font-size: 16px;
-  font-family: var(--serif);
-  font-weight: 500;
-  line-height: 1.4;
-}
-.vocab-flip small {
-  font-size: 11px;
-  color: #a4ad96;
-  margin-top: 8px;
-}
-.vocab-card > .audio-control {
-  position: absolute;
-  right: 11px;
-  top: 9px;
-}
-.vocab-card .icon-button {
-  color: #b0bba0;
-  width: 28px;
-  height: 28px;
 }
 .mistakes-panel {
   padding: 30px;
@@ -1823,108 +1533,6 @@ main {
 .empty-state p {
   font-size: 14px;
   margin: 10px 0;
-}
-.guide-overview {
-  padding: 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 35px;
-  background: #edf0e3;
-}
-.guide-overview > div:first-child {
-  max-width: 680px;
-}
-.guide-overview h2 {
-  font-size: 32px;
-  margin: 11px 0 14px;
-}
-.guide-overview p {
-  color: #829174;
-  font-size: 14px;
-}
-.guide-overview a {
-  margin-top: 15px;
-}
-.a1-emblem {
-  width: 145px;
-  height: 160px;
-  flex-shrink: 0;
-  border: 1px solid #bbcaab;
-  background: #e5ecdb;
-  border-radius: 75px 75px 14px 14px;
-  font-size: 76px;
-  font-family: var(--serif);
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #8ea078;
-  line-height: 1;
-}
-.a1-emblem > span {
-  font-family: "Avenir Next", sans-serif;
-  font-size: 9px;
-  letter-spacing: 1.4px;
-  margin-top: 17px;
-}
-.exam-table-wrap {
-  padding: 8px 25px 17px;
-  overflow-x: auto;
-}
-.exam-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  text-align: left;
-  white-space: nowrap;
-}
-.exam-table th {
-  color: #a0aa91;
-  font-weight: 500;
-  font-size: 13px;
-  padding: 15px 10px;
-  border-bottom: 1px solid #e6ecdd;
-}
-.exam-table td {
-  padding: 18px 10px;
-  border-bottom: 1px solid #edf0e6;
-  color: #78876a;
-}
-.exam-table td:first-child {
-  color: #526846;
-  font-weight: 600;
-}
-.exam-table td svg {
-  vertical-align: middle;
-  width: 17px;
-  margin-right: 10px;
-}
-.exam-table td:last-child {
-  font-weight: 600;
-}
-.guide-two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  margin-top: 24px;
-}
-.pass-simulator,
-.examiner-notes {
-  padding: 27px;
-}
-.pass-simulator h3,
-.examiner-notes > h3 {
-  font-family: var(--serif);
-  font-size: 25px;
-  font-weight: 500;
-  margin: 9px 0 12px;
-}
-.pass-simulator > p {
-  font-size: 14px;
-  color: #8d997e;
-  margin-bottom: 23px;
 }
 .score-slider {
   display: block;
@@ -1984,120 +1592,9 @@ main {
 .pass-verdict > svg {
   width: 17px;
 }
-.examiner-notes > div {
-  display: flex;
-  gap: 15px;
-  margin-top: 23px;
-}
-.examiner-notes > div > svg {
-  margin-top: 3px;
-  color: #a2ae90;
-}
-.examiner-notes h4 {
-  font-size: 15px;
-}
-.examiner-notes section p {
-  font-size: 14px;
-  color: #89977a;
-  margin-top: 6px;
-}
-.requirement-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 21px;
-}
-.requirement-group {
-  padding: 25px;
-}
-.requirement-group h3 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 23px;
-  font-size: 17px;
-}
-.requirement-group h3 svg {
-  color: #9ca987;
-  width: 20px;
-}
-.requirement-row {
-  display: flex;
-  gap: 11px;
-  margin: 17px 0;
-  align-items: flex-start;
-  color: #7f8f70;
-  font-size: 14px;
-  line-height: 1.65;
-}
-.requirement-row input {
-  margin: 3px 0 0;
-}
-.requirement-row small {
-  font-size: 11px;
-  color: #a5ae98;
-  display: block;
-  margin-top: 5px;
-}
-.exam-day {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 27px;
-  gap: 28px;
-}
-.exam-day > div > span {
-  font-family: var(--serif);
-  font-size: 28px;
-  color: #bac4aa;
-}
-.exam-day h3 {
-  font-size: 16px;
-  margin: 10px 0;
-}
-.exam-day p {
-  font-size: 14px;
-  color: #929e83;
-}
-.source-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.source-card {
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 17px;
-  background: #fffefa;
-  text-decoration: none;
-}
-.source-card:hover {
-  border-color: #bdcdb0;
-  background: #f6f8ef;
-}
 .source-number {
   font-size: 13px;
   color: #b4bea7;
-}
-.source-card > span:nth-child(2) {
-  flex: 1;
-}
-.source-card strong {
-  font-size: 14px;
-  font-weight: 600;
-  display: block;
-  line-height: 1.5;
-}
-.source-card small {
-  font-size: 12px;
-  line-height: 1.5;
-  display: block;
-  color: #a0aa91;
-  margin-top: 4px;
-}
-.source-card > svg {
-  color: #9eac8b;
 }
 .guide-footer {
   font-size: 13px;
@@ -2445,25 +1942,6 @@ main {
 }
 .exam-results > .button-row {
   justify-content: center;
-}
-.lesson-dialog {
-  width: min(810px, calc(100vw - 36px));
-}
-.lesson-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 22px 26px;
-}
-.lesson-header > div {
-  flex: 1;
-}
-.lesson-header h3 {
-  font-size: 15px;
-}
-.lesson-counter {
-  font-size: 14px;
-  color: #9aa88c;
 }
 .lesson-progress {
   height: 4px;
@@ -3004,13 +2482,6 @@ main {
   font-size: 16px;
   line-height: 1.7;
 }
-.vocab-card > .memory-hint {
-  margin: 0 12px 12px;
-  padding: 14px;
-}
-.vocab-card > .memory-hint p {
-  font-size: 14px;
-}
 .feedback-bottom {
   margin-top: 20px;
   display: flex;
@@ -3069,7 +2540,6 @@ main {
 .feedback details p {
   margin-top: 10px;
 }
-.session-complete,
 .exit-confirm {
   padding: 50px 30px;
   text-align: center;
@@ -3099,40 +2569,6 @@ main {
 }
 .completion-art > span:last-child {
   transform: translateY(19px);
-}
-.session-complete h2 {
-  font-size: 39px;
-  margin: 12px 0;
-}
-.session-complete > p {
-  font-size: 14px;
-  color: #95a080;
-  margin-top: 13px;
-}
-.completion-stats {
-  display: flex;
-  justify-content: center;
-  gap: 45px;
-  margin: 30px 0;
-  padding: 22px;
-  border-block: 1px solid var(--line);
-}
-.completion-stats strong {
-  display: block;
-  font-family: var(--serif);
-  font-size: 32px;
-  color: #82986a;
-  font-weight: 500;
-}
-.completion-stats small {
-  font-size: 16px;
-  color: #a6b294;
-}
-.completion-stats span {
-  display: block;
-  font-size: 12px;
-  margin-top: 6px;
-  color: #a0ad8b;
 }
 .exit-confirm > svg {
   color: #9eaf85;
@@ -3423,9 +2859,6 @@ main {
   .lesson-row {
     gap: 9px;
   }
-  .section-heading h2 {
-    font-size: 22px;
-  }
   .quick-practice > button {
     padding: 15px 11px;
   }
@@ -3477,41 +2910,6 @@ main {
   }
   .exam-section-grid article {
     padding: 19px 15px;
-  }
-  .guide-overview h2 {
-    font-size: 28px;
-  }
-  .guide-overview {
-    padding: 27px;
-    gap: 20px;
-  }
-  .a1-emblem {
-    width: 115px;
-    height: 140px;
-    font-size: 65px;
-  }
-  .guide-overview p {
-    font-size: 14px;
-  }
-  .pass-simulator,
-  .examiner-notes {
-    padding: 23px;
-  }
-  .requirement-group {
-    padding: 23px;
-  }
-  .exam-table {
-    font-size: 13px;
-  }
-  .source-card {
-    gap: 10px;
-    padding: 15px;
-  }
-  .source-card strong {
-    font-size: 13px;
-  }
-  .source-card small {
-    font-size: 11px;
   }
   .topbar-stats {
     gap: 18px;
@@ -3670,9 +3068,6 @@ main {
   .practice-skill-card > span:last-of-type {
     font-size: 12px;
   }
-  .vocabulary-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
   .focused-practice {
     grid-template-columns: 1fr;
   }
@@ -3681,34 +3076,6 @@ main {
   }
   .focused-practice h3 {
     font-size: 16px;
-  }
-  .guide-two-col {
-    grid-template-columns: 1fr;
-  }
-  .requirement-grid {
-    grid-template-columns: 1fr;
-  }
-  .guide-overview {
-    display: block;
-  }
-  .a1-emblem {
-    display: none;
-  }
-  .exam-day {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .exam-day > div {
-    position: relative;
-    padding-left: 43px;
-  }
-  .exam-day > div > span {
-    position: absolute;
-    left: 0;
-    top: 3px;
-  }
-  .source-list {
-    grid-template-columns: 1fr;
   }
   .mock-intro-art {
     display: none;
@@ -3842,12 +3209,6 @@ main {
   }
   .hero-footnote {
     font-size: 9px;
-  }
-  .section-heading {
-    margin-top: 26px;
-  }
-  .section-heading h2 {
-    font-size: 25px;
   }
   .unit-summary {
     padding: 18px 17px;
@@ -4030,83 +3391,6 @@ main {
   .practice-skill-card > span:last-of-type {
     font-size: 11px;
   }
-  .word-heading {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  .search-field {
-    width: 100%;
-  }
-  .vocabulary-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .vocab-card.flipped {
-    grid-column: 1 / -1;
-  }
-  .vocab-card.flipped > .vocab-flip {
-    height: 175px;
-  }
-  .vocab-card > .memory-hint p {
-    font-size: 16px;
-  }
-  .vocab-flip {
-    height: 200px;
-    padding: 16px;
-  }
-  .vocab-flip strong {
-    font-size: 16px;
-  }
-  .vocab-flip small {
-    font-size: 11px;
-  }
-  .vocab-unit {
-    font-size: 10px;
-  }
-  .guide-overview {
-    padding: 25px;
-  }
-  .guide-overview h2 {
-    font-size: 28px;
-  }
-  .guide-overview p {
-    font-size: 14px;
-  }
-  .exam-table-wrap {
-    padding-inline: 12px;
-  }
-  .exam-table td {
-    font-size: 13px;
-    padding: 15px 10px;
-  }
-  .pass-simulator,
-  .examiner-notes {
-    padding: 24px;
-  }
-  .requirement-group {
-    padding: 23px;
-  }
-  .requirement-row {
-    font-size: 14px;
-  }
-  .requirement-row small {
-    font-size: 12px;
-  }
-  .exam-day p {
-    font-size: 14px;
-  }
-  .notice {
-    padding: 16px;
-    font-size: 14px;
-    gap: 9px;
-  }
-  .source-card strong {
-    font-size: 14px;
-  }
-  .source-card small {
-    font-size: 12px;
-  }
   .mock-intro {
     padding: 25px;
   }
@@ -4190,19 +3474,6 @@ main {
   }
   .oral-prep h2 {
     font-size: 28px;
-  }
-  .lesson-dialog {
-    width: calc(100vw - 22px);
-  }
-  .lesson-header {
-    padding: 18px;
-    gap: 12px;
-  }
-  .lesson-header h3 {
-    font-size: 14px;
-  }
-  .lesson-counter {
-    font-size: 12px;
   }
   .question-card {
     padding: 25px 22px;
@@ -4299,22 +3570,6 @@ main {
   }
   .writing-tools {
     flex-wrap: wrap;
-  }
-  .session-complete {
-    padding: 35px 20px;
-  }
-  .session-complete h2 {
-    font-size: 34px;
-  }
-  .completion-stats {
-    gap: 25px;
-    padding: 20px 0;
-  }
-  .completion-stats strong {
-    font-size: 29px;
-  }
-  .completion-stats span {
-    font-size: 11px;
   }
   .settings-dialog {
     padding: 25px;
@@ -4469,9 +3724,6 @@ main {
   .lesson-tip summary {
     font-size: 12px;
   }
-  .section-heading h2 {
-    font-size: 22px;
-  }
   .quick-practice {
     grid-template-columns: 1fr;
   }
@@ -4594,22 +3846,6 @@ main {
   .focused-practice p {
     font-size: 11px;
   }
-  .vocab-flip {
-    padding: 15px 11px;
-    height: 190px;
-  }
-  .vocab-flip strong {
-    font-size: 16px;
-  }
-  .vocab-flip small {
-    font-size: 10px;
-  }
-  .guide-overview h2 {
-    font-size: 25px;
-  }
-  .guide-overview {
-    padding: 22px;
-  }
   .exam-section-grid {
     gap: 11px;
   }
@@ -4696,12 +3932,6 @@ main {
   }
   .model-answer .audio-control {
     gap: 7px;
-  }
-  .completion-stats {
-    gap: 20px;
-  }
-  .completion-stats span {
-    font-size: 10px;
   }
   .question-scene {
     max-height: 130px;
@@ -4909,7 +4139,6 @@ main {
 .daily-goal > p,
 .phrase-card > div > span,
 .quick-practice small,
-.section-heading p,
 .question-footer > span,
 .lesson-tip,
 .subtle {
@@ -4965,22 +4194,6 @@ main {
 }
 .question-kind {
   color: #7c8c68;
-}
-.requirement-row {
-  color: #6d7e5c;
-}
-.source-card small {
-  color: #7e8d6c;
-}
-.examiner-notes section p,
-.pass-simulator > p {
-  color: #768762;
-}
-.vocab-flip strong {
-  font-size: 19px;
-}
-.vocab-flip small {
-  color: #7b8968;
 }
 @media (max-width: 760px) {
   .question-heading h2 {
@@ -5048,12 +4261,6 @@ main {
   .lesson-row {
     padding-block: 12px;
   }
-  .vocab-flip strong {
-    font-size: 18px;
-  }
-  .vocab-flip small {
-    font-size: 10px;
-  }
   .practice-tabs > button {
     font-size: 12px;
   }
@@ -5099,12 +4306,6 @@ main {
   }
   .hero-caption {
     font-size: 10px;
-  }
-  .section-heading {
-    gap: 12px;
-  }
-  .section-heading h2 {
-    font-size: 23px;
   }
   .path-overview {
     font-size: 11px;
@@ -5200,23 +4401,11 @@ main {
   .exam-steps .active {
     font-size: 10px;
   }
-  .exam-table th {
-    font-size: 11px;
-  }
-  .exam-table td {
-    font-size: 12px;
-  }
   .exam-section-grid p {
     font-size: 11px;
   }
   .exam-section-grid article > span {
     font-size: 11px;
-  }
-  .vocab-unit {
-    font-size: 9px;
-  }
-  .vocab-flip small {
-    font-size: 9px;
   }
   .hero-footnote {
     display: none;

@@ -1,6 +1,7 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Panel } from "../design-system/Panel";
+import { Notice } from "../design-system/Notice";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
@@ -52,7 +53,7 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
         </Panel>
       ))}
     </div>
-    <div className="notice">
+    <Notice>
       <Icon name="info" />
       <p>
         This is an independent guided rehearsal. Shorter listening clips, visual symbols and
@@ -67,7 +68,7 @@ export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: 
         to practise exact formatting and continuous audio. The timer keeps running if you leave this
         page.
       </p>
-    </div>
+    </Notice>
     {progress.mockResults.length > 0 && (
       <Panel className="previous-exams">
         <h3>Your previous rehearsals</h3>

@@ -1,4 +1,5 @@
 import { FieldNote } from "../design-system/FieldNote";
+import { Notice } from "../design-system/Notice";
 import { passingGroups } from "../data/progress";
 export const ScoreCalculator = ({
   reading,
@@ -57,7 +58,7 @@ export const ScoreCalculator = ({
         </label>
       </div>
       {entered ? (
-        <div className={`notice ${groups.pass ? "positive" : ""}`}>
+        <Notice positive={groups.pass}>
           <p>
             Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
             <br />
@@ -68,7 +69,7 @@ export const ScoreCalculator = ({
               : "At least one group is below 30/50 based on the entered scores."}{" "}
             This is not an official result or a prediction.
           </p>
-        </div>
+        </Notice>
       ) : (
         <FieldNote>
           A pass cannot be determined from reading and listening alone. Enter both scores between 0

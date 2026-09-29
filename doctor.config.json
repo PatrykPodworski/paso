@@ -1,0 +1,9 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "noScore": true,
+  "share": false,
+  "rules": {
+    "react-doctor/no-giant-component": "error",
+    "react-doctor/no-many-boolean-props": "warn"
+  }
+}

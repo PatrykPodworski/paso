@@ -3,10 +3,12 @@ import { Icon } from "../components/Icon";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
+import { SectionHeading } from "./SectionHeading";
 import { TextLink } from "./TextLink";
 import { FieldNote } from "./FieldNote";
 import { Panel, PanelHeading } from "./Panel";
 import { PageHeading } from "./PageHeading";
+import { Notice } from "./Notice";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
@@ -106,6 +108,23 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     ),
   },
   {
+    id: "section-heading",
+    name: "SectionHeading",
+    render: () => (
+      <div>
+        {(["default", "path", "word", "collection"] as const).map((variant) => (
+          <SectionHeading key={variant} variant={variant}>
+            <div>
+              {variant === "collection" ? <h3>Collection heading</h3> : <h2>{variant} heading</h2>}
+              <p>A short line of supporting text.</p>
+            </div>
+            <TextLink>Text link</TextLink>
+          </SectionHeading>
+        ))}
+      </div>
+    ),
+  },
+  {
     id: "panel",
     name: "Panel",
     render: () => (
@@ -119,6 +138,28 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         <Panel as="button" className="p-5 text-left">
           Button panel
         </Panel>
+      </div>
+    ),
+  },
+  {
+    id: "notice",
+    name: "Notice",
+    render: () => (
+      <div>
+        <Notice as="p" role="status">
+          Browser storage is unavailable. Progress is kept for this visit.
+        </Notice>
+        <Notice>
+          <Icon name="info" />
+          <p>
+            A notice with an icon and a <a href="#design-system">link inside</a>.
+          </p>
+        </Notice>
+        <Notice positive>
+          <p>
+            Reading + writing: <strong>36.00/50</strong>
+          </p>
+        </Notice>
       </div>
     ),
   },

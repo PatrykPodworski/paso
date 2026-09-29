@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AudioButton, stopAudio } from "../components/Audio";
+import { AudioButton, stopAudio } from "../components/AudioButton";
 
 vi.mock("../data/audio-sources", () => ({
   audioSources: () => ["/audio/elevenlabs/test.mp3", "/audio/original.m4a"],

@@ -81,6 +81,18 @@ export const playWord = async (text: string) => {
   }
 };
 
+type Props = {
+  ref?: Ref<AudioHandle>;
+  text: string;
+  label?: string;
+  compact?: boolean;
+  minimal?: boolean;
+  autoPlay?: boolean;
+  continuous?: boolean;
+  limit?: number;
+  onPlayed?: () => void;
+};
+
 export const AudioButton = ({
   ref: controlsRef,
   text,
@@ -91,17 +103,7 @@ export const AudioButton = ({
   continuous = false,
   limit,
   onPlayed,
-}: {
-  ref?: Ref<AudioHandle>;
-  text: string;
-  label?: string;
-  compact?: boolean;
-  minimal?: boolean;
-  autoPlay?: boolean;
-  continuous?: boolean;
-  limit?: number;
-  onPlayed?: () => void;
-}) => {
+}: Props) => {
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [count, setCount] = useState(0);

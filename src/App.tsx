@@ -1,4 +1,5 @@
 import { Button } from "./design-system/Button";
+import { Badge } from "./design-system/Badge";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
@@ -22,11 +23,15 @@ import { JourneyArt, Stamp } from "./components/Art";
 import { AudioButton } from "./components/Audio";
 import { Dialog } from "./design-system/Dialog";
 import { Eyebrow } from "./design-system/Eyebrow";
+import { SectionHeading } from "./design-system/SectionHeading";
+import { PageHeading } from "./design-system/PageHeading";
 import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
 import { FieldNote } from "./design-system/FieldNote";
+import { Panel, PanelHeading } from "./design-system/Panel";
+import { Notice } from "./design-system/Notice";
 import { TextLink } from "./design-system/TextLink";
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
@@ -517,15 +522,16 @@ const App = () => {
         </header>
         <main id="main-content" tabIndex={-1}>
           {storageError && (
-            <p className="notice" role="status">
+            <Notice as="p" role="status">
               Browser storage is unavailable. Progress is kept for this visit; use Export progress
               in preferences to save a copy.
-            </p>
+            </Notice>
           )}
           {page === "today" && (
             <>
-              <div className="page-heading dashboard-heading">
-                <div>
+              <PageHeading
+                className="dashboard-heading"
+                eyebrow={
                   <Eyebrow className="greeting mb-[9px]">
                     {new Date().getHours() < 12
                       ? "BUENOS DÍAS"
@@ -534,11 +540,10 @@ const App = () => {
                         : "BUENAS NOCHES"}{" "}
                     <span>✦</span>
                   </Eyebrow>
-                  <h1>
-                    {progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
-                  </h1>
-                  <p>Your next chapter starts with a small step.</p>
-                </div>
+                }
+                title={progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
+                description="Your next chapter starts with a small step."
+              >
                 <button className="date-chip" onClick={() => setSettings(true)}>
                   <Icon name="sun" size={17} />
                   {daysToExam === null
@@ -550,7 +555,7 @@ const App = () => {
                         : "Keep your Spanish growing"}
                   <Icon name="down" size={13} />
                 </button>
-              </div>
+              </PageHeading>
               <div className="dashboard-grid">
                 <div className="dashboard-primary">
                   <section className="hero-card">
@@ -581,7 +586,7 @@ const App = () => {
                     <JourneyArt />
                     <span className="hero-footnote">POCO A POCO, PASO A PASO.</span>
                   </section>
-                  <div className="section-heading path-heading">
+                  <SectionHeading variant="path">
                     <div>
                       <Eyebrow variant="heading" className="mb-[6px]">
                         A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
@@ -595,7 +600,7 @@ const App = () => {
                       View full path
                       <Icon name="arrow" size={16} />
                     </TextLink>
-                  </div>
+                  </SectionHeading>
                   <div className="path-overview">
                     <span>
                       <b>{completed}</b> of {allLessons.length} lessons complete
@@ -622,10 +627,10 @@ const App = () => {
                     Home, cafés, adventures & 6 more chapters
                     <Icon name="arrow" size={16} />
                   </button>
-                  <div className="section-heading">
+                  <SectionHeading>
                     <h2>A little change of pace</h2>
                     <span className="subtle">Make it yours</span>
-                  </div>
+                  </SectionHeading>
                   <div className="quick-practice">
                     <button onClick={() => practice("listening")}>
                       <span className="quick-icon lavender">
@@ -658,9 +663,8 @@ const App = () => {
                   </div>
                 </div>
                 <aside className="dashboard-aside">
-                  <section className="panel daily-goal">
-                    <div className="panel-heading">
-                      <h3>Your daily little win</h3>
+                  <Panel as="section" className="daily-goal">
+                    <PanelHeading title="Your daily little win">
                       <button
                         className="icon-button"
                         onClick={() => setSettings(true)}
@@ -668,7 +672,7 @@ const App = () => {
                       >
                         <Icon name="settings" size={16} />
                       </button>
-                    </div>
+                    </PanelHeading>
                     <div
                       className="goal-ring"
                       style={
@@ -715,12 +719,11 @@ const App = () => {
                         );
                       })}
                     </div>
-                  </section>
-                  <section className="panel skills-panel">
-                    <div className="panel-heading">
-                      <h3>A little of every skill</h3>
+                  </Panel>
+                  <Panel as="section" className="skills-panel">
+                    <PanelHeading title="A little of every skill">
                       <Icon name="layers" size={17} />
-                    </div>
+                    </PanelHeading>
                     <p>Four ways to grow your Spanish.</p>
                     {skills.map((s) => {
                       const stats = skillStats(progress, s.id);
@@ -750,7 +753,7 @@ const App = () => {
                       How the exam works
                       <Icon name="arrow" size={15} />
                     </TextLink>
-                  </section>
+                  </Panel>
                   <section className="phrase-card">
                     <Eyebrow variant="phrase">
                       <Icon name="spark" size={14} /> A PHRASE FOR TODAY
@@ -777,20 +780,23 @@ const App = () => {
           )}
           {page === "path" && (
             <>
-              <div className="page-heading">
-                <div>
+              <PageHeading
+                eyebrow={
                   <Eyebrow variant="page" className="mb-[9px]">
                     FROM YOUR FIRST HOLA TO YOUR A1
                   </Eyebrow>
-                  <h1>Every step has a story.</h1>
-                  <p>
+                }
+                title="Every step has a story."
+                description={
+                  <>
                     {units.length} units · {allLessons.length} lessons · {allQuestions.length}{" "}
                     exercises. Explore freely, or follow the path.
-                  </p>
-                </div>
+                  </>
+                }
+              >
                 <Stamp />
-              </div>
-              <div className="path-banner panel">
+              </PageHeading>
+              <Panel className="path-banner">
                 <span className={`unit-icon ${nextUnit.color}`}>
                   <Icon name={nextUnit.icon} size={28} />
                 </span>
@@ -813,7 +819,7 @@ const App = () => {
                   Continue learning
                   <Icon name="arrow" />
                 </Button>
-              </div>
+              </Panel>
               <div className="path-layout">
                 <div className="full-path">
                   {units.map((u, i) => (
@@ -855,7 +861,7 @@ const App = () => {
                     </Button>
                   </div>
                 </div>
-                <aside className="path-sidebar panel">
+                <Panel as="aside" className="path-sidebar">
                   <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
                   <h3>
                     Learn it. Try it.
@@ -884,25 +890,26 @@ const App = () => {
                     All lessons are open. Completion tracks practice, not exam readiness. Review
                     mistakes and use the A1 checklist to find gaps.
                   </FieldNote>
-                </aside>
+                </Panel>
               </div>
             </>
           )}
           {page === "practice" && (
             <>
-              <div className="page-heading">
-                <div>
+              <PageHeading
+                eyebrow={
                   <Eyebrow variant="page" className="mb-[9px]">
                     MORE PLAY. MORE PRACTICE. MORE YOU.
                   </Eyebrow>
-                  <h1>Your practice studio.</h1>
-                  <p>Follow your curiosity, or give a tricky word another chance.</p>
-                </div>
-                <span className="outline-badge">
+                }
+                title="Your practice studio."
+                description="Follow your curiosity, or give a tricky word another chance."
+              >
+                <Badge className="max-tablet:hidden">
                   <Icon name="spark" size={16} />
                   {exerciseBank.length} exercises to explore
-                </span>
-              </div>
+                </Badge>
+              </PageHeading>
               <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
                 {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
                   <button
@@ -919,7 +926,7 @@ const App = () => {
                 ))}
               </div>
               {filter === "mistakes" ? (
-                <div className="panel mistakes-panel">
+                <Panel className="mistakes-panel">
                   <span className="quick-icon peach">
                     <Icon name="repeat" size={28} />
                   </span>
@@ -969,10 +976,10 @@ const App = () => {
                       </TextLink>
                     </details>
                   ))}
-                </div>
+                </Panel>
               ) : (
                 <>
-                  <div className="practice-hero panel">
+                  <Panel className="practice-hero">
                     <div>
                       <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
                       <h2>
@@ -999,16 +1006,17 @@ const App = () => {
                       <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />
                       <i>¡Tú puedes!</i>
                     </div>
-                  </div>
+                  </Panel>
                   <div className="practice-skill-grid">
                     {skills
                       .filter((s) => filter === "all" || filter === s.id)
                       .map((s) => {
                         const stats = skillStats(progress, s.id);
                         return (
-                          <button
+                          <Panel
+                            as="button"
                             key={s.id}
-                            className="panel practice-skill-card"
+                            className="practice-skill-card"
                             onClick={() => practice(s.id)}
                           >
                             <span className={`skill-icon ${s.id}`}>
@@ -1023,13 +1031,13 @@ const App = () => {
                                 : `${stats.accuracy}% unassisted objective accuracy`}
                             </span>
                             <Icon name="arrow" size={19} />
-                          </button>
+                          </Panel>
                         );
                       })}
                   </div>
                   <div className="focused-practice">
-                    <button
-                      className="panel"
+                    <Panel
+                      as="button"
                       onClick={() =>
                         setSession({
                           id: "pictures",
@@ -1049,9 +1057,9 @@ const App = () => {
                         <p>6 visual puzzles · cafés, trains & your neighborhood</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
+                    </Panel>
+                    <Panel
+                      as="button"
                       onClick={() =>
                         setSession({
                           id: "foundations",
@@ -1071,9 +1079,9 @@ const App = () => {
                         <p>24 checks · sounds, spelling, numbers & patterns</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
+                    </Panel>
+                    <Panel
+                      as="button"
                       onClick={() =>
                         setSession({
                           id: "form",
@@ -1093,7 +1101,7 @@ const App = () => {
                         <p>A personal form · 15–25 words · exam task 1</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
+                    </Panel>
                   </div>
                 </>
               )}

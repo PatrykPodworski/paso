@@ -3,14 +3,15 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { Panel } from "../design-system/Panel";
 import { mockSections } from "../data/mock";
 import { Icon } from "./Icon";
+import type { Run, SetRun } from "./useMockRun";
 
 type Props = {
-  notes: string;
-  onNotes: (notes: string) => void;
-  onReady: () => void;
+  run: Run;
+  setRun: SetRun;
+  setNow: (now: number) => void;
 };
 
-export const OralPrep = ({ notes, onNotes, onReady }: Props) => (
+export const OralPrep = ({ run, setRun, setNow }: Props) => (
   <Panel className="oral-prep">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
     <h2>A moment to find your words.</h2>
@@ -28,12 +29,18 @@ export const OralPrep = ({ notes, onNotes, onReady }: Props) => (
       Your preparation notes
       <textarea
         rows={6}
-        value={notes}
-        onChange={(e) => onNotes(e.target.value)}
+        value={run.drafts.prep || ""}
+        onChange={(e) => setRun((r) => ({ ...r, drafts: { ...r.drafts, prep: e.target.value } }))}
         placeholder="Nombre · nacionalidad · edad…"
       />
     </label>
-    <Button variant="primary" onClick={onReady}>
+    <Button
+      variant="primary"
+      onClick={() => {
+        setNow(Date.now());
+        setRun((r) => ({ ...r, stage: "run", deadline: Date.now() + 600000 }));
+      }}
+    >
       I’m ready · start speaking
       <Icon name="mic" />
     </Button>

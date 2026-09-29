@@ -2,8 +2,10 @@ import { readFileSync } from "node:fs";
 import configuration from "./stryker.config.json" with { type: "json" };
 import { mutationGlobs } from "./scripts/mutation-scope.mjs";
 import { productionFiles } from "./scripts/test-surface.mjs";
+
 const files = productionFiles();
 const views = files.filter((file) => file.endsWith(".tsx"));
+
 export default {
   ...configuration,
   mutate: [

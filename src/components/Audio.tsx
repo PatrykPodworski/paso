@@ -3,6 +3,7 @@ import { FieldNote } from "../design-system/FieldNote";
 import { PlayButton } from "./PlayButton";
 import { useAudioPlayer } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";
+
 export const AudioButton = ({
   ref: controlsRef,
   text,
@@ -33,7 +34,9 @@ export const AudioButton = ({
     limit,
     onPlayed,
   });
+
   const iconOnly = compact || minimal;
+
   return (
     <div className={`audio-control ${iconOnly ? "compact" : ""}`}>
       <PlayButton

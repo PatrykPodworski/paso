@@ -1,5 +1,6 @@
 import { Icon } from "./Icon";
 import { PlayLabel } from "./PlayLabel";
+
 export const PlayButton = ({
   label,
   iconOnly,
@@ -16,6 +17,7 @@ export const PlayButton = ({
   onClick: () => void;
 }) => {
   const pauseLabel = minimal ? "Pause audio" : "Stop audio";
+
   return (
     <button
       type="button"

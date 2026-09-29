@@ -7,13 +7,17 @@ export type Playback = {
   setPlaying: (playing: boolean) => void;
   cancel: () => void;
 };
+
 export let activePlayback: Playback | null = null;
+
 export const setActivePlayback = (playback: Playback) => {
   activePlayback = playback;
 };
+
 export const stopAudio = () => {
   activePlayback?.cancel();
   activePlayback = null;
+
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }

@@ -13,6 +13,7 @@ import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
+
 interface Run {
   section: number;
   index: number;
@@ -23,6 +24,7 @@ interface Run {
   drafts: Record<string, string>;
 }
 const KEY = "paso-mock-v1";
+
 const fresh = (): Run => ({
   section: 0,
   index: 0,
@@ -32,9 +34,11 @@ const fresh = (): Run => ({
   started: "",
   drafts: {},
 });
+
 const load = (): Run => {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) || "null");
+
     return raw &&
       Number.isInteger(raw.section) &&
       raw.section >= 0 &&
@@ -50,6 +54,7 @@ const load = (): Run => {
     return fresh();
   }
 };
+
 export const MockExam = ({
   progress,
   onResult,
@@ -66,6 +71,7 @@ export const MockExam = ({
   const section = mockSections[run.section];
   const q = section.questions[run.index];
   const left = Math.max(0, Math.ceil((run.deadline - now) / 1000));
+
   useEffect(() => {
     try {
       localStorage.setItem(KEY, JSON.stringify(run));
@@ -73,26 +79,34 @@ export const MockExam = ({
       setStorageError(true);
     }
   }, [run]);
+
   useEffect(() => {
     if (run.stage !== "run" && run.stage !== "prep") {
       return;
     }
+
     const id = setInterval(() => setNow(Date.now()), 1000);
+
     return () => clearInterval(id);
   }, [run.stage]);
+
   useEffect(() => {
     if ((run.stage === "run" || run.stage === "prep") && run.deadline > 0 && now >= run.deadline) {
       stopAudio();
+
       setRun((r) =>
         r.stage === "prep"
           ? { ...r, stage: "run", deadline: Date.now() + 600000 }
           : { ...r, stage: "review" },
       );
+
       setConfirm(false);
     }
   }, [now, run.deadline, run.stage]);
+
   const start = () => {
     setNow(Date.now());
+
     setRun({
       ...fresh(),
       stage: "run",
@@ -100,22 +114,30 @@ export const MockExam = ({
       deadline: Date.now() + 45 * 60000,
     });
   };
+
   const endSection = () => {
     stopAudio();
     setConfirm(false);
     setRun((r) => ({ ...r, stage: "review" }));
   };
+
   const score = (index: number) =>
     mockSections[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || "")).length;
+
   const nextSection = () => {
     if (run.section === 3) {
       const result = { at: new Date().toISOString(), reading: score(0), listening: score(1) };
+
       onResult(result);
       setRun((r) => ({ ...r, stage: "done" }));
+
       return;
     }
+
     const next = run.section + 1;
+
     setNow(Date.now());
+
     setRun((r) => ({
       ...r,
       index: 0,
@@ -124,6 +146,7 @@ export const MockExam = ({
       deadline: Date.now() + (next === 3 ? 10 : mockSections[next].minutes) * 60000,
     }));
   };
+
   const download = () => {
     const body = {
       date: run.started,
@@ -142,15 +165,19 @@ export const MockExam = ({
         })),
       ),
     };
+
     const url = URL.createObjectURL(
       new Blob([JSON.stringify(body, null, 2)], { type: "application/json" }),
     );
+
     const a = document.createElement("a");
+
     a.href = url;
     a.download = "paso-exam-responses.json";
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+
   const entered =
     writing !== "" &&
     speaking !== "" &&
@@ -158,7 +185,9 @@ export const MockExam = ({
     +writing <= 25 &&
     +speaking >= 0 &&
     +speaking <= 25;
+
   const groups = passingGroups(score(0), +writing, score(1), +speaking);
+
   return (
     <div className="mock-page">
       <PageHeading
@@ -443,6 +472,7 @@ export const MockExam = ({
               <div className="answer-review-list">
                 {section.questions.map((q, i) => {
                   const answer = run.answers[q.id];
+
                   return (
                     <details key={q.id}>
                       <summary>
@@ -506,11 +536,13 @@ export const MockExam = ({
                 onDraft={(text) => setRun((r) => ({ ...r, drafts: { ...r.drafts, [q.id]: text } }))}
                 onSubmit={(answer) => {
                   stopAudio();
+
                   setRun((r) => ({
                     ...r,
                     answers: { ...r.answers, [q.id]: answer },
                     index: Math.min(r.index + 1, section.questions.length - 1),
                   }));
+
                   if (run.index === section.questions.length - 1) {
                     setConfirm(true);
                   }
@@ -529,6 +561,7 @@ export const MockExam = ({
                 <TextLink
                   onClick={() => {
                     stopAudio();
+
                     if (run.index === section.questions.length - 1) {
                       setConfirm(true);
                     } else {

@@ -3,33 +3,42 @@ import { allLessons, allQuestions, visualQuestions } from "../../src/data/curric
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
 import type { Page } from "@playwright/test";
+
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });
+
   if (await stop.isVisible()) {
     await stop.click();
   }
+
   await stabilise(page);
   const dialog = page.getByRole("dialog");
   const modal = (await dialog.count()) > 0;
+
   if (modal) {
     await dialog.evaluate((el) => (el.scrollTop = 0));
   }
+
   await capture(page, name, { fullPage: !modal });
+
   if (modal && (await dialog.evaluate((el) => el.scrollHeight > el.clientHeight + 4))) {
     await dialog.evaluate((el) => (el.scrollTop = el.scrollHeight));
     await capture(page, `${name}-bottom`);
   }
+
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
     "No horizontal overflow",
   ).toBe(true);
 };
+
 for (const view of ["today", "path", "practice", "exam", "guide"]) {
   test(`view: ${view}`, async ({ page }) => {
     await page.goto(`/#${view}`);
     await shot(page, view);
   });
 }
+
 for (const skill of ["Reading", "Listening", "Writing", "Speaking"]) {
   test(`practice filter: ${skill}`, async ({ page }) => {
     await page.goto("/#practice");
@@ -37,26 +46,33 @@ for (const skill of ["Reading", "Listening", "Writing", "Speaking"]) {
     await shot(page, `practice-${skill.toLowerCase()}`);
   });
 }
+
 test("mistakes: empty and populated", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "My mistakes (0)" }).click();
   await shot(page, "mistakes-empty");
+
   await page.evaluate((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), {
     ...emptyProgress(),
     mistakes: [allQuestions[0].id],
   });
+
   await page.reload();
   await page.getByRole("button", { name: "My mistakes (1)" }).click();
   await page.getByText(allQuestions[0].prompt, { exact: true }).click();
   await shot(page, "mistakes-with-explanation");
 });
+
 test("vocabulary: overview, review, feedback and no results", async ({ page }) => {
   const p = emptyProgress();
+
   p.completed["u6-words"] = { at: "2026-01-01T00:00:00Z", score: 8, total: 8 };
+
   await page.addInitScript(
     (state) => localStorage.setItem("paso-progress-v1", JSON.stringify(state)),
     p,
   );
+
   await page.goto("/#practice");
   await shot(page, "vocabulary-overview");
   await page.getByRole("button", { name: "Review flashcards" }).click();
@@ -78,18 +94,22 @@ test("preferences and reset confirmation", async ({ page }) => {
   await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
   await shot(page, "preferences-reset");
 });
+
 test("mobile navigation drawer", async ({ page }, info) => {
   test.skip(info.project.name !== "mobile", "Drawer is only a phone view");
   await page.goto("/");
   await page.getByRole("button", { name: "Open navigation" }).click();
   await shot(page, "navigation-drawer");
 });
+
 test("personalized dashboard with completed lessons and activity", async ({ page }) => {
   const p = emptyProgress();
+
   p.name = "Ana";
   p.goal = 5;
   p.examDate = "2026-10-09";
   p.completed[allLessons[0].id] = { score: 7, total: 8, at: "2026-09-09T08:00:00Z" };
+
   p.attempts = allLessons[0].questions.map((q, i) => ({
     id: String(i),
     questionId: q.id,
@@ -98,19 +118,23 @@ test("personalized dashboard with completed lessons and activity", async ({ page
     correct: i !== 0,
     at: "2026-09-09T08:00:00Z",
   }));
+
   p.mistakes = [allLessons[0].questions[0].id];
   await page.addInitScript((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), p);
   await page.goto("/");
   await shot(page, "dashboard-progress");
 });
+
 test("guide failing score groups and checklist", async ({ page }) => {
   await page.goto("/#guide");
   await page.getByRole("checkbox").first().check();
   await page.getByRole("slider").nth(2).fill("0");
   await shot(page, "guide-below-threshold");
 });
+
 test("question: choice, immediate error and memory hint", async ({ page }) => {
   const lesson = await openLesson(page, 0);
+
   await shot(page, "question-choice");
   await page.getByRole("button", { name: lesson.questions[0].options![1], exact: true }).click();
   await shot(page, "question-error");
@@ -122,16 +146,20 @@ test("question: choice, immediate error and memory hint", async ({ page }) => {
   await page.getByRole("button", { name: "Close lesson" }).click();
   await shot(page, "lesson-leave");
 });
+
 test("question: immediate vocabulary feedback for nombre and apellido", async ({ page }) => {
   const lesson = await openLesson(page, 4);
+
   await answer(page, lesson.questions[0]);
   await shot(page, "question-nombre-feedback");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await answer(page, lesson.questions[1]);
   await shot(page, "question-apellido-feedback");
 });
+
 test("question: completed grammar sentence and apellidos field pronunciation", async ({ page }) => {
   const grammar = await openLesson(page, 5);
+
   await answer(page, grammar.questions[0]);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await answer(page, grammar.questions[1]);
@@ -139,25 +167,33 @@ test("question: completed grammar sentence and apellidos field pronunciation", a
   await page.getByRole("button", { name: "Close lesson" }).click();
   await page.getByRole("button", { name: "Save & leave" }).click();
   const reading = await openLesson(page, 6);
+
   await answer(page, reading.questions[0]);
   await shot(page, "question-apellidos-reading-feedback");
 });
+
 test("lesson completion", async ({ page }) => {
   const l = await openLesson(page, 0);
+
   for (const q of l.questions) {
     await answer(page, q);
     await page.getByRole("button", { name: "Continue", exact: true }).click();
   }
+
   await shot(page, "lesson-complete");
 });
+
 test("question: sentence, typed answer, writing and reflection", async ({ page }) => {
   const l = await openLesson(page, 3);
+
   await shot(page, "question-order");
   await answer(page, l.questions[0]);
   const stop = page.getByRole("button", { name: "Stop audio" });
+
   if (await stop.isVisible()) {
     await stop.click();
   }
+
   await shot(page, "question-order-correct");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await shot(page, "question-type");
@@ -169,17 +205,20 @@ test("question: sentence, typed answer, writing and reflection", async ({ page }
   await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
   await shot(page, "writing-feedback");
 });
+
 test("question: form", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
   await page.getByRole("textbox", { name: "Nombre y apellidos" }).fill("Ana María López");
   await shot(page, "question-form");
 });
+
 test("question: image", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Picture this", exact: false }).click();
   await shot(page, "question-image");
 });
+
 test("question: speaking and reflection", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Find your voice", exact: false }).click();
@@ -189,6 +228,7 @@ test("question: speaking and reflection", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
   await shot(page, "speaking-feedback");
 });
+
 const examCases = [
   ["reading", 0, 0, "run"],
   ["listening", 1, 0, "run"],
@@ -202,6 +242,7 @@ const examCases = [
   ["speaking-review", 3, 0, "review"],
   ["results", 3, 0, "done"],
 ] as const;
+
 for (const [name, section, index, stage] of examCases) {
   test(`exam state: ${name}`, async ({ page }) => {
     const run = {
@@ -213,16 +254,20 @@ for (const [name, section, index, stage] of examCases) {
       started: "2026-09-09T08:00:00Z",
       drafts: {},
     };
+
     await page.addInitScript(
       (run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)),
       run,
     );
+
     await page.goto("/#exam");
     await shot(page, `exam-${name}`);
+
     if (name === "reading") {
       await page.getByRole("button", { name: "Finish section", exact: true }).click();
       await shot(page, "exam-finish-confirmation");
     }
+
     if (name === "results") {
       await page.getByRole("spinbutton", { name: "Writing score /25" }).fill("25");
       await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("25");
@@ -237,6 +282,7 @@ test("microphone denial", async ({ page }) => {
       throw new DOMException("Denied", "NotAllowedError");
     };
   });
+
   await page.goto("/");
   await page.getByRole("button", { name: "Find your voice", exact: false }).click();
   await page.getByRole("button", { name: "Record your answer" }).click();
@@ -248,11 +294,13 @@ test("illustrated scenarios in the picture studio", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Picture this", exact: false }).click();
   const seen = new Set();
+
   for (const q of visualQuestions) {
     if (!seen.has(q.image)) {
       await shot(page, `scene-${q.image}`);
       seen.add(q.image);
     }
+
     await answer(page, q);
     await page.getByRole("button", { name: "Continue", exact: true }).click();
   }

@@ -2,29 +2,36 @@ import { test as base, expect, type Locator, type Page } from "@playwright/test"
 import { argosScreenshot } from "@argos-ci/playwright";
 import { allLessons } from "../../src/data/curriculum";
 import type { Question } from "../../src/data/types";
+
 export const test = base.extend<{ blockExternal: void }>({
   blockExternal: [
     async ({ context }, provide) => {
       await context.route("**/*", async (route) => {
         const url = new URL(route.request().url());
+
         if (url.hostname !== "127.0.0.1" && url.protocol.startsWith("http")) {
           return route.abort("blockedbyclient");
         }
+
         return route.continue();
       });
+
       await provide();
     },
     { auto: true },
   ],
   page: async ({ page }, provide) => {
     const errors: string[] = [];
+
     page.on("pageerror", (error) => errors.push(error.message));
     await page.clock.setFixedTime(new Date("2026-09-09T10:00:00+02:00"));
     await provide(page);
     expect(errors, "Uncaught browser errors").toEqual([]);
   },
 });
+
 export { expect };
+
 // Argos is the only baseline. In CI the reporter uploads these captures and Argos
 // compares them against the main build; locally nothing is compared.
 export const capture = async (
@@ -43,26 +50,34 @@ export const stabilise = async (page: Page) => {
     content:
       "*, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }",
   });
+
   await page.evaluate(async () => {
     await document.fonts.ready;
     (document.activeElement as HTMLElement)?.blur();
     window.scrollTo(0, 0);
   });
+
   await page.mouse.move(0, 0);
 };
+
 export const openLesson = async (page: Page, index: number) => {
   await page.goto("/#path");
   const lesson = allLessons[index];
   const unit = page.locator(".unit-card").nth(Math.floor(index / 4));
+
   if ((await unit.locator(".unit-summary").getAttribute("aria-expanded")) !== "true") {
     await unit.locator(".unit-summary").click();
   }
+
   await unit.getByRole("button", { name: lesson.title, exact: false }).click();
+
   await expect(
     page.getByRole("heading", { name: lesson.questions[0].prompt, exact: true }),
   ).toBeVisible();
+
   return lesson;
 };
+
 export const answer = async (page: Page, q: Question, exam = false, wrong = false) => {
   if (q.options) {
     await page
@@ -71,6 +86,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
         exact: true,
       })
       .click();
+
     return;
   } else if (q.kind === "order") {
     for (const word of q.answer.split(" ")) {
@@ -81,6 +97,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
         .first()
         .click();
     }
+
     return;
   } else if (q.kind === "form") {
     for (const f of q.fields!) {
@@ -91,6 +108,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
   } else {
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
   }
+
   await page
     .getByRole("button", {
       name: exam
@@ -102,11 +120,14 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     })
     .click();
 };
+
 export const closeLesson = async (page: Page) => {
   await page.getByRole("button", { name: "Close lesson" }).click();
+
   if (await page.getByRole("button", { name: "Save & leave" }).isVisible()) {
     await page.getByRole("button", { name: "Save & leave" }).click();
   }
 };
+
 export const stored = async (page: Page, key = "paso-progress-v1") =>
   page.evaluate((k) => JSON.parse(localStorage.getItem(k) || "null"), key);

@@ -12,15 +12,20 @@ import type { Question } from "../data/types";
 // Test session accounting independently of the question widget. The real
 // widget and its integration are exercised in question-rules and browser tests.
 let card: ComponentProps<typeof QuestionCard>;
+
 vi.mock("../components/QuestionCard", () => ({
   QuestionCard: (props: typeof card) => {
     card = props;
+
     return <div data-testid="current-question">{props.q.id}</div>;
   },
 }));
+
 vi.mock("../components/playback", () => ({ stopAudio: vi.fn() }));
+
 const mount = (questions: Question[], progress = emptyProgress()) => {
   const callbacks = { onClose: vi.fn(), onComplete: vi.fn(), onAttempt: vi.fn(), onDraft: vi.fn() };
+
   const view = render(
     <LessonSession
       lesson={{
@@ -35,15 +40,19 @@ const mount = (questions: Question[], progress = emptyProgress()) => {
       {...callbacks}
     />,
   );
+
   return { ...callbacks, ...view };
 };
+
 const submit = (correct: boolean | null, help = false) =>
   act(() => card.onSubmit("Learner answer", correct, help));
+
 const stat = (label: string) =>
   screen.getByText(label, { exact: true }).parentElement!.querySelector("strong")!;
 
 it("counts mixed objective, creative and assisted work independently", () => {
   const { onComplete, container } = mount(allQuestions.slice(0, 4));
+
   expect(container.querySelector(".lesson-counter")).toHaveTextContent("1 / 4");
   submit(true);
   expect(container.querySelector(".lesson-counter")).toHaveTextContent("2 / 4");
@@ -59,9 +68,11 @@ it("counts mixed objective, creative and assisted work independently", () => {
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
   expect(stopAudio).toHaveBeenCalledTimes(4);
 });
+
 it("lets a reading passage play on while its own questions continue", () => {
   const passage = allQuestions.find((q) => q.passage)!.passage;
   const reading = allQuestions.filter((q) => q.passage === passage);
+
   expect(reading.length).toBeGreaterThan(1);
   mount([...reading.slice(0, 2), allQuestions.find((q) => !q.passage)!]);
   submit(true);
@@ -69,11 +80,13 @@ it("lets a reading passage play on while its own questions continue", () => {
   submit(true);
   expect(stopAudio).toHaveBeenCalledOnce();
 });
+
 it.each([
   { results: [true, true], score: 2, total: 2, creative: 0 },
   { results: [null, null], score: 0, total: 0, creative: 2 },
 ])("reports a session without mistakes (case %#)", ({ results, score, total, creative }) => {
   const { onComplete, onClose } = mount(allQuestions.slice(0, 2));
+
   results.forEach((result) => submit(result));
   expect(onComplete).toHaveBeenCalledExactlyOnceWith(score, total);
   expect(stat("objective answers").textContent).toBe(`${score}/${total}`);
@@ -85,13 +98,16 @@ it.each([
   expect(onClose).toHaveBeenCalledOnce();
   expect(stopAudio).toHaveBeenCalledTimes(3);
 });
+
 it.each(["write", "form", "choice", "type", "speak"] as const)(
   "restores drafts only for editable productive work: %s",
   (kind) => {
     const q = kind === "form" ? formPractice : allQuestions.find((q) => q.kind === kind)!;
     const progress = emptyProgress();
+
     progress.drafts[q.id] = "Saved learner draft";
     const { onDraft } = mount([q], progress);
+
     if (kind === "write" || kind === "form") {
       expect(card.draft).toBe("Saved learner draft");
       act(() => card.onDraft!("Revised draft"));

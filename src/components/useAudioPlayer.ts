@@ -4,7 +4,9 @@ import { activePlayback, setActivePlayback, stopAudio } from "./playback";
 import type { Playback } from "./playback";
 import { playClips } from "./playClips";
 import { speakFallback, UNAVAILABLE } from "./speakFallback";
+
 export type AudioHandle = { play: () => void; playing: () => boolean };
+
 export const useAudioPlayer = ({
   controlsRef,
   text,
@@ -29,25 +31,30 @@ export const useAudioPlayer = ({
   const ref = useRef<HTMLAudioElement | null>(null);
   const playbackRef = useRef<Playback | null>(null);
   const resumePlayback = useRef<(() => Promise<void>) | null>(null);
+
   useEffect(() => {
     // Take over a clip that is still running for the same text, so a passage
     // survives the move to the next question about it.
     const running = activePlayback;
+
     if (!continuous || !running || running.text !== text) {
       return;
     }
+
     playbackRef.current = running;
     running.setPlaying = setPlaying;
     ref.current = running.audio;
     resumePlayback.current = running.resume;
     setPlaying(!running.audio?.paused);
   }, [continuous, text]);
+
   useEffect(
     () => () => {
       if (continuous) {
         // The session stops shared playback once the passage changes.
         return;
       }
+
       if (playbackRef.current && activePlayback === playbackRef.current) {
         stopAudio();
       } else {
@@ -56,22 +63,27 @@ export const useAudioPlayer = ({
     },
     [continuous],
   );
+
   useEffect(() => {
     if (ref.current) {
       ref.current.playbackRate = speed;
     }
   }, [speed]);
+
   const pause = () => {
     if (minimal && resumePlayback.current) {
       ref.current?.pause();
     } else {
       stopAudio();
     }
+
     setPlaying(false);
   };
+
   const resume = async (resumeClip: () => Promise<void>) => {
     setError("");
     setPlaying(true);
+
     try {
       await resumeClip();
     } catch {
@@ -79,30 +91,39 @@ export const useAudioPlayer = ({
       setError("Tap the play button to start the audio.");
     }
   };
+
   const play = async (restart = false) => {
     if (playing && !restart) {
       pause();
+
       return;
     }
+
     if (minimal && !restart && resumePlayback.current) {
       await resume(resumePlayback.current);
+
       return;
     }
+
     if (limit && count >= limit) {
       return;
     }
+
     stopAudio();
     setError("");
     let cancelled = false;
     const isCancelled = () => cancelled;
+
     const clearResume = () => {
       playback.resume = null;
       resumePlayback.current = null;
     };
+
     const countPlay = () => {
       setCount((c) => c + 1);
       onPlayed?.();
     };
+
     const playback: Playback = {
       text,
       audio: null,
@@ -115,9 +136,11 @@ export const useAudioPlayer = ({
         playback.setPlaying(false);
       },
     };
+
     setActivePlayback(playback);
     playbackRef.current = playback;
     setPlaying(true);
+
     const started = await playClips(text, speed, playback, {
       cancelled: isCancelled,
       onClip: (audio) => {
@@ -136,6 +159,7 @@ export const useAudioPlayer = ({
         setError("Tap the play button to start the audio.");
       },
     });
+
     if (!started) {
       speakFallback(text, speed, playback, {
         cancelled: isCancelled,
@@ -148,12 +172,15 @@ export const useAudioPlayer = ({
       });
     }
   };
+
   useImperativeHandle(controlsRef, () => ({ play: () => void play(true), playing: () => playing }));
   const startAutomatically = useEffectEvent(() => void play(true));
+
   useEffect(() => {
     if (autoPlay) {
       startAutomatically();
     }
   }, [autoPlay, text]);
+
   return { playing, speed, setSpeed, count, error, play };
 };

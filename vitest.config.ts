@@ -1,11 +1,12 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { sourceIncludes, sourceExcludes } from "./scripts/test-surface.mjs";
+
 export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    include: ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.mjs"],
+    include: ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.mjs", "lint-plugins/**/*.test.mjs"],
     setupFiles: ["./src/test/setup.ts"],
     restoreMocks: true,
     clearMocks: true,

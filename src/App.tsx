@@ -20,7 +20,7 @@ import {
 import { Icon } from "./components/Icon";
 import { MemoryHint } from "./components/MemoryHint";
 import { JourneyArt, Stamp } from "./components/Art";
-import { AudioButton } from "./components/Audio";
+import { AudioButton } from "./components/AudioButton";
 import { Dialog } from "./design-system/Dialog";
 import { Eyebrow } from "./design-system/Eyebrow";
 import { SectionHeading } from "./design-system/SectionHeading";
@@ -33,9 +33,12 @@ import { FieldNote } from "./design-system/FieldNote";
 import { Panel, PanelHeading } from "./design-system/Panel";
 import { Notice } from "./design-system/Notice";
 import { TextLink } from "./design-system/TextLink";
+
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
+
 type Page = "today" | "path" | "practice" | "exam" | "guide";
+
 const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "today", label: "My learning space", icon: "home" },
   { id: "path", label: "Learning path", icon: "map" },
@@ -43,16 +46,30 @@ const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "exam", label: "Exam rehearsal", icon: "flag" },
   { id: "guide", label: "The A1 guide", icon: "book" },
 ];
+
 const skills: { id: Skill; name: string; spanish: string; icon: string }[] = [
   { id: "reading", name: "Reading", spanish: "Leer", icon: "book" },
   { id: "listening", name: "Listening", spanish: "Escuchar", icon: "headphones" },
   { id: "writing", name: "Writing", spanish: "Escribir", icon: "pen" },
   { id: "speaking", name: "Speaking", spanish: "Hablar", icon: "mic" },
 ];
+
 const pageFromHash = (): Page => {
   const h = window.location.hash.slice(1);
+
   return navigation.some((n) => n.id === h) ? (h as Page) : "today";
 };
+
+type UnitCardProps = {
+  unit: Unit;
+  onPath?: boolean;
+  index: number;
+  progress: Progress;
+  start: (l: Lesson) => void;
+  expanded: boolean;
+  onExpand: () => void;
+};
+
 const UnitCard = ({
   unit,
   onPath = false,
@@ -61,16 +78,9 @@ const UnitCard = ({
   start,
   expanded,
   onExpand,
-}: {
-  unit: Unit;
-  onPath?: boolean;
-  index: number;
-  progress: Progress;
-  start: (l: Lesson) => void;
-  expanded: boolean;
-  onExpand: () => void;
-}) => {
+}: UnitCardProps) => {
   const done = unit.lessons.filter((l) => progress.completed[l.id]).length;
+
   return (
     <article className={`unit-card ${expanded ? "expanded" : ""}`}>
       <button type="button" className="unit-summary" onClick={onExpand} aria-expanded={expanded}>
@@ -150,31 +160,33 @@ const UnitCard = ({
     </article>
   );
 };
-const Settings = ({
-  progress,
-  onSave,
-  onClose,
-  onReset,
-}: {
+
+type SettingsProps = {
   progress: Progress;
   onSave: (p: Partial<Progress>) => void;
   onClose: () => void;
   onReset: () => void;
-}) => {
+};
+
+const Settings = ({ progress, onSave, onClose, onReset }: SettingsProps) => {
   const [name, setName] = useState(progress.name);
   const [goal, setGoal] = useState(progress.goal);
   const [date, setDate] = useState(progress.examDate);
   const [reset, setReset] = useState(false);
+
   const exportProgress = () => {
     const url = URL.createObjectURL(
       new Blob([JSON.stringify(progress, null, 2)], { type: "application/json" }),
     );
+
     const a = document.createElement("a");
+
     a.href = url;
     a.download = `paso-progress-${localDate()}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+
   return (
     <Dialog label="Your learning preferences" onClose={onClose} className="settings-dialog">
       <header>
@@ -263,6 +275,7 @@ const Settings = ({
     </Dialog>
   );
 };
+
 const App = () => {
   const [progress, setProgress] = useState<Progress>(readProgress);
   const [page, setPage] = useState<Page>(pageFromHash);
@@ -273,6 +286,7 @@ const App = () => {
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [storageError, setStorageError] = useState(false);
   const [toast, setToast] = useState("");
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
@@ -281,69 +295,90 @@ const App = () => {
       setStorageError(true);
     }
   }, [progress]);
+
   useEffect(() => {
     const handle = () => {
       setPage(pageFromHash());
       setMobileNav(false);
     };
+
     window.addEventListener("hashchange", handle);
+
     return () => window.removeEventListener("hashchange", handle);
   }, []);
+
   useEffect(() => {
     if (!toast) {
       return;
     }
+
     const id = setTimeout(() => setToast(""), 4000);
+
     return () => clearTimeout(id);
   }, [toast]);
+
   const navigate = (target: Page) => {
     setPage(target);
     window.location.hash = target;
     setMobileNav(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   const nextLesson = allLessons.find((l) => !progress.completed[l.id]) || allLessons[0];
   const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
   const today = dailyAnswers(progress);
   const completed = Object.keys(progress.completed).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const now = new Date();
+
   const mistakeEntries = new Map<
     string,
     { id: string; q: (typeof allQuestions)[number]; insertion: number; inQueue: boolean }
   >();
+
   for (const [i, id] of progress.mistakes.entries()) {
     const q = exerciseMap.get(id);
+
     if (!q) {
       continue;
     }
+
     mistakeEntries.set(id, { id, q, insertion: i, inQueue: true });
   }
+
   for (const [id, review] of Object.entries(progress.mistakeReviews)) {
     if (mistakeEntries.has(id) || !exerciseMap.has(id)) {
       continue;
     }
+
     const q = exerciseMap.get(id);
+
     if (!q) {
       continue;
     }
+
     const insertion = progress.mistakes.length;
+
     if (!review.nextAt || reviewDue(review, now)) {
       mistakeEntries.set(id, { id, q, insertion, inQueue: false });
     }
   }
+
   const mistakeQuestions = [...mistakeEntries.values()]
     .filter((entry) => entry.inQueue || reviewDue(progress.mistakeReviews[entry.id], now))
     .sort((a, b) => {
       const aDue = progress.mistakeReviews[a.id]?.nextAt
         ? new Date(progress.mistakeReviews[a.id]!.nextAt).getTime()
         : now.getTime();
+
       const bDue = progress.mistakeReviews[b.id]?.nextAt
         ? new Date(progress.mistakeReviews[b.id]!.nextAt).getTime()
         : now.getTime();
+
       if (aDue !== bDue) {
         return aDue - bDue;
       }
+
       return a.insertion - b.insertion;
     })
     .map(({ q }) => q);
@@ -353,16 +388,21 @@ const App = () => {
       skill === "mistakes"
         ? mistakeQuestions
         : exerciseBank.filter((q) => skill === "all" || q.skill === skill);
+
     if (!questions.length) {
       setToast("Nothing to review yet. Your future mistakes will appear here.");
+
       return;
     }
+
     if (skill !== "mistakes") {
       const practiced = new Map(progress.attempts.map((a) => [a.questionId, a.at]));
+
       questions = [...questions].sort((a, b) =>
         (practiced.get(a.id) || "").localeCompare(practiced.get(b.id) || ""),
       );
     }
+
     setSession({
       id: `practice-${skill}`,
       title:
@@ -377,11 +417,14 @@ const App = () => {
       questions: questions.slice(0, skill === "writing" || skill === "speaking" ? 4 : 8),
     });
   };
+
   const saveAttempt = (a: Attempt) => setProgress((p) => withAttempt(p, a));
+
   const complete = (score: number, total: number) => {
     if (!session) {
       return;
     }
+
     if (allLessons.some((l) => l.id === session.id)) {
       setProgress((p) => ({
         ...p,
@@ -389,6 +432,7 @@ const App = () => {
       }));
     }
   };
+
   const daysToExam = progress.examDate
     ? Math.ceil(
         (new Date(`${progress.examDate}T00:00:00`).getTime() -
@@ -396,6 +440,7 @@ const App = () => {
           86400000,
       )
     : null;
+
   return (
     <div className="app-shell">
       <a
@@ -700,8 +745,10 @@ const App = () => {
                     <div className="week-dots">
                       {Array.from({ length: 7 }, (_, i) => {
                         const d = new Date();
+
                         d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
                         const n = dailyAnswers(progress, localDate(d));
+
                         return (
                           <div key={i} className={localDate(d) === localDate() ? "is-today" : ""}>
                             <span>{["M", "T", "W", "T", "F", "S", "S"][i]}</span>
@@ -728,6 +775,7 @@ const App = () => {
                     {skills.map((s) => {
                       const stats = skillStats(progress, s.id);
                       const total = exerciseBank.filter((q) => q.skill === s.id).length;
+
                       return (
                         <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
                           <span className={`skill-icon ${s.id}`}>
@@ -1012,6 +1060,7 @@ const App = () => {
                       .filter((s) => filter === "all" || filter === s.id)
                       .map((s) => {
                         const stats = skillStats(progress, s.id);
+
                         return (
                           <Panel
                             as="button"
@@ -1169,11 +1218,13 @@ const App = () => {
           onSave={(patch) => setProgress((p) => ({ ...p, ...patch }))}
           onReset={() => {
             setProgress(emptyProgress());
+
             try {
               localStorage.removeItem("paso-mock-v1");
             } catch {
               /* State still resets for this visit. */
             }
+
             setSettings(false);
             setPage("today");
             window.location.hash = "today";
@@ -1190,4 +1241,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;

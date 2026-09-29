@@ -1,6 +1,7 @@
 import type { Question, Unit, Skill } from "./types.ts";
 import { vocabularyHints } from "./vocabulary-hints.ts";
 import words from "./words.json" with { type: "json" };
+
 type Seed = {
   title: string;
   spanish: string;
@@ -24,6 +25,7 @@ type Seed = {
   speech: string;
   speechChecks: string[];
 };
+
 const seeds: Seed[] = [
   {
     title: "¡Hola, mundo!",
@@ -1405,10 +1407,12 @@ const seeds: Seed[] = [
     ],
   },
 ];
+
 const rotate = <T>(items: T[], n: number) => [
   ...items.slice(n % items.length),
   ...items.slice(0, n % items.length),
 ];
+
 export const vocabulary = words
   .flatMap((t) => t.words)
   .filter((w) => w.unit !== undefined)
@@ -1420,14 +1424,18 @@ export const vocabulary = words
     unit: w.unit,
     memoryHint: vocabularyHints[w.es],
   }));
+
 export const units: Unit[] = seeds.map((s, ui) => {
   const uid = `u${ui + 1}`;
+
   const unitWords = vocabulary.filter((w) => w.unit === ui + 1);
+
   const vocab: Question[] = unitWords.map((w, i) => {
     const options = rotate(
       [w.en, unitWords[(i + 2) % 8].en, unitWords[(i + 5) % 8].en],
       (ui + i) % 3,
     );
+
     return {
       id: `${uid}-v${i}`,
       kind: i % 2 ? "listen" : "choice",
@@ -1443,6 +1451,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       memoryHint: w.memoryHint,
     };
   });
+
   const grammar: Question[] = s.grammar.map((g, i) => ({
     id: `${uid}-g${i}`,
     kind: "choice",
@@ -1455,6 +1464,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
     options: rotate(g.slice(1, 4), (ui + i + 1) % 3),
     explanation: g[4],
   }));
+
   const real: Question[] = [
     ...s.read.map((r, i) => ({
       id: `${uid}-r${i}`,
@@ -1479,6 +1489,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       explanation: r[4],
     })),
   ];
+
   const output: Question[] = [
     {
       id: `${uid}-o0`,
@@ -1538,6 +1549,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       checklist: s.speechChecks,
     },
   ];
+
   return {
     id: uid,
     title: s.title,
@@ -1584,8 +1596,10 @@ export const units: Unit[] = seeds.map((s, ui) => {
     ],
   };
 });
+
 export const allLessons = units.flatMap((u) => u.lessons);
 export const allQuestions = allLessons.flatMap((l) => l.questions);
+
 export const foundations: Question[] = [
   [
     "The letter h in hola is…",
@@ -1773,6 +1787,7 @@ export const foundations: Question[] = [
   options: rotate(r.slice(1, 4), i % 3),
   explanation: r[4],
 }));
+
 export const visualQuestions: Question[] = [
   {
     id: "visual-cafe-1",

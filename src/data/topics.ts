@@ -26,6 +26,7 @@ export const topics = words.map(({ topic, optional, words }) => ({
   optional,
   cards: words.map((w): Card => {
     const id = ("key" in w && w.key) || w.es;
+
     return {
       id,
       es: w.es,
@@ -54,9 +55,11 @@ export const cardStatus = (card: Card, progress: Progress) =>
 
 export const topicCounts = (cards: Card[], progress: Progress) => {
   const counts = { total: cards.length, new: 0, learning: 0, known: 0 };
+
   for (const card of cards) {
     counts[cardStatus(card, progress)]++;
   }
+
   return counts;
 };
 

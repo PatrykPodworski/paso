@@ -5,139 +5,241 @@
     "words": [
       {
         "es": "hola",
-        "en": "hello"
+        "en": "hello",
+        "unit": 1,
+        "unitOrder": 1,
+        "visual": "👋"
       },
       {
         "es": "adiós",
-        "en": "goodbye"
+        "en": "goodbye",
+        "unit": 1,
+        "unitOrder": 2,
+        "visual": "👋"
       },
       {
         "es": "gracias",
-        "en": "thank you"
+        "en": "thank you",
+        "unit": 1,
+        "unitOrder": 3,
+        "visual": "💛"
       },
       {
         "es": "por favor",
-        "en": "please"
+        "en": "please",
+        "unit": 1,
+        "unitOrder": 4,
+        "visual": "🙏"
       },
       {
         "es": "buenos días",
-        "en": "good morning"
+        "en": "good morning",
+        "unit": 1,
+        "unitOrder": 5,
+        "visual": "🌤️"
       },
       {
         "es": "buenas noches",
-        "en": "good evening / good night"
+        "en": "good evening / good night",
+        "unit": 1,
+        "unitOrder": 6,
+        "visual": "🌙"
       },
       {
         "es": "hasta luego",
-        "en": "see you later"
+        "en": "see you later",
+        "unit": 1,
+        "unitOrder": 7,
+        "visual": "🕊️"
       },
       {
         "es": "perdón",
-        "en": "sorry / excuse me"
+        "en": "sorry / excuse me",
+        "unit": 1,
+        "unitOrder": 8,
+        "visual": "💬"
       },
       {
         "es": "el nombre",
-        "en": "first name"
+        "en": "first name",
+        "unit": 2,
+        "unitOrder": 1,
+        "visual": "🪪"
       },
       {
         "es": "el apellido",
-        "en": "surname"
+        "en": "surname",
+        "unit": 2,
+        "unitOrder": 2,
+        "visual": "🪪"
       },
       {
         "es": "la dirección",
-        "en": "address"
+        "en": "address",
+        "unit": 2,
+        "unitOrder": 3,
+        "visual": "📍"
       },
       {
         "es": "el teléfono",
-        "en": "telephone"
+        "en": "telephone",
+        "unit": 2,
+        "unitOrder": 4,
+        "visual": "☎️"
       },
       {
         "es": "veinte",
-        "en": "twenty"
+        "en": "twenty",
+        "unit": 2,
+        "unitOrder": 5,
+        "visual": "🔢"
       },
       {
         "es": "treinta",
-        "en": "thirty"
+        "en": "thirty",
+        "unit": 2,
+        "unitOrder": 6,
+        "visual": "🔢"
       },
       {
         "es": "la nacionalidad",
-        "en": "nationality"
+        "en": "nationality",
+        "unit": 2,
+        "unitOrder": 7,
+        "visual": "🌍"
       },
       {
         "es": "la amiga",
-        "en": "female friend"
+        "en": "female friend",
+        "unit": 3,
+        "unitOrder": 7,
+        "visual": "👩‍🦰"
       },
       {
         "es": "la mañana",
-        "en": "morning"
+        "en": "morning",
+        "unit": 5,
+        "unitOrder": 1,
+        "visual": "🌅"
       },
       {
         "es": "la tarde",
-        "en": "afternoon"
+        "en": "afternoon",
+        "unit": 5,
+        "unitOrder": 2,
+        "visual": "🌇"
       },
       {
         "es": "la noche",
-        "en": "night"
+        "en": "night",
+        "unit": 5,
+        "unitOrder": 3,
+        "visual": "🌃"
       },
       {
         "es": "desayunar",
-        "en": "to have breakfast"
+        "en": "to have breakfast",
+        "unit": 5,
+        "unitOrder": 6,
+        "visual": "🥐"
       },
       {
         "es": "la calle",
-        "en": "street"
+        "en": "street",
+        "unit": 7,
+        "unitOrder": 1,
+        "visual": "🛣️"
       },
       {
         "es": "la plaza",
-        "en": "square"
+        "en": "square",
+        "unit": 7,
+        "unitOrder": 2,
+        "visual": "⛲"
       },
       {
         "es": "la farmacia",
-        "en": "pharmacy"
+        "en": "pharmacy",
+        "unit": 7,
+        "unitOrder": 4,
+        "visual": "💊"
       },
       {
         "es": "el parque",
-        "en": "park"
+        "en": "park",
+        "unit": 7,
+        "unitOrder": 6,
+        "visual": "🌳"
       },
       {
         "es": "los zapatos",
-        "en": "shoes"
+        "en": "shoes",
+        "unit": 8,
+        "unitOrder": 2,
+        "visual": "👞"
       },
       {
         "es": "la talla",
-        "en": "size"
+        "en": "size",
+        "unit": 8,
+        "unitOrder": 7,
+        "visual": "📏"
       },
       {
         "es": "la tarjeta",
-        "en": "card"
+        "en": "card",
+        "unit": 8,
+        "unitOrder": 8,
+        "visual": "💳"
       },
       {
         "es": "bailar",
-        "en": "to dance"
+        "en": "to dance",
+        "unit": 9,
+        "unitOrder": 2,
+        "visual": "💃"
       },
       {
         "es": "la escuela",
-        "en": "school"
+        "en": "school",
+        "unit": 9,
+        "unitOrder": 7,
+        "visual": "🏫"
       },
       {
         "es": "cansado",
-        "en": "tired (masculine)"
+        "en": "tired (masculine)",
+        "unit": 11,
+        "unitOrder": 7,
+        "visual": "😴"
       },
       {
         "es": "la pregunta",
-        "en": "question"
+        "en": "question",
+        "unit": 12,
+        "unitOrder": 4,
+        "visual": "❓"
       },
       {
         "es": "la respuesta",
-        "en": "answer"
+        "en": "answer",
+        "unit": 12,
+        "unitOrder": 5,
+        "visual": "💡"
       },
       {
         "es": "despacio",
-        "en": "slowly"
+        "en": "slowly",
+        "unit": 12,
+        "unitOrder": 6,
+        "visual": "🐢"
       },
       {
         "es": "repetir",
-        "en": "to repeat"
+        "en": "to repeat",
+        "unit": 12,
+        "unitOrder": 8,
+        "visual": "🔁"
       }
     ]
   },
@@ -147,7 +249,10 @@
     "words": [
       {
         "es": "hablar",
-        "en": "to speak, talk"
+        "en": "to speak",
+        "unit": 12,
+        "unitOrder": 3,
+        "visual": "💬"
       },
       {
         "es": "comer",
@@ -159,15 +264,24 @@
       },
       {
         "es": "leer",
-        "en": "to read"
+        "en": "to read",
+        "unit": 9,
+        "unitOrder": 1,
+        "visual": "📖"
       },
       {
         "es": "escribir",
-        "en": "to write"
+        "en": "to write",
+        "unit": 12,
+        "unitOrder": 2,
+        "visual": "✍️"
       },
       {
         "es": "trabajar",
-        "en": "to work"
+        "en": "to work",
+        "unit": 5,
+        "unitOrder": 7,
+        "visual": "💼"
       },
       {
         "es": "estudiar",
@@ -175,7 +289,10 @@
       },
       {
         "es": "dormir",
-        "en": "to sleep"
+        "en": "to sleep",
+        "unit": 5,
+        "unitOrder": 8,
+        "visual": "💤"
       },
       {
         "es": "correr",
@@ -183,7 +300,10 @@
       },
       {
         "es": "nadar",
-        "en": "to swim"
+        "en": "to swim",
+        "unit": 9,
+        "unitOrder": 3,
+        "visual": "🏊"
       },
       {
         "es": "cantar",
@@ -215,7 +335,10 @@
       },
       {
         "es": "entender",
-        "en": "to understand"
+        "en": "to understand",
+        "unit": 12,
+        "unitOrder": 7,
+        "visual": "🧠"
       },
       {
         "es": "pensar",
@@ -478,11 +601,17 @@
     "words": [
       {
         "es": "rojo",
-        "en": "red"
+        "en": "red",
+        "unit": 8,
+        "unitOrder": 5,
+        "visual": "🔴"
       },
       {
         "es": "azul",
-        "en": "blue"
+        "en": "blue",
+        "unit": 8,
+        "unitOrder": 6,
+        "visual": "🔵"
       },
       {
         "es": "amarillo",
@@ -548,15 +677,24 @@
     "words": [
       {
         "es": "el pan",
-        "en": "bread"
+        "en": "bread",
+        "unit": 6,
+        "unitOrder": 1,
+        "visual": "🥖"
       },
       {
         "es": "la leche",
-        "en": "milk"
+        "en": "milk",
+        "unit": 6,
+        "unitOrder": 4,
+        "visual": "🥛"
       },
       {
         "es": "el queso",
-        "en": "cheese"
+        "en": "cheese",
+        "unit": 6,
+        "unitOrder": 8,
+        "visual": "🧀"
       },
       {
         "es": "el arroz",
@@ -614,7 +752,10 @@
     "words": [
       {
         "es": "la manzana",
-        "en": "apple"
+        "en": "apple",
+        "unit": 6,
+        "unitOrder": 5,
+        "visual": "🍎"
       },
       {
         "es": "el plátano",
@@ -848,7 +989,10 @@
     "words": [
       {
         "es": "el pescado",
-        "en": "fish (as food)"
+        "en": "fish (as food)",
+        "unit": 6,
+        "unitOrder": 6,
+        "visual": "🐟"
       },
       {
         "es": "el salmón",
@@ -948,11 +1092,17 @@
     "words": [
       {
         "es": "el agua",
-        "en": "water"
+        "en": "water",
+        "unit": 6,
+        "unitOrder": 2,
+        "visual": "💧"
       },
       {
         "es": "el café",
-        "en": "coffee"
+        "en": "coffee",
+        "unit": 6,
+        "unitOrder": 3,
+        "visual": "☕"
       },
       {
         "es": "el té",
@@ -998,7 +1148,10 @@
     "words": [
       {
         "es": "la cocina",
-        "en": "kitchen"
+        "en": "kitchen",
+        "unit": 4,
+        "unitOrder": 2,
+        "visual": "🍳"
       },
       {
         "es": "el horno",
@@ -1100,7 +1253,10 @@
     "words": [
       {
         "es": "la casa",
-        "en": "house, home"
+        "en": "house",
+        "unit": 4,
+        "unitOrder": 1,
+        "visual": "🏠"
       },
       {
         "es": "el piso",
@@ -1108,11 +1264,17 @@
       },
       {
         "es": "la habitación",
-        "en": "room"
+        "en": "room",
+        "unit": 10,
+        "unitOrder": 8,
+        "visual": "🛏️"
       },
       {
         "es": "el baño",
-        "en": "bathroom"
+        "en": "bathroom",
+        "unit": 4,
+        "unitOrder": 4,
+        "visual": "🛁"
       },
       {
         "es": "el salón",
@@ -1120,7 +1282,10 @@
       },
       {
         "es": "el dormitorio",
-        "en": "bedroom"
+        "en": "bedroom",
+        "unit": 4,
+        "unitOrder": 3,
+        "visual": "🛏️"
       },
       {
         "es": "la cama",
@@ -1132,19 +1297,31 @@
       },
       {
         "es": "la mesa",
-        "en": "table"
+        "en": "table",
+        "unit": 4,
+        "unitOrder": 5,
+        "visual": "🪑"
       },
       {
         "es": "la silla",
-        "en": "chair"
+        "en": "chair",
+        "unit": 4,
+        "unitOrder": 6,
+        "visual": "🪑"
       },
       {
         "es": "la ventana",
-        "en": "window"
+        "en": "window",
+        "unit": 4,
+        "unitOrder": 7,
+        "visual": "🪟"
       },
       {
         "es": "la puerta",
-        "en": "door"
+        "en": "door",
+        "unit": 4,
+        "unitOrder": 8,
+        "visual": "🚪"
       },
       {
         "es": "el televisor",
@@ -1304,7 +1481,10 @@
       },
       {
         "es": "contento",
-        "en": "happy, pleased"
+        "en": "happy (masculine)",
+        "unit": 11,
+        "unitOrder": 8,
+        "visual": "🙂"
       },
       {
         "es": "satisfecho/a",
@@ -1606,7 +1786,10 @@
       },
       {
         "es": "el vestido",
-        "en": "dress"
+        "en": "dress",
+        "unit": 8,
+        "unitOrder": 3,
+        "visual": "👗"
       },
       {
         "es": "la falda",
@@ -1630,7 +1813,10 @@
       },
       {
         "es": "la chaqueta",
-        "en": "jacket"
+        "en": "jacket",
+        "unit": 8,
+        "unitOrder": 4,
+        "visual": "🧥"
       },
       {
         "es": "el abrigo",
@@ -1662,7 +1848,10 @@
       },
       {
         "es": "la camisa",
-        "en": "shirt"
+        "en": "shirt",
+        "unit": 8,
+        "unitOrder": 1,
+        "visual": "👔"
       },
       {
         "es": "el cinturón",
@@ -1746,7 +1935,10 @@
     "words": [
       {
         "es": "el trabajo",
-        "en": "work, job"
+        "en": "work / job",
+        "unit": 9,
+        "unitOrder": 8,
+        "visual": "💼"
       },
       {
         "es": "el jefe",
@@ -1988,11 +2180,17 @@
       },
       {
         "es": "el sol",
-        "en": "sun"
+        "en": "sun",
+        "unit": 11,
+        "unitOrder": 1,
+        "visual": "☀️"
       },
       {
         "es": "la lluvia",
-        "en": "rain"
+        "en": "rain",
+        "unit": 11,
+        "unitOrder": 2,
+        "visual": "🌧️"
       },
       {
         "es": "la nieve",
@@ -2048,11 +2246,17 @@
       },
       {
         "es": "el calor",
-        "en": "heat"
+        "en": "heat",
+        "unit": 11,
+        "unitOrder": 4,
+        "visual": "🌡️"
       },
       {
         "es": "el frío",
-        "en": "cold"
+        "en": "cold",
+        "unit": 11,
+        "unitOrder": 3,
+        "visual": "❄️"
       }
     ]
   },
@@ -2062,7 +2266,10 @@
     "words": [
       {
         "es": "el lunes",
-        "en": "Monday"
+        "en": "Monday",
+        "unit": 5,
+        "unitOrder": 4,
+        "visual": "📅"
       },
       {
         "es": "el martes",
@@ -2078,7 +2285,10 @@
       },
       {
         "es": "el viernes",
-        "en": "Friday"
+        "en": "Friday",
+        "unit": 5,
+        "unitOrder": 5,
+        "visual": "📅"
       },
       {
         "es": "el sábado",
@@ -2148,7 +2358,10 @@
       },
       {
         "es": "el verano",
-        "en": "summer"
+        "en": "summer",
+        "unit": 11,
+        "unitOrder": 5,
+        "visual": "🏖️"
       },
       {
         "es": "el otoño",
@@ -2156,7 +2369,10 @@
       },
       {
         "es": "el invierno",
-        "en": "winter"
+        "en": "winter",
+        "unit": 11,
+        "unitOrder": 6,
+        "visual": "⛄"
       }
     ]
   },
@@ -2166,27 +2382,45 @@
     "words": [
       {
         "es": "la familia",
-        "en": "family"
+        "en": "family",
+        "unit": 3,
+        "unitOrder": 8,
+        "visual": "👪"
       },
       {
         "es": "el padre",
-        "en": "father"
+        "en": "father",
+        "unit": 3,
+        "unitOrder": 2,
+        "visual": "👨"
       },
       {
         "es": "la madre",
-        "en": "mother"
+        "en": "mother",
+        "unit": 3,
+        "unitOrder": 1,
+        "visual": "👩"
       },
       {
         "es": "el hermano",
-        "en": "brother"
+        "en": "brother",
+        "unit": 3,
+        "unitOrder": 4,
+        "visual": "👨‍🦱"
       },
       {
         "es": "la hermana",
-        "en": "sister"
+        "en": "sister",
+        "unit": 3,
+        "unitOrder": 3,
+        "visual": "👩‍🦱"
       },
       {
         "es": "el hijo",
-        "en": "son"
+        "en": "son",
+        "unit": 3,
+        "unitOrder": 6,
+        "visual": "👦"
       },
       {
         "es": "la hija",
@@ -2198,7 +2432,10 @@
       },
       {
         "es": "la abuela",
-        "en": "grandmother"
+        "en": "grandmother",
+        "unit": 3,
+        "unitOrder": 5,
+        "visual": "👵"
       },
       {
         "es": "el nieto",
@@ -2395,23 +2632,38 @@
       },
       {
         "es": "el avión",
-        "en": "plane"
+        "en": "airplane",
+        "unit": 10,
+        "unitOrder": 3,
+        "visual": "✈️"
       },
       {
         "es": "la maleta",
-        "en": "suitcase"
+        "en": "suitcase",
+        "unit": 10,
+        "unitOrder": 6,
+        "visual": "🧳"
       },
       {
         "es": "la estación",
-        "en": "station"
+        "en": "station",
+        "unit": 7,
+        "unitOrder": 7,
+        "visual": "🚉"
       },
       {
         "es": "el tren",
-        "en": "train"
+        "en": "train",
+        "unit": 10,
+        "unitOrder": 1,
+        "visual": "🚆"
       },
       {
         "es": "el billete",
-        "en": "ticket"
+        "en": "ticket",
+        "unit": 10,
+        "unitOrder": 4,
+        "visual": "🎟️"
       },
       {
         "es": "el aeropuerto",
@@ -2419,7 +2671,10 @@
       },
       {
         "es": "el pasaporte",
-        "en": "passport"
+        "en": "passport",
+        "unit": 10,
+        "unitOrder": 7,
+        "visual": "🛂"
       },
       {
         "es": "el taxi",
@@ -2427,7 +2682,10 @@
       },
       {
         "es": "el hotel",
-        "en": "hotel"
+        "en": "hotel",
+        "unit": 10,
+        "unitOrder": 5,
+        "visual": "🏨"
       },
       {
         "es": "el mapa",
@@ -2571,7 +2829,10 @@
     "words": [
       {
         "es": "el autobús",
-        "en": "bus"
+        "en": "bus",
+        "unit": 10,
+        "unitOrder": 2,
+        "visual": "🚌"
       },
       {
         "es": "la parada de autobús",
@@ -2649,7 +2910,10 @@
       },
       {
         "es": "el supermercado",
-        "en": "supermarket"
+        "en": "supermarket",
+        "unit": 7,
+        "unitOrder": 5,
+        "visual": "🛒"
       },
       {
         "es": "la caja",
@@ -2713,7 +2977,10 @@
       },
       {
         "es": "la cuenta",
-        "en": "bill"
+        "en": "bill",
+        "unit": 6,
+        "unitOrder": 7,
+        "visual": "🧾"
       }
     ]
   },
@@ -2823,7 +3090,10 @@
     "words": [
       {
         "es": "el fútbol",
-        "en": "football"
+        "en": "football",
+        "unit": 9,
+        "unitOrder": 6,
+        "visual": "⚽"
       },
       {
         "es": "la pelota",
@@ -3064,7 +3334,10 @@
       },
       {
         "es": "la biblioteca",
-        "en": "library"
+        "en": "library",
+        "unit": 7,
+        "unitOrder": 8,
+        "visual": "📚"
       },
       {
         "es": "el director",
@@ -3094,7 +3367,10 @@
       },
       {
         "es": "escuchar",
-        "en": "to listen"
+        "en": "to listen",
+        "unit": 12,
+        "unitOrder": 1,
+        "visual": "🎧"
       },
       {
         "es": "repasar",
@@ -3258,7 +3534,10 @@
       },
       {
         "es": "la música",
-        "en": "music"
+        "en": "music",
+        "unit": 9,
+        "unitOrder": 5,
+        "visual": "🎵"
       },
       {
         "es": "el teatro",
@@ -3308,7 +3587,10 @@
       },
       {
         "es": "el cine",
-        "en": "cinema"
+        "en": "cinema",
+        "unit": 9,
+        "unitOrder": 4,
+        "visual": "🎬"
       },
       {
         "es": "el actor",
@@ -3473,7 +3755,10 @@
       },
       {
         "es": "el banco",
-        "en": "bank"
+        "en": "bank",
+        "unit": 7,
+        "unitOrder": 3,
+        "visual": "🏦"
       },
       {
         "key": "la cuenta (account)",
@@ -3648,7 +3933,10 @@
       },
       {
         "es": "el correo electrónico",
-        "en": "email"
+        "en": "email",
+        "unit": 2,
+        "unitOrder": 8,
+        "visual": "✉️"
       },
       {
         "es": "la red social",

@@ -1,6 +1,6 @@
 import words from "./words.json";
 import examples from "./examples.json";
-import { vocabulary } from "./curriculum";
+import { vocabularyHints } from "./vocabulary-hints";
 import type { Progress } from "./types";
 
 // Level 4 reviews come back after 14 days or more.
@@ -19,7 +19,6 @@ export type Card = {
   example?: { es: string; en: string };
 };
 
-const legacy = new Map<string, (typeof vocabulary)[number]>(vocabulary.map((w) => [w.es, w]));
 const sentences: Record<string, Card["example"]> = examples;
 
 export const topics = words.map(({ topic, optional, words }) => ({
@@ -27,7 +26,6 @@ export const topics = words.map(({ topic, optional, words }) => ({
   optional,
   cards: words.map((w): Card => {
     const id = ("key" in w && w.key) || w.es;
-    const unitWord = legacy.get(id);
 
     return {
       id,
@@ -35,8 +33,8 @@ export const topics = words.map(({ topic, optional, words }) => ({
       en: w.en,
       topic,
       optional,
-      memoryHint: unitWord?.memoryHint,
-      unit: unitWord?.unit,
+      memoryHint: vocabularyHints[id],
+      unit: w.unit,
       example: sentences[id],
     };
   }),

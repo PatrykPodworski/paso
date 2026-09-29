@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
 import { type Card, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
-import { AudioButton, stopAudio } from "./Audio";
+import { AudioButton, stopAudio } from "./AudioButton";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
@@ -48,15 +48,12 @@ const reviewWait = (at: string, now: Date) => {
   return `in ${days} ${days === 1 ? "day" : "days"}`;
 };
 
-const VocabularySession = ({
-  words,
-  progress,
-  onReview,
-  onClose,
-}: Omit<Props, "onLearn"> & {
+type VocabularySessionProps = Omit<Props, "onLearn"> & {
   words: Card[];
   onClose: () => void;
-}) => {
+};
+
+const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySessionProps) => {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [results, setResults] = useState<{ correct: boolean; review: Review }[]>([]);

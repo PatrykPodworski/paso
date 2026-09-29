@@ -1,19 +1,15 @@
 import { FieldNote } from "../design-system/FieldNote";
 import type { Question } from "../data/types";
 
-export const FormFields = ({
-  q,
-  fieldValues,
-  feedback,
-  words,
-  onFieldChange,
-}: {
+type Props = {
   q: Question;
   fieldValues: Record<string, string>;
   feedback: boolean;
   words: number;
   onFieldChange: (label: string, text: string) => void;
-}) => (
+};
+
+export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: Props) => (
   <div className="form-fields">
     {q.fields?.map((f) => (
       <label key={f.label}>

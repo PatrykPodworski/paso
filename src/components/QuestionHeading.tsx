@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
 import type { Question } from "../data/types";
-import { AudioButton } from "./Audio";
-import type { AudioHandle } from "./Audio";
+import { AudioButton } from "./AudioButton";
+import type { AudioHandle } from "./AudioButton";
 
-const QuestionKind = ({ q, productive }: { q: Question; productive: boolean }) => (
+type QuestionKindProps = { q: Question; productive: boolean };
+
+const QuestionKind = ({ q, productive }: QuestionKindProps) => (
   <div className="question-kind">
     <span className={`skill-dot ${q.skill}`} />
     {q.skill} <span> / </span>
@@ -18,6 +20,15 @@ const QuestionKind = ({ q, productive }: { q: Question; productive: boolean }) =
   </div>
 );
 
+type Props = {
+  q: Question;
+  exam: boolean;
+  feedback: boolean;
+  productive: boolean;
+  listeningAudio: Ref<AudioHandle>;
+  answerAudio: Ref<AudioHandle>;
+};
+
 export const QuestionHeading = ({
   q,
   exam,
@@ -25,14 +36,7 @@ export const QuestionHeading = ({
   productive,
   listeningAudio,
   answerAudio,
-}: {
-  q: Question;
-  exam: boolean;
-  feedback: boolean;
-  productive: boolean;
-  listeningAudio: Ref<AudioHandle>;
-  answerAudio: Ref<AudioHandle>;
-}) => {
+}: Props) => {
   const heading = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {

@@ -1,20 +1,15 @@
 import type { Question } from "../data/types";
 
-export const WritingArea = ({
-  q,
-  answer,
-  feedback,
-  words,
-  setText,
-  submit,
-}: {
+type Props = {
   q: Question;
   answer: string;
   feedback: boolean;
   words: number;
   setText: (text: string) => void;
   submit: () => void;
-}) => (
+};
+
+export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Props) => (
   <div className="writing-area">
     <label htmlFor="written-answer">Your answer in Spanish</label>
     {q.kind === "write" ? (

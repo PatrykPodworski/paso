@@ -3,19 +3,15 @@ import type { Question } from "../data/types";
 import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
 
-export const PracticeChecks = ({
-  q,
-  exam,
-  feedback,
-  practice,
-  onStart,
-}: {
+type Props = {
   q: Question;
   exam: boolean;
   feedback: boolean;
   practice: Answer;
   onStart: () => void;
-}) => {
+};
+
+export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) => {
   const ticked = new Set(practice.checks);
 
   return (

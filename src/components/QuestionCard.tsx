@@ -3,8 +3,8 @@ import type { Question } from "../data/types";
 import { isCorrect } from "../data/progress";
 import { AnswerOptions } from "./AnswerOptions";
 import { FormFields } from "./FormFields";
-import { playWord, stopAudio } from "./Audio";
-import type { AudioHandle } from "./Audio";
+import { playWord, stopAudio } from "./AudioButton";
+import type { AudioHandle } from "./AudioButton";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
@@ -14,6 +14,15 @@ import { SentenceBuilder } from "./SentenceBuilder";
 import { useAnswer } from "./useAnswer";
 import { WritingArea } from "./WritingArea";
 
+type Props = {
+  q: Question;
+  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  exam?: boolean;
+  draft?: string;
+  onDraft?: (text: string) => void;
+};
+
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -21,14 +30,7 @@ export const QuestionCard = ({
   exam = false,
   draft = "",
   onDraft,
-}: {
-  q: Question;
-  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  exam?: boolean;
-  draft?: string;
-  onDraft?: (text: string) => void;
-}) => {
+}: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
   const passageAudio = useRef<AudioHandle>(null);

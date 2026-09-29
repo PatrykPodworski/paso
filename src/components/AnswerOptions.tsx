@@ -1,5 +1,14 @@
 import { Icon } from "./Icon";
 
+type Props = {
+  options: string[];
+  correctAnswer: string;
+  answer: string;
+  feedback: boolean;
+  correct: boolean | null;
+  onChoose: (option: string) => void;
+};
+
 export const AnswerOptions = ({
   options,
   correctAnswer,
@@ -7,14 +16,7 @@ export const AnswerOptions = ({
   feedback,
   correct,
   onChoose,
-}: {
-  options: string[];
-  correctAnswer: string;
-  answer: string;
-  feedback: boolean;
-  correct: boolean | null;
-  onChoose: (option: string) => void;
-}) => {
+}: Props) => {
   const wrong = feedback && correct === false;
 
   return (

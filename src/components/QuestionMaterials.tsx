@@ -2,20 +2,17 @@ import { TextLink } from "../design-system/TextLink";
 import { useState } from "react";
 import type { Ref } from "react";
 import type { Question } from "../data/types";
-import { AudioButton } from "./Audio";
-import type { AudioHandle } from "./Audio";
+import { AudioButton } from "./AudioButton";
+import type { AudioHandle } from "./AudioButton";
 
-export const QuestionMaterials = ({
-  q,
-  exam,
-  passageAudio,
-  onTranscript,
-}: {
+type Props = {
   q: Question;
   exam: boolean;
   passageAudio: Ref<AudioHandle>;
   onTranscript: () => void;
-}) => {
+};
+
+export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props) => {
   const [transcript, setTranscript] = useState(false);
 
   return (

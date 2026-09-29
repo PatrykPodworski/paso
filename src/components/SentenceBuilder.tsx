@@ -1,18 +1,14 @@
 import { Icon } from "./Icon";
 
-export const SentenceBuilder = ({
-  tokens,
-  selected,
-  feedback,
-  onRemove,
-  onPick,
-}: {
+type Props = {
   tokens: string[];
   selected: number[];
   feedback: boolean;
   onRemove: (pos: number) => void;
   onPick: (i: number) => void;
-}) => (
+};
+
+export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }: Props) => (
   <div className="sentence-builder">
     <div className="sentence-tray" aria-label="Your sentence">
       {selected.length === 0 && <span>Tap the words below to build your sentence…</span>}

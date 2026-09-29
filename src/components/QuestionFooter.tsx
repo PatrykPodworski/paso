@@ -2,19 +2,15 @@ import { Button } from "../design-system/Button";
 import type { Question } from "../data/types";
 import { Icon } from "./Icon";
 
-export const QuestionFooter = ({
-  exam,
-  productive,
-  kind,
-  canSubmit,
-  onCheck,
-}: {
+type Props = {
   exam: boolean;
   productive: boolean;
   kind: Question["kind"];
   canSubmit: boolean | undefined;
   onCheck: () => void;
-}) => {
+};
+
+export const QuestionFooter = ({ exam, productive, kind, canSubmit, onCheck }: Props) => {
   const singleChoice = kind === "choice" || kind === "listen";
 
   return (

@@ -6,7 +6,9 @@ import type { Question } from "../data/types";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 
-const WritingNotes = ({ q, value }: { q: Question; value: string }) => {
+type WritingNotesProps = { q: Question; value: string };
+
+const WritingNotes = ({ q, value }: WritingNotesProps) => {
   const words = countWords(value);
   const hints = writingHints(value);
 
@@ -34,7 +36,9 @@ const WritingNotes = ({ q, value }: { q: Question; value: string }) => {
   );
 };
 
-const PracticeReview = ({ q, value, checked }: { q: Question; value: string; checked: number }) => (
+type PracticeReviewProps = { q: Question; value: string; checked: number };
+
+const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
   <>
     <div className="model-answer">
       <Eyebrow>One possible answer</Eyebrow>
@@ -48,19 +52,21 @@ const PracticeReview = ({ q, value, checked }: { q: Question; value: string; che
   </>
 );
 
+type FeedbackBottomProps = {
+  correct: boolean | null;
+  productive: boolean;
+  assisted: boolean;
+  onRevise: () => void;
+  onContinue: () => void;
+};
+
 const FeedbackBottom = ({
   correct,
   productive,
   assisted,
   onRevise,
   onContinue,
-}: {
-  correct: boolean | null;
-  productive: boolean;
-  assisted: boolean;
-  onRevise: () => void;
-  onContinue: () => void;
-}) => (
+}: FeedbackBottomProps) => (
   <div className="feedback-bottom">
     <small>
       {correct === false
@@ -96,6 +102,17 @@ const FeedbackBottom = ({
   </div>
 );
 
+type Props = {
+  q: Question;
+  correct: boolean | null;
+  productive: boolean;
+  value: string;
+  checked: number;
+  assisted: boolean;
+  onRevise: () => void;
+  onContinue: () => void;
+};
+
 export const QuestionFeedback = ({
   q,
   correct,
@@ -105,16 +122,7 @@ export const QuestionFeedback = ({
   assisted,
   onRevise,
   onContinue,
-}: {
-  q: Question;
-  correct: boolean | null;
-  productive: boolean;
-  value: string;
-  checked: number;
-  assisted: boolean;
-  onRevise: () => void;
-  onContinue: () => void;
-}) => (
+}: Props) => (
   <div className={`feedback ${correct === false ? "needs-work" : "success"}`} role="status">
     <div className="feedback-heading">
       <span className="feedback-icon">

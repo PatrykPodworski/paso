@@ -349,7 +349,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
 
     await expect
       .poll(() => page.evaluate(() => (window as any).__vocabularyClips.length))
-      .toBe(i + 1);
+      .toBe(2 * i + 1);
 
     const word = await dialog.locator(".flashcard-prompt h2").innerText();
 
@@ -361,7 +361,16 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
     await expect(dialog.locator(".waveform, .speed-button")).toHaveCount(0);
     await page.getByRole("button", { name: "Reveal answer" }).click();
     await expect(dialog.locator(".memory-hint")).toBeVisible();
-    expect(await page.evaluate(() => (window as any).__vocabularyClips.length)).toBe(i + 1);
+    const example = await dialog.locator(".flashcard-example p[lang='es']").innerText();
+
+    await expect
+      .poll(() => page.evaluate(() => (window as any).__vocabularyClips.length))
+      .toBe(2 * i + 2);
+
+    expect(
+      await page.evaluate(() => new URL((window as any).__vocabularyClips.at(-1).src).pathname),
+    ).toBe(expectedAudio(example));
+
     expect(Object.keys((await stored(page)).vocabularyReviews)).toHaveLength(i);
     await page.getByRole("button", { name: i === 0 ? /Got it wrong/ : /Got it right/ }).click();
     await expect(dialog.getByRole("status")).toContainText(i === 0 ? "in 10 min" : "in 1 day");

@@ -3,7 +3,7 @@ import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { countWords, writingHints } from "../data/progress";
 import type { Question } from "../data/types";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { MemoryHint } from "./MemoryHint";
 
 type WritingNotesProps = { q: Question; value: string };

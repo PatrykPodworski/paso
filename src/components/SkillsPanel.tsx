@@ -2,7 +2,7 @@ import { Panel, PanelHeading } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 import { skillStats } from "../data/progress";
 import type { Progress } from "../data/types";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import type { Page } from "./navigation";
 import { exerciseBank, skills, type Practice } from "./practice";
 

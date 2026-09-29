@@ -5,7 +5,7 @@ import { foundations, visualQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import { skillStats } from "../data/progress";
 import type { Progress, Skill } from "../data/types";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { skills, type Practice, type Session } from "./practice";
 
 type Props = {

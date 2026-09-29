@@ -7,7 +7,7 @@ import type { Lesson, Progress } from "../data/types";
 import { JourneyArt } from "./Art";
 import { AudioButton } from "./AudioButton";
 import { DailyGoal } from "./DailyGoal";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import type { Page } from "./navigation";
 import type { Practice, Session } from "./practice";
 import { QuickPractice } from "./QuickPractice";

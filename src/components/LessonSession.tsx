@@ -2,7 +2,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./playback";

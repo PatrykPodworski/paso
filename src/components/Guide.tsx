@@ -4,7 +4,7 @@ import { SectionHeading } from "../design-system/SectionHeading";
 import { PageHeading } from "../design-system/PageHeading";
 import type { Progress } from "../data/types";
 import { requirementGroups, sources } from "../data/research";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { PassingRule } from "./PassingRule";
 import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";

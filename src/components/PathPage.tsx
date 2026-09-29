@@ -6,7 +6,7 @@ import { Panel } from "../design-system/Panel";
 import { allLessons, allQuestions, units } from "../data/curriculum";
 import type { Lesson, Progress } from "../data/types";
 import { Stamp } from "./Art";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import type { Page } from "./navigation";
 import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";

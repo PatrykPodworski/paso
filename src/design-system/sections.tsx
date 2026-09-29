@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Icon } from "../components/Icon";
+import { Icon, iconNames } from "./Icon";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
@@ -188,6 +188,27 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           title="Page heading without an aside."
           description="Title and description only."
         />
+      </div>
+    ),
+  },
+  {
+    id: "icon",
+    name: "Icon",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap gap-3">
+          {iconNames.map((name) => (
+            <div key={name} className="flex w-20 flex-col items-center gap-1 text-xs">
+              <Icon name={name} />
+              {name}
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          {[16, 20, 32].map((size) => (
+            <Icon key={size} name="star" size={size} />
+          ))}
+        </div>
       </div>
     ),
   },

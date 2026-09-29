@@ -1,6 +1,6 @@
 import { streak, xp } from "../data/progress";
 import type { Progress } from "../data/types";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { navigation, type Page } from "./navigation";
 
 type Props = {

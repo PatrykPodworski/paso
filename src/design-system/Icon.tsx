@@ -42,6 +42,9 @@ const paths: Record<string, string> = {
   star: "m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6Z",
 };
 
+// eslint-disable-next-line react/only-export-components
+export const iconNames = Object.keys(paths);
+
 type Props = {
   name: string;
   size?: number;

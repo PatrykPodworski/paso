@@ -1,4 +1,4 @@
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { navigation, type Page } from "./navigation";
 
 type Props = {

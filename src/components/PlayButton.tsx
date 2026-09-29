@@ -1,4 +1,4 @@
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { PlayLabel } from "./PlayLabel";
 
 type Props = {

@@ -4,7 +4,7 @@ import { Panel } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 import { passingGroups } from "../data/progress";
 import { sources } from "../data/research";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 
 export const PassingRule = () => {
   const [scores, setScores] = useState([15, 15, 15, 15]);

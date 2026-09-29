@@ -3,7 +3,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { Panel } from "../design-system/Panel";
 import { mockSections } from "../data/mock";
 import { AnswerReview } from "./AnswerReview";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import type { Run } from "./useMockRun";
 
 type Props = {

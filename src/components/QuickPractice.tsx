@@ -1,4 +1,4 @@
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import type { Practice } from "./practice";
 
 type Props = {

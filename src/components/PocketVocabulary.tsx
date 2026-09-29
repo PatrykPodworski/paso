@@ -8,7 +8,7 @@ import type { Progress } from "../data/types";
 import { AudioButton } from "./AudioButton";
 import { stopAudio } from "./playback";
 import { Dialog } from "../design-system/Dialog";
-import { Icon } from "./Icon";
+import { Icon } from "../design-system/Icon";
 import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 

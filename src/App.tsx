@@ -4,7 +4,7 @@ import { allLessons } from "./data/curriculum";
 import { emptyProgress, withAttempt } from "./data/progress";
 import type { Attempt, Lesson, Skill } from "./data/types";
 import { Guide } from "./components/Guide";
-import { Icon } from "./components/Icon";
+import { Icon } from "./design-system/Icon";
 import { LessonSession } from "./components/LessonSession";
 import { mistakeQueue } from "./components/mistakeQueue";
 import { MockExam } from "./components/MockExam";

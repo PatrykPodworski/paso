@@ -282,7 +282,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await expect(pocket.getByText("el café", { exact: true })).toBeVisible();
   await search.fill("no-such-word");
   await expect(page.getByRole("heading", { name: "No word found yet." })).toBeVisible();
-  await page.getByRole("button", { name: "Clear search" }).click();
+  await page.getByRole("button", { name: "Clear the search" }).click();
   await page.getByRole("button", { name: "Review flashcards" }).click();
   const dialog = page.getByRole("dialog", { name: "Vocabulary review" });
   for (let i = 0; i < 8; i++) {

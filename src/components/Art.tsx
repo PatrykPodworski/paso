@@ -116,6 +116,7 @@ export const JourneyArt = () => (
     <path d="m530 308 5 7 8-9m-159 67 7-1" stroke="#ebd9b6" strokeWidth="2" fill="none" />
   </svg>
 );
+
 export const Stamp = () => (
   <div className="stamp" aria-hidden="true">
     <span>PASO A PASO</span>

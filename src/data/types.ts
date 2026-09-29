@@ -1,5 +1,6 @@
 export type Skill = "reading" | "listening" | "writing" | "speaking";
 export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "speak" | "form";
+
 export interface Question {
   id: string;
   kind: QuestionKind;
@@ -23,6 +24,7 @@ export interface Question {
   fields?: { label: string; example: string }[];
   task?: string;
 }
+
 export interface Lesson {
   id: string;
   title: string;
@@ -31,6 +33,7 @@ export interface Lesson {
   icon: string;
   questions: Question[];
 }
+
 export interface Unit {
   id: string;
   title: string;
@@ -43,6 +46,7 @@ export interface Unit {
   example: string;
   lessons: Lesson[];
 }
+
 export interface Attempt {
   id: string;
   questionId: string;
@@ -52,6 +56,7 @@ export interface Attempt {
   at: string;
   assisted?: boolean;
 }
+
 export interface Progress {
   version: 1;
   name: string;

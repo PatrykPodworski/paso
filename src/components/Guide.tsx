@@ -11,6 +11,7 @@ import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
+
 export const Guide = ({
   progress,
   onCheck,
@@ -20,6 +21,7 @@ export const Guide = ({
 }) => {
   const [scores, setScores] = useState([15, 15, 15, 15]);
   const groups = passingGroups(scores[0], scores[1], scores[2], scores[3]);
+
   return (
     <div className="guide-page">
       <PageHeading

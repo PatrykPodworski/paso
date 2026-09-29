@@ -32,14 +32,19 @@ const reviewDate = (at: string) =>
 
 const reviewWait = (at: string, now: Date) => {
   const minutes = Math.max(1, Math.round((new Date(at).getTime() - now.getTime()) / 60_000));
+
   if (minutes < 60) {
     return `in ${minutes} min`;
   }
+
   const hours = Math.round(minutes / 60);
+
   if (hours < 24) {
     return `in ${hours} ${hours === 1 ? "hour" : "hours"}`;
   }
+
   const days = Math.round(hours / 24);
+
   return `in ${days} ${days === 1 ? "day" : "days"}`;
 };
 
@@ -62,24 +67,31 @@ const VocabularySession = ({
   const result = results[index - 1];
   const nextSessionReview = results.map((r) => r.review.nextAt).sort()[0];
   const now = new Date();
+
   const nextRight =
     word && vocabularyReview(progress.vocabularyReviews[word.id], true, now.toISOString());
+
   useEffect(() => {
     action.current?.focus();
   }, [index, revealed]);
+
   useEffect(() => () => stopAudio(), []);
+
   const rate = (correct: boolean) => {
     if (!revealed || ratingLock.current) {
       return;
     }
+
     ratingLock.current = true;
     stopAudio();
     const review = vocabularyReview(progress.vocabularyReviews[word.id], correct);
+
     onReview(word.id, review);
     setResults((previous) => [...previous, { correct, review }]);
     setIndex((i) => i + 1);
     setRevealed(false);
   };
+
   return (
     <Dialog
       label="Vocabulary review"
@@ -238,6 +250,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
   const [session, setSession] = useState<Card[] | null>(null);
   const [now, setNow] = useState(() => new Date());
   const words = deckCards(progress);
+
   const due = words
     .filter((w) => reviewDue(progress.vocabularyReviews[w.id], now))
     .sort((a, b) =>
@@ -245,30 +258,41 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
         progress.vocabularyReviews[b.id]?.nextAt ?? "",
       ),
     );
+
   const scheduled = words.filter((w) => !reviewDue(progress.vocabularyReviews[w.id], now));
   const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.id].nextAt).sort()[0];
+
   const reviewedToday = words.filter((w) => {
     const at = progress.vocabularyReviews[w.id]?.reviewedAt;
+
     return at && localDate(new Date(at)) === localDate(now);
   }).length;
+
   const newCount = due.filter((w) => !progress.vocabularyReviews[w.id]?.reviewedAt).length;
+
   const filtered = words.filter((w) =>
     `${w.es} ${w.en}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
   );
+
   // Refresh at the next due time, on return to the tab, and across midnight.
   useEffect(() => {
     const refresh = () => setNow(new Date());
+
     const delay = Math.min(
       60_000,
       Math.max(1, nextAt ? new Date(nextAt).getTime() - Date.now() : 60_000),
     );
+
     const timer = window.setInterval(refresh, delay);
+
     window.addEventListener("focus", refresh);
+
     return () => {
       window.clearInterval(timer);
       window.removeEventListener("focus", refresh);
     };
   }, [now, nextAt]);
+
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
       <SectionHeading variant="word">
@@ -348,6 +372,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
         <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
           {topics.map(({ topic, optional, cards }) => {
             const counts = topicCounts(cards, progress);
+
             return (
               <li
                 key={topic}
@@ -396,6 +421,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
+
                 return (
                   <li
                     key={w.id}

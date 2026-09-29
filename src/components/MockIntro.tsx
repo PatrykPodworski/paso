@@ -1,15 +1,12 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
-import { Notice } from "../design-system/Notice";
 import { Panel } from "../design-system/Panel";
+import { Notice } from "../design-system/Notice";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { Icon } from "../design-system/Icon";
 
-type Props = {
-  progress: Progress;
-  onStart: () => void;
-};
+type Props = { progress: Progress; onStart: () => void };
 
 export const MockIntro = ({ progress, onStart }: Props) => (
   <>
@@ -81,8 +78,8 @@ export const MockIntro = ({ progress, onStart }: Props) => (
         {progress.mockResults
           .slice()
           .reverse()
-          .map((r, i) => (
-            <div className="history-row" key={`${r.at}-${i}`}>
+          .map((r) => (
+            <div className="history-row" key={r.at}>
               <span>{new Date(r.at).toLocaleDateString()}</span>
               <strong>Reading {r.reading}/25</strong>
               <strong>Listening {r.listening}/25</strong>

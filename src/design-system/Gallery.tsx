@@ -12,4 +12,5 @@ const Gallery = () => (
     ))}
   </main>
 );
+
 export default Gallery;

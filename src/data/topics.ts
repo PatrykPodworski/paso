@@ -5,6 +5,7 @@ import type { Progress } from "./types";
 
 // Level 4 reviews come back after 14 days or more.
 const KNOWN_LEVEL = 4;
+
 export const WORDS_PER_ADD = 5;
 
 export type Card = {
@@ -28,6 +29,7 @@ export const topics = words.map(({ topic, optional, words }) => ({
   cards: words.map((w): Card => {
     const id = ("key" in w && w.key) || w.es;
     const unitWord = legacy.get(id);
+
     return {
       id,
       es: w.es,
@@ -56,9 +58,11 @@ export const cardStatus = (card: Card, progress: Progress) =>
 
 export const topicCounts = (cards: Card[], progress: Progress) => {
   const counts = { total: cards.length, new: 0, learning: 0, known: 0 };
+
   for (const card of cards) {
     counts[cardStatus(card, progress)]++;
   }
+
   return counts;
 };
 

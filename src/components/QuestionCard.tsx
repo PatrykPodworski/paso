@@ -3,13 +3,25 @@ import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
-import { AudioButton, playWord, stopAudio } from "./Audio";
-import type { AudioHandle } from "./Audio";
+import { AudioButton } from "./AudioButton";
+import { playWord } from "./playWord";
+import { stopAudio } from "./playback";
+import type { AudioHandle } from "./useAudioPlayer";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 import { Recorder } from "./Recorder";
 import { FieldNote } from "../design-system/FieldNote";
 import { TextLink } from "../design-system/TextLink";
+
+type Props = {
+  q: Question;
+  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  exam?: boolean;
+  draft?: string;
+  onDraft?: (text: string) => void;
+};
+
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -17,26 +29,22 @@ export const QuestionCard = ({
   exam = false,
   draft = "",
   onDraft,
-}: {
-  q: Question;
-  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  exam?: boolean;
-  draft?: string;
-  onDraft?: (text: string) => void;
-}) => {
+}: Props) => {
   const heading = useRef<HTMLHeadingElement>(null);
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
   const passageAudio = useRef<AudioHandle>(null);
   const [recording, setRecording] = useState(false);
+
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
     const dialog = heading.current?.closest("dialog");
+
     if (dialog) {
       dialog.scrollTop = 0;
     }
   }, [q.id]);
+
   const [answer, setAnswer] = useState(draft);
   const [selected, setSelected] = useState<number[]>([]);
   const [feedback, setFeedback] = useState(false);
@@ -44,9 +52,11 @@ export const QuestionCard = ({
   const [assisted, setAssisted] = useState(false);
   const [checks, setChecks] = useState<number[]>([]);
   const [spoken, setSpoken] = useState(false);
+
   const [fieldValues, setFieldValues] = useState<Record<string, string>>(() => {
     try {
       const parsed = JSON.parse(draft);
+
       return parsed &&
         typeof parsed === "object" &&
         !Array.isArray(parsed) &&
@@ -57,11 +67,13 @@ export const QuestionCard = ({
       return {};
     }
   });
+
   const productive = ["write", "speak", "form"].includes(q.kind);
   const singleChoice = q.kind === "choice" || q.kind === "listen";
   const pronunciation = q.pronunciation || q.audio || q.passage || q.answer;
   const built = selected.map((i) => q.tokens![i]).join(" ");
   const formText = (q.fields || []).map((f) => fieldValues[f.label] || "").join(" ");
+
   const value =
     q.kind === "order"
       ? built
@@ -70,13 +82,16 @@ export const QuestionCard = ({
         : q.kind === "speak" && spoken
           ? "Practised aloud. Audio must be reviewed from the downloaded recording."
           : answer;
+
   const submission =
     q.kind === "form"
       ? (q.fields || []).map((f) => `${f.label}: ${fieldValues[f.label] || ""}`).join("\n")
       : value;
+
   const correct = productive ? null : isCorrect(q, value);
   const words = countWords(value);
   const hints = writingHints(value);
+
   const canSubmit =
     q.kind === "speak"
       ? !recording && (spoken || checks.length > 0)
@@ -85,23 +100,31 @@ export const QuestionCard = ({
         : q.kind === "order"
           ? selected.length === q.tokens?.length
           : !!answer.trim();
+
   const setText = (text: string) => {
     setAnswer(text);
     onDraft?.(text);
   };
+
   const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
+
     if (!valid || feedback) {
       return;
     }
+
     const submitted = choice ?? submission;
     const result = choice ? isCorrect(q, choice) : correct;
+
     if (exam) {
       onSubmit(submitted, result, assisted);
+
       return;
     }
+
     onEvaluated?.(submitted, result, assisted);
     setFeedback(true);
+
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
     // A tapped word is already speaking, so wait for it and read the sentence
@@ -109,6 +132,7 @@ export const QuestionCard = ({
     // to must not be cut off by the model at all.
     if (q.kind !== "listen" && !passageAudio.current?.playing()) {
       const player = q.audio ? listeningAudio : answerAudio;
+
       if (after) {
         void after.then(() => player.current?.play());
       } else {
@@ -116,27 +140,35 @@ export const QuestionCard = ({
       }
     }
   };
+
   const pickToken = (i: number) => {
     const spoken = playWord(q.tokens![i]);
     const next = [...selected, i];
+
     setSelected(next);
     const sentence = next.map((j) => q.tokens![j]).join(" ");
+
     if (next.length === q.tokens!.length && isCorrect(q, sentence)) {
       submit(sentence, spoken);
     }
   };
+
   // Number keys answer the question, mirroring the badges on each button.
   // ponytail: re-subscribed every render so the handler reads current state.
   useEffect(() => {
     const handle = (e: KeyboardEvent) => {
       const typing = document.activeElement?.closest("input, textarea");
+
       if (e.metaKey || e.ctrlKey || e.altKey || feedback || typing) {
         return;
       }
+
       const i = Number(e.key) - 1;
+
       if (!Number.isInteger(i) || i < 0) {
         return;
       }
+
       if (q.options?.[i] !== undefined) {
         e.preventDefault();
         setText(q.options[i]);
@@ -146,9 +178,12 @@ export const QuestionCard = ({
         pickToken(i);
       }
     };
+
     window.addEventListener("keydown", handle);
+
     return () => window.removeEventListener("keydown", handle);
   });
+
   return (
     <div className="question-card">
       <div className="question-kind">
@@ -342,9 +377,12 @@ export const QuestionCard = ({
                     const el = document.getElementById("written-answer") as
                       | HTMLInputElement
                       | HTMLTextAreaElement;
+
                     const start = el?.selectionStart ?? answer.length;
                     const end = el?.selectionEnd ?? start;
+
                     setText(answer.slice(0, start) + c + answer.slice(end));
+
                     requestAnimationFrame(() => {
                       el?.focus();
                       el?.setSelectionRange(start + 1, start + 1);
@@ -381,6 +419,7 @@ export const QuestionCard = ({
                 value={fieldValues[f.label] || ""}
                 onChange={(e) => {
                   const next = { ...fieldValues, [f.label]: e.target.value };
+
                   setFieldValues(next);
                   onDraft?.(JSON.stringify(next));
                 }}

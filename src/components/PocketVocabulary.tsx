@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
 import { type Card, WORDS_PER_ADD, addWords, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
-import { AudioButton, stopAudio } from "./Audio";
+import { AudioButton } from "./AudioButton";
+import { stopAudio } from "./playback";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
@@ -33,26 +34,28 @@ const reviewDate = (at: string) =>
 
 const reviewWait = (at: string, now: Date) => {
   const minutes = Math.max(1, Math.round((new Date(at).getTime() - now.getTime()) / 60_000));
+
   if (minutes < 60) {
     return `in ${minutes} min`;
   }
+
   const hours = Math.round(minutes / 60);
+
   if (hours < 24) {
     return `in ${hours} ${hours === 1 ? "hour" : "hours"}`;
   }
+
   const days = Math.round(hours / 24);
+
   return `in ${days} ${days === 1 ? "day" : "days"}`;
 };
 
-const VocabularySession = ({
-  words,
-  progress,
-  onReview,
-  onClose,
-}: Omit<Props, "onLearn" | "onAddWords"> & {
+type VocabularySessionProps = Omit<Props, "onLearn" | "onAddWords"> & {
   words: Card[];
   onClose: () => void;
-}) => {
+};
+
+const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySessionProps) => {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [results, setResults] = useState<{ correct: boolean; review: Review }[]>([]);
@@ -63,24 +66,31 @@ const VocabularySession = ({
   const result = results[index - 1];
   const nextSessionReview = results.map((r) => r.review.nextAt).sort()[0];
   const now = new Date();
+
   const nextRight =
     word && vocabularyReview(progress.vocabularyReviews[word.id], true, now.toISOString());
+
   useEffect(() => {
     action.current?.focus();
   }, [index, revealed]);
+
   useEffect(() => () => stopAudio(), []);
+
   const rate = (correct: boolean) => {
     if (!revealed || ratingLock.current) {
       return;
     }
+
     ratingLock.current = true;
     stopAudio();
     const review = vocabularyReview(progress.vocabularyReviews[word.id], correct);
+
     onReview(word.id, review);
     setResults((previous) => [...previous, { correct, review }]);
     setIndex((i) => i + 1);
     setRevealed(false);
   };
+
   return (
     <Dialog
       label="Vocabulary review"
@@ -239,6 +249,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
   const [session, setSession] = useState<Card[] | null>(null);
   const [now, setNow] = useState(() => new Date());
   const words = deckCards(progress);
+
   const due = words
     .filter((w) => reviewDue(progress.vocabularyReviews[w.id], now))
     .sort((a, b) =>
@@ -246,30 +257,41 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
         progress.vocabularyReviews[b.id]?.nextAt ?? "",
       ),
     );
+
   const scheduled = words.filter((w) => !reviewDue(progress.vocabularyReviews[w.id], now));
   const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.id].nextAt).sort()[0];
+
   const reviewedToday = words.filter((w) => {
     const at = progress.vocabularyReviews[w.id]?.reviewedAt;
+
     return at && localDate(new Date(at)) === localDate(now);
   }).length;
+
   const newCount = due.filter((w) => !progress.vocabularyReviews[w.id]?.reviewedAt).length;
+
   const filtered = words.filter((w) =>
     `${w.es} ${w.en}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
   );
+
   // Refresh at the next due time, on return to the tab, and across midnight.
   useEffect(() => {
     const refresh = () => setNow(new Date());
+
     const delay = Math.min(
       60_000,
       Math.max(1, nextAt ? new Date(nextAt).getTime() - Date.now() : 60_000),
     );
+
     const timer = window.setInterval(refresh, delay);
+
     window.addEventListener("focus", refresh);
+
     return () => {
       window.clearInterval(timer);
       window.removeEventListener("focus", refresh);
     };
   }, [now, nextAt]);
+
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
       <SectionHeading variant="word">
@@ -350,6 +372,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           {topics.map(({ topic, optional, cards }, index) => {
             const counts = topicCounts(cards, progress);
             const adding = Math.min(WORDS_PER_ADD, counts.new);
+
             return (
               <li
                 key={topic}
@@ -380,6 +403,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   onClick={(e) => {
                     onAddWords(addWords(cards, progress));
                     setNow(new Date());
+
                     // Disabling the focused button would drop focus to <body>.
                     if (adding === counts.new) {
                       e.currentTarget.closest("li")!.focus();
@@ -417,6 +441,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
                 const isNew = isDue && !entry?.reviewedAt;
+
                 return (
                   <li
                     key={w.id}

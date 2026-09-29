@@ -2,24 +2,21 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { Badge } from "../design-system/Badge";
 import { SectionHeading } from "../design-system/SectionHeading";
 import { PageHeading } from "../design-system/PageHeading";
-import { useState } from "react";
 import type { Progress } from "../data/types";
-import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "./Icon";
+import { PassingRule } from "./PassingRule";
 import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
-export const Guide = ({
-  progress,
-  onCheck,
-}: {
+
+type Props = {
   progress: Progress;
   onCheck: (id: string) => void;
-}) => {
-  const [scores, setScores] = useState([15, 15, 15, 15]);
-  const groups = passingGroups(scores[0], scores[1], scores[2], scores[3]);
+};
+
+export const Guide = ({ progress, onCheck }: Props) => {
   return (
     <div className="guide-page">
       <PageHeading
@@ -121,50 +118,7 @@ export const Guide = ({
         </FieldNote>
       </Panel>
       <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[22px] mt-[24px]">
-        <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px]">
-          <Eyebrow>TRY THE PASSING RULE</Eyebrow>
-          <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
-            Does this score pass?
-          </h3>
-          <p className="text-[14px] text-[#768762] mb-[23px]">
-            Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.
-          </p>
-          {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
-            <label key={s} className="score-slider">
-              <span>
-                {s}
-                <b>{scores[i]}/25</b>
-              </span>
-              <input
-                type="range"
-                min="0"
-                max="25"
-                value={scores[i]}
-                onChange={(e) => setScores((v) => v.map((n, j) => (j === i ? +e.target.value : n)))}
-              />
-            </label>
-          ))}
-          <div className="passing-groups">
-            <div className={groups.group1 >= 30 ? "passed" : "below"}>
-              <span>Reading + writing</span>
-              <b>{groups.group1}/50</b>
-            </div>
-            <div className={groups.group2 >= 30 ? "passed" : "below"}>
-              <span>Listening + speaking</span>
-              <b>{groups.group2}/50</b>
-            </div>
-          </div>
-          <div className={`pass-verdict ${groups.pass ? "passed" : "below"}`} role="status">
-            <Icon name={groups.pass ? "check" : "info"} />
-            {groups.pass
-              ? "These example scores meet the passing rule."
-              : "These example scores do not meet the passing rule."}
-          </div>
-          <TextLink href={sources[1].url} target="_blank" rel="noreferrer">
-            Official scoring rules
-            <Icon name="external" size={14} />
-          </TextLink>
-        </Panel>
+        <PassingRule />
         <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">

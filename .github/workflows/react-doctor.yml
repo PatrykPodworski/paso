@@ -1,0 +1,35 @@
+name: React Doctor
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  react-doctor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Sticky summary comment and inline review comments.
+      pull-requests: write
+      issues: write
+    env:
+      # Keeps the scan's Sentry and Axiom telemetry off. doctor.config.json turns off
+      # the score upload and share link.
+      REACT_DOCTOR_NO_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # `scope: changed` diffs against the PR base; a shallow clone can't reach it.
+          fetch-depth: 0
+      - uses: millionco/react-doctor@v2
+        with:
+          node-version: 24
+          # Report only issues the PR introduced, and fail on error-level ones such as
+          # no-giant-component. Pushes to main scan everything but never fail.
+          scope: changed
+          blocking: error
+          comment: true
+          # Without a score, the action labels every blocking failure "Scan could not
+          # complete". The job's own check already shows pass or fail.
+          commit-status: false

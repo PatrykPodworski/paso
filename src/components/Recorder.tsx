@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Icon";
 import { FieldNote } from "../design-system/FieldNote";
+import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
 export const Recorder = ({
   onRecorded,
@@ -144,9 +145,9 @@ export const Recorder = ({
         </div>
       )}
       {error && (
-        <p role="status" className="notice">
+        <Notice as="p" role="status">
           {error}
-        </p>
+        </Notice>
       )}
     </div>
   );

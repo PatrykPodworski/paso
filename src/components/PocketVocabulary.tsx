@@ -353,6 +353,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
             return (
               <li
                 key={topic}
+                tabIndex={-1}
                 className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t"
               >
                 <span className="flex items-center gap-2 font-semibold">
@@ -376,9 +377,13 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   className="col-start-2 row-start-1 row-end-3 max-[651px]:row-end-2"
                   disabled={!adding}
                   aria-describedby={`topic-${index}`}
-                  onClick={() => {
+                  onClick={(e) => {
                     onAddWords(addWords(cards, progress));
                     setNow(new Date());
+                    // Disabling the focused button would drop focus to <body>.
+                    if (adding === counts.new) {
+                      e.currentTarget.closest("li")!.focus();
+                    }
                   }}
                 >
                   {adding ? `Add ${adding} ${adding === 1 ? "word" : "words"}` : "All added"}
@@ -411,6 +416,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
+                const isNew = isDue && !entry?.reviewedAt;
                 return (
                   <li
                     key={w.id}
@@ -425,13 +431,13 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                     </span>
                     <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-[651px]:col-[2] max-[651px]:row-[1/3]">
                       <strong className={isDue ? "text-(--green)" : ""}>
-                        {isDue
-                          ? entry?.reviewedAt
+                        {isNew
+                          ? "New · ready now"
+                          : isDue
                             ? "Due now"
-                            : "New · ready now"
-                          : `Review ${reviewWait(entry.nextAt, now)}`}
+                            : `Review ${reviewWait(entry.nextAt, now)}`}
                       </strong>
-                      {entry && <time dateTime={entry.nextAt}>{reviewDate(entry.nextAt)}</time>}
+                      {!isNew && <time dateTime={entry.nextAt}>{reviewDate(entry.nextAt)}</time>}
                     </span>
                   </li>
                 );

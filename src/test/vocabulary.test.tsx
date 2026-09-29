@@ -232,6 +232,7 @@ it("adds five words from a topic to the deck as new cards", () => {
   const added = topics.find((t) => t.topic === "Weather")!.cards[0];
   const card = screen.getByText(added.es, { selector: ".vocabulary-list strong" }).closest("li")!;
   expect(card).toHaveTextContent("New · ready now");
+  expect(card.querySelector("time")).toBeNull();
 });
 
 it("adds only the words a topic has left, then shows it as all added", () => {
@@ -240,8 +241,11 @@ it("adds only the words a topic has left, then shows it as all added", () => {
   p.vocabularyReviews[first.id] = { level: 1, nextAt: tomorrow };
   mount(p);
   const row = topicRow("Appearance (adjectives)");
-  fireEvent.click(within(row).getByRole("button", { name: "Add 1 word" }));
+  const add = within(row).getByRole("button", { name: "Add 1 word" });
+  add.focus();
+  fireEvent.click(add);
   expect(within(row).getByRole("button", { name: "All added" })).toBeDisabled();
+  expect(row).toHaveFocus();
   expect(row).toHaveTextContent("0 new");
 });
 

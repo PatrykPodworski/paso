@@ -1,5 +1,6 @@
 import { defineConfig } from "@playwright/test";
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,

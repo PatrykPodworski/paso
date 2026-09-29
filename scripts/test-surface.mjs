@@ -1,10 +1,12 @@
 import { globSync } from "node:fs";
+
 // Authored course data has exhaustive integrity tests. Artwork is covered by
 // visual comparisons. New application modules enter coverage automatically.
 export const sourceIncludes = [
   "src/**/*.{ts,tsx}",
   "scripts/{audio-budget,audio-direction,elevenlabs,generate-elevenlabs}.mjs",
 ];
+
 export const sourceExcludes = [
   "src/test/**",
   "**/*.test.*",
@@ -16,5 +18,6 @@ export const sourceExcludes = [
   // Presentational only; the gallery screenshots are their coverage.
   "src/design-system/**",
 ];
+
 export const productionFiles = () =>
   [...globSync(sourceIncludes, { exclude: sourceExcludes })].sort();

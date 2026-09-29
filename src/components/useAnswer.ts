@@ -37,21 +37,19 @@ const ready = (
   {
     recording,
     spoken,
-    checks,
     fieldValues,
     selected,
     answer,
   }: {
     recording: boolean;
     spoken: boolean;
-    checks: number[];
     fieldValues: Record<string, string>;
     selected: number[];
     answer: string;
   },
 ) =>
   q.kind === "speak"
-    ? !recording && (spoken || checks.length > 0)
+    ? !recording && spoken
     : q.kind === "form"
       ? q.fields?.every((f) => fieldValues[f.label]?.trim())
       : q.kind === "order"
@@ -109,7 +107,7 @@ export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) =
     submission,
     correct: productive ? null : isCorrect(q, value),
     words: countWords(value),
-    canSubmit: ready(q, { recording, spoken, checks, fieldValues, selected, answer }),
+    canSubmit: ready(q, { recording, spoken, fieldValues, selected, answer }),
   };
 };
 

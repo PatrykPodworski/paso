@@ -220,22 +220,21 @@ describe("exercise rules and submission modes", () => {
     expect(screen.getByText((text) => text.includes(message))).toBeInTheDocument();
   });
 
-  it("checklist-only speaking submits ungraded practice", () => {
+  it("speaking requires the practised-aloud attestation, not checklist ticks alone", () => {
     const evaluated = vi.fn();
 
     render(<QuestionCard q={speaking} onSubmit={vi.fn()} onEvaluated={evaluated} />);
-    const checkbox = screen.getByRole("checkbox", { name: speaking.checklist![0] });
-
-    fireEvent.click(checkbox);
-    fireEvent.click(checkbox);
+    fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![0] }));
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-    fireEvent.click(checkbox);
+    fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
+    expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
     click("Review my practice");
-    expect(evaluated.mock.calls[0][1]).toBeNull();
 
-    expect(
-      screen.getByRole("heading", { name: "Let’s reflect on your answer" }),
-    ).toBeInTheDocument();
+    expect(evaluated).toHaveBeenCalledExactlyOnceWith(
+      "Practised aloud. Audio must be reviewed from the downloaded recording.",
+      null,
+      false,
+    );
   });
 
   it("blocks review while recording and enables it after the take", () => {
@@ -246,6 +245,7 @@ describe("exercise rules and submission modes", () => {
       recordingProps.onRecordingChange(true);
     });
 
+    fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
 
     act(() => {

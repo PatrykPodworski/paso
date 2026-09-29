@@ -1,7 +1,11 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["react", "typescript", "oxc", "import"],
-  "jsPlugins": ["@stylistic/eslint-plugin"],
+  "jsPlugins": [
+    "@stylistic/eslint-plugin",
+    "./lint-plugins/react-props-type.mjs",
+    "./lint-plugins/react-component-filename.mjs"
+  ],
   "rules": {
     "react/rules-of-hooks": "error",
     "react/only-export-components": [
@@ -13,6 +17,7 @@
     "func-style": ["error", "expression"],
     "prefer-arrow-callback": "error",
     "curly": "error",
+    "react-props-type/named-props-type": "error",
     "import/newline-after-import": "error",
     "@stylistic/padding-line-between-statements": [
       "error",
@@ -48,9 +53,16 @@
   "ignorePatterns": ["src/routeTree.gen.ts", "public/mockServiceWorker.js"],
   "overrides": [
     {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react-component-filename/match-component": "error"
+      }
+    },
+    {
       "files": ["src/routes/**"],
       "rules": {
-        "react/only-export-components": "off"
+        "react/only-export-components": "off",
+        "react-component-filename/match-component": "off"
       }
     }
   ]

@@ -4,6 +4,18 @@ import { PlayButton } from "./PlayButton";
 import { useAudioPlayer } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";
 
+type Props = {
+  ref?: Ref<AudioHandle>;
+  text: string;
+  label?: string;
+  compact?: boolean;
+  minimal?: boolean;
+  autoPlay?: boolean;
+  continuous?: boolean;
+  limit?: number;
+  onPlayed?: () => void;
+};
+
 export const AudioButton = ({
   ref: controlsRef,
   text,
@@ -14,17 +26,7 @@ export const AudioButton = ({
   continuous = false,
   limit,
   onPlayed,
-}: {
-  ref?: Ref<AudioHandle>;
-  text: string;
-  label?: string;
-  compact?: boolean;
-  minimal?: boolean;
-  autoPlay?: boolean;
-  continuous?: boolean;
-  limit?: number;
-  onPlayed?: () => void;
-}) => {
+}: Props) => {
   const { playing, speed, setSpeed, count, error, play } = useAudioPlayer({
     controlsRef,
     text,

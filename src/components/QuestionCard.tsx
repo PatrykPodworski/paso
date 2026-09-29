@@ -3,7 +3,7 @@ import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../data/types";
 import { countWords, isCorrect, writingHints } from "../data/progress";
-import { AudioButton } from "./Audio";
+import { AudioButton } from "./AudioButton";
 import { playWord } from "./playWord";
 import { stopAudio } from "./playback";
 import type { AudioHandle } from "./useAudioPlayer";
@@ -13,6 +13,15 @@ import { Recorder } from "./Recorder";
 import { FieldNote } from "../design-system/FieldNote";
 import { TextLink } from "../design-system/TextLink";
 
+type Props = {
+  q: Question;
+  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  exam?: boolean;
+  draft?: string;
+  onDraft?: (text: string) => void;
+};
+
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -20,14 +29,7 @@ export const QuestionCard = ({
   exam = false,
   draft = "",
   onDraft,
-}: {
-  q: Question;
-  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  exam?: boolean;
-  draft?: string;
-  onDraft?: (text: string) => void;
-}) => {
+}: Props) => {
   const heading = useRef<HTMLHeadingElement>(null);
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);

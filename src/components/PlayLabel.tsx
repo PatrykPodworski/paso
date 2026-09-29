@@ -1,4 +1,6 @@
-export const PlayLabel = ({ label, playing }: { label: string; playing: boolean }) => (
+type Props = { label: string; playing: boolean };
+
+export const PlayLabel = ({ label, playing }: Props) => (
   <>
     <span>{playing ? "Playing…" : label}</span>
     <span className={`waveform ${playing ? "playing" : ""}`} aria-hidden="true">

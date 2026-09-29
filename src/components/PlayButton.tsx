@@ -1,21 +1,16 @@
 import { Icon } from "./Icon";
 import { PlayLabel } from "./PlayLabel";
 
-export const PlayButton = ({
-  label,
-  iconOnly,
-  minimal,
-  playing,
-  disabled,
-  onClick,
-}: {
+type Props = {
   label: string;
   iconOnly: boolean;
   minimal: boolean;
   playing: boolean;
   disabled: boolean;
   onClick: () => void;
-}) => {
+};
+
+export const PlayButton = ({ label, iconOnly, minimal, playing, disabled, onClick }: Props) => {
   const pauseLabel = minimal ? "Pause audio" : "Stop audio";
 
   return (

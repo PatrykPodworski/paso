@@ -10,9 +10,11 @@ export const Panel = ({ as: Tag = "div", className = "", ...rest }: Props) => (
   <Tag className={`bg-paper border border-line rounded-[13px] ${className}`} {...rest} />
 );
 
+type PanelHeadingProps = { title: ReactNode; children?: ReactNode };
+
 // The title sizes are what the old `.panel-heading h3` media cascade resolved to: the
 // min-width 1600px and max-width 430px rules were overridden by later ones in styles.css.
-export const PanelHeading = ({ title, children }: { title: ReactNode; children?: ReactNode }) => (
+export const PanelHeading = ({ title, children }: PanelHeadingProps) => (
   <div className="flex items-center justify-between gap-[10px] [&>svg]:text-[#a0a68f]">
     <h3 className="text-[14px] max-laptop:text-[15px] max-tablet:text-[14px] desktop:text-[15px] font-semibold">
       {title}

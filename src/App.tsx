@@ -20,7 +20,7 @@ import {
 import { Icon } from "./components/Icon";
 import { MemoryHint } from "./components/MemoryHint";
 import { JourneyArt, Stamp } from "./components/Art";
-import { AudioButton } from "./components/Audio";
+import { AudioButton } from "./components/AudioButton";
 import { Dialog } from "./design-system/Dialog";
 import { Eyebrow } from "./design-system/Eyebrow";
 import { SectionHeading } from "./design-system/SectionHeading";
@@ -60,6 +60,16 @@ const pageFromHash = (): Page => {
   return navigation.some((n) => n.id === h) ? (h as Page) : "today";
 };
 
+type UnitCardProps = {
+  unit: Unit;
+  onPath?: boolean;
+  index: number;
+  progress: Progress;
+  start: (l: Lesson) => void;
+  expanded: boolean;
+  onExpand: () => void;
+};
+
 const UnitCard = ({
   unit,
   onPath = false,
@@ -68,15 +78,7 @@ const UnitCard = ({
   start,
   expanded,
   onExpand,
-}: {
-  unit: Unit;
-  onPath?: boolean;
-  index: number;
-  progress: Progress;
-  start: (l: Lesson) => void;
-  expanded: boolean;
-  onExpand: () => void;
-}) => {
+}: UnitCardProps) => {
   const done = unit.lessons.filter((l) => progress.completed[l.id]).length;
 
   return (
@@ -159,17 +161,14 @@ const UnitCard = ({
   );
 };
 
-const Settings = ({
-  progress,
-  onSave,
-  onClose,
-  onReset,
-}: {
+type SettingsProps = {
   progress: Progress;
   onSave: (p: Partial<Progress>) => void;
   onClose: () => void;
   onReset: () => void;
-}) => {
+};
+
+const Settings = ({ progress, onSave, onClose, onReset }: SettingsProps) => {
   const [name, setName] = useState(progress.name);
   const [goal, setGoal] = useState(progress.goal);
   const [date, setDate] = useState(progress.examDate);

@@ -8,7 +8,7 @@ import type { Progress } from "../data/types";
 import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
-import { stopAudio } from "./Audio";
+import { stopAudio } from "./AudioButton";
 import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";
@@ -55,13 +55,12 @@ const load = (): Run => {
   }
 };
 
-export const MockExam = ({
-  progress,
-  onResult,
-}: {
+type Props = {
   progress: Progress;
   onResult: (result: Progress["mockResults"][number]) => void;
-}) => {
+};
+
+export const MockExam = ({ progress, onResult }: Props) => {
   const [run, setRun] = useState<Run>(load);
   const [now, setNow] = useState(Date.now());
   const [confirm, setConfirm] = useState(false);

@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../App";
 import { allLessons, allQuestions, foundations, visualQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
-import { emptyProgress, STORAGE_KEY } from "../data/progress";
+import { emptyProgress, STORAGE_KEY, streak, xp } from "../data/progress";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Blob as NodeBlob } from "node:buffer";
 
@@ -658,4 +658,148 @@ it("renders the week from Monday through Sunday with per-day unique answers", ()
   expect(days.slice(1).every((day) => day.querySelector("i")?.title.includes("0 exercises"))).toBe(
     true,
   );
+});
+
+describe("app shell behavior kept through the component split", () => {
+  it("queues due spaced reviews with open mistakes, earliest due first", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-09-09T12:00:00Z"));
+    const [a, b, c, d, e, f] = allQuestions.slice(0, 6).map((q) => q.id);
+    const p = emptyProgress();
+
+    p.mistakes = [a, b, f];
+
+    p.mistakeReviews = {
+      [b]: { level: 2, nextAt: "2026-09-06T12:00:00Z" },
+      [c]: { level: 1, nextAt: "2026-09-07T12:00:00Z" },
+      [d]: { level: 1, nextAt: "2026-09-10T12:00:00Z" },
+      [e]: { level: 0, nextAt: "" },
+      [f]: { level: 1, nextAt: "2026-09-10T12:00:00Z" },
+      "deleted-question": { level: 1, nextAt: "2026-09-01T12:00:00Z" },
+    };
+
+    mount("today", p);
+    fireEvent.click(screen.getByRole("button", { name: /5 mistakes to revisit/ }));
+    expect(session.lesson.id).toBe("practice-mistakes");
+    expect(session.lesson.questions.map((q) => q.id)).toEqual([b, c, a, e, f]);
+  });
+
+  it("starts a skill session from its practice studio card", () => {
+    mount("practice");
+
+    for (const [skill, count] of [
+      ["Listening", 8],
+      ["Writing", 4],
+    ] as const) {
+      fireEvent.click(
+        screen.getByRole("button", { name: new RegExp(`${skill}\\s*0 questions practised`) }),
+      );
+
+      expect(session.lesson.title).toBe(`${skill} practice`);
+      expect(session.lesson.questions).toHaveLength(count);
+      expect(session.lesson.questions.every((q) => q.skill === skill.toLowerCase())).toBe(true);
+      click("Test close session");
+    }
+  });
+
+  it("confirms a reset on the dashboard with a notice that clears itself after four seconds", () => {
+    vi.useFakeTimers();
+    mount("path");
+    click("Open your learning preferences");
+    fireEvent.click(screen.getByText("Start over"));
+    click("Reset my progress");
+    click("Clear my practice data");
+    expect(window.location.hash).toBe("#today");
+
+    expect(
+      screen.getByRole("heading", { name: "A good day to learn Spanish." }),
+    ).toBeInTheDocument();
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "A fresh start. Your practice data has been cleared.",
+    );
+
+    act(() => vi.advanceTimersByTime(3999));
+    expect(screen.getByRole("status")).toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(1));
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  });
+
+  it("hides the storage notice once saving works again", () => {
+    mount();
+
+    const setItem = vi.spyOn(localStorage, "setItem").mockImplementation(() => {
+      throw new Error("full");
+    });
+
+    const rename = (name: string) => {
+      click("Open your learning preferences");
+
+      fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
+        target: { value: name },
+      });
+
+      click("Save preferences");
+    };
+
+    rename("Ana");
+    expect(screen.getByText(/Browser storage is unavailable/)).toBeInTheDocument();
+    setItem.mockRestore();
+    rename("Eva");
+    expect(screen.queryByText(/Browser storage is unavailable/)).not.toBeInTheDocument();
+    expect(saved().name).toBe("Eva");
+  });
+
+  it("moves focus to the main content from the skip link without changing the page", () => {
+    const scrollIntoView = vi.fn();
+
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+    mount("practice");
+    fireEvent.click(screen.getByRole("link", { name: "Skip to content" }));
+    expect(screen.getByRole("main")).toHaveFocus();
+    expect(scrollIntoView).toHaveBeenCalledOnce();
+    expect(window.location.hash).toBe("#practice");
+    delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
+  });
+
+  it("shows the current page, progress stats, name and mistake count in the top bar and sidebar", () => {
+    const p = emptyProgress();
+
+    p.name = "ana";
+    p.mistakes = [allQuestions[0].id, allQuestions[1].id];
+
+    p.attempts = [
+      {
+        id: "1",
+        questionId: allQuestions[2].id,
+        skill: allQuestions[2].skill,
+        answer: allQuestions[2].answer,
+        correct: true,
+        at: new Date().toISOString(),
+      },
+    ];
+
+    const { container } = mount("practice", p);
+
+    expect(container.querySelector(".breadcrumb strong")).toHaveTextContent("Practice studio");
+
+    expect(screen.getByTitle("Consecutive practice days")).toHaveTextContent(
+      `${streak(p)}day streak`,
+    );
+
+    expect(container.querySelector(".xp-stat")).toHaveTextContent(`${xp(p)} XP`);
+
+    expect(
+      screen.getByRole("button", { name: "Open your learning preferences" }),
+    ).toHaveTextContent("A");
+
+    expect(screen.getByRole("button", { name: /ana\s*Learning at your pace/ })).toBeInTheDocument();
+
+    expect(screen.getByRole("button", { name: /Practice studio/ })).toHaveTextContent(
+      "Practice studio2",
+    );
+
+    click("Learning path");
+    expect(container.querySelector(".breadcrumb strong")).toHaveTextContent("Learning path");
+  });
 });

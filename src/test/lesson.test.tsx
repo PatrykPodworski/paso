@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import { expect, it, vi } from "vitest";
 import { LessonSession } from "../components/LessonSession";
 import type { QuestionCard } from "../components/QuestionCard";
-import { stopAudio } from "../components/Audio";
+import { stopAudio } from "../components/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import { emptyProgress } from "../data/progress";
@@ -18,7 +18,7 @@ vi.mock("../components/QuestionCard", () => ({
     return <div data-testid="current-question">{props.q.id}</div>;
   },
 }));
-vi.mock("../components/Audio", () => ({ stopAudio: vi.fn() }));
+vi.mock("../components/playback", () => ({ stopAudio: vi.fn() }));
 const mount = (questions: Question[], progress = emptyProgress()) => {
   const callbacks = { onClose: vi.fn(), onComplete: vi.fn(), onAttempt: vi.fn(), onDraft: vi.fn() };
   const view = render(

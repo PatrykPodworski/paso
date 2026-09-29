@@ -5,7 +5,7 @@ import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "./Icon";
 import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
-import { stopAudio } from "./Audio";
+import { stopAudio } from "./playback";
 import { FieldNote } from "../design-system/FieldNote";
 import { COMPLETION_STATS } from "./PocketVocabulary";
 export const LessonSession = ({

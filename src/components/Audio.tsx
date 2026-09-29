@@ -3,12 +3,6 @@ import { FieldNote } from "../design-system/FieldNote";
 import { PlayButton } from "./PlayButton";
 import { useAudioPlayer } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";
-// Shared playback coordination is intentionally exported alongside the player.
-// eslint-disable-next-line react/only-export-components
-export { stopAudio } from "./playback";
-// eslint-disable-next-line react/only-export-components
-export { playWord } from "./playWord";
-export type { AudioHandle };
 export const AudioButton = ({
   ref: controlsRef,
   text,

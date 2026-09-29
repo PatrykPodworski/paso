@@ -8,7 +8,7 @@ import type { Progress } from "../data/types";
 import { countWords, isCorrect, passingGroups } from "../data/progress";
 import { QuestionCard } from "./QuestionCard";
 import { Icon } from "./Icon";
-import { stopAudio } from "./Audio";
+import { stopAudio } from "./playback";
 import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";

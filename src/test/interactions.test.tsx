@@ -1,7 +1,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { QuestionCard } from "../components/QuestionCard";
-import { stopAudio } from "../components/Audio";
+import { stopAudio } from "../components/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import App from "../App";

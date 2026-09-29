@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "../design-system/Icon";
-export const Recorder = ({
-  onRecorded,
-  onStart,
-  onRecordingChange,
-}: {
+import { FieldNote } from "../design-system/FieldNote";
+import { Notice } from "../design-system/Notice";
+import { TextLink } from "../design-system/TextLink";
+
+type Props = {
   onRecorded: (blob: Blob) => void;
   onStart?: () => void;
   onRecordingChange?: (recording: boolean) => void;
-}) => {
+};
+
+export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
   const [recording, setRecording] = useState(false);
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
@@ -18,81 +20,108 @@ export const Recorder = ({
   const currentUrl = useRef("");
   const mounted = useRef(true);
   const starting = useRef(false);
+
   useEffect(() => {
     mounted.current = true;
+
     return () => {
       mounted.current = false;
+
       if (recorder.current?.state === "recording") {
         recorder.current.stop();
       }
+
       stream.current?.getTracks().forEach((t) => t.stop());
+
       if (currentUrl.current) {
         URL.revokeObjectURL(currentUrl.current);
       }
     };
   }, []);
+
   useEffect(() => {
     if (!recording) {
       return;
     }
+
     const timer = window.setInterval(() => setSeconds((s) => s + 1), 1000);
+
     return () => clearInterval(timer);
   }, [recording]);
+
   const toggle = async () => {
     if (recording) {
       recorder.current?.stop();
       setRecording(false);
       onRecordingChange?.(false);
+
       return;
     }
+
     if (starting.current) {
       return;
     }
+
     setError("");
     starting.current = true;
+
     try {
       if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
         throw new Error(
           "Recording is not supported in this browser. Practise aloud and use the self-review checklist, or try Chrome on localhost.",
         );
       }
+
       const media = await navigator.mediaDevices.getUserMedia({ audio: true });
+
       if (!mounted.current) {
         media.getTracks().forEach((t) => t.stop());
+
         return;
       }
+
       stream.current = media;
       const next = new MediaRecorder(media);
+
       recorder.current = next;
       const chunks: Blob[] = [];
+
       next.ondataavailable = (e) => {
         if (e.data.size) {
           chunks.push(e.data);
         }
       };
+
       next.onstop = () => {
         media.getTracks().forEach((t) => t.stop());
+
         if (!mounted.current) {
           return;
         }
+
         const blob = new Blob(chunks, { type: next.mimeType || "audio/webm" });
+
         if (currentUrl.current) {
           URL.revokeObjectURL(currentUrl.current);
         }
+
         currentUrl.current = URL.createObjectURL(blob);
         setUrl(currentUrl.current);
         setRecording(false);
         onRecordingChange?.(false);
+
         if (blob.size) {
           onRecorded(blob);
         }
       };
+
       next.onerror = () => {
         media.getTracks().forEach((t) => t.stop());
         setRecording(false);
         onRecordingChange?.(false);
         setError("Recording stopped unexpectedly. Please try again or practise aloud.");
       };
+
       next.start();
       onStart?.();
       setSeconds(0);
@@ -110,6 +139,7 @@ export const Recorder = ({
       starting.current = false;
     }
   };
+
   return (
     <div className="recorder">
       <div className="record-main">
@@ -126,25 +156,25 @@ export const Recorder = ({
           {String(seconds % 60).padStart(2, "0")}
         </span>
       </div>
-      <p className="field-note">
+      <FieldNote className="mt-[13px]">
         Recorded in this tab. Download to keep it; it is not uploaded or automatically graded.
-      </p>
+      </FieldNote>
       {url && (
         <div className="playback">
           <audio controls src={url} />
-          <a
+          <TextLink
             href={url}
             download={`paso-speaking.${recorder.current?.mimeType.includes("mp4") ? "m4a" : "webm"}`}
-            className="text-link"
+            className="text-[13px]! text-[#b38d6a]!"
           >
             <Icon name="download" size={16} /> Save recording
-          </a>
+          </TextLink>
         </div>
       )}
       {error && (
-        <p role="status" className="notice">
+        <Notice as="p" role="status">
           {error}
-        </p>
+        </Notice>
       )}
     </div>
   );

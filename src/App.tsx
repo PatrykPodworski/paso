@@ -1,4 +1,5 @@
 import { Button } from "./design-system/Button";
+import { Badge } from "./design-system/Badge";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { allLessons, allQuestions, foundations, units, visualQuestions } from "./data/curriculum";
@@ -19,15 +20,25 @@ import {
 import { Icon } from "./design-system/Icon";
 import { MemoryHint } from "./components/MemoryHint";
 import { JourneyArt, Stamp } from "./components/Art";
-import { AudioButton } from "./components/Audio";
+import { AudioButton } from "./components/AudioButton";
 import { Dialog } from "./design-system/Dialog";
+import { Eyebrow } from "./design-system/Eyebrow";
+import { SectionHeading } from "./design-system/SectionHeading";
+import { PageHeading } from "./design-system/PageHeading";
 import { LessonSession } from "./components/LessonSession";
 import { Guide } from "./components/Guide";
 import { MockExam } from "./components/MockExam";
 import { PocketVocabulary } from "./components/PocketVocabulary";
+import { FieldNote } from "./design-system/FieldNote";
+import { Panel, PanelHeading } from "./design-system/Panel";
+import { Notice } from "./design-system/Notice";
+import { TextLink } from "./design-system/TextLink";
+
 const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
+
 type Page = "today" | "path" | "practice" | "exam" | "guide";
+
 const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "today", label: "My learning space", icon: "home" },
   { id: "path", label: "Learning path", icon: "map" },
@@ -35,32 +46,41 @@ const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "exam", label: "Exam rehearsal", icon: "flag" },
   { id: "guide", label: "The A1 guide", icon: "book" },
 ];
+
 const skills: { id: Skill; name: string; spanish: string; icon: string }[] = [
   { id: "reading", name: "Reading", spanish: "Leer", icon: "book" },
   { id: "listening", name: "Listening", spanish: "Escuchar", icon: "headphones" },
   { id: "writing", name: "Writing", spanish: "Escribir", icon: "pen" },
   { id: "speaking", name: "Speaking", spanish: "Hablar", icon: "mic" },
 ];
+
 const pageFromHash = (): Page => {
   const h = window.location.hash.slice(1);
+
   return navigation.some((n) => n.id === h) ? (h as Page) : "today";
 };
-const UnitCard = ({
-  unit,
-  index,
-  progress,
-  start,
-  expanded,
-  onExpand,
-}: {
+
+type UnitCardProps = {
   unit: Unit;
+  onPath?: boolean;
   index: number;
   progress: Progress;
   start: (l: Lesson) => void;
   expanded: boolean;
   onExpand: () => void;
-}) => {
+};
+
+const UnitCard = ({
+  unit,
+  onPath = false,
+  index,
+  progress,
+  start,
+  expanded,
+  onExpand,
+}: UnitCardProps) => {
   const done = unit.lessons.filter((l) => progress.completed[l.id]).length;
+
   return (
     <article className={`unit-card ${expanded ? "expanded" : ""}`}>
       <button type="button" className="unit-summary" onClick={onExpand} aria-expanded={expanded}>
@@ -68,9 +88,9 @@ const UnitCard = ({
           <Icon name={unit.icon} size={25} />
         </div>
         <div className="unit-info">
-          <span className="eyebrow">
+          <Eyebrow variant={onPath ? "pathUnit" : "unit"}>
             UNIT {String(index + 1).padStart(2, "0")} <i>·</i> {unit.spanish}
-          </span>
+          </Eyebrow>
           <h3>{unit.title}</h3>
           <p>{unit.subtitle}</p>
         </div>
@@ -140,36 +160,38 @@ const UnitCard = ({
     </article>
   );
 };
-const Settings = ({
-  progress,
-  onSave,
-  onClose,
-  onReset,
-}: {
+
+type SettingsProps = {
   progress: Progress;
   onSave: (p: Partial<Progress>) => void;
   onClose: () => void;
   onReset: () => void;
-}) => {
+};
+
+const Settings = ({ progress, onSave, onClose, onReset }: SettingsProps) => {
   const [name, setName] = useState(progress.name);
   const [goal, setGoal] = useState(progress.goal);
   const [date, setDate] = useState(progress.examDate);
   const [reset, setReset] = useState(false);
+
   const exportProgress = () => {
     const url = URL.createObjectURL(
       new Blob([JSON.stringify(progress, null, 2)], { type: "application/json" }),
     );
+
     const a = document.createElement("a");
+
     a.href = url;
     a.download = `paso-progress-${localDate()}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+
   return (
     <Dialog label="Your learning preferences" onClose={onClose} className="settings-dialog">
       <header>
         <div>
-          <span className="eyebrow">MAKE YOURSELF AT HOME</span>
+          <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
           <h2>Your little preferences.</h2>
         </div>
         <button className="icon-button" onClick={onClose} aria-label="Close preferences">
@@ -197,10 +219,10 @@ const Settings = ({
         Exam date <span className="subtle">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
-      <p className="field-note">
+      <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
-      </p>
+      </FieldNote>
       <div className="button-row">
         <Button
           variant="secondary"
@@ -242,14 +264,18 @@ const Settings = ({
             </div>
           </div>
         ) : (
-          <button className="text-link" onClick={() => setReset(true)}>
+          <TextLink
+            className="mt-[12px] text-[13px]! text-[#b19475]!"
+            onClick={() => setReset(true)}
+          >
             Reset my progress
-          </button>
+          </TextLink>
         )}
       </details>
     </Dialog>
   );
 };
+
 const App = () => {
   const [progress, setProgress] = useState<Progress>(readProgress);
   const [page, setPage] = useState<Page>(pageFromHash);
@@ -260,6 +286,7 @@ const App = () => {
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [storageError, setStorageError] = useState(false);
   const [toast, setToast] = useState("");
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
@@ -268,69 +295,90 @@ const App = () => {
       setStorageError(true);
     }
   }, [progress]);
+
   useEffect(() => {
     const handle = () => {
       setPage(pageFromHash());
       setMobileNav(false);
     };
+
     window.addEventListener("hashchange", handle);
+
     return () => window.removeEventListener("hashchange", handle);
   }, []);
+
   useEffect(() => {
     if (!toast) {
       return;
     }
+
     const id = setTimeout(() => setToast(""), 4000);
+
     return () => clearTimeout(id);
   }, [toast]);
+
   const navigate = (target: Page) => {
     setPage(target);
     window.location.hash = target;
     setMobileNav(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   const nextLesson = allLessons.find((l) => !progress.completed[l.id]) || allLessons[0];
   const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
   const today = dailyAnswers(progress);
   const completed = Object.keys(progress.completed).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const now = new Date();
+
   const mistakeEntries = new Map<
     string,
     { id: string; q: (typeof allQuestions)[number]; insertion: number; inQueue: boolean }
   >();
+
   for (const [i, id] of progress.mistakes.entries()) {
     const q = exerciseMap.get(id);
+
     if (!q) {
       continue;
     }
+
     mistakeEntries.set(id, { id, q, insertion: i, inQueue: true });
   }
+
   for (const [id, review] of Object.entries(progress.mistakeReviews)) {
     if (mistakeEntries.has(id) || !exerciseMap.has(id)) {
       continue;
     }
+
     const q = exerciseMap.get(id);
+
     if (!q) {
       continue;
     }
+
     const insertion = progress.mistakes.length;
+
     if (!review.nextAt || reviewDue(review, now)) {
       mistakeEntries.set(id, { id, q, insertion, inQueue: false });
     }
   }
+
   const mistakeQuestions = [...mistakeEntries.values()]
     .filter((entry) => entry.inQueue || reviewDue(progress.mistakeReviews[entry.id], now))
     .sort((a, b) => {
       const aDue = progress.mistakeReviews[a.id]?.nextAt
         ? new Date(progress.mistakeReviews[a.id]!.nextAt).getTime()
         : now.getTime();
+
       const bDue = progress.mistakeReviews[b.id]?.nextAt
         ? new Date(progress.mistakeReviews[b.id]!.nextAt).getTime()
         : now.getTime();
+
       if (aDue !== bDue) {
         return aDue - bDue;
       }
+
       return a.insertion - b.insertion;
     })
     .map(({ q }) => q);
@@ -340,16 +388,21 @@ const App = () => {
       skill === "mistakes"
         ? mistakeQuestions
         : exerciseBank.filter((q) => skill === "all" || q.skill === skill);
+
     if (!questions.length) {
       setToast("Nothing to review yet. Your future mistakes will appear here.");
+
       return;
     }
+
     if (skill !== "mistakes") {
       const practiced = new Map(progress.attempts.map((a) => [a.questionId, a.at]));
+
       questions = [...questions].sort((a, b) =>
         (practiced.get(a.id) || "").localeCompare(practiced.get(b.id) || ""),
       );
     }
+
     setSession({
       id: `practice-${skill}`,
       title:
@@ -364,11 +417,14 @@ const App = () => {
       questions: questions.slice(0, skill === "writing" || skill === "speaking" ? 4 : 8),
     });
   };
+
   const saveAttempt = (a: Attempt) => setProgress((p) => withAttempt(p, a));
+
   const complete = (score: number, total: number) => {
     if (!session) {
       return;
     }
+
     if (allLessons.some((l) => l.id === session.id)) {
       setProgress((p) => ({
         ...p,
@@ -376,6 +432,7 @@ const App = () => {
       }));
     }
   };
+
   const daysToExam = progress.examDate
     ? Math.ceil(
         (new Date(`${progress.examDate}T00:00:00`).getTime() -
@@ -383,6 +440,7 @@ const App = () => {
           86400000,
       )
     : null;
+
   return (
     <div className="app-shell">
       <a
@@ -509,28 +567,28 @@ const App = () => {
         </header>
         <main id="main-content" tabIndex={-1}>
           {storageError && (
-            <p className="notice" role="status">
+            <Notice as="p" role="status">
               Browser storage is unavailable. Progress is kept for this visit; use Export progress
               in preferences to save a copy.
-            </p>
+            </Notice>
           )}
           {page === "today" && (
             <>
-              <div className="page-heading dashboard-heading">
-                <div>
-                  <div className="eyebrow greeting">
+              <PageHeading
+                className="dashboard-heading"
+                eyebrow={
+                  <Eyebrow className="greeting mb-[9px]">
                     {new Date().getHours() < 12
                       ? "BUENOS DÍAS"
                       : new Date().getHours() < 20
                         ? "BUENAS TARDES"
                         : "BUENAS NOCHES"}{" "}
                     <span>✦</span>
-                  </div>
-                  <h1>
-                    {progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
-                  </h1>
-                  <p>Your next chapter starts with a small step.</p>
-                </div>
+                  </Eyebrow>
+                }
+                title={progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
+                description="Your next chapter starts with a small step."
+              >
                 <button className="date-chip" onClick={() => setSettings(true)}>
                   <Icon name="sun" size={17} />
                   {daysToExam === null
@@ -542,7 +600,7 @@ const App = () => {
                         : "Keep your Spanish growing"}
                   <Icon name="down" size={13} />
                 </button>
-              </div>
+              </PageHeading>
               <div className="dashboard-grid">
                 <div className="dashboard-primary">
                   <section className="hero-card">
@@ -573,16 +631,21 @@ const App = () => {
                     <JourneyArt />
                     <span className="hero-footnote">POCO A POCO, PASO A PASO.</span>
                   </section>
-                  <div className="section-heading path-heading">
+                  <SectionHeading variant="path">
                     <div>
-                      <span className="eyebrow">A LITTLE STRUCTURE. A LOT OF POSSIBILITY.</span>
+                      <Eyebrow variant="heading" className="mb-[6px]">
+                        A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
+                      </Eyebrow>
                       <h2>Your learning path</h2>
                     </div>
-                    <button className="text-link" onClick={() => navigate("path")}>
+                    <TextLink
+                      className="text-[13px]! max-phone:text-[11px]!"
+                      onClick={() => navigate("path")}
+                    >
                       View full path
                       <Icon name="arrow" size={16} />
-                    </button>
-                  </div>
+                    </TextLink>
+                  </SectionHeading>
                   <div className="path-overview">
                     <span>
                       <b>{completed}</b> of {allLessons.length} lessons complete
@@ -609,10 +672,10 @@ const App = () => {
                     Home, cafés, adventures & 6 more chapters
                     <Icon name="arrow" size={16} />
                   </button>
-                  <div className="section-heading">
+                  <SectionHeading>
                     <h2>A little change of pace</h2>
                     <span className="subtle">Make it yours</span>
-                  </div>
+                  </SectionHeading>
                   <div className="quick-practice">
                     <button onClick={() => practice("listening")}>
                       <span className="quick-icon lavender">
@@ -645,9 +708,8 @@ const App = () => {
                   </div>
                 </div>
                 <aside className="dashboard-aside">
-                  <section className="panel daily-goal">
-                    <div className="panel-heading">
-                      <h3>Your daily little win</h3>
+                  <Panel as="section" className="daily-goal">
+                    <PanelHeading title="Your daily little win">
                       <button
                         className="icon-button"
                         onClick={() => setSettings(true)}
@@ -655,7 +717,7 @@ const App = () => {
                       >
                         <Icon name="settings" size={16} />
                       </button>
-                    </div>
+                    </PanelHeading>
                     <div
                       className="goal-ring"
                       style={
@@ -683,8 +745,10 @@ const App = () => {
                     <div className="week-dots">
                       {Array.from({ length: 7 }, (_, i) => {
                         const d = new Date();
+
                         d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
                         const n = dailyAnswers(progress, localDate(d));
+
                         return (
                           <div key={i} className={localDate(d) === localDate() ? "is-today" : ""}>
                             <span>{["M", "T", "W", "T", "F", "S", "S"][i]}</span>
@@ -702,16 +766,16 @@ const App = () => {
                         );
                       })}
                     </div>
-                  </section>
-                  <section className="panel skills-panel">
-                    <div className="panel-heading">
-                      <h3>A little of every skill</h3>
+                  </Panel>
+                  <Panel as="section" className="skills-panel">
+                    <PanelHeading title="A little of every skill">
                       <Icon name="layers" size={17} />
-                    </div>
+                    </PanelHeading>
                     <p>Four ways to grow your Spanish.</p>
                     {skills.map((s) => {
                       const stats = skillStats(progress, s.id);
                       const total = exerciseBank.filter((q) => q.skill === s.id).length;
+
                       return (
                         <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
                           <span className={`skill-icon ${s.id}`}>
@@ -730,15 +794,18 @@ const App = () => {
                         </button>
                       );
                     })}
-                    <button className="text-link" onClick={() => navigate("guide")}>
+                    <TextLink
+                      className="w-full justify-between border-t border-t-[#eef0e6] pt-[14px] text-[12px]! font-normal! text-[#8b9879]! max-laptop:text-[13px]! desktop:text-[12px]!"
+                      onClick={() => navigate("guide")}
+                    >
                       How the exam works
                       <Icon name="arrow" size={15} />
-                    </button>
-                  </section>
+                    </TextLink>
+                  </Panel>
                   <section className="phrase-card">
-                    <span className="eyebrow">
+                    <Eyebrow variant="phrase">
                       <Icon name="spark" size={14} /> A PHRASE FOR TODAY
-                    </span>
+                    </Eyebrow>
                     <h3 lang="es">Poco a poco.</h3>
                     <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
                     <p>Little by little.</p>
@@ -761,23 +828,30 @@ const App = () => {
           )}
           {page === "path" && (
             <>
-              <div className="page-heading">
-                <div>
-                  <span className="eyebrow">FROM YOUR FIRST HOLA TO YOUR A1</span>
-                  <h1>Every step has a story.</h1>
-                  <p>
+              <PageHeading
+                eyebrow={
+                  <Eyebrow variant="page" className="mb-[9px]">
+                    FROM YOUR FIRST HOLA TO YOUR A1
+                  </Eyebrow>
+                }
+                title="Every step has a story."
+                description={
+                  <>
                     {units.length} units · {allLessons.length} lessons · {allQuestions.length}{" "}
                     exercises. Explore freely, or follow the path.
-                  </p>
-                </div>
+                  </>
+                }
+              >
                 <Stamp />
-              </div>
-              <div className="path-banner panel">
+              </PageHeading>
+              <Panel className="path-banner">
                 <span className={`unit-icon ${nextUnit.color}`}>
                   <Icon name={nextUnit.icon} size={28} />
                 </span>
                 <div>
-                  <span className="eyebrow">YOUR NEXT SMALL STEP</span>
+                  <Eyebrow variant="banner" className="mb-[7px]">
+                    YOUR NEXT SMALL STEP
+                  </Eyebrow>
                   <h3>
                     {nextUnit.title} · {nextLesson.title}
                   </h3>
@@ -793,7 +867,7 @@ const App = () => {
                   Continue learning
                   <Icon name="arrow" />
                 </Button>
-              </div>
+              </Panel>
               <div className="path-layout">
                 <div className="full-path">
                   {units.map((u, i) => (
@@ -808,6 +882,7 @@ const App = () => {
                         )}
                       </span>
                       <UnitCard
+                        onPath
                         unit={u}
                         index={i}
                         progress={progress}
@@ -834,8 +909,8 @@ const App = () => {
                     </Button>
                   </div>
                 </div>
-                <aside className="path-sidebar panel">
-                  <span className="eyebrow">HOW YOUR PATH WORKS</span>
+                <Panel as="aside" className="path-sidebar">
+                  <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
                   <h3>
                     Learn it. Try it.
                     <br />
@@ -859,27 +934,30 @@ const App = () => {
                       </section>
                     </div>
                   ))}
-                  <p className="field-note">
+                  <FieldNote className="max-laptop:col-span-full">
                     All lessons are open. Completion tracks practice, not exam readiness. Review
                     mistakes and use the A1 checklist to find gaps.
-                  </p>
-                </aside>
+                  </FieldNote>
+                </Panel>
               </div>
             </>
           )}
           {page === "practice" && (
             <>
-              <div className="page-heading">
-                <div>
-                  <span className="eyebrow">MORE PLAY. MORE PRACTICE. MORE YOU.</span>
-                  <h1>Your practice studio.</h1>
-                  <p>Follow your curiosity, or give a tricky word another chance.</p>
-                </div>
-                <span className="outline-badge">
+              <PageHeading
+                eyebrow={
+                  <Eyebrow variant="page" className="mb-[9px]">
+                    MORE PLAY. MORE PRACTICE. MORE YOU.
+                  </Eyebrow>
+                }
+                title="Your practice studio."
+                description="Follow your curiosity, or give a tricky word another chance."
+              >
+                <Badge className="max-tablet:hidden">
                   <Icon name="spark" size={16} />
                   {exerciseBank.length} exercises to explore
-                </span>
-              </div>
+                </Badge>
+              </PageHeading>
               <div className="practice-tabs" role="group" aria-label="Filter practice by skill">
                 {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
                   <button
@@ -896,7 +974,7 @@ const App = () => {
                 ))}
               </div>
               {filter === "mistakes" ? (
-                <div className="panel mistakes-panel">
+                <Panel className="mistakes-panel">
                   <span className="quick-icon peach">
                     <Icon name="repeat" size={28} />
                   </span>
@@ -929,8 +1007,7 @@ const App = () => {
                       </p>
                       <p>{q.explanation}</p>
                       <MemoryHint text={q.memoryHint} />
-                      <button
-                        className="text-link"
+                      <TextLink
                         onClick={() =>
                           setSession({
                             id: "review-one",
@@ -944,15 +1021,15 @@ const App = () => {
                       >
                         Try again
                         <Icon name="arrow" size={15} />
-                      </button>
+                      </TextLink>
                     </details>
                   ))}
-                </div>
+                </Panel>
               ) : (
                 <>
-                  <div className="practice-hero panel">
+                  <Panel className="practice-hero">
                     <div>
-                      <span className="eyebrow">A SMALL SESSION, CHOSEN FOR YOU</span>
+                      <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
                       <h2>
                         {filter === "all"
                           ? "A little bit of everything."
@@ -977,22 +1054,24 @@ const App = () => {
                       <Icon name={skills.find((s) => s.id === filter)?.icon || "spark"} size={64} />
                       <i>¡Tú puedes!</i>
                     </div>
-                  </div>
+                  </Panel>
                   <div className="practice-skill-grid">
                     {skills
                       .filter((s) => filter === "all" || filter === s.id)
                       .map((s) => {
                         const stats = skillStats(progress, s.id);
+
                         return (
-                          <button
+                          <Panel
+                            as="button"
                             key={s.id}
-                            className="panel practice-skill-card"
+                            className="practice-skill-card"
                             onClick={() => practice(s.id)}
                           >
                             <span className={`skill-icon ${s.id}`}>
                               <Icon name={s.icon} size={24} />
                             </span>
-                            <span className="eyebrow">{s.spanish}</span>
+                            <Eyebrow variant="small">{s.spanish}</Eyebrow>
                             <h3>{s.name}</h3>
                             <p>{stats.practised} questions practised</p>
                             <span>
@@ -1001,13 +1080,13 @@ const App = () => {
                                 : `${stats.accuracy}% unassisted objective accuracy`}
                             </span>
                             <Icon name="arrow" size={19} />
-                          </button>
+                          </Panel>
                         );
                       })}
                   </div>
                   <div className="focused-practice">
-                    <button
-                      className="panel"
+                    <Panel
+                      as="button"
                       onClick={() =>
                         setSession({
                           id: "pictures",
@@ -1027,9 +1106,9 @@ const App = () => {
                         <p>6 visual puzzles · cafés, trains & your neighborhood</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
+                    </Panel>
+                    <Panel
+                      as="button"
                       onClick={() =>
                         setSession({
                           id: "foundations",
@@ -1049,9 +1128,9 @@ const App = () => {
                         <p>24 checks · sounds, spelling, numbers & patterns</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
-                    <button
-                      className="panel"
+                    </Panel>
+                    <Panel
+                      as="button"
                       onClick={() =>
                         setSession({
                           id: "form",
@@ -1071,7 +1150,7 @@ const App = () => {
                         <p>A personal form · 15–25 words · exam task 1</p>
                       </div>
                       <Icon name="arrow" />
-                    </button>
+                    </Panel>
                   </div>
                 </>
               )}
@@ -1139,11 +1218,13 @@ const App = () => {
           onSave={(patch) => setProgress((p) => ({ ...p, ...patch }))}
           onReset={() => {
             setProgress(emptyProgress());
+
             try {
               localStorage.removeItem("paso-mock-v1");
             } catch {
               /* State still resets for this visit. */
             }
+
             setSettings(false);
             setPage("today");
             window.location.hash = "today";
@@ -1160,4 +1241,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;

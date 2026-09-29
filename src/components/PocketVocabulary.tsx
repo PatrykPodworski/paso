@@ -1,12 +1,16 @@
+import { Eyebrow } from "../design-system/Eyebrow";
+import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
 import { type Card, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
-import { AudioButton, stopAudio } from "./Audio";
+import { AudioButton } from "./AudioButton";
+import { stopAudio } from "./playback";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "../design-system/Icon";
 import { MemoryHint } from "./MemoryHint";
+import { TextLink } from "../design-system/TextLink";
 
 type Review = Progress["vocabularyReviews"][string];
 type Props = {
@@ -14,6 +18,10 @@ type Props = {
   onReview: (word: string, review: Review) => void;
   onLearn: () => void;
 };
+
+// Shared with LessonSession's completion screen.
+export const COMPLETION_STATS =
+  "flex justify-center gap-[45px] max-tablet:gap-[25px] max-phone:gap-[20px] m-[30px_0] p-[22px] max-tablet:p-[20px_0] border-y border-(--line) [&_strong]:block [&_strong]:font-(family-name:--serif) [&_strong]:text-[32px] max-tablet:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-tablet:[&_span]:text-[11px] max-phone:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
 
 const reviewDate = (at: string) =>
   new Date(at).toLocaleString(undefined, {
@@ -25,26 +33,28 @@ const reviewDate = (at: string) =>
 
 const reviewWait = (at: string, now: Date) => {
   const minutes = Math.max(1, Math.round((new Date(at).getTime() - now.getTime()) / 60_000));
+
   if (minutes < 60) {
     return `in ${minutes} min`;
   }
+
   const hours = Math.round(minutes / 60);
+
   if (hours < 24) {
     return `in ${hours} ${hours === 1 ? "hour" : "hours"}`;
   }
+
   const days = Math.round(hours / 24);
+
   return `in ${days} ${days === 1 ? "day" : "days"}`;
 };
 
-const VocabularySession = ({
-  words,
-  progress,
-  onReview,
-  onClose,
-}: Omit<Props, "onLearn"> & {
+type VocabularySessionProps = Omit<Props, "onLearn"> & {
   words: Card[];
   onClose: () => void;
-}) => {
+};
+
+const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySessionProps) => {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [results, setResults] = useState<{ correct: boolean; review: Review }[]>([]);
@@ -55,35 +65,48 @@ const VocabularySession = ({
   const result = results[index - 1];
   const nextSessionReview = results.map((r) => r.review.nextAt).sort()[0];
   const now = new Date();
+
   const nextRight =
     word && vocabularyReview(progress.vocabularyReviews[word.id], true, now.toISOString());
+
   useEffect(() => {
     action.current?.focus();
   }, [index, revealed]);
+
   useEffect(() => () => stopAudio(), []);
+
   const rate = (correct: boolean) => {
     if (!revealed || ratingLock.current) {
       return;
     }
+
     ratingLock.current = true;
     stopAudio();
     const review = vocabularyReview(progress.vocabularyReviews[word.id], correct);
+
     onReview(word.id, review);
     setResults((previous) => [...previous, { correct, review }]);
     setIndex((i) => i + 1);
     setRevealed(false);
   };
+
   return (
-    <Dialog label="Vocabulary review" className="lesson-dialog vocabulary-dialog" onClose={onClose}>
-      <header className="lesson-header">
+    <Dialog
+      label="Vocabulary review"
+      className="w-[min(810px,calc(100vw-36px))] max-tablet:w-[calc(100vw_-_22px)]"
+      onClose={onClose}
+    >
+      <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
         <button className="icon-button" aria-label="Close vocabulary review" onClick={onClose}>
           <Icon name="x" />
         </button>
-        <div>
-          <span className="eyebrow">POCKET VOCABULARY</span>
-          <h3>A little Spanish, remembered.</h3>
+        <div className="flex-1">
+          <Eyebrow variant="small" className="mb-[5px]">
+            POCKET VOCABULARY
+          </Eyebrow>
+          <h3 className="text-[15px] max-tablet:text-[14px]">A little Spanish, remembered.</h3>
         </div>
-        <span className="lesson-counter">
+        <span className="lesson-counter text-[14px] text-[#9aa88c] max-tablet:text-[12px]">
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
@@ -107,11 +130,13 @@ const VocabularySession = ({
         </div>
       )}
       {finished ? (
-        <div className="session-complete">
+        <div className="p-[50px_30px] text-center max-tablet:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
           <Icon name="check" size={44} />
-          <h2>Your review is complete.</h2>
+          <h2 className="text-[39px] m-[12px_0] max-tablet:text-[34px]">
+            Your review is complete.
+          </h2>
           <p>Every card has its next review scheduled.</p>
-          <div className="completion-stats">
+          <div className={COMPLETION_STATS}>
             <div>
               <strong>{results.length}</strong>
               <span>reviewed</span>
@@ -133,16 +158,21 @@ const VocabularySession = ({
           </Button>
         </div>
       ) : (
-        <div className="flashcard-review">
-          <div className="flashcard-prompt">
-            <span className="eyebrow">{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</span>
-            <p>Can you remember the meaning?</p>
-            <h2 lang="es">{word.es}</h2>
+        <div className="p-[28px_36px] max-[651px]:p-[20px_16px]">
+          <div className="flashcard-prompt text-center p-[24px_16px] border border-(--line) rounded-[16px] bg-(--paper) max-[651px]:p-[20px_12px] [&>.audio-control]:justify-center [&_.icon-button]:w-[44px] [&_.icon-button]:h-[44px] [&_.icon-button]:rounded-[50%] [&_.icon-button]:bg-(--sage)! [&_.icon-button]:text-(--green)">
+            <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
+            <p className="text-[#59675d] text-[14px] mt-[24px]">Can you remember the meaning?</p>
+            <h2
+              lang="es"
+              className="font-(family-name:--serif) text-[length:clamp(30px,6vw,44px)] m-[18px_0] wrap-anywhere"
+            >
+              {word.es}
+            </h2>
             <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
             <div className="flashcard-answer">
-              <span className="eyebrow">THE MEANING</span>
+              <Eyebrow>THE MEANING</Eyebrow>
               <h3 lang="en">{word.en}</h3>
               {word.example && (
                 <div className="flashcard-example">
@@ -218,6 +248,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
   const [session, setSession] = useState<Card[] | null>(null);
   const [now, setNow] = useState(() => new Date());
   const words = deckCards(progress);
+
   const due = words
     .filter((w) => reviewDue(progress.vocabularyReviews[w.id], now))
     .sort((a, b) =>
@@ -225,59 +256,80 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
         progress.vocabularyReviews[b.id]?.nextAt ?? "",
       ),
     );
+
   const scheduled = words.filter((w) => !reviewDue(progress.vocabularyReviews[w.id], now));
   const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.id].nextAt).sort()[0];
+
   const reviewedToday = words.filter((w) => {
     const at = progress.vocabularyReviews[w.id]?.reviewedAt;
+
     return at && localDate(new Date(at)) === localDate(now);
   }).length;
+
   const newCount = due.filter((w) => !progress.vocabularyReviews[w.id]?.reviewedAt).length;
+
   const filtered = words.filter((w) =>
     `${w.es} ${w.en}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
   );
+
   // Refresh at the next due time, on return to the tab, and across midnight.
   useEffect(() => {
     const refresh = () => setNow(new Date());
+
     const delay = Math.min(
       60_000,
       Math.max(1, nextAt ? new Date(nextAt).getTime() - Date.now() : 60_000),
     );
+
     const timer = window.setInterval(refresh, delay);
+
     window.addEventListener("focus", refresh);
+
     return () => {
       window.clearInterval(timer);
       window.removeEventListener("focus", refresh);
     };
   }, [now, nextAt]);
+
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
-      <div className="section-heading word-heading">
+      <SectionHeading variant="word">
         <div>
-          <span className="eyebrow">A LITTLE PRACTICE, A LASTING MEMORY</span>
-          <h2 id="vocabulary-title">Your pocket vocabulary</h2>
+          <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
+          <h2 id="vocabulary-title" className="mt-[8px]">
+            Your pocket vocabulary
+          </h2>
           <p>Words from your completed vocabulary lessons, ready to remember.</p>
         </div>
-        <span className="pocket-icon" aria-hidden="true">
+        <span
+          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-(--sage) text-(--green) max-[651px]:hidden"
+          aria-hidden="true"
+        >
           <Icon name="layers" size={28} />
         </span>
-      </div>
+      </SectionHeading>
       <div className="vocabulary-overview">
-        <dl className="vocabulary-stats">
+        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-(--line) max-[651px]:grid-cols-[repeat(2,1fr)]">
           {[
             [due.length, "To review"],
             [reviewedToday, "Reviewed today"],
             [scheduled.length, "Scheduled"],
             [words.length, "Total flashcards"],
-          ].map(([count, label]) => (
-            <div key={label} className={label === "To review" ? "is-due" : ""}>
-              <dt>{label}</dt>
-              <dd>{count}</dd>
+          ].map(([count, label], i) => (
+            <div
+              key={label}
+              className={`flex flex-col-reverse gap-[7px] p-[24px] max-[651px]:p-[20px] border-(--line) ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-[651px]:border-l-0" : ""} ${i >= 2 ? "max-[651px]:border-t" : ""} ${label === "To review" ? "bg-(--sage)" : ""}`}
+            >
+              <dt className="text-[12px] text-[#59675d]">{label}</dt>
+              <dd className="m-0 font-(family-name:--serif) text-[36px] leading-[1] text-(--green)">
+                {count}
+              </dd>
             </div>
           ))}
         </dl>
-        <div className="vocabulary-start">
+        <div className="flex items-center justify-between gap-[24px] p-[24px] max-[651px]:items-stretch max-[651px]:flex-col max-[651px]:p-[20px] max-[651px]:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
           <div>
-            <h3>
+            <h3 className="text-[17px]">
               {!words.length
                 ? "Your collection starts with a lesson."
                 : due.length
@@ -318,6 +370,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
         <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
           {topics.map(({ topic, optional, cards }) => {
             const counts = topicCounts(cards, progress);
+
             return (
               <li
                 key={topic}
@@ -344,36 +397,43 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
         </ul>
       </section>
       {words.length > 0 && (
-        <div className="vocabulary-collection">
-          <div className="section-heading">
+        <div className="mt-[26px] [&_h3]:text-[17px]">
+          <SectionHeading variant="collection">
             <div>
               <h3>Your flashcards</h3>
               <p>Every unlocked word, with its next review.</p>
             </div>
-            <label className="search-field">
+            <label className="flex items-center gap-[8px] bg-[#fffefa] border border-(--line) rounded-[8px] pl-[11px] w-[210px] max-tablet:w-full text-[#a6ae97]">
               <Icon name="search" size={17} />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Find a word…"
                 aria-label="Search vocabulary"
+                className="border-0! outline-none! p-[10px_10px_10px_0]! bg-transparent! text-[14px]"
               />
             </label>
-          </div>
+          </SectionHeading>
           {filtered.length ? (
-            <ul className="vocabulary-list">
+            <ul className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-(--line) rounded-[12px] bg-(--paper)">
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
+
                 return (
-                  <li key={w.id}>
+                  <li
+                    key={w.id}
+                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-(--line) [&+&]:border-t max-[651px]:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-[651px]:p-[16px] max-[651px]:gap-[8px_12px]"
+                  >
                     <span className="vocabulary-word">
                       <strong lang="es">{w.es}</strong>
                       <span lang="en">{w.en}</span>
                     </span>
-                    <span className="vocabulary-unit">{w.topic}</span>
-                    <span className={`vocabulary-availability ${isDue ? "is-due" : ""}`}>
-                      <strong>
+                    <span className="text-[12px] text-[#59675d] max-[651px]:col-[1] max-[651px]:row-[2]">
+                      {w.topic}
+                    </span>
+                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-[651px]:col-[2] max-[651px]:row-[1/3]">
+                      <strong className={isDue ? "text-(--green)" : ""}>
                         {isDue
                           ? entry
                             ? "Due now"
@@ -391,9 +451,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
               <Icon name="search" />
               <h3>No word found yet.</h3>
               <p>Try a Spanish word or its English meaning.</p>
-              <button className="text-link" onClick={() => setSearch("")}>
-                Clear search
-              </button>
+              <TextLink onClick={() => setSearch("")}>Clear search</TextLink>
             </div>
           )}
         </div>

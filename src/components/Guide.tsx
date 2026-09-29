@@ -1,56 +1,67 @@
-import { useState } from "react";
+import { Eyebrow } from "../design-system/Eyebrow";
+import { Badge } from "../design-system/Badge";
+import { SectionHeading } from "../design-system/SectionHeading";
+import { PageHeading } from "../design-system/PageHeading";
 import type { Progress } from "../data/types";
-import { passingGroups } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "../design-system/Icon";
-export const Guide = ({
-  progress,
-  onCheck,
-}: {
+import { PassingRule } from "./PassingRule";
+import { FieldNote } from "../design-system/FieldNote";
+import { Panel } from "../design-system/Panel";
+import { Notice } from "../design-system/Notice";
+import { TextLink } from "../design-system/TextLink";
+
+type Props = {
   progress: Progress;
   onCheck: (id: string) => void;
-}) => {
-  const [scores, setScores] = useState([15, 15, 15, 15]);
-  const groups = passingGroups(scores[0], scores[1], scores[2], scores[3]);
+};
+
+export const Guide = ({ progress, onCheck }: Props) => {
   return (
     <div className="guide-page">
-      <div className="page-heading">
-        <div>
-          <span className="eyebrow">THE BIG PICTURE, MADE SIMPLE</span>
-          <h1>Your guide to DELE A1.</h1>
-          <p>Know what’s expected. Practise with a purpose.</p>
-        </div>
-        <span className="outline-badge">
+      <PageHeading
+        eyebrow={
+          <Eyebrow variant="page" className="mb-[9px]">
+            THE BIG PICTURE, MADE SIMPLE
+          </Eyebrow>
+        }
+        title="Your guide to DELE A1."
+        description="Know what’s expected. Practise with a purpose."
+      >
+        <Badge className="max-tablet:hidden">
           <Icon name="check" size={16} /> Researched 7 Sep 2026
-        </span>
-      </div>
-      <div className="guide-overview panel">
-        <div>
-          <span className="eyebrow">A1 · THE EVERYDAY ESSENTIALS</span>
-          <h2>
+        </Badge>
+      </PageHeading>
+      <Panel className="p-[32px] max-desktop:p-[27px] max-tablet:p-[25px] max-phone:p-[22px] flex max-laptop:block justify-between items-center gap-[35px] max-desktop:gap-[20px] bg-[#edf0e3]!">
+        <div className="max-w-[680px]">
+          <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
+          <h2 className="text-[32px] max-desktop:text-[28px] max-phone:text-[25px] m-[11px_0_14px]">
             You don’t need perfect Spanish.
             <br />
             You need to connect.
           </h2>
-          <p>
+          <p className="text-[#829174] text-[14px]">
             A1 is about understanding familiar expressions, giving basic personal information and
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
           </p>
-          <a className="text-link" href={sources[0].url} target="_blank" rel="noreferrer">
+          <TextLink className="mt-[15px]" href={sources[0].url} target="_blank" rel="noreferrer">
             Read the official guide
             <Icon name="external" size={15} />
-          </a>
+          </TextLink>
         </div>
-        <div className="a1-emblem">
-          A1<span>UN PEQUEÑO GRAN PASO</span>
+        <div className="w-[145px] h-[160px] max-desktop:w-[115px] max-desktop:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-desktop:text-[65px] font-(family-name:--serif) font-medium flex max-laptop:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
+          A1
+          <span className="font-[family-name:'Avenir_Next',sans-serif] text-[9px] tracking-[1.4px] mt-[17px]">
+            UN PEQUEÑO GRAN PASO
+          </span>
         </div>
-      </div>
-      <div className="section-heading">
+      </Panel>
+      <SectionHeading>
         <h2>Four skills. Two passing groups.</h2>
-      </div>
-      <div className="panel exam-table-wrap">
-        <table className="exam-table">
+      </SectionHeading>
+      <Panel className="pt-[8px] px-[25px] pb-[17px] max-tablet:px-[12px] overflow-x-auto">
+        <table className="w-full border-collapse text-[14px] max-desktop:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-phone:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-tablet:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-tablet:[&_td]:text-[13px] max-phone:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
           <thead>
             <tr>
               <th>Skill</th>
@@ -98,58 +109,21 @@ export const Guide = ({
             </tr>
           </tbody>
         </table>
-        <p className="field-note">
+        <FieldNote className="mt-[15px]">
           Administration order is reading, listening, writing, then the oral appointment as arranged
           by your centre. Older A1 guides have different timings.{" "}
           <a href={sources[0].url} target="_blank" rel="noreferrer">
             Official structure ↗
           </a>
-        </p>
-      </div>
-      <div className="guide-two-col">
-        <div className="panel pass-simulator">
-          <span className="eyebrow">TRY THE PASSING RULE</span>
-          <h3>Does this score pass?</h3>
-          <p>Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.</p>
-          {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
-            <label key={s} className="score-slider">
-              <span>
-                {s}
-                <b>{scores[i]}/25</b>
-              </span>
-              <input
-                type="range"
-                min="0"
-                max="25"
-                value={scores[i]}
-                onChange={(e) => setScores((v) => v.map((n, j) => (j === i ? +e.target.value : n)))}
-              />
-            </label>
-          ))}
-          <div className="passing-groups">
-            <div className={groups.group1 >= 30 ? "passed" : "below"}>
-              <span>Reading + writing</span>
-              <b>{groups.group1}/50</b>
-            </div>
-            <div className={groups.group2 >= 30 ? "passed" : "below"}>
-              <span>Listening + speaking</span>
-              <b>{groups.group2}/50</b>
-            </div>
-          </div>
-          <div className={`pass-verdict ${groups.pass ? "passed" : "below"}`} role="status">
-            <Icon name={groups.pass ? "check" : "info"} />
-            {groups.pass
-              ? "These example scores meet the passing rule."
-              : "These example scores do not meet the passing rule."}
-          </div>
-          <a className="text-link" href={sources[1].url} target="_blank" rel="noreferrer">
-            Official scoring rules
-            <Icon name="external" size={14} />
-          </a>
-        </div>
-        <div className="panel examiner-notes">
-          <span className="eyebrow">WHAT THE EXAMINER LOOKS FOR</span>
-          <h3>Be clear. Cover the task.</h3>
+        </FieldNote>
+      </Panel>
+      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[22px] mt-[24px]">
+        <PassingRule />
+        <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
+          <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
+          <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
+            Be clear. Cover the task.
+          </h3>
           <div>
             <Icon name="pen" />
             <section>
@@ -181,29 +155,29 @@ export const Guide = ({
               </p>
             </section>
           </div>
-          <p className="field-note">
+          <FieldNote className="border-t border-t-line pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
             <a href={sources[0].url} target="_blank" rel="noreferrer">
               Assessment scales ↗
             </a>
-          </p>
-        </div>
+          </FieldNote>
+        </Panel>
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <div>
           <h2>Your A1 readiness checklist</h2>
           <p>Self-assess these abilities as you work through the path.</p>
         </div>
-        <span className="outline-badge">
+        <Badge>
           {
             requirementGroups.flatMap((g) => g.items).filter(([id]) => progress.checks.includes(id))
               .length
           }
           /{requirementGroups.flatMap((g) => g.items).length} checked
-        </span>
-      </div>
-      <div className="notice">
+        </Badge>
+      </SectionHeading>
+      <Notice>
         <Icon name="info" />
         <p>
           There is no official fixed word list or separate grammar test to memorize for a guaranteed
@@ -214,38 +188,49 @@ export const Guide = ({
           is the reference for exhaustive detail; A1 and A2 are separate columns. A checked box
           records your self-assessment.
         </p>
-      </div>
-      <div className="requirement-grid">
+      </Notice>
+      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[21px]">
         {requirementGroups.map((g) => (
-          <section className="panel requirement-group" key={g.title}>
-            <h3>
-              <Icon name={g.icon} />
+          <Panel as="section" className="p-[25px] max-desktop:p-[23px]" key={g.title}>
+            <h3 className="flex items-center gap-[10px] mb-[23px] text-[17px]">
+              <Icon name={g.icon} className="text-[#9ca987] w-[20px]" />
               {g.title}
             </h3>
             {g.items.map(([id, title, mapping]) => (
-              <label className="requirement-row" key={id}>
+              <label
+                className="flex gap-[11px] m-[17px_0] items-start text-[#6d7e5c] text-[14px] leading-[1.65]"
+                key={id}
+              >
                 <input
+                  className="m-[3px_0_0]"
                   type="checkbox"
                   checked={progress.checks.includes(id)}
                   onChange={() => onCheck(id)}
                 />
                 <span>
                   {title}
-                  <small>{mapping}</small>
+                  <small className="text-[11px] max-tablet:text-[12px] text-[#a5ae98] block mt-[5px]">
+                    {mapping}
+                  </small>
                 </span>
               </label>
             ))}
-            <a className="text-link" href={sources[g.source].url} target="_blank" rel="noreferrer">
+            <TextLink
+              className="mt-[5px] border-t border-t-(--line) pt-[14px] text-[13px]!"
+              href={sources[g.source].url}
+              target="_blank"
+              rel="noreferrer"
+            >
               Official reference
               <Icon name="external" size={14} />
-            </a>
-          </section>
+            </TextLink>
+          </Panel>
         ))}
       </div>
-      <div className="section-heading">
+      <SectionHeading>
         <h2>Before you walk through the door</h2>
-      </div>
-      <div className="panel exam-day">
+      </SectionHeading>
+      <Panel className="grid grid-cols-[repeat(3,1fr)] max-laptop:grid-cols-[1fr] p-[27px] gap-[28px] max-laptop:gap-[20px] max-laptop:[&>div]:relative max-laptop:[&>div]:pl-[43px] [&>div>span]:font-(family-name:--serif) [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-laptop:[&>div>span]:absolute max-laptop:[&>div>span]:left-0 max-laptop:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
         <div>
           <span>01</span>
           <h3>Book the right exam</h3>
@@ -279,20 +264,30 @@ export const Guide = ({
             and your centre’s current instructions.
           </p>
         </div>
-      </div>
-      <div className="section-heading">
+      </Panel>
+      <SectionHeading>
         <h2>Go straight to the source</h2>
         <span className="subtle">Instituto Cervantes · Primary sources</span>
-      </div>
-      <div className="source-list">
+      </SectionHeading>
+      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (
-          <a key={s.url} className="source-card" href={s.url} target="_blank" rel="noreferrer">
+          <a
+            key={s.url}
+            className="border border-(--line) rounded-[9px] flex items-center gap-[15px] max-desktop:gap-[10px] p-[17px] max-desktop:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
+            href={s.url}
+            target="_blank"
+            rel="noreferrer"
+          >
             <span className="source-number">{String(i + 1).padStart(2, "0")}</span>
-            <span>
-              <strong>{s.title}</strong>
-              <small>{s.description}</small>
+            <span className="flex-1">
+              <strong className="text-[14px] max-desktop:text-[13px] max-tablet:text-[14px] font-semibold block leading-[1.5]">
+                {s.title}
+              </strong>
+              <small className="text-[12px] max-desktop:text-[11px] max-tablet:text-[12px] leading-[1.5] block text-[#7e8d6c] mt-[4px]">
+                {s.description}
+              </small>
             </span>
-            <Icon name="external" size={17} />
+            <Icon name="external" size={17} className="text-[#9eac8b]" />
           </a>
         ))}
       </div>

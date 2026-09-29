@@ -1,6 +1,8 @@
 import { Icon } from "../design-system/Icon";
 
-export const MemoryHint = ({ text }: { text?: string }) =>
+type Props = { text?: string };
+
+export const MemoryHint = ({ text }: Props) =>
   text ? (
     <div className="memory-hint">
       <span className="memory-hint-label">

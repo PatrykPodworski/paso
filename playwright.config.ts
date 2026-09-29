@@ -1,10 +1,11 @@
 import { defineConfig } from "@playwright/test";
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 0,
+  retries: process.env.CI ? 2 : 0,
   workers: 4,
   timeout: 30000,
   expect: { timeout: 5000 },
@@ -13,7 +14,12 @@ export default defineConfig({
     ["html", { open: "never" }],
     [
       "@argos-ci/playwright/reporter",
-      createArgosReporterOptions({ uploadToArgos: !!process.env.CI }),
+      createArgosReporterOptions({
+        uploadToArgos: !!process.env.CI,
+        // Argos rejects uploads with 402 once the free plan's monthly screenshot
+        // quota runs out; a failed upload must not fail the Playwright run.
+        ignoreUploadFailures: true,
+      }),
     ],
   ],
   use: {

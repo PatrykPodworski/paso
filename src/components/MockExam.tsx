@@ -12,7 +12,7 @@ import { MockResults } from "./MockResults";
 import { OralPrep } from "./OralPrep";
 import { SectionReview } from "./SectionReview";
 import { Icon } from "./Icon";
-import { stopAudio } from "./AudioButton";
+import { stopAudio } from "./playback";
 import { Notice } from "../design-system/Notice";
 
 interface Run {

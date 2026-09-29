@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { Ref } from "react";
 import type { Question } from "../data/types";
 import { AudioButton } from "./AudioButton";
-import type { AudioHandle } from "./AudioButton";
+import type { AudioHandle } from "./useAudioPlayer";
 
 type Props = {
   q: Question;

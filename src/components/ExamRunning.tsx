@@ -2,7 +2,7 @@ import { Button } from "../design-system/Button";
 import { Panel } from "../design-system/Panel";
 import { TextLink } from "../design-system/TextLink";
 import { mockSections } from "../data/mock";
-import { stopAudio } from "./AudioButton";
+import { stopAudio } from "./playback";
 import { QuestionCard } from "./QuestionCard";
 
 type Props = {

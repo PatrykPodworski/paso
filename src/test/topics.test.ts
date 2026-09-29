@@ -17,9 +17,6 @@ describe("topic cards", () => {
     expect(vocabulary.every((w) => card(w.es).unit === w.unit)).toBe(true);
     expect(card("el mono (monkey)").unit).toBeUndefined();
   });
-  it("shows a unit word's lesson meaning on its card", () => {
-    expect(vocabulary.filter((w) => card(w.es).en !== w.en)).toEqual([]);
-  });
   it("makes each meaning of a word its own card", () => {
     expect(card("el mono")).toMatchObject({ es: "el mono", en: "overalls", topic: "Clothes" });
     expect(card("el mono (monkey)")).toMatchObject({

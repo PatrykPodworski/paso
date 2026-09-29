@@ -5,6 +5,7 @@ import { mockSections } from "../data/mock";
 import { AnswerReview } from "./AnswerReview";
 import { Icon } from "./Icon";
 import type { Run } from "./useMockRun";
+
 export const SectionReview = ({
   run,
   score,
@@ -15,6 +16,7 @@ export const SectionReview = ({
   onNext: () => void;
 }) => {
   const section = mockSections[run.section];
+
   return (
     <Panel className="section-review">
       <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>

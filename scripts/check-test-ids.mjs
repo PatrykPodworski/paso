@@ -8,13 +8,17 @@ const collect = () => {
     encoding: "utf8",
     maxBuffer: 10 * 1024 * 1024,
   });
+
   return JSON.parse(output)
     .map(({ file, name }) => `${file}: ${name}`)
     .sort();
 };
+
 const first = collect();
+
 await setTimeout(1100);
 const second = collect();
+
 if (
   !first.length ||
   new Set(first).size !== first.length ||
@@ -27,8 +31,10 @@ if (
       ...second.filter((id) => !first.includes(id)),
     ],
   });
+
   throw new Error(
     "Test IDs must be unique and stable between workers. Remove time/random values from test titles.",
   );
 }
+
 console.log(`Verified ${first.length} stable, unique test IDs for mutation selection.`);

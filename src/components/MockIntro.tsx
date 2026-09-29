@@ -5,6 +5,7 @@ import { Notice } from "../design-system/Notice";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
+
 export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: () => void }) => (
   <>
     <Panel className="mock-intro">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { mockSections } from "../data/mock";
+
 export interface Run {
   section: number;
   index: number;
@@ -10,8 +11,10 @@ export interface Run {
   started: string;
   drafts: Record<string, string>;
 }
+
 export type SetRun = Dispatch<SetStateAction<Run>>;
 const KEY = "paso-mock-v1";
+
 export const fresh = (): Run => ({
   section: 0,
   index: 0,
@@ -21,9 +24,11 @@ export const fresh = (): Run => ({
   started: "",
   drafts: {},
 });
+
 export const load = (): Run => {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) || "null");
+
     return raw &&
       Number.isInteger(raw.section) &&
       raw.section >= 0 &&
@@ -39,9 +44,11 @@ export const load = (): Run => {
     return fresh();
   }
 };
+
 export const useMockRun = () => {
   const [run, setRun] = useState<Run>(load);
   const [storageError, setStorageError] = useState(false);
+
   useEffect(() => {
     try {
       localStorage.setItem(KEY, JSON.stringify(run));
@@ -49,5 +56,6 @@ export const useMockRun = () => {
       setStorageError(true);
     }
   }, [run]);
+
   return { run, setRun, storageError };
 };

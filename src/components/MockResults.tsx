@@ -3,6 +3,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { Panel } from "../design-system/Panel";
 import { Icon } from "./Icon";
 import { ScoreCalculator } from "./ScoreCalculator";
+
 export const MockResults = ({
   reading,
   listening,

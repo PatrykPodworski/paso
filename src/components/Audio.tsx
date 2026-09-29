@@ -3,6 +3,7 @@ import type { Ref } from "react";
 import { Icon } from "./Icon";
 import { audioSources } from "../data/audio-sources";
 import { FieldNote } from "../design-system/FieldNote";
+
 type Playback = {
   text: string;
   audio: HTMLAudioElement | null;
@@ -14,15 +15,18 @@ type Playback = {
 };
 export type AudioHandle = { play: () => void; playing: () => boolean };
 let activePlayback: Playback | null = null;
+
 // Shared playback coordination is intentionally exported alongside the player.
 // eslint-disable-next-line react/only-export-components
 export const stopAudio = () => {
   activePlayback?.cancel();
   activePlayback = null;
+
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
 };
+
 // A word tap has nowhere to show a status line, so this player stays silent on
 // failure instead of falling back to the device voice. The full sentence is
 // still read once the answer is checked.
@@ -35,6 +39,7 @@ export const playWord = async (text: string) => {
   stopAudio();
   let cancelled = false;
   let clip: HTMLAudioElement | null = null;
+
   activePlayback = {
     text,
     audio: null,
@@ -45,20 +50,27 @@ export const playWord = async (text: string) => {
       clip?.pause();
     },
   };
+
   for (const src of audioSources(text)) {
     clip = new Audio(src);
+
     const spoken = new Promise<void>((resolve) => {
       clip!.onended = () => resolve();
       clip!.onpause = () => resolve();
       clip!.onerror = () => resolve();
     });
+
     try {
       await clip.play();
+
       if (cancelled) {
         clip.pause();
+
         return;
       }
+
       await spoken;
+
       return;
     } catch {
       if (cancelled) {
@@ -68,6 +80,7 @@ export const playWord = async (text: string) => {
     }
   }
 };
+
 export const AudioButton = ({
   ref: controlsRef,
   text,
@@ -98,25 +111,30 @@ export const AudioButton = ({
   const resumePlayback = useRef<(() => Promise<void>) | null>(null);
   const iconOnly = compact || minimal;
   const pauseLabel = minimal ? "Pause audio" : "Stop audio";
+
   useEffect(() => {
     // Take over a clip that is still running for the same text, so a passage
     // survives the move to the next question about it.
     const running = activePlayback;
+
     if (!continuous || !running || running.text !== text) {
       return;
     }
+
     playbackRef.current = running;
     running.setPlaying = setPlaying;
     ref.current = running.audio;
     resumePlayback.current = running.resume;
     setPlaying(!running.audio?.paused);
   }, [continuous, text]);
+
   useEffect(
     () => () => {
       if (continuous) {
         // The session stops shared playback once the passage changes.
         return;
       }
+
       if (playbackRef.current && activePlayback === playbackRef.current) {
         stopAudio();
       } else {
@@ -125,11 +143,13 @@ export const AudioButton = ({
     },
     [continuous],
   );
+
   useEffect(() => {
     if (ref.current) {
       ref.current.playbackRate = speed;
     }
   }, [speed]);
+
   const play = async (restart = false) => {
     if (playing && !restart) {
       if (minimal && resumePlayback.current) {
@@ -137,26 +157,34 @@ export const AudioButton = ({
       } else {
         stopAudio();
       }
+
       setPlaying(false);
+
       return;
     }
+
     if (minimal && !restart && resumePlayback.current) {
       setError("");
       setPlaying(true);
+
       try {
         await resumePlayback.current();
       } catch {
         setPlaying(false);
         setError("Tap the play button to start the audio.");
       }
+
       return;
     }
+
     if (limit && count >= limit) {
       return;
     }
+
     stopAudio();
     setError("");
     let cancelled = false;
+
     const playback: Playback = {
       text,
       audio: null,
@@ -170,15 +198,19 @@ export const AudioButton = ({
         playback.setPlaying(false);
       },
     };
+
     activePlayback = playback;
     playbackRef.current = playback;
     setPlaying(true);
+
     for (const src of audioSources(text)) {
       const audio = new Audio(src);
+
       ref.current = audio;
       playback.audio = audio;
       audio.playbackRate = speed;
       audio.preservesPitch = true;
+
       audio.onended = () => {
         if (!cancelled) {
           playback.resume = null;
@@ -186,67 +218,86 @@ export const AudioButton = ({
           playback.setPlaying(false);
         }
       };
+
       audio.onpause = () => {
         if (!cancelled) {
           playback.setPlaying(false);
         }
       };
+
       try {
         await audio.play();
+
         if (cancelled) {
           audio.pause();
+
           return;
         }
+
         playback.resume = async () => {
           await audio.play();
+
           if (cancelled) {
             audio.pause();
           }
         };
+
         resumePlayback.current = playback.resume;
         setCount((c) => c + 1);
         onPlayed?.();
+
         return;
       } catch (error) {
         if (cancelled) {
           return;
         }
+
         if (error instanceof DOMException && error.name === "NotAllowedError") {
           setPlaying(false);
           setError("Tap the play button to start the audio.");
+
           return;
         }
         // A missing upgraded clip can still use the original local recording.
       }
     }
+
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text);
+
       utterance.lang = "es-ES";
       utterance.rate = 0.85 * speed;
       const voices = window.speechSynthesis.getVoices();
+
       utterance.voice =
         voices.find((v) => v.lang === "es-ES") ||
         voices.find((v) => v.lang.startsWith("es")) ||
         null;
+
       utterance.onstart = () => {
         if (cancelled) {
           return;
         }
+
         setCount((c) => c + 1);
         onPlayed?.();
       };
+
       utterance.onend = () => {
         if (!cancelled) {
           playback.setPlaying(false);
         }
       };
+
       utterance.onerror = () => {
         if (cancelled) {
           return;
         }
+
         playback.setPlaying(false);
         setError("Audio is unavailable on this device. You can use the transcript in practice.");
       };
+
       setError("Using your device’s voice while the recording is unavailable.");
       window.speechSynthesis.speak(utterance);
     } else {
@@ -254,13 +305,16 @@ export const AudioButton = ({
       setError("Audio is unavailable on this device. You can use the transcript in practice.");
     }
   };
+
   useImperativeHandle(controlsRef, () => ({ play: () => void play(true), playing: () => playing }));
   const startAutomatically = useEffectEvent(() => void play(true));
+
   useEffect(() => {
     if (autoPlay) {
       startAutomatically();
     }
   }, [autoPlay, text]);
+
   return (
     <div className={`audio-control ${iconOnly ? "compact" : ""}`}>
       <button

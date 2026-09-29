@@ -1,6 +1,7 @@
 import { FieldNote } from "../design-system/FieldNote";
 import { Notice } from "../design-system/Notice";
 import { passingGroups } from "../data/progress";
+
 export const ScoreCalculator = ({
   reading,
   listening,
@@ -23,7 +24,9 @@ export const ScoreCalculator = ({
     +writing <= 25 &&
     +speaking >= 0 &&
     +speaking <= 25;
+
   const groups = passingGroups(reading, +writing, listening, +speaking);
+
   return (
     <div className="score-calculator">
       <h3>Check the two passing groups</h3>

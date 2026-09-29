@@ -1,6 +1,7 @@
 import type { Question } from "../data/types";
 import { countWords, isCorrect } from "../data/progress";
 import { Icon } from "./Icon";
+
 export const AnswerReview = ({
   q,
   number,

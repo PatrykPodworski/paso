@@ -14,6 +14,7 @@ import { OralPrep } from "./OralPrep";
 import { SectionReview } from "./SectionReview";
 import { useMockExam } from "./useMockExam";
 import { fresh } from "./useMockRun";
+
 export const MockExam = ({
   progress,
   onResult,
@@ -34,8 +35,10 @@ export const MockExam = ({
     score,
     nextSection,
   } = useMockExam(onResult);
+
   const [writing, setWriting] = useState("");
   const [speaking, setSpeaking] = useState("");
+
   return (
     <div className="mock-page">
       <PageHeading

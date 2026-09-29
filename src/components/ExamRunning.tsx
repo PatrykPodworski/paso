@@ -5,6 +5,7 @@ import { mockSections } from "../data/mock";
 import { stopAudio } from "./Audio";
 import { QuestionCard } from "./QuestionCard";
 import type { Run, SetRun } from "./useMockRun";
+
 export const ExamRunning = ({
   run,
   setRun,
@@ -20,6 +21,7 @@ export const ExamRunning = ({
 }) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
+
   return (
     <Panel className="exam-running">
       <div className="exam-question-nav">
@@ -36,11 +38,13 @@ export const ExamRunning = ({
         onDraft={(text) => setRun((r) => ({ ...r, drafts: { ...r.drafts, [q.id]: text } }))}
         onSubmit={(answer) => {
           stopAudio();
+
           setRun((r) => ({
             ...r,
             answers: { ...r.answers, [q.id]: answer },
             index: Math.min(r.index + 1, section.questions.length - 1),
           }));
+
           if (run.index === section.questions.length - 1) {
             setConfirm(true);
           }
@@ -59,6 +63,7 @@ export const ExamRunning = ({
         <TextLink
           onClick={() => {
             stopAudio();
+
             if (run.index === section.questions.length - 1) {
               setConfirm(true);
             } else {

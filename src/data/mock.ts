@@ -1,8 +1,10 @@
 import type { Question } from "./types.ts";
+
 const choices = (items: string[], i: number) => [
   ...items.slice(i % items.length),
   ...items.slice(0, i % items.length),
 ];
+
 const make = (
   id: string,
   skill: "reading" | "listening",
@@ -23,8 +25,10 @@ const make = (
   explanation,
   ...(skill === "listening" ? { audio: content } : { passage: content }),
 });
+
 const email =
   "Hola, Elena:\nMe llamo Laura y soy tu nueva compañera de español. Tengo veintiséis años y soy italiana, pero ahora vivo en Salamanca con mi hermana. Nuestro piso está en una calle tranquila, cerca de la universidad. Mi hermana trabaja en una farmacia y yo soy profesora de música en una escuela pequeña. Trabajo por la mañana, de nueve a dos, y por la tarde estudio español.\nLa clase empieza el martes a las seis. Nuestra profesora se llama Carmen y es muy simpática. Hay diez estudiantes en el grupo. Después de clase quiero tomar un café contigo en el bar de la plaza. El café está al lado de la biblioteca.\nLos fines de semana me gusta pasear por el parque y leer en casa. No me gusta mucho el fútbol, pero a mi hermana sí. También me gusta cocinar pasta para mis amigos. ¿Qué te gusta hacer a ti? ¿Quieres venir a mi casa el domingo para comer?\nUn abrazo,\nLaura";
+
 const reading1 = [
   [
     "¿De dónde es Laura?",
@@ -73,6 +77,7 @@ const reading1 = [
     email,
   ),
 );
+
 const signs = [
   [
     "A",
@@ -111,7 +116,9 @@ const signs = [
     "PARQUE: No se puede entrar con bicicletas. Los perros deben ir con su dueño. El parque abre a las ocho y cierra a las nueve.",
   ],
 ];
+
 const signsText = signs.map(([a, b]) => `${a}. ${b}`).join("\n\n");
+
 const reading2 = [
   ["Necesita desayunar por cinco euros.", "C", "The café advertises breakfast for five euros."],
   [
@@ -151,6 +158,7 @@ const reading2 = [
     signsText,
   ),
 );
+
 const ads = [
   [
     "A",
@@ -189,7 +197,9 @@ const ads = [
     "TRABAJO EN CAFETERÍA. Buscamos una persona para trabajar los fines de semana por la mañana. Es necesario hablar español. Pregunte en la cafetería de la estación.",
   ],
 ];
+
 const adsText = ads.map(([a, b]) => `${a}. ${b}`).join("\n\n");
+
 const reading3 = [
   [
     "Trabajo por la tarde y quiero estudiar español antes de comer.",
@@ -233,8 +243,10 @@ const reading3 = [
     adsText,
   ),
 );
+
 const info =
   "CENTRO CULTURAL LA LUNA\nEl centro cultural La Luna está en la calle Mayor, número catorce, al lado del mercado municipal. Es un lugar para estudiar, leer y conocer gente del barrio. Abrimos de lunes a viernes de nueve de la mañana a ocho de la tarde. Los sábados abrimos a las diez y cerramos a las dos. Los domingos no abrimos.\nEn la primera planta hay una biblioteca con libros en español, inglés y francés. Para llevar libros a casa es necesario tener una tarjeta del centro. La tarjeta es gratuita y puede pedirla en la recepción con su documento de identidad.\nEn la segunda planta hay tres aulas. Ofrecemos clases de español los martes y jueves, de seis a siete de la tarde. El curso cuesta treinta euros al mes. Las clases de dibujo son los miércoles a las cinco y cuestan veinte euros al mes.\nTambién tenemos un café en la planta baja. Allí puede tomar café, zumo y bocadillos. No se puede comer en las aulas. Para más información, puede llamar al centro por la mañana o escribir un correo electrónico.";
+
 const reading4 = [
   [
     "¿Dónde está el centro?",
@@ -304,6 +316,7 @@ const reading4 = [
     info,
   ),
 );
+
 const listening1Data = [
   [
     "¿Qué quiere beber la mujer?",
@@ -346,6 +359,7 @@ const listening1Data = [
     "Today is rainy. Tomorrow’s sun is a distractor.",
   ],
 ];
+
 const listening1 = listening1Data.map((r, i) =>
   make(
     `mock-l1-${i}`,
@@ -358,6 +372,7 @@ const listening1 = listening1Data.map((r, i) =>
     r[4],
   ),
 );
+
 const imageOptions = [
   "🚆 Estación",
   "💊 Farmacia",
@@ -368,6 +383,7 @@ const imageOptions = [
   "🎬 Cine",
   "✈️ Aeropuerto",
 ];
+
 const listening2Data = [
   [
     "Atención, viajeros. El tren con destino a Málaga sale dentro de diez minutos de la vía número tres. Tengan preparados sus billetes, por favor.",
@@ -395,6 +411,7 @@ const listening2Data = [
     "Borrowing books with a card identifies a library.",
   ],
 ];
+
 const listening2 = listening2Data.map((r, i) =>
   make(
     `mock-l2-${i}`,
@@ -407,6 +424,7 @@ const listening2 = listening2Data.map((r, i) =>
     r[0],
   ),
 );
+
 const endings = [
   "es profesora.",
   "vive cerca del centro.",
@@ -420,6 +438,7 @@ const endings = [
   "tiene un perro.",
   "vive en Italia.",
 ];
+
 const statements = [
   [
     "Su profesión…",
@@ -462,6 +481,7 @@ const statements = [
     "Por la noche leo un poco antes de dormir. Me gustan los libros de viajes y las historias sobre otros países.",
   ],
 ];
+
 const listening3 = statements.map((r, i) =>
   make(
     `mock-l3-${i}`,
@@ -474,8 +494,10 @@ const listening3 = statements.map((r, i) =>
     r[2],
   ),
 );
+
 const conversation =
   "Hola, Pablo. ¿Tienes planes para el sábado? Sí, quiero ir a Segovia con mi hermana. ¿Quieres venir? Me encantaría. ¿Cómo vamos? Podemos ir en tren. El tren sale de Madrid a las nueve de la mañana y llega a las diez. Muy bien. ¿Cuánto cuesta el billete? Cuesta doce euros por persona. Mi hermana compra los billetes esta tarde. Perfecto. ¿Y qué hacemos en Segovia? Primero podemos visitar el centro. Hay una plaza muy bonita y una iglesia antigua. Después comemos en un restaurante cerca de la estación. ¿A qué hora comemos? A las dos. El restaurante tiene un menú de quince euros con bebida y postre. Me parece bien. ¿Volvemos por la tarde? Sí, el tren de vuelta sale a las seis. Llegamos a Madrid a las siete. Entonces nos vemos el sábado en la estación. ¿A las ocho y media? Sí, a las ocho y media, junto a la entrada principal. No olvides llevar agua. Hace mucho calor. De acuerdo, hasta el sábado.";
+
 const details = [
   "Segovia",
   "en tren",
@@ -486,6 +508,7 @@ const details = [
   "a las ocho y media",
   "quince euros",
 ];
+
 const listening4Data = [
   ["El destino es…", "Segovia", "The plan is a visit to Segovia; Madrid is the starting city."],
   ["Van…", "en tren", "They choose the train as transport."],
@@ -515,6 +538,7 @@ const listening4Data = [
     "They meet at eight thirty before the nine o’clock train.",
   ],
 ];
+
 const listening4 = listening4Data.map((r, i) =>
   make(
     `mock-l4-${i}`,
@@ -527,6 +551,7 @@ const listening4 = listening4Data.map((r, i) =>
     conversation,
   ),
 );
+
 export const formPractice: Question = {
   id: "form-practice",
   kind: "form",
@@ -554,6 +579,7 @@ export const formPractice: Question = {
     "My details and simple phrases are understandable.",
   ],
 };
+
 const writing: Question[] = [
   { ...formPractice, id: "mock-w1" },
   {
@@ -578,6 +604,7 @@ const writing: Question[] = [
     ],
   },
 ];
+
 const speaking: Question[] = [
   {
     id: "mock-s1",
@@ -629,6 +656,7 @@ const speaking: Question[] = [
     ],
   },
 ];
+
 export const mockSections = [
   {
     title: "Reading",
@@ -655,4 +683,5 @@ export const mockSections = [
     questions: speaking,
   },
 ];
+
 export const mockQuestions = mockSections.flatMap((s) => s.questions);

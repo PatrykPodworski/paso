@@ -4,15 +4,13 @@ import { FieldNote } from "../design-system/FieldNote";
 import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
 
-export const Recorder = ({
-  onRecorded,
-  onStart,
-  onRecordingChange,
-}: {
+type Props = {
   onRecorded: (blob: Blob) => void;
   onStart?: () => void;
   onRecordingChange?: (recording: boolean) => void;
-}) => {
+};
+
+export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
   const [recording, setRecording] = useState(false);
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");

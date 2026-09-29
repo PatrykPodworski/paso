@@ -2,7 +2,9 @@ import { mockSections } from "../data/mock";
 import { Icon } from "./Icon";
 import type { Run } from "./useMockRun";
 
-export const ExamTopbar = ({ run, left }: { run: Run; left: number }) =>
+type Props = { run: Run; left: number };
+
+export const ExamTopbar = ({ run, left }: Props) =>
   ["run", "prep", "review"].includes(run.stage) && (
     <div className="exam-topbar">
       <div className="exam-steps">

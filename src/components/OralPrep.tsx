@@ -5,15 +5,13 @@ import { mockSections } from "../data/mock";
 import { Icon } from "./Icon";
 import type { Run, SetRun } from "./useMockRun";
 
-export const OralPrep = ({
-  run,
-  setRun,
-  setNow,
-}: {
+type Props = {
   run: Run;
   setRun: SetRun;
   setNow: (now: number) => void;
-}) => (
+};
+
+export const OralPrep = ({ run, setRun, setNow }: Props) => (
   <Panel className="oral-prep">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
     <h2>A moment to find your words.</h2>

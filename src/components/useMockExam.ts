@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { isCorrect } from "../data/progress";
-import { stopAudio } from "./Audio";
+import { stopAudio } from "./AudioButton";
 import { fresh, useMockRun } from "./useMockRun";
 
 export const useMockExam = (onResult: (result: Progress["mockResults"][number]) => void) => {

@@ -6,7 +6,9 @@ import { mockSections } from "../data/mock";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 
-export const MockIntro = ({ progress, onStart }: { progress: Progress; onStart: () => void }) => (
+type Props = { progress: Progress; onStart: () => void };
+
+export const MockIntro = ({ progress, onStart }: Props) => (
   <>
     <Panel className="mock-intro">
       <div className="mock-intro-art">

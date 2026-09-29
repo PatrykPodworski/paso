@@ -2,23 +2,19 @@ import { Panel } from "../design-system/Panel";
 import { Button } from "../design-system/Button";
 import { TextLink } from "../design-system/TextLink";
 import { mockSections } from "../data/mock";
-import { stopAudio } from "./Audio";
+import { stopAudio } from "./AudioButton";
 import { QuestionCard } from "./QuestionCard";
 import type { Run, SetRun } from "./useMockRun";
 
-export const ExamRunning = ({
-  run,
-  setRun,
-  confirm,
-  setConfirm,
-  onEnd,
-}: {
+type Props = {
   run: Run;
   setRun: SetRun;
   confirm: boolean;
   setConfirm: (confirm: boolean) => void;
   onEnd: () => void;
-}) => {
+};
+
+export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
 

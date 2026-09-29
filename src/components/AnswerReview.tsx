@@ -2,17 +2,14 @@ import type { Question } from "../data/types";
 import { countWords, isCorrect } from "../data/progress";
 import { Icon } from "./Icon";
 
-export const AnswerReview = ({
-  q,
-  number,
-  answer,
-  section,
-}: {
+type Props = {
   q: Question;
   number: number;
   answer: string | undefined;
   section: number;
-}) => (
+};
+
+export const AnswerReview = ({ q, number, answer, section }: Props) => (
   <details>
     <summary>
       <span

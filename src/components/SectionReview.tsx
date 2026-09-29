@@ -6,15 +6,13 @@ import { AnswerReview } from "./AnswerReview";
 import { Icon } from "./Icon";
 import type { Run } from "./useMockRun";
 
-export const SectionReview = ({
-  run,
-  score,
-  onNext,
-}: {
+type Props = {
   run: Run;
   score: (index: number) => number;
   onNext: () => void;
-}) => {
+};
+
+export const SectionReview = ({ run, score, onNext }: Props) => {
   const section = mockSections[run.section];
 
   return (

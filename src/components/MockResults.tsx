@@ -4,6 +4,17 @@ import { Panel } from "../design-system/Panel";
 import { Icon } from "./Icon";
 import { ScoreCalculator } from "./ScoreCalculator";
 
+type Props = {
+  reading: number;
+  listening: number;
+  writing: string;
+  speaking: string;
+  onWriting: (value: string) => void;
+  onSpeaking: (value: string) => void;
+  onDownload: () => void;
+  onReset: () => void;
+};
+
 export const MockResults = ({
   reading,
   listening,
@@ -13,16 +24,7 @@ export const MockResults = ({
   onSpeaking,
   onDownload,
   onReset,
-}: {
-  reading: number;
-  listening: number;
-  writing: string;
-  speaking: string;
-  onWriting: (value: string) => void;
-  onSpeaking: (value: string) => void;
-  onDownload: () => void;
-  onReset: () => void;
-}) => (
+}: Props) => (
   <Panel className="exam-results">
     <div className="completion-art">
       <Icon name="trophy" size={48} />

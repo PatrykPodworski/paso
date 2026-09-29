@@ -2,6 +2,15 @@ import { FieldNote } from "../design-system/FieldNote";
 import { Notice } from "../design-system/Notice";
 import { passingGroups } from "../data/progress";
 
+type Props = {
+  reading: number;
+  listening: number;
+  writing: string;
+  speaking: string;
+  onWriting: (value: string) => void;
+  onSpeaking: (value: string) => void;
+};
+
 export const ScoreCalculator = ({
   reading,
   listening,
@@ -9,14 +18,7 @@ export const ScoreCalculator = ({
   speaking,
   onWriting,
   onSpeaking,
-}: {
-  reading: number;
-  listening: number;
-  writing: string;
-  speaking: string;
-  onWriting: (value: string) => void;
-  onSpeaking: (value: string) => void;
-}) => {
+}: Props) => {
   const entered =
     writing !== "" &&
     speaking !== "" &&

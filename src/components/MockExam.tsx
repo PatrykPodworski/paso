@@ -15,13 +15,12 @@ import { SectionReview } from "./SectionReview";
 import { useMockExam } from "./useMockExam";
 import { fresh } from "./useMockRun";
 
-export const MockExam = ({
-  progress,
-  onResult,
-}: {
+type Props = {
   progress: Progress;
   onResult: (result: Progress["mockResults"][number]) => void;
-}) => {
+};
+
+export const MockExam = ({ progress, onResult }: Props) => {
   const {
     run,
     setRun,

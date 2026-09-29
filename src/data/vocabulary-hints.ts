@@ -1,6 +1,6 @@
 // English recall cues for Spanish learners. Word similarities are memory
 // associations, not claims about etymology. See docs/VOCABULARY_HINTS.md.
-export const vocabularyHints = {
+export const vocabularyHints: Record<string, string> = {
   hola: "Hello → hola: both start with h, but Spanish leaves the h silent. Say O-la.",
   adiós: "Adiós is the goodbye word. Say a-DIÓS: the accent makes the farewell end strongly.",
   gracias: "Gratitude → gracias. Muchas gracias means “many thanks.”",
@@ -162,5 +162,3 @@ export const vocabularyHints = {
     "Entiendo = I understand; no entiendo = I don’t understand. This yes/no pair helps you remember entender.",
   repetir: "Repeat → repetir. ¿Puedes repetir? means “Can you repeat that?”",
 };
-
-export type VocabularyWord = keyof typeof vocabularyHints;

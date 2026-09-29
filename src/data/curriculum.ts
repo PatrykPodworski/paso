@@ -1,6 +1,6 @@
 import type { Question, Unit, Skill } from "./types.ts";
 import { vocabularyHints } from "./vocabulary-hints.ts";
-import type { VocabularyWord } from "./vocabulary-hints.ts";
+import words from "./words.json" with { type: "json" };
 type Seed = {
   title: string;
   spanish: string;
@@ -10,7 +10,6 @@ type Seed = {
   goals: string[];
   tip: string;
   example: string;
-  words: [word: VocabularyWord, meaning: string, visual: string][];
   grammar: string[][];
   reading: string;
   read: string[][];
@@ -39,16 +38,6 @@ const seeds: Seed[] = [
     ],
     tip: "Use soy for identity and origin. Use me llamo to introduce your name. Spanish h is silent; ñ is a different letter from n.",
     example: "Hola, me llamo Ana. Soy de Polonia.",
-    words: [
-      ["hola", "hello", "👋"],
-      ["adiós", "goodbye", "👋"],
-      ["gracias", "thank you", "💛"],
-      ["por favor", "please", "🙏"],
-      ["buenos días", "good morning", "🌤️"],
-      ["buenas noches", "good evening / good night", "🌙"],
-      ["hasta luego", "see you later", "🕊️"],
-      ["perdón", "sorry / excuse me", "💬"],
-    ],
     grammar: [
       [
         "Yo ___ Marta.",
@@ -164,16 +153,6 @@ const seeds: Seed[] = [
     ],
     tip: "Spanish uses tener for age: tengo veinte años. A question word carries an accent: qué, cómo, dónde, cuántos.",
     example: "¿Cuántos años tienes? Tengo veinticinco años.",
-    words: [
-      ["el nombre", "first name", "🪪"],
-      ["el apellido", "surname", "🪪"],
-      ["la dirección", "address", "📍"],
-      ["el teléfono", "telephone", "☎️"],
-      ["veinte", "twenty", "🔢"],
-      ["treinta", "thirty", "🔢"],
-      ["la nacionalidad", "nationality", "🌍"],
-      ["el correo electrónico", "email", "✉️"],
-    ],
     grammar: [
       [
         "Yo ___ veintidós años.",
@@ -289,16 +268,6 @@ const seeds: Seed[] = [
     ],
     tip: "Possessives agree with the thing possessed: mi hermano, mis hermanos. Describing words usually follow the noun: una casa blanca.",
     example: "Mis hermanas son altas y simpáticas.",
-    words: [
-      ["la madre", "mother", "👩"],
-      ["el padre", "father", "👨"],
-      ["la hermana", "sister", "👩‍🦱"],
-      ["el hermano", "brother", "👨‍🦱"],
-      ["la abuela", "grandmother", "👵"],
-      ["el hijo", "son", "👦"],
-      ["la amiga", "female friend", "👩‍🦰"],
-      ["la familia", "family", "👪"],
-    ],
     grammar: [
       [
         "___ padres viven en Sevilla. (my)",
@@ -414,16 +383,6 @@ const seeds: Seed[] = [
     ],
     tip: "Hay introduces something: Hay una mesa. Estar locates something already identified: La mesa está en la cocina.",
     example: "Hay dos sillas. La silla verde está junto a la ventana.",
-    words: [
-      ["la casa", "house", "🏠"],
-      ["la cocina", "kitchen", "🍳"],
-      ["el dormitorio", "bedroom", "🛏️"],
-      ["el baño", "bathroom", "🛁"],
-      ["la mesa", "table", "🪑"],
-      ["la silla", "chair", "🪑"],
-      ["la ventana", "window", "🪟"],
-      ["la puerta", "door", "🚪"],
-    ],
     grammar: [
       [
         "En mi casa ___ tres dormitorios.",
@@ -538,16 +497,6 @@ const seeds: Seed[] = [
     ],
     tip: "Use es la una but son las dos. For an event time, use a la una / a las dos. Reflexive verbs need me, te or se.",
     example: "Me levanto a las siete y desayuno a las ocho.",
-    words: [
-      ["la mañana", "morning", "🌅"],
-      ["la tarde", "afternoon", "🌇"],
-      ["la noche", "night", "🌃"],
-      ["el lunes", "Monday", "📅"],
-      ["el viernes", "Friday", "📅"],
-      ["desayunar", "to have breakfast", "🥐"],
-      ["trabajar", "to work", "💼"],
-      ["dormir", "to sleep", "💤"],
-    ],
     grammar: [
       [
         "Son las tres y media. What time is it?",
@@ -663,16 +612,6 @@ const seeds: Seed[] = [
     ],
     tip: "Use gusta with a singular noun or infinitive, and gustan with a plural noun. Me gusta el café. Me gustan las manzanas.",
     example: "Un café con leche y una tostada, por favor.",
-    words: [
-      ["el pan", "bread", "🥖"],
-      ["el agua", "water", "💧"],
-      ["el café", "coffee", "☕"],
-      ["la leche", "milk", "🥛"],
-      ["la manzana", "apple", "🍎"],
-      ["el pescado", "fish", "🐟"],
-      ["la cuenta", "bill", "🧾"],
-      ["el queso", "cheese", "🧀"],
-    ],
     grammar: [
       [
         "Me ___ las manzanas.",
@@ -788,16 +727,6 @@ const seeds: Seed[] = [
     ],
     tip: "Dónde asks for location. Cerca de means near; lejos de means far from. Izquierda is left and derecha is right.",
     example: "¿Dónde está la farmacia? Está enfrente del banco.",
-    words: [
-      ["la calle", "street", "🛣️"],
-      ["la plaza", "square", "⛲"],
-      ["el banco", "bank", "🏦"],
-      ["la farmacia", "pharmacy", "💊"],
-      ["el supermercado", "supermarket", "🛒"],
-      ["el parque", "park", "🌳"],
-      ["la estación", "station", "🚉"],
-      ["la biblioteca", "library", "📚"],
-    ],
     grammar: [
       [
         "La farmacia está enfrente ___ banco.",
@@ -914,16 +843,6 @@ const seeds: Seed[] = [
     ],
     tip: "Este / esta means this. Estos / estas means these. Match the noun: esta camisa, estos zapatos. Cuánto also agrees with what you ask about.",
     example: "¿Cuánto cuestan estos zapatos? Cuarenta euros.",
-    words: [
-      ["la camisa", "shirt", "👔"],
-      ["los zapatos", "shoes", "👞"],
-      ["el vestido", "dress", "👗"],
-      ["la chaqueta", "jacket", "🧥"],
-      ["rojo", "red", "🔴"],
-      ["azul", "blue", "🔵"],
-      ["la talla", "size", "📏"],
-      ["la tarjeta", "card", "💳"],
-    ],
     grammar: [
       [
         "___ camisa es roja.",
@@ -1039,16 +958,6 @@ const seeds: Seed[] = [
     ],
     tip: "Use gusta + an infinitive for an activity: Me gusta leer. To give a simple reason, use porque. To ask why, use ¿por qué?",
     example: "Me gusta leer, pero no me gusta bailar.",
-    words: [
-      ["leer", "to read", "📖"],
-      ["bailar", "to dance", "💃"],
-      ["nadar", "to swim", "🏊"],
-      ["el cine", "cinema", "🎬"],
-      ["la música", "music", "🎵"],
-      ["el fútbol", "football", "⚽"],
-      ["la escuela", "school", "🏫"],
-      ["el trabajo", "work / job", "💼"],
-    ],
     grammar: [
       [
         "Me gusta ___ libros.",
@@ -1163,16 +1072,6 @@ const seeds: Seed[] = [
     ],
     tip: "Ir a expresses a destination: voy a Madrid. En describes transport: en tren. A pie is the exception for walking.",
     example: "Un billete a Sevilla para el viernes, por favor.",
-    words: [
-      ["el tren", "train", "🚆"],
-      ["el autobús", "bus", "🚌"],
-      ["el avión", "airplane", "✈️"],
-      ["el billete", "ticket", "🎟️"],
-      ["el hotel", "hotel", "🏨"],
-      ["la maleta", "suitcase", "🧳"],
-      ["el pasaporte", "passport", "🛂"],
-      ["la habitación", "room", "🛏️"],
-    ],
     grammar: [
       [
         "Voy a Barcelona ___ tren.",
@@ -1289,16 +1188,6 @@ const seeds: Seed[] = [
     ],
     tip: "Weather uses several patterns: hace frío, hace calor, hay viento, llueve. A physical need uses tener: tengo hambre, tengo sed.",
     example: "Hoy hace calor. Tengo sed y quiero agua.",
-    words: [
-      ["el sol", "sun", "☀️"],
-      ["la lluvia", "rain", "🌧️"],
-      ["el frío", "cold", "❄️"],
-      ["el calor", "heat", "🌡️"],
-      ["el verano", "summer", "🏖️"],
-      ["el invierno", "winter", "⛄"],
-      ["cansado", "tired (masculine)", "😴"],
-      ["contento", "happy (masculine)", "🙂"],
-    ],
     grammar: [
       [
         "Hoy ___ mucho frío.",
@@ -1413,16 +1302,6 @@ const seeds: Seed[] = [
     ],
     tip: "Answer the information requested, not just a familiar word. Read the whole message: times, negation and who does what often matter.",
     example: "Perdón, no entiendo. ¿Puedes hablar más despacio?",
-    words: [
-      ["escuchar", "to listen", "🎧"],
-      ["escribir", "to write", "✍️"],
-      ["hablar", "to speak", "💬"],
-      ["la pregunta", "question", "❓"],
-      ["la respuesta", "answer", "💡"],
-      ["despacio", "slowly", "🐢"],
-      ["entender", "to understand", "🧠"],
-      ["repetir", "to repeat", "🔁"],
-    ],
     grammar: [
       [
         "Which has the correct question accents?",
@@ -1530,23 +1409,38 @@ const rotate = <T>(items: T[], n: number) => [
   ...items.slice(n % items.length),
   ...items.slice(0, n % items.length),
 ];
+export const vocabulary = words
+  .flatMap((t) => t.words)
+  .filter((w) => w.unit !== undefined)
+  .sort((a, b) => a.unit - b.unit || a.unitOrder - b.unitOrder)
+  .map((w) => ({
+    es: w.es,
+    en: w.en,
+    visual: w.visual,
+    unit: w.unit,
+    memoryHint: vocabularyHints[w.es],
+  }));
 export const units: Unit[] = seeds.map((s, ui) => {
   const uid = `u${ui + 1}`;
-  const vocab: Question[] = s.words.map((w, i) => {
-    const options = rotate([w[1], s.words[(i + 2) % 8][1], s.words[(i + 5) % 8][1]], (ui + i) % 3);
+  const unitWords = vocabulary.filter((w) => w.unit === ui + 1);
+  const vocab: Question[] = unitWords.map((w, i) => {
+    const options = rotate(
+      [w.en, unitWords[(i + 2) % 8].en, unitWords[(i + 5) % 8].en],
+      (ui + i) % 3,
+    );
     return {
       id: `${uid}-v${i}`,
       kind: i % 2 ? "listen" : "choice",
       skill: i % 2 ? "listening" : "reading",
       prompt:
-        i % 2 ? "Listen. What does the Spanish word or phrase mean?" : `What does “${w[0]}” mean?`,
-      answer: w[1],
+        i % 2 ? "Listen. What does the Spanish word or phrase mean?" : `What does “${w.es}” mean?`,
+      answer: w.en,
       options,
-      visual: i % 2 ? undefined : w[2],
-      audio: i % 2 ? w[0] : undefined,
-      pronunciation: w[0],
-      explanation: `“${w[0]}” means “${w[1]}”.`,
-      memoryHint: vocabularyHints[w[0]],
+      visual: i % 2 ? undefined : w.visual,
+      audio: i % 2 ? w.es : undefined,
+      pronunciation: w.es,
+      explanation: `“${w.es}” means “${w.en}”.`,
+      memoryHint: w.memoryHint,
     };
   });
   const grammar: Question[] = s.grammar.map((g, i) => ({
@@ -1692,15 +1586,6 @@ export const units: Unit[] = seeds.map((s, ui) => {
 });
 export const allLessons = units.flatMap((u) => u.lessons);
 export const allQuestions = allLessons.flatMap((l) => l.questions);
-export const vocabulary = seeds.flatMap((s, ui) =>
-  s.words.map((w) => ({
-    es: w[0],
-    en: w[1],
-    visual: w[2],
-    unit: ui + 1,
-    memoryHint: vocabularyHints[w[0]],
-  })),
-);
 export const foundations: Question[] = [
   [
     "The letter h in hola is…",

@@ -62,6 +62,21 @@ describe("original curriculum integrity", () => {
     expect(vocabulary).toHaveLength(96);
     expect(new Set(vocabulary.map((w) => w.es)).size).toBe(96);
   });
+  it("gives every unit word a memory hint", () => {
+    expect(vocabulary.filter((w) => !w.memoryHint)).toEqual([]);
+  });
+  it("asks a unit's words in lesson order, not topic order", () => {
+    expect(units[2].lessons[0].questions.map((q) => q.pronunciation)).toEqual([
+      "la madre",
+      "el padre",
+      "la hermana",
+      "el hermano",
+      "la abuela",
+      "el hijo",
+      "la amiga",
+      "la familia",
+    ]);
+  });
   it("keeps every message model within the official task-2 word target", () => {
     for (const q of questions.filter((q) => q.kind === "write")) {
       expect(countWords(q.answer), q.id).toBeGreaterThanOrEqual(q.minWords!);

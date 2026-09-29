@@ -99,7 +99,7 @@ jobs:
       # The configured Argos reporter uploads whenever CI is set, which would post a second
       # Argos build next to the visual job's; this run keeps only list and html.
       # The config's 4 workers oversubscribe the runner: the exam journey took 22s of its
-      # 30s timeout with 4 workers and 13s with 2, for about 10s more in total.
+      # 30s timeout with 4 workers and 13s with 2.
       - run: pnpm test:e2e --reporter=list,html --workers=2
       - uses: actions/upload-artifact@v4
         if: failure()

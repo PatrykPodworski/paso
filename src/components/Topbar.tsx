@@ -3,17 +3,14 @@ import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 import { navigation, type Page } from "./navigation";
 
-export const Topbar = ({
-  page,
-  progress,
-  openNav,
-  openSettings,
-}: {
+type Props = {
   page: Page;
   progress: Progress;
   openNav: () => void;
   openSettings: () => void;
-}) => (
+};
+
+export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
   <header className="topbar">
     <div>
       <button

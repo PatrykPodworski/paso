@@ -6,15 +6,13 @@ import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
 import type { Practice, Session } from "./practice";
 
-export const MistakesPanel = ({
-  mistakeQuestions,
-  setSession,
-  practice,
-}: {
+type Props = {
   mistakeQuestions: Lesson["questions"];
   setSession: Session;
   practice: Practice;
-}) => (
+};
+
+export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props) => (
   <Panel className="mistakes-panel">
     <span className="quick-icon peach">
       <Icon name="repeat" size={28} />

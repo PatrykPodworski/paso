@@ -4,13 +4,12 @@ import { dailyAnswers, localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 
-export const DailyGoal = ({
-  progress,
-  openSettings,
-}: {
+type Props = {
   progress: Progress;
   openSettings: () => void;
-}) => {
+};
+
+export const DailyGoal = ({ progress, openSettings }: Props) => {
   const today = dailyAnswers(progress);
 
   return (

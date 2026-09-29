@@ -4,13 +4,12 @@ import { localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 
-export const TodayHeading = ({
-  progress,
-  openSettings,
-}: {
+type Props = {
   progress: Progress;
   openSettings: () => void;
-}) => {
+};
+
+export const TodayHeading = ({ progress, openSettings }: Props) => {
   const daysToExam = progress.examDate
     ? Math.ceil(
         (new Date(`${progress.examDate}T00:00:00`).getTime() -

@@ -8,17 +8,14 @@ import { localDate } from "../data/progress";
 import type { Progress } from "../data/types";
 import { Icon } from "./Icon";
 
-export const Settings = ({
-  progress,
-  onSave,
-  onClose,
-  onReset,
-}: {
+type Props = {
   progress: Progress;
   onSave: (p: Partial<Progress>) => void;
   onClose: () => void;
   onReset: () => void;
-}) => {
+};
+
+export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [name, setName] = useState(progress.name);
   const [goal, setGoal] = useState(progress.goal);
   const [date, setDate] = useState(progress.examDate);

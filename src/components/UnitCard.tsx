@@ -1,7 +1,17 @@
 import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, Progress, Unit } from "../data/types";
-import { AudioButton } from "./Audio";
+import { AudioButton } from "./AudioButton";
 import { Icon } from "./Icon";
+
+type Props = {
+  unit: Unit;
+  onPath?: boolean;
+  index: number;
+  progress: Progress;
+  start: (l: Lesson) => void;
+  expanded: boolean;
+  onExpand: () => void;
+};
 
 export const UnitCard = ({
   unit,
@@ -11,15 +21,7 @@ export const UnitCard = ({
   start,
   expanded,
   onExpand,
-}: {
-  unit: Unit;
-  onPath?: boolean;
-  index: number;
-  progress: Progress;
-  start: (l: Lesson) => void;
-  expanded: boolean;
-  onExpand: () => void;
-}) => {
+}: Props) => {
   const done = unit.lessons.filter((l) => progress.completed[l.id]).length;
 
   return (

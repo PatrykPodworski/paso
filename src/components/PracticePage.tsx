@@ -9,6 +9,17 @@ import { PocketVocabulary } from "./PocketVocabulary";
 import { exerciseBank, skills, type Practice, type Session } from "./practice";
 import { SkillPractice } from "./SkillPractice";
 
+type Props = {
+  progress: Progress;
+  setProgress: (update: (p: Progress) => Progress) => void;
+  mistakeQuestions: Lesson["questions"];
+  filter: Skill | "all" | "mistakes";
+  setFilter: (filter: Skill | "all" | "mistakes") => void;
+  setSession: Session;
+  navigate: (target: Page) => void;
+  practice: Practice;
+};
+
 export const PracticePage = ({
   progress,
   setProgress,
@@ -18,16 +29,7 @@ export const PracticePage = ({
   setSession,
   navigate,
   practice,
-}: {
-  progress: Progress;
-  setProgress: (update: (p: Progress) => Progress) => void;
-  mistakeQuestions: Lesson["questions"];
-  filter: Skill | "all" | "mistakes";
-  setFilter: (filter: Skill | "all" | "mistakes") => void;
-  setSession: Session;
-  navigate: (target: Page) => void;
-  practice: Practice;
-}) => (
+}: Props) => (
   <>
     <PageHeading
       eyebrow={

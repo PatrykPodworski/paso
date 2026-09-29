@@ -5,9 +5,18 @@ import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "./Icon";
 import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./QuestionCard";
-import { stopAudio } from "./Audio";
+import { stopAudio } from "./AudioButton";
 import { FieldNote } from "../design-system/FieldNote";
 import { COMPLETION_STATS } from "./PocketVocabulary";
+
+type Props = {
+  lesson: Lesson;
+  progress: Progress;
+  onClose: () => void;
+  onAttempt: (attempt: Attempt) => void;
+  onComplete: (score: number, total: number) => void;
+  onDraft: (id: string, text: string) => void;
+};
 
 export const LessonSession = ({
   lesson,
@@ -16,14 +25,7 @@ export const LessonSession = ({
   onAttempt,
   onComplete,
   onDraft,
-}: {
-  lesson: Lesson;
-  progress: Progress;
-  onClose: () => void;
-  onAttempt: (attempt: Attempt) => void;
-  onComplete: (score: number, total: number) => void;
-  onDraft: (id: string, text: string) => void;
-}) => {
+}: Props) => {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<(boolean | null)[]>([]);
   const [finished, setFinished] = useState(false);

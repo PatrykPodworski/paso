@@ -11,6 +11,17 @@ import type { Page } from "./navigation";
 import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
 
+type Props = {
+  progress: Progress;
+  nextLesson: Lesson;
+  completed: number;
+  progressPercent: number;
+  expanded: string;
+  setExpanded: (id: string) => void;
+  setSession: Session;
+  navigate: (target: Page) => void;
+};
+
 export const PathPage = ({
   progress,
   nextLesson,
@@ -20,16 +31,7 @@ export const PathPage = ({
   setExpanded,
   setSession,
   navigate,
-}: {
-  progress: Progress;
-  nextLesson: Lesson;
-  completed: number;
-  progressPercent: number;
-  expanded: string;
-  setExpanded: (id: string) => void;
-  setSession: Session;
-  navigate: (target: Page) => void;
-}) => {
+}: Props) => {
   const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
 
   return (

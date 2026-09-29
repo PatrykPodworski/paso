@@ -1,6 +1,16 @@
 import { Icon } from "./Icon";
 import { navigation, type Page } from "./navigation";
 
+type Props = {
+  page: Page;
+  navigate: (target: Page) => void;
+  mobileNav: boolean;
+  closeNav: () => void;
+  mistakeCount: number;
+  name: string;
+  openSettings: () => void;
+};
+
 export const Sidebar = ({
   page,
   navigate,
@@ -9,15 +19,7 @@ export const Sidebar = ({
   mistakeCount,
   name,
   openSettings,
-}: {
-  page: Page;
-  navigate: (target: Page) => void;
-  mobileNav: boolean;
-  closeNav: () => void;
-  mistakeCount: number;
-  name: string;
-  openSettings: () => void;
-}) => (
+}: Props) => (
   <>
     {mobileNav && (
       <button className="nav-backdrop" onClick={() => closeNav()} aria-label="Close navigation" />

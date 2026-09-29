@@ -5,7 +5,7 @@ import { TextLink } from "../design-system/TextLink";
 import { allLessons, units } from "../data/curriculum";
 import type { Lesson, Progress } from "../data/types";
 import { JourneyArt } from "./Art";
-import { AudioButton } from "./Audio";
+import { AudioButton } from "./AudioButton";
 import { DailyGoal } from "./DailyGoal";
 import { Icon } from "./Icon";
 import type { Page } from "./navigation";
@@ -14,6 +14,20 @@ import { QuickPractice } from "./QuickPractice";
 import { SkillsPanel } from "./SkillsPanel";
 import { TodayHeading } from "./TodayHeading";
 import { UnitCard } from "./UnitCard";
+
+type Props = {
+  progress: Progress;
+  nextLesson: Lesson;
+  completed: number;
+  progressPercent: number;
+  mistakeCount: number;
+  expanded: string;
+  setExpanded: (id: string) => void;
+  setSession: Session;
+  openSettings: () => void;
+  navigate: (target: Page) => void;
+  practice: Practice;
+};
 
 export const TodayPage = ({
   progress,
@@ -27,19 +41,7 @@ export const TodayPage = ({
   openSettings,
   navigate,
   practice,
-}: {
-  progress: Progress;
-  nextLesson: Lesson;
-  completed: number;
-  progressPercent: number;
-  mistakeCount: number;
-  expanded: string;
-  setExpanded: (id: string) => void;
-  setSession: Session;
-  openSettings: () => void;
-  navigate: (target: Page) => void;
-  practice: Practice;
-}) => (
+}: Props) => (
   <>
     <TodayHeading progress={progress} openSettings={openSettings} />
     <div className="dashboard-grid">

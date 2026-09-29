@@ -1,13 +1,12 @@
 import { Icon } from "./Icon";
 import type { Practice } from "./practice";
 
-export const QuickPractice = ({
-  mistakeCount,
-  practice,
-}: {
+type Props = {
   mistakeCount: number;
   practice: Practice;
-}) => (
+};
+
+export const QuickPractice = ({ mistakeCount, practice }: Props) => (
   <div className="quick-practice">
     <button onClick={() => practice("listening")}>
       <span className="quick-icon lavender">

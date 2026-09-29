@@ -6,15 +6,13 @@ import { Icon } from "./Icon";
 import type { Page } from "./navigation";
 import { exerciseBank, skills, type Practice } from "./practice";
 
-export const SkillsPanel = ({
-  progress,
-  navigate,
-  practice,
-}: {
+type Props = {
   progress: Progress;
   navigate: (target: Page) => void;
   practice: Practice;
-}) => (
+};
+
+export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
   <Panel as="section" className="skills-panel">
     <PanelHeading title="A little of every skill">
       <Icon name="layers" size={17} />

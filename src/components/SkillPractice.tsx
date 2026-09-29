@@ -8,17 +8,14 @@ import type { Progress, Skill } from "../data/types";
 import { Icon } from "./Icon";
 import { skills, type Practice, type Session } from "./practice";
 
-export const SkillPractice = ({
-  progress,
-  filter,
-  setSession,
-  practice,
-}: {
+type Props = {
   progress: Progress;
   filter: Skill | "all";
   setSession: Session;
   practice: Practice;
-}) => (
+};
+
+export const SkillPractice = ({ progress, filter, setSession, practice }: Props) => (
   <>
     <Panel className="practice-hero">
       <div>

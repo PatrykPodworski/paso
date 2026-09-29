@@ -1,5 +1,6 @@
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
+import { SectionHeading } from "../design-system/SectionHeading";
 import { TextLink } from "../design-system/TextLink";
 import { allLessons, units } from "../data/curriculum";
 import type { Lesson, Progress } from "../data/types";
@@ -70,7 +71,7 @@ export const TodayPage = ({
           <JourneyArt />
           <span className="hero-footnote">POCO A POCO, PASO A PASO.</span>
         </section>
-        <div className="section-heading path-heading">
+        <SectionHeading variant="path">
           <div>
             <Eyebrow variant="heading" className="mb-[6px]">
               A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
@@ -84,7 +85,7 @@ export const TodayPage = ({
             View full path
             <Icon name="arrow" size={16} />
           </TextLink>
-        </div>
+        </SectionHeading>
         <div className="path-overview">
           <span>
             <b>{completed}</b> of {allLessons.length} lessons complete
@@ -111,10 +112,10 @@ export const TodayPage = ({
           Home, cafés, adventures & 6 more chapters
           <Icon name="arrow" size={16} />
         </button>
-        <div className="section-heading">
+        <SectionHeading>
           <h2>A little change of pace</h2>
           <span className="subtle">Make it yours</span>
-        </div>
+        </SectionHeading>
         <QuickPractice mistakeCount={mistakeCount} practice={practice} />
       </div>
       <aside className="dashboard-aside">

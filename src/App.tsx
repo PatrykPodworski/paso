@@ -19,6 +19,7 @@ import { Topbar } from "./components/Topbar";
 import { useNavigation } from "./components/useNavigation";
 import { usePersistedProgress } from "./components/usePersistedProgress";
 import { useToast } from "./components/useToast";
+import { Notice } from "./design-system/Notice";
 const App = () => {
   const [progress, setProgress, storageError] = usePersistedProgress();
   const { page, setPage, navigate, mobileNav, setMobileNav } = useNavigation();
@@ -143,10 +144,10 @@ const App = () => {
         />
         <main id="main-content" tabIndex={-1}>
           {storageError && (
-            <p className="notice" role="status">
+            <Notice as="p" role="status">
               Browser storage is unavailable. Progress is kept for this visit; use Export progress
               in preferences to save a copy.
-            </p>
+            </Notice>
           )}
           {pages[page]}
           <footer className="main-footer">

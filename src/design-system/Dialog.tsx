@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
 const BASE =
-  "border border-[#e0e6d5] rounded-[17px] p-0 text-green-dark bg-paper shadow-[0_25px_100px_#13261735] max-h-[92dvh] overscroll-contain max-tablet:max-h-[94dvh] max-tablet:rounded-[13px] backdrop:bg-[#20362cb0] backdrop:backdrop-blur-[5px]";
+  "border border-[#e0e6d5] rounded-2xl p-0 text-green-dark bg-paper shadow-[0_25px_100px_#13261735] max-h-[92dvh] overscroll-contain max-tablet:max-h-[94dvh] max-tablet:rounded-xl backdrop:bg-[#20362cb0] backdrop:backdrop-blur-xs";
 
 type Props = {
   children: ReactNode;

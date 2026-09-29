@@ -354,7 +354,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <li
                 key={topic}
                 tabIndex={-1}
-                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t"
+                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
               >
                 <span className="flex items-center gap-2 font-semibold">
                   <span id={`topic-${index}`}>{topic}</span>

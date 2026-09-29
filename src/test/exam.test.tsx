@@ -24,10 +24,10 @@ const seed = (patch: Record<string, unknown> = {}) =>
 
 const state = () => JSON.parse(localStorage.getItem(KEY)!);
 
-const mount = () => {
+const mount = (progress = emptyProgress()) => {
   const onResult = vi.fn();
 
-  return { ...render(<MockExam progress={emptyProgress()} onResult={onResult} />), onResult };
+  return { ...render(<MockExam progress={progress} onResult={onResult} />), onResult };
 };
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
@@ -369,4 +369,153 @@ it("exports objective scores with all responses and revokes the temporary URL", 
   expect(click).toHaveBeenCalledOnce();
   act(() => vi.advanceTimersByTime(1000));
   expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:exam");
+});
+
+describe("exam rehearsal views", () => {
+  it("introduces every section and lists previous rehearsals newest first", () => {
+    mount({
+      ...emptyProgress(),
+      mockResults: [
+        { at: "2026-01-05T10:00:00Z", reading: 10, listening: 12 },
+        { at: "2026-02-05T10:00:00Z", reading: 20, listening: 22 },
+      ],
+    });
+
+    expect(screen.getAllByText("25 questions · 4 tasks")).toHaveLength(2);
+    expect(screen.getByText("2 tasks")).toBeInTheDocument();
+    expect(screen.getByText("3 tasks")).toBeInTheDocument();
+
+    expect(screen.getAllByText(/^Reading \d+\/25$/).map((e) => e.textContent)).toEqual([
+      "Reading 20/25",
+      "Reading 10/25",
+    ]);
+
+    expect(screen.getAllByText(/^Listening \d+\/25$/).map((e) => e.textContent)).toEqual([
+      "Listening 22/25",
+      "Listening 12/25",
+    ]);
+
+    expect(screen.queryByRole("timer")).not.toBeInTheDocument();
+  });
+
+  it("hides the history panel before the first rehearsal", () => {
+    mount();
+
+    expect(
+      screen.queryByRole("heading", { name: "Your previous rehearsals" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("marks finished sections and turns the timer urgent under two minutes", () => {
+    seed({ section: 2, deadline: now + 120000 });
+    const { container } = mount();
+
+    expect(container.querySelector(".exam-steps")).toHaveTextContent(
+      "✓Reading✓Listening3Writing4Speaking",
+    );
+
+    expect(container.querySelectorAll(".exam-steps .done")).toHaveLength(2);
+    expect(container.querySelector(".exam-steps .active")).toHaveTextContent("3Writing");
+    expect(screen.getByRole("timer")).toHaveTextContent("02:00");
+    expect(screen.getByRole("timer")).not.toHaveClass("urgent");
+    act(() => vi.advanceTimersByTime(1000));
+    expect(screen.getByRole("timer")).toHaveTextContent("01:59");
+    expect(screen.getByRole("timer")).toHaveClass("urgent");
+  });
+
+  it("shows the task and position within the section", () => {
+    const q = mockSections[0].questions[3];
+
+    seed({ index: 3 });
+    mount();
+    expect(screen.getByText("4 / 25")).toBeInTheDocument();
+    expect(screen.getAllByText(q.task!).length).toBeGreaterThan(0);
+    click("← Previous question");
+    expect(screen.getByText("3 / 25")).toBeInTheDocument();
+  });
+
+  it("shows only the first two speaking tasks and restores saved notes while preparing", () => {
+    const [s1, s2, s3] = mockSections[3].questions;
+
+    seed({ section: 3, stage: "prep", deadline: now + 600000, drafts: { prep: "mis notas" } });
+    mount();
+    expect(screen.getByText(s1.prompt)).toBeInTheDocument();
+    expect(screen.getByText(s2.prompt)).toBeInTheDocument();
+    expect(screen.queryByText(s3.prompt)).not.toBeInTheDocument();
+
+    expect(screen.getByRole("textbox", { name: "Your preparation notes" })).toHaveValue(
+      "mis notas",
+    );
+  });
+
+  it("reviews listening with transcripts and continues to a 25-minute writing section", () => {
+    const q = mockSections[1].questions[0];
+
+    seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
+    mount();
+    expect(screen.getByRole("heading", { name: "1 out of 25." })).toBeInTheDocument();
+    expect(screen.getAllByText(/^Transcript: /)).toHaveLength(25);
+    expect(screen.getAllByText(/^Correct answer:/)).toHaveLength(25);
+    expect(screen.getAllByText("Not answered")).toHaveLength(24);
+    click("Continue to writing");
+
+    expect(state()).toMatchObject({
+      section: 2,
+      index: 0,
+      stage: "run",
+      deadline: now + 25 * 60000,
+    });
+
+    expect(screen.getByRole("timer")).toHaveTextContent("25:00");
+  });
+
+  it("reviews writing against model responses, word targets and self-checks", () => {
+    const [form, letter] = mockSections[2].questions;
+
+    seed({
+      section: 2,
+      stage: "review",
+      answers: {
+        [form.id]: "Nombre y apellidos: Ana Ruiz\nCiudad: Madrid",
+        [letter.id]: "Hola Ana, nos vemos",
+      },
+    });
+
+    mount();
+
+    expect(
+      screen.getByRole("heading", { name: "Your practice is ready to review." }),
+    ).toBeInTheDocument();
+
+    expect(screen.getByText(/Open responses require human judgment/)).toBeInTheDocument();
+    expect(screen.getAllByText(/^One possible response:/)).toHaveLength(2);
+    expect(screen.getByText("Response length: 3 words. Target: 15–25.")).toBeInTheDocument();
+    expect(screen.getByText("Response length: 4 words. Target: 30–40.")).toBeInTheDocument();
+
+    for (const check of letter.checklist!) {
+      expect(screen.getByText(`□ ${check}`)).toBeInTheDocument();
+    }
+
+    expect(screen.queryByText(/^Transcript: /)).not.toBeInTheDocument();
+  });
+
+  it("keeps the results page after the last deadline has passed", () => {
+    seed({ section: 3, stage: "done", deadline: now - 1 });
+    mount();
+    act(() => vi.advanceTimersByTime(3000));
+    expect(state().stage).toBe("done");
+    expect(screen.getByRole("heading", { name: "You’ve met the exam." })).toBeInTheDocument();
+  });
+
+  it("shows the objective scores on the results page", () => {
+    const answers = Object.fromEntries(
+      mockSections[0].questions.slice(0, 3).map((q) => [q.id, q.answer]),
+    );
+
+    seed({ section: 3, stage: "done", answers });
+    mount();
+    expect(screen.getByText("Reading").parentElement).toHaveTextContent("Reading3/25");
+    expect(screen.getByText("Listening").parentElement).toHaveTextContent("Listening0/25");
+    expect(screen.queryByRole("timer")).not.toBeInTheDocument();
+  });
 });

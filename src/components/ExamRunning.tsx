@@ -1,68 +1,57 @@
-import { Button } from "../design-system/Button";
 import { Panel } from "../design-system/Panel";
+import { Button } from "../design-system/Button";
 import { TextLink } from "../design-system/TextLink";
 import { mockSections } from "../data/mock";
 import { stopAudio } from "./playback";
 import { QuestionCard } from "./QuestionCard";
+import type { Run, SetRun } from "./useMockRun";
 
 type Props = {
-  sectionIndex: number;
-  index: number;
-  answers: Record<string, string>;
-  drafts: Record<string, string>;
+  run: Run;
+  setRun: SetRun;
   confirm: boolean;
-  onDraft: (id: string, text: string) => void;
-  onAnswer: (id: string, answer: string) => void;
-  onMove: (step: number) => void;
-  onConfirm: (open: boolean) => void;
+  setConfirm: (confirm: boolean) => void;
   onEnd: () => void;
 };
 
-export const ExamRunning = ({
-  sectionIndex,
-  index,
-  answers,
-  drafts,
-  confirm,
-  onDraft,
-  onAnswer,
-  onMove,
-  onConfirm,
-  onEnd,
-}: Props) => {
-  const section = mockSections[sectionIndex];
-  const q = section.questions[index];
-  const last = index === section.questions.length - 1;
+export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) => {
+  const section = mockSections[run.section];
+  const q = section.questions[run.index];
 
   return (
     <Panel className="exam-running">
       <div className="exam-question-nav">
         <span>{q.task}</span>
         <strong>
-          {index + 1} / {section.questions.length}
+          {run.index + 1} / {section.questions.length}
         </strong>
       </div>
       <QuestionCard
-        key={`${sectionIndex}-${index}`}
+        key={`${run.section}-${run.index}`}
         q={q}
         exam
-        draft={drafts[q.id] ?? answers[q.id] ?? ""}
-        onDraft={(text) => onDraft(q.id, text)}
+        draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
+        onDraft={(text) => setRun((r) => ({ ...r, drafts: { ...r.drafts, [q.id]: text } }))}
         onSubmit={(answer) => {
           stopAudio();
-          onAnswer(q.id, answer);
 
-          if (last) {
-            onConfirm(true);
+          setRun((r) => ({
+            ...r,
+            answers: { ...r.answers, [q.id]: answer },
+            index: Math.min(r.index + 1, section.questions.length - 1),
+          }));
+
+          if (run.index === section.questions.length - 1) {
+            setConfirm(true);
           }
         }}
       />
       <div className="exam-navigation">
         <TextLink
-          disabled={index === 0}
+          disabled={run.index === 0}
           onClick={() => {
             stopAudio();
-            onMove(-1);
+            setRun((r) => ({ ...r, index: r.index - 1 }));
           }}
         >
           ← Previous question
@@ -71,10 +60,10 @@ export const ExamRunning = ({
           onClick={() => {
             stopAudio();
 
-            if (last) {
-              onConfirm(true);
+            if (run.index === section.questions.length - 1) {
+              setConfirm(true);
             } else {
-              onMove(1);
+              setRun((r) => ({ ...r, index: r.index + 1 }));
             }
           }}
         >
@@ -84,7 +73,7 @@ export const ExamRunning = ({
           variant="secondary"
           size="small"
           className="max-tablet:w-full"
-          onClick={() => onConfirm(true)}
+          onClick={() => setConfirm(true)}
         >
           Finish section
         </Button>
@@ -93,11 +82,11 @@ export const ExamRunning = ({
         <div className="finish-confirm" role="alert">
           <h3>Finish {section.title.toLowerCase()}?</h3>
           <p>
-            {section.questions.filter((q) => !answers[q.id]).length} unanswered. After finishing,
-            answers in this section cannot be changed.
+            {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
+            finishing, answers in this section cannot be changed.
           </p>
           <div className="button-row">
-            <Button variant="secondary" onClick={() => onConfirm(false)}>
+            <Button variant="secondary" onClick={() => setConfirm(false)}>
               Keep working
             </Button>
             <Button variant="primary" onClick={onEnd}>

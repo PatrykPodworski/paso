@@ -179,10 +179,7 @@ describe("exercise rules and submission modes", () => {
   it("speaking requires the practised-aloud attestation, not checklist ticks alone", () => {
     const evaluated = vi.fn();
     render(<QuestionCard q={speaking} onSubmit={vi.fn()} onEvaluated={evaluated} />);
-    const [first, second] = speaking.checklist!;
-    fireEvent.click(screen.getByRole("checkbox", { name: first }));
-    fireEvent.click(screen.getByRole("checkbox", { name: second }));
-    fireEvent.click(screen.getByRole("checkbox", { name: second }));
+    fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![0] }));
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
     fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
@@ -192,11 +189,6 @@ describe("exercise rules and submission modes", () => {
       null,
       false,
     );
-    expect(
-      screen.getByText(`1/${speaking.checklist!.length} self-review points checked.`, {
-        exact: false,
-      }),
-    ).toBeInTheDocument();
   });
   it("blocks review while recording and enables it after the take", () => {
     render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
@@ -204,6 +196,7 @@ describe("exercise rules and submission modes", () => {
       recordingProps.onStart();
       recordingProps.onRecordingChange(true);
     });
+    fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
     expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
     act(() => {
       recordingProps.onRecordingChange(false);

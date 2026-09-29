@@ -1,4 +1,5 @@
 import type { Question } from "../data/types";
+
 export const WritingArea = ({
   q,
   answer,
@@ -52,9 +53,12 @@ export const WritingArea = ({
               const el = document.getElementById("written-answer") as
                 | HTMLInputElement
                 | HTMLTextAreaElement;
+
               const start = el?.selectionStart ?? answer.length;
               const end = el?.selectionEnd ?? start;
+
               setText(answer.slice(0, start) + c + answer.slice(end));
+
               requestAnimationFrame(() => {
                 el?.focus();
                 el?.setSelectionRange(start + 1, start + 1);

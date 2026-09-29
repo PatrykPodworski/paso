@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 // context the old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
 const TITLE =
   "[&_h2]:text-[25px] max-desktop:[&_h2]:text-[22px] max-tablet:[&_h2]:text-[25px] max-phone:[&_h2]:text-[23px]";
+
 const TEXT = "[&_p]:mt-[5px] [&_p]:text-[14px] [&_p]:text-[#75816b]";
+
 const VARIANT = {
   default: `mt-[28px] max-tablet:mt-[26px] gap-[16px] max-phone:gap-[12px] ${TEXT}`,
   path: `mt-[30px] max-tablet:mt-[26px] gap-[16px] max-phone:gap-[12px] ${TEXT}`,

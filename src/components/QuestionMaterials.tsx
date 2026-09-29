@@ -4,6 +4,7 @@ import type { Ref } from "react";
 import type { Question } from "../data/types";
 import { AudioButton } from "./Audio";
 import type { AudioHandle } from "./Audio";
+
 export const QuestionMaterials = ({
   q,
   exam,
@@ -16,6 +17,7 @@ export const QuestionMaterials = ({
   onTranscript: () => void;
 }) => {
   const [transcript, setTranscript] = useState(false);
+
   return (
     <>
       {q.image && (

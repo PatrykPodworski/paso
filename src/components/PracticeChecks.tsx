@@ -2,6 +2,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import type { Question } from "../data/types";
 import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
+
 export const PracticeChecks = ({
   q,
   exam,
@@ -16,6 +17,7 @@ export const PracticeChecks = ({
   onStart: () => void;
 }) => {
   const ticked = new Set(practice.checks);
+
   return (
     <>
       {q.kind === "speak" && (

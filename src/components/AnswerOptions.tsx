@@ -1,4 +1,5 @@
 import { Icon } from "./Icon";
+
 export const AnswerOptions = ({
   options,
   correctAnswer,
@@ -15,11 +16,13 @@ export const AnswerOptions = ({
   onChoose: (option: string) => void;
 }) => {
   const wrong = feedback && correct === false;
+
   return (
     <div className={`answer-options ${options.length > 4 ? "many-options" : ""}`}>
       {options.map((option, i) => {
         const picked = answer === option;
         const right = feedback && option === correctAnswer;
+
         return (
           <button
             type="button"

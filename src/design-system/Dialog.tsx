@@ -16,16 +16,20 @@ export const Dialog = ({
   className?: string;
 }) => {
   const ref = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
     const el = ref.current;
     // Native restore on close() does not fire: React removes the node first.
     const active = document.activeElement as HTMLElement | null;
+
     el?.showModal();
+
     return () => {
       el?.close();
       active?.focus();
     };
   }, []);
+
   return (
     <dialog
       ref={ref}

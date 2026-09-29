@@ -13,6 +13,7 @@ import { QuestionMaterials } from "./QuestionMaterials";
 import { SentenceBuilder } from "./SentenceBuilder";
 import { useAnswer } from "./useAnswer";
 import { WritingArea } from "./WritingArea";
+
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -35,19 +36,26 @@ export const QuestionCard = ({
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
   const { answer, setText, selected, productive, value, submission, correct, words, canSubmit } = a;
+
   const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
+
     if (!valid || feedback) {
       return;
     }
+
     const submitted = choice ?? submission;
     const result = choice ? isCorrect(q, choice) : correct;
+
     if (exam) {
       onSubmit(submitted, result, assisted);
+
       return;
     }
+
     onEvaluated?.(submitted, result, assisted);
     setFeedback(true);
+
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
     // A tapped word is already speaking, so wait for it and read the sentence
@@ -55,6 +63,7 @@ export const QuestionCard = ({
     // to must not be cut off by the model at all.
     if (q.kind !== "listen" && !passageAudio.current?.playing()) {
       const player = q.audio ? listeningAudio : answerAudio;
+
       if (after) {
         void after.then(() => player.current?.play());
       } else {
@@ -62,27 +71,35 @@ export const QuestionCard = ({
       }
     }
   };
+
   const pickToken = (i: number) => {
     const spoken = playWord(q.tokens![i]);
     const next = [...selected, i];
+
     a.setSelected(next);
     const sentence = next.map((j) => q.tokens![j]).join(" ");
+
     if (next.length === q.tokens!.length && isCorrect(q, sentence)) {
       submit(sentence, spoken);
     }
   };
+
   // Number keys answer the question, mirroring the badges on each button.
   // ponytail: re-subscribed every render so the handler reads current state.
   useEffect(() => {
     const handle = (e: KeyboardEvent) => {
       const typing = document.activeElement?.closest("input, textarea");
+
       if (e.metaKey || e.ctrlKey || e.altKey || feedback || typing) {
         return;
       }
+
       const i = Number(e.key) - 1;
+
       if (!Number.isInteger(i) || i < 0) {
         return;
       }
+
       if (q.options?.[i] !== undefined) {
         e.preventDefault();
         setText(q.options[i]);
@@ -92,9 +109,12 @@ export const QuestionCard = ({
         pickToken(i);
       }
     };
+
     window.addEventListener("keydown", handle);
+
     return () => window.removeEventListener("keydown", handle);
   });
+
   return (
     <div className="question-card">
       <QuestionHeading

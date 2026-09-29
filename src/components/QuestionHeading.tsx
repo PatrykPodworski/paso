@@ -3,6 +3,7 @@ import type { Ref } from "react";
 import type { Question } from "../data/types";
 import { AudioButton } from "./Audio";
 import type { AudioHandle } from "./Audio";
+
 const QuestionKind = ({ q, productive }: { q: Question; productive: boolean }) => (
   <div className="question-kind">
     <span className={`skill-dot ${q.skill}`} />
@@ -16,6 +17,7 @@ const QuestionKind = ({ q, productive }: { q: Question; productive: boolean }) =
           : "A small step forward"}
   </div>
 );
+
 export const QuestionHeading = ({
   q,
   exam,
@@ -32,14 +34,18 @@ export const QuestionHeading = ({
   answerAudio: Ref<AudioHandle>;
 }) => {
   const heading = useRef<HTMLHeadingElement>(null);
+
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
     const dialog = heading.current?.closest("dialog");
+
     if (dialog) {
       dialog.scrollTop = 0;
     }
   }, [q.id]);
+
   const pronunciation = q.pronunciation || q.audio || q.passage || q.answer;
+
   return (
     <>
       <QuestionKind q={q} productive={productive} />

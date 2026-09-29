@@ -5,9 +5,11 @@ import { countWords, writingHints } from "../data/progress";
 import type { Question } from "../data/types";
 import { Icon } from "./Icon";
 import { MemoryHint } from "./MemoryHint";
+
 const WritingNotes = ({ q, value }: { q: Question; value: string }) => {
   const words = countWords(value);
   const hints = writingHints(value);
+
   return (
     <div className="writing-notes">
       <p>
@@ -31,6 +33,7 @@ const WritingNotes = ({ q, value }: { q: Question; value: string }) => {
     </div>
   );
 };
+
 const PracticeReview = ({ q, value, checked }: { q: Question; value: string; checked: number }) => (
   <>
     <div className="model-answer">
@@ -44,6 +47,7 @@ const PracticeReview = ({ q, value, checked }: { q: Question; value: string; che
     </FieldNote>
   </>
 );
+
 const FeedbackBottom = ({
   correct,
   productive,
@@ -91,6 +95,7 @@ const FeedbackBottom = ({
     </Button>
   </div>
 );
+
 export const QuestionFeedback = ({
   q,
   correct,

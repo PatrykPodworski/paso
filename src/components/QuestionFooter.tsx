@@ -1,6 +1,7 @@
 import { Button } from "../design-system/Button";
 import type { Question } from "../data/types";
 import { Icon } from "./Icon";
+
 export const QuestionFooter = ({
   exam,
   productive,
@@ -15,6 +16,7 @@ export const QuestionFooter = ({
   onCheck: () => void;
 }) => {
   const singleChoice = kind === "choice" || kind === "listen";
+
   return (
     <div className="question-footer">
       <span>

@@ -8,6 +8,7 @@ import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "./Audio";
 import { FieldNote } from "../design-system/FieldNote";
 import { COMPLETION_STATS } from "./PocketVocabulary";
+
 export const LessonSession = ({
   lesson,
   progress,
@@ -31,25 +32,33 @@ export const LessonSession = ({
   const question = lesson.questions[index];
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
+
   const close = () => {
     stopAudio();
+
     if (index > 0 && !finished) {
       setConfirmExit(true);
     } else {
       onClose();
     }
   };
+
   const submit = (answer: string, correct: boolean | null, help: boolean) => {
     void answer;
+
     // A reading passage keeps playing across the questions that share it.
     if (!question.passage || lesson.questions[index + 1]?.passage !== question.passage) {
       stopAudio();
     }
+
     const next = [...results, correct];
+
     setResults(next);
+
     if (help) {
       setAssisted((a) => a + 1);
     }
+
     if (index === lesson.questions.length - 1) {
       setFinished(true);
       onComplete(next.filter((r) => r === true).length, next.filter((r) => r !== null).length);
@@ -57,6 +66,7 @@ export const LessonSession = ({
       setIndex((i) => i + 1);
     }
   };
+
   return (
     <Dialog
       label={lesson.title}
@@ -144,6 +154,7 @@ export const LessonSession = ({
             onSubmit={submit}
             onEvaluated={(answer, correct, assisted) => {
               const q = lesson.questions[index];
+
               onAttempt({
                 id: crypto.randomUUID(),
                 questionId: q.id,

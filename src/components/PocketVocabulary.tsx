@@ -3,7 +3,7 @@ import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
-import { type Card, deckCards, topicCounts, topics } from "../data/topics";
+import { type Card, WORDS_PER_ADD, addWords, deckCards, topicCounts, topics } from "../data/topics";
 import type { Progress } from "../data/types";
 import { AudioButton } from "./AudioButton";
 import { stopAudio } from "./playback";
@@ -16,6 +16,7 @@ type Review = Progress["vocabularyReviews"][string];
 type Props = {
   progress: Progress;
   onReview: (word: string, review: Review) => void;
+  onAddWords: (entries: Progress["vocabularyReviews"]) => void;
   onLearn: () => void;
 };
 
@@ -49,7 +50,7 @@ const reviewWait = (at: string, now: Date) => {
   return `in ${days} ${days === 1 ? "day" : "days"}`;
 };
 
-type VocabularySessionProps = Omit<Props, "onLearn"> & {
+type VocabularySessionProps = Omit<Props, "onLearn" | "onAddWords"> & {
   words: Card[];
   onClose: () => void;
 };
@@ -243,7 +244,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
   );
 };
 
-export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
+export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Props) => {
   const [search, setSearch] = useState("");
   const [session, setSession] = useState<Card[] | null>(null);
   const [now, setNow] = useState(() => new Date());
@@ -338,7 +339,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
             </h3>
             <p>
               {!words.length
-                ? "Complete a vocabulary lesson to unlock all of its flashcards."
+                ? "Add words from a topic below or complete a vocabulary lesson."
                 : due.length
                   ? `${due.length} ${due.length === 1 ? "card is" : "cards are"} ready, including ${newCount} new. One at a time, at your pace.`
                   : "Your cards will return when it’s time to practise again."}
@@ -368,29 +369,49 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
       <section className="mt-6" aria-labelledby="topics-title">
         <h3 id="topics-title">Topics</h3>
         <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
-          {topics.map(({ topic, optional, cards }) => {
+          {topics.map(({ topic, optional, cards }, index) => {
             const counts = topicCounts(cards, progress);
+            const adding = Math.min(WORDS_PER_ADD, counts.new);
 
             return (
               <li
                 key={topic}
-                className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t"
+                tabIndex={-1}
+                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
               >
                 <span className="flex items-center gap-2 font-semibold">
-                  <span>{topic}</span>
+                  <span id={`topic-${index}`}>{topic}</span>
                   {optional && (
                     <span className="rounded-full border border-line px-2 text-xs font-normal text-muted">
                       Optional
                     </span>
                   )}
                 </span>
-                <span className="flex gap-3 text-xs text-muted">
+                <span className="flex gap-3 text-xs text-muted max-[651px]:col-span-2">
                   {(["total", "learning", "new", "known"] as const).map((key) => (
                     <span key={key}>
                       {counts[key]} {key}
                     </span>
                   ))}
                 </span>
+                <Button
+                  variant="secondary"
+                  size="small"
+                  className="col-start-2 row-start-1 row-end-3 max-[651px]:row-end-2"
+                  disabled={!adding}
+                  aria-describedby={`topic-${index}`}
+                  onClick={(e) => {
+                    onAddWords(addWords(cards, progress));
+                    setNow(new Date());
+
+                    // Disabling the focused button would drop focus to <body>.
+                    if (adding === counts.new) {
+                      e.currentTarget.closest("li")!.focus();
+                    }
+                  }}
+                >
+                  {adding ? `Add ${adding} ${adding === 1 ? "word" : "words"}` : "All added"}
+                </Button>
               </li>
             );
           })}
@@ -419,6 +440,7 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
+                const isNew = isDue && !entry?.reviewedAt;
 
                 return (
                   <li
@@ -434,13 +456,13 @@ export const PocketVocabulary = ({ progress, onReview, onLearn }: Props) => {
                     </span>
                     <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-[651px]:col-[2] max-[651px]:row-[1/3]">
                       <strong className={isDue ? "text-(--green)" : ""}>
-                        {isDue
-                          ? entry
+                        {isNew
+                          ? "New · ready now"
+                          : isDue
                             ? "Due now"
-                            : "New · ready now"
-                          : `Review ${reviewWait(entry.nextAt, now)}`}
+                            : `Review ${reviewWait(entry.nextAt, now)}`}
                       </strong>
-                      {entry && <time dateTime={entry.nextAt}>{reviewDate(entry.nextAt)}</time>}
+                      {!isNew && <time dateTime={entry.nextAt}>{reviewDate(entry.nextAt)}</time>}
                     </span>
                   </li>
                 );

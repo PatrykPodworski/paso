@@ -78,6 +78,12 @@ export const PracticePage = ({
           vocabularyReviews: { ...p.vocabularyReviews, [word]: review },
         }))
       }
+      onAddWords={(entries) =>
+        setProgress((p) => ({
+          ...p,
+          vocabularyReviews: { ...p.vocabularyReviews, ...entries },
+        }))
+      }
       onLearn={() => navigate("path")}
     />
   </>

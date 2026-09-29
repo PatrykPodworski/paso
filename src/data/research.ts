@@ -56,6 +56,7 @@ export const sources = [
     url: "https://cvc.cervantes.es/ensenanza/biblioteca_ele/plan_curricular/indice.htm",
   },
 ];
+
 export const requirementGroups = [
   {
     title: "Understand and communicate",

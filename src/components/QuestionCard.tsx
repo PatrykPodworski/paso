@@ -79,7 +79,7 @@ export const QuestionCard = ({
   const hints = writingHints(value);
   const canSubmit =
     q.kind === "speak"
-      ? !recording && (spoken || checks.length > 0)
+      ? !recording && spoken
       : q.kind === "form"
         ? q.fields?.every((f) => fieldValues[f.label]?.trim())
         : q.kind === "order"

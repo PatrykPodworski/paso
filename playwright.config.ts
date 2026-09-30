@@ -1,6 +1,9 @@
 import { defineConfig } from "@playwright/test";
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 
+// Parallel worktrees each set their own PW_PORT; CI leaves it unset.
+const port = process.env.PW_PORT ?? "4174";
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
@@ -23,7 +26,7 @@ export default defineConfig({
     ],
   ],
   use: {
-    baseURL: "http://127.0.0.1:4174",
+    baseURL: `http://127.0.0.1:${port}`,
     locale: "en-GB",
     timezoneId: "Europe/Warsaw",
     colorScheme: "light",
@@ -56,8 +59,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm dev --port 4174 --strictPort",
-    url: "http://127.0.0.1:4174",
+    command: `pnpm dev --port ${port} --strictPort`,
+    url: `http://127.0.0.1:${port}`,
     reuseExistingServer: false,
     timeout: 30000,
   },

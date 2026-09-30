@@ -8,6 +8,21 @@ import { MemoryHint } from "../MemoryHint";
 
 const NOTE = "text-[14px] leading-[1.8] text-[#63784e] mt-[8px]";
 
+const TONE = {
+  success: {
+    box: "border-[#dce5cc] bg-[#f1f6e8]",
+    icon: "bg-[#e0ebd1] text-[#8ba768]",
+    heading: "text-[#6f8a52]",
+    paragraph: "text-[#63784e]",
+  },
+  needsWork: {
+    box: "border-[#ead7b9] bg-[#faf1e3]",
+    icon: "bg-[#f1dfc5] text-[#bf955f]",
+    heading: "text-[#aa7b4a]",
+    paragraph: "text-[#8d6d48]",
+  },
+};
+
 type WritingNotesProps = { q: Question; value: string };
 
 const WritingNotes = ({ q, value }: WritingNotesProps) => {
@@ -131,28 +146,21 @@ export const QuestionFeedback = ({
   onContinue,
 }: Props) => {
   const needsWork = correct === false;
-  const paragraph = `text-[14px] leading-[1.8] mt-[13px] ${needsWork ? "text-[#8d6d48]" : "text-[#63784e]"}`;
+  const tone = needsWork ? TONE.needsWork : TONE.success;
+  const paragraph = `text-[14px] leading-[1.8] mt-[13px] ${tone.paragraph}`;
 
   return (
     <div
-      className={`feedback rounded-[10px] border p-[22px] mt-[24px] max-tablet:p-[20px_17px] ${
-        needsWork ? "border-[#ead7b9] bg-[#faf1e3]" : "border-[#dce5cc] bg-[#f1f6e8]"
-      }`}
+      className={`feedback rounded-[10px] border p-[22px] mt-[24px] max-tablet:p-[20px_17px] ${tone.box}`}
       role="status"
     >
       <div className="flex items-center gap-[10px]">
         <span
-          className={`flex h-[30px] w-[30px] items-center justify-center rounded-full ${
-            needsWork ? "bg-[#f1dfc5] text-[#bf955f]" : "bg-[#e0ebd1] text-[#8ba768]"
-          }`}
+          className={`flex h-[30px] w-[30px] items-center justify-center rounded-full ${tone.icon}`}
         >
           <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
         </span>
-        <h3
-          className={`text-[16px] max-tablet:text-[15px] max-phone:text-[14px] ${
-            needsWork ? "text-[#aa7b4a]" : "text-[#6f8a52]"
-          }`}
-        >
+        <h3 className={`text-[16px] max-tablet:text-[15px] max-phone:text-[14px] ${tone.heading}`}>
           {productive
             ? "Let’s reflect on your answer"
             : correct

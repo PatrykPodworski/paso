@@ -15,6 +15,11 @@ import { SentenceBuilder } from "./SentenceBuilder";
 import { useAnswer } from "./useAnswer";
 import { WritingArea } from "./WritingArea";
 
+const cardPadding = (exam: boolean) =>
+  exam
+    ? "p-[26px_0_0] max-tablet:p-[20px_0_0]"
+    : "p-[29px_36px_30px] max-tablet:p-[25px_22px] max-phone:p-[22px_18px]";
+
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
@@ -119,13 +124,7 @@ export const QuestionCard = ({
   });
 
   return (
-    <div
-      className={
-        exam
-          ? "p-[26px_0_0] max-tablet:p-[20px_0_0]"
-          : "p-[29px_36px_30px] max-tablet:p-[25px_22px] max-phone:p-[22px_18px]"
-      }
-    >
+    <div className={cardPadding(exam)}>
       <QuestionHeading
         q={q}
         exam={exam}

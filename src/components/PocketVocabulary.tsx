@@ -112,7 +112,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </span>
       </header>
       <div
-        className="lesson-progress"
+        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s]"
         role="progressbar"
         aria-label="Flashcards reviewed"
         aria-valuemin={0}
@@ -122,7 +122,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         <div style={{ width: `${(results.length / words.length) * 100}%` }} />
       </div>
       {result && (
-        <div className="flashcard-last-review" role="status">
+        <div
+          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-[#59675d] bg-(--sage)"
+          role="status"
+        >
           <strong lang="es">{words[index - 1].es}</strong>
           <span>
             Available to review {reviewWait(result.review.nextAt, now)} ·{" "}
@@ -172,13 +175,19 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
-            <div className="flashcard-answer">
+            <div className="flashcard-answer mt-[20px] p-[20px] rounded-[12px] bg-(--sage)">
               <Eyebrow>THE MEANING</Eyebrow>
-              <h3 lang="en">{word.en}</h3>
+              <h3 lang="en" className="font-(family-name:--serif) text-[26px] mt-[8px]">
+                {word.en}
+              </h3>
               {word.example && (
-                <div className="flashcard-example">
-                  <p lang="es">{word.example.es}</p>
-                  <p lang="en">{word.example.en}</p>
+                <div className="flashcard-example mt-[16px]">
+                  <p lang="es" className="text-[16px] leading-[1.6]">
+                    {word.example.es}
+                  </p>
+                  <p lang="en" className="text-[14px] leading-[1.6] text-[#59675d]">
+                    {word.example.en}
+                  </p>
                   {/* Starting this clip stops the word clip through stopAudio(). */}
                   <AudioButton
                     text={word.example.es}
@@ -192,7 +201,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </div>
           )}
           {!revealed ? (
-            <div className="flashcard-actions">
+            <div className="flex flex-col gap-[16px] mt-[24px] [&>p]:text-[14px] [&>p]:text-[#59675d] [&>p]:leading-[1.6]">
               <p>Say the meaning to yourself, then reveal the answer.</p>
               <Button
                 ref={action}
@@ -206,9 +215,9 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
               </Button>
             </div>
           ) : (
-            <div className="flashcard-actions">
+            <div className="flex flex-col gap-[16px] mt-[24px] [&>p]:text-[14px] [&>p]:text-[#59675d] [&>p]:leading-[1.6]">
               <p>Did you get it right? Choose when this card returns.</p>
-              <div className="flashcard-ratings">
+              <div className="grid grid-cols-[1fr_1fr] gap-[12px] [&_small]:block [&_small]:mt-[5px] [&_small]:text-[12px] [&_small]:font-normal">
                 <Button
                   ref={action}
                   variant="secondary"
@@ -235,7 +244,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
               </div>
             </div>
           )}
-          <p className="flashcard-save-note">
+          <p className="text-center text-[12px] leading-[1.6] text-[#59675d] mt-[20px]">
             Your choices are saved as you go. You can leave at any time.
           </p>
         </div>
@@ -309,7 +318,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           <Icon name="layers" size={28} />
         </span>
       </SectionHeading>
-      <div className="vocabulary-overview">
+      <div className="border border-(--line) rounded-[16px] overflow-hidden bg-(--paper)">
         <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-(--line) max-[651px]:grid-cols-[repeat(2,1fr)]">
           {[
             [due.length, "To review"],
@@ -447,9 +456,16 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                     key={w.id}
                     className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-(--line) [&+&]:border-t max-[651px]:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-[651px]:p-[16px] max-[651px]:gap-[8px_12px]"
                   >
-                    <span className="vocabulary-word">
-                      <strong lang="es">{w.es}</strong>
-                      <span lang="en">{w.en}</span>
+                    <span className="flex flex-col gap-[5px]">
+                      <strong
+                        lang="es"
+                        className="font-(family-name:--serif) text-[18px] wrap-anywhere"
+                      >
+                        {w.es}
+                      </strong>
+                      <span lang="en" className="text-[12px] text-[#59675d]">
+                        {w.en}
+                      </span>
                     </span>
                     <span className="text-[12px] text-[#59675d] max-[651px]:col-[1] max-[651px]:row-[2]">
                       {w.topic}
@@ -469,10 +485,10 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               })}
             </ul>
           ) : (
-            <div className="empty-state">
-              <Icon name="search" />
+            <div className="text-center p-[40px] text-[#91a07d]">
+              <Icon name="search" className="mb-[15px]" />
               <h3>No word found yet.</h3>
-              <p>Try a Spanish word or its English meaning.</p>
+              <p className="text-[14px] m-[10px_0]">Try a Spanish word or its English meaning.</p>
               <TextLink onClick={() => setSearch("")}>Clear search</TextLink>
             </div>
           )}

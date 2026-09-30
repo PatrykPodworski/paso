@@ -1,3 +1,4 @@
+import { TONE } from "./tone";
 import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, Progress, Unit } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
@@ -27,7 +28,7 @@ export const UnitCard = ({
   return (
     <article className={`unit-card ${expanded ? "expanded" : ""}`}>
       <button type="button" className="unit-summary" onClick={onExpand} aria-expanded={expanded}>
-        <div className={`unit-icon ${unit.color}`}>
+        <div className={`unit-icon ${TONE[unit.color]}`}>
           <Icon name={unit.icon} size={25} />
         </div>
         <div className="unit-info">

@@ -1,3 +1,4 @@
+import { TONE } from "../tone";
 import { Icon } from "../../design-system/Icon";
 import type { Practice } from "../practice";
 
@@ -9,7 +10,7 @@ type Props = {
 export const QuickPractice = ({ mistakeCount, practice }: Props) => (
   <div className="quick-practice">
     <button onClick={() => practice("listening")}>
-      <span className="quick-icon lavender">
+      <span className={`quick-icon ${TONE.lavender}`}>
         <Icon name="headphones" size={23} />
       </span>
       <strong>Tune your ear</strong>
@@ -17,7 +18,7 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <Icon name="arrow" size={17} />
     </button>
     <button onClick={() => practice("speaking")}>
-      <span className="quick-icon peach">
+      <span className={`quick-icon ${TONE.peach}`}>
         <Icon name="mic" size={23} />
       </span>
       <strong>Find your voice</strong>
@@ -25,7 +26,7 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <Icon name="arrow" size={17} />
     </button>
     <button onClick={() => practice(mistakeCount ? "mistakes" : "all")}>
-      <span className="quick-icon sage">
+      <span className={`quick-icon ${TONE.sage}`}>
         <Icon name="repeat" size={23} />
       </span>
       <strong>Make it stick</strong>

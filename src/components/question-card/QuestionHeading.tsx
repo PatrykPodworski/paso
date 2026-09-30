@@ -1,3 +1,4 @@
+import { SkillDot } from "../SkillDot";
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
 import type { Question } from "../../data/types";
@@ -8,8 +9,8 @@ type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
   <div className="question-kind">
-    <span className={`skill-dot ${q.skill}`} />
-    {q.skill} <span> / </span>
+    <SkillDot skill={q.skill} />
+    {q.skill} <span className="opacity-50 px-[4px]"> / </span>
     {q.kind === "listen"
       ? "Listen closely"
       : q.kind === "order"

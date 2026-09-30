@@ -1,3 +1,4 @@
+import { CompletionArt } from "../CompletionArt";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
@@ -26,9 +27,9 @@ export const MockResults = ({
   onReset,
 }: Props) => (
   <Panel className="exam-results">
-    <div className="completion-art">
+    <CompletionArt>
       <Icon name="trophy" size={48} />
-    </div>
+    </CompletionArt>
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
     <h2>You’ve met the exam.</h2>
     <p>Now you know where your next steps can take you.</p>

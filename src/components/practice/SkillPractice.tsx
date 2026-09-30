@@ -1,3 +1,4 @@
+import { TONE } from "../tone";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
@@ -85,7 +86,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon sage">
+        <span className={`quick-icon ${TONE.sage}`}>
           <Icon name="map" />
         </span>
         <div>
@@ -107,7 +108,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon sand">
+        <span className={`quick-icon ${TONE.sand}`}>
           <Icon name="layers" />
         </span>
         <div>
@@ -129,7 +130,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon lavender">
+        <span className={`quick-icon ${TONE.lavender}`}>
           <Icon name="pen" />
         </span>
         <div>

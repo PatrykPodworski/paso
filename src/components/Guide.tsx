@@ -267,7 +267,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
       </Panel>
       <SectionHeading>
         <h2>Go straight to the source</h2>
-        <span className="subtle">Instituto Cervantes · Primary sources</span>
+        <span className="text-[14px] text-[#75816b]">Instituto Cervantes · Primary sources</span>
       </SectionHeading>
       <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (

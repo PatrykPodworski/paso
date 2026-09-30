@@ -63,7 +63,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         </select>
       </label>
       <label>
-        Exam date <span className="subtle">(optional)</span>
+        Exam date <span className="text-[13px] text-[#75816b]">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
       <FieldNote className="mb-[22px]">

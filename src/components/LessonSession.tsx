@@ -1,3 +1,4 @@
+import { CompletionArt } from "./CompletionArt";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
@@ -112,11 +113,11 @@ export const LessonSession = ({
       )}
       {finished ? (
         <div className="p-[50px_30px] text-center max-tablet:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
-          <div className="completion-art">
-            <span>✦</span>
+          <CompletionArt>
+            <span className="translate-y-[-23px]">✦</span>
             <Icon name="flag" size={50} />
-            <span>✧</span>
-          </div>
+            <span className="translate-y-[19px]">✧</span>
+          </CompletionArt>
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
           <h2 className="text-[39px] m-[12px_0] max-tablet:text-[34px]">Look at you go.</h2>
           <p>Another little piece of Spanish, yours to keep.</p>

@@ -1,3 +1,4 @@
+import { TONE } from "./tone";
 import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
@@ -53,7 +54,7 @@ export const PathPage = ({
         <Stamp />
       </PageHeading>
       <Panel className="path-banner">
-        <span className={`unit-icon ${nextUnit.color}`}>
+        <span className={`unit-icon ${TONE[nextUnit.color]}`}>
           <Icon name={nextUnit.icon} size={28} />
         </span>
         <div>

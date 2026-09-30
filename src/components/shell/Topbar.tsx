@@ -1,6 +1,7 @@
 import { streak, xp } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { IconButton } from "../../design-system/IconButton";
 import { navigation, type Page } from "../navigation";
 
 type Props = {
@@ -13,13 +14,9 @@ type Props = {
 export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
   <header className="topbar">
     <div>
-      <button
-        className="mobile-menu icon-button"
-        onClick={() => openNav()}
-        aria-label="Open navigation"
-      >
+      <IconButton className="mobile-menu" onClick={() => openNav()} aria-label="Open navigation">
         <Icon name="menu" />
-      </button>
+      </IconButton>
       <span className="breadcrumb">
         Your Spanish journey
         <Icon name="chevron" size={13} />

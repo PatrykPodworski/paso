@@ -1,4 +1,5 @@
 import { Icon } from "../../design-system/Icon";
+import { IconButton } from "../../design-system/IconButton";
 import { PlayLabel } from "./PlayLabel";
 
 type Props = {
@@ -12,11 +13,12 @@ type Props = {
 
 export const PlayButton = ({ label, iconOnly, minimal, playing, disabled, onClick }: Props) => {
   const pauseLabel = minimal ? "Pause audio" : "Stop audio";
+  const Tag = iconOnly ? IconButton : "button";
 
   return (
-    <button
+    <Tag
       type="button"
-      className={iconOnly ? "icon-button" : "audio-play"}
+      className={iconOnly ? undefined : "audio-play"}
       onClick={onClick}
       aria-label={playing ? pauseLabel : label}
       title={playing ? pauseLabel : label}
@@ -24,6 +26,6 @@ export const PlayButton = ({ label, iconOnly, minimal, playing, disabled, onClic
     >
       <Icon name={playing ? "pause" : minimal ? "play" : "volume"} size={iconOnly ? 18 : 22} />
       {!iconOnly && <PlayLabel label={label} playing={playing} />}
-    </button>
+    </Tag>
   );
 };

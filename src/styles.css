@@ -172,20 +172,6 @@ svg {
   align-items: center;
   flex-wrap: wrap;
 }
-.icon-button {
-  border: 0;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 7px;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-}
-.icon-button:hover {
-  background: #254b3e0b;
-}
 .subtle {
   font-size: 14px;
   color: var(--muted);
@@ -1089,14 +1075,6 @@ main {
   font-size: 11px;
   color: #ad9e80;
 }
-.phrase-card .icon-button {
-  background: #fcf7e9;
-  border: 1px solid #e7dcc2;
-  width: 30px;
-  height: 30px;
-  color: #b6986f;
-  border-radius: 50%;
-}
 .quiet-note {
   display: flex;
   justify-content: center;
@@ -1994,21 +1972,6 @@ main {
 .question-pronunciation .audio-control {
   display: contents;
 }
-.question-pronunciation .icon-button {
-  grid-column: 2;
-  grid-row: 1;
-  align-self: start;
-  width: 44px;
-  height: 44px;
-  margin-top: 15px;
-  color: #7c698e;
-  background: #f3eff7;
-  border: 1px solid #e5dfec;
-  border-radius: 50%;
-}
-.question-pronunciation .icon-button:hover {
-  background: #eae3f1;
-}
 .question-pronunciation .audio-control > small {
   grid-column: 2;
   text-align: center;
@@ -2046,17 +2009,6 @@ main {
 }
 .reading-passage > .audio-control {
   margin-bottom: 14px;
-}
-.reading-passage .icon-button {
-  width: 38px;
-  height: 38px;
-  color: #8a8f6d;
-  background: #fffdf3;
-  border: 1px solid #e2ddc9;
-  border-radius: 50%;
-}
-.reading-passage .icon-button:hover {
-  background: #f2eedd;
 }
 .paper-clip {
   position: absolute;

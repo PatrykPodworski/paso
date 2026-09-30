@@ -131,7 +131,7 @@ export const TodayPage = ({
           <h3 lang="es">Poco a poco.</h3>
           <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
           <p>Little by little.</p>
-          <div>
+          <div className="[&_button]:h-[30px] [&_button]:w-[30px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e7dcc2] [&_button]:bg-[#fcf7e9]! [&_button]:text-[#b6986f]">
             <span>Progress has its own pace.</span>
             <AudioButton compact text="Poco a poco." label="Listen to poco a poco" />
           </div>

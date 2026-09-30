@@ -1,5 +1,5 @@
 import type { Ref } from "react";
-import { FieldNote } from "../design-system/FieldNote";
+import { FieldNote } from "../../design-system/FieldNote";
 import { PlayButton } from "./PlayButton";
 import { useAudioPlayer } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";

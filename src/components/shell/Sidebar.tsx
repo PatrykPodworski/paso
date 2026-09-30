@@ -1,5 +1,5 @@
-import { Icon } from "../design-system/Icon";
-import { navigation, type Page } from "./navigation";
+import { Icon } from "../../design-system/Icon";
+import { navigation, type Page } from "../navigation";
 
 type Props = {
   page: Page;

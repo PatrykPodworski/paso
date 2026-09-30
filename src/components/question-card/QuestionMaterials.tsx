@@ -2,8 +2,8 @@ import { TextLink } from "../../design-system/TextLink";
 import { useState } from "react";
 import type { Ref } from "react";
 import type { Question } from "../../data/types";
-import { AudioButton } from "../AudioButton";
-import type { AudioHandle } from "../useAudioPlayer";
+import { AudioButton } from "../audio/AudioButton";
+import type { AudioHandle } from "../audio/useAudioPlayer";
 
 type Props = {
   q: Question;

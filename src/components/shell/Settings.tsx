@@ -1,12 +1,12 @@
-import { FieldNote } from "../design-system/FieldNote";
+import { FieldNote } from "../../design-system/FieldNote";
 import { useState } from "react";
-import { Button } from "../design-system/Button";
-import { Dialog } from "../design-system/Dialog";
-import { Eyebrow } from "../design-system/Eyebrow";
-import { TextLink } from "../design-system/TextLink";
-import { localDate } from "../data/progress";
-import type { Progress } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import { Button } from "../../design-system/Button";
+import { Dialog } from "../../design-system/Dialog";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { TextLink } from "../../design-system/TextLink";
+import { localDate } from "../../data/progress";
+import type { Progress } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 
 type Props = {
   progress: Progress;

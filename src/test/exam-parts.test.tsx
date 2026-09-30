@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { AnswerReview } from "../components/AnswerReview";
-import { fresh, load } from "../components/useMockRun";
+import { AnswerReview } from "../components/mock-exam/AnswerReview";
+import { fresh, load } from "../components/mock-exam/useMockRun";
 import { mockSections } from "../data/mock";
 
 describe("saved rehearsal", () => {

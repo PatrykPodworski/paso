@@ -1,10 +1,10 @@
-import { Eyebrow } from "../design-system/Eyebrow";
-import { Badge } from "../design-system/Badge";
-import { PageHeading } from "../design-system/PageHeading";
-import { Notice } from "../design-system/Notice";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { Badge } from "../../design-system/Badge";
+import { PageHeading } from "../../design-system/PageHeading";
+import { Notice } from "../../design-system/Notice";
 import { useState } from "react";
-import type { Progress } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import type { Progress } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 import { downloadResponses } from "./downloadResponses";
 import { ExamRunning } from "./ExamRunning";
 import { ExamTopbar } from "./ExamTopbar";

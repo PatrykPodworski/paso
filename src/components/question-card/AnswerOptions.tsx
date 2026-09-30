@@ -1,4 +1,4 @@
-import { Icon } from "../design-system/Icon";
+import { Icon } from "../../design-system/Icon";
 
 type Props = {
   options: string[];

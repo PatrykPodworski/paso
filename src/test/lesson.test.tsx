@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import type { ComponentProps } from "react";
 import { expect, it, vi } from "vitest";
 import { LessonSession } from "../components/LessonSession";
-import type { QuestionCard } from "../components/QuestionCard";
+import type { QuestionCard } from "../components/question-card/QuestionCard";
 import { stopAudio } from "../components/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
@@ -13,7 +13,7 @@ import type { Question } from "../data/types";
 // widget and its integration are exercised in question-rules and browser tests.
 let card: ComponentProps<typeof QuestionCard>;
 
-vi.mock("../components/QuestionCard", () => ({
+vi.mock("../components/question-card/QuestionCard", () => ({
   QuestionCard: (props: typeof card) => {
     card = props;
 

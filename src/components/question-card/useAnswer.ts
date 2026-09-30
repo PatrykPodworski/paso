@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Question } from "../data/types";
-import { countWords, isCorrect } from "../data/progress";
+import type { Question } from "../../data/types";
+import { countWords, isCorrect } from "../../data/progress";
 
 const parseFields = (draft: string): Record<string, string> => {
   try {

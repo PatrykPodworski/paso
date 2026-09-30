@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import type { Question } from "../data/types";
-import { isCorrect } from "../data/progress";
+import type { Question } from "../../data/types";
+import { isCorrect } from "../../data/progress";
 import { AnswerOptions } from "./AnswerOptions";
 import { FormFields } from "./FormFields";
-import { playWord } from "./playWord";
-import { stopAudio } from "./playback";
-import type { AudioHandle } from "./useAudioPlayer";
+import { playWord } from "../playWord";
+import { stopAudio } from "../playback";
+import type { AudioHandle } from "../useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";

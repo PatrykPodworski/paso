@@ -1,5 +1,5 @@
-import { Eyebrow } from "../design-system/Eyebrow";
-import type { Question } from "../data/types";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import type { Question } from "../../data/types";
 import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
 

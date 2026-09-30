@@ -1,4 +1,4 @@
-import type { Question } from "../data/types";
+import type { Question } from "../../data/types";
 
 type Props = {
   q: Question;

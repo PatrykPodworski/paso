@@ -1,5 +1,5 @@
-import { FieldNote } from "../design-system/FieldNote";
-import type { Question } from "../data/types";
+import { FieldNote } from "../../design-system/FieldNote";
+import type { Question } from "../../data/types";
 
 type Props = {
   q: Question;

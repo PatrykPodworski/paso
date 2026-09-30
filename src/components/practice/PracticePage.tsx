@@ -1,12 +1,12 @@
-import { Badge } from "../design-system/Badge";
-import { Eyebrow } from "../design-system/Eyebrow";
-import { PageHeading } from "../design-system/PageHeading";
-import type { Lesson, Progress, Skill } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import { Badge } from "../../design-system/Badge";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { PageHeading } from "../../design-system/PageHeading";
+import type { Lesson, Progress, Skill } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 import { MistakesPanel } from "./MistakesPanel";
-import type { Page } from "./navigation";
-import { PocketVocabulary } from "./PocketVocabulary";
-import { exerciseBank, skills, type Practice, type Session } from "./practice";
+import type { Page } from "../navigation";
+import { PocketVocabulary } from "../PocketVocabulary";
+import { exerciseBank, skills, type Practice, type Session } from "../practice";
 import { SkillPractice } from "./SkillPractice";
 
 type Props = {

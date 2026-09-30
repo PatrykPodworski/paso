@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
-import { Panel, PanelHeading } from "../design-system/Panel";
-import { dailyAnswers, localDate } from "../data/progress";
-import type { Progress } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import { Panel, PanelHeading } from "../../design-system/Panel";
+import { dailyAnswers, localDate } from "../../data/progress";
+import type { Progress } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 
 type Props = {
   progress: Progress;

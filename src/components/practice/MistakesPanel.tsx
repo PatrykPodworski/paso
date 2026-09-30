@@ -1,10 +1,10 @@
-import { Button } from "../design-system/Button";
-import { Panel } from "../design-system/Panel";
-import { TextLink } from "../design-system/TextLink";
-import type { Lesson } from "../data/types";
-import { Icon } from "../design-system/Icon";
-import { MemoryHint } from "./MemoryHint";
-import type { Practice, Session } from "./practice";
+import { Button } from "../../design-system/Button";
+import { Panel } from "../../design-system/Panel";
+import { TextLink } from "../../design-system/TextLink";
+import type { Lesson } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
+import { MemoryHint } from "../MemoryHint";
+import type { Practice, Session } from "../practice";
 
 type Props = {
   mistakeQuestions: Lesson["questions"];

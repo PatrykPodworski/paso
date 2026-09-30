@@ -1,4 +1,4 @@
-import { audioSources } from "../data/audio-sources";
+import { audioSources } from "../../data/audio-sources";
 import type { Playback } from "./playback";
 
 // Resolves true once a clip started, was cancelled or was blocked by the

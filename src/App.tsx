@@ -11,14 +11,14 @@ import { MockExam } from "./components/mock-exam/MockExam";
 import type { Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
-import { PracticePage } from "./components/PracticePage";
-import { Settings } from "./components/Settings";
-import { Sidebar } from "./components/Sidebar";
-import { TodayPage } from "./components/TodayPage";
-import { Topbar } from "./components/Topbar";
-import { useNavigation } from "./components/useNavigation";
-import { usePersistedProgress } from "./components/usePersistedProgress";
-import { useToast } from "./components/useToast";
+import { PracticePage } from "./components/practice/PracticePage";
+import { Settings } from "./components/shell/Settings";
+import { Sidebar } from "./components/shell/Sidebar";
+import { TodayPage } from "./components/today/TodayPage";
+import { Topbar } from "./components/shell/Topbar";
+import { useNavigation } from "./components/shell/useNavigation";
+import { usePersistedProgress } from "./components/shell/usePersistedProgress";
+import { useToast } from "./components/shell/useToast";
 import { Notice } from "./design-system/Notice";
 
 const App = () => {

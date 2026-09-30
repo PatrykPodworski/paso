@@ -13,14 +13,14 @@ type Props = {
 };
 
 export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props) => (
-  <Panel className="mistakes-panel">
+  <Panel className="p-[30px] [&_details_p]:text-[14px] [&_details_p]:m-[12px_0] [&_details_p]:text-[#768668]">
     <span className="quick-icon peach">
       <Icon name="repeat" size={28} />
     </span>
-    <h2>
+    <h2 className="m-[18px_0_12px]">
       {mistakeQuestions.length ? "Mistakes are little signposts." : "A fresh page. A fresh start."}
     </h2>
-    <p>
+    <p className="max-w-[570px] text-[14px] text-[#929d83]">
       {mistakeQuestions.length
         ? `${mistakeQuestions.length} questions are ready for another look. A correct answer without transcript assistance clears a question from this queue.`
         : "No mistakes waiting here yet. As you practise, tricky questions will collect here with their explanations."}
@@ -34,8 +34,8 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
       <Icon name="arrow" />
     </Button>
     {mistakeQuestions.slice(0, 12).map((q) => (
-      <details key={q.id}>
-        <summary>
+      <details key={q.id} className="border-t border-t-line p-[16px_0]">
+        <summary className="cursor-pointer text-[14px] flex items-center gap-[9px]">
           <span className={`skill-dot ${q.skill}`} />
           {q.prompt}
         </summary>

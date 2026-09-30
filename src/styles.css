@@ -1097,21 +1097,6 @@ main {
   color: #b6986f;
   border-radius: 50%;
 }
-.quiet-note {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
-  padding: 5px;
-  color: #a5ad97;
-}
-.quiet-note p {
-  font-size: 12px;
-  line-height: 1.8;
-}
-.quiet-note svg {
-  color: #bac3ac;
-}
 .main-footer {
   border-top: 1px solid var(--line);
   margin-top: 42px;
@@ -1276,139 +1261,6 @@ main {
   font-size: 13px;
   margin-top: 5px;
 }
-.practice-tabs {
-  display: flex;
-  gap: 7px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 19px;
-  margin-bottom: 23px;
-  flex-wrap: wrap;
-}
-.practice-tabs > button {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 20px;
-  padding: 9px 15px;
-  font-size: 14px;
-  color: #8a967d;
-}
-.practice-tabs > button.active {
-  background: var(--green);
-  color: #fff;
-}
-.practice-tabs > button:hover:not(.active) {
-  background: #edf1e5;
-}
-.practice-hero {
-  background: #f1f0e4;
-  padding: 30px 34px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  overflow: hidden;
-}
-.practice-hero > div:first-child {
-  max-width: 520px;
-}
-.practice-hero h2 {
-  font-size: 33px;
-  margin: 12px 0;
-}
-.practice-hero p {
-  font-size: 14px;
-  color: #8f967c;
-  max-width: 420px;
-  margin-bottom: 21px;
-}
-.practice-orb {
-  height: 164px;
-  width: 164px;
-  background: #e0e6d2;
-  border-radius: 50%;
-  color: #869b69;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 24px;
-  position: relative;
-  flex-shrink: 0;
-}
-.practice-orb i {
-  font-family: var(--serif);
-  font-size: 22px;
-  background: #fff7e9;
-  padding: 4px 14px;
-  border-radius: 7px;
-  transform: rotate(-10deg);
-  margin-top: 16px;
-  color: #aa835b;
-}
-.practice-skill-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  margin-top: 22px;
-}
-.practice-skill-card {
-  text-align: left;
-  padding: 23px;
-  position: relative;
-}
-.practice-skill-card:hover {
-  transform: translateY(-2px);
-  border-color: #c4d2b6;
-}
-.practice-skill-card .skill-icon {
-  width: 45px;
-  height: 45px;
-  margin-bottom: 17px;
-}
-.practice-skill-card h3 {
-  font-size: 18px;
-  margin-top: 4px;
-}
-.practice-skill-card p {
-  font-size: 13px;
-  color: #96a184;
-  margin: 10px 0;
-}
-.practice-skill-card > span:last-of-type {
-  font-size: 11px;
-  color: #9ca88b;
-}
-.practice-skill-card > svg {
-  position: absolute;
-  right: 20px;
-  top: 35px;
-  color: #a2ad91;
-}
-.focused-practice {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 20px;
-}
-.focused-practice > button {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  text-align: left;
-}
-.focused-practice h3 {
-  font-size: 15px;
-}
-.focused-practice p {
-  font-size: 12px;
-  color: #939d86;
-  margin-top: 5px;
-}
-.focused-practice > button > svg {
-  margin-left: auto;
-  color: #99a589;
-  width: 17px;
-}
 .vocabulary-overview {
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -1494,33 +1346,6 @@ main {
   font-size: 35px;
   line-height: 1.3;
   margin-bottom: 14px;
-}
-.mistakes-panel {
-  padding: 30px;
-}
-.mistakes-panel > h2 {
-  margin: 18px 0 12px;
-}
-.mistakes-panel > p {
-  max-width: 570px;
-  font-size: 14px;
-  color: #929d83;
-}
-.mistakes-panel details {
-  border-top: 1px solid var(--line);
-  padding: 16px 0;
-}
-.mistakes-panel summary {
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.mistakes-panel details p {
-  font-size: 14px;
-  margin: 12px 0;
-  color: #768668;
 }
 .empty-state {
   text-align: center;
@@ -2875,21 +2700,6 @@ main {
   .path-banner h3 {
     font-size: 15px;
   }
-  .practice-skill-card {
-    padding: 20px 15px;
-  }
-  .practice-skill-card > span:last-of-type {
-    font-size: 10px;
-  }
-  .focused-practice h3 {
-    font-size: 14px;
-  }
-  .focused-practice p {
-    font-size: 11px;
-  }
-  .focused-practice > button {
-    padding: 17px 13px;
-  }
   .mock-intro {
     padding: 30px;
     gap: 25px;
@@ -2933,9 +2743,6 @@ main {
   .phrase-card > div {
     justify-content: flex-start;
     gap: 20px;
-  }
-  .quiet-note {
-    display: none;
   }
   .hero-card {
     min-height: 335px;
@@ -3043,39 +2850,6 @@ main {
   }
   .path-banner > div {
     min-width: 250px;
-  }
-  .practice-orb {
-    width: 125px;
-    height: 125px;
-    margin: 15px 0;
-  }
-  .practice-orb > svg {
-    width: 45px;
-    height: 45px;
-  }
-  .practice-orb > i {
-    font-size: 17px;
-  }
-  .practice-hero {
-    padding: 27px;
-  }
-  .practice-hero h2 {
-    font-size: 29px;
-  }
-  .practice-skill-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .practice-skill-card > span:last-of-type {
-    font-size: 12px;
-  }
-  .focused-practice {
-    grid-template-columns: 1fr;
-  }
-  .focused-practice p {
-    font-size: 13px;
-  }
-  .focused-practice h3 {
-    font-size: 16px;
   }
   .mock-intro-art {
     display: none;
@@ -3361,35 +3135,6 @@ main {
   }
   .stamp small {
     font-size: 3px;
-  }
-  .practice-tabs {
-    gap: 5px;
-    padding-bottom: 15px;
-  }
-  .practice-tabs > button {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-  .practice-hero {
-    padding: 24px;
-  }
-  .practice-hero h2 {
-    font-size: 29px;
-  }
-  .practice-hero p {
-    font-size: 14px;
-  }
-  .practice-orb {
-    display: none;
-  }
-  .practice-skill-grid {
-    gap: 13px;
-  }
-  .practice-skill-card h3 {
-    font-size: 17px;
-  }
-  .practice-skill-card > span:last-of-type {
-    font-size: 11px;
   }
   .mock-intro {
     padding: 25px;
@@ -3818,34 +3563,6 @@ main {
     margin-left: 38px;
     padding: 19px;
   }
-  .practice-hero h2 {
-    font-size: 27px;
-  }
-  .practice-hero {
-    padding: 22px;
-  }
-  .practice-skill-card {
-    padding: 19px 14px;
-  }
-  .practice-skill-card > span:last-of-type {
-    font-size: 10px;
-  }
-  .practice-skill-card h3 {
-    font-size: 16px;
-  }
-  .focused-practice > button {
-    gap: 11px;
-  }
-  .focused-practice .quick-icon {
-    width: 35px;
-    height: 39px;
-  }
-  .focused-practice h3 {
-    font-size: 14px;
-  }
-  .focused-practice p {
-    font-size: 11px;
-  }
   .exam-section-grid {
     gap: 11px;
   }
@@ -4261,9 +3978,6 @@ main {
   .lesson-row {
     padding-block: 12px;
   }
-  .practice-tabs > button {
-    font-size: 12px;
-  }
   .breadcrumb {
     font-size: 11px;
   }
@@ -4376,24 +4090,6 @@ main {
   }
   .form-fields {
     grid-template-columns: 1fr;
-  }
-  .practice-skill-card > span:last-of-type {
-    font-size: 10px;
-  }
-  .practice-skill-card h3 {
-    font-size: 18px;
-  }
-  .practice-skill-card p {
-    font-size: 12px;
-  }
-  .focused-practice h3 {
-    font-size: 15px;
-  }
-  .focused-practice p {
-    font-size: 11px;
-  }
-  .focused-practice > button > svg {
-    width: 15px;
   }
   .exam-steps > span {
     font-size: 0;

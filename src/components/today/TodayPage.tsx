@@ -136,9 +136,9 @@ export const TodayPage = ({
             <AudioButton compact text="Poco a poco." label="Listen to poco a poco" />
           </div>
         </section>
-        <div className="quiet-note">
-          <Icon name="heart" size={16} />
-          <p>
+        <div className="flex justify-center items-center gap-[9px] p-[5px] text-[#a5ad97] max-laptop:hidden">
+          <Icon name="heart" size={16} className="text-[#bac3ac]" />
+          <p className="text-[12px] leading-[1.8]">
             No rush. No lost hearts.
             <br />
             Just you, getting a little better.

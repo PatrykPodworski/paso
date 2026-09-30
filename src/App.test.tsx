@@ -1,11 +1,10 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import App from "../App";
-import { allLessons, allQuestions, foundations, visualQuestions } from "../data/curriculum";
-import { formPractice } from "../data/mock";
-import { emptyProgress, STORAGE_KEY, streak, xp } from "../data/progress";
-import type { Attempt, Lesson, Progress } from "../data/types";
-import { Blob as NodeBlob } from "node:buffer";
+import App from "./App";
+import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
+import { formPractice } from "./data/mock";
+import { emptyProgress, STORAGE_KEY, streak, xp } from "./data/progress";
+import type { Attempt, Lesson, Progress } from "./data/types";
 
 let session: {
   lesson: Lesson;
@@ -15,7 +14,7 @@ let session: {
   onDraft: (id: string, text: string) => void;
 };
 
-vi.mock("../components/LessonSession", () => ({
+vi.mock("./components/LessonSession", () => ({
   LessonSession: (props: typeof session) => {
     session = props;
 
@@ -231,19 +230,6 @@ describe("app business orchestration", () => {
     expect(session.lesson.questions[0].id).toBe(bank[3].id);
   });
 
-  it("resolves mistake IDs safely, explains each one and opens an individual retry", () => {
-    const p = emptyProgress();
-
-    p.mistakes = ["not-in-course", allQuestions[0].id];
-    mount("practice", p);
-    click("My mistakes (1)");
-    expect(screen.getByText(/1 questions are ready/)).toBeInTheDocument();
-    fireEvent.click(screen.getByText(allQuestions[0].prompt));
-    expect(screen.getByText(allQuestions[0].explanation)).toBeInTheDocument();
-    click("Try again");
-    expect(session.lesson.questions).toEqual([allQuestions[0]]);
-  });
-
   it("offers daily practice when the mistake queue is empty", () => {
     mount("practice");
     click("My mistakes (0)");
@@ -255,43 +241,6 @@ describe("app business orchestration", () => {
     click("Try a daily mix");
     expect(session.lesson.questions).toHaveLength(8);
     expect(session.lesson.title).toBe("Your daily mix");
-  });
-
-  it("launches each focused practice bank", () => {
-    mount("practice");
-
-    for (const [title, questions] of [
-      ["Picture this", visualQuestions],
-      ["The foundation lab", foundations],
-      ["Fill in your story", [formPractice]],
-    ] as const) {
-      fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
-      expect(session.lesson.questions).toEqual(questions);
-      click("Test close session");
-    }
-  });
-
-  it("searches unlocked vocabulary in either language and clears an empty result", () => {
-    const p = emptyProgress();
-
-    p.completed["u6-words"] = { score: 1, total: 1, at: "2026-01-01T00:00:00Z" };
-    mount("practice", p);
-
-    fireEvent.change(screen.getByRole("textbox", { name: "Search vocabulary" }), {
-      target: { value: "COFFEE" },
-    });
-
-    expect(screen.getByText("el café")).toBeInTheDocument();
-    expect(screen.getByText("coffee")).toBeInTheDocument();
-    expect(saved().vocabularyReviews).toEqual({});
-
-    fireEvent.change(screen.getByRole("textbox", { name: "Search vocabulary" }), {
-      target: { value: "zzzzzz" },
-    });
-
-    expect(screen.getByRole("heading", { name: "No word found yet." })).toBeInTheDocument();
-    click("Clear search");
-    expect(document.querySelectorAll(".vocabulary-list li")).toHaveLength(8);
   });
 
   it("saves trimmed preferences and resets only after confirmation", () => {
@@ -320,38 +269,6 @@ describe("app business orchestration", () => {
     click("Clear my practice data");
     expect(saved()).toEqual(emptyProgress());
     expect(localStorage.getItem("paso-mock-v1")).toBeNull();
-  });
-
-  it("exports real progress and revokes the temporary URL", async () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-09-09T12:00:00Z"));
-    vi.stubGlobal("Blob", NodeBlob);
-    const p = emptyProgress();
-
-    p.name = "Ana";
-    const create = vi.fn((_blob: Blob) => "blob:export");
-
-    vi.stubGlobal(
-      "URL",
-      Object.assign(class extends URL {}, { createObjectURL: create, revokeObjectURL: vi.fn() }),
-    );
-
-    const clicked = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
-
-    mount("today", p);
-    click("Open your learning preferences");
-    click("Export progress");
-    expect(create.mock.calls[0][0]).toBeInstanceOf(Blob);
-    expect(create.mock.calls[0][0].type).toBe("application/json");
-    expect(JSON.parse(await create.mock.calls[0][0].text())).toEqual(p);
-
-    expect((clicked.mock.instances[0] as HTMLAnchorElement).download).toBe(
-      "paso-progress-2026-09-09.json",
-    );
-
-    expect(clicked).toHaveBeenCalledOnce();
-    act(() => vi.advanceTimersByTime(1000));
-    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:export");
   });
 
   it("reports persistence failures and keeps the current session usable", () => {
@@ -475,60 +392,6 @@ it("routes help, footer, path links and the brand consistently", () => {
 });
 
 it.each([
-  [0, 5, "0%", "A few minutes. A little more confidence."],
-  [1, 5, "20%", "You’re building a lovely habit."],
-  [5, 5, "100%", "Daily goal reached. ¡Muy bien!"],
-  [6, 5, "100%", "Daily goal reached. ¡Muy bien!"],
-])("renders the bounded daily goal for %s of %s answers", (count, goal, width, message) => {
-  const p = emptyProgress();
-
-  p.goal = goal as number;
-
-  p.attempts = allQuestions.slice(0, count as number).map((q, i) => ({
-    id: String(i),
-    questionId: q.id,
-    skill: q.skill,
-    answer: q.answer,
-    correct: true,
-    at: new Date().toISOString(),
-  }));
-
-  const { container } = mount("today", p);
-
-  expect(screen.getByText(message as string)).toBeInTheDocument();
-
-  expect(
-    (container.querySelector(".goal-ring") as HTMLElement).style.getPropertyValue("--goal"),
-  ).toBe(width);
-});
-
-it.each([
-  ["2026-09-08", "Keep your Spanish growing"],
-  ["2026-09-09", "Your exam day"],
-  ["2026-09-10", "1 days to your exam"],
-])("calculates the local exam countdown for %s", (date, label) => {
-  vi.useFakeTimers();
-  vi.setSystemTime(new Date(2026, 8, 9, 12));
-  const p = emptyProgress();
-
-  p.examDate = date;
-  mount("today", p);
-  expect(screen.getByRole("button", { name: label })).toBeInTheDocument();
-});
-
-it.each([
-  [11, "BUENOS DÍAS"],
-  [12, "BUENAS TARDES"],
-  [19, "BUENAS TARDES"],
-  [20, "BUENAS NOCHES"],
-])("uses the appropriate local greeting at %s", (hour, label) => {
-  vi.useFakeTimers();
-  vi.setSystemTime(new Date(2026, 8, 9, hour as number));
-  mount();
-  expect(screen.getByText(new RegExp(label as string))).toBeInTheDocument();
-});
-
-it.each([
   ["today", "A good day to learn Spanish."],
   ["path", "Every step has a story."],
   ["practice", "Your practice studio."],
@@ -614,50 +477,6 @@ it("counts partial unit completion and path percentage separately", () => {
   mount("path", p);
   expect(screen.getByText("1/4 lessons")).toBeInTheDocument();
   expect(screen.getByText("1/48 complete · 2% of your path")).toBeInTheDocument();
-});
-
-it("renders the week from Monday through Sunday with per-day unique answers", () => {
-  vi.useFakeTimers();
-  vi.setSystemTime(new Date(2026, 8, 9, 12));
-  const p = emptyProgress();
-
-  p.attempts = [
-    {
-      id: "one",
-      questionId: "one",
-      skill: "reading",
-      answer: "hola",
-      correct: true,
-      at: new Date(2026, 8, 7, 12).toISOString(),
-    },
-    {
-      id: "again",
-      questionId: "one",
-      skill: "reading",
-      answer: "hola",
-      correct: true,
-      at: new Date(2026, 8, 7, 13).toISOString(),
-    },
-  ];
-
-  const { container } = mount("today", p);
-  const days = [...container.querySelectorAll(".week-dots > div")];
-
-  expect(days.map((day) => day.querySelector("span")?.textContent)).toEqual([
-    "M",
-    "T",
-    "W",
-    "T",
-    "F",
-    "S",
-    "S",
-  ]);
-
-  expect(days[0].querySelector("i")?.title).toContain("1 exercises");
-
-  expect(days.slice(1).every((day) => day.querySelector("i")?.title.includes("0 exercises"))).toBe(
-    true,
-  );
 });
 
 describe("app shell behavior kept through the component split", () => {

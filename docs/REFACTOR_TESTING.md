@@ -32,7 +32,7 @@ No API key, login or ElevenLabs account is needed. Browser tests deny external H
 
 ## Rule inventory
 
-Each row names independently asserted behavior. Parameterized tests exercise both sides of a rule and exact thresholds. Browser fixtures mock external services, not the application's state transitions. `lesson.test.tsx` substitutes the question widget to isolate accounting and draft routing; `app.test.tsx` substitutes the lesson child only to isolate practice selection and completion callbacks; real lessons are exercised separately by component and browser tests.
+Each row names independently asserted behavior. Parameterized tests exercise both sides of a rule and exact thresholds. Browser fixtures mock external services, not the application's state transitions. `lesson.test.tsx` substitutes the question widget to isolate accounting and draft routing; `App.test.tsx` substitutes the lesson child only to isolate practice selection and completion callbacks; real lessons are exercised separately by component and browser tests.
 
 | Rule | Contract                                                                                                                | Unit/component tests                                                  |
 | ---- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -43,11 +43,11 @@ Each row names independently asserted behavior. Parameterized tests exercise bot
 | P05  | Failed answers enter a deduplicated mistake queue immediately                                                           | `rules.test.ts`, `interactions.test.tsx`                              |
 | P06  | Only unassisted correct answers clear mistakes and count as recovered; productive work is ungraded                      | `rules.test.ts`                                                       |
 | P07  | Preserve input immutability and retain the newest 6,000 attempts                                                        | `rules.test.ts`                                                       |
-| P08  | Daily totals count unique question IDs on local calendar days                                                           | `rules.test.ts`, `progress.test.ts`                                   |
+| P08  | Daily totals count unique question IDs on local calendar days                                                           | `rules.test.ts`, `progress.test.ts`, `DailyGoal.test.tsx`             |
 | P09  | Streak may continue from yesterday; duplicates do not extend it and gaps break it                                       | `rules.test.ts`                                                       |
 | P10  | Repeats cannot farm question XP; completed lessons award separate XP                                                    | `rules.test.ts`, `progress.test.ts`                                   |
 | P11  | Skill statistics use the latest answer per question, exclude help/productive answers and round correctly                | `rules.test.ts`                                                       |
-| P12  | Each DELE group independently requires at least 30/50, including decimal boundaries                                     | `rules.test.ts`, `exam.test.tsx`, `app.test.tsx`, `guide.test.tsx`    |
+| P12  | Each DELE group independently requires at least 30/50, including decimal boundaries                                     | `rules.test.ts`, `exam.test.tsx`, `App.test.tsx`, `guide.test.tsx`    |
 | P13  | Each supported writing pattern has a specific hint and correct language avoids false hints                              | `rules.test.ts`, `progress.test.ts`                                   |
 | Q01  | Objective attempts start blank; writing/form drafts restore                                                             | `interactions.test.tsx`, `question-rules.test.tsx`, `lesson.test.tsx` |
 | Q02  | Blank/whitespace answers cannot be checked; Enter checks once; other keys do not submit                                 | `question-rules.test.tsx`                                             |
@@ -80,13 +80,13 @@ Each row names independently asserted behavior. Parameterized tests exercise bot
 | E06  | Preparation has a separate speaking deadline, whether it expires or is finished early                                   | `exam.test.tsx`                                                       |
 | E07  | Persist objective exam results once; require both valid human scores for a hypothetical verdict                         | `exam.test.tsx`                                                       |
 | E08  | Export all 55 responses and objective scores; label productive work for human review                                    | `exam.test.tsx`, browser `exam.spec.ts`                               |
-| U01  | Pick first unfinished lesson; only actual path lessons advance course completion                                        | `app.test.tsx`                                                        |
-| U02  | Skill practice uses correct banks and 4/8-question limits; fresh/oldest questions come first                            | `app.test.tsx`                                                        |
-| U03  | Mistake IDs resolve safely; individual retry and empty-queue daily mix work                                             | `app.test.tsx`                                                        |
-| U04  | Search Spanish/English case-insensitively; flip hints; expand/collapse cards; empty search recovers                     | `app.test.tsx`                                                        |
-| U05  | Navigation, deep links, unknown hashes, mobile drawer, shortcuts and help lead to the correct place                     | `app.test.tsx`                                                        |
-| U06  | Trim and persist name, goal and exam date; export actual progress; reset requires confirmation                          | `app.test.tsx`                                                        |
-| U07  | Persist/toggle readiness checks; display storage failures without losing the active session                             | `app.test.tsx`, `exam.test.tsx`, `guide.test.tsx`                     |
+| U01  | Pick first unfinished lesson; only actual path lessons advance course completion                                        | `App.test.tsx`                                                        |
+| U02  | Skill practice uses correct banks and 4/8-question limits; fresh/oldest questions come first                            | `App.test.tsx`, `SkillPractice.test.tsx`                              |
+| U03  | Mistake IDs resolve safely; individual retry and empty-queue daily mix work                                             | `App.test.tsx`, `PracticePage.test.tsx`                               |
+| U04  | Search Spanish/English case-insensitively; flip hints; expand/collapse cards; empty search recovers                     | `PocketVocabulary.test.tsx`, `App.test.tsx`                           |
+| U05  | Navigation, deep links, unknown hashes, mobile drawer, shortcuts and help lead to the correct place                     | `App.test.tsx`                                                        |
+| U06  | Trim and persist name, goal and exam date; export actual progress; reset requires confirmation                          | `App.test.tsx`, `Settings.test.tsx`, `TodayHeading.test.tsx`          |
+| U07  | Persist/toggle readiness checks; display storage failures without losing the active session                             | `App.test.tsx`, `exam.test.tsx`, `guide.test.tsx`                     |
 | B01  | Free-tier ceiling and shared 500-credit reserve; reject missing/invalid/paid/overage account data                       | `audio-budget.test.mjs`                                               |
 | B02  | Validate model/text and 10,000-character request limit; conservatively count UTF-16                                     | `audio-budget.test.mjs`                                               |
 | B03  | Use the higher provider/local usage; reset only for a new provider billing period                                       | `audio-budget.test.mjs`                                               |

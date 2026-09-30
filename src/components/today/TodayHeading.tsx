@@ -1,8 +1,8 @@
-import { Eyebrow } from "../design-system/Eyebrow";
-import { PageHeading } from "../design-system/PageHeading";
-import { localDate } from "../data/progress";
-import type { Progress } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { PageHeading } from "../../design-system/PageHeading";
+import { localDate } from "../../data/progress";
+import type { Progress } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 
 type Props = {
   progress: Progress;

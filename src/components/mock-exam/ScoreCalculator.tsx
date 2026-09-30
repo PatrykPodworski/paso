@@ -1,6 +1,6 @@
-import { FieldNote } from "../design-system/FieldNote";
-import { Notice } from "../design-system/Notice";
-import { passingGroups } from "../data/progress";
+import { FieldNote } from "../../design-system/FieldNote";
+import { Notice } from "../../design-system/Notice";
+import { passingGroups } from "../../data/progress";
 
 type Props = {
   reading: number;

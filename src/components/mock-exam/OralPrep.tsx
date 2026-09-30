@@ -1,8 +1,8 @@
-import { Button } from "../design-system/Button";
-import { Eyebrow } from "../design-system/Eyebrow";
-import { Panel } from "../design-system/Panel";
-import { mockSections } from "../data/mock";
-import { Icon } from "../design-system/Icon";
+import { Button } from "../../design-system/Button";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { Panel } from "../../design-system/Panel";
+import { mockSections } from "../../data/mock";
+import { Icon } from "../../design-system/Icon";
 import type { Run, SetRun } from "./useMockRun";
 
 type Props = {

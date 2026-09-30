@@ -1,9 +1,9 @@
-import { Panel } from "../design-system/Panel";
-import { Button } from "../design-system/Button";
-import { TextLink } from "../design-system/TextLink";
-import { mockSections } from "../data/mock";
-import { stopAudio } from "./audio/playback";
-import { QuestionCard } from "./QuestionCard";
+import { Panel } from "../../design-system/Panel";
+import { Button } from "../../design-system/Button";
+import { TextLink } from "../../design-system/TextLink";
+import { mockSections } from "../../data/mock";
+import { stopAudio } from "../audio/playback";
+import { QuestionCard } from "../QuestionCard";
 import type { Run, SetRun } from "./useMockRun";
 
 type Props = {

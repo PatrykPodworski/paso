@@ -7,7 +7,7 @@ import { Guide } from "./components/Guide";
 import { Icon } from "./design-system/Icon";
 import { LessonSession } from "./components/LessonSession";
 import { mistakeQueue } from "./components/mistakeQueue";
-import { MockExam } from "./components/MockExam";
+import { MockExam } from "./components/mock-exam/MockExam";
 import type { Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";

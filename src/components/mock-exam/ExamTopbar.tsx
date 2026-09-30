@@ -1,5 +1,5 @@
-import { mockSections } from "../data/mock";
-import { Icon } from "../design-system/Icon";
+import { mockSections } from "../../data/mock";
+import { Icon } from "../../design-system/Icon";
 import type { Run } from "./useMockRun";
 
 type Props = { run: Run; left: number };

@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { MockExam } from "../components/MockExam";
+import { MockExam } from "../components/mock-exam/MockExam";
 import { emptyProgress } from "../data/progress";
 import { mockSections } from "../data/mock";
 import { Blob as NodeBlob } from "node:buffer";

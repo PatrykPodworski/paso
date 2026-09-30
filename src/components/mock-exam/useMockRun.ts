@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import { mockSections } from "../data/mock";
+import { mockSections } from "../../data/mock";
 
 export interface Run {
   section: number;

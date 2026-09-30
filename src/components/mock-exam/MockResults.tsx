@@ -1,7 +1,7 @@
-import { Button } from "../design-system/Button";
-import { Eyebrow } from "../design-system/Eyebrow";
-import { Panel } from "../design-system/Panel";
-import { Icon } from "../design-system/Icon";
+import { Button } from "../../design-system/Button";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { Panel } from "../../design-system/Panel";
+import { Icon } from "../../design-system/Icon";
 import { ScoreCalculator } from "./ScoreCalculator";
 
 type Props = {

@@ -1,3 +1,4 @@
+import { ButtonRow } from "../../design-system/ButtonRow";
 import { Panel } from "../../design-system/Panel";
 import { Button } from "../../design-system/Button";
 import { TextLink } from "../../design-system/TextLink";
@@ -85,14 +86,14 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
             {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
             finishing, answers in this section cannot be changed.
           </p>
-          <div className="button-row">
+          <ButtonRow>
             <Button variant="secondary" onClick={() => setConfirm(false)}>
               Keep working
             </Button>
             <Button variant="primary" onClick={onEnd}>
               Finish & review
             </Button>
-          </div>
+          </ButtonRow>
         </div>
       )}
     </Panel>

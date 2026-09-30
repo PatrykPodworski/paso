@@ -1,6 +1,6 @@
-import type { Question } from "../data/types";
-import { countWords, isCorrect } from "../data/progress";
-import { Icon } from "../design-system/Icon";
+import type { Question } from "../../data/types";
+import { countWords, isCorrect } from "../../data/progress";
+import { Icon } from "../../design-system/Icon";
 
 type Props = {
   q: Question;

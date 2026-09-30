@@ -1,10 +1,10 @@
-import { Button } from "../design-system/Button";
-import { Eyebrow } from "../design-system/Eyebrow";
-import { Panel } from "../design-system/Panel";
-import { Notice } from "../design-system/Notice";
-import { mockSections } from "../data/mock";
-import type { Progress } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import { Button } from "../../design-system/Button";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { Panel } from "../../design-system/Panel";
+import { Notice } from "../../design-system/Notice";
+import { mockSections } from "../../data/mock";
+import type { Progress } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 
 type Props = { progress: Progress; onStart: () => void };
 

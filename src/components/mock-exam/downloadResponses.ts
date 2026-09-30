@@ -1,4 +1,4 @@
-import { mockSections } from "../data/mock";
+import { mockSections } from "../../data/mock";
 import type { Run } from "./useMockRun";
 
 export const downloadResponses = (run: Run, score: (index: number) => number) => {

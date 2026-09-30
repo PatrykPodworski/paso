@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { pageFromHash, type Page } from "./navigation";
+import { pageFromHash, type Page } from "../navigation";
 
 export const useNavigation = () => {
   const [page, setPage] = useState<Page>(pageFromHash);

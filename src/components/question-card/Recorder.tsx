@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Icon } from "../design-system/Icon";
-import { FieldNote } from "../design-system/FieldNote";
-import { Notice } from "../design-system/Notice";
-import { TextLink } from "../design-system/TextLink";
+import { Icon } from "../../design-system/Icon";
+import { FieldNote } from "../../design-system/FieldNote";
+import { Notice } from "../../design-system/Notice";
+import { TextLink } from "../../design-system/TextLink";
 
 type Props = {
   onRecorded: (blob: Blob) => void;

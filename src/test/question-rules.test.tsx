@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
-import { QuestionCard } from "../components/QuestionCard";
+import { QuestionCard } from "../components/question-card/QuestionCard";
 import { LessonSession } from "../components/LessonSession";
 import { Dialog } from "../design-system/Dialog";
 import { audioSources } from "../data/audio-sources";
@@ -15,7 +15,7 @@ let recordingProps: {
   onRecordingChange: (v: boolean) => void;
 };
 
-vi.mock("../components/Recorder", () => ({
+vi.mock("../components/question-card/Recorder", () => ({
   Recorder: (props: typeof recordingProps) => {
     recordingProps = props;
 

@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
-import type { Question } from "../data/types";
-import { AudioButton } from "./audio/AudioButton";
-import type { AudioHandle } from "./audio/useAudioPlayer";
+import type { Question } from "../../data/types";
+import { AudioButton } from "../audio/AudioButton";
+import type { AudioHandle } from "../audio/useAudioPlayer";
 
 type QuestionKindProps = { q: Question; productive: boolean };
 

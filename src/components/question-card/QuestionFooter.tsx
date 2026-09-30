@@ -1,6 +1,6 @@
-import { Button } from "../design-system/Button";
-import type { Question } from "../data/types";
-import { Icon } from "../design-system/Icon";
+import { Button } from "../../design-system/Button";
+import type { Question } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 
 type Props = {
   exam: boolean;

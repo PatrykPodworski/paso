@@ -15,6 +15,8 @@ type Props = {
   onReset: () => void;
 };
 
+const LABEL = "flex flex-col gap-[9px] mb-[20px] text-[#839471] text-[14px]";
+
 export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [name, setName] = useState(progress.name);
   const [goal, setGoal] = useState(progress.goal);
@@ -35,17 +37,21 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   };
 
   return (
-    <Dialog label="Your learning preferences" onClose={onClose} className="settings-dialog">
-      <header>
+    <Dialog
+      label="Your learning preferences"
+      onClose={onClose}
+      className="w-[min(560px,calc(100vw_-_35px))] p-[30px] max-tablet:p-[25px]"
+    >
+      <header className="flex justify-between gap-[10px] mb-[27px]">
         <div>
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
-          <h2>Your little preferences.</h2>
+          <h2 className="mt-[8px] text-[27px] max-tablet:text-[26px]">Your little preferences.</h2>
         </div>
         <button className="icon-button" onClick={onClose} aria-label="Close preferences">
           <Icon name="x" />
         </button>
       </header>
-      <label>
+      <label className={LABEL}>
         What should we call you?
         <input
           value={name}
@@ -54,7 +60,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           placeholder="Your name"
         />
       </label>
-      <label>
+      <label className={LABEL}>
         Your daily practice goal
         <select value={goal} onChange={(e) => setGoal(+e.target.value)}>
           <option value={5}>A little · 5 exercises</option>
@@ -62,15 +68,15 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <option value={20}>A good stretch · 20 exercises</option>
         </select>
       </label>
-      <label>
-        Exam date <span className="subtle">(optional)</span>
+      <label className={LABEL}>
+        Exam date <span className="subtle text-[13px]!">(optional)</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </label>
       <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
       </FieldNote>
-      <div className="button-row">
+      <div className="button-row justify-between">
         <Button
           variant="secondary"
           size="compact"
@@ -93,11 +99,11 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <Icon name="check" size={17} />
         </Button>
       </div>
-      <details className="data-settings">
-        <summary>Start over</summary>
+      <details className="mt-[25px] pt-[17px] border-t border-t-line text-[13px] text-[#a4ad94]">
+        <summary className="cursor-pointer">Start over</summary>
         {reset ? (
           <div>
-            <p>
+            <p className="m-[14px_0]">
               This clears lesson progress, drafts, checklists and the exam rehearsal in this
               browser.
             </p>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { readProgress, STORAGE_KEY } from "../data/progress";
-import type { Progress } from "../data/types";
+import { readProgress, STORAGE_KEY } from "../../data/progress";
+import type { Progress } from "../../data/types";
 
 export const usePersistedProgress = () => {
   const [progress, setProgress] = useState<Progress>(readProgress);

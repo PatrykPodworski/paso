@@ -11,7 +11,7 @@ import { MockExam } from "./components/MockExam";
 import type { Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
-import { PracticePage } from "./components/PracticePage";
+import { PracticePage } from "./components/practice/PracticePage";
 import { Settings } from "./components/Settings";
 import { Sidebar } from "./components/Sidebar";
 import { TodayPage } from "./components/today/TodayPage";

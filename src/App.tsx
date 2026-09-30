@@ -14,7 +14,7 @@ import { practiceLesson } from "./components/practiceLesson";
 import { PracticePage } from "./components/PracticePage";
 import { Settings } from "./components/Settings";
 import { Sidebar } from "./components/Sidebar";
-import { TodayPage } from "./components/TodayPage";
+import { TodayPage } from "./components/today/TodayPage";
 import { Topbar } from "./components/Topbar";
 import { useNavigation } from "./components/useNavigation";
 import { usePersistedProgress } from "./components/usePersistedProgress";

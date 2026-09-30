@@ -1,19 +1,19 @@
-import { Button } from "../design-system/Button";
-import { Eyebrow } from "../design-system/Eyebrow";
-import { SectionHeading } from "../design-system/SectionHeading";
-import { TextLink } from "../design-system/TextLink";
-import { allLessons, units } from "../data/curriculum";
-import type { Lesson, Progress } from "../data/types";
-import { JourneyArt } from "./Art";
-import { AudioButton } from "./AudioButton";
+import { Button } from "../../design-system/Button";
+import { Eyebrow } from "../../design-system/Eyebrow";
+import { SectionHeading } from "../../design-system/SectionHeading";
+import { TextLink } from "../../design-system/TextLink";
+import { allLessons, units } from "../../data/curriculum";
+import type { Lesson, Progress } from "../../data/types";
+import { JourneyArt } from "../Art";
+import { AudioButton } from "../AudioButton";
 import { DailyGoal } from "./DailyGoal";
-import { Icon } from "../design-system/Icon";
-import type { Page } from "./navigation";
-import type { Practice, Session } from "./practice";
+import { Icon } from "../../design-system/Icon";
+import type { Page } from "../navigation";
+import type { Practice, Session } from "../practice";
 import { QuickPractice } from "./QuickPractice";
 import { SkillsPanel } from "./SkillsPanel";
 import { TodayHeading } from "./TodayHeading";
-import { UnitCard } from "./UnitCard";
+import { UnitCard } from "../UnitCard";
 
 type Props = {
   progress: Progress;

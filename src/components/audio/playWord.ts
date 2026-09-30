@@ -1,4 +1,4 @@
-import { audioSources } from "../data/audio-sources";
+import { audioSources } from "../../data/audio-sources";
 import { setActivePlayback, stopAudio } from "./playback";
 
 // A word tap has nowhere to show a status line, so this player stays silent on

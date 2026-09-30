@@ -32,7 +32,8 @@ export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
         <b>{streak(progress)}</b>
         <span>day streak</span>
       </span>
-      <span className="xp-stat">
+      {/* `!` outranks the `.topbar-stats > span` rules in styles.css, which have higher specificity. */}
+      <span className="xp-stat max-tablet:hidden! [&>svg]:text-[#8c9c65]!">
         <Icon name="spark" size={17} />
         <b>{xp(progress)}</b> XP
       </span>

@@ -241,16 +241,6 @@ svg {
 .brand-period {
   color: var(--coral);
 }
-.course-switch {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  border: 1px solid #e5e7dc;
-  border-radius: 9px;
-  padding: 12px 10px;
-  background: #f5f6ee;
-  margin-bottom: 35px;
-}
 .spanish-flag {
   width: 25px;
   height: 25px;
@@ -259,25 +249,6 @@ svg {
   border: 3px solid #fffdf4;
   box-shadow: 0 0 0 1px #d8dacd;
   flex-shrink: 0;
-}
-.course-switch strong {
-  font-size: 13px;
-  display: block;
-  letter-spacing: -0.1px;
-}
-.course-switch div > span {
-  display: block;
-  color: #858a79;
-  font-size: 12px;
-  margin-top: 4px;
-}
-.course-badge {
-  font-size: 12px;
-  color: #738168;
-  margin-left: auto;
-  border: 1px solid #d9dfcc;
-  padding: 3px 4px;
-  border-radius: 4px;
 }
 .nav-label {
   font-size: 11px;
@@ -460,9 +431,6 @@ svg {
 .topbar-stats > span > svg {
   color: #c08554;
 }
-.topbar-stats .xp-stat > svg {
-  color: #8c9c65;
-}
 .top-avatar {
   border: 2px solid #fffdf5;
   width: 30px;
@@ -480,98 +448,6 @@ main {
   margin: auto;
   outline: none;
 }
-.greeting {
-  color: #a38761 !important;
-  font-size: 11px !important;
-}
-.greeting > span {
-  color: #c79758;
-  font-size: 16px;
-  margin-left: 5px;
-  vertical-align: -1px;
-}
-.dashboard-heading h1 {
-  font-size: 33px;
-}
-.date-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #88927a;
-  font-size: 13px;
-  border: 1px solid #e3e6da;
-  border-radius: 7px;
-  padding: 9px 11px;
-  background: #fffefa;
-}
-.date-chip > svg:first-child {
-  color: #ba9b65;
-}
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 274px;
-  gap: 24px;
-}
-.dashboard-primary {
-  min-width: 0;
-}
-.hero-card {
-  position: relative;
-  border-radius: 13px;
-  min-height: 319px;
-  background: #f0eddf;
-  overflow: hidden;
-  border: 1px solid #ece6d4;
-  padding: 28px 28px;
-}
-.hero-text {
-  position: relative;
-  z-index: 2;
-  max-width: 56%;
-}
-.hero-eyebrow {
-  font-size: 11px;
-  letter-spacing: 1.4px;
-  color: #8d9476;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.hero-eyebrow > i {
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  background: #94a26b;
-}
-.hero-card h2 {
-  font-family: var(--serif);
-  font-size: 43px;
-  letter-spacing: -1.5px;
-  line-height: 1.06;
-  margin: 17px 0 13px;
-  color: #304f3d;
-  font-weight: 500;
-}
-.hero-card h2 em {
-  font-weight: 500;
-  color: #bb7553;
-}
-.hero-card p {
-  font-size: 14px;
-  max-width: 250px;
-  color: #8a8e76;
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-.hero-caption {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #92977e;
-  margin-top: 12px;
-}
 .journey-art {
   position: absolute;
   right: -62px;
@@ -579,15 +455,6 @@ main {
   width: 66%;
   height: 100%;
   z-index: 1;
-}
-.hero-footnote {
-  position: absolute;
-  right: 26px;
-  bottom: 17px;
-  font-size: 10px;
-  letter-spacing: 1.7px;
-  color: #a3a087;
-  z-index: 2;
 }
 .path-overview {
   display: flex;
@@ -650,8 +517,7 @@ main {
 .unit-summary:hover {
   background: #f8f9f2;
 }
-.unit-icon,
-.quick-icon {
+.unit-icon {
   height: 47px;
   width: 47px;
   border-radius: 12px;
@@ -840,152 +706,6 @@ main {
 .remaining-units:hover {
   color: var(--green);
 }
-.quick-practice {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.quick-practice > button {
-  position: relative;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #fffefa;
-  text-align: left;
-  padding: 17px 15px;
-  min-width: 0;
-}
-.quick-practice > button:hover {
-  border-color: #c4d1b7;
-  transform: translateY(-2px);
-}
-.quick-practice .quick-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  margin-bottom: 14px;
-}
-.quick-practice strong {
-  display: block;
-  font-size: 14px;
-}
-.quick-practice small {
-  display: block;
-  font-size: 11px;
-  color: #a2a894;
-  margin-top: 6px;
-  padding-right: 6px;
-}
-.quick-practice > button > svg {
-  position: absolute;
-  right: 13px;
-  top: 25px;
-  color: #9da68e;
-}
-.dashboard-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.daily-goal {
-  padding: 16px 20px 19px;
-  text-align: center;
-}
-.goal-ring {
-  margin: 15px auto 18px;
-  width: 148px;
-  height: 148px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: conic-gradient(#8fa374 var(--goal), #edf0e5 0);
-  border-radius: 50%;
-  padding: 8px;
-  transform: rotate(-90deg);
-}
-.goal-ring > div {
-  width: 100%;
-  height: 100%;
-  background: var(--paper);
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(90deg);
-}
-.goal-ring svg {
-  color: #b4b393;
-  margin-bottom: 6px;
-  width: 21px;
-  height: 21px;
-}
-.goal-ring strong {
-  font-family: var(--serif);
-  font-size: 34px;
-  line-height: 1;
-  color: #405a3d;
-  font-weight: 500;
-}
-.goal-ring strong > span {
-  font-family: "Avenir Next", sans-serif;
-  font-size: 15px;
-  letter-spacing: 1px;
-  color: #a6ad96;
-  padding-left: 3px;
-}
-.goal-ring small {
-  font-size: 11px;
-  color: #9da68c;
-  margin-top: 7px;
-}
-.daily-goal > p {
-  font-size: 12px;
-  color: #969e89;
-}
-.week-dots {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  padding: 0 6px;
-}
-.week-dots > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-.week-dots > div > span {
-  font-size: 11px;
-  color: #a8af99;
-}
-.week-dots i {
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  border: 1px solid #e8ecdf;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.week-dots .is-today > span {
-  color: #788f5c;
-  font-weight: 700;
-}
-.week-dots .is-today i {
-  border: 1px solid #b3c49a;
-  background: #f1f4e8;
-}
-.week-dots i > b {
-  width: 4px;
-  height: 4px;
-  background: #94a777;
-  border-radius: 50%;
-}
-.week-dots .done {
-  background: #8fa674 !important;
-  border-color: #8fa674 !important;
-  color: #fff;
-}
 .skills-panel {
   padding: 21px 19px;
 }
@@ -1067,12 +787,6 @@ main {
   margin-top: 19px;
   color: #906e4e;
   letter-spacing: -1px;
-}
-.phrase-pronunciation {
-  display: block;
-  font-size: 12px;
-  color: #b49d7f;
-  margin-top: 6px;
 }
 .phrase-card > p {
   font-size: 14px;
@@ -2670,32 +2384,9 @@ main {
   }
 }
 @media (min-width: 1600px) {
-  .dashboard-grid {
-    grid-template-columns: minmax(0, 1fr) 310px;
-    gap: 30px;
-  }
-  .hero-card {
-    min-height: 365px;
-    padding: 37px;
-  }
-  .hero-card h2 {
-    font-size: 51px;
-  }
-  .hero-card p {
-    font-size: 15px;
-    max-width: 310px;
-  }
   .journey-art {
     right: -35px;
     width: 62%;
-  }
-  .daily-goal {
-    padding: 22px;
-  }
-  .goal-ring {
-    width: 158px;
-    height: 158px;
-    margin-top: 20px;
   }
   .unit-summary {
     padding: 23px;
@@ -2736,16 +2427,6 @@ main {
   .main-shell {
     margin-left: 215px;
   }
-  .course-switch {
-    gap: 7px;
-    padding-inline: 8px;
-  }
-  .course-switch strong {
-    font-size: 12px;
-  }
-  .course-badge {
-    display: none;
-  }
   .nav-item {
     font-size: 14px;
     gap: 10px;
@@ -2756,47 +2437,10 @@ main {
   main {
     padding: 28px 27px 0;
   }
-  .dashboard-grid {
-    grid-template-columns: minmax(0, 1fr) 236px;
-    gap: 19px;
-  }
-  .hero-card {
-    padding: 25px 23px;
-    min-height: 306px;
-  }
-  .hero-card h2 {
-    font-size: 35px;
-  }
-  .hero-text {
-    max-width: 58%;
-  }
-  .hero-card p {
-    font-size: 13px;
-  }
   .journey-art {
     width: 64%;
     right: -60px;
     top: 17px;
-  }
-  .hero-eyebrow {
-    font-size: 10px;
-    letter-spacing: 1px;
-  }
-  .hero-caption {
-    font-size: 10px;
-  }
-  .date-chip {
-    font-size: 12px;
-  }
-  .dashboard-heading h1 {
-    font-size: 28px;
-  }
-  .daily-goal {
-    padding: 16px;
-  }
-  .goal-ring {
-    width: 139px;
-    height: 139px;
   }
   .skills-panel {
     padding: 18px 15px;
@@ -2859,15 +2503,6 @@ main {
   .lesson-row {
     gap: 9px;
   }
-  .quick-practice > button {
-    padding: 15px 11px;
-  }
-  .quick-practice strong {
-    font-size: 13px;
-  }
-  .quick-practice small {
-    font-size: 10px;
-  }
   .path-layout {
     grid-template-columns: minmax(0, 1fr) 230px;
     gap: 20px;
@@ -2916,17 +2551,6 @@ main {
   }
 }
 @media (max-width: 1050px) {
-  .dashboard-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .dashboard-aside {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .dashboard-aside .phrase-card {
-    grid-column: 1/-1;
-    padding: 22px 28px;
-  }
   .phrase-card h3 {
     margin-top: 12px;
   }
@@ -2937,29 +2561,10 @@ main {
   .quiet-note {
     display: none;
   }
-  .hero-card {
-    min-height: 335px;
-    padding: 30px;
-  }
-  .hero-card h2 {
-    font-size: 45px;
-  }
-  .hero-card p {
-    font-size: 14px;
-  }
-  .hero-eyebrow {
-    font-size: 11px;
-  }
-  .hero-text {
-    max-width: 54%;
-  }
   .journey-art {
     width: 66%;
     right: -50px;
     top: 0;
-  }
-  .hero-caption {
-    font-size: 12px;
   }
   .unit-summary {
     padding: 20px;
@@ -2995,12 +2600,6 @@ main {
   .lesson-tip summary {
     font-size: 13px;
   }
-  .quick-practice strong {
-    font-size: 14px;
-  }
-  .quick-practice small {
-    font-size: 12px;
-  }
   .skill-row strong {
     font-size: 14px;
   }
@@ -3013,12 +2612,6 @@ main {
   .skill-row {
     margin-bottom: 20px;
     gap: 12px;
-  }
-  .daily-goal > p {
-    font-size: 13px;
-  }
-  .daily-goal {
-    padding: 18px 20px;
   }
   .path-layout {
     grid-template-columns: 1fr;
@@ -3108,9 +2701,6 @@ main {
   .question-footer > span {
     max-width: 210px;
   }
-  .date-chip {
-    display: none;
-  }
   .main-footer > span:first-child {
     display: none;
   }
@@ -3169,9 +2759,6 @@ main {
   .topbar-stats > span > span {
     display: none;
   }
-  .topbar-stats .xp-stat {
-    display: none;
-  }
   .top-avatar {
     margin: 0;
     width: 29px;
@@ -3180,35 +2767,10 @@ main {
   main {
     padding: 26px 20px 0;
   }
-  .dashboard-heading h1 {
-    font-size: 29px;
-  }
-  .dashboard-grid {
-    gap: 22px;
-  }
-  .hero-card {
-    min-height: 320px;
-    padding: 28px 25px;
-  }
-  .hero-card h2 {
-    font-size: 41px;
-  }
-  .hero-card p {
-    font-size: 14px;
-  }
-  .hero-caption {
-    font-size: 11px;
-  }
-  .hero-text {
-    max-width: 57%;
-  }
   .journey-art {
     width: 63%;
     right: -45px;
     top: 10px;
-  }
-  .hero-footnote {
-    font-size: 9px;
   }
   .unit-summary {
     padding: 18px 17px;
@@ -3225,31 +2787,6 @@ main {
   .unit-icon {
     width: 43px;
     height: 45px;
-  }
-  .quick-practice {
-    gap: 10px;
-  }
-  .quick-practice > button {
-    padding: 17px 12px;
-  }
-  .quick-practice strong {
-    font-size: 14px;
-  }
-  .quick-practice small {
-    font-size: 11px;
-  }
-  .dashboard-aside {
-    gap: 15px;
-  }
-  .goal-ring {
-    width: 130px;
-    height: 130px;
-  }
-  .daily-goal {
-    padding: 15px;
-  }
-  .daily-goal > p {
-    font-size: 11px;
   }
   .skills-panel {
     padding: 21px 15px;
@@ -3269,13 +2806,6 @@ main {
   .skill-icon {
     width: 30px;
     height: 30px;
-  }
-  .week-dots {
-    padding: 0;
-  }
-  .week-dots i {
-    width: 18px;
-    height: 18px;
   }
   .phrase-card > p {
     font-size: 14px;
@@ -3609,27 +3139,6 @@ main {
   .topbar {
     padding-inline: 14px;
   }
-  .dashboard-heading h1 {
-    font-size: 26px;
-  }
-  .hero-card {
-    padding: 26px 21px;
-    min-height: 377px;
-  }
-  .hero-text {
-    max-width: 77%;
-  }
-  .hero-card h2 {
-    font-size: 38px;
-    line-height: 1.08;
-  }
-  .hero-card p {
-    max-width: 195px;
-    font-size: 13px;
-  }
-  .hero-eyebrow {
-    font-size: 10px;
-  }
   .journey-art {
     width: 74%;
     height: 68%;
@@ -3637,43 +3146,6 @@ main {
     top: auto;
     bottom: -15px;
     opacity: 0.96;
-  }
-  .hero-card p,
-  .hero-caption {
-    position: relative;
-    z-index: 3;
-  }
-  .hero-footnote {
-    display: none;
-  }
-  .hero-caption {
-    font-size: 10px;
-  }
-  .hero-text .hero-caption {
-    max-width: 155px;
-  }
-  .dashboard-aside {
-    grid-template-columns: 1fr;
-  }
-  .daily-goal {
-    padding: 20px 25px;
-  }
-  .goal-ring {
-    width: 145px;
-    height: 145px;
-  }
-  .daily-goal > p {
-    font-size: 13px;
-  }
-  .week-dots {
-    padding: 0 12px;
-  }
-  .week-dots > div > span {
-    font-size: 12px;
-  }
-  .week-dots i {
-    width: 23px;
-    height: 23px;
   }
   .skills-panel {
     padding: 23px;
@@ -3723,31 +3195,6 @@ main {
   }
   .lesson-tip summary {
     font-size: 12px;
-  }
-  .quick-practice {
-    grid-template-columns: 1fr;
-  }
-  .quick-practice > button {
-    display: grid;
-    grid-template-columns: 36px 1fr;
-    gap: 0 13px;
-    padding: 16px;
-  }
-  .quick-practice .quick-icon {
-    grid-row: 1/3;
-    margin: 0;
-  }
-  .quick-practice strong {
-    font-size: 14px;
-    align-self: end;
-  }
-  .quick-practice small {
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  .quick-practice > button > svg {
-    top: 27px;
-    right: 16px;
   }
   .remaining-units {
     font-size: 12px;
@@ -3835,10 +3282,6 @@ main {
   }
   .focused-practice > button {
     gap: 11px;
-  }
-  .focused-practice .quick-icon {
-    width: 35px;
-    height: 39px;
   }
   .focused-practice h3 {
     font-size: 14px;
@@ -3961,52 +3404,15 @@ main {
     padding: 15px 13px;
     margin: 5px 0;
   }
-  .course-switch {
-    padding: 13px 10px;
-    gap: 10px;
-  }
-  .course-badge {
-    display: none;
-  }
-  .course-switch strong {
-    font-size: 12px;
-  }
-  .course-switch div > span {
-    font-size: 11px;
-  }
   .nav-label {
     font-size: 10px;
   }
   .topbar {
     height: 80px;
   }
-  .dashboard-grid {
-    grid-template-columns: minmax(0, 1fr) 300px;
-  }
-  .hero-card {
-    min-height: 367px;
-    padding: 31px;
-  }
-  .hero-card h2 {
-    font-size: 47px;
-    margin-top: 19px;
-  }
-  .hero-text {
-    max-width: 60%;
-  }
-  .hero-card p {
-    max-width: 280px;
-    font-size: 13px;
-  }
-  .hero-caption {
-    font-size: 10px;
-  }
   .journey-art {
     right: -65px;
     width: 65%;
-  }
-  .hero-eyebrow {
-    font-size: 10px;
   }
   .unit-summary {
     padding: 22px 20px;
@@ -4054,30 +3460,6 @@ main {
   .lesson-tip summary {
     font-size: 11px;
   }
-  .daily-goal {
-    padding: 20px;
-  }
-  .goal-ring {
-    width: 158px;
-    height: 158px;
-    margin: 24px auto;
-  }
-  .goal-ring small {
-    font-size: 11px;
-  }
-  .daily-goal > p {
-    font-size: 11px;
-  }
-  .week-dots {
-    margin-top: 23px;
-  }
-  .week-dots i {
-    width: 25px;
-    height: 25px;
-  }
-  .week-dots > div > span {
-    font-size: 10px;
-  }
   .skill-row {
     gap: 11px;
     margin-bottom: 23px;
@@ -4110,16 +3492,6 @@ main {
   .phrase-card > div > span {
     font-size: 11px;
   }
-  .quick-practice strong {
-    font-size: 14px;
-  }
-  .quick-practice small {
-    font-size: 11px;
-    line-height: 1.6;
-  }
-  .quick-practice > button {
-    padding: 20px 16px;
-  }
   .profile strong {
     font-size: 12px;
   }
@@ -4136,30 +3508,20 @@ main {
 .unit-goals > span,
 .path-overview,
 .skills-panel > p,
-.daily-goal > p,
 .phrase-card > div > span,
-.quick-practice small,
 .question-footer > span,
 .lesson-tip,
 .subtle {
   color: #75816b;
 }
-.hero-card p,
-.hero-caption {
-  color: #787d62;
-}
 .skill-row strong {
   color: #667958;
 }
-.skill-row small,
-.week-dots > div > span {
+.skill-row small {
   color: #81906e;
 }
 .nav-item {
   color: #718068;
-}
-.course-switch div > span {
-  color: #7a856c;
 }
 .sidebar-note > span:last-of-type {
   color: #7e8b70;
@@ -4207,26 +3569,8 @@ main {
   .model-answer > p {
     font-size: 14px;
   }
-  .hero-card {
-    min-height: 353px;
-  }
-  .hero-card p {
-    font-size: 13px;
-  }
-  .hero-caption {
-    font-size: 10px;
-  }
-  .hero-text {
-    max-width: 64%;
-  }
   .journey-art {
     right: -61px;
-  }
-  .dashboard-heading h1 {
-    font-size: 29px;
-  }
-  .daily-goal > p {
-    font-size: 11px;
   }
   .skills-panel > p {
     font-size: 11px;
@@ -4278,34 +3622,11 @@ main {
   }
 }
 @media (max-width: 430px) {
-  .hero-card {
-    min-height: 425px;
-  }
-  .hero-text {
-    max-width: 89%;
-  }
-  .hero-card h2 {
-    font-size: 39px;
-  }
-  .hero-card p {
-    max-width: 230px;
-    font-size: 12px;
-  }
-  .hero-eyebrow {
-    font-size: 9px;
-  }
-  .hero-text .hero-caption {
-    max-width: 160px;
-    line-height: 1.6;
-  }
   .journey-art {
     width: 75%;
     height: 59%;
     bottom: -19px;
     right: -65px;
-  }
-  .hero-caption {
-    font-size: 10px;
   }
   .path-overview {
     font-size: 11px;
@@ -4342,12 +3663,6 @@ main {
   }
   .remaining-units {
     font-size: 11px;
-  }
-  .quick-practice strong {
-    font-size: 15px;
-  }
-  .quick-practice small {
-    font-size: 12px;
   }
   .path-stop .unit-info h3 {
     font-size: 15px;
@@ -4406,9 +3721,6 @@ main {
   }
   .exam-section-grid article > span {
     font-size: 11px;
-  }
-  .hero-footnote {
-    display: none;
   }
 }
 

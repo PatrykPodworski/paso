@@ -85,7 +85,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon sage">
+        <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] sage">
           <Icon name="map" />
         </span>
         <div>
@@ -107,7 +107,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon sand">
+        <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] sand">
           <Icon name="layers" />
         </span>
         <div>
@@ -129,7 +129,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon lavender">
+        <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] lavender">
           <Icon name="pen" />
         </span>
         <div>

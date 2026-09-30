@@ -41,13 +41,14 @@ export const Sidebar = ({
           paso<span className="brand-period">.</span>
         </span>
       </a>
-      <div className="course-switch">
+      <div className="flex items-center gap-[10px] border border-[#e5e7dc] rounded-[9px] p-[13px_10px] bg-[#f5f6ee] mb-[35px] max-desktop:gap-[7px] max-desktop:p-[12px_8px]">
         <span className="spanish-flag" aria-label="Spanish flag" />
         <div>
-          <strong>Spanish for your world</strong>
-          <span>DELE A1 · Beginner</span>
+          <strong className="block text-[12px] tracking-[-0.1px]">Spanish for your world</strong>
+          <span className="block text-[11px] text-[#7a856c] mt-[4px] max-desktop:text-[12px]">
+            DELE A1 · Beginner
+          </span>
         </div>
-        <span className="course-badge">A1</span>
       </div>
       <span className="nav-label">YOUR LEARNING SPACE</span>
       <nav aria-label="Main navigation">

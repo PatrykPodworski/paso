@@ -1,6 +1,6 @@
 import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, Progress, Unit } from "../data/types";
-import { AudioButton } from "./AudioButton";
+import { AudioButton } from "./audio/AudioButton";
 import { Icon } from "../design-system/Icon";
 
 type Props = {

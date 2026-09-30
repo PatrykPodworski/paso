@@ -1,10 +1,10 @@
 import { createRef } from "react";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AudioButton } from "../components/AudioButton";
-import { playWord } from "../components/playWord";
-import { stopAudio } from "../components/playback";
-import type { AudioHandle } from "../components/useAudioPlayer";
+import { AudioButton } from "../components/audio/AudioButton";
+import { playWord } from "../components/audio/playWord";
+import { stopAudio } from "../components/audio/playback";
+import type { AudioHandle } from "../components/audio/useAudioPlayer";
 
 vi.mock("../data/audio-sources", () => ({
   audioSources: () => ["/audio/elevenlabs/test.mp3", "/audio/original.m4a"],

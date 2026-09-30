@@ -2,6 +2,7 @@ import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { SectionHeading } from "../../design-system/SectionHeading";
 import { TextLink } from "../../design-system/TextLink";
+import { ProgressTrack } from "../../design-system/ProgressTrack";
 import { allLessons, units } from "../../data/curriculum";
 import type { Lesson, Progress } from "../../data/types";
 import { JourneyArt } from "../Art";
@@ -93,9 +94,7 @@ export const TodayPage = ({
           <span>
             <b>{completed}</b> of {allLessons.length} lessons complete
           </span>
-          <div className="progress-track">
-            <div style={{ width: `${progressPercent}%` }} />
-          </div>
+          <ProgressTrack percent={progressPercent} className="flex-1" />
           <b>{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">

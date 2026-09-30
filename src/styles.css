@@ -608,25 +608,6 @@ main {
   font-weight: 500;
   color: #536849;
 }
-.progress-track {
-  height: 5px;
-  border-radius: 10px;
-  background: #edf0e7;
-  overflow: hidden;
-  display: block;
-}
-.progress-track > div,
-.progress-track > span {
-  display: block;
-  background: #8eab82;
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.4s;
-}
-.path-overview .progress-track {
-  flex: 1;
-  height: 4px;
-}
 .unit-card {
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -1045,10 +1026,6 @@ main {
   font-size: 10px;
   color: #a2aa94;
   font-weight: 400;
-}
-.skill-row .progress-track {
-  margin-top: 7px;
-  height: 4px;
 }
 .skill-row > svg {
   color: #a2ad91;

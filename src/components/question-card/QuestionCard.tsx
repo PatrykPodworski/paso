@@ -119,7 +119,13 @@ export const QuestionCard = ({
   });
 
   return (
-    <div className="question-card">
+    <div
+      className={
+        exam
+          ? "p-[26px_0_0] max-tablet:p-[20px_0_0]"
+          : "p-[29px_36px_30px] max-tablet:p-[25px_22px] max-phone:p-[22px_18px]"
+      }
+    >
       <QuestionHeading
         q={q}
         exam={exam}

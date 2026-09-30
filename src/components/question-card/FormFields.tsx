@@ -10,9 +10,12 @@ type Props = {
 };
 
 export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: Props) => (
-  <div className="form-fields">
+  <div className="grid grid-cols-[1fr_1fr] gap-[17px] max-tablet:gap-[14px] max-phone:grid-cols-[1fr]">
     {q.fields?.map((f) => (
-      <label key={f.label}>
+      <label
+        key={f.label}
+        className="flex flex-col gap-[8px] text-[14px] text-[#84986f] max-tablet:text-[13px] max-phone:text-[14px]"
+      >
         {f.label}
         <input
           lang="es"

@@ -3,6 +3,9 @@ import type { Question } from "../../data/types";
 import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
 
+const CHECK_ROW =
+  "flex items-start gap-[10px] m-[10px_0] text-[13px] leading-[1.7] text-[#758763] max-tablet:text-[14px]";
+
 type Props = {
   q: Question;
   exam: boolean;
@@ -24,9 +27,10 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
             onRecordingChange={practice.setRecording}
           />
           {!feedback && (
-            <label className="check-row">
+            <label className={CHECK_ROW}>
               <input
                 type="checkbox"
+                className="mt-[1px]"
                 checked={practice.spoken}
                 onChange={(e) => practice.setSpoken(e.target.checked)}
               />
@@ -36,14 +40,15 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
         </>
       )}
       {practice.productive && !exam && (
-        <div className="self-checks">
+        <div className="self-checks mt-[26px] rounded-[9px] bg-[#f5f7ef] p-[19px_20px] max-tablet:p-[16px]">
           <Eyebrow variant="checklist" className="mb-[13px]">
             Your self-review checklist
           </Eyebrow>
           {q.checklist?.map((c, i) => (
-            <label className="check-row" key={c}>
+            <label className={CHECK_ROW} key={c}>
               <input
                 type="checkbox"
+                className="mt-[1px]"
                 checked={ticked.has(i)}
                 onChange={() => practice.toggleCheck(i)}
               />
@@ -53,7 +58,9 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
         </div>
       )}
       {practice.productive && !exam && !feedback && (
-        <p className="coming-soon">AI feedback on your writing and speaking is coming soon.</p>
+        <p className="mt-[22px] text-[13px] leading-[1.6] text-[#62725e]">
+          AI feedback on your writing and speaking is coming soon.
+        </p>
       )}
     </>
   );

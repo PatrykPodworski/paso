@@ -6,6 +6,8 @@ import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
 
+const NOTE = "text-[14px] leading-[1.8] text-[#63784e] mt-[8px]";
+
 type WritingNotesProps = { q: Question; value: string };
 
 const WritingNotes = ({ q, value }: WritingNotesProps) => {
@@ -13,8 +15,8 @@ const WritingNotes = ({ q, value }: WritingNotesProps) => {
   const hints = writingHints(value);
 
   return (
-    <div className="writing-notes">
-      <p>
+    <div className="mt-[18px]">
+      <p className={NOTE}>
         {words < (q.minWords || 0)
           ? `Your response is short (${words} words). Aim for ${q.minWords}–${q.maxWords} words and develop the missing points.`
           : words > (q.maxWords || Infinity)
@@ -22,11 +24,11 @@ const WritingNotes = ({ q, value }: WritingNotesProps) => {
             : `Your word count (${words}) is within the practice target.`}
       </p>
       {hints.map((h) => (
-        <p key={h}>
-          <Icon name="info" size={16} /> {h}
+        <p key={h} className={NOTE}>
+          <Icon name="info" size={16} className="align-middle" /> {h}
         </p>
       ))}
-      <FieldNote>
+      <FieldNote className="mt-[8px]">
         {hints.length
           ? "These are targeted checks, not a complete correction."
           : "No issue found by the small set of pattern checks. This does not mean every sentence is correct."}{" "}
@@ -40,12 +42,17 @@ type PracticeReviewProps = { q: Question; value: string; checked: number };
 
 const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
   <>
-    <div className="model-answer">
+    <div className="model-answer rounded-[8px] border border-[#e4e9d7] bg-[#fffdf6] p-[18px_20px] mt-[18px] max-tablet:p-[15px]">
       <Eyebrow>One possible answer</Eyebrow>
-      <p lang="es">{q.answer}</p>
+      <p
+        lang="es"
+        className="m-[10px_0_17px] text-[15px] leading-[1.9] text-[#687b51] max-tablet:text-[14px]"
+      >
+        {q.answer}
+      </p>
     </div>
     {q.kind !== "speak" && <WritingNotes q={q} value={value} />}
-    <FieldNote>
+    <FieldNote className="mt-[13px]">
       {checked}/{q.checklist?.length || 0} self-review points checked. Productive practice is saved
       without a numerical grade.
     </FieldNote>
@@ -67,8 +74,8 @@ const FeedbackBottom = ({
   onRevise,
   onContinue,
 }: FeedbackBottomProps) => (
-  <div className="feedback-bottom">
-    <small>
+  <div className="flex items-center justify-between gap-[20px] mt-[20px] max-tablet:flex-wrap max-tablet:gap-[15px]">
+    <small className="text-[12px] leading-[1.7] text-[#96a480]">
       {correct === false
         ? "Added to your mistake review."
         : productive
@@ -122,42 +129,62 @@ export const QuestionFeedback = ({
   assisted,
   onRevise,
   onContinue,
-}: Props) => (
-  <div className={`feedback ${correct === false ? "needs-work" : "success"}`} role="status">
-    <div className="feedback-heading">
-      <span className="feedback-icon">
-        <Icon name={correct === false ? "repeat" : productive ? "pen" : "check"} />
-      </span>
-      <h3>
-        {productive
-          ? "Let’s reflect on your answer"
-          : correct
-            ? "¡Muy bien! You’ve got it."
-            : "A good moment to learn."}
-      </h3>
+}: Props) => {
+  const needsWork = correct === false;
+  const paragraph = `text-[14px] leading-[1.8] mt-[13px] ${needsWork ? "text-[#8d6d48]" : "text-[#63784e]"}`;
+
+  return (
+    <div
+      className={`feedback rounded-[10px] border p-[22px] mt-[24px] max-tablet:p-[20px_17px] ${
+        needsWork ? "border-[#ead7b9] bg-[#faf1e3]" : "border-[#dce5cc] bg-[#f1f6e8]"
+      }`}
+      role="status"
+    >
+      <div className="flex items-center gap-[10px]">
+        <span
+          className={`flex h-[30px] w-[30px] items-center justify-center rounded-full ${
+            needsWork ? "bg-[#f1dfc5] text-[#bf955f]" : "bg-[#e0ebd1] text-[#8ba768]"
+          }`}
+        >
+          <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
+        </span>
+        <h3
+          className={`text-[16px] max-tablet:text-[15px] max-phone:text-[14px] ${
+            needsWork ? "text-[#aa7b4a]" : "text-[#6f8a52]"
+          }`}
+        >
+          {productive
+            ? "Let’s reflect on your answer"
+            : correct
+              ? "¡Muy bien! You’ve got it."
+              : "A good moment to learn."}
+        </h3>
+      </div>
+      {needsWork && (
+        <p className={paragraph}>
+          Your answer: <strong lang="es">{value}</strong>
+          <br />
+          Correct answer: <strong lang="es">{q.answer}</strong>
+        </p>
+      )}
+      <p className={paragraph}>{q.explanation}</p>
+      <MemoryHint text={q.memoryHint} />
+      {productive && <PracticeReview q={q} value={value} checked={checked} />}
+      {q.audio && (
+        <details className="text-[14px] text-[#889c71] mt-[17px]">
+          <summary className="cursor-pointer">Read the transcript</summary>
+          <p lang="es" className="mt-[10px]">
+            {q.audio}
+          </p>
+        </details>
+      )}
+      <FeedbackBottom
+        correct={correct}
+        productive={productive}
+        assisted={assisted}
+        onRevise={onRevise}
+        onContinue={onContinue}
+      />
     </div>
-    {correct === false && (
-      <p>
-        Your answer: <strong lang="es">{value}</strong>
-        <br />
-        Correct answer: <strong lang="es">{q.answer}</strong>
-      </p>
-    )}
-    <p>{q.explanation}</p>
-    <MemoryHint text={q.memoryHint} />
-    {productive && <PracticeReview q={q} value={value} checked={checked} />}
-    {q.audio && (
-      <details>
-        <summary>Read the transcript</summary>
-        <p lang="es">{q.audio}</p>
-      </details>
-    )}
-    <FeedbackBottom
-      correct={correct}
-      productive={productive}
-      assisted={assisted}
-      onRevise={onRevise}
-      onContinue={onContinue}
-    />
-  </div>
-);
+  );
+};

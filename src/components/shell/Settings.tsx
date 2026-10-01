@@ -9,6 +9,7 @@ import { localDate } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
+import { FIELD } from "../../design-system/field";
 
 type Props = {
   progress: Progress;
@@ -47,7 +48,9 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       <header className="flex justify-between gap-[10px] mb-[27px]">
         <div>
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
-          <h2 className="mt-[8px] text-[27px] max-md:text-[26px]">Your little preferences.</h2>
+          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] mt-[8px] text-[27px] max-md:text-[26px]">
+            Your little preferences.
+          </h2>
         </div>
         <IconButton onClick={onClose} aria-label="Close preferences">
           <Icon name="x" />
@@ -56,6 +59,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       <label className={LABEL}>
         What should we call you?
         <input
+          className={FIELD}
           value={name}
           maxLength={32}
           onChange={(e) => setName(e.target.value)}
@@ -64,7 +68,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       </label>
       <label className={LABEL}>
         Your daily practice goal
-        <select value={goal} onChange={(e) => setGoal(+e.target.value)}>
+        <select className={FIELD} value={goal} onChange={(e) => setGoal(+e.target.value)}>
           <option value={5}>A little · 5 exercises</option>
           <option value={10}>Steady steps · 10 exercises</option>
           <option value={20}>A good stretch · 20 exercises</option>
@@ -72,7 +76,12 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       </label>
       <label className={LABEL}>
         Exam date <span className="text-[13px] text-[#75816b]">(optional)</span>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <input
+          className={FIELD}
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
       </label>
       <FieldNote className="mb-[22px]">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
@@ -105,7 +114,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         <summary className="cursor-pointer">Start over</summary>
         {reset ? (
           <div>
-            <p className="m-[14px_0]">
+            <p className="leading-[1.7] m-[14px_0]">
               This clears lesson progress, drafts, checklists and the exam rehearsal in this
               browser.
             </p>

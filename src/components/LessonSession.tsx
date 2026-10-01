@@ -86,20 +86,24 @@ export const LessonSession = ({
           <Eyebrow variant="small" className="mb-[5px]">
             PASO · YOUR LEARNING PATH
           </Eyebrow>
-          <h3 className="text-[15px] max-md:text-[14px]">{lesson.title}</h3>
+          <h3 className="font-semibold tracking-[-0.3px] text-[15px] max-md:text-[14px]">
+            {lesson.title}
+          </h3>
         </div>
         <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
-      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s]">
+      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none">
         <div style={{ width: `${finished ? 100 : (index / lesson.questions.length) * 100}%` }} />
       </div>
       {confirmExit && (
         <div className="p-[50px_30px] text-center">
-          <Icon name="book" size={40} className="text-[#9eaf85] mb-[22px]" />
-          <h2 className="text-[30px]">Leave this lesson?</h2>
-          <p className="text-[15px] text-[#96a483] max-w-[450px] m-[15px_auto_25px]">
+          <Icon name="book" size={40} className="mx-auto text-[#9eaf85] mb-[22px]" />
+          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[30px]">
+            Leave this lesson?
+          </h2>
+          <p className="leading-[1.7] text-[15px] text-[#96a483] max-w-[450px] m-[15px_auto_25px]">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
@@ -121,8 +125,10 @@ export const LessonSession = ({
             <span className="translate-y-[19px]">✧</span>
           </CompletionArt>
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
-          <h2 className="text-[39px] m-[12px_0] max-md:text-[34px]">Look at you go.</h2>
-          <p>Another little piece of Spanish, yours to keep.</p>
+          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
+            Look at you go.
+          </h2>
+          <p className="leading-[1.7]">Another little piece of Spanish, yours to keep.</p>
           <div className={COMPLETION_STATS}>
             <div>
               <strong>
@@ -141,7 +147,7 @@ export const LessonSession = ({
             </div>
           </div>
           {assisted > 0 && <FieldNote>{assisted} answers used transcript assistance.</FieldNote>}
-          <p>
+          <p className="leading-[1.7]">
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}

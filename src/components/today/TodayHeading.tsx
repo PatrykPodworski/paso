@@ -3,6 +3,7 @@ import { PageHeading } from "../../design-system/PageHeading";
 import { localDate } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   progress: Progress;
@@ -35,7 +36,7 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
       description="Your next chapter starts with a small step."
     >
       <button
-        className="flex items-center gap-[8px] text-[13px] text-[#88927a] border border-[#e3e6da] rounded-[7px] p-[9px_11px] bg-[#fffefa] [&>svg:first-child]:text-[#ba9b65] max-xl:text-[12px] max-lg:hidden"
+        className={`${PRESSABLE} flex items-center gap-[8px] text-[13px] text-[#88927a] border border-[#e3e6da] rounded-[7px] p-[9px_11px] bg-[#fffefa] [&>svg:first-child]:text-[#ba9b65] max-xl:text-[12px] max-lg:hidden`}
         onClick={() => openSettings()}
       >
         <Icon name="sun" size={17} />

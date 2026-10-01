@@ -93,7 +93,10 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
       <div className="flex flex-col gap-4">
         <FieldNote>Progress and writing drafts stay in this browser.</FieldNote>
         <FieldNote>
-          A note with a link inside. <a href="#design-system">Official structure ↗</a>
+          A note with a link inside.{" "}
+          <a className="underline" href="#design-system">
+            Official structure ↗
+          </a>
         </FieldNote>
       </div>
     ),
@@ -118,8 +121,14 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         {(["default", "path", "word", "collection"] as const).map((variant) => (
           <SectionHeading key={variant} variant={variant}>
             <div>
-              {variant === "collection" ? <h3>Collection heading</h3> : <h2>{variant} heading</h2>}
-              <p>A short line of supporting text.</p>
+              {variant === "collection" ? (
+                <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Collection heading</h3>
+              ) : (
+                <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+                  {variant} heading
+                </h2>
+              )}
+              <p className="leading-[1.7]">A short line of supporting text.</p>
             </div>
             <TextLink>Text link</TextLink>
           </SectionHeading>
@@ -154,12 +163,16 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         </Notice>
         <Notice>
           <Icon name="info" />
-          <p>
-            A notice with an icon and a <a href="#design-system">link inside</a>.
+          <p className="leading-[1.7]">
+            A notice with an icon and a{" "}
+            <a className="underline" href="#design-system">
+              link inside
+            </a>
+            .
           </p>
         </Notice>
         <Notice positive>
-          <p>
+          <p className="leading-[1.7]">
             Reading + writing: <strong>36.00/50</strong>
           </p>
         </Notice>

@@ -1,14 +1,7 @@
-/* Tailwind without preflight: preflight resets base element styles and would break
-   the hand-written rules below and every visual baseline.
-   Theme stays layered so the :root block below wins any token name collision.
-   Utilities are deliberately NOT layered. Normal unlayered declarations beat
-   normal layered ones whatever the specificity, so a layered utility would lose
-   to plain element rules like `button { color: inherit }` further down this file
-   and a text colour set with `text-*` would silently do nothing. Unlayered, a
-   utility class (0,1,0) outranks those element rules as intended. */
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css";
+@import "tailwindcss";
 @theme {
+  --font-sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --color-green: #284f40;
   --color-green-dark: #203f33;
   --color-coral: #ce7657;
@@ -16,168 +9,40 @@
   --color-paper: #fffefa;
   --color-line: #e5e8df;
   --color-muted: #7d867f;
-}
-:root {
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
-  color: #293c34;
-  background: #f8f9f5;
-  font-synthesis: none;
-  font-weight: 400;
-  font-size: 16px;
-  --green: #284f40;
-  --green-dark: #203f33;
-  --muted: #7d867f;
-  --line: #e5e8df;
-  --coral: #ce7657;
-  --sage: #e7eddf;
-  --paper: #fffefa;
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-}
-body:has(dialog[open]) {
-  overflow: hidden;
-}
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-button,
-a,
-input,
-textarea,
-select {
-  -webkit-tap-highlight-color: transparent;
-}
-button {
-  cursor: pointer;
-}
-button {
-  color: inherit;
-}
-button:disabled {
-  cursor: default;
-  opacity: 0.46;
-}
-a {
-  color: inherit;
-}
-button:focus-visible,
-a:focus-visible,
-summary:focus-visible {
-  outline: 3px solid #cd825e;
-  outline-offset: 4px;
-}
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid #6b9275;
-  outline-offset: 1px;
-}
-button {
-  transition:
-    background 0.18s,
-    box-shadow 0.18s,
-    transform 0.18s;
-}
-button:active:not(:disabled) {
-  transform: translateY(1px);
-}
-h1,
-h2,
-h3,
-h4,
-p {
-  margin: 0;
-}
-h1,
-h2,
-h3,
-h4 {
-  font-weight: 600;
-}
-h1 {
-  font-family: var(--serif);
-  font-size: 36px;
-  letter-spacing: -1.3px;
-  line-height: 1.2;
-}
-h2 {
-  font-family: var(--serif);
-  font-size: 27px;
-  letter-spacing: -0.7px;
-  line-height: 1.25;
-}
-h3 {
-  font-size: 17px;
-  letter-spacing: -0.3px;
-}
-h4 {
-  font-size: 16px;
-}
-p {
-  line-height: 1.7;
-}
-input[type="checkbox"] {
-  accent-color: var(--green);
-  width: 17px;
-  height: 17px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-input:not([type="checkbox"]):not([type="range"]),
-textarea,
-select {
-  background: #fffefa;
-  border: 1px solid #d8dfd4;
-  border-radius: 9px;
-  padding: 12px 13px;
-  color: var(--green-dark);
-  width: 100%;
-  min-width: 0;
-}
-textarea {
-  resize: vertical;
-  line-height: 1.7;
-}
-input::placeholder,
-textarea::placeholder {
-  color: #959b91;
-}
-input[type="range"] {
-  accent-color: var(--green);
-  width: 100%;
-  cursor: pointer;
-}
-label {
-  font-size: 15px;
-}
-svg {
-  flex-shrink: 0;
-}
-.question-pronunciation:not([hidden]) {
-  display: contents;
-}
-@keyframes wave {
-  to {
-    transform: scaleY(0.35);
+  --animate-wave: wave 0.65s ease-in-out infinite alternate;
+  --animate-ring-pulse: ring-pulse 1.5s ease-in-out infinite;
+
+  @keyframes wave {
+    to {
+      transform: scaleY(0.35);
+    }
+  }
+  @keyframes ring-pulse {
+    50% {
+      box-shadow: 0 0 0 5px #b4694e23;
+    }
   }
 }
-@keyframes pulse {
-  50% {
-    box-shadow: 0 0 0 5px #b4694e23;
+@layer base {
+  body {
+    color: #293c34;
+    background: #f8f9f5;
+    line-height: normal;
+    font-synthesis: none;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  summary:focus-visible {
+    outline: 3px solid #cd825e;
+    outline-offset: 4px;
+  }
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid #6b9275;
+    outline-offset: 1px;
   }
 }

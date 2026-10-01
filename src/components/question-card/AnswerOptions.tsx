@@ -1,4 +1,5 @@
 import { Icon } from "../../design-system/Icon";
+import { PRESSABLE } from "../../design-system/pressable";
 
 export const OPTION_KEY =
   "flex shrink-0 items-center justify-center rounded-[5px] border border-[#e1e7d7] bg-[#fcfdf8] text-[#a3b28e]";
@@ -17,12 +18,13 @@ const KEY_SIZE = {
 };
 
 // Stylesheet order, not class order, decides between two utilities of one property,
-// so every state picks its own colours instead of overriding a default.
+// so every state picks its own colours instead of overriding a default. The same holds
+// for PRESSABLE's disabled opacity, hence `!` on the revealed answers.
 const tone = (picked: boolean, right: boolean, wrong: boolean) =>
   wrong
-    ? "incorrect border-[#cf9b73] bg-[#fcf0e2] text-[#ad784f] disabled:opacity-100"
+    ? "incorrect border-[#cf9b73] bg-[#fcf0e2] text-[#ad784f] disabled:opacity-100!"
     : right
-      ? "correct border-[#8ea969] bg-[#eef4e3] text-[#66844a] disabled:opacity-100"
+      ? "correct border-[#8ea969] bg-[#eef4e3] text-[#66844a] disabled:opacity-100!"
       : picked
         ? "border-[#8ba16d] bg-[#eef3e4]"
         : "border-[#dee5d3] bg-[#fffefa]";
@@ -50,7 +52,7 @@ const Option = ({
 }: OptionProps) => (
   <button
     type="button"
-    className={`${OPTION} ${SIZE[layout]} ${tone(picked, right, wrong)} ${picked ? "shadow-[0_0_0_1px_#8ba16d]" : ""}`}
+    className={`${PRESSABLE} ${OPTION} ${SIZE[layout]} ${tone(picked, right, wrong)} ${picked ? "shadow-[0_0_0_1px_#8ba16d]" : ""}`}
     onClick={() => onChoose(option)}
     disabled={feedback}
     aria-pressed={picked}

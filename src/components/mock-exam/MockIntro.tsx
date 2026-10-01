@@ -18,12 +18,12 @@ export const MockIntro = ({ progress, onStart }: Props) => (
       </div>
       <div>
         <Eyebrow>YOUR FIRST FULL REHEARSAL</Eyebrow>
-        <h2 className="mt-[12px] mb-[17px] text-[34px] max-xl:text-[29px] max-lg:text-[34px] max-md:text-[29px] max-sm:text-[28px]">
+        <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] mt-[12px] mb-[17px] text-[34px] max-xl:text-[29px] max-lg:text-[34px] max-md:text-[29px] max-sm:text-[28px]">
           One exam. Four ways
           <br />
           to make yourself understood.
         </h2>
-        <p className="max-w-[550px] text-[14px] text-[#90997e]">
+        <p className="leading-[1.7] max-w-[550px] text-[14px] text-[#90997e]">
           Try 55 original tasks and questions. Reading and listening are scored automatically.
           Writing and speaking are saved for self-review or a teacher’s assessment.
         </p>
@@ -52,9 +52,13 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           <div className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${skills[i].tint}`}>
             <Icon name={["book", "headphones", "pen", "mic"][i]} />
           </div>
-          <h3 className="mt-[16px] mb-[8px] max-md:text-[17px]">{s.title}</h3>
-          <p className="min-h-[30px] text-[12px] text-[#99a38a] max-sm:text-[11px]">{s.spanish}</p>
-          <strong className="mt-[11px] mb-[8px] block font-(family-name:--serif) text-[25px] font-medium max-sm:text-[23px]">
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px] mt-[16px] mb-[8px] max-md:text-[17px]">
+            {s.title}
+          </h3>
+          <p className="leading-[1.7] min-h-[30px] text-[12px] text-[#99a38a] max-sm:text-[11px]">
+            {s.spanish}
+          </p>
+          <strong className="mt-[11px] mb-[8px] block font-serif text-[25px] font-medium max-sm:text-[23px]">
             {s.minutes} minutes
           </strong>
           <span className="text-[12px] text-[#99a58b] max-sm:text-[11px]">
@@ -65,10 +69,11 @@ export const MockIntro = ({ progress, onStart }: Props) => (
     </div>
     <Notice>
       <Icon name="info" />
-      <p>
+      <p className="leading-[1.7]">
         This is an independent guided rehearsal. Shorter listening clips, visual symbols and
         navigation differ from the live exam; audio is controlled per question. Use the{" "}
         <a
+          className="underline"
           href="https://examenes.cervantes.es/es/dele/preparar-prueba"
           target="_blank"
           rel="noreferrer"
@@ -81,7 +86,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
     </Notice>
     {progress.mockResults.length > 0 && (
       <Panel className="p-[24px]">
-        <h3>Your previous rehearsals</h3>
+        <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Your previous rehearsals</h3>
         {progress.mockResults
           .slice()
           .reverse()

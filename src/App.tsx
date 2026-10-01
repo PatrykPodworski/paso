@@ -20,6 +20,7 @@ import { useNavigation } from "./components/shell/useNavigation";
 import { usePersistedProgress } from "./components/shell/usePersistedProgress";
 import { useToast } from "./components/shell/useToast";
 import { Notice } from "./design-system/Notice";
+import { PRESSABLE } from "./design-system/pressable";
 
 const App = () => {
   const [progress, setProgress, storageError] = usePersistedProgress();
@@ -126,7 +127,7 @@ const App = () => {
     <div className="min-h-screen">
       <a
         href="#main-content"
-        className="fixed left-[10px] -top-[100px] z-[200] p-[12px] bg-[#fff] text-[#294b36] focus:top-[10px]"
+        className="underline fixed left-[10px] -top-[100px] z-[200] p-[12px] bg-[#fff] text-[#294b36] focus:top-[10px]"
         onClick={(e) => {
           e.preventDefault();
           document.getElementById("main-content")?.focus();
@@ -165,11 +166,11 @@ const App = () => {
           {pages[page]}
           <footer className="flex max-md:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-md:mt-[32px] p-[20px_0_25px] max-md:p-[20px_0] border-t border-t-line text-[11px] text-[#a2ab96]">
             <span className="max-lg:hidden">Made for the joy of getting there.</span>
-            <span className="font-(family-name:--serif) text-[14px] italic text-[#91a17d]">
+            <span className="font-serif text-[14px] italic text-[#91a17d]">
               paso a paso <span className="text-[#c8a174] ml-[6px]">✦</span>
             </span>
             <button
-              className="flex items-center gap-[4px] border-0 bg-transparent text-[10px] max-md:text-[9px] text-[#a2ab96]"
+              className={`${PRESSABLE} flex items-center gap-[4px] border-0 bg-transparent p-[1px_6px] text-[10px] max-md:text-[9px] text-[#a2ab96]`}
               onClick={() => navigate("guide")}
             >
               Independent practice · Official sources inside

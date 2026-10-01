@@ -10,6 +10,7 @@ import { FieldNote } from "../design-system/FieldNote";
 import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
+import { CHECKBOX } from "../design-system/field";
 
 type Props = {
   progress: Progress;
@@ -35,12 +36,12 @@ export const Guide = ({ progress, onCheck }: Props) => {
       <Panel className="p-[32px] max-xl:p-[27px] max-md:p-[25px] max-sm:p-[22px] flex max-lg:block justify-between items-center gap-[35px] max-xl:gap-[20px] bg-[#edf0e3]!">
         <div className="max-w-[680px]">
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
-          <h2 className="text-[32px] max-xl:text-[28px] max-sm:text-[25px] m-[11px_0_14px]">
+          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[32px] max-xl:text-[28px] max-sm:text-[25px] m-[11px_0_14px]">
             You don’t need perfect Spanish.
             <br />
             You need to connect.
           </h2>
-          <p className="text-[#829174] text-[14px]">
+          <p className="leading-[1.7] text-[#829174] text-[14px]">
             A1 is about understanding familiar expressions, giving basic personal information and
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
@@ -50,7 +51,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             <Icon name="external" size={15} />
           </TextLink>
         </div>
-        <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-(family-name:--serif) font-medium flex max-lg:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
+        <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
           A1
           <span className="font-[family-name:'Avenir_Next',sans-serif] text-[9px] tracking-[1.4px] mt-[17px]">
             UN PEQUEÑO GRAN PASO
@@ -58,10 +59,12 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </div>
       </Panel>
       <SectionHeading>
-        <h2>Four skills. Two passing groups.</h2>
+        <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+          Four skills. Two passing groups.
+        </h2>
       </SectionHeading>
       <Panel className="pt-[8px] px-[25px] pb-[17px] max-md:px-[12px] overflow-x-auto">
-        <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-sm:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-md:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-md:[&_td]:text-[13px] max-sm:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
+        <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-sm:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-md:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-md:[&_td]:text-[13px] max-sm:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:inline [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
           <thead>
             <tr>
               <th>Skill</th>
@@ -112,7 +115,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         <FieldNote className="mt-[15px]">
           Administration order is reading, listening, writing, then the oral appointment as arranged
           by your centre. Older A1 guides have different timings.{" "}
-          <a href={sources[0].url} target="_blank" rel="noreferrer">
+          <a className="underline" href={sources[0].url} target="_blank" rel="noreferrer">
             Official structure ↗
           </a>
         </FieldNote>
@@ -121,14 +124,14 @@ export const Guide = ({ progress, onCheck }: Props) => {
         <PassingRule />
         <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
-          <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
+          <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
             Be clear. Cover the task.
           </h3>
           <div>
             <Icon name="pen" />
             <section>
-              <h4>Writing</h4>
-              <p>
+              <h4 className="font-semibold">Writing</h4>
+              <p className="leading-[1.7]">
                 Each task has equal weight. Answer the fields or message prompts with enough
                 understandable information. Check word count, greeting and farewell where requested.
               </p>
@@ -137,8 +140,8 @@ export const Guide = ({ progress, onCheck }: Props) => {
           <div>
             <Icon name="mic" />
             <section>
-              <h4>Speaking</h4>
-              <p>
+              <h4 className="font-semibold">Speaking</h4>
+              <p className="leading-[1.7]">
                 Introduce yourself for 1–2 minutes, discuss your chosen topic for 2–3, then converse
                 for 3–4. Ask the interviewer two questions. Task completion and language use are
                 assessed.
@@ -148,8 +151,8 @@ export const Guide = ({ progress, onCheck }: Props) => {
           <div>
             <Icon name="headphones" />
             <section>
-              <h4>Understanding</h4>
-              <p>
+              <h4 className="font-semibold">Understanding</h4>
+              <p className="leading-[1.7]">
                 Each correct reading or listening answer earns one point. There is no penalty for
                 wrong answers. Official listening texts are played twice.
               </p>
@@ -158,7 +161,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           <FieldNote className="border-t border-t-line pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
-            <a href={sources[0].url} target="_blank" rel="noreferrer">
+            <a className="underline" href={sources[0].url} target="_blank" rel="noreferrer">
               Assessment scales ↗
             </a>
           </FieldNote>
@@ -166,8 +169,10 @@ export const Guide = ({ progress, onCheck }: Props) => {
       </div>
       <SectionHeading>
         <div>
-          <h2>Your A1 readiness checklist</h2>
-          <p>Self-assess these abilities as you work through the path.</p>
+          <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+            Your A1 readiness checklist
+          </h2>
+          <p className="leading-[1.7]">Self-assess these abilities as you work through the path.</p>
         </div>
         <Badge>
           {
@@ -179,10 +184,10 @@ export const Guide = ({ progress, onCheck }: Props) => {
       </SectionHeading>
       <Notice>
         <Icon name="info" />
-        <p>
+        <p className="leading-[1.7]">
           There is no official fixed word list or separate grammar test to memorize for a guaranteed
           pass. This is a practical coverage map of the official A1 inventories. The{" "}
-          <a href={sources[10].url} target="_blank" rel="noreferrer">
+          <a className="underline" href={sources[10].url} target="_blank" rel="noreferrer">
             full curriculum
           </a>{" "}
           is the reference for exhaustive detail; A1 and A2 are separate columns. A checked box
@@ -192,7 +197,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
       <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[21px]">
         {requirementGroups.map((g) => (
           <Panel as="section" className="p-[25px] max-xl:p-[23px]" key={g.title}>
-            <h3 className="flex items-center gap-[10px] mb-[23px] text-[17px]">
+            <h3 className="font-semibold tracking-[-0.3px] flex items-center gap-[10px] mb-[23px] text-[17px]">
               <Icon name={g.icon} className="text-[#9ca987] w-[20px]" />
               {g.title}
             </h3>
@@ -202,7 +207,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
                 key={id}
               >
                 <input
-                  className="m-[3px_0_0]"
+                  className={`${CHECKBOX} m-[3px_0_0]`}
                   type="checkbox"
                   checked={progress.checks.includes(id)}
                   onChange={() => onCheck(id)}
@@ -216,7 +221,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
               </label>
             ))}
             <TextLink
-              className="mt-[5px] border-t border-t-(--line) pt-[14px] text-[13px]!"
+              className="mt-[5px] border-t border-t-line pt-[14px] text-[13px]!"
               href={sources[g.source].url}
               target="_blank"
               rel="noreferrer"
@@ -228,16 +233,18 @@ export const Guide = ({ progress, onCheck }: Props) => {
         ))}
       </div>
       <SectionHeading>
-        <h2>Before you walk through the door</h2>
+        <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+          Before you walk through the door
+        </h2>
       </SectionHeading>
-      <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px] max-lg:[&>div]:relative max-lg:[&>div]:pl-[43px] [&>div>span]:font-(family-name:--serif) [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-lg:[&>div>span]:absolute max-lg:[&>div>span]:left-0 max-lg:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
+      <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px] max-lg:[&>div]:relative max-lg:[&>div]:pl-[43px] [&>div>span]:font-serif [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-lg:[&>div>span]:absolute max-lg:[&>div>span]:left-0 max-lg:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
         <div>
           <span>01</span>
-          <h3>Book the right exam</h3>
-          <p>
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Book the right exam</h3>
+          <p className="leading-[1.7]">
             Select general DELE A1 at an authorized centre. No lower-level certificate is required.
             Fees, dates and deadlines depend on the centre and session; check the{" "}
-            <a href={sources[9].url} target="_blank" rel="noreferrer">
+            <a className="underline" href={sources[9].url} target="_blank" rel="noreferrer">
               official registration page
             </a>
             .
@@ -245,8 +252,8 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </div>
         <div>
           <span>02</span>
-          <h3>Check your appointment</h3>
-          <p>
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Check your appointment</h3>
+          <p className="leading-[1.7]">
             Confirm the location and the separate written and oral times. Ask the centre about any
             access arrangements when registering. Follow its instructions about materials and
             arrival time.
@@ -254,11 +261,11 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </div>
         <div>
           <span>03</span>
-          <h3>Bring your documents</h3>
-          <p>
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Bring your documents</h3>
+          <p className="leading-[1.7]">
             Have the original official photo ID or passport used to register, registration receipt
             and official exam summons. Check the{" "}
-            <a href={sources[8].url} target="_blank" rel="noreferrer">
+            <a className="underline" href={sources[8].url} target="_blank" rel="noreferrer">
               candidate guidance
             </a>{" "}
             and your centre’s current instructions.
@@ -266,14 +273,16 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </div>
       </Panel>
       <SectionHeading>
-        <h2>Go straight to the source</h2>
+        <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+          Go straight to the source
+        </h2>
         <span className="text-[14px] text-[#75816b]">Instituto Cervantes · Primary sources</span>
       </SectionHeading>
       <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (
           <a
             key={s.url}
-            className="border border-(--line) rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
+            className="border border-line rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
             href={s.url}
             target="_blank"
             rel="noreferrer"
@@ -293,7 +302,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </a>
         ))}
       </div>
-      <p className="text-[13px] text-[#a1ac93] mt-[25px]">
+      <p className="leading-[1.7] text-[13px] text-[#a1ac93] mt-[25px]">
         Paso is an independent learning app, not affiliated with Instituto Cervantes. Exercises and
         illustrations are original. Official resources remain on their publishers’ websites.
       </p>

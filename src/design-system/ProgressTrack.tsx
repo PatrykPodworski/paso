@@ -7,7 +7,7 @@ type Props = {
 export const ProgressTrack = ({ percent, className = "" }: Props) => (
   <span className={`block h-[4px] overflow-hidden rounded-[10px] bg-[#edf0e7] ${className}`}>
     <span
-      className="block h-full rounded-[10px] bg-[#8eab82] [transition:width_0.4s]"
+      className="block h-full rounded-[10px] bg-[#8eab82] [transition:width_0.4s] motion-reduce:transition-none"
       style={{ width: `${percent}%` }}
     />
   </span>

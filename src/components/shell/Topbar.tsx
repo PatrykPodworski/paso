@@ -3,6 +3,7 @@ import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
 import { navigation, type Page } from "../navigation";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   page: Page;
@@ -39,7 +40,7 @@ export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
         <b className={STAT_VALUE}>{xp(progress)}</b> XP
       </span>
       <button
-        className="w-[30px] h-[30px] max-md:w-[29px] max-md:h-[29px] -ml-[7px] max-md:m-0 flex items-center justify-center rounded-[50%] border-2 border-[#fffdf5] shadow-[0_0_0_1px_#e6e5d9] bg-[#dfcdb1] text-[#695d43] text-[13px] font-(family-name:--serif) font-semibold"
+        className={`${PRESSABLE} w-[30px] h-[30px] max-md:w-[29px] max-md:h-[29px] -ml-[7px] max-md:m-0 flex items-center justify-center rounded-[50%] border-2 border-[#fffdf5] shadow-[0_0_0_1px_#e6e5d9] bg-[#dfcdb1] text-[#695d43] text-[13px] font-serif font-semibold`}
         onClick={() => openSettings()}
         aria-label="Open your learning preferences"
       >

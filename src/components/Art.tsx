@@ -123,7 +123,7 @@ export const Stamp = () => (
     aria-hidden="true"
   >
     <span className="text-[10px] tracking-[2px] max-md:text-[9px]">PASO A PASO</span>
-    <svg viewBox="0 0 60 45" className="w-[50px] h-[45px] max-md:w-[38px] max-md:h-[34px]">
+    <svg viewBox="0 0 60 45" className="shrink-0 w-[50px] h-[45px] max-md:w-[38px] max-md:h-[34px]">
       <path
         d="m5 35 16-27 13 27M12 24h17m7 11V10l-7 6m3 19h15"
         fill="none"

@@ -1,13 +1,9 @@
 import { test, expect } from "../fixtures/app";
 
-// styles.css imports Tailwind's utilities unlayered on purpose. Normal unlayered
-// declarations beat normal layered ones at any specificity, so putting utilities back
-// in layer(utilities) would make them lose to plain element rules such as
-// `button { color: inherit }` — silently, with no build or type error. These two
-// assertions fail if that happens.
-test("Tailwind utilities are built and outrank the stylesheet's element rules", async ({
-  page,
-}) => {
+// Preflight sets `button { color: inherit }` in the base layer. An unlayered copy of that
+// rule, or a layer order with utilities below base, would make `text-*` on a button do
+// nothing — silently, with no build or type error. These two assertions fail if that happens.
+test("Tailwind utilities are built and outrank preflight's element rules", async ({ page }) => {
   await page.goto("/");
 
   const styles = await page.evaluate(() => {

@@ -8,6 +8,7 @@ import type { Page } from "../navigation";
 import { PocketVocabulary } from "../PocketVocabulary";
 import { exerciseBank, skills, type Practice, type Session } from "../practice";
 import { SkillPractice } from "./SkillPractice";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   progress: Progress;
@@ -53,7 +54,7 @@ export const PracticePage = ({
       {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
         <button
           key={s}
-          className={`border border-transparent rounded-[20px] p-[9px_15px] max-md:p-[8px_12px] text-[14px] max-md:text-[12px] ${filter === s ? "bg-green text-white" : "bg-transparent text-[#8a967d] [&:hover]:bg-[#edf1e5]"}`}
+          className={`${PRESSABLE} border border-transparent rounded-[20px] p-[9px_15px] max-md:p-[8px_12px] text-[14px] max-md:text-[12px] ${filter === s ? "bg-green text-white" : "bg-transparent text-[#8a967d] [&:hover]:bg-[#edf1e5]"}`}
           onClick={() => setFilter(s)}
         >
           {s === "all"

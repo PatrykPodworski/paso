@@ -3,6 +3,7 @@ import { Icon } from "../../design-system/Icon";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
 import { TextLink } from "../../design-system/TextLink";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   onRecorded: (blob: Blob) => void;
@@ -145,7 +146,7 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
       <div className="record-main flex items-center justify-between gap-[15px] max-phone:flex-col max-phone:items-stretch">
         <button
           type="button"
-          className={`record-button flex items-center gap-[11px] p-[14px_19px] border-0 rounded-[9px] text-[14px] text-[#fff9f0] max-tablet:p-[13px] max-phone:justify-center ${recording ? "bg-[#ad614d] [animation:pulse_1.5s_ease-in-out_infinite]" : "bg-[#d29372]"}`}
+          className={`${PRESSABLE} record-button flex items-center gap-[11px] p-[14px_19px] border-0 rounded-[9px] text-[14px] text-[#fff9f0] max-tablet:p-[13px] max-phone:justify-center ${recording ? "bg-[#ad614d] animate-ring-pulse motion-reduce:animate-none" : "bg-[#d29372]"}`}
           onClick={toggle}
         >
           <Icon name={recording ? "pause" : "mic"} size={24} />

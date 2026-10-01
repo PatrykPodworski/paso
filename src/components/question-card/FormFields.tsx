@@ -1,5 +1,6 @@
 import { FieldNote } from "../../design-system/FieldNote";
 import type { Question } from "../../data/types";
+import { FIELD } from "../../design-system/field";
 
 type Props = {
   q: Question;
@@ -18,6 +19,7 @@ export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: P
       >
         {f.label}
         <input
+          className={FIELD}
           lang="es"
           value={fieldValues[f.label] || ""}
           onChange={(e) => onFieldChange(f.label, e.target.value)}

@@ -15,6 +15,7 @@ import { QuickPractice } from "./QuickPractice";
 import { SkillsPanel } from "./SkillsPanel";
 import { TodayHeading } from "./TodayHeading";
 import { UnitCard } from "../UnitCard";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   progress: Progress;
@@ -53,7 +54,7 @@ export const TodayPage = ({
               <i className="h-[5px] w-[5px] rounded-[50%] bg-[#94a26b]" />
               YOUR JOURNEY TO DELE A1
             </span>
-            <h2 className="font-(family-name:--serif) text-[47px] tracking-[-1.5px] leading-[1.06] m-[19px_0_13px] text-[#304f3d] font-medium max-desktop:text-[35px] max-desktop:mt-[17px] max-laptop:text-[45px] max-tablet:text-[41px] max-phone:text-[39px] max-phone:leading-[1.08]">
+            <h2 className="font-serif text-[47px] tracking-[-1.5px] leading-[1.06] m-[19px_0_13px] text-[#304f3d] font-medium max-desktop:text-[35px] max-desktop:mt-[17px] max-laptop:text-[45px] max-tablet:text-[41px] max-phone:text-[39px] max-phone:leading-[1.08]">
               Small steps.
               <br />A world of <em className="font-medium text-[#bb7553]">Spanish.</em>
             </h2>
@@ -84,7 +85,9 @@ export const TodayPage = ({
             <Eyebrow variant="heading" className="mb-[6px]">
               A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
             </Eyebrow>
-            <h2>Your learning path</h2>
+            <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+              Your learning path
+            </h2>
           </div>
           <TextLink
             className="text-[13px]! max-phone:text-[11px]!"
@@ -116,14 +119,16 @@ export const TodayPage = ({
           ))}
         </div>
         <button
-          className="flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-phone:p-[14px_0] text-[13px] max-phone:text-[11px] text-[#8a977c] [&:hover]:text-(--green)"
+          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-phone:p-[14px_0] text-[13px] max-phone:text-[11px] text-[#8a977c] [&:hover]:text-green`}
           onClick={() => navigate("path")}
         >
           Home, cafés, adventures & 6 more chapters
           <Icon name="arrow" size={16} />
         </button>
         <SectionHeading>
-          <h2>A little change of pace</h2>
+          <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
+            A little change of pace
+          </h2>
           <span className="text-[14px] text-[#75816b]">Make it yours</span>
         </SectionHeading>
         <QuickPractice mistakeCount={mistakeCount} practice={practice} />
@@ -137,12 +142,12 @@ export const TodayPage = ({
           </Eyebrow>
           <h3
             lang="es"
-            className="font-(family-name:--serif) italic font-medium tracking-[-1px] text-[#906e4e] text-[29px] desktop:text-[34px] mt-[19px] max-laptop:mt-[12px]"
+            className="font-serif italic font-medium tracking-[-1px] text-[#906e4e] text-[29px] desktop:text-[34px] mt-[19px] max-laptop:mt-[12px]"
           >
             Poco a poco.
           </h3>
           <span className="block text-[12px] text-[#b49d7f] mt-[6px]">/ˈpo.ko a ˈpo.ko/</span>
-          <p className="mt-[11px] text-[14px] text-[#8e7d61]">Little by little.</p>
+          <p className="leading-[1.7] mt-[11px] text-[14px] text-[#8e7d61]">Little by little.</p>
           <div className="flex items-center justify-between mt-[8px] max-laptop:justify-start max-laptop:gap-[20px] [&_button]:h-[30px] [&_button]:w-[30px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e7dcc2] [&_button]:bg-[#fcf7e9]! [&_button]:text-[#b6986f]">
             <span className="text-[11px] max-tablet:text-[13px] text-[#75816b]">
               Progress has its own pace.

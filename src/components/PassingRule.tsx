@@ -15,20 +15,20 @@ export const PassingRule = () => {
   return (
     <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px]">
       <Eyebrow>TRY THE PASSING RULE</Eyebrow>
-      <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
+      <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
         Does this score pass?
       </h3>
-      <p className="text-[14px] text-[#768762] mb-[23px]">
+      <p className="leading-[1.7] text-[14px] text-[#768762] mb-[23px]">
         Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.
       </p>
       {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
-        <label key={s} className="block mb-[16px]">
+        <label key={s} className="text-[15px] block mb-[16px]">
           <span className="flex justify-between text-[#7b8d6c] text-[14px]">
             {s}
             <b className="font-medium">{scores[i]}/25</b>
           </span>
           <input
-            className="h-[7px] mt-[12px]"
+            className="h-[7px] mt-[12px] w-full cursor-pointer accent-green"
             type="range"
             min="0"
             max="25"

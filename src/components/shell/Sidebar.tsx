@@ -1,5 +1,6 @@
 import { Icon } from "../../design-system/Icon";
 import { navigation, type Page } from "../navigation";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   page: Page;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const SIDEBAR =
-  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-desktop:w-[215px] max-tablet:w-[245px] pt-[36px] desktop:pt-[34px] max-tablet:pt-[28px] px-[20px] max-desktop:px-[15px] max-tablet:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-tablet:[transition:transform_0.2s]";
+  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-desktop:w-[215px] max-tablet:w-[245px] pt-[36px] desktop:pt-[34px] max-tablet:pt-[28px] px-[20px] max-desktop:px-[15px] max-tablet:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-tablet:[transition:transform_0.2s] motion-reduce:transition-none";
 
 const NAV_ITEM =
   "w-full flex items-center text-left gap-[12px] max-desktop:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] desktop:p-[15px_13px] m-[4px_0] desktop:m-[5px_0] text-[#718068] text-[14px]";
@@ -29,7 +30,7 @@ export const Sidebar = ({
   <>
     {mobileNav && (
       <button
-        className="hidden max-tablet:block fixed inset-0 z-[25] border-0 bg-[#253a2c77] backdrop-blur-[3px]"
+        className={`${PRESSABLE} hidden max-tablet:block fixed inset-0 z-[25] border-0 bg-[#253a2c77] backdrop-blur-[3px]`}
         onClick={() => closeNav()}
         aria-label="Close navigation"
       />
@@ -76,7 +77,7 @@ export const Sidebar = ({
         {navigation.map((n) => (
           <button
             key={n.id}
-            className={`${NAV_ITEM} ${
+            className={`${PRESSABLE} ${NAV_ITEM} ${
               page === n.id ? "bg-[#e9eee1] text-green font-semibold" : "hover:bg-[#f1f3ea]"
             }`}
             onClick={() => navigate(n.id)}
@@ -95,7 +96,7 @@ export const Sidebar = ({
       </nav>
       <div className="pt-[38px] max-tablet:pt-[25px] px-[17px] pb-[30px] mt-[20px]">
         <span className="block text-[33px] text-[#c99059] leading-[1]">✺</span>
-        <p className="font-(family-name:--serif) text-[19px] italic text-[#677457] m-[11px_0_5px]">
+        <p className="leading-[1.7] font-serif text-[19px] italic text-[#677457] m-[11px_0_5px]">
           Un poquito cada día.
         </p>
         <span className="text-[#7e8b70] text-[14px] desktop:text-[13px] leading-[1.7]">
@@ -107,7 +108,7 @@ export const Sidebar = ({
       </div>
       <div className="mt-auto pb-[22px] max-tablet:pb-[17px]">
         <button
-          className="flex items-center gap-[9px] text-[13px] text-[#8e9588] p-[15px_8px] bg-transparent border-0"
+          className={`${PRESSABLE} flex items-center gap-[9px] text-[13px] text-[#8e9588] p-[15px_8px] bg-transparent border-0`}
           onClick={() => navigate("guide")}
         >
           <Icon name="info" size={17} />
@@ -115,10 +116,10 @@ export const Sidebar = ({
           <Icon name="external" size={13} />
         </button>
         <button
-          className="flex items-center gap-[10px] w-full text-left border-0 border-t border-t-line p-[19px_0_0] bg-transparent"
+          className={`${PRESSABLE} flex items-center gap-[10px] w-full text-left border-0 border-t border-t-line p-[19px_0_0] bg-transparent`}
           onClick={() => openSettings()}
         >
-          <span className="w-[33px] h-[33px] flex items-center justify-center rounded-[50%] bg-[#dfcdb1] text-[#695d43] text-[14px] font-(family-name:--serif) font-semibold">
+          <span className="w-[33px] h-[33px] flex items-center justify-center rounded-[50%] bg-[#dfcdb1] text-[#695d43] text-[14px] font-serif font-semibold">
             {name ? name[0].toUpperCase() : "P"}
           </span>
           <span>

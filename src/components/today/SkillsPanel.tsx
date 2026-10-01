@@ -6,6 +6,7 @@ import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import type { Page } from "../navigation";
 import { exerciseBank, skills, SKILL_ICON, SKILL_ICON_SIZE, type Practice } from "../practice";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   progress: Progress;
@@ -24,7 +25,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
     <PanelHeading title="A little of every skill">
       <Icon name="layers" size={17} />
     </PanelHeading>
-    <p className="mt-[7px] mb-[21px] text-[#75816b] text-[12px] max-laptop:text-[13px] max-tablet:text-[11px]">
+    <p className="leading-[1.7] mt-[7px] mb-[21px] text-[#75816b] text-[12px] max-laptop:text-[13px] max-tablet:text-[11px]">
       Four ways to grow your Spanish.
     </p>
     {skills.map((s) => {
@@ -32,7 +33,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
       const total = exerciseBank.filter((q) => q.skill === s.id).length;
 
       return (
-        <button className={SKILL_ROW} key={s.id} onClick={() => practice(s.id)}>
+        <button className={`${PRESSABLE} ${SKILL_ROW}`} key={s.id} onClick={() => practice(s.id)}>
           <span className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${s.tint}`}>
             <Icon name={s.icon} size={17} />
           </span>

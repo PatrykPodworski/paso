@@ -40,7 +40,7 @@ const WritingNotes = ({ q, value }: WritingNotesProps) => {
       </p>
       {hints.map((h) => (
         <p key={h} className={NOTE}>
-          <Icon name="info" size={16} className="align-middle" /> {h}
+          <Icon name="info" size={16} className="inline align-middle" /> {h}
         </p>
       ))}
       <FieldNote className="mt-[8px]">
@@ -160,7 +160,9 @@ export const QuestionFeedback = ({
         >
           <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
         </span>
-        <h3 className={`text-[16px] max-tablet:text-[15px] max-phone:text-[14px] ${tone.heading}`}>
+        <h3
+          className={`font-semibold tracking-[-0.3px] text-[16px] max-tablet:text-[15px] max-phone:text-[14px] ${tone.heading}`}
+        >
           {productive
             ? "Let’s reflect on your answer"
             : correct
@@ -181,7 +183,7 @@ export const QuestionFeedback = ({
       {q.audio && (
         <details className="text-[14px] text-[#889c71] mt-[17px]">
           <summary className="cursor-pointer">Read the transcript</summary>
-          <p lang="es" className="mt-[10px]">
+          <p lang="es" className="leading-[1.7] mt-[10px]">
             {q.audio}
           </p>
         </details>

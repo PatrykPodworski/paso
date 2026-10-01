@@ -1,6 +1,7 @@
 import { TONE } from "../tone";
 import { Icon } from "../../design-system/Icon";
 import type { Practice } from "../practice";
+import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   mistakeCount: number;
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const CARD =
-  "relative min-w-0 text-left rounded-[10px] border border-(--line) bg-[#fffefa] p-[20px_16px] [&:hover]:border-[#c4d1b7] [&:hover]:transform-[translateY(-2px)] max-desktop:p-[15px_11px] max-tablet:p-[17px_12px] max-phone:grid max-phone:grid-cols-[36px_1fr] max-phone:gap-[0_13px] max-phone:p-[16px] [&>svg]:absolute [&>svg]:right-[13px] [&>svg]:top-[25px] [&>svg]:text-[#9da68e] max-phone:[&>svg]:right-[16px] max-phone:[&>svg]:top-[27px]";
+  "relative min-w-0 text-left rounded-[10px] border border-line bg-[#fffefa] p-[20px_16px] [&:hover]:border-[#c4d1b7] [&:hover]:transform-[translateY(-2px)] max-desktop:p-[15px_11px] max-tablet:p-[17px_12px] max-phone:grid max-phone:grid-cols-[36px_1fr] max-phone:gap-[0_13px] max-phone:p-[16px] [&>svg]:absolute [&>svg]:right-[13px] [&>svg]:top-[25px] [&>svg]:text-[#9da68e] max-phone:[&>svg]:right-[16px] max-phone:[&>svg]:top-[27px]";
 
 const ICON =
   "h-[36px] w-[36px] rounded-[10px] mb-[14px] flex items-center justify-center shrink-0 max-phone:row-[1/3] max-phone:m-0";
@@ -21,7 +22,7 @@ const NOTE =
 
 export const QuickPractice = ({ mistakeCount, practice }: Props) => (
   <div className="grid grid-cols-[repeat(3,1fr)] gap-[12px] max-tablet:gap-[10px] max-phone:grid-cols-[1fr]">
-    <button className={CARD} onClick={() => practice("listening")}>
+    <button className={`${PRESSABLE} ${CARD}`} onClick={() => practice("listening")}>
       <span className={`${ICON} ${TONE.lavender}`}>
         <Icon name="headphones" size={23} />
       </span>
@@ -29,7 +30,7 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <small className={NOTE}>Listen to everyday Spanish</small>
       <Icon name="arrow" size={17} />
     </button>
-    <button className={CARD} onClick={() => practice("speaking")}>
+    <button className={`${PRESSABLE} ${CARD}`} onClick={() => practice("speaking")}>
       <span className={`${ICON} ${TONE.peach}`}>
         <Icon name="mic" size={23} />
       </span>
@@ -37,7 +38,10 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <small className={NOTE}>A safe space to speak</small>
       <Icon name="arrow" size={17} />
     </button>
-    <button className={CARD} onClick={() => practice(mistakeCount ? "mistakes" : "all")}>
+    <button
+      className={`${PRESSABLE} ${CARD}`}
+      onClick={() => practice(mistakeCount ? "mistakes" : "all")}
+    >
       <span className={`${ICON} ${TONE.sage}`}>
         <Icon name="repeat" size={23} />
       </span>

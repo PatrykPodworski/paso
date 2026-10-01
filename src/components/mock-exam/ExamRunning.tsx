@@ -81,8 +81,10 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
       </div>
       {confirm && (
         <div className="mt-[20px] rounded-[10px] bg-[#f4ebd6] p-[23px]" role="alert">
-          <h3>Finish {section.title.toLowerCase()}?</h3>
-          <p className="my-[12px] text-[14px]">
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">
+            Finish {section.title.toLowerCase()}?
+          </h3>
+          <p className="leading-[1.7] my-[12px] text-[14px]">
             {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
             finishing, answers in this section cannot be changed.
           </p>

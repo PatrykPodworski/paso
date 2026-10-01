@@ -19,10 +19,10 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
   return (
     <Panel className="p-[32px] max-tablet:p-[24px]">
       <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
-      <h2 className="mt-[10px] mb-[15px] text-[33px] max-tablet:text-[29px]">
+      <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] mt-[10px] mb-[15px] text-[33px] max-tablet:text-[29px]">
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
       </h2>
-      <p className="mb-[21px] text-[14px] text-[#8d9b7b]">
+      <p className="leading-[1.7] mb-[21px] text-[14px] text-[#8d9b7b]">
         {run.section < 2
           ? "Correct answers earn one point. Wrong or unanswered questions earn zero, with no penalty."
           : "Open responses require human judgment. Compare your response with the model and cover every requested point."}

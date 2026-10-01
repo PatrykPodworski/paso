@@ -3,6 +3,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, Progress, Unit } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { Icon } from "../design-system/Icon";
+import { PRESSABLE } from "../design-system/pressable";
 
 type Props = {
   unit: Unit;
@@ -118,11 +119,11 @@ export const UnitCard = ({
 
   return (
     <article
-      className={`unit-card border border-(--line) rounded-[10px] bg-(--paper) overflow-hidden ${expanded ? "border-[#ced9c3] shadow-[0_3px_9px_#60734906]" : ""} ${at.card}`}
+      className={`unit-card border rounded-[10px] bg-paper overflow-hidden ${expanded ? "border-[#ced9c3] shadow-[0_3px_9px_#60734906]" : "border-line"} ${at.card}`}
     >
       <button
         type="button"
-        className={`unit-summary ${SUMMARY} ${at.summary}`}
+        className={`${PRESSABLE} unit-summary ${SUMMARY} ${at.summary}`}
         onClick={onExpand}
         aria-expanded={expanded}
       >
@@ -133,8 +134,8 @@ export const UnitCard = ({
           <Eyebrow variant={at.eyebrow}>
             UNIT {String(index + 1).padStart(2, "0")} <i>·</i> {unit.spanish}
           </Eyebrow>
-          <h3 className={`${TITLE} ${at.title}`}>{unit.title}</h3>
-          <p className={`${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
+          <h3 className={`font-semibold tracking-[-0.3px] ${TITLE} ${at.title}`}>{unit.title}</h3>
+          <p className={`leading-[1.7] ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
         </div>
         <div className={`${STATUS} ${at.status}`}>
           <span className="flex items-center gap-[4px] whitespace-nowrap max-desktop:text-[10px] max-laptop:text-[12px] max-tablet:hidden">
@@ -174,7 +175,7 @@ export const UnitCard = ({
                 <button
                   type="button"
                   key={l.id}
-                  className={`${ROW} ${at.row}`}
+                  className={`${PRESSABLE} ${ROW} ${at.row}`}
                   onClick={() => start(l)}
                 >
                   <div className={`${NODE} ${NODE_STATE[state]} ${at.node}`}>
@@ -200,7 +201,7 @@ export const UnitCard = ({
             <summary className="flex items-center gap-[6px] cursor-pointer list-none text-[11px] max-laptop:text-[13px] max-phone:text-[11px]">
               <Icon name="spark" size={15} />A little pattern to remember
             </summary>
-            <p className="text-[13px] my-[9px] text-[#7c886e]">{unit.tip}</p>
+            <p className="leading-[1.7] text-[13px] my-[9px] text-[#7c886e]">{unit.tip}</p>
             <div lang="es" className="flex items-center justify-between text-[14px] text-[#62714e]">
               {unit.example}
               <AudioButton compact text={unit.example} label="Listen to the unit example" />

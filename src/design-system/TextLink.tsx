@@ -1,4 +1,5 @@
 import type { ComponentProps } from "react";
+import { PRESSABLE } from "./pressable";
 
 const BASE =
   "inline-flex items-center gap-[7px] border-0 bg-transparent p-0 text-[14px] font-semibold no-underline text-[#4a6d55] [&:hover]:underline [&:hover]:underline-offset-4";
@@ -18,7 +19,10 @@ type Props = {
 // An anchor when given an href, otherwise a button.
 export const TextLink = ({ className = "", ...rest }: Props) =>
   rest.href === undefined ? (
-    <button className={`${BASE} ${className}`} {...(rest as ComponentProps<"button">)} />
+    <button
+      className={`${PRESSABLE} ${BASE} ${className}`}
+      {...(rest as ComponentProps<"button">)}
+    />
   ) : (
     <a className={`${BASE} ${className}`} {...(rest as ComponentProps<"a">)} />
   );

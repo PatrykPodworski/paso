@@ -63,7 +63,7 @@ export const QuestionHeading = ({
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`col-[1] row-[1] m-[15px_0_23px] text-[27px] font-medium leading-[1.5] focus:outline-none max-tablet:m-[15px_0_21px] ${
+          className={`font-serif tracking-[-0.7px] col-[1] row-[1] m-[15px_0_23px] text-[27px] font-medium leading-[1.5] focus:outline-none max-tablet:m-[15px_0_21px] ${
             exam ? "max-tablet:text-[25px]" : "max-tablet:text-[24px]"
           }`}
         >

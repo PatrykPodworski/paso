@@ -1,6 +1,7 @@
 import { streak, xp } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { IconButton } from "../../design-system/IconButton";
 import { navigation, type Page } from "../navigation";
 
 type Props = {
@@ -16,13 +17,9 @@ const STAT_VALUE = "font-semibold text-[#58624c]";
 export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
   <header className="h-[75px] desktop:h-[80px] max-tablet:h-[65px] flex items-center justify-between p-[0_38px] max-desktop:p-[0_27px] max-tablet:p-[0_20px] max-phone:px-[14px] bg-[#f8f9f5] border-b border-b-line">
     <div className="flex items-center gap-[10px]">
-      <button
-        className="icon-button tablet:hidden!"
-        onClick={() => openNav()}
-        aria-label="Open navigation"
-      >
+      <IconButton className="tablet:hidden!" onClick={() => openNav()} aria-label="Open navigation">
         <Icon name="menu" />
-      </button>
+      </IconButton>
       <span className="breadcrumb">
         Your Spanish journey
         <Icon name="chevron" size={13} />

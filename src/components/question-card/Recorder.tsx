@@ -141,17 +141,17 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
   };
 
   return (
-    <div className="recorder">
-      <div className="record-main">
+    <div className="recorder mt-[22px] p-[22px] bg-[#f5ece5] border border-[#ebdbcb] rounded-[10px] max-tablet:p-[18px]">
+      <div className="record-main flex items-center justify-between gap-[15px] max-phone:flex-col max-phone:items-stretch">
         <button
           type="button"
-          className={`record-button ${recording ? "recording" : ""}`}
+          className={`record-button flex items-center gap-[11px] p-[14px_19px] border-0 rounded-[9px] text-[14px] text-[#fff9f0] max-tablet:p-[13px] max-phone:justify-center ${recording ? "bg-[#ad614d] [animation:pulse_1.5s_ease-in-out_infinite]" : "bg-[#d29372]"}`}
           onClick={toggle}
         >
           <Icon name={recording ? "pause" : "mic"} size={24} />
           {recording ? "Stop recording" : url ? "Record again" : "Record your answer"}
         </button>
-        <span className="mono">
+        <span className="mono font-[monospace] text-[21px] text-[#b29777] max-tablet:text-[17px] max-phone:text-center">
           {String(Math.floor(seconds / 60)).padStart(2, "0")}:
           {String(seconds % 60).padStart(2, "0")}
         </span>
@@ -160,8 +160,8 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
         Recorded in this tab. Download to keep it; it is not uploaded or automatically graded.
       </FieldNote>
       {url && (
-        <div className="playback">
-          <audio controls src={url} />
+        <div className="playback mt-[18px] flex flex-col gap-[13px]">
+          <audio controls src={url} className="w-full h-[37px]" />
           <TextLink
             href={url}
             download={`paso-speaking.${recorder.current?.mimeType.includes("mp4") ? "m4a" : "webm"}`}

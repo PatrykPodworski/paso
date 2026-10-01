@@ -3,6 +3,7 @@ import type { ComponentProps } from "react";
 // One variant per context the old `.eyebrow` descendant rules styled, values copied as-is.
 const VARIANT = {
   default: "block text-[12px] tracking-[1.6px] font-bold text-[#818879]",
+  greeting: "block text-[11px] tracking-[1.6px] font-bold text-[#a38761]",
   page: "block text-[12px] max-tablet:text-[11px] tracking-[1.6px] font-bold text-[#818879]",
   heading:
     "block text-[10px] tracking-[1.4px] max-phone:text-[8px] max-phone:tracking-[0.9px] font-bold text-[#818879]",

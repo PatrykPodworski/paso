@@ -9,6 +9,7 @@ import { AudioButton } from "./audio/AudioButton";
 import { stopAudio } from "./audio/playback";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "../design-system/Icon";
+import { IconButton } from "../design-system/IconButton";
 import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 
@@ -98,9 +99,9 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
       onClose={onClose}
     >
       <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
-        <button className="icon-button" aria-label="Close vocabulary review" onClick={onClose}>
+        <IconButton aria-label="Close vocabulary review" onClick={onClose}>
           <Icon name="x" />
-        </button>
+        </IconButton>
         <div className="flex-1">
           <Eyebrow variant="small" className="mb-[5px]">
             POCKET VOCABULARY
@@ -163,7 +164,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </div>
       ) : (
         <div className="p-[28px_36px] max-[651px]:p-[20px_16px]">
-          <div className="flashcard-prompt text-center p-[24px_16px] border border-(--line) rounded-[16px] bg-(--paper) max-[651px]:p-[20px_12px] [&>.audio-control]:justify-center [&_.icon-button]:w-[44px] [&_.icon-button]:h-[44px] [&_.icon-button]:rounded-[50%] [&_.icon-button]:bg-(--sage)! [&_.icon-button]:text-(--green)">
+          <div className="flashcard-prompt text-center p-[24px_16px] border border-(--line) rounded-[16px] bg-(--paper) max-[651px]:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-(--sage)! [&_button]:text-(--green)">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p className="text-[#59675d] text-[14px] mt-[24px]">Can you remember the meaning?</p>
             <h2

@@ -5,6 +5,7 @@ import { Notice } from "../../design-system/Notice";
 import { mockSections } from "../../data/mock";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
 
 type Props = { progress: Progress; onStart: () => void };
 
@@ -48,7 +49,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           key={s.title}
           className="p-[23px] max-desktop:px-[15px] max-desktop:py-[19px] max-tablet:p-[21px] max-phone:px-[15px] max-phone:py-[19px]"
         >
-          <div className={`skill-icon ${s.title.toLowerCase()}`}>
+          <div className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${skills[i].tint}`}>
             <Icon name={["book", "headphones", "pen", "mic"][i]} />
           </div>
           <h3 className="mt-[16px] mb-[8px] max-tablet:text-[17px]">{s.title}</h3>

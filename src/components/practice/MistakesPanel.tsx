@@ -14,7 +14,7 @@ type Props = {
 
 export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props) => (
   <Panel className="mistakes-panel">
-    <span className="quick-icon peach">
+    <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 peach">
       <Icon name="repeat" size={28} />
     </span>
     <h2>

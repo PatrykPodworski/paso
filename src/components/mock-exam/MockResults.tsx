@@ -1,3 +1,4 @@
+import { ButtonRow } from "../../design-system/ButtonRow";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
@@ -67,7 +68,7 @@ export const MockResults = ({
       onWriting={onWriting}
       onSpeaking={onSpeaking}
     />
-    <div className="button-row justify-center">
+    <ButtonRow className="justify-center">
       <Button variant="secondary" className="max-tablet:w-full" onClick={onDownload}>
         <Icon name="download" />
         Export responses for review
@@ -76,6 +77,6 @@ export const MockResults = ({
         Return to exam overview
         <Icon name="arrow" />
       </Button>
-    </div>
+    </ButtonRow>
   </Panel>
 );

@@ -572,14 +572,6 @@ main {
   color: #92977e;
   margin-top: 12px;
 }
-.journey-art {
-  position: absolute;
-  right: -62px;
-  top: 6px;
-  width: 66%;
-  height: 100%;
-  z-index: 1;
-}
 .hero-footnote {
   position: absolute;
   right: 26px;
@@ -1119,31 +1111,6 @@ main {
   font-size: 10px;
   color: #a2ab96;
 }
-.stamp {
-  height: 110px;
-  width: 110px;
-  border: 1px dashed #b6bfa3;
-  border-radius: 50%;
-  color: #94a77d;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(11deg);
-  flex-shrink: 0;
-}
-.stamp > span {
-  font-size: 10px;
-  letter-spacing: 2px;
-}
-.stamp svg {
-  width: 50px;
-  height: 45px;
-}
-.stamp small {
-  font-size: 4px;
-  letter-spacing: 1px;
-}
 .path-banner {
   padding: 23px 25px;
   display: flex;
@@ -1510,73 +1477,6 @@ main {
 .empty-state p {
   font-size: 14px;
   margin: 10px 0;
-}
-.score-slider {
-  display: block;
-  margin-bottom: 16px;
-}
-.score-slider > span {
-  display: flex;
-  justify-content: space-between;
-  color: #7b8d6c;
-  font-size: 14px;
-}
-.score-slider b {
-  font-weight: 500;
-}
-.score-slider input {
-  height: 7px;
-  margin-top: 12px;
-}
-.passing-groups {
-  display: flex;
-  gap: 10px;
-  margin-top: 22px;
-}
-.passing-groups > div {
-  flex: 1;
-  border-radius: 8px;
-  padding: 12px;
-  text-align: center;
-}
-.passing-groups span {
-  display: block;
-  font-size: 12px;
-}
-.passing-groups b {
-  display: block;
-  font-size: 20px;
-  margin-top: 5px;
-  font-weight: 500;
-}
-.passed {
-  background: #eaf1e1;
-  color: #66834f;
-}
-.below {
-  background: #f7e8dc;
-  color: #b07853;
-}
-.pass-verdict {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  border-radius: 8px;
-  margin: 12px 0 16px;
-  padding: 12px;
-  font-size: 13px;
-}
-.pass-verdict > svg {
-  width: 17px;
-}
-.source-number {
-  font-size: 13px;
-  color: #b4bea7;
-}
-.guide-footer {
-  font-size: 13px;
-  color: #a1ac93;
-  margin-top: 25px;
 }
 .mock-intro {
   display: flex;
@@ -1967,8 +1867,7 @@ main {
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 12px;
 }
-.question-pronunciation:not([hidden]),
-.question-pronunciation .audio-control {
+.question-pronunciation:not([hidden]) {
   display: contents;
 }
 .question-pronunciation .icon-button {
@@ -1985,12 +1884,6 @@ main {
 }
 .question-pronunciation .icon-button:hover {
   background: #eae3f1;
-}
-.question-pronunciation .audio-control > small {
-  grid-column: 2;
-  text-align: center;
-  margin: -12px 0 16px;
-  white-space: nowrap;
 }
 .question-heading h2 {
   grid-column: 1;
@@ -2021,9 +1914,6 @@ main {
   line-height: 1.85;
   color: #777c60;
 }
-.reading-passage > .audio-control {
-  margin-bottom: 14px;
-}
 .reading-passage .icon-button {
   width: 38px;
   height: 38px;
@@ -2044,54 +1934,6 @@ main {
   border: 2px solid #c4c9b2;
   border-radius: 7px;
   transform: rotate(15deg);
-}
-.audio-control {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.audio-play {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: #eae6ef;
-  color: #9483a5;
-  border: 1px solid #ded7e6;
-  padding: 13px 20px;
-  border-radius: 9px;
-  min-height: 54px;
-}
-.audio-play > span:not(.waveform) {
-  font-size: 14px;
-  font-weight: 500;
-}
-.waveform {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  height: 28px;
-  margin-left: 8px;
-}
-.waveform i {
-  width: 3px;
-  background: #b4a6c3;
-  border-radius: 4px;
-}
-.waveform.playing i {
-  animation: wave 0.65s ease-in-out infinite alternate;
-}
-.speed-button {
-  padding: 8px 10px;
-  background: #f5f2f7;
-  border: 1px solid #e5dfec;
-  border-radius: 7px;
-  font-size: 13px;
-  color: #a596b5;
-}
-.audio-control > small {
-  font-size: 13px;
-  color: #a798b5;
 }
 .transcript-toggle {
   font-size: 13px;
@@ -2327,49 +2169,6 @@ main {
   font-size: 14px;
   color: #84986f;
 }
-.recorder {
-  padding: 22px;
-  background: #f5ece5;
-  border: 1px solid #ebdbcb;
-  border-radius: 10px;
-  margin-top: 22px;
-}
-.record-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-}
-.record-button {
-  background: #d29372;
-  color: #fff9f0;
-  border: 0;
-  border-radius: 9px;
-  padding: 14px 19px;
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  font-size: 14px;
-}
-.record-button.recording {
-  background: #ad614d;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-.mono {
-  font-family: monospace;
-  font-size: 21px;
-  color: #b29777;
-}
-.playback {
-  margin-top: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-.playback audio {
-  width: 100%;
-  height: 37px;
-}
 .feedback {
   margin-top: 24px;
   border: 1px solid #dce5cc;
@@ -2416,14 +2215,6 @@ main {
 .feedback.needs-work > p {
   color: #a48b68;
 }
-.memory-hint {
-  margin-top: 16px;
-  padding: 17px 20px;
-  border: 1px solid #e5dcc6;
-  border-radius: 10px;
-  background: #fffdf6;
-  color: #514c3d;
-}
 .coming-soon {
   margin-top: 22px;
   color: #62725e;
@@ -2445,19 +2236,6 @@ main {
   .feedback-bottom {
     flex-wrap: wrap;
   }
-}
-.memory-hint-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #876237;
-  font-size: 13px;
-  font-weight: 600;
-}
-.memory-hint p {
-  margin: 8px 0 0;
-  font-size: 16px;
-  line-height: 1.7;
 }
 .feedback-bottom {
   margin-top: 20px;
@@ -2483,16 +2261,6 @@ main {
   color: #7f916b;
   line-height: 1.9;
   margin: 10px 0 17px;
-}
-.model-answer .audio-play {
-  min-height: 40px;
-  padding: 9px 13px;
-}
-.model-answer .audio-play span {
-  font-size: 13px;
-}
-.model-answer .waveform {
-  display: none;
 }
 .writing-notes {
   margin-top: 18px;
@@ -2662,10 +2430,6 @@ main {
     font-size: 15px;
     max-width: 310px;
   }
-  .journey-art {
-    right: -35px;
-    width: 62%;
-  }
   .daily-goal {
     padding: 22px;
   }
@@ -2749,11 +2513,6 @@ main {
   }
   .hero-card p {
     font-size: 13px;
-  }
-  .journey-art {
-    width: 64%;
-    right: -60px;
-    top: 17px;
   }
   .hero-eyebrow {
     font-size: 10px;
@@ -2929,11 +2688,6 @@ main {
   }
   .hero-text {
     max-width: 54%;
-  }
-  .journey-art {
-    width: 66%;
-    right: -50px;
-    top: 0;
   }
   .hero-caption {
     font-size: 12px;
@@ -3179,11 +2933,6 @@ main {
   .hero-text {
     max-width: 57%;
   }
-  .journey-art {
-    width: 63%;
-    right: -45px;
-    top: 10px;
-  }
   .hero-footnote {
     font-size: 9px;
   }
@@ -3324,20 +3073,6 @@ main {
   }
   .path-finish h3 {
     font-size: 20px;
-  }
-  .stamp {
-    width: 80px;
-    height: 80px;
-  }
-  .stamp > span {
-    font-size: 9px;
-  }
-  .stamp svg {
-    width: 38px;
-    height: 34px;
-  }
-  .stamp small {
-    font-size: 3px;
   }
   .practice-tabs {
     gap: 5px;
@@ -3487,20 +3222,6 @@ main {
     text-align: center;
     font-size: 12px;
   }
-  .waveform {
-    gap: 2px;
-    margin-left: 1px;
-  }
-  .waveform i {
-    width: 2px;
-  }
-  .audio-play {
-    gap: 10px;
-    padding: 13px 15px;
-  }
-  .audio-play > span:not(.waveform) {
-    font-size: 14px;
-  }
   .feedback {
     padding: 20px 17px;
   }
@@ -3522,16 +3243,6 @@ main {
   }
   .model-answer > p {
     font-size: 14px;
-  }
-  .record-button {
-    font-size: 14px;
-    padding: 13px;
-  }
-  .recorder {
-    padding: 18px;
-  }
-  .recorder .mono {
-    font-size: 17px;
   }
   .form-fields {
     gap: 14px;
@@ -3606,14 +3317,6 @@ main {
   }
   .hero-eyebrow {
     font-size: 10px;
-  }
-  .journey-art {
-    width: 74%;
-    height: 68%;
-    right: -53px;
-    top: auto;
-    bottom: -15px;
-    opacity: 0.96;
   }
   .hero-card p,
   .hero-caption {
@@ -3872,19 +3575,6 @@ main {
     font-size: 10px;
     letter-spacing: 0.8px;
   }
-  .audio-play {
-    gap: 8px;
-    padding: 12px;
-  }
-  .waveform i:nth-child(n + 9) {
-    display: none;
-  }
-  .audio-play > span:not(.waveform) {
-    font-size: 13px;
-  }
-  .speed-button {
-    font-size: 12px;
-  }
   .answer-option {
     font-size: 14px;
   }
@@ -3896,19 +3586,6 @@ main {
   }
   .feedback-heading h3 {
     font-size: 14px;
-  }
-  .record-main {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .record-main .mono {
-    text-align: center;
-  }
-  .record-button {
-    justify-content: center;
-  }
-  .model-answer .audio-control {
-    gap: 7px;
   }
   .question-scene {
     max-height: 130px;
@@ -3977,10 +3654,6 @@ main {
   }
   .hero-caption {
     font-size: 10px;
-  }
-  .journey-art {
-    right: -65px;
-    width: 65%;
   }
   .hero-eyebrow {
     font-size: 10px;
@@ -4196,9 +3869,6 @@ main {
   .hero-text {
     max-width: 64%;
   }
-  .journey-art {
-    right: -61px;
-  }
   .dashboard-heading h1 {
     font-size: 29px;
   }
@@ -4274,12 +3944,6 @@ main {
   .hero-text .hero-caption {
     max-width: 160px;
     line-height: 1.6;
-  }
-  .journey-art {
-    width: 75%;
-    height: 59%;
-    bottom: -19px;
-    right: -65px;
   }
   .hero-caption {
     font-size: 10px;

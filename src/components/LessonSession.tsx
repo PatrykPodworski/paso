@@ -76,9 +76,9 @@ export const LessonSession = ({
     <Dialog
       label={lesson.title}
       onClose={close}
-      className="w-[min(810px,calc(100vw-36px))] max-tablet:w-[calc(100vw_-_22px)]"
+      className="w-[min(810px,calc(100vw-36px))] max-md:w-[calc(100vw_-_22px)]"
     >
-      <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
+      <header className="flex items-center gap-[16px] p-[22px_26px] max-md:p-[18px] max-md:gap-[12px]">
         <IconButton onClick={close} aria-label="Close lesson">
           <Icon name="x" />
         </IconButton>
@@ -86,9 +86,9 @@ export const LessonSession = ({
           <Eyebrow variant="small" className="mb-[5px]">
             PASO · YOUR LEARNING PATH
           </Eyebrow>
-          <h3 className="text-[15px] max-tablet:text-[14px]">{lesson.title}</h3>
+          <h3 className="text-[15px] max-md:text-[14px]">{lesson.title}</h3>
         </div>
-        <span className="lesson-counter text-[14px] text-[#9aa88c] max-tablet:text-[12px]">
+        <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
@@ -114,14 +114,14 @@ export const LessonSession = ({
         </div>
       )}
       {finished ? (
-        <div className="p-[50px_30px] text-center max-tablet:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
+        <div className="p-[50px_30px] text-center max-md:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
           <CompletionArt>
             <span className="translate-y-[-23px]">✦</span>
             <Icon name="flag" size={50} />
             <span className="translate-y-[19px]">✧</span>
           </CompletionArt>
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
-          <h2 className="text-[39px] m-[12px_0] max-tablet:text-[34px]">Look at you go.</h2>
+          <h2 className="text-[39px] m-[12px_0] max-md:text-[34px]">Look at you go.</h2>
           <p>Another little piece of Spanish, yours to keep.</p>
           <div className={COMPLETION_STATS}>
             <div>

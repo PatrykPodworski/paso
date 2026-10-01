@@ -40,20 +40,20 @@ export const PracticePage = ({
       title="Your practice studio."
       description="Follow your curiosity, or give a tricky word another chance."
     >
-      <Badge className="max-tablet:hidden">
+      <Badge className="max-md:hidden">
         <Icon name="spark" size={16} />
         {exerciseBank.length} exercises to explore
       </Badge>
     </PageHeading>
     <div
-      className="flex flex-wrap gap-[7px] max-tablet:gap-[5px] border-b border-b-line pb-[19px] max-tablet:pb-[15px] mb-[23px]"
+      className="flex flex-wrap gap-[7px] max-md:gap-[5px] border-b border-b-line pb-[19px] max-md:pb-[15px] mb-[23px]"
       role="group"
       aria-label="Filter practice by skill"
     >
       {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
         <button
           key={s}
-          className={`border border-transparent rounded-[20px] p-[9px_15px] max-tablet:p-[8px_12px] text-[14px] max-tablet:text-[12px] ${filter === s ? "bg-green text-white" : "bg-transparent text-[#8a967d] [&:hover]:bg-[#edf1e5]"}`}
+          className={`border border-transparent rounded-[20px] p-[9px_15px] max-md:p-[8px_12px] text-[14px] max-md:text-[12px] ${filter === s ? "bg-green text-white" : "bg-transparent text-[#8a967d] [&:hover]:bg-[#edf1e5]"}`}
           onClick={() => setFilter(s)}
         >
           {s === "all"

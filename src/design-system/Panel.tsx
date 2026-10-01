@@ -16,7 +16,7 @@ type PanelHeadingProps = { title: ReactNode; children?: ReactNode };
 // min-width 1600px and max-width 430px rules were overridden by later ones in styles.css.
 export const PanelHeading = ({ title, children }: PanelHeadingProps) => (
   <div className="flex items-center justify-between gap-[10px] [&>svg]:text-[#a0a68f]">
-    <h3 className="text-[14px] max-laptop:text-[15px] max-tablet:text-[14px] desktop:text-[15px] font-semibold">
+    <h3 className="text-[14px] max-lg:text-[15px] max-md:text-[14px] xl:text-[15px] font-semibold">
       {title}
     </h3>
     {children}

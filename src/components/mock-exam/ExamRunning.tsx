@@ -20,8 +20,8 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
   const q = section.questions[run.index];
 
   return (
-    <Panel className="px-[30px] pt-[22px] pb-[20px] [&_.question-card]:px-0 [&_.question-card]:pt-[26px] [&_.question-card]:pb-0 max-tablet:p-[18px] max-tablet:[&_.question-card]:pt-[20px] max-tablet:[&_.question-heading_h2]:text-[25px]">
-      <div className="flex justify-between gap-[10px] border-b border-line pb-[15px] text-[13px] text-[#9aa88b] max-tablet:text-[12px]">
+    <Panel className="px-[30px] pt-[22px] pb-[20px] [&_.question-card]:px-0 [&_.question-card]:pt-[26px] [&_.question-card]:pb-0 max-md:p-[18px] max-md:[&_.question-card]:pt-[20px] max-md:[&_.question-heading_h2]:text-[25px]">
+      <div className="flex justify-between gap-[10px] border-b border-line pb-[15px] text-[13px] text-[#9aa88b] max-md:text-[12px]">
         <span>{q.task}</span>
         <strong>
           {run.index + 1} / {section.questions.length}
@@ -47,7 +47,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
           }
         }}
       />
-      <div className="mt-[22px] flex items-center justify-between gap-[15px] border-t border-line pt-[18px] max-tablet:flex-wrap max-tablet:gap-[17px]">
+      <div className="mt-[22px] flex items-center justify-between gap-[15px] border-t border-line pt-[18px] max-md:flex-wrap max-md:gap-[17px]">
         <TextLink
           disabled={run.index === 0}
           onClick={() => {
@@ -73,7 +73,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
         <Button
           variant="secondary"
           size="small"
-          className="max-tablet:w-full"
+          className="max-md:w-full"
           onClick={() => setConfirm(true)}
         >
           Finish section

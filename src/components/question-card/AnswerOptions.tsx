@@ -7,13 +7,13 @@ const OPTION =
   "answer-option flex items-center rounded-[9px] border text-left leading-[1.65] [&:hover:not(:disabled)]:border-[#b7c7a1] [&:hover:not(:disabled)]:bg-[#f3f6eb]";
 
 const SIZE = {
-  few: "gap-[14px] p-[14px_17px] min-h-[59px] text-[15px] max-tablet:gap-[12px] max-tablet:p-[13px] max-tablet:min-h-[55px] max-tablet:text-[14px]",
-  many: "gap-[14px] p-[11px] min-h-[59px] text-[14px] max-tablet:gap-[7px] max-tablet:min-h-[55px] max-tablet:text-[12px]",
+  few: "gap-[14px] p-[14px_17px] min-h-[59px] text-[15px] max-md:gap-[12px] max-md:p-[13px] max-md:min-h-[55px] max-md:text-[14px]",
+  many: "gap-[14px] p-[11px] min-h-[59px] text-[14px] max-md:gap-[7px] max-md:min-h-[55px] max-md:text-[12px]",
 };
 
 const KEY_SIZE = {
   few: "w-[25px] h-[25px] text-[13px]",
-  many: "w-[25px] h-[25px] text-[13px] max-tablet:w-[20px] max-tablet:h-[20px] max-tablet:text-[11px]",
+  many: "w-[25px] h-[25px] text-[13px] max-md:w-[20px] max-md:h-[20px] max-md:text-[11px]",
 };
 
 // Stylesheet order, not class order, decides between two utilities of one property,

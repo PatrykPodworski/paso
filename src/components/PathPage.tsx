@@ -13,7 +13,7 @@ import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
 
 const PATH_NUMBER =
-  "flex items-center justify-center shrink-0 rounded-full border border-[#dbe3d1] mt-[26px] w-[31px] h-[31px] text-[12px] max-tablet:w-[27px] max-tablet:h-[27px] max-tablet:text-[11px]";
+  "flex items-center justify-center shrink-0 rounded-full border border-[#dbe3d1] mt-[26px] w-[31px] h-[31px] text-[12px] max-md:w-[27px] max-md:h-[27px] max-md:text-[11px]";
 
 type Props = {
   progress: Progress;
@@ -56,17 +56,17 @@ export const PathPage = ({
       >
         <Stamp />
       </PageHeading>
-      <Panel className="flex items-center gap-[18px] max-tablet:gap-[13px] mb-[30px] p-[23px_25px] max-tablet:p-[20px] max-laptop:flex-wrap">
+      <Panel className="flex items-center gap-[18px] max-md:gap-[13px] mb-[30px] p-[23px_25px] max-md:p-[20px] max-lg:flex-wrap">
         <span
-          className={`flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-desktop:w-[40px] max-desktop:h-[43px] max-tablet:w-[43px] max-tablet:h-[45px] max-phone:w-[34px] max-phone:h-[37px] ${TONE[nextUnit.color]}`}
+          className={`flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-xl:w-[40px] max-xl:h-[43px] max-md:w-[43px] max-md:h-[45px] max-sm:w-[34px] max-sm:h-[37px] ${TONE[nextUnit.color]}`}
         >
           <Icon name={nextUnit.icon} size={28} />
         </span>
-        <div className="flex-1 max-laptop:min-w-[250px] max-tablet:min-w-[200px] max-phone:min-w-[160px]">
+        <div className="flex-1 max-lg:min-w-[250px] max-md:min-w-[200px] max-sm:min-w-[160px]">
           <Eyebrow variant="banner" className="mb-[7px]">
             YOUR NEXT SMALL STEP
           </Eyebrow>
-          <h3 className="text-[17px] max-desktop:text-[15px] max-phone:text-[14px]">
+          <h3 className="text-[17px] max-xl:text-[15px] max-sm:text-[14px]">
             {nextUnit.title} · {nextLesson.title}
           </h3>
           <p className="mt-[6px] text-[14px] text-[#8e9b7f]">
@@ -75,18 +75,18 @@ export const PathPage = ({
         </div>
         <Button
           variant="primary"
-          className="tablet:max-laptop:ml-[65px]"
+          className="md:max-lg:ml-[65px]"
           onClick={() => setSession(nextLesson)}
         >
           Continue learning
           <Icon name="arrow" />
         </Button>
       </Panel>
-      <div className="grid grid-cols-[minmax(0,1fr)_262px] gap-[27px] max-desktop:grid-cols-[minmax(0,1fr)_230px] max-desktop:gap-[20px] max-laptop:grid-cols-[1fr]">
-        <div className="relative before:content-[''] before:absolute before:top-[20px] before:bottom-[65px] before:left-[15px] max-tablet:before:left-[13px] before:border-l before:border-dashed before:border-[#cfdac3]">
+      <div className="grid grid-cols-[minmax(0,1fr)_262px] gap-[27px] max-xl:grid-cols-[minmax(0,1fr)_230px] max-xl:gap-[20px] max-lg:grid-cols-[1fr]">
+        <div className="relative before:content-[''] before:absolute before:top-[20px] before:bottom-[65px] before:left-[15px] max-md:before:left-[13px] before:border-l before:border-dashed before:border-[#cfdac3]">
           {units.map((u, i) => (
             <div
-              className="relative flex items-start gap-[18px] max-tablet:gap-[11px] mb-[18px]"
+              className="relative flex items-start gap-[18px] max-md:gap-[11px] mb-[18px]"
               key={u.id}
             >
               <span
@@ -109,10 +109,10 @@ export const PathPage = ({
               />
             </div>
           ))}
-          <div className="flex flex-wrap items-center gap-[15px] max-tablet:gap-[12px] mt-[28px] ml-[50px] max-tablet:ml-[38px] p-[24px] max-tablet:p-[20px] max-phone:p-[19px] rounded-[12px] bg-[#eaf0e2] text-[#6f8a56]">
+          <div className="flex flex-wrap items-center gap-[15px] max-md:gap-[12px] mt-[28px] ml-[50px] max-md:ml-[38px] p-[24px] max-md:p-[20px] max-sm:p-[19px] rounded-[12px] bg-[#eaf0e2] text-[#6f8a56]">
             <Icon name="flag" size={28} />
             <div>
-              <h3 className="font-(family-name:--serif) text-[21px] max-tablet:text-[20px]">
+              <h3 className="font-(family-name:--serif) text-[21px] max-md:text-[20px]">
                 The next chapter is yours.
               </h3>
               <p className="mt-[5px] text-[13px]">
@@ -122,7 +122,7 @@ export const PathPage = ({
             <Button
               variant="primary"
               size="small"
-              className="tablet:ml-auto"
+              className="md:ml-auto"
               onClick={() => navigate("exam")}
             >
               Meet the exam
@@ -132,10 +132,10 @@ export const PathPage = ({
         </div>
         <Panel
           as="aside"
-          className="p-[26px] self-start sticky top-[20px] max-laptop:static max-laptop:grid max-laptop:grid-cols-[1fr_1fr] max-laptop:gap-[20px] max-phone:grid-cols-[1fr]"
+          className="p-[26px] self-start sticky top-[20px] max-lg:static max-lg:grid max-lg:grid-cols-[1fr_1fr] max-lg:gap-[20px] max-sm:grid-cols-[1fr]"
         >
-          <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
-          <h3 className="font-(family-name:--serif) font-medium leading-[1.3] text-[26px] max-phone:text-[25px] m-[12px_0_24px] max-laptop:m-0 max-laptop:col-span-full">
+          <Eyebrow className="max-lg:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
+          <h3 className="font-(family-name:--serif) font-medium leading-[1.3] text-[26px] max-sm:text-[25px] m-[12px_0_24px] max-lg:m-0 max-lg:col-span-full">
             Learn it. Try it.
             <br />
             Make it yours.
@@ -146,7 +146,7 @@ export const PathPage = ({
             ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
             ["mic", "Use your own voice", "Write, record and reflect on your progress."],
           ].map(([icon, title, body]) => (
-            <div key={title} className="flex gap-[12px] mb-[23px] max-laptop:mb-0 text-[#869576]">
+            <div key={title} className="flex gap-[12px] mb-[23px] max-lg:mb-0 text-[#869576]">
               <Icon name={icon} size={20} />
               <section>
                 <h4 className="text-[14px] text-[#647455]">{title}</h4>
@@ -154,7 +154,7 @@ export const PathPage = ({
               </section>
             </div>
           ))}
-          <FieldNote className="mt-[6px] max-laptop:col-span-full">
+          <FieldNote className="mt-[6px] max-lg:col-span-full">
             All lessons are open. Completion tracks practice, not exam readiness. Review mistakes
             and use the A1 checklist to find gaps.
           </FieldNote>

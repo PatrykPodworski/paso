@@ -12,9 +12,9 @@ type Props = {
 };
 
 export const OralPrep = ({ run, setRun, setNow }: Props) => (
-  <Panel className="p-[32px] max-tablet:p-[25px]">
+  <Panel className="p-[32px] max-md:p-[25px]">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
-    <h2 className="mt-[10px] mb-[15px] max-tablet:text-[28px]">A moment to find your words.</h2>
+    <h2 className="mt-[10px] mb-[15px] max-md:text-[28px]">A moment to find your words.</h2>
     <p className="text-[14px] text-[#8c9b7b]">
       Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather than
       reading a script.

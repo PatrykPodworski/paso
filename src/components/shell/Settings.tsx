@@ -42,12 +42,12 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
     <Dialog
       label="Your learning preferences"
       onClose={onClose}
-      className="w-[min(560px,calc(100vw_-_35px))] p-[30px] max-tablet:p-[25px]"
+      className="w-[min(560px,calc(100vw_-_35px))] p-[30px] max-md:p-[25px]"
     >
       <header className="flex justify-between gap-[10px] mb-[27px]">
         <div>
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
-          <h2 className="mt-[8px] text-[27px] max-tablet:text-[26px]">Your little preferences.</h2>
+          <h2 className="mt-[8px] text-[27px] max-md:text-[26px]">Your little preferences.</h2>
         </div>
         <IconButton onClick={onClose} aria-label="Close preferences">
           <Icon name="x" />
@@ -82,7 +82,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         <Button
           variant="secondary"
           size="compact"
-          className="max-tablet:w-full"
+          className="max-md:w-full"
           onClick={exportProgress}
         >
           <Icon name="download" size={17} />
@@ -91,7 +91,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         <Button
           variant="primary"
           size="compact"
-          className="max-tablet:w-full"
+          className="max-md:w-full"
           onClick={() => {
             onSave({ name: name.trim(), goal, examDate: date });
             onClose();

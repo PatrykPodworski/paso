@@ -205,7 +205,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           title="Page heading with an aside."
           description="The aside sits on the right."
         >
-          <Badge className="max-tablet:hidden">Aside badge</Badge>
+          <Badge className="max-md:hidden">Aside badge</Badge>
         </PageHeading>
         <PageHeading
           eyebrow={

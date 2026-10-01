@@ -12,10 +12,10 @@ type Props = {
 };
 
 const SIDEBAR =
-  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-desktop:w-[215px] max-tablet:w-[245px] pt-[36px] desktop:pt-[34px] max-tablet:pt-[28px] px-[20px] max-desktop:px-[15px] max-tablet:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-tablet:[transition:transform_0.2s]";
+  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-xl:w-[215px] max-md:w-[245px] pt-[36px] xl:pt-[34px] max-md:pt-[28px] px-[20px] max-xl:px-[15px] max-md:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-md:[transition:transform_0.2s]";
 
 const NAV_ITEM =
-  "w-full flex items-center text-left gap-[12px] max-desktop:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] desktop:p-[15px_13px] m-[4px_0] desktop:m-[5px_0] text-[#718068] text-[14px]";
+  "w-full flex items-center text-left gap-[12px] max-xl:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] xl:p-[15px_13px] m-[4px_0] xl:m-[5px_0] text-[#718068] text-[14px]";
 
 export const Sidebar = ({
   page,
@@ -29,7 +29,7 @@ export const Sidebar = ({
   <>
     {mobileNav && (
       <button
-        className="hidden max-tablet:block fixed inset-0 z-[25] border-0 bg-[#253a2c77] backdrop-blur-[3px]"
+        className="hidden max-md:block fixed inset-0 z-[25] border-0 bg-[#253a2c77] backdrop-blur-[3px]"
         onClick={() => closeNav()}
         aria-label="Close navigation"
       />
@@ -37,8 +37,8 @@ export const Sidebar = ({
     <aside
       className={`${SIDEBAR} ${
         mobileNav
-          ? "max-tablet:[transform:translateX(0)] max-tablet:shadow-[8px_0_40px_#203b301c]"
-          : "max-tablet:[transform:translateX(-100%)]"
+          ? "max-md:[transform:translateX(0)] max-md:shadow-[8px_0_40px_#203b301c]"
+          : "max-md:[transform:translateX(-100%)]"
       }`}
     >
       <a
@@ -57,19 +57,19 @@ export const Sidebar = ({
           paso<span className="text-coral">.</span>
         </span>
       </a>
-      <div className="flex items-center gap-[10px] border border-[#e5e7dc] rounded-[9px] p-[13px_10px] bg-[#f5f6ee] mb-[35px] max-desktop:gap-[7px] max-desktop:p-[12px_8px]">
+      <div className="flex items-center gap-[10px] border border-[#e5e7dc] rounded-[9px] p-[13px_10px] bg-[#f5f6ee] mb-[35px] max-xl:gap-[7px] max-xl:p-[12px_8px]">
         <span
           className="w-[25px] h-[25px] rounded-[50%] bg-[linear-gradient(#b65246_0_27%,#f5d37a_27%_72%,#b65246_72%)] border-[3px] border-[#fffdf4] shadow-[0_0_0_1px_#d8dacd] shrink-0"
           aria-label="Spanish flag"
         />
         <div>
           <strong className="block text-[12px] tracking-[-0.1px]">Spanish for your world</strong>
-          <span className="block text-[11px] text-[#7a856c] mt-[4px] max-desktop:text-[12px]">
+          <span className="block text-[11px] text-[#7a856c] mt-[4px] max-xl:text-[12px]">
             DELE A1 · Beginner
           </span>
         </div>
       </div>
-      <span className="text-[11px] desktop:text-[10px] font-bold tracking-[1.5px] text-[#9a9f91] px-[13px] mb-[13px]">
+      <span className="text-[11px] xl:text-[10px] font-bold tracking-[1.5px] text-[#9a9f91] px-[13px] mb-[13px]">
         YOUR LEARNING SPACE
       </span>
       <nav aria-label="Main navigation">
@@ -93,19 +93,19 @@ export const Sidebar = ({
           </button>
         ))}
       </nav>
-      <div className="pt-[38px] max-tablet:pt-[25px] px-[17px] pb-[30px] mt-[20px]">
+      <div className="pt-[38px] max-md:pt-[25px] px-[17px] pb-[30px] mt-[20px]">
         <span className="block text-[33px] text-[#c99059] leading-[1]">✺</span>
         <p className="font-(family-name:--serif) text-[19px] italic text-[#677457] m-[11px_0_5px]">
           Un poquito cada día.
         </p>
-        <span className="text-[#7e8b70] text-[14px] desktop:text-[13px] leading-[1.7]">
+        <span className="text-[#7e8b70] text-[14px] xl:text-[13px] leading-[1.7]">
           A little every day
           <br />
           takes you a long way.
         </span>
         <div className="w-[68px] h-[9px] border-t border-t-[#c7cbb6] rounded-[50%] -rotate-[5deg] mt-[17px]" />
       </div>
-      <div className="mt-auto pb-[22px] max-tablet:pb-[17px]">
+      <div className="mt-auto pb-[22px] max-md:pb-[17px]">
         <button
           className="flex items-center gap-[9px] text-[13px] text-[#8e9588] p-[15px_8px] bg-transparent border-0"
           onClick={() => navigate("guide")}
@@ -122,10 +122,10 @@ export const Sidebar = ({
             {name ? name[0].toUpperCase() : "P"}
           </span>
           <span>
-            <strong className="block max-w-[130px] overflow-hidden text-ellipsis text-[13px] desktop:text-[12px]">
+            <strong className="block max-w-[130px] overflow-hidden text-ellipsis text-[13px] xl:text-[12px]">
               {name || "Your Spanish journey"}
             </strong>
-            <small className="block mt-[3px] text-[11px] desktop:text-[10px] text-[#a1a391]">
+            <small className="block mt-[3px] text-[11px] xl:text-[10px] text-[#a1a391]">
               Learning at your pace
             </small>
           </span>

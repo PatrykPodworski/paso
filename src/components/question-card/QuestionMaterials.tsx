@@ -6,7 +6,7 @@ import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
 const PASSAGE =
-  "reading-passage relative rounded-[9px] border border-[#e8e5d6] bg-[#f8f5e9] p-[24px_27px] mb-[22px] max-tablet:p-[20px] [&_button]:h-[38px] [&_button]:w-[38px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e2ddc9] [&_button]:bg-[#fffdf3] [&_button]:text-[#8a8f6d] [&_button:hover]:bg-[#f2eedd]";
+  "reading-passage relative rounded-[9px] border border-[#e8e5d6] bg-[#f8f5e9] p-[24px_27px] mb-[22px] max-md:p-[20px] [&_button]:h-[38px] [&_button]:w-[38px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e2ddc9] [&_button]:bg-[#fffdf3] [&_button]:text-[#8a8f6d] [&_button:hover]:bg-[#f2eedd]";
 
 type Props = {
   q: Question;
@@ -22,7 +22,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
     <>
       {q.image && (
         <img
-          className="w-full max-h-[160px] rounded-[10px] object-cover mb-[20px] max-phone:max-h-[130px]"
+          className="w-full max-h-[160px] rounded-[10px] object-cover mb-[20px] max-sm:max-h-[130px]"
           src={`/illustrations/${q.image}.svg`}
           alt={
             q.image === "cafe"
@@ -48,7 +48,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
               label="Play the reading passage"
             />
           )}
-          <p className="whitespace-pre-line text-[15px] leading-[1.85] text-[#606e53] max-tablet:text-[14px]">
+          <p className="whitespace-pre-line text-[15px] leading-[1.85] text-[#606e53] max-md:text-[14px]">
             {q.passage}
           </p>
         </div>

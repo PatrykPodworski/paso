@@ -30,14 +30,14 @@ export const MockResults = ({
   onDownload,
   onReset,
 }: Props) => (
-  <Panel className="p-[38px] text-center max-tablet:px-[20px] max-tablet:py-[28px]">
+  <Panel className="p-[38px] text-center max-md:px-[20px] max-md:py-[28px]">
     <CompletionArt>
       <Icon name="trophy" size={48} />
     </CompletionArt>
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
-    <h2 className="my-[12px] text-[36px] max-tablet:text-[31px]">You’ve met the exam.</h2>
+    <h2 className="my-[12px] text-[36px] max-md:text-[31px]">You’ve met the exam.</h2>
     <p className="text-[15px] text-[#919e81]">Now you know where your next steps can take you.</p>
-    <div className="my-[30px] grid grid-cols-[repeat(4,1fr)] gap-[15px] max-laptop:grid-cols-[1fr_1fr]">
+    <div className="my-[30px] grid grid-cols-[repeat(4,1fr)] gap-[15px] max-lg:grid-cols-[1fr_1fr]">
       <div className={TILE}>
         <span className="text-[14px]">Reading</span>
         <strong className="font-(family-name:--serif) text-[38px] font-medium">
@@ -70,11 +70,11 @@ export const MockResults = ({
       onSpeaking={onSpeaking}
     />
     <ButtonRow className="justify-center">
-      <Button variant="secondary" className="max-tablet:w-full" onClick={onDownload}>
+      <Button variant="secondary" className="max-md:w-full" onClick={onDownload}>
         <Icon name="download" />
         Export responses for review
       </Button>
-      <Button variant="primary" className="max-tablet:w-full" onClick={onReset}>
+      <Button variant="primary" className="max-md:w-full" onClick={onReset}>
         Return to exam overview
         <Icon name="arrow" />
       </Button>

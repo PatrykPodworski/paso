@@ -30,13 +30,13 @@ export const ScoreCalculator = ({
   const groups = passingGroups(reading, +writing, listening, +speaking);
 
   return (
-    <div className="mb-[25px] rounded-[10px] border border-line p-[26px] text-left max-tablet:p-[20px]">
+    <div className="mb-[25px] rounded-[10px] border border-line p-[26px] text-left max-md:p-[20px]">
       <h3>Check the two passing groups</h3>
       <p className="my-[12px] text-[14px] text-[#919e80]">
         Enter scores from a qualified reviewer, or explore hypothetical scores. These inputs do not
         assess your writing or pronunciation.
       </p>
-      <div className="mt-[20px] flex gap-[18px] max-tablet:flex-col">
+      <div className="mt-[20px] flex gap-[18px] max-md:flex-col">
         <label className="flex flex-1 flex-col gap-[9px] text-[#859770]">
           Writing score /25
           <input

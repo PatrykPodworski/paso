@@ -20,7 +20,7 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
 
   return (
     <PageHeading
-      className="[&_h1]:text-[33px] max-desktop:[&_h1]:text-[28px] max-tablet:[&_h1]:text-[29px] max-phone:[&_h1]:text-[26px]"
+      className="[&_h1]:text-[33px] max-xl:[&_h1]:text-[28px] max-md:[&_h1]:text-[29px] max-sm:[&_h1]:text-[26px]"
       eyebrow={
         <Eyebrow variant="greeting" className="mb-[9px]">
           {new Date().getHours() < 12
@@ -35,7 +35,7 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
       description="Your next chapter starts with a small step."
     >
       <button
-        className="flex items-center gap-[8px] text-[13px] text-[#88927a] border border-[#e3e6da] rounded-[7px] p-[9px_11px] bg-[#fffefa] [&>svg:first-child]:text-[#ba9b65] max-desktop:text-[12px] max-laptop:hidden"
+        className="flex items-center gap-[8px] text-[13px] text-[#88927a] border border-[#e3e6da] rounded-[7px] p-[9px_11px] bg-[#fffefa] [&>svg:first-child]:text-[#ba9b65] max-xl:text-[12px] max-lg:hidden"
         onClick={() => openSettings()}
       >
         <Icon name="sun" size={17} />

@@ -17,9 +17,9 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
   const section = mockSections[run.section];
 
   return (
-    <Panel className="p-[32px] max-tablet:p-[24px]">
+    <Panel className="p-[32px] max-md:p-[24px]">
       <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
-      <h2 className="mt-[10px] mb-[15px] text-[33px] max-tablet:text-[29px]">
+      <h2 className="mt-[10px] mb-[15px] text-[33px] max-md:text-[29px]">
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
       </h2>
       <p className="mb-[21px] text-[14px] text-[#8d9b7b]">

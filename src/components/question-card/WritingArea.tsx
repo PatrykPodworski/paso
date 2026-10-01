@@ -40,7 +40,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         autoComplete="off"
       />
     )}
-    <div className="flex items-center justify-between gap-[12px] mt-[11px] max-tablet:flex-wrap">
+    <div className="flex items-center justify-between gap-[12px] mt-[11px] max-md:flex-wrap">
       <div className="flex flex-wrap gap-[5px]">
         {["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"].map((c) => (
           <button

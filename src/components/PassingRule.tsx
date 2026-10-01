@@ -13,7 +13,7 @@ export const PassingRule = () => {
   const groups = passingGroups(scores[0], scores[1], scores[2], scores[3]);
 
   return (
-    <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px]">
+    <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px]">
       <Eyebrow>TRY THE PASSING RULE</Eyebrow>
       <h3 className="font-(family-name:--serif) text-[25px] font-medium m-[9px_0_12px]">
         Does this score pass?

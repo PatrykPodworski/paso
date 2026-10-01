@@ -117,13 +117,16 @@ describe("question card sections", () => {
   });
 
   it.each([
-    [3, "word-count outside"],
-    [35, "word-count"],
-    [45, "word-count outside"],
-  ])("counts %i written words against the target", (n, className) => {
+    [3, true],
+    [35, false],
+    [45, true],
+  ])("counts %i written words against the target", (n, outside) => {
     render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
     write(words(n));
-    expect(screen.getByText(`${n} / 30–40 words`)).toHaveAttribute("class", className);
+    const count = screen.getByText(`${n} / 30–40 words`);
+
+    expect(count).toHaveClass("word-count");
+    expect(count.classList.contains("outside")).toBe(outside);
   });
 
   it.each([

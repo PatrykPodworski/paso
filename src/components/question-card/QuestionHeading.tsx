@@ -5,12 +5,17 @@ import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
+// The pronunciation player sits in the heading grid's second column; the wrapper
+// becomes `contents` so the button places itself (AudioButton places its counter).
+const PRONUNCIATION =
+  "[&:not([hidden])]:contents [&_button]:col-start-2 [&_button]:row-start-1 [&_button]:mt-[15px] [&_button]:h-[44px] [&_button]:w-[44px] [&_button]:self-start [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e5dfec] [&_button]:bg-[#f3eff7] [&_button]:text-[#7c698e] [&_button:hover]:bg-[#eae3f1]";
+
 type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
-  <div className="question-kind">
+  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-[#7c8c68] max-tablet:gap-[6px] max-tablet:text-[9px] max-tablet:tracking-[1px] max-phone:tracking-[0.8px]">
     <SkillDot skill={q.skill} />
-    {q.skill} <span className="opacity-50 px-[4px]"> / </span>
+    {q.skill} <span className="px-[4px] opacity-50"> / </span>
     {q.kind === "listen"
       ? "Listen closely"
       : q.kind === "order"
@@ -54,14 +59,17 @@ export const QuestionHeading = ({
   return (
     <>
       <QuestionKind q={q} productive={productive} />
-      <div className="question-heading">
-        <h2 ref={heading} tabIndex={-1}>
+      <div className="question-heading grid grid-cols-[minmax(0,1fr)_auto] gap-x-[12px]">
+        <h2
+          ref={heading}
+          tabIndex={-1}
+          className={`col-[1] row-[1] m-[15px_0_23px] text-[27px] font-medium leading-[1.5] focus:outline-none max-tablet:m-[15px_0_21px] ${
+            exam ? "max-tablet:text-[25px]" : "max-tablet:text-[24px]"
+          }`}
+        >
           {q.prompt}
         </h2>
-        <div
-          className="question-pronunciation [&_button]:col-start-2 [&_button]:row-start-1 [&_button]:mt-[15px] [&_button]:h-[44px] [&_button]:w-[44px] [&_button]:self-start [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e5dfec] [&_button]:bg-[#f3eff7] [&_button]:text-[#7c698e] [&_button:hover]:bg-[#eae3f1]"
-          hidden={!q.audio && !feedback}
-        >
+        <div className={`question-pronunciation ${PRONUNCIATION}`} hidden={!q.audio && !feedback}>
           {q.audio ? (
             <AudioButton
               ref={listeningAudio}

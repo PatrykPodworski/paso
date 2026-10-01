@@ -91,14 +91,14 @@ export const LessonSession = ({
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
-      <div className="lesson-progress">
+      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s]">
         <div style={{ width: `${finished ? 100 : (index / lesson.questions.length) * 100}%` }} />
       </div>
       {confirmExit && (
-        <div className="exit-confirm">
-          <Icon name="book" size={40} />
-          <h2>Leave this lesson?</h2>
-          <p>
+        <div className="p-[50px_30px] text-center">
+          <Icon name="book" size={40} className="text-[#9eaf85] mb-[22px]" />
+          <h2 className="text-[30px]">Leave this lesson?</h2>
+          <p className="text-[15px] text-[#96a483] max-w-[450px] m-[15px_auto_25px]">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>

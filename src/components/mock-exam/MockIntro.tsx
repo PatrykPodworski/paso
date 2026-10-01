@@ -5,6 +5,7 @@ import { Notice } from "../../design-system/Notice";
 import { mockSections } from "../../data/mock";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
 
 type Props = { progress: Progress; onStart: () => void };
 
@@ -44,7 +45,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
     <div className="exam-section-grid">
       {mockSections.map((s, i) => (
         <Panel as="article" key={s.title}>
-          <div className={`skill-icon ${s.title.toLowerCase()}`}>
+          <div className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${skills[i].tint}`}>
             <Icon name={["book", "headphones", "pen", "mic"][i]} />
           </div>
           <h3>{s.title}</h3>

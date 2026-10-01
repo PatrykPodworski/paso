@@ -1,8 +1,10 @@
+import { ButtonRow } from "../design-system/ButtonRow";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "../design-system/Icon";
+import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./question-card/QuestionCard";
 import { stopAudio } from "./audio/playback";
@@ -76,9 +78,9 @@ export const LessonSession = ({
       className="w-[min(810px,calc(100vw-36px))] max-tablet:w-[calc(100vw_-_22px)]"
     >
       <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
-        <button className="icon-button" onClick={close} aria-label="Close lesson">
+        <IconButton onClick={close} aria-label="Close lesson">
           <Icon name="x" />
-        </button>
+        </IconButton>
         <div className="flex-1">
           <Eyebrow variant="small" className="mb-[5px]">
             PASO · YOUR LEARNING PATH
@@ -100,14 +102,14 @@ export const LessonSession = ({
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
-          <div className="button-row">
+          <ButtonRow className="justify-center">
             <Button variant="secondary" onClick={() => setConfirmExit(false)}>
               Keep learning
             </Button>
             <Button variant="primary" onClick={onClose}>
               Save & leave
             </Button>
-          </div>
+          </ButtonRow>
         </div>
       )}
       {finished ? (

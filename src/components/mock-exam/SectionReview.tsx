@@ -1,3 +1,4 @@
+import { ButtonRow } from "../../design-system/ButtonRow";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
@@ -26,7 +27,7 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
           ? "Correct answers earn one point. Wrong or unanswered questions earn zero, with no penalty."
           : "Open responses require human judgment. Compare your response with the model and cover every requested point."}
       </p>
-      <div className="button-row">
+      <ButtonRow>
         <Button variant="primary" onClick={onNext}>
           {run.section === 3
             ? "See my results"
@@ -35,7 +36,7 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
               : `Continue to ${mockSections[run.section + 1].title.toLowerCase()}`}
           <Icon name="arrow" />
         </Button>
-      </div>
+      </ButtonRow>
       <div className="answer-review-list">
         {section.questions.map((q, i) => (
           <AnswerReview

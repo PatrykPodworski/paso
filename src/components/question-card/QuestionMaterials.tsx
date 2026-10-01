@@ -31,7 +31,10 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
         />
       )}
       {q.passage && (
-        <div className="reading-passage" lang="es">
+        <div
+          className="reading-passage [&_button]:h-[38px] [&_button]:w-[38px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e2ddc9] [&_button]:bg-[#fffdf3] [&_button]:text-[#8a8f6d] [&_button:hover]:bg-[#f2eedd]"
+          lang="es"
+        >
           <span className="paper-clip" aria-hidden="true" />
           {!exam && (
             <AudioButton

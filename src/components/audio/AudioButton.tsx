@@ -40,7 +40,9 @@ export const AudioButton = ({
   const iconOnly = compact || minimal;
 
   return (
-    <div className={`audio-control ${iconOnly ? "compact" : ""}`}>
+    <div
+      className={`audio-control flex flex-wrap items-center gap-[10px] [.question-pronunciation_&]:contents [.reading-passage>&]:mb-[14px] ${iconOnly ? "compact" : ""}`}
+    >
       <PlayButton
         label={label}
         iconOnly={iconOnly}
@@ -52,7 +54,7 @@ export const AudioButton = ({
       {!iconOnly && !limit && (
         <button
           type="button"
-          className="speed-button"
+          className="speed-button p-[8px_10px] bg-[#f5f2f7] border border-[#e5dfec] rounded-[7px] text-[13px] text-[#a596b5] max-phone:text-[12px]"
           onClick={() => setSpeed((s) => (s === 1 ? 0.75 : 1))}
           aria-label={`Audio speed ${speed} times. Click to change`}
         >
@@ -60,7 +62,7 @@ export const AudioButton = ({
         </button>
       )}
       {limit && (
-        <small>
+        <small className="text-[13px] text-[#a798b5] [.question-pronunciation_&]:col-[2] [.question-pronunciation_&]:text-center [.question-pronunciation_&]:m-[-12px_0_16px] [.question-pronunciation_&]:whitespace-nowrap">
           {count}/{limit} plays
         </small>
       )}

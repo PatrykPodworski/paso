@@ -9,6 +9,7 @@ import { FieldNote } from "./FieldNote";
 import { Panel, PanelHeading } from "./Panel";
 import { PageHeading } from "./PageHeading";
 import { Notice } from "./Notice";
+import { ButtonRow } from "./ButtonRow";
 import { IconButton } from "./IconButton";
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
@@ -161,6 +162,20 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             Reading + writing: <strong>36.00/50</strong>
           </p>
         </Notice>
+      </div>
+    ),
+  },
+  {
+    id: "button-row",
+    name: "ButtonRow",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        {["", "justify-center", "justify-between"].map((justify) => (
+          <ButtonRow key={justify} className={justify}>
+            <Button variant="secondary">Keep working</Button>
+            <Button variant="primary">{justify || "default"}</Button>
+          </ButtonRow>
+        ))}
       </div>
     ),
   },

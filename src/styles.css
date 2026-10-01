@@ -166,12 +166,6 @@ label {
 svg {
   flex-shrink: 0;
 }
-.button-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
 .subtle {
   font-size: 14px;
   color: var(--muted);
@@ -1538,9 +1532,6 @@ svg {
   flex: 1;
   color: #859770;
 }
-.exam-results > .button-row {
-  justify-content: center;
-}
 .lesson-progress {
   height: 4px;
   background: #eff2e8;
@@ -2022,9 +2013,6 @@ svg {
   color: #96a483;
   max-width: 450px;
   margin: 15px auto 25px;
-}
-.exit-confirm .button-row {
-  justify-content: center;
 }
 @keyframes wave {
   to {

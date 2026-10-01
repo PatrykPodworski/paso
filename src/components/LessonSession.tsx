@@ -1,3 +1,4 @@
+import { ButtonRow } from "../design-system/ButtonRow";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
@@ -101,14 +102,14 @@ export const LessonSession = ({
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
-          <div className="button-row">
+          <ButtonRow className="justify-center">
             <Button variant="secondary" onClick={() => setConfirmExit(false)}>
               Keep learning
             </Button>
             <Button variant="primary" onClick={onClose}>
               Save & leave
             </Button>
-          </div>
+          </ButtonRow>
         </div>
       )}
       {finished ? (

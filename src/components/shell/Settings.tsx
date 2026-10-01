@@ -1,3 +1,4 @@
+import { ButtonRow } from "../../design-system/ButtonRow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { useState } from "react";
 import { Button } from "../../design-system/Button";
@@ -77,7 +78,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
       </FieldNote>
-      <div className="button-row justify-between">
+      <ButtonRow className="justify-between">
         <Button
           variant="secondary"
           size="compact"
@@ -99,7 +100,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           Save preferences
           <Icon name="check" size={17} />
         </Button>
-      </div>
+      </ButtonRow>
       <details className="mt-[25px] pt-[17px] border-t border-t-line text-[13px] text-[#a4ad94]">
         <summary className="cursor-pointer">Start over</summary>
         {reset ? (
@@ -108,14 +109,14 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
               This clears lesson progress, drafts, checklists and the exam rehearsal in this
               browser.
             </p>
-            <div className="button-row">
+            <ButtonRow>
               <Button variant="secondary" size="small" onClick={() => setReset(false)}>
                 Cancel
               </Button>
               <Button variant="danger" size="small" onClick={onReset}>
                 Clear my practice data
               </Button>
-            </div>
+            </ButtonRow>
           </div>
         ) : (
           <TextLink

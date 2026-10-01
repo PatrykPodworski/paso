@@ -2,6 +2,7 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import type { Question } from "../../data/types";
 import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
+import { CHECKBOX } from "../../design-system/field";
 
 const CHECK_ROW =
   "flex items-start gap-[10px] m-[10px_0] text-[13px] leading-[1.7] text-[#758763] max-tablet:text-[14px]";
@@ -30,7 +31,7 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
             <label className={CHECK_ROW}>
               <input
                 type="checkbox"
-                className="mt-[1px]"
+                className={`${CHECKBOX} m-[1px_3px_3px_4px]`}
                 checked={practice.spoken}
                 onChange={(e) => practice.setSpoken(e.target.checked)}
               />
@@ -48,7 +49,7 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
             <label className={CHECK_ROW} key={c}>
               <input
                 type="checkbox"
-                className="mt-[1px]"
+                className={`${CHECKBOX} m-[1px_3px_3px_4px]`}
                 checked={ticked.has(i)}
                 onChange={() => practice.toggleCheck(i)}
               />

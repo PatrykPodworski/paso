@@ -16,8 +16,10 @@ export const PageHeading = ({ eyebrow, title, description, children, className =
   >
     <div>
       {eyebrow}
-      <h1 className="max-tablet:text-[30px] max-phone:text-[28px]">{title}</h1>
-      <p className="mt-[9px] text-[14px] text-[#75816b]">{description}</p>
+      <h1 className="font-serif text-[36px] font-semibold tracking-[-1.3px] leading-[1.2] max-tablet:text-[30px] max-phone:text-[28px]">
+        {title}
+      </h1>
+      <p className="leading-[1.7] mt-[9px] text-[14px] text-[#75816b]">{description}</p>
     </div>
     {children}
   </div>

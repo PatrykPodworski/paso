@@ -1,5 +1,6 @@
 import { Icon } from "../../design-system/Icon";
 import { OPTION_KEY } from "./AnswerOptions";
+import { PRESSABLE } from "../../design-system/pressable";
 
 const CHIP =
   "flex items-center gap-[8px] rounded-[7px] border border-[#d6e1c7] bg-[#fffefa] p-[10px_13px] text-[15px] shadow-[0_2px_0_#dfe7d2]";
@@ -27,7 +28,7 @@ export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }
         <button
           key={pos}
           type="button"
-          className={CHIP}
+          className={`${PRESSABLE} ${CHIP}`}
           disabled={feedback}
           onClick={() => onRemove(pos)}
           lang="es"
@@ -37,13 +38,14 @@ export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }
         </button>
       ))}
     </div>
+    {/* `!`: otherwise stylesheet order picks between the chip's and PRESSABLE's disabled opacity. */}
     <div className="word-bank flex flex-wrap justify-center gap-[10px] mb-[30px]">
       {tokens.map((token, i) => (
         <button
           type="button"
           lang="es"
           key={i}
-          className={`${CHIP} disabled:opacity-[0.22]`}
+          className={`${PRESSABLE} ${CHIP} disabled:opacity-[0.22]!`}
           onClick={() => onPick(i)}
           disabled={feedback || selected.includes(i)}
         >

@@ -1,4 +1,5 @@
 import type { ComponentProps } from "react";
+import { PRESSABLE } from "./pressable";
 
 const BASE =
   "inline-flex justify-center items-center border gap-3 rounded-lg font-semibold leading-normal";
@@ -24,5 +25,8 @@ type Props = {
 } & Omit<ComponentProps<"button">, "className">;
 
 export const Button = ({ variant, size = "default", className = "", ...rest }: Props) => (
-  <button className={`${BASE} ${VARIANT[variant]} ${SIZE[size]} ${className}`} {...rest} />
+  <button
+    className={`${PRESSABLE} ${BASE} ${VARIANT[variant]} ${SIZE[size]} ${className}`}
+    {...rest}
+  />
 );

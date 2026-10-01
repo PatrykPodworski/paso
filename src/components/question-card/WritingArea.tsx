@@ -1,4 +1,6 @@
 import type { Question } from "../../data/types";
+import { PRESSABLE } from "../../design-system/pressable";
+import { FIELD } from "../../design-system/field";
 
 type Props = {
   q: Question;
@@ -16,6 +18,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
     </label>
     {q.kind === "write" ? (
       <textarea
+        className={`${FIELD} leading-[1.7]`}
         id="written-answer"
         lang="es"
         value={answer}
@@ -26,6 +29,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
       />
     ) : (
       <input
+        className={FIELD}
         id="written-answer"
         lang="es"
         value={answer}
@@ -46,7 +50,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
           <button
             type="button"
             key={c}
-            className="h-[27px] w-[25px] rounded-[4px] border border-[#e0e6d4] bg-[#f5f8ed] p-0 text-[14px] text-[#93a47a]"
+            className={`${PRESSABLE} h-[27px] w-[25px] rounded-[4px] border border-[#e0e6d4] bg-[#f5f8ed] p-0 text-[14px] text-[#93a47a]`}
             onClick={() => {
               const el = document.getElementById("written-answer") as
                 | HTMLInputElement

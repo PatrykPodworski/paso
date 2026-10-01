@@ -63,7 +63,7 @@ export const Icon = ({ name, size = 20, className = "", style }: Props) => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
-    className={className}
+    className={`shrink-0 ${className}`}
     style={style}
   >
     <path d={paths[name] || paths.spark} />

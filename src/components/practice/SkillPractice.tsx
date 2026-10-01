@@ -21,7 +21,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
     <Panel className="bg-[#f1f0e4]! p-[30px_34px] max-laptop:p-[27px] max-tablet:p-[24px] max-phone:p-[22px] flex justify-between gap-[20px] overflow-hidden">
       <div className="max-w-[520px]">
         <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
-        <h2 className="text-[33px] max-laptop:text-[29px] max-phone:text-[27px] m-[12px_0]">
+        <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[33px] max-laptop:text-[29px] max-phone:text-[27px] m-[12px_0]">
           {filter === "all"
             ? "A little bit of everything."
             : filter === "listening"
@@ -32,7 +32,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
                   ? "Make a little room for your words."
                   : "Find the meaning in the details."}
         </h2>
-        <p className="text-[14px] text-[#8f967c] max-w-[420px] mb-[21px]">
+        <p className="leading-[1.7] text-[14px] text-[#8f967c] max-w-[420px] mb-[21px]">
           Fresh questions come first. Revisit the ones you’ve seen as your confidence grows.
         </p>
         <Button variant="primary" onClick={() => practice(filter)}>
@@ -46,7 +46,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           size={64}
           className="max-laptop:w-[45px] max-laptop:h-[45px]"
         />
-        <i className="font-(family-name:--serif) text-[22px] max-laptop:text-[17px] bg-[#fff7e9] p-[4px_14px] rounded-[7px] transform-[rotate(-10deg)] mt-[16px] text-[#aa835b]">
+        <i className="font-serif text-[22px] max-laptop:text-[17px] bg-[#fff7e9] p-[4px_14px] rounded-[7px] transform-[rotate(-10deg)] mt-[16px] text-[#aa835b]">
           ¡Tú puedes!
         </i>
       </div>
@@ -68,10 +68,10 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
                 <Icon name={s.icon} size={24} />
               </span>
               <Eyebrow variant="small">{s.spanish}</Eyebrow>
-              <h3 className="text-[18px] max-tablet:text-[17px] max-phone:text-[18px] mt-[4px]">
+              <h3 className="font-semibold tracking-[-0.3px] text-[18px] max-tablet:text-[17px] max-phone:text-[18px] mt-[4px]">
                 {s.name}
               </h3>
-              <p className="text-[13px] max-phone:text-[12px] text-[#96a184] m-[10px_0]">
+              <p className="leading-[1.7] text-[13px] max-phone:text-[12px] text-[#96a184] m-[10px_0]">
                 {stats.practised} questions practised
               </p>
               <span className="text-[11px] max-desktop:text-[10px] max-laptop:text-[12px] max-tablet:text-[11px] max-phone:text-[10px] text-[#9ca88b]">
@@ -108,8 +108,8 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           <Icon name="map" />
         </span>
         <div>
-          <h3>Picture this</h3>
-          <p>6 visual puzzles · cafés, trains & your neighborhood</p>
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Picture this</h3>
+          <p className="leading-[1.7]">6 visual puzzles · cafés, trains & your neighborhood</p>
         </div>
         <Icon name="arrow" />
       </Panel>
@@ -132,8 +132,8 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           <Icon name="layers" />
         </span>
         <div>
-          <h3>The foundation lab</h3>
-          <p>24 checks · sounds, spelling, numbers & patterns</p>
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">The foundation lab</h3>
+          <p className="leading-[1.7]">24 checks · sounds, spelling, numbers & patterns</p>
         </div>
         <Icon name="arrow" />
       </Panel>
@@ -156,8 +156,8 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           <Icon name="pen" />
         </span>
         <div>
-          <h3>Fill in your story</h3>
-          <p>A personal form · 15–25 words · exam task 1</p>
+          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Fill in your story</h3>
+          <p className="leading-[1.7]">A personal form · 15–25 words · exam task 1</p>
         </div>
         <Icon name="arrow" />
       </Panel>

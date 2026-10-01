@@ -66,10 +66,10 @@ export const PathPage = ({
           <Eyebrow variant="banner" className="mb-[7px]">
             YOUR NEXT SMALL STEP
           </Eyebrow>
-          <h3 className="text-[17px] max-desktop:text-[15px] max-phone:text-[14px]">
+          <h3 className="font-semibold tracking-[-0.3px] text-[17px] max-desktop:text-[15px] max-phone:text-[14px]">
             {nextUnit.title} · {nextLesson.title}
           </h3>
-          <p className="mt-[6px] text-[14px] text-[#8e9b7f]">
+          <p className="leading-[1.7] mt-[6px] text-[14px] text-[#8e9b7f]">
             {completed}/{allLessons.length} complete · {progressPercent}% of your path
           </p>
         </div>
@@ -112,10 +112,10 @@ export const PathPage = ({
           <div className="flex flex-wrap items-center gap-[15px] max-tablet:gap-[12px] mt-[28px] ml-[50px] max-tablet:ml-[38px] p-[24px] max-tablet:p-[20px] max-phone:p-[19px] rounded-[12px] bg-[#eaf0e2] text-[#6f8a56]">
             <Icon name="flag" size={28} />
             <div>
-              <h3 className="font-(family-name:--serif) text-[21px] max-tablet:text-[20px]">
+              <h3 className="font-semibold tracking-[-0.3px] font-serif text-[21px] max-tablet:text-[20px]">
                 The next chapter is yours.
               </h3>
-              <p className="mt-[5px] text-[13px]">
+              <p className="leading-[1.7] mt-[5px] text-[13px]">
                 Put your skills together in the exam rehearsal.
               </p>
             </div>
@@ -135,7 +135,7 @@ export const PathPage = ({
           className="p-[26px] self-start sticky top-[20px] max-laptop:static max-laptop:grid max-laptop:grid-cols-[1fr_1fr] max-laptop:gap-[20px] max-phone:grid-cols-[1fr]"
         >
           <Eyebrow className="max-laptop:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
-          <h3 className="font-(family-name:--serif) font-medium leading-[1.3] text-[26px] max-phone:text-[25px] m-[12px_0_24px] max-laptop:m-0 max-laptop:col-span-full">
+          <h3 className="tracking-[-0.3px] font-serif font-medium leading-[1.3] text-[26px] max-phone:text-[25px] m-[12px_0_24px] max-laptop:m-0 max-laptop:col-span-full">
             Learn it. Try it.
             <br />
             Make it yours.
@@ -149,8 +149,8 @@ export const PathPage = ({
             <div key={title} className="flex gap-[12px] mb-[23px] max-laptop:mb-0 text-[#869576]">
               <Icon name={icon} size={20} />
               <section>
-                <h4 className="text-[14px] text-[#647455]">{title}</h4>
-                <p className="mt-[6px] text-[14px]">{body}</p>
+                <h4 className="font-semibold text-[14px] text-[#647455]">{title}</h4>
+                <p className="leading-[1.7] mt-[6px] text-[14px]">{body}</p>
               </section>
             </div>
           ))}

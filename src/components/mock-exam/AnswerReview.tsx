@@ -31,24 +31,30 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
         </span>
       </summary>
       <div className="pb-[20px] pl-[40px] text-[#819271] [&>p]:my-[8px] [&>p]:text-[14px] max-tablet:pl-0">
-        <p>
+        <p className="leading-[1.7]">
           Your answer: <strong lang="es">{answer || "Not answered"}</strong>
         </p>
-        <p>
+        <p className="leading-[1.7]">
           {section < 2 ? "Correct answer" : "One possible response"}:{" "}
           <strong lang="es">{q.answer}</strong>
         </p>
-        <p>{q.explanation}</p>
-        {q.audio && <p lang="es">Transcript: {q.audio}</p>}
+        <p className="leading-[1.7]">{q.explanation}</p>
+        {q.audio && (
+          <p className="leading-[1.7]" lang="es">
+            Transcript: {q.audio}
+          </p>
+        )}
         {q.minWords && (
-          <p>
+          <p className="leading-[1.7]">
             Response length:{" "}
             {countWords(q.kind === "form" ? (answer || "").replace(/^.*?: /gm, "") : answer || "")}{" "}
             words. Target: {q.minWords}–{q.maxWords}.
           </p>
         )}
         {q.checklist?.map((c) => (
-          <p key={c}>□ {c}</p>
+          <p className="leading-[1.7]" key={c}>
+            □ {c}
+          </p>
         ))}
       </div>
     </details>

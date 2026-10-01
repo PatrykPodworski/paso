@@ -166,30 +166,6 @@ label {
 svg {
   flex-shrink: 0;
 }
-.subtle {
-  font-size: 14px;
-  color: var(--muted);
-}
-.peach {
-  background: #f3e5d8;
-  color: #bd7f5c;
-}
-.sage {
-  background: #e8eddd;
-  color: #7d956b;
-}
-.lavender {
-  background: #ece8f1;
-  color: #9b8cad;
-}
-.sand {
-  background: #f1ebd8;
-  color: #b39a68;
-}
-.blue {
-  background: #e6edf0;
-  color: #83a0ac;
-}
 .quiet-note {
   display: flex;
   justify-content: center;
@@ -333,11 +309,6 @@ svg {
   color: #99a589;
   width: 17px;
 }
-.vocab-emoji {
-  font-size: 35px;
-  line-height: 1.3;
-  margin-bottom: 14px;
-}
 .mistakes-panel {
   padding: 30px;
 }
@@ -376,27 +347,6 @@ svg {
   align-items: center;
   gap: 8px;
   color: #9aa78b;
-}
-.question-kind > span:not(.skill-dot) {
-  opacity: 0.5;
-  padding: 0 4px;
-}
-.skill-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #adbc95;
-  flex-shrink: 0;
-}
-.skill-dot.listening {
-  background: #b4a6c2;
-}
-.skill-dot.writing {
-  background: #cdb284;
-}
-.skill-dot.speaking {
-  background: #d29a7e;
 }
 .question-heading {
   display: grid;
@@ -731,17 +681,6 @@ svg {
   font-size: 13px;
   line-height: 1.6;
 }
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
 @media (max-width: 600px) {
   .feedback-bottom {
     flex-wrap: wrap;
@@ -794,32 +733,6 @@ svg {
 }
 .feedback details p {
   margin-top: 10px;
-}
-.completion-art {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-  justify-content: center;
-  color: #b7a473;
-  margin: 0 auto 22px;
-}
-.completion-art > svg {
-  color: #8fa473;
-  background: #f0f2e1;
-  width: 96px;
-  height: 96px;
-  padding: 22px;
-  border-radius: 50%;
-}
-.completion-art > span {
-  font-size: 27px;
-  color: #c9af73;
-}
-.completion-art > span:first-child {
-  transform: translateY(-23px);
-}
-.completion-art > span:last-child {
-  transform: translateY(19px);
 }
 @keyframes wave {
   to {
@@ -1065,8 +978,7 @@ svg {
 /* Comfortable default scale: learning content should be readable at 100% zoom. */
 @media (min-width: 1241px) {
 }
-.question-footer > span,
-.subtle {
+.question-footer > span {
   color: #75816b;
 }
 .answer-option {

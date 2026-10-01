@@ -124,7 +124,7 @@ export const TodayPage = ({
         </button>
         <SectionHeading>
           <h2>A little change of pace</h2>
-          <span className="subtle">Make it yours</span>
+          <span className="text-[14px] text-[#75816b]">Make it yours</span>
         </SectionHeading>
         <QuickPractice mistakeCount={mistakeCount} practice={practice} />
       </div>

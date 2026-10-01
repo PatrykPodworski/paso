@@ -1,3 +1,4 @@
+import { TONE } from "./tone";
 import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, Progress, Unit } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
@@ -125,7 +126,7 @@ export const UnitCard = ({
         onClick={onExpand}
         aria-expanded={expanded}
       >
-        <div className={`${ICON} ${at.icon} ${unit.color}`}>
+        <div className={`${ICON} ${at.icon} ${TONE[unit.color]}`}>
           <Icon name={unit.icon} size={25} className={at.iconSvg} />
         </div>
         <div className="flex-1 min-w-0">

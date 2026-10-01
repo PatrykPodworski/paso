@@ -1,3 +1,4 @@
+import { CompletionArt } from "../CompletionArt";
 import { ButtonRow } from "../../design-system/ButtonRow";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
@@ -30,9 +31,9 @@ export const MockResults = ({
   onReset,
 }: Props) => (
   <Panel className="p-[38px] text-center max-tablet:px-[20px] max-tablet:py-[28px]">
-    <div className="completion-art">
+    <CompletionArt>
       <Icon name="trophy" size={48} />
-    </div>
+    </CompletionArt>
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
     <h2 className="my-[12px] text-[36px] max-tablet:text-[31px]">You’ve met the exam.</h2>
     <p className="text-[15px] text-[#919e81]">Now you know where your next steps can take you.</p>

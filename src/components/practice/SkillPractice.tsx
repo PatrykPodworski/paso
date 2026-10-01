@@ -1,3 +1,4 @@
+import { TONE } from "../tone";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
@@ -85,7 +86,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] sage">
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.sage}`}
+        >
           <Icon name="map" />
         </span>
         <div>
@@ -107,7 +110,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] sand">
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.sand}`}
+        >
           <Icon name="layers" />
         </span>
         <div>
@@ -129,7 +134,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] lavender">
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.lavender}`}
+        >
           <Icon name="pen" />
         </span>
         <div>

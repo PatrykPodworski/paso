@@ -1,3 +1,4 @@
+import { TONE } from "../tone";
 import { Icon } from "../../design-system/Icon";
 import type { Practice } from "../practice";
 
@@ -21,7 +22,7 @@ const NOTE =
 export const QuickPractice = ({ mistakeCount, practice }: Props) => (
   <div className="grid grid-cols-[repeat(3,1fr)] gap-[12px] max-tablet:gap-[10px] max-phone:grid-cols-[1fr]">
     <button className={CARD} onClick={() => practice("listening")}>
-      <span className={`${ICON} lavender`}>
+      <span className={`${ICON} ${TONE.lavender}`}>
         <Icon name="headphones" size={23} />
       </span>
       <strong className={TITLE}>Tune your ear</strong>
@@ -29,7 +30,7 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <Icon name="arrow" size={17} />
     </button>
     <button className={CARD} onClick={() => practice("speaking")}>
-      <span className={`${ICON} peach`}>
+      <span className={`${ICON} ${TONE.peach}`}>
         <Icon name="mic" size={23} />
       </span>
       <strong className={TITLE}>Find your voice</strong>
@@ -37,7 +38,7 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <Icon name="arrow" size={17} />
     </button>
     <button className={CARD} onClick={() => practice(mistakeCount ? "mistakes" : "all")}>
-      <span className={`${ICON} sage`}>
+      <span className={`${ICON} ${TONE.sage}`}>
         <Icon name="repeat" size={23} />
       </span>
       <strong className={TITLE}>Make it stick</strong>

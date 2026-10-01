@@ -1,3 +1,4 @@
+import { TONE } from "./tone";
 import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
@@ -57,7 +58,7 @@ export const PathPage = ({
       </PageHeading>
       <Panel className="flex items-center gap-[18px] max-tablet:gap-[13px] mb-[30px] p-[23px_25px] max-tablet:p-[20px] max-laptop:flex-wrap">
         <span
-          className={`flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-desktop:w-[40px] max-desktop:h-[43px] max-tablet:w-[43px] max-tablet:h-[45px] max-phone:w-[34px] max-phone:h-[37px] ${nextUnit.color}`}
+          className={`flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-desktop:w-[40px] max-desktop:h-[43px] max-tablet:w-[43px] max-tablet:h-[45px] max-phone:w-[34px] max-phone:h-[37px] ${TONE[nextUnit.color]}`}
         >
           <Icon name={nextUnit.icon} size={28} />
         </span>

@@ -1,5 +1,4 @@
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
-import { argosScreenshot } from "@argos-ci/playwright";
 import { allLessons } from "../../src/data/curriculum";
 import type { Question } from "../../src/data/types";
 
@@ -32,14 +31,15 @@ export const test = base.extend<{ blockExternal: void }>({
 
 export { expect };
 
-// Argos is the only baseline. In CI the reporter uploads these captures and Argos
-// compares them against the main build; locally nothing is compared.
+// Nothing compares these captures; they land in screenshots/ for inspection.
 export const capture = async (
   page: Page,
   name: string,
   { fullPage = false, element }: { fullPage?: boolean; element?: Locator } = {},
 ) => {
-  await argosScreenshot(page, name, element ? { element } : { fullPage });
+  const path = `screenshots/${test.info().project.name}/${name}.png`;
+
+  await (element ? element.screenshot({ path }) : page.screenshot({ path, fullPage }));
 };
 
 // Everything that makes a screenshot reproducible and nothing that is specific to one

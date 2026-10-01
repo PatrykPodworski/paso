@@ -44,5 +44,5 @@ test-results/
 # Local scratch space
 temp/
 
-# Written by argosScreenshot when the Argos reporter is not uploading
+# Captures written by capture() in tests/fixtures/app.ts
 screenshots/

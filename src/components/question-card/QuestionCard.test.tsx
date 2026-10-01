@@ -78,6 +78,7 @@ it.each([
   [writing, "Your turn"],
   [speaking, "Your turn"],
   [formPractice, "Your turn"],
+  // fallow-ignore-next-line complexity -- moved unchanged from src/test/question-rules.test.tsx (#190: move, don't rewrite)
 ])("renders only the appropriate controls for exercise case %#", (q, description) => {
   const { container } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 

@@ -3,6 +3,7 @@ import { Panel, PanelHeading } from "../../design-system/Panel";
 import { dailyAnswers, localDate } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { IconButton } from "../../design-system/IconButton";
 
 type Props = {
   progress: Progress;
@@ -15,13 +16,9 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
   return (
     <Panel as="section" className="daily-goal">
       <PanelHeading title="Your daily little win">
-        <button
-          className="icon-button"
-          onClick={() => openSettings()}
-          aria-label="Adjust your daily goal"
-        >
+        <IconButton onClick={() => openSettings()} aria-label="Adjust your daily goal">
           <Icon name="settings" size={16} />
-        </button>
+        </IconButton>
       </PanelHeading>
       <div
         className="goal-ring"

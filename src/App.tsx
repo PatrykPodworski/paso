@@ -123,10 +123,10 @@ const App = () => {
   };
 
   return (
-    <div className="app-shell">
+    <div className="min-h-screen">
       <a
         href="#main-content"
-        className="skip-link"
+        className="fixed left-[10px] -top-[100px] z-[200] p-[12px] bg-[#fff] text-[#294b36] focus:top-[10px]"
         onClick={(e) => {
           e.preventDefault();
           document.getElementById("main-content")?.focus();
@@ -144,14 +144,18 @@ const App = () => {
         name={progress.name}
         openSettings={() => setSettings(true)}
       />
-      <div className="main-shell">
+      <div className="ml-[260px] max-desktop:ml-[215px] max-tablet:ml-0">
         <Topbar
           page={page}
           progress={progress}
           openNav={() => setMobileNav(true)}
           openSettings={() => setSettings(true)}
         />
-        <main id="main-content" tabIndex={-1}>
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="max-w-[1570px] m-auto outline-none p-[34px_38px_0] max-desktop:p-[28px_27px_0] max-tablet:p-[26px_20px_0] max-phone:px-[16px]"
+        >
           {storageError && (
             <Notice as="p" role="status">
               Browser storage is unavailable. Progress is kept for this visit; use Export progress
@@ -159,12 +163,15 @@ const App = () => {
             </Notice>
           )}
           {pages[page]}
-          <footer className="main-footer">
-            <span>Made for the joy of getting there.</span>
-            <span>
-              paso a paso <span>✦</span>
+          <footer className="flex max-tablet:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-tablet:mt-[32px] p-[20px_0_25px] max-tablet:p-[20px_0] border-t border-t-line text-[11px] text-[#a2ab96]">
+            <span className="max-laptop:hidden">Made for the joy of getting there.</span>
+            <span className="font-(family-name:--serif) text-[14px] italic text-[#91a17d]">
+              paso a paso <span className="text-[#c8a174] ml-[6px]">✦</span>
             </span>
-            <button onClick={() => navigate("guide")}>
+            <button
+              className="flex items-center gap-[4px] border-0 bg-transparent text-[10px] max-tablet:text-[9px] text-[#a2ab96]"
+              onClick={() => navigate("guide")}
+            >
               Independent practice · Official sources inside
               <Icon name="external" size={12} />
             </button>
@@ -205,7 +212,10 @@ const App = () => {
         />
       )}
       {toast && (
-        <div className="toast" role="status">
+        <div
+          className="fixed bottom-[25px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-[10px] p-[15px_22px] rounded-[10px] bg-green text-[#f5f8ed] text-[14px] shadow-[0_7px_30px_#1f3e3022] max-w-[calc(100vw_-_30px)] max-tablet:w-max"
+          role="status"
+        >
           <Icon name="check" size={17} />
           {toast}
         </div>

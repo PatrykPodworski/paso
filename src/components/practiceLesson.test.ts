@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { practiceLesson } from "../components/practiceLesson";
+import { practiceLesson } from "./practiceLesson";
 import { emptyProgress } from "../data/progress";
 
 describe("practice lesson", () => {

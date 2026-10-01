@@ -36,19 +36,19 @@ Each row names independently asserted behavior. Parameterized tests exercise bot
 
 | Rule | Contract                                                                                                                | Unit/component tests                                                  |
 | ---- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| P01  | Fresh progress has independent collections and truthful zero totals                                                     | `rules.test.ts`, `interactions.test.tsx`                              |
-| P02  | Restore valid saved preferences and older envelopes; reject malformed data, wrong versions and denied storage           | `rules.test.ts`, `progress.test.ts`                                   |
-| P03  | Compare Spanish case, whitespace, punctuation and Unicode composition; preserve accents and ñ; accept declared variants | `rules.test.ts`, `progress.test.ts`                                   |
-| P04  | Count Unicode words, apostrophes, hyphens and numbers; ignore punctuation                                               | `rules.test.ts`                                                       |
-| P05  | Failed answers enter a deduplicated mistake queue immediately                                                           | `rules.test.ts`, `interactions.test.tsx`                              |
-| P06  | Only unassisted correct answers clear mistakes and count as recovered; productive work is ungraded                      | `rules.test.ts`                                                       |
-| P07  | Preserve input immutability and retain the newest 6,000 attempts                                                        | `rules.test.ts`                                                       |
-| P08  | Daily totals count unique question IDs on local calendar days                                                           | `rules.test.ts`, `progress.test.ts`, `DailyGoal.test.tsx`             |
-| P09  | Streak may continue from yesterday; duplicates do not extend it and gaps break it                                       | `rules.test.ts`                                                       |
-| P10  | Repeats cannot farm question XP; completed lessons award separate XP                                                    | `rules.test.ts`, `progress.test.ts`                                   |
-| P11  | Skill statistics use the latest answer per question, exclude help/productive answers and round correctly                | `rules.test.ts`                                                       |
-| P12  | Each DELE group independently requires at least 30/50, including decimal boundaries                                     | `rules.test.ts`, `exam.test.tsx`, `App.test.tsx`, `guide.test.tsx`    |
-| P13  | Each supported writing pattern has a specific hint and correct language avoids false hints                              | `rules.test.ts`, `progress.test.ts`                                   |
+| P01  | Fresh progress has independent collections and truthful zero totals                                                     | `progress.test.ts`, `interactions.test.tsx`                           |
+| P02  | Restore valid saved preferences and older envelopes; reject malformed data, wrong versions and denied storage           | `progress.test.ts`                                                    |
+| P03  | Compare Spanish case, whitespace, punctuation and Unicode composition; preserve accents and ñ; accept declared variants | `progress.test.ts`                                                    |
+| P04  | Count Unicode words, apostrophes, hyphens and numbers; ignore punctuation                                               | `progress.test.ts`                                                    |
+| P05  | Failed answers enter a deduplicated mistake queue immediately                                                           | `progress.test.ts`, `interactions.test.tsx`                           |
+| P06  | Only unassisted correct answers clear mistakes and count as recovered; productive work is ungraded                      | `progress.test.ts`                                                    |
+| P07  | Preserve input immutability and retain the newest 6,000 attempts                                                        | `progress.test.ts`                                                    |
+| P08  | Daily totals count unique question IDs on local calendar days                                                           | `progress.test.ts`, `DailyGoal.test.tsx`                              |
+| P09  | Streak may continue from yesterday; duplicates do not extend it and gaps break it                                       | `progress.test.ts`                                                    |
+| P10  | Repeats cannot farm question XP; completed lessons award separate XP                                                    | `progress.test.ts`                                                    |
+| P11  | Skill statistics use the latest answer per question, exclude help/productive answers and round correctly                | `progress.test.ts`                                                    |
+| P12  | Each DELE group independently requires at least 30/50, including decimal boundaries                                     | `progress.test.ts`, `exam.test.tsx`, `App.test.tsx`, `guide.test.tsx` |
+| P13  | Each supported writing pattern has a specific hint and correct language avoids false hints                              | `progress.test.ts`                                                    |
 | Q01  | Objective attempts start blank; writing/form drafts restore                                                             | `interactions.test.tsx`, `question-rules.test.tsx`, `lesson.test.tsx` |
 | Q02  | Blank/whitespace answers cannot be checked; Enter checks once; other keys do not submit                                 | `question-rules.test.tsx`                                             |
 | Q03  | Single choices check immediately, lock the choice, reveal feedback and play the Spanish phrase                          | `interactions.test.tsx`                                               |
@@ -64,7 +64,7 @@ Each row names independently asserted behavior. Parameterized tests exercise bot
 | L02  | Lesson results distinguish objective success, mistakes, creative practice and assistance                                | `question-rules.test.tsx`, `lesson.test.tsx`                          |
 | L03  | Leaving a progressed lesson requires confirmation; cancelling preserves the current answer                              | `interactions.test.tsx`                                               |
 | L04  | Dialog Escape delegates to the current close handler; restore focus and body scrolling                                  | `question-rules.test.tsx`                                             |
-| A01  | Prefer generated audio, fall back to bundled clips, preserve stable asset keys                                          | `rules.test.ts`, `audio.test.tsx`, `content.test.ts`                  |
+| A01  | Prefer generated audio, fall back to bundled clips, preserve stable asset keys                                          | `audio-sources.test.ts`, `audio.test.tsx`, `content.test.ts`          |
 | A02  | One active player; stopping/unmounting cancels pending playback and stale callbacks                                     | `audio.test.tsx`                                                      |
 | A03  | Autoplay listening on entry without restarting on selection; count successful plays and enforce exam limits             | `audio.test.tsx`                                                      |
 | A04  | Device fallback uses Spanish voices, correct speed and an honest notice; failures do not consume a play                 | `audio.test.tsx`                                                      |

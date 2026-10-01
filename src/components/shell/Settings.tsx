@@ -8,6 +8,7 @@ import { TextLink } from "../../design-system/TextLink";
 import { localDate } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { IconButton } from "../../design-system/IconButton";
 
 type Props = {
   progress: Progress;
@@ -48,9 +49,9 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
           <h2 className="mt-[8px] text-[27px] max-tablet:text-[26px]">Your little preferences.</h2>
         </div>
-        <button className="icon-button" onClick={onClose} aria-label="Close preferences">
+        <IconButton onClick={onClose} aria-label="Close preferences">
           <Icon name="x" />
-        </button>
+        </IconButton>
       </header>
       <label className={LABEL}>
         What should we call you?

@@ -1,9 +1,9 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import type { ComponentProps } from "react";
 import { expect, it, vi } from "vitest";
-import { LessonSession } from "../components/LessonSession";
-import type { QuestionCard } from "../components/question-card/QuestionCard";
-import { stopAudio } from "../components/audio/playback";
+import { LessonSession } from "./LessonSession";
+import type { QuestionCard } from "./question-card/QuestionCard";
+import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import { emptyProgress } from "../data/progress";
@@ -13,7 +13,7 @@ import type { Question } from "../data/types";
 // widget and its integration are exercised in question-rules and browser tests.
 let card: ComponentProps<typeof QuestionCard>;
 
-vi.mock("../components/question-card/QuestionCard", () => ({
+vi.mock("./question-card/QuestionCard", () => ({
   QuestionCard: (props: typeof card) => {
     card = props;
 
@@ -21,7 +21,7 @@ vi.mock("../components/question-card/QuestionCard", () => ({
   },
 }));
 
-vi.mock("../components/audio/playback", () => ({ stopAudio: vi.fn() }));
+vi.mock("./audio/playback", () => ({ stopAudio: vi.fn() }));
 
 const mount = (questions: Question[], progress = emptyProgress()) => {
   const callbacks = { onClose: vi.fn(), onComplete: vi.fn(), onAttempt: vi.fn(), onDraft: vi.fn() };

@@ -9,6 +9,7 @@ import { FieldNote } from "./FieldNote";
 import { Panel, PanelHeading } from "./Panel";
 import { PageHeading } from "./PageHeading";
 import { Notice } from "./Notice";
+import { ProgressTrack } from "./ProgressTrack";
 import { ButtonRow } from "./ButtonRow";
 import { IconButton } from "./IconButton";
 
@@ -162,6 +163,17 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             Reading + writing: <strong>36.00/50</strong>
           </p>
         </Notice>
+      </div>
+    ),
+  },
+  {
+    id: "progress-track",
+    name: "ProgressTrack",
+    render: () => (
+      <div className="flex w-[240px] flex-col gap-3">
+        {[0, 35, 100].map((percent) => (
+          <ProgressTrack key={percent} percent={percent} />
+        ))}
       </div>
     ),
   },

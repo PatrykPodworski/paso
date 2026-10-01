@@ -170,21 +170,6 @@ svg {
   font-size: 14px;
   color: var(--muted);
 }
-.progress-track {
-  height: 5px;
-  border-radius: 10px;
-  background: #edf0e7;
-  overflow: hidden;
-  display: block;
-}
-.progress-track > div,
-.progress-track > span {
-  display: block;
-  background: #8eab82;
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.4s;
-}
 .peach {
   background: #f3e5d8;
   color: #bd7f5c;

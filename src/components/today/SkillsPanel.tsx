@@ -1,5 +1,6 @@
 import { Panel, PanelHeading } from "../../design-system/Panel";
 import { TextLink } from "../../design-system/TextLink";
+import { ProgressTrack } from "../../design-system/ProgressTrack";
 import { skillStats } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
@@ -42,9 +43,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
                 {stats.practised} practised
               </small>
             </strong>
-            <span className="progress-track mt-[7px] h-[4px]!">
-              <span style={{ width: `${(stats.practised / total) * 100}%` }} />
-            </span>
+            <ProgressTrack percent={(stats.practised / total) * 100} className="mt-[7px]" />
           </span>
           <Icon name="chevron" size={13} className="text-[#a2ad91] max-desktop:hidden" />
         </button>

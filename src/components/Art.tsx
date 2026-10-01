@@ -3,7 +3,7 @@ export const JourneyArt = () => (
     viewBox="0 0 600 410"
     role="img"
     aria-label="A sunlit Spanish village with terracotta rooftops, an orange tree and a winding path to a flag"
-    className="journey-art"
+    className="journey-art absolute top-[6px] right-[-65px] w-[65%] h-full z-[1] max-desktop:top-[17px] max-desktop:right-[-60px] max-desktop:w-[64%] max-laptop:top-0 max-laptop:right-[-50px] max-laptop:w-[66%] max-tablet:top-[10px] max-tablet:right-[-61px] max-tablet:w-[63%] max-phone:top-auto max-phone:bottom-[-19px] max-phone:right-[-65px] max-phone:w-[75%] max-phone:h-[59%] max-phone:opacity-[0.96]"
   >
     <defs>
       <pattern
@@ -118,9 +118,12 @@ export const JourneyArt = () => (
 );
 
 export const Stamp = () => (
-  <div className="stamp" aria-hidden="true">
-    <span>PASO A PASO</span>
-    <svg viewBox="0 0 60 45">
+  <div
+    className="stamp flex flex-col items-center justify-center shrink-0 w-[110px] h-[110px] border border-dashed border-[#b6bfa3] rounded-[50%] text-[#94a77d] [transform:rotate(11deg)] max-tablet:w-[80px] max-tablet:h-[80px]"
+    aria-hidden="true"
+  >
+    <span className="text-[10px] tracking-[2px] max-tablet:text-[9px]">PASO A PASO</span>
+    <svg viewBox="0 0 60 45" className="w-[50px] h-[45px] max-tablet:w-[38px] max-tablet:h-[34px]">
       <path
         d="m5 35 16-27 13 27M12 24h17m7 11V10l-7 6m3 19h15"
         fill="none"
@@ -129,6 +132,8 @@ export const Stamp = () => (
       />
       <path d="m7 41 42-3" stroke="currentColor" />
     </svg>
-    <small>YOUR JOURNEY STARTS HERE</small>
+    <small className="text-[4px] tracking-[1px] max-tablet:text-[3px]">
+      YOUR JOURNEY STARTS HERE
+    </small>
   </div>
 );

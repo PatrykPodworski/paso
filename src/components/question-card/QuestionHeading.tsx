@@ -1,19 +1,20 @@
+import { SkillDot } from "../SkillDot";
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
-// The pronunciation player sits in the heading grid's second column; its own
-// wrappers become `contents` so the button and the plays counter place themselves.
+// The pronunciation player sits in the heading grid's second column; the wrapper
+// becomes `contents` so the button places itself (AudioButton places its counter).
 const PRONUNCIATION =
-  "[&:not([hidden])]:contents [&_.audio-control]:contents [&_.icon-button]:col-[2] [&_.icon-button]:row-[1] [&_.icon-button]:self-start [&_.icon-button]:w-[44px] [&_.icon-button]:h-[44px] [&_.icon-button]:mt-[15px] [&_.icon-button]:rounded-full [&_.icon-button]:border [&_.icon-button]:border-[#e5dfec] [&_.icon-button]:bg-[#f3eff7] [&_.icon-button]:text-[#7c698e] [&_.icon-button:hover]:bg-[#eae3f1] [&_.audio-control>small]:col-[2] [&_.audio-control>small]:m-[-12px_0_16px] [&_.audio-control>small]:text-center [&_.audio-control>small]:whitespace-nowrap";
+  "[&:not([hidden])]:contents [&_button]:col-start-2 [&_button]:row-start-1 [&_button]:mt-[15px] [&_button]:h-[44px] [&_button]:w-[44px] [&_button]:self-start [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e5dfec] [&_button]:bg-[#f3eff7] [&_button]:text-[#7c698e] [&_button:hover]:bg-[#eae3f1]";
 
 type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
   <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-[#7c8c68] max-tablet:gap-[6px] max-tablet:text-[9px] max-tablet:tracking-[1px] max-phone:tracking-[0.8px]">
-    <span className={`skill-dot ${q.skill}`} />
+    <SkillDot skill={q.skill} />
     {q.skill} <span className="px-[4px] opacity-50"> / </span>
     {q.kind === "listen"
       ? "Listen closely"

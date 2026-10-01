@@ -6,7 +6,7 @@ import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
 const PASSAGE =
-  "relative rounded-[9px] border border-[#e8e5d6] bg-[#f8f5e9] p-[24px_27px] mb-[22px] max-tablet:p-[20px] [&>.audio-control]:mb-[14px] [&_.icon-button]:w-[38px] [&_.icon-button]:h-[38px] [&_.icon-button]:rounded-full [&_.icon-button]:border [&_.icon-button]:border-[#e2ddc9] [&_.icon-button]:bg-[#fffdf3] [&_.icon-button]:text-[#8a8f6d] [&_.icon-button:hover]:bg-[#f2eedd]";
+  "reading-passage relative rounded-[9px] border border-[#e8e5d6] bg-[#f8f5e9] p-[24px_27px] mb-[22px] max-tablet:p-[20px] [&_button]:h-[38px] [&_button]:w-[38px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e2ddc9] [&_button]:bg-[#fffdf3] [&_button]:text-[#8a8f6d] [&_button:hover]:bg-[#f2eedd]";
 
 type Props = {
   q: Question;

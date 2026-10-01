@@ -1,4 +1,4 @@
-import type { Question, Unit, Skill } from "./types.ts";
+import type { Question, Unit, Skill, Tone } from "./types.ts";
 import { vocabularyHints } from "./vocabulary-hints.ts";
 import words from "./words.json" with { type: "json" };
 
@@ -7,7 +7,7 @@ type Seed = {
   spanish: string;
   subtitle: string;
   icon: string;
-  color: string;
+  color: Tone;
   goals: string[];
   tip: string;
   example: string;

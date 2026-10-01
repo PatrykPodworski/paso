@@ -12,22 +12,23 @@ type Props = {
 };
 
 export const OralPrep = ({ run, setRun, setNow }: Props) => (
-  <Panel className="oral-prep">
+  <Panel className="p-[32px] max-tablet:p-[25px]">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
-    <h2>A moment to find your words.</h2>
-    <p>
+    <h2 className="mt-[10px] mb-[15px] max-tablet:text-[28px]">A moment to find your words.</h2>
+    <p className="text-[14px] text-[#8c9b7b]">
       Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather than
       reading a script.
     </p>
     {mockSections[3].questions.slice(0, 2).map((q) => (
-      <div key={q.id}>
+      <div key={q.id} className="my-[24px] rounded-[8px] bg-[#f5f7ef] p-[20px]">
         <h3>{q.task}</h3>
-        <p>{q.prompt}</p>
+        <p className="mt-[9px] text-[14px] text-[#859573]">{q.prompt}</p>
       </div>
     ))}
-    <label>
+    <label className="block text-[#8a987b]">
       Your preparation notes
       <textarea
+        className="mt-[10px] mb-[20px]"
         rows={6}
         value={run.drafts.prep || ""}
         onChange={(e) => setRun((r) => ({ ...r, drafts: { ...r.drafts, prep: e.target.value } }))}

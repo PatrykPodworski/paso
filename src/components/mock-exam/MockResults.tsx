@@ -16,6 +16,9 @@ type Props = {
   onReset: () => void;
 };
 
+const TILE =
+  "flex flex-col gap-[10px] rounded-[10px] bg-[#f2f5e9] px-[10px] py-[20px] text-[#81956b]";
+
 export const MockResults = ({
   reading,
   listening,
@@ -26,35 +29,35 @@ export const MockResults = ({
   onDownload,
   onReset,
 }: Props) => (
-  <Panel className="exam-results">
+  <Panel className="p-[38px] text-center max-tablet:px-[20px] max-tablet:py-[28px]">
     <div className="completion-art">
       <Icon name="trophy" size={48} />
     </div>
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
-    <h2>You’ve met the exam.</h2>
-    <p>Now you know where your next steps can take you.</p>
-    <div className="result-score-grid">
-      <div>
-        <span>Reading</span>
-        <strong>
+    <h2 className="my-[12px] text-[36px] max-tablet:text-[31px]">You’ve met the exam.</h2>
+    <p className="text-[15px] text-[#919e81]">Now you know where your next steps can take you.</p>
+    <div className="my-[30px] grid grid-cols-[repeat(4,1fr)] gap-[15px] max-laptop:grid-cols-[1fr_1fr]">
+      <div className={TILE}>
+        <span className="text-[14px]">Reading</span>
+        <strong className="font-(family-name:--serif) text-[38px] font-medium">
           {reading}
-          <small>/25</small>
+          <small className="text-[17px] text-[#a8b596]">/25</small>
         </strong>
       </div>
-      <div>
-        <span>Listening</span>
-        <strong>
+      <div className={TILE}>
+        <span className="text-[14px]">Listening</span>
+        <strong className="font-(family-name:--serif) text-[38px] font-medium">
           {listening}
-          <small>/25</small>
+          <small className="text-[17px] text-[#a8b596]">/25</small>
         </strong>
       </div>
-      <div>
-        <span>Writing</span>
-        <strong className="ungraded">Human review</strong>
+      <div className={TILE}>
+        <span className="text-[14px]">Writing</span>
+        <strong className="my-[10px] text-[14px] font-medium">Human review</strong>
       </div>
-      <div>
-        <span>Speaking</span>
-        <strong className="ungraded">Human review</strong>
+      <div className={TILE}>
+        <span className="text-[14px]">Speaking</span>
+        <strong className="my-[10px] text-[14px] font-medium">Human review</strong>
       </div>
     </div>
     <ScoreCalculator

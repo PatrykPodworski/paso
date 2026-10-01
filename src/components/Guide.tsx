@@ -278,7 +278,9 @@ export const Guide = ({ progress, onCheck }: Props) => {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="source-number">{String(i + 1).padStart(2, "0")}</span>
+            <span className="source-number text-[13px] text-[#b4bea7]">
+              {String(i + 1).padStart(2, "0")}
+            </span>
             <span className="flex-1">
               <strong className="text-[14px] max-desktop:text-[13px] max-tablet:text-[14px] font-semibold block leading-[1.5]">
                 {s.title}
@@ -291,7 +293,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </a>
         ))}
       </div>
-      <p className="guide-footer">
+      <p className="text-[13px] text-[#a1ac93] mt-[25px]">
         Paso is an independent learning app, not affiliated with Instituto Cervantes. Exercises and
         illustrations are original. Official resources remain on their publishers’ websites.
       </p>

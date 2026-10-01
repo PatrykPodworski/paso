@@ -30,14 +30,14 @@ export const ScoreCalculator = ({
   const groups = passingGroups(reading, +writing, listening, +speaking);
 
   return (
-    <div className="score-calculator">
+    <div className="mb-[25px] rounded-[10px] border border-line p-[26px] text-left max-tablet:p-[20px]">
       <h3>Check the two passing groups</h3>
-      <p>
+      <p className="my-[12px] text-[14px] text-[#919e80]">
         Enter scores from a qualified reviewer, or explore hypothetical scores. These inputs do not
         assess your writing or pronunciation.
       </p>
-      <div className="form-inline">
-        <label>
+      <div className="mt-[20px] flex gap-[18px] max-tablet:flex-col">
+        <label className="flex flex-1 flex-col gap-[9px] text-[#859770]">
           Writing score /25
           <input
             type="number"
@@ -49,7 +49,7 @@ export const ScoreCalculator = ({
             placeholder="Not yet graded"
           />
         </label>
-        <label>
+        <label className="flex flex-1 flex-col gap-[9px] text-[#859770]">
           Speaking score /25
           <input
             type="number"
@@ -64,7 +64,7 @@ export const ScoreCalculator = ({
       </div>
       {entered ? (
         <Notice positive={groups.pass}>
-          <p>
+          <p className="my-[12px] text-[#919e80]">
             Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
             <br />
             Listening + speaking: <strong>{groups.group2.toFixed(2)}/50</strong>
@@ -76,7 +76,7 @@ export const ScoreCalculator = ({
           </p>
         </Notice>
       ) : (
-        <FieldNote>
+        <FieldNote className="my-[12px]">
           A pass cannot be determined from reading and listening alone. Enter both scores between 0
           and 25.
         </FieldNote>

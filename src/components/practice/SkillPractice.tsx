@@ -7,7 +7,7 @@ import { formPractice } from "../../data/mock";
 import { skillStats } from "../../data/progress";
 import type { Progress, Skill } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
-import { skills, type Practice, type Session } from "../practice";
+import { skills, SKILL_ICON, type Practice, type Session } from "../practice";
 
 type Props = {
   progress: Progress;
@@ -56,7 +56,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
               className="practice-skill-card"
               onClick={() => practice(s.id)}
             >
-              <span className={`skill-icon ${s.id}`}>
+              <span className={`${SKILL_ICON} w-[45px] h-[45px] mb-[17px] ${s.tint}`}>
                 <Icon name={s.icon} size={24} />
               </span>
               <Eyebrow variant="small">{s.spanish}</Eyebrow>
@@ -86,7 +86,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className={`quick-icon ${TONE.sage}`}>
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.sage}`}
+        >
           <Icon name="map" />
         </span>
         <div>
@@ -108,7 +110,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className={`quick-icon ${TONE.sand}`}>
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.sand}`}
+        >
           <Icon name="layers" />
         </span>
         <div>
@@ -130,7 +134,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className={`quick-icon ${TONE.lavender}`}>
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.lavender}`}
+        >
           <Icon name="pen" />
         </span>
         <div>

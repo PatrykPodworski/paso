@@ -13,9 +13,9 @@ type Props = {
 };
 
 export const OralPrep = ({ run, setRun, setNow }: Props) => (
-  <Panel className="p-[32px] max-tablet:p-[25px]">
+  <Panel className="p-[32px] max-md:p-[25px]">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
-    <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25] mt-[10px] mb-[15px] max-tablet:text-[28px]">
+    <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25] mt-[10px] mb-[15px] max-md:text-[28px]">
       A moment to find your words.
     </h2>
     <p className="leading-[1.7] text-[14px] text-[#8c9b7b]">

@@ -38,7 +38,7 @@ export const skills: { id: Skill; name: string; spanish: string; icon: string; t
 export const SKILL_ICON = "flex items-center justify-center shrink-0 rounded-[9px]";
 
 export const SKILL_ICON_SIZE =
-  "w-[37px] h-[37px] max-desktop:w-[35px] max-desktop:h-[35px] max-tablet:w-[30px] max-tablet:h-[30px] max-phone:w-[35px] max-phone:h-[35px]";
+  "w-[37px] h-[37px] max-xl:w-[35px] max-xl:h-[35px] max-md:w-[30px] max-md:h-[30px] max-sm:w-[35px] max-sm:h-[35px]";
 
 export type Session = (lesson: Lesson) => void;
 export type Practice = (skill: Skill | "all" | "mistakes") => void;

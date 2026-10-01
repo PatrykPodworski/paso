@@ -24,7 +24,7 @@ type Props = {
 
 // Shared with LessonSession's completion screen.
 export const COMPLETION_STATS =
-  "flex justify-center gap-[45px] max-tablet:gap-[25px] max-phone:gap-[20px] m-[30px_0] p-[22px] max-tablet:p-[20px_0] border-y border-line [&_strong]:block [&_strong]:font-serif [&_strong]:text-[32px] max-tablet:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-tablet:[&_span]:text-[11px] max-phone:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
+  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-line [&_strong]:block [&_strong]:font-serif [&_strong]:text-[32px] max-md:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-md:[&_span]:text-[11px] max-sm:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
 
 const reviewDate = (at: string) =>
   new Date(at).toLocaleString(undefined, {
@@ -96,10 +96,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
   return (
     <Dialog
       label="Vocabulary review"
-      className="w-[min(810px,calc(100vw-36px))] max-tablet:w-[calc(100vw_-_22px)]"
+      className="w-[min(810px,calc(100vw-36px))] max-md:w-[calc(100vw_-_22px)]"
       onClose={onClose}
     >
-      <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
+      <header className="flex items-center gap-[16px] p-[22px_26px] max-md:p-[18px] max-md:gap-[12px]">
         <IconButton aria-label="Close vocabulary review" onClick={onClose}>
           <Icon name="x" />
         </IconButton>
@@ -107,11 +107,11 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           <Eyebrow variant="small" className="mb-[5px]">
             POCKET VOCABULARY
           </Eyebrow>
-          <h3 className="font-semibold tracking-[-0.3px] text-[15px] max-tablet:text-[14px]">
+          <h3 className="font-semibold tracking-[-0.3px] text-[15px] max-md:text-[14px]">
             A little Spanish, remembered.
           </h3>
         </div>
-        <span className="lesson-counter text-[14px] text-[#9aa88c] max-tablet:text-[12px]">
+        <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
@@ -138,9 +138,9 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </div>
       )}
       {finished ? (
-        <div className="p-[50px_30px] text-center max-tablet:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
+        <div className="p-[50px_30px] text-center max-md:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
           <Icon name="check" size={44} />
-          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-tablet:text-[34px]">
+          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Your review is complete.
           </h2>
           <p className="leading-[1.7]">Every card has its next review scheduled.</p>
@@ -447,7 +447,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Your flashcards</h3>
               <p className="leading-[1.7]">Every unlocked word, with its next review.</p>
             </div>
-            <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-line rounded-[8px] pl-[11px] w-[210px] max-tablet:w-full text-[#a6ae97]">
+            <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-line rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
               <Icon name="search" size={17} />
               <input
                 value={search}

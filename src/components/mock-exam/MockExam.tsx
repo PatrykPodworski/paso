@@ -49,7 +49,7 @@ export const MockExam = ({ progress, onResult }: Props) => {
         title="Meet the exam."
         description="Familiar tasks. A little focus. A more confident you."
       >
-        <Badge className="max-tablet:hidden">
+        <Badge className="max-md:hidden">
           <Icon name="clock" size={16} /> Official section timings
         </Badge>
       </PageHeading>

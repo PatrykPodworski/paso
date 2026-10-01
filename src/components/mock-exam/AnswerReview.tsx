@@ -20,7 +20,7 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
 
   return (
     <details className="border-t border-line">
-      <summary className="flex cursor-pointer items-center gap-[12px] py-[17px] text-[14px] max-tablet:leading-[1.7]">
+      <summary className="flex cursor-pointer items-center gap-[12px] py-[17px] text-[14px] max-md:leading-[1.7]">
         <span
           className={`review-status ${verdict} flex h-[25px] w-[25px] shrink-0 items-center justify-center rounded-full ${status[verdict]}`}
         >
@@ -30,7 +30,7 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
           {number}. {q.prompt}
         </span>
       </summary>
-      <div className="pb-[20px] pl-[40px] text-[#819271] [&>p]:my-[8px] [&>p]:text-[14px] max-tablet:pl-0">
+      <div className="pb-[20px] pl-[40px] text-[#819271] [&>p]:my-[8px] [&>p]:text-[14px] max-md:pl-0">
         <p className="leading-[1.7]">
           Your answer: <strong lang="es">{answer || "Not answered"}</strong>
         </p>

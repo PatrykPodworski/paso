@@ -55,7 +55,7 @@ export const AudioButton = ({
       {!iconOnly && !limit && (
         <button
           type="button"
-          className={`${PRESSABLE} speed-button p-[8px_10px] bg-[#f5f2f7] border border-[#e5dfec] rounded-[7px] text-[13px] text-[#a596b5] max-phone:text-[12px]`}
+          className={`${PRESSABLE} speed-button p-[8px_10px] bg-[#f5f2f7] border border-[#e5dfec] rounded-[7px] text-[13px] text-[#a596b5] max-sm:text-[12px]`}
           onClick={() => setSpeed((s) => (s === 1 ? 0.75 : 1))}
           aria-label={`Audio speed ${speed} times. Click to change`}
         >

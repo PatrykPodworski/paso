@@ -13,7 +13,7 @@ const PRONUNCIATION =
 type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
-  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-[#7c8c68] max-tablet:gap-[6px] max-tablet:text-[9px] max-tablet:tracking-[1px] max-phone:tracking-[0.8px]">
+  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-[#7c8c68] max-md:gap-[6px] max-md:text-[9px] max-md:tracking-[1px] max-sm:tracking-[0.8px]">
     <SkillDot skill={q.skill} />
     {q.skill} <span className="px-[4px] opacity-50"> / </span>
     {q.kind === "listen"
@@ -63,8 +63,8 @@ export const QuestionHeading = ({
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`font-serif tracking-[-0.7px] col-[1] row-[1] m-[15px_0_23px] text-[27px] font-medium leading-[1.5] focus:outline-none max-tablet:m-[15px_0_21px] ${
-            exam ? "max-tablet:text-[25px]" : "max-tablet:text-[24px]"
+          className={`font-serif tracking-[-0.7px] col-[1] row-[1] m-[15px_0_23px] text-[27px] font-medium leading-[1.5] focus:outline-none max-md:m-[15px_0_21px] ${
+            exam ? "max-md:text-[25px]" : "max-md:text-[24px]"
           }`}
         >
           {q.prompt}

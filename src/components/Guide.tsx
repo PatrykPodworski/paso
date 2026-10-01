@@ -29,14 +29,14 @@ export const Guide = ({ progress, onCheck }: Props) => {
         title="Your guide to DELE A1."
         description="Know what’s expected. Practise with a purpose."
       >
-        <Badge className="max-tablet:hidden">
+        <Badge className="max-md:hidden">
           <Icon name="check" size={16} /> Researched 7 Sep 2026
         </Badge>
       </PageHeading>
-      <Panel className="p-[32px] max-desktop:p-[27px] max-tablet:p-[25px] max-phone:p-[22px] flex max-laptop:block justify-between items-center gap-[35px] max-desktop:gap-[20px] bg-[#edf0e3]!">
+      <Panel className="p-[32px] max-xl:p-[27px] max-md:p-[25px] max-sm:p-[22px] flex max-lg:block justify-between items-center gap-[35px] max-xl:gap-[20px] bg-[#edf0e3]!">
         <div className="max-w-[680px]">
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[32px] max-desktop:text-[28px] max-phone:text-[25px] m-[11px_0_14px]">
+          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[32px] max-xl:text-[28px] max-sm:text-[25px] m-[11px_0_14px]">
             You don’t need perfect Spanish.
             <br />
             You need to connect.
@@ -51,7 +51,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             <Icon name="external" size={15} />
           </TextLink>
         </div>
-        <div className="w-[145px] h-[160px] max-desktop:w-[115px] max-desktop:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-desktop:text-[65px] font-serif font-medium flex max-laptop:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
+        <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
           A1
           <span className="font-[family-name:'Avenir_Next',sans-serif] text-[9px] tracking-[1.4px] mt-[17px]">
             UN PEQUEÑO GRAN PASO
@@ -63,8 +63,8 @@ export const Guide = ({ progress, onCheck }: Props) => {
           Four skills. Two passing groups.
         </h2>
       </SectionHeading>
-      <Panel className="pt-[8px] px-[25px] pb-[17px] max-tablet:px-[12px] overflow-x-auto">
-        <table className="w-full border-collapse text-[14px] max-desktop:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-phone:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-tablet:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-tablet:[&_td]:text-[13px] max-phone:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:inline [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
+      <Panel className="pt-[8px] px-[25px] pb-[17px] max-md:px-[12px] overflow-x-auto">
+        <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-sm:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-md:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-md:[&_td]:text-[13px] max-sm:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:inline [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
           <thead>
             <tr>
               <th>Skill</th>
@@ -120,9 +120,9 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </a>
         </FieldNote>
       </Panel>
-      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[22px] mt-[24px]">
+      <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[22px] mt-[24px]">
         <PassingRule />
-        <Panel className="p-[27px] max-desktop:p-[23px] max-tablet:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
+        <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
             Be clear. Cover the task.
@@ -194,9 +194,9 @@ export const Guide = ({ progress, onCheck }: Props) => {
           records your self-assessment.
         </p>
       </Notice>
-      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[21px]">
+      <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[21px]">
         {requirementGroups.map((g) => (
-          <Panel as="section" className="p-[25px] max-desktop:p-[23px]" key={g.title}>
+          <Panel as="section" className="p-[25px] max-xl:p-[23px]" key={g.title}>
             <h3 className="font-semibold tracking-[-0.3px] flex items-center gap-[10px] mb-[23px] text-[17px]">
               <Icon name={g.icon} className="text-[#9ca987] w-[20px]" />
               {g.title}
@@ -214,7 +214,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
                 />
                 <span>
                   {title}
-                  <small className="text-[11px] max-tablet:text-[12px] text-[#a5ae98] block mt-[5px]">
+                  <small className="text-[11px] max-md:text-[12px] text-[#a5ae98] block mt-[5px]">
                     {mapping}
                   </small>
                 </span>
@@ -237,7 +237,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           Before you walk through the door
         </h2>
       </SectionHeading>
-      <Panel className="grid grid-cols-[repeat(3,1fr)] max-laptop:grid-cols-[1fr] p-[27px] gap-[28px] max-laptop:gap-[20px] max-laptop:[&>div]:relative max-laptop:[&>div]:pl-[43px] [&>div>span]:font-serif [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-laptop:[&>div>span]:absolute max-laptop:[&>div>span]:left-0 max-laptop:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
+      <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px] max-lg:[&>div]:relative max-lg:[&>div]:pl-[43px] [&>div>span]:font-serif [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-lg:[&>div>span]:absolute max-lg:[&>div>span]:left-0 max-lg:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
         <div>
           <span>01</span>
           <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Book the right exam</h3>
@@ -278,11 +278,11 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </h2>
         <span className="text-[14px] text-[#75816b]">Instituto Cervantes · Primary sources</span>
       </SectionHeading>
-      <div className="grid grid-cols-[1fr_1fr] max-laptop:grid-cols-[1fr] gap-[12px]">
+      <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (
           <a
             key={s.url}
-            className="border border-line rounded-[9px] flex items-center gap-[15px] max-desktop:gap-[10px] p-[17px] max-desktop:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
+            className="border border-line rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
             href={s.url}
             target="_blank"
             rel="noreferrer"
@@ -291,10 +291,10 @@ export const Guide = ({ progress, onCheck }: Props) => {
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="flex-1">
-              <strong className="text-[14px] max-desktop:text-[13px] max-tablet:text-[14px] font-semibold block leading-[1.5]">
+              <strong className="text-[14px] max-xl:text-[13px] max-md:text-[14px] font-semibold block leading-[1.5]">
                 {s.title}
               </strong>
-              <small className="text-[12px] max-desktop:text-[11px] max-tablet:text-[12px] leading-[1.5] block text-[#7e8d6c] mt-[4px]">
+              <small className="text-[12px] max-xl:text-[11px] max-md:text-[12px] leading-[1.5] block text-[#7e8d6c] mt-[4px]">
                 {s.description}
               </small>
             </span>

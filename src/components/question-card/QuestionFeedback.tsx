@@ -57,11 +57,11 @@ type PracticeReviewProps = { q: Question; value: string; checked: number };
 
 const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
   <>
-    <div className="model-answer rounded-[8px] border border-[#e4e9d7] bg-[#fffdf6] p-[18px_20px] mt-[18px] max-tablet:p-[15px]">
+    <div className="model-answer rounded-[8px] border border-[#e4e9d7] bg-[#fffdf6] p-[18px_20px] mt-[18px] max-md:p-[15px]">
       <Eyebrow>One possible answer</Eyebrow>
       <p
         lang="es"
-        className="m-[10px_0_17px] text-[15px] leading-[1.9] text-[#687b51] max-tablet:text-[14px]"
+        className="m-[10px_0_17px] text-[15px] leading-[1.9] text-[#687b51] max-md:text-[14px]"
       >
         {q.answer}
       </p>
@@ -89,7 +89,7 @@ const FeedbackBottom = ({
   onRevise,
   onContinue,
 }: FeedbackBottomProps) => (
-  <div className="flex items-center justify-between gap-[20px] mt-[20px] max-tablet:flex-wrap max-tablet:gap-[15px]">
+  <div className="flex items-center justify-between gap-[20px] mt-[20px] max-md:flex-wrap max-md:gap-[15px]">
     <small className="text-[12px] leading-[1.7] text-[#96a480]">
       {correct === false
         ? "Added to your mistake review."
@@ -104,7 +104,7 @@ const FeedbackBottom = ({
         type="button"
         variant="secondary"
         size="compact"
-        className="max-tablet:ml-auto"
+        className="max-md:ml-auto"
         onClick={onRevise}
       >
         Revise my answer
@@ -114,7 +114,7 @@ const FeedbackBottom = ({
       type="button"
       variant="primary"
       size="compact"
-      className="max-tablet:ml-auto"
+      className="max-md:ml-auto"
       autoFocus
       onClick={onContinue}
     >
@@ -151,7 +151,7 @@ export const QuestionFeedback = ({
 
   return (
     <div
-      className={`feedback rounded-[10px] border p-[22px] mt-[24px] max-tablet:p-[20px_17px] ${tone.box}`}
+      className={`feedback rounded-[10px] border p-[22px] mt-[24px] max-md:p-[20px_17px] ${tone.box}`}
       role="status"
     >
       <div className="flex items-center gap-[10px]">
@@ -161,7 +161,7 @@ export const QuestionFeedback = ({
           <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
         </span>
         <h3
-          className={`font-semibold tracking-[-0.3px] text-[16px] max-tablet:text-[15px] max-phone:text-[14px] ${tone.heading}`}
+          className={`font-semibold tracking-[-0.3px] text-[16px] max-md:text-[15px] max-sm:text-[14px] ${tone.heading}`}
         >
           {productive
             ? "Let’s reflect on your answer"

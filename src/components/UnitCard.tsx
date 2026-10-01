@@ -17,34 +17,34 @@ type Props = {
 
 // Each pair is what the old `.x` / `.path-stop .x` media cascades resolved to per breakpoint.
 const SUMMARY =
-  "flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f8f9f2] gap-[15px] max-desktop:gap-[12px] max-laptop:gap-[15px] p-[22px_20px] max-desktop:p-[16px] max-laptop:p-[20px]";
+  "flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f8f9f2] gap-[15px] max-xl:gap-[12px] max-lg:gap-[15px] p-[22px_20px] max-xl:p-[16px] max-lg:p-[20px]";
 
 const ICON =
-  "flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-desktop:w-[40px] max-desktop:h-[43px]";
+  "flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-xl:w-[40px] max-xl:h-[43px]";
 
 const TITLE =
-  "mt-[6px] leading-[1.3] text-[18px] max-desktop:text-[16px] max-laptop:text-[17px] max-tablet:text-[16px]";
+  "mt-[6px] leading-[1.3] text-[18px] max-xl:text-[16px] max-lg:text-[17px] max-md:text-[16px]";
 
 const SUBTITLE =
-  "mt-[5px] text-[#75816b] text-[12px] max-desktop:text-[11px] max-laptop:text-[13px] max-tablet:text-[11px]";
+  "mt-[5px] text-[#75816b] text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-md:text-[11px]";
 
 const STATUS =
-  "flex items-center text-[11px] text-[#939d84] gap-[14px] max-desktop:gap-[9px] max-tablet:gap-[8px]";
+  "flex items-center text-[11px] text-[#939d84] gap-[14px] max-xl:gap-[9px] max-md:gap-[8px]";
 
 const EXPANDED =
-  "border-t border-t-[#ebeee3] p-[0_20px_12px] max-desktop:p-[8px_15px_12px] max-laptop:p-[0_20px_13px]";
+  "border-t border-t-[#ebeee3] p-[0_20px_12px] max-xl:p-[8px_15px_12px] max-lg:p-[0_20px_13px]";
 
 const GOALS =
-  "flex max-desktop:hidden max-laptop:flex flex-wrap gap-[6px_14px] desktop:gap-[8px_14px] py-[14px] desktop:py-[16px]";
+  "flex max-xl:hidden max-lg:flex flex-wrap gap-[6px_14px] xl:gap-[8px_14px] py-[14px] xl:py-[16px]";
 
 const LESSON_LIST =
-  "relative before:content-[''] before:absolute before:top-[20px] before:bottom-[23px] before:border-l before:border-dashed before:border-[#d9e1cc] before:left-[17px] max-desktop:before:left-[13px]";
+  "relative before:content-[''] before:absolute before:top-[20px] before:bottom-[23px] before:border-l before:border-dashed before:border-[#d9e1cc] before:left-[17px] max-xl:before:left-[13px]";
 
 const ROW =
-  "relative flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f4f7ed] gap-[12px] max-desktop:gap-[9px] p-[13px_0] max-desktop:p-[8px_0] max-laptop:p-[10px_0] max-tablet:p-[12px_0]";
+  "relative flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f4f7ed] gap-[12px] max-xl:gap-[9px] p-[13px_0] max-xl:p-[8px_0] max-lg:p-[10px_0] max-md:p-[12px_0]";
 
 const NODE =
-  "relative z-[1] flex items-center justify-center shrink-0 rounded-full border w-[35px] h-[35px] max-desktop:w-[28px] max-desktop:h-[28px]";
+  "relative z-[1] flex items-center justify-center shrink-0 rounded-full border w-[35px] h-[35px] max-xl:w-[28px] max-xl:h-[28px]";
 
 const NODE_STATE = {
   current: "bg-[#f0dfc9] border-[#e6caa7] text-[#b78a5a]",
@@ -53,55 +53,55 @@ const NODE_STATE = {
 };
 
 const ROW_TITLE =
-  "block font-semibold text-[#5f7058] text-[14px] max-desktop:text-[12px] max-laptop:text-[14px] max-tablet:text-[13px]";
+  "block font-semibold text-[#5f7058] text-[14px] max-xl:text-[12px] max-lg:text-[14px] max-md:text-[13px]";
 
 const ROW_SUBTITLE =
-  "block mt-[3px] text-[#75816b] text-[11px] desktop:leading-[1.5] max-desktop:text-[10px] max-laptop:text-[12px]";
+  "block mt-[3px] text-[#75816b] text-[11px] xl:leading-[1.5] max-xl:text-[10px] max-lg:text-[12px]";
 
 const LENGTH =
-  "flex items-center text-[#75816b] gap-[12px] text-[11px] max-desktop:text-[10px] max-laptop:text-[12px]";
+  "flex items-center text-[#75816b] gap-[12px] text-[11px] max-xl:text-[10px] max-lg:text-[12px]";
 
 // Phone and tablet tails that differ between the Today list and a path stop.
 const PLACE = {
   today: {
     eyebrow: "unit" as const,
     card: "",
-    summary: "max-tablet:p-[20px_17px] max-phone:p-[20px_13px] max-phone:gap-[11px]",
-    icon: "max-tablet:w-[43px] max-tablet:h-[45px] max-phone:w-[39px] max-phone:h-[42px]",
+    summary: "max-md:p-[20px_17px] max-sm:p-[20px_13px] max-sm:gap-[11px]",
+    icon: "max-md:w-[43px] max-md:h-[45px] max-sm:w-[39px] max-sm:h-[42px]",
     iconSvg: "",
-    title: "max-phone:text-[17px]",
+    title: "max-sm:text-[17px]",
     subtitle: "",
     status: "",
-    expanded: "max-phone:px-[13px]",
+    expanded: "max-sm:px-[13px]",
     goals: "",
     list: "",
-    row: "max-phone:gap-[8px]",
+    row: "max-sm:gap-[8px]",
     node: "",
     nodeSvg: "",
     rowTitle: "",
-    rowSubtitle: "max-tablet:text-[10px]",
-    length: "max-tablet:text-[10px] max-phone:text-[9px] max-phone:gap-[3px]",
+    rowSubtitle: "max-md:text-[10px]",
+    length: "max-md:text-[10px] max-sm:text-[9px] max-sm:gap-[3px]",
     lengthSvg: "",
   },
   path: {
     eyebrow: "pathUnit" as const,
     card: "flex-1 min-w-0",
-    summary: "max-tablet:p-[15px_13px] max-tablet:gap-[10px] max-phone:gap-[8px]",
-    icon: "max-tablet:w-[35px] max-tablet:h-[39px] max-phone:w-[31px] max-phone:h-[34px]",
-    iconSvg: "max-tablet:w-[21px]",
-    title: "max-phone:text-[15px]",
-    subtitle: "max-phone:hidden",
-    status: "max-phone:hidden",
-    expanded: "max-tablet:px-[13px] max-phone:p-[10px_11px]",
-    goals: "max-phone:hidden",
-    list: "max-phone:before:left-[12px]",
-    row: "max-phone:gap-[7px]",
-    node: "max-phone:w-[25px] max-phone:h-[25px]",
-    nodeSvg: "max-phone:w-[13px]",
-    rowTitle: "max-phone:text-[12px]",
-    rowSubtitle: "max-tablet:text-[11px] max-phone:text-[9px]",
-    length: "max-tablet:text-[11px] max-tablet:gap-[6px] max-phone:text-[9px] max-phone:gap-[3px]",
-    lengthSvg: "max-phone:hidden",
+    summary: "max-md:p-[15px_13px] max-md:gap-[10px] max-sm:gap-[8px]",
+    icon: "max-md:w-[35px] max-md:h-[39px] max-sm:w-[31px] max-sm:h-[34px]",
+    iconSvg: "max-md:w-[21px]",
+    title: "max-sm:text-[15px]",
+    subtitle: "max-sm:hidden",
+    status: "max-sm:hidden",
+    expanded: "max-md:px-[13px] max-sm:p-[10px_11px]",
+    goals: "max-sm:hidden",
+    list: "max-sm:before:left-[12px]",
+    row: "max-sm:gap-[7px]",
+    node: "max-sm:w-[25px] max-sm:h-[25px]",
+    nodeSvg: "max-sm:w-[13px]",
+    rowTitle: "max-sm:text-[12px]",
+    rowSubtitle: "max-md:text-[11px] max-sm:text-[9px]",
+    length: "max-md:text-[11px] max-md:gap-[6px] max-sm:text-[9px] max-sm:gap-[3px]",
+    lengthSvg: "max-sm:hidden",
   },
 };
 
@@ -138,7 +138,7 @@ export const UnitCard = ({
           <p className={`leading-[1.7] ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
         </div>
         <div className={`${STATUS} ${at.status}`}>
-          <span className="flex items-center gap-[4px] whitespace-nowrap max-desktop:text-[10px] max-laptop:text-[12px] max-tablet:hidden">
+          <span className="flex items-center gap-[4px] whitespace-nowrap max-xl:text-[10px] max-lg:text-[12px] max-md:hidden">
             {done === 4 ? (
               <>
                 <Icon name="check" size={14} />
@@ -159,7 +159,7 @@ export const UnitCard = ({
             {unit.goals.map((g) => (
               <span
                 key={g}
-                className="inline-flex items-center gap-[4px] text-[#75816b] text-[11px] max-tablet:text-[10px]"
+                className="inline-flex items-center gap-[4px] text-[#75816b] text-[11px] max-md:text-[10px]"
               >
                 <Icon name="check" size={13} className="w-[11px] text-[#92a17b]" />
                 {g}
@@ -197,8 +197,8 @@ export const UnitCard = ({
               );
             })}
           </div>
-          <details className="mt-[11px] desktop:mt-[14px] border-t border-t-[#eef0e6] pt-[10px] desktop:pt-[14px] text-[#75816b]">
-            <summary className="flex items-center gap-[6px] cursor-pointer list-none text-[11px] max-laptop:text-[13px] max-phone:text-[11px]">
+          <details className="mt-[11px] xl:mt-[14px] border-t border-t-[#eef0e6] pt-[10px] xl:pt-[14px] text-[#75816b]">
+            <summary className="flex items-center gap-[6px] cursor-pointer list-none text-[11px] max-lg:text-[13px] max-sm:text-[11px]">
               <Icon name="spark" size={15} />A little pattern to remember
             </summary>
             <p className="leading-[1.7] text-[13px] my-[9px] text-[#7c886e]">{unit.tip}</p>

@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
+import { PRESSABLE } from "./pressable";
 
 type Props = {
   as?: "div" | "section" | "aside" | "article" | "button";
@@ -7,7 +8,10 @@ type Props = {
 } & Omit<HTMLAttributes<HTMLElement>, "className">;
 
 export const Panel = ({ as: Tag = "div", className = "", ...rest }: Props) => (
-  <Tag className={`bg-paper border border-line rounded-[13px] ${className}`} {...rest} />
+  <Tag
+    className={`${Tag === "button" ? PRESSABLE : ""} bg-paper border border-line rounded-[13px] ${className}`}
+    {...rest}
+  />
 );
 
 type PanelHeadingProps = { title: ReactNode; children?: ReactNode };

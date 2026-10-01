@@ -116,7 +116,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </span>
       </header>
       <div
-        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:transition-none"
+        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none"
         role="progressbar"
         aria-label="Flashcards reviewed"
         aria-valuemin={0}

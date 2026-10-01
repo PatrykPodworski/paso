@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SIDEBAR =
-  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-desktop:w-[215px] max-tablet:w-[245px] pt-[36px] desktop:pt-[34px] max-tablet:pt-[28px] px-[20px] max-desktop:px-[15px] max-tablet:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-tablet:[transition:transform_0.2s] motion-reduce:transition-none";
+  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-desktop:w-[215px] max-tablet:w-[245px] pt-[36px] desktop:pt-[34px] max-tablet:pt-[28px] px-[20px] max-desktop:px-[15px] max-tablet:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-tablet:[transition:transform_0.2s] max-tablet:motion-reduce:transition-none";
 
 const NAV_ITEM =
   "w-full flex items-center text-left gap-[12px] max-desktop:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] desktop:p-[15px_13px] m-[4px_0] desktop:m-[5px_0] text-[#718068] text-[14px]";

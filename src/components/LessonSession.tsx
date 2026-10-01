@@ -94,7 +94,7 @@ export const LessonSession = ({
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
-      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:transition-none">
+      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none">
         <div style={{ width: `${finished ? 100 : (index / lesson.questions.length) * 100}%` }} />
       </div>
       {confirmExit && (

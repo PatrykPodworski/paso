@@ -1,8 +1,11 @@
+import { CompletionArt } from "./CompletionArt";
+import { ButtonRow } from "../design-system/ButtonRow";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
 import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "../design-system/Icon";
+import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
 import { QuestionCard } from "./question-card/QuestionCard";
 import { stopAudio } from "./audio/playback";
@@ -76,9 +79,9 @@ export const LessonSession = ({
       className="w-[min(810px,calc(100vw-36px))] max-tablet:w-[calc(100vw_-_22px)]"
     >
       <header className="flex items-center gap-[16px] p-[22px_26px] max-tablet:p-[18px] max-tablet:gap-[12px]">
-        <button className="icon-button" onClick={close} aria-label="Close lesson">
+        <IconButton onClick={close} aria-label="Close lesson">
           <Icon name="x" />
-        </button>
+        </IconButton>
         <div className="flex-1">
           <Eyebrow variant="small" className="mb-[5px]">
             PASO · YOUR LEARNING PATH
@@ -89,34 +92,34 @@ export const LessonSession = ({
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
-      <div className="lesson-progress">
+      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s]">
         <div style={{ width: `${finished ? 100 : (index / lesson.questions.length) * 100}%` }} />
       </div>
       {confirmExit && (
-        <div className="exit-confirm">
-          <Icon name="book" size={40} />
-          <h2>Leave this lesson?</h2>
-          <p>
+        <div className="p-[50px_30px] text-center">
+          <Icon name="book" size={40} className="text-[#9eaf85] mb-[22px]" />
+          <h2 className="text-[30px]">Leave this lesson?</h2>
+          <p className="text-[15px] text-[#96a483] max-w-[450px] m-[15px_auto_25px]">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
-          <div className="button-row">
+          <ButtonRow className="justify-center">
             <Button variant="secondary" onClick={() => setConfirmExit(false)}>
               Keep learning
             </Button>
             <Button variant="primary" onClick={onClose}>
               Save & leave
             </Button>
-          </div>
+          </ButtonRow>
         </div>
       )}
       {finished ? (
         <div className="p-[50px_30px] text-center max-tablet:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
-          <div className="completion-art">
-            <span>✦</span>
+          <CompletionArt>
+            <span className="translate-y-[-23px]">✦</span>
             <Icon name="flag" size={50} />
-            <span>✧</span>
-          </div>
+            <span className="translate-y-[19px]">✧</span>
+          </CompletionArt>
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
           <h2 className="text-[39px] m-[12px_0] max-tablet:text-[34px]">Look at you go.</h2>
           <p>Another little piece of Spanish, yours to keep.</p>

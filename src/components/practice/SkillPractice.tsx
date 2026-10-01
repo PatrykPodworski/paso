@@ -1,3 +1,4 @@
+import { TONE } from "../tone";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
@@ -6,7 +7,7 @@ import { formPractice } from "../../data/mock";
 import { skillStats } from "../../data/progress";
 import type { Progress, Skill } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
-import { skills, type Practice, type Session } from "../practice";
+import { skills, SKILL_ICON, type Practice, type Session } from "../practice";
 
 type Props = {
   progress: Progress;
@@ -63,7 +64,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
               className="text-left p-[23px] max-desktop:p-[20px_15px] max-phone:p-[19px_14px] relative [&:hover]:transform-[translateY(-2px)] [&:hover]:border-[#c4d2b6] [&_.skill-icon]:w-[45px] [&_.skill-icon]:h-[45px] [&_.skill-icon]:mb-[17px]"
               onClick={() => practice(s.id)}
             >
-              <span className={`skill-icon ${s.id}`}>
+              <span className={`${SKILL_ICON} w-[45px] h-[45px] mb-[17px] ${s.tint}`}>
                 <Icon name={s.icon} size={24} />
               </span>
               <Eyebrow variant="small">{s.spanish}</Eyebrow>
@@ -101,7 +102,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon sage">
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.sage}`}
+        >
           <Icon name="map" />
         </span>
         <div>
@@ -123,7 +126,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon sand">
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.sand}`}
+        >
           <Icon name="layers" />
         </span>
         <div>
@@ -145,7 +150,9 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           })
         }
       >
-        <span className="quick-icon lavender">
+        <span
+          className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-phone:w-[35px] max-phone:h-[39px] ${TONE.lavender}`}
+        >
           <Icon name="pen" />
         </span>
         <div>

@@ -1,4 +1,5 @@
 export type Skill = "reading" | "listening" | "writing" | "speaking";
+export type Tone = "peach" | "sage" | "lavender" | "sand" | "blue";
 export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "speak" | "form";
 
 export interface Question {
@@ -39,7 +40,7 @@ export interface Unit {
   title: string;
   spanish: string;
   subtitle: string;
-  color: string;
+  color: Tone;
   icon: string;
   goals: string[];
   tip: string;

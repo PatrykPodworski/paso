@@ -1,3 +1,4 @@
+import { SkillDot } from "../SkillDot";
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
 import type { Question } from "../../data/types";
@@ -8,8 +9,8 @@ type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
   <div className="question-kind">
-    <span className={`skill-dot ${q.skill}`} />
-    {q.skill} <span> / </span>
+    <SkillDot skill={q.skill} />
+    {q.skill} <span className="opacity-50 px-[4px]"> / </span>
     {q.kind === "listen"
       ? "Listen closely"
       : q.kind === "order"
@@ -57,7 +58,10 @@ export const QuestionHeading = ({
         <h2 ref={heading} tabIndex={-1}>
           {q.prompt}
         </h2>
-        <div className="question-pronunciation" hidden={!q.audio && !feedback}>
+        <div
+          className="question-pronunciation [&_button]:col-start-2 [&_button]:row-start-1 [&_button]:mt-[15px] [&_button]:h-[44px] [&_button]:w-[44px] [&_button]:self-start [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e5dfec] [&_button]:bg-[#f3eff7] [&_button]:text-[#7c698e] [&_button:hover]:bg-[#eae3f1]"
+          hidden={!q.audio && !feedback}
+        >
           {q.audio ? (
             <AudioButton
               ref={listeningAudio}

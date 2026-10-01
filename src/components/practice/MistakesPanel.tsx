@@ -1,3 +1,5 @@
+import { SkillDot } from "../SkillDot";
+import { TONE } from "../tone";
 import { Button } from "../../design-system/Button";
 import { Panel } from "../../design-system/Panel";
 import { TextLink } from "../../design-system/TextLink";
@@ -14,7 +16,9 @@ type Props = {
 
 export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props) => (
   <Panel className="p-[30px] [&_details_p]:text-[14px] [&_details_p]:m-[12px_0] [&_details_p]:text-[#768668]">
-    <span className="quick-icon peach">
+    <span
+      className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 ${TONE.peach}`}
+    >
       <Icon name="repeat" size={28} />
     </span>
     <h2 className="m-[18px_0_12px]">
@@ -36,7 +40,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
     {mistakeQuestions.slice(0, 12).map((q) => (
       <details key={q.id} className="border-t border-t-line p-[16px_0]">
         <summary className="cursor-pointer text-[14px] flex items-center gap-[9px]">
-          <span className={`skill-dot ${q.skill}`} />
+          <SkillDot skill={q.skill} />
           {q.prompt}
         </summary>
         <p>

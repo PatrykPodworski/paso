@@ -140,7 +140,7 @@ export const TodayPage = ({
           </h3>
           <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
           <p className="mt-[11px] text-[14px] text-[#8e7d61]">Little by little.</p>
-          <div className="flex items-center justify-between mt-[8px] max-laptop:justify-start max-laptop:gap-[20px] [&_.icon-button]:w-[30px] [&_.icon-button]:h-[30px] [&_.icon-button]:rounded-full [&_.icon-button]:border [&_.icon-button]:border-[#e7dcc2] [&_.icon-button]:bg-[#fcf7e9] [&_.icon-button]:text-[#b6986f]">
+          <div className="flex items-center justify-between mt-[8px] max-laptop:justify-start max-laptop:gap-[20px] [&_button]:h-[30px] [&_button]:w-[30px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e7dcc2] [&_button]:bg-[#fcf7e9]! [&_button]:text-[#b6986f]">
             <span className="text-[11px] max-tablet:text-[13px] text-[#75816b]">
               Progress has its own pace.
             </span>

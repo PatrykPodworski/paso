@@ -20,10 +20,12 @@ export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
       <IconButton className="tablet:hidden!" onClick={() => openNav()} aria-label="Open navigation">
         <Icon name="menu" />
       </IconButton>
-      <span className="breadcrumb">
+      <span className="breadcrumb flex items-center gap-[13px] max-tablet:gap-[8px] text-[13px] max-tablet:text-[11px] text-[#90998c]">
         Your Spanish journey
-        <Icon name="chevron" size={13} />
-        <strong>{navigation.find((n) => n.id === page)?.label}</strong>
+        <Icon name="chevron" size={13} className="max-tablet:hidden" />
+        <strong className="font-medium text-[#54664f] max-tablet:hidden">
+          {navigation.find((n) => n.id === page)?.label}
+        </strong>
       </span>
     </div>
     <div className="flex items-center gap-[25px] max-desktop:gap-[18px] max-tablet:gap-[15px] text-[13px] max-tablet:text-[12px] text-[#8c9384]">

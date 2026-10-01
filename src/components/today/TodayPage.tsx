@@ -90,12 +90,13 @@ export const TodayPage = ({
             <Icon name="arrow" size={16} />
           </TextLink>
         </SectionHeading>
-        <div className="path-overview">
-          <span>
-            <b>{completed}</b> of {allLessons.length} lessons complete
+        <div className="flex items-center gap-[12px] max-phone:gap-[8px] mb-[18px] text-[12px] max-phone:text-[11px] text-[#75816b]">
+          <span className="whitespace-nowrap">
+            <b className="font-medium text-[#536849]">{completed}</b> of {allLessons.length} lessons
+            complete
           </span>
           <ProgressTrack percent={progressPercent} className="flex-1" />
-          <b>{progressPercent}%</b>
+          <b className="font-medium text-[12px]">{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">
           {units.slice(0, 3).map((u, i) => (
@@ -110,7 +111,10 @@ export const TodayPage = ({
             />
           ))}
         </div>
-        <button className="remaining-units" onClick={() => navigate("path")}>
+        <button
+          className="flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-phone:p-[14px_0] text-[13px] max-phone:text-[11px] text-[#8a977c] [&:hover]:text-(--green)"
+          onClick={() => navigate("path")}
+        >
           Home, cafés, adventures & 6 more chapters
           <Icon name="arrow" size={16} />
         </button>
@@ -123,15 +127,22 @@ export const TodayPage = ({
       <aside className="dashboard-aside">
         <DailyGoal progress={progress} openSettings={openSettings} />
         <SkillsPanel progress={progress} navigate={navigate} practice={practice} />
-        <section className="phrase-card">
+        <section className="p-[22px] desktop:p-[24px] max-laptop:p-[22px_28px] max-laptop:col-span-full rounded-[12px] border border-[#eee1cd] bg-[#f3ebdd]">
           <Eyebrow variant="phrase">
             <Icon name="spark" size={14} /> A PHRASE FOR TODAY
           </Eyebrow>
-          <h3 lang="es">Poco a poco.</h3>
+          <h3
+            lang="es"
+            className="font-(family-name:--serif) italic font-medium tracking-[-1px] text-[#906e4e] text-[29px] desktop:text-[34px] mt-[19px] max-laptop:mt-[12px]"
+          >
+            Poco a poco.
+          </h3>
           <span className="phrase-pronunciation">/ˈpo.ko a ˈpo.ko/</span>
-          <p>Little by little.</p>
-          <div className="[&_button]:h-[30px] [&_button]:w-[30px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e7dcc2] [&_button]:bg-[#fcf7e9]! [&_button]:text-[#b6986f]">
-            <span>Progress has its own pace.</span>
+          <p className="mt-[11px] text-[14px] text-[#8e7d61]">Little by little.</p>
+          <div className="flex items-center justify-between mt-[8px] max-laptop:justify-start max-laptop:gap-[20px] [&_button]:h-[30px] [&_button]:w-[30px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e7dcc2] [&_button]:bg-[#fcf7e9]! [&_button]:text-[#b6986f]">
+            <span className="text-[11px] max-tablet:text-[13px] text-[#75816b]">
+              Progress has its own pace.
+            </span>
             <AudioButton compact text="Poco a poco." label="Listen to poco a poco" />
           </div>
         </section>

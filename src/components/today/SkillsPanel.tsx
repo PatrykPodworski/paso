@@ -5,7 +5,7 @@ import { skillStats } from "../../data/progress";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import type { Page } from "../navigation";
-import { exerciseBank, skills, type Practice } from "../practice";
+import { exerciseBank, skills, SKILL_ICON, SKILL_ICON_SIZE, type Practice } from "../practice";
 
 type Props = {
   progress: Progress;
@@ -13,29 +13,39 @@ type Props = {
   practice: Practice;
 };
 
+const SKILL_ROW =
+  "flex items-center w-full p-0 border-0 bg-transparent text-left gap-[11px] max-desktop:gap-[7px] max-laptop:gap-[12px] max-tablet:gap-[8px] mb-[23px] max-desktop:mb-[18px] max-laptop:mb-[20px]";
+
 export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
-  <Panel as="section" className="skills-panel">
+  <Panel
+    as="section"
+    className="p-[23px_20px] max-desktop:p-[18px_15px] max-tablet:p-[21px_15px] max-phone:p-[23px]"
+  >
     <PanelHeading title="A little of every skill">
       <Icon name="layers" size={17} />
     </PanelHeading>
-    <p>Four ways to grow your Spanish.</p>
+    <p className="mt-[7px] mb-[21px] text-[#75816b] text-[12px] max-laptop:text-[13px] max-tablet:text-[11px]">
+      Four ways to grow your Spanish.
+    </p>
     {skills.map((s) => {
       const stats = skillStats(progress, s.id);
       const total = exerciseBank.filter((q) => q.skill === s.id).length;
 
       return (
-        <button className="skill-row" key={s.id} onClick={() => practice(s.id)}>
-          <span className={`skill-icon ${s.id}`}>
+        <button className={SKILL_ROW} key={s.id} onClick={() => practice(s.id)}>
+          <span className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${s.tint}`}>
             <Icon name={s.icon} size={17} />
           </span>
-          <span>
-            <strong>
+          <span className="flex-1">
+            <strong className="flex justify-between font-medium text-[#667958] text-[12px] max-desktop:text-[11px] max-laptop:text-[14px] max-tablet:text-[12px]">
               {s.name}
-              <small>{stats.practised} practised</small>
+              <small className="font-normal text-[#81906e] text-[10px] max-laptop:text-[11px] max-tablet:text-[9px]">
+                {stats.practised} practised
+              </small>
             </strong>
             <ProgressTrack percent={(stats.practised / total) * 100} className="mt-[7px]" />
           </span>
-          <Icon name="chevron" size={13} />
+          <Icon name="chevron" size={13} className="text-[#a2ad91] max-desktop:hidden" />
         </button>
       );
     })}

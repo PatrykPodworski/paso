@@ -199,17 +199,6 @@ svg {
   padding: 3px 4px;
   border-radius: 4px;
 }
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  color: #90998c;
-  font-size: 13px;
-}
-.breadcrumb strong {
-  font-weight: 500;
-  color: #54664f;
-}
 .greeting {
   color: #a38761 !important;
   font-size: 11px !important;
@@ -311,49 +300,6 @@ svg {
   color: #a3a087;
   z-index: 2;
 }
-.path-overview {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-  font-size: 12px;
-  color: #909780;
-}
-.path-overview > span {
-  white-space: nowrap;
-}
-.path-overview > b {
-  font-weight: 500;
-  font-size: 12px;
-}
-.path-overview > span > b {
-  font-weight: 500;
-  color: #536849;
-}
-.unit-card {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--paper);
-  overflow: hidden;
-}
-.unit-card.expanded {
-  border-color: #ced9c3;
-  box-shadow: 0 3px 9px #60734906;
-}
-.unit-summary {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 15px;
-  text-align: left;
-  border: 0;
-  background: transparent;
-  padding: 18px 20px;
-}
-.unit-summary:hover {
-  background: #f8f9f2;
-}
-.unit-icon,
 .quick-icon {
   height: 47px;
   width: 47px;
@@ -382,166 +328,6 @@ svg {
 .blue {
   background: #e6edf0;
   color: #83a0ac;
-}
-.unit-info {
-  flex: 1;
-  min-width: 0;
-}
-.unit-info h3 {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-top: 6px;
-}
-.unit-info p {
-  color: #949b8c;
-  font-size: 12px;
-  margin-top: 5px;
-}
-.unit-status {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: #939d84;
-  font-size: 11px;
-}
-.unit-status > span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-.unit-expanded {
-  border-top: 1px solid #ebeee3;
-  padding: 0 20px 12px 20px;
-}
-.unit-goals {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  padding: 14px 0;
-}
-.unit-goals > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #96a08b;
-  font-size: 11px;
-}
-.unit-goals svg {
-  color: #92a17b;
-  width: 11px;
-}
-.lesson-list {
-  position: relative;
-}
-.lesson-list:before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  bottom: 23px;
-  left: 15px;
-  border-left: 1px dashed #d9e1cc;
-}
-.lesson-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  width: 100%;
-  background: none;
-  border: 0;
-  text-align: left;
-}
-.lesson-row:hover {
-  background: #f4f7ed;
-}
-.lesson-node {
-  position: relative;
-  z-index: 1;
-  width: 31px;
-  height: 31px;
-  border-radius: 50%;
-  background: #f3f5ee;
-  border: 1px solid #e2e7d9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #95a186;
-  flex-shrink: 0;
-}
-.lesson-row:first-child:not(.completed) .lesson-node {
-  background: #f0dfc9;
-  border-color: #e6caa7;
-  color: #b78a5a;
-}
-.lesson-row.completed .lesson-node {
-  background: #e1ebd6;
-  color: #658052;
-}
-.lesson-row > span:nth-child(2) {
-  flex: 1;
-}
-.lesson-row strong {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #5f7058;
-}
-.lesson-row small {
-  display: block;
-  margin-top: 3px;
-  font-size: 11px;
-  color: #a0a894;
-}
-.lesson-length {
-  font-size: 11px;
-  color: #a0a48f;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.lesson-tip {
-  margin: 11px 0 0;
-  border-top: 1px solid #eef0e6;
-  padding-top: 10px;
-  color: #909b7c;
-}
-.lesson-tip summary {
-  font-size: 11px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  list-style: none;
-}
-.lesson-tip > p {
-  font-size: 13px;
-  margin: 9px 0;
-  color: #7c886e;
-}
-.lesson-tip > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #62714e;
-}
-.remaining-units {
-  padding: 16px;
-  background: none;
-  border: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
-  font-size: 13px;
-  color: #8a977c;
-  width: 100%;
-}
-.remaining-units:hover {
-  color: var(--green);
 }
 .quick-practice {
   display: grid;
@@ -689,104 +475,11 @@ svg {
   border-color: #8fa674 !important;
   color: #fff;
 }
-.skills-panel {
-  padding: 21px 19px;
-}
-.skills-panel > p {
-  color: #98a08b;
-  font-size: 12px;
-  margin-top: 7px;
-  margin-bottom: 21px;
-}
-.skill-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 0;
-  background: none;
-  width: 100%;
-  padding: 0;
-  margin-bottom: 18px;
-  text-align: left;
-}
-.skill-icon {
-  width: 35px;
-  height: 35px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.skill-icon.reading {
-  color: #91a27a;
-  background: #edf1e7;
-}
-.skill-icon.listening {
-  color: #a294b1;
-  background: #efebf2;
-}
-.skill-icon.writing {
-  color: #be9971;
-  background: #f6eddf;
-}
-.skill-icon.speaking {
-  color: #be8b78;
-  background: #f5e9e3;
-}
-.skill-row > span:nth-child(2) {
-  flex: 1;
-}
-.skill-row strong {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #748166;
-  font-weight: 500;
-}
-.skill-row small {
-  font-size: 10px;
-  color: #a2aa94;
-  font-weight: 400;
-}
-.skill-row > svg {
-  color: #a2ad91;
-}
-.phrase-card {
-  padding: 22px;
-  background: #f3ebdd;
-  border: 1px solid #eee1cd;
-  border-radius: 12px;
-}
-.phrase-card h3 {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 29px;
-  font-weight: 500;
-  margin-top: 19px;
-  color: #906e4e;
-  letter-spacing: -1px;
-}
 .phrase-pronunciation {
   display: block;
   font-size: 12px;
   color: #b49d7f;
   margin-top: 6px;
-}
-.phrase-card > p {
-  font-size: 14px;
-  color: #8e7d61;
-  margin-top: 11px;
-}
-.phrase-card > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-}
-.phrase-card > div > span {
-  font-size: 11px;
-  color: #ad9e80;
 }
 .quiet-note {
   display: flex;
@@ -802,115 +495,6 @@ svg {
 }
 .quiet-note svg {
   color: #bac3ac;
-}
-.path-banner {
-  padding: 23px 25px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 30px;
-}
-.path-banner > div {
-  flex: 1;
-}
-.path-banner h3 {
-  font-size: 17px;
-}
-.path-banner p {
-  font-size: 14px;
-  color: #8e9b7f;
-  margin-top: 6px;
-}
-.path-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 262px;
-  gap: 27px;
-}
-.full-path {
-  position: relative;
-}
-.full-path:before {
-  content: "";
-  position: absolute;
-  left: 15px;
-  top: 20px;
-  bottom: 65px;
-  border-left: 1px dashed #cfdac3;
-}
-.path-stop {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  margin-bottom: 18px;
-  position: relative;
-}
-.path-stop .unit-card {
-  flex: 1;
-  min-width: 0;
-}
-.path-number {
-  width: 31px;
-  height: 31px;
-  background: #f2f5ec;
-  border: 1px solid #dbe3d1;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: #94a37e;
-  flex-shrink: 0;
-  margin-top: 26px;
-}
-.path-number.done {
-  background: #789363;
-  color: #fff;
-}
-.path-sidebar {
-  padding: 26px;
-  align-self: start;
-  position: sticky;
-  top: 20px;
-}
-.path-sidebar h3 {
-  font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 500;
-  margin: 12px 0 24px;
-  line-height: 1.3;
-}
-.path-sidebar > div {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 23px;
-  color: #869576;
-}
-.path-sidebar > div h4 {
-  font-size: 14px;
-  color: #647455;
-}
-.path-sidebar p {
-  font-size: 14px;
-  margin-top: 6px;
-}
-.path-finish {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin: 28px 0 0 50px;
-  padding: 24px;
-  background: #eaf0e2;
-  border-radius: 12px;
-  color: #6f8a56;
-  flex-wrap: wrap;
-}
-.path-finish h3 {
-  font-family: var(--serif);
-  font-size: 21px;
-}
-.path-finish p {
-  font-size: 13px;
-  margin-top: 5px;
 }
 .practice-tabs {
   display: flex;
@@ -994,11 +578,6 @@ svg {
 .practice-skill-card:hover {
   transform: translateY(-2px);
   border-color: #c4d2b6;
-}
-.practice-skill-card .skill-icon {
-  width: 45px;
-  height: 45px;
-  margin-bottom: 17px;
 }
 .practice-skill-card h3 {
   font-size: 18px;
@@ -2025,36 +1604,6 @@ svg {
     height: 158px;
     margin-top: 20px;
   }
-  .unit-summary {
-    padding: 23px;
-  }
-  .unit-info h3 {
-    font-size: 18px;
-  }
-  .unit-info p {
-    font-size: 14px;
-  }
-  .lesson-row {
-    padding: 11px 0;
-  }
-  .lesson-row strong {
-    font-size: 14px;
-  }
-  .lesson-row small {
-    font-size: 12px;
-  }
-  .skills-panel {
-    padding: 24px;
-  }
-  .skill-row strong {
-    font-size: 14px;
-  }
-  .skill-row small {
-    font-size: 12px;
-  }
-  .phrase-card h3 {
-    font-size: 32px;
-  }
 }
 @media (max-width: 1240px) {
   .course-switch {
@@ -2104,67 +1653,6 @@ svg {
     width: 139px;
     height: 139px;
   }
-  .skills-panel {
-    padding: 18px 15px;
-  }
-  .skill-row strong {
-    font-size: 11px;
-  }
-  .skill-row small {
-    font-size: 10px;
-  }
-  .skill-row {
-    gap: 7px;
-  }
-  .skill-row > svg {
-    display: none;
-  }
-  .unit-summary {
-    gap: 12px;
-    padding: 16px;
-  }
-  .unit-info h3 {
-    font-size: 16px;
-  }
-  .unit-status {
-    gap: 9px;
-  }
-  .unit-status > span {
-    font-size: 10px;
-  }
-  .unit-info p {
-    font-size: 11px;
-  }
-  .unit-icon {
-    width: 40px;
-    height: 43px;
-  }
-  .unit-goals {
-    display: none;
-  }
-  .unit-expanded {
-    padding-top: 8px;
-    padding-inline: 15px;
-  }
-  .lesson-row strong {
-    font-size: 12px;
-  }
-  .lesson-row small {
-    font-size: 10px;
-  }
-  .lesson-node {
-    height: 28px;
-    width: 28px;
-  }
-  .lesson-list:before {
-    left: 13px;
-  }
-  .lesson-length {
-    font-size: 10px;
-  }
-  .lesson-row {
-    gap: 9px;
-  }
   .quick-practice > button {
     padding: 15px 11px;
   }
@@ -2173,13 +1661,6 @@ svg {
   }
   .quick-practice small {
     font-size: 10px;
-  }
-  .path-layout {
-    grid-template-columns: minmax(0, 1fr) 230px;
-    gap: 20px;
-  }
-  .path-banner h3 {
-    font-size: 15px;
   }
   .practice-skill-card {
     padding: 20px 15px;
@@ -2226,17 +1707,6 @@ svg {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
-  .dashboard-aside .phrase-card {
-    grid-column: 1/-1;
-    padding: 22px 28px;
-  }
-  .phrase-card h3 {
-    margin-top: 12px;
-  }
-  .phrase-card > div {
-    justify-content: flex-start;
-    gap: 20px;
-  }
   .quiet-note {
     display: none;
   }
@@ -2259,88 +1729,17 @@ svg {
   .hero-caption {
     font-size: 12px;
   }
-  .unit-summary {
-    padding: 20px;
-    gap: 15px;
-  }
-  .unit-info h3 {
-    font-size: 17px;
-  }
-  .unit-info p {
-    font-size: 13px;
-  }
-  .unit-status > span {
-    font-size: 12px;
-  }
-  .unit-goals {
-    display: flex;
-  }
-  .unit-expanded {
-    padding: 0 20px 13px;
-  }
-  .lesson-row {
-    padding: 10px 0;
-  }
-  .lesson-row strong {
-    font-size: 14px;
-  }
-  .lesson-row small {
-    font-size: 12px;
-  }
-  .lesson-length {
-    font-size: 12px;
-  }
-  .lesson-tip summary {
-    font-size: 13px;
-  }
   .quick-practice strong {
     font-size: 14px;
   }
   .quick-practice small {
     font-size: 12px;
   }
-  .skill-row strong {
-    font-size: 14px;
-  }
-  .skill-row small {
-    font-size: 11px;
-  }
-  .skills-panel > p {
-    font-size: 13px;
-  }
-  .skill-row {
-    margin-bottom: 20px;
-    gap: 12px;
-  }
   .daily-goal > p {
     font-size: 13px;
   }
   .daily-goal {
     padding: 18px 20px;
-  }
-  .path-layout {
-    grid-template-columns: 1fr;
-  }
-  .path-sidebar {
-    position: static;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  .path-sidebar > h3 {
-    grid-column: 1/-1;
-  }
-  .path-sidebar > h3 {
-    margin: 0;
-  }
-  .path-sidebar > div {
-    margin: 0;
-  }
-  .path-banner {
-    flex-wrap: wrap;
-  }
-  .path-banner > div {
-    min-width: 250px;
   }
   .practice-orb {
     width: 125px;
@@ -2411,16 +1810,6 @@ svg {
   }
 }
 @media (max-width: 760px) {
-  .breadcrumb {
-    font-size: 12px;
-    gap: 8px;
-  }
-  .breadcrumb > strong {
-    display: none;
-  }
-  .breadcrumb > svg {
-    display: none;
-  }
   .dashboard-heading h1 {
     font-size: 29px;
   }
@@ -2445,22 +1834,6 @@ svg {
   }
   .hero-footnote {
     font-size: 9px;
-  }
-  .unit-summary {
-    padding: 18px 17px;
-  }
-  .unit-info h3 {
-    font-size: 16px;
-  }
-  .unit-info p {
-    font-size: 12px;
-  }
-  .unit-status > span {
-    font-size: 11px;
-  }
-  .unit-icon {
-    width: 43px;
-    height: 45px;
   }
   .quick-practice {
     gap: 10px;
@@ -2487,102 +1860,12 @@ svg {
   .daily-goal > p {
     font-size: 11px;
   }
-  .skills-panel {
-    padding: 21px 15px;
-  }
-  .skills-panel > p {
-    font-size: 12px;
-  }
-  .skill-row {
-    gap: 8px;
-  }
-  .skill-row strong {
-    font-size: 12px;
-  }
-  .skill-row small {
-    font-size: 10px;
-  }
-  .skill-icon {
-    width: 30px;
-    height: 30px;
-  }
   .week-dots {
     padding: 0;
   }
   .week-dots i {
     width: 18px;
     height: 18px;
-  }
-  .phrase-card > p {
-    font-size: 14px;
-  }
-  .phrase-card > div > span {
-    font-size: 13px;
-  }
-  .path-banner {
-    padding: 20px;
-    gap: 13px;
-  }
-  .path-banner > div {
-    min-width: 200px;
-  }
-  .path-banner h3 {
-    font-size: 15px;
-  }
-  .path-stop {
-    gap: 11px;
-  }
-  .path-number {
-    width: 27px;
-    height: 27px;
-    font-size: 11px;
-  }
-  .full-path:before {
-    left: 13px;
-  }
-  .path-stop .unit-summary {
-    padding: 15px 13px;
-    gap: 10px;
-  }
-  .path-stop .unit-info h3 {
-    font-size: 16px;
-  }
-  .path-stop .unit-info p {
-    font-size: 11px;
-  }
-  .path-stop .unit-status > span {
-    display: none;
-  }
-  .path-stop .unit-icon {
-    width: 35px;
-    height: 39px;
-  }
-  .path-stop .unit-icon svg {
-    width: 21px;
-  }
-  .path-stop .unit-expanded {
-    padding-inline: 13px;
-  }
-  .path-stop .unit-goals span {
-    font-size: 10px;
-  }
-  .path-stop .lesson-row strong {
-    font-size: 13px;
-  }
-  .path-stop .lesson-row small {
-    font-size: 11px;
-  }
-  .path-stop .lesson-length {
-    font-size: 11px;
-    gap: 6px;
-  }
-  .path-finish {
-    margin-left: 38px;
-    padding: 20px;
-    gap: 12px;
-  }
-  .path-finish h3 {
-    font-size: 20px;
   }
   .practice-tabs {
     gap: 5px;
@@ -2778,9 +2061,6 @@ svg {
     height: 20px;
     font-size: 11px;
   }
-  .unit-status {
-    gap: 8px;
-  }
 }
 @media (max-width: 430px) {
   .dashboard-heading h1 {
@@ -2841,55 +2121,6 @@ svg {
     width: 23px;
     height: 23px;
   }
-  .skills-panel {
-    padding: 23px;
-  }
-  .skill-row strong {
-    font-size: 14px;
-  }
-  .skill-row small {
-    font-size: 12px;
-  }
-  .skill-icon {
-    width: 35px;
-    height: 35px;
-  }
-  .unit-summary {
-    gap: 11px;
-    padding: 16px 13px;
-  }
-  .unit-status > span {
-    display: none;
-  }
-  .unit-info h3 {
-    font-size: 16px;
-  }
-  .unit-info p {
-    font-size: 11px;
-  }
-  .unit-icon {
-    width: 37px;
-    height: 40px;
-  }
-  .unit-expanded {
-    padding-inline: 13px;
-  }
-  .unit-goals > span {
-    font-size: 10px;
-  }
-  .lesson-row strong {
-    font-size: 13px;
-  }
-  .lesson-row small {
-    font-size: 11px;
-  }
-  .lesson-length {
-    font-size: 11px;
-    gap: 6px;
-  }
-  .lesson-tip summary {
-    font-size: 12px;
-  }
   .quick-practice {
     grid-template-columns: 1fr;
   }
@@ -2914,75 +2145,6 @@ svg {
   .quick-practice > button > svg {
     top: 27px;
     right: 16px;
-  }
-  .remaining-units {
-    font-size: 12px;
-    padding: 14px 0;
-  }
-  .path-banner > div {
-    min-width: 160px;
-  }
-  .path-banner h3 {
-    font-size: 14px;
-  }
-  .path-banner .unit-icon {
-    width: 34px;
-    height: 37px;
-  }
-  .path-sidebar {
-    grid-template-columns: 1fr;
-  }
-  .path-sidebar > h3 {
-    font-size: 25px;
-  }
-  .path-stop .unit-info h3 {
-    font-size: 15px;
-  }
-  .path-stop .unit-info p {
-    display: none;
-  }
-  .path-stop .unit-icon {
-    width: 31px;
-    height: 34px;
-  }
-  .path-stop .unit-summary {
-    gap: 8px;
-  }
-  .path-stop .unit-expanded {
-    padding: 10px 11px;
-  }
-  .path-stop .unit-goals {
-    display: none;
-  }
-  .path-stop .lesson-row small {
-    font-size: 10px;
-  }
-  .path-stop .lesson-row strong {
-    font-size: 12px;
-  }
-  .path-stop .lesson-length {
-    font-size: 10px;
-    gap: 3px;
-  }
-  .path-stop .lesson-length > svg {
-    width: 11px;
-  }
-  .path-stop .lesson-row {
-    gap: 7px;
-  }
-  .path-stop .lesson-node {
-    width: 23px;
-    height: 23px;
-  }
-  .path-stop .lesson-list:before {
-    left: 11px;
-  }
-  .path-stop .lesson-node > svg {
-    width: 13px;
-  }
-  .path-finish {
-    margin-left: 38px;
-    padding: 19px;
   }
   .practice-hero h2 {
     font-size: 27px;
@@ -3124,52 +2286,6 @@ svg {
   .hero-eyebrow {
     font-size: 10px;
   }
-  .unit-summary {
-    padding: 22px 20px;
-  }
-  .unit-info h3 {
-    font-size: 18px;
-  }
-  .unit-info p {
-    font-size: 12px;
-  }
-  .unit-status {
-    font-size: 11px;
-  }
-  .unit-goals {
-    gap: 8px 14px;
-    padding: 16px 0;
-  }
-  .unit-goals > span {
-    font-size: 11px;
-  }
-  .lesson-row {
-    padding: 13px 0;
-  }
-  .lesson-row strong {
-    font-size: 14px;
-  }
-  .lesson-row small {
-    font-size: 11px;
-    line-height: 1.5;
-  }
-  .lesson-node {
-    width: 35px;
-    height: 35px;
-  }
-  .lesson-list:before {
-    left: 17px;
-  }
-  .lesson-length {
-    font-size: 11px;
-  }
-  .lesson-tip {
-    padding-top: 14px;
-    margin-top: 14px;
-  }
-  .lesson-tip summary {
-    font-size: 11px;
-  }
   .daily-goal {
     padding: 20px;
   }
@@ -3194,38 +2310,6 @@ svg {
   .week-dots > div > span {
     font-size: 10px;
   }
-  .skill-row {
-    gap: 11px;
-    margin-bottom: 23px;
-  }
-  .skill-row strong {
-    font-size: 12px;
-  }
-  .skill-row small {
-    font-size: 10px;
-  }
-  .skill-icon {
-    width: 37px;
-    height: 37px;
-  }
-  .skills-panel {
-    padding: 23px 20px;
-  }
-  .skills-panel > p {
-    font-size: 12px;
-  }
-  .phrase-card {
-    padding: 24px;
-  }
-  .phrase-card h3 {
-    font-size: 34px;
-  }
-  .phrase-card > p {
-    font-size: 14px;
-  }
-  .phrase-card > div > span {
-    font-size: 11px;
-  }
   .quick-practice strong {
     font-size: 14px;
   }
@@ -3237,17 +2321,9 @@ svg {
     padding: 20px 16px;
   }
 }
-.unit-info p,
-.lesson-row small,
-.lesson-length,
-.unit-goals > span,
-.path-overview,
-.skills-panel > p,
 .daily-goal > p,
-.phrase-card > div > span,
 .quick-practice small,
 .question-footer > span,
-.lesson-tip,
 .subtle {
   color: #75816b;
 }
@@ -3255,10 +2331,6 @@ svg {
 .hero-caption {
   color: #787d62;
 }
-.skill-row strong {
-  color: #667958;
-}
-.skill-row small,
 .week-dots > div > span {
   color: #81906e;
 }
@@ -3326,44 +2398,8 @@ svg {
   .daily-goal > p {
     font-size: 11px;
   }
-  .skills-panel > p {
-    font-size: 11px;
-  }
-  .skill-row small {
-    font-size: 9px;
-  }
-  .skill-row strong {
-    font-size: 12px;
-  }
-  .unit-status > span {
-    display: none;
-  }
-  .lesson-row strong {
-    font-size: 13px;
-  }
-  .lesson-row small {
-    font-size: 10px;
-  }
-  .lesson-length {
-    font-size: 10px;
-  }
-  .unit-goals > span {
-    font-size: 10px;
-  }
-  .unit-info p {
-    font-size: 11px;
-  }
-  .unit-summary {
-    padding-block: 20px;
-  }
-  .lesson-row {
-    padding-block: 12px;
-  }
   .practice-tabs > button {
     font-size: 12px;
-  }
-  .breadcrumb {
-    font-size: 11px;
   }
   .question-kind {
     font-size: 9px;
@@ -3396,72 +2432,11 @@ svg {
   .hero-caption {
     font-size: 10px;
   }
-  .path-overview {
-    font-size: 11px;
-    gap: 8px;
-  }
-  .unit-info h3 {
-    font-size: 17px;
-  }
-  .unit-info p {
-    font-size: 11px;
-  }
-  .unit-icon {
-    width: 39px;
-    height: 42px;
-  }
-  .lesson-row strong {
-    font-size: 13px;
-  }
-  .lesson-row small {
-    font-size: 10px;
-  }
-  .lesson-length {
-    font-size: 9px;
-    gap: 3px;
-  }
-  .lesson-row {
-    gap: 8px;
-  }
-  .unit-expanded {
-    padding-inline: 13px;
-  }
-  .lesson-tip summary {
-    font-size: 11px;
-  }
-  .remaining-units {
-    font-size: 11px;
-  }
   .quick-practice strong {
     font-size: 15px;
   }
   .quick-practice small {
     font-size: 12px;
-  }
-  .path-stop .unit-info h3 {
-    font-size: 15px;
-  }
-  .path-stop .lesson-row strong {
-    font-size: 12px;
-  }
-  .path-stop .lesson-row small {
-    font-size: 9px;
-  }
-  .path-stop .lesson-length {
-    font-size: 9px;
-  }
-  .path-stop .lesson-length > svg {
-    display: none;
-  }
-  .path-stop .lesson-node {
-    width: 25px;
-    height: 25px;
-  }
-  .path-stop .lesson-list:before {
-    left: 12px;
-  }
-  .path-stop .unit-status {
-    display: none;
   }
   .form-fields {
     grid-template-columns: 1fr;

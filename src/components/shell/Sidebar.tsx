@@ -57,16 +57,17 @@ export const Sidebar = ({
           paso<span className="text-coral">.</span>
         </span>
       </a>
-      <div className="course-switch">
+      <div className="flex items-center gap-[10px] border border-[#e5e7dc] rounded-[9px] p-[13px_10px] bg-[#f5f6ee] mb-[35px] max-desktop:gap-[7px] max-desktop:p-[12px_8px]">
         <span
           className="w-[25px] h-[25px] rounded-[50%] bg-[linear-gradient(#b65246_0_27%,#f5d37a_27%_72%,#b65246_72%)] border-[3px] border-[#fffdf4] shadow-[0_0_0_1px_#d8dacd] shrink-0"
           aria-label="Spanish flag"
         />
         <div>
-          <strong>Spanish for your world</strong>
-          <span>DELE A1 · Beginner</span>
+          <strong className="block text-[12px] tracking-[-0.1px]">Spanish for your world</strong>
+          <span className="block text-[11px] text-[#7a856c] mt-[4px] max-desktop:text-[12px]">
+            DELE A1 · Beginner
+          </span>
         </div>
-        <span className="course-badge">A1</span>
       </div>
       <span className="text-[11px] desktop:text-[10px] font-bold tracking-[1.5px] text-[#9a9f91] px-[13px] mb-[13px]">
         YOUR LEARNING SPACE

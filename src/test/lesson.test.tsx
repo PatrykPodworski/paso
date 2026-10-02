@@ -10,7 +10,7 @@ import { emptyProgress } from "../data/progress";
 import type { Question } from "../data/types";
 
 // Test session accounting independently of the question widget. The real
-// widget and its integration are exercised in question-rules and browser tests.
+// widget and its integration are exercised in the question-card and browser tests.
 let card: ComponentProps<typeof QuestionCard>;
 
 vi.mock("../components/question-card/QuestionCard", () => ({

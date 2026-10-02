@@ -622,3 +622,18 @@ describe("app shell behavior kept through the component split", () => {
     expect(container.querySelector(".breadcrumb strong")).toHaveTextContent("Learning path");
   });
 });
+
+it("renders a truthful fresh dashboard and the full learning path", () => {
+  window.location.hash = "today";
+  render(<App />);
+
+  expect(screen.getByRole("heading", { name: "A good day to learn Spanish." })).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole("button", { name: "Learning path" }));
+
+  expect(
+    screen.getByText("12 units · 48 lessons · 264 exercises. Explore freely, or follow the path."),
+  ).toBeInTheDocument();
+
+  expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();
+});

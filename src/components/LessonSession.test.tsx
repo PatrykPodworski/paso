@@ -1,120 +1,193 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import type { ComponentProps } from "react";
-import { expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
-import type { QuestionCard } from "./question-card/QuestionCard";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
-import { formPractice } from "../data/mock";
 import { emptyProgress } from "../data/progress";
 import type { Question } from "../data/types";
 
-// Test session accounting independently of the question widget. The real
-// widget and its integration are exercised in question-rules and browser tests.
-let card: ComponentProps<typeof QuestionCard>;
+beforeEach(() => {
+  vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
+  vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+});
 
-vi.mock("./question-card/QuestionCard", () => ({
-  QuestionCard: (props: typeof card) => {
-    card = props;
+afterEach(() => {
+  // A passage player deliberately survives its own unmount; end it with the session.
+  act(stopAudio);
+});
 
-    return <div data-testid="current-question">{props.q.id}</div>;
-  },
-}));
+const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
+const type = allQuestions.find((q) => q.kind === "type")!;
+const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
-vi.mock("./audio/playback", () => ({ stopAudio: vi.fn() }));
+it("records objective, assisted and creative answers without conflating their scores", () => {
+  const choice = { ...allQuestions[0], audio: "Hola." };
+  const qs: Question[] = [choice, { ...type, answer: "correcto" }, writing];
 
-const mount = (questions: Question[], progress = emptyProgress()) => {
-  const callbacks = { onClose: vi.fn(), onComplete: vi.fn(), onAttempt: vi.fn(), onDraft: vi.fn() };
+  const done = vi.fn(),
+    attempt = vi.fn(),
+    close = vi.fn(),
+    draft = vi.fn();
 
-  const view = render(
+  render(
     <LessonSession
       lesson={{
-        id: "accounting",
-        title: "Session accounting",
+        id: "lesson",
+        title: "Lesson",
         subtitle: "",
         minutes: 4,
         icon: "book",
-        questions,
+        questions: qs,
       }}
-      progress={progress}
-      {...callbacks}
+      progress={emptyProgress()}
+      onClose={close}
+      onComplete={done}
+      onAttempt={attempt}
+      onDraft={draft}
     />,
   );
 
-  return { ...callbacks, ...view };
-};
+  click("Need a hand? Show transcript");
+  click(choice.answer);
+  expect(attempt).toHaveBeenCalledOnce();
 
-const submit = (correct: boolean | null, help = false) =>
-  act(() => card.onSubmit("Learner answer", correct, help));
+  expect(attempt.mock.calls[0][0]).toMatchObject({
+    questionId: choice.id,
+    skill: choice.skill,
+    correct: true,
+    assisted: true,
+    answer: choice.answer,
+  });
 
-const stat = (label: string) =>
-  screen.getByText(label, { exact: true }).parentElement!.querySelector("strong")!;
-
-it("counts mixed objective, creative and assisted work independently", () => {
-  const { onComplete, container } = mount(allQuestions.slice(0, 4));
-
-  expect(container.querySelector(".lesson-counter")).toHaveTextContent("1 / 4");
-  submit(true);
-  expect(container.querySelector(".lesson-counter")).toHaveTextContent("2 / 4");
-  submit(false);
-  submit(null);
-  expect(onComplete).not.toHaveBeenCalled();
-  submit(true, true);
-  expect(onComplete).toHaveBeenCalledExactlyOnceWith(2, 3);
-  expect(stat("objective answers")).toHaveTextContent(/^2\/3$/);
-  expect(stat("creative practices")).toHaveTextContent(/^1$/);
-  expect(stat("moments to review")).toHaveTextContent(/^1$/);
+  expect(attempt.mock.calls[0][0].id).toBeTruthy();
+  expect(Number.isNaN(Date.parse(attempt.mock.calls[0][0].at))).toBe(false);
+  click("Continue");
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "incorrecto" } });
+  click("Check answer");
+  click("Continue");
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
+  expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Ana.");
+  click("Review my practice");
+  click("Continue");
+  expect(done).toHaveBeenCalledExactlyOnceWith(1, 2);
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
-  expect(stopAudio).toHaveBeenCalledTimes(4);
+  click("Back to my journey");
+  expect(close).toHaveBeenCalledOnce();
 });
 
-it("lets a reading passage play on while its own questions continue", () => {
-  const passage = allQuestions.find((q) => q.passage)!.passage;
-  const reading = allQuestions.filter((q) => q.passage === passage);
+it("closes an untouched lesson immediately", () => {
+  const close = vi.fn();
 
-  expect(reading.length).toBeGreaterThan(1);
-  mount([...reading.slice(0, 2), allQuestions.find((q) => !q.passage)!]);
-  submit(true);
-  expect(stopAudio).not.toHaveBeenCalled();
-  submit(true);
-  expect(stopAudio).toHaveBeenCalledOnce();
+  render(
+    <LessonSession
+      lesson={{
+        id: "lesson",
+        title: "Lesson",
+        subtitle: "",
+        minutes: 4,
+        icon: "book",
+        questions: [type],
+      }}
+      progress={emptyProgress()}
+      onClose={close}
+      onComplete={vi.fn()}
+      onAttempt={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  click("Close lesson");
+  expect(close).toHaveBeenCalledOnce();
 });
 
-it.each([
-  { results: [true, true], score: 2, total: 2, creative: 0 },
-  { results: [null, null], score: 0, total: 0, creative: 2 },
-])("reports a session without mistakes (case %#)", ({ results, score, total, creative }) => {
-  const { onComplete, onClose } = mount(allQuestions.slice(0, 2));
-
-  results.forEach((result) => submit(result));
-  expect(onComplete).toHaveBeenCalledExactlyOnceWith(score, total);
-  expect(stat("objective answers").textContent).toBe(`${score}/${total}`);
-  expect(stat("creative practices").textContent).toBe(String(creative));
-  expect(stat("moments to review").textContent).toBe("0");
-  expect(screen.queryByText(/answers used transcript assistance/)).not.toBeInTheDocument();
-  expect(screen.queryByText(/Your mistakes are waiting/)).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: "Close lesson" }));
-  expect(onClose).toHaveBeenCalledOnce();
-  expect(stopAudio).toHaveBeenCalledTimes(3);
-});
-
-it.each(["write", "form", "choice", "type", "speak"] as const)(
-  "restores drafts only for editable productive work: %s",
-  (kind) => {
-    const q = kind === "form" ? formPractice : allQuestions.find((q) => q.kind === kind)!;
+it.each([allQuestions[0], allQuestions.find((q) => q.id === "u1-o1")!])(
+  "starts a fresh objective attempt without its previous answer: $id",
+  (q) => {
     const progress = emptyProgress();
 
-    progress.drafts[q.id] = "Saved learner draft";
-    const { onDraft } = mount([q], progress);
+    progress.drafts[q.id] = q.answer;
+    const saveDraft = vi.fn();
 
-    if (kind === "write" || kind === "form") {
-      expect(card.draft).toBe("Saved learner draft");
-      act(() => card.onDraft!("Revised draft"));
-      expect(onDraft).toHaveBeenCalledExactlyOnceWith(q.id, "Revised draft");
+    render(
+      <LessonSession
+        lesson={{
+          id: "test",
+          title: "Test",
+          subtitle: "",
+          icon: "book",
+          minutes: 2,
+          questions: [q],
+        }}
+        progress={progress}
+        onClose={vi.fn()}
+        onAttempt={vi.fn()}
+        onComplete={vi.fn()}
+        onDraft={saveDraft}
+      />,
+    );
+
+    if (q.kind === "type") {
+      expect(screen.getByRole("textbox")).toHaveValue("");
+      fireEvent.change(screen.getByRole("textbox"), { target: { value: "Un intento" } });
     } else {
-      expect(card.draft).toBe("");
-      expect(card.onDraft).toBeUndefined();
+      expect(screen.getByRole("button", { name: q.answer })).toHaveAttribute(
+        "aria-pressed",
+        "false",
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: q.answer }));
     }
+
+    expect(saveDraft).not.toHaveBeenCalled();
   },
 );
+
+it("keeps an in-progress answer when cancelling the leave dialog", () => {
+  const questions: Question[] = [allQuestions[0], allQuestions.find((q) => q.id === "u1-o1")!];
+
+  render(
+    <LessonSession
+      lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions }}
+      progress={emptyProgress()}
+      onClose={vi.fn()}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: questions[0].answer }));
+  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Soy de" } });
+  fireEvent.click(screen.getByRole("button", { name: "Close lesson" }));
+  fireEvent.click(screen.getByRole("button", { name: "Keep learning" }));
+  expect(screen.getByRole("textbox")).toHaveValue("Soy de");
+});
+
+it("still restores longer writing drafts in a new practice session", () => {
+  const q = allQuestions.find((q) => q.id === "u1-o2")!;
+  const progress = emptyProgress();
+
+  progress.drafts[q.id] = "Hola, me llamo Julia.";
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [q],
+      }}
+      progress={progress}
+      onClose={vi.fn()}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
+});

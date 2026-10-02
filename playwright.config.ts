@@ -1,5 +1,4 @@
 import { defineConfig } from "@playwright/test";
-import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 
 // Parallel worktrees each set their own PW_PORT; CI leaves it unset.
 const port = process.env.PW_PORT ?? "4174";
@@ -12,19 +11,7 @@ export default defineConfig({
   workers: 4,
   timeout: 30000,
   expect: { timeout: 5000 },
-  reporter: [
-    ["list"],
-    ["html", { open: "never" }],
-    [
-      "@argos-ci/playwright/reporter",
-      createArgosReporterOptions({
-        uploadToArgos: !!process.env.CI,
-        // Argos rejects uploads with 402 once the free plan's monthly screenshot
-        // quota runs out; a failed upload must not fail the Playwright run.
-        ignoreUploadFailures: true,
-      }),
-    ],
-  ],
+  reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: `http://127.0.0.1:${port}`,
     locale: "en-GB",

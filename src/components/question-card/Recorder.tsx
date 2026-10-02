@@ -152,7 +152,7 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
           <Icon name={recording ? "pause" : "mic"} size={24} />
           {recording ? "Stop recording" : url ? "Record again" : "Record your answer"}
         </button>
-        <span className="mono font-[monospace] text-[21px] text-[#b29777] max-md:text-[17px] max-sm:text-center">
+        <span className="mono font-sans tabular-nums text-[21px] text-[#b29777] max-md:text-[17px] max-sm:text-center">
           {String(Math.floor(seconds / 60)).padStart(2, "0")}:
           {String(seconds % 60).padStart(2, "0")}
         </span>

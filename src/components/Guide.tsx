@@ -53,7 +53,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </div>
         <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
           A1
-          <span className="font-[family-name:'Avenir_Next',sans-serif] text-[9px] tracking-[1.4px] mt-[17px]">
+          <span className="font-sans text-[9px] tracking-[1.4px] mt-[17px]">
             UN PEQUEÑO GRAN PASO
           </span>
         </div>

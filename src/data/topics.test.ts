@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { vocabulary } from "../data/curriculum";
-import { emptyProgress } from "../data/progress";
-import { addWords, cardStatus, deckCards, topicCounts, topics } from "../data/topics";
+import { vocabulary } from "./curriculum";
+import { emptyProgress } from "./progress";
+import { addWords, cardStatus, deckCards, topicCounts, topics } from "./topics";
 
 const cards = topics.flatMap((t) => t.cards);
 const card = (id: string) => cards.find((c) => c.id === id)!;

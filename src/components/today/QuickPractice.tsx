@@ -9,7 +9,7 @@ type Props = {
 };
 
 const CARD =
-  "relative min-w-0 text-left rounded-[10px] border border-line bg-[#fffefa] p-[20px_16px] [&:hover]:border-[#c4d1b7] [&:hover]:transform-[translateY(-2px)] max-xl:p-[15px_11px] max-md:p-[17px_12px] max-sm:grid max-sm:grid-cols-[36px_1fr] max-sm:gap-[0_13px] max-sm:p-[16px] [&>svg]:absolute [&>svg]:right-[13px] [&>svg]:top-[25px] [&>svg]:text-[#9da68e] max-sm:[&>svg]:right-[16px] max-sm:[&>svg]:top-[27px]";
+  "relative min-w-0 text-left rounded-[10px] border border-sage-200 bg-[#fffefa] p-[20px_16px] [&:hover]:border-[#c4d1b7] [&:hover]:transform-[translateY(-2px)] max-xl:p-[15px_11px] max-md:p-[17px_12px] max-sm:grid max-sm:grid-cols-[36px_1fr] max-sm:gap-[0_13px] max-sm:p-[16px] [&>svg]:absolute [&>svg]:right-[13px] [&>svg]:top-[25px] [&>svg]:text-[#9da68e] max-sm:[&>svg]:right-[16px] max-sm:[&>svg]:top-[27px]";
 
 const ICON =
   "h-[36px] w-[36px] rounded-[10px] mb-[14px] flex items-center justify-center shrink-0 max-sm:row-[1/3] max-sm:m-0";

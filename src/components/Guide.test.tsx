@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { Guide } from "../components/Guide";
+import { Guide } from "./Guide";
 import { emptyProgress } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 

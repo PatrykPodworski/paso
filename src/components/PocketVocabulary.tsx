@@ -10,6 +10,7 @@ import { stopAudio } from "./audio/playback";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
+import { ProgressTrack } from "../design-system/ProgressTrack";
 import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 import { FIELD } from "../design-system/field";
@@ -115,16 +116,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
-      <div
-        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none"
-        role="progressbar"
-        aria-label="Flashcards reviewed"
-        aria-valuemin={0}
-        aria-valuemax={words.length}
-        aria-valuenow={results.length}
-      >
-        <div style={{ width: `${(results.length / words.length) * 100}%` }} />
-      </div>
+      <ProgressTrack value={results.length} max={words.length} label="Flashcards reviewed" />
       {result && (
         <div
           className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-[#59675d] bg-sage"

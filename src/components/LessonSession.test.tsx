@@ -62,6 +62,10 @@ it("records objective, assisted and creative answers without conflating their sc
   expect(attempt.mock.calls[0][0].id).toBeTruthy();
   expect(Number.isNaN(Date.parse(attempt.mock.calls[0][0].at))).toBe(false);
   click("Continue");
+  const bar = screen.getByRole("progressbar", { name: "Lesson progress" });
+
+  expect(bar).toHaveAttribute("aria-valuenow", "1");
+  expect(bar).toHaveAttribute("aria-valuemax", "3");
   fireEvent.change(screen.getByRole("textbox"), { target: { value: "incorrecto" } });
   click("Check answer");
   click("Continue");

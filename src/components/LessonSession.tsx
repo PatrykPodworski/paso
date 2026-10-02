@@ -7,6 +7,7 @@ import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
+import { ProgressTrack } from "../design-system/ProgressTrack";
 import { QuestionCard } from "./question-card/QuestionCard";
 import { stopAudio } from "./audio/playback";
 import { FieldNote } from "../design-system/FieldNote";
@@ -94,9 +95,11 @@ export const LessonSession = ({
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
-      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none">
-        <div style={{ width: `${finished ? 100 : (index / lesson.questions.length) * 100}%` }} />
-      </div>
+      <ProgressTrack
+        value={finished ? lesson.questions.length : index}
+        max={lesson.questions.length}
+        label="Lesson progress"
+      />
       {confirmExit && (
         <div className="p-[50px_30px] text-center">
           <Icon name="book" size={40} className="mx-auto text-[#9eaf85] mb-[22px]" />

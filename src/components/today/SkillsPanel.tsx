@@ -44,7 +44,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
                 {stats.practised} practised
               </small>
             </strong>
-            <ProgressTrack percent={(stats.practised / total) * 100} className="mt-[7px]" />
+            <ProgressTrack value={stats.practised} max={total} className="mt-[7px]" />
           </span>
           <Icon name="chevron" size={13} className="text-[#a2ad91] max-xl:hidden" />
         </button>

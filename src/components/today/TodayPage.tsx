@@ -99,7 +99,7 @@ export const TodayPage = ({
             <b className="font-medium text-[#536849]">{completed}</b> of {allLessons.length} lessons
             complete
           </span>
-          <ProgressTrack percent={progressPercent} className="flex-1" />
+          <ProgressTrack value={progressPercent} className="flex-1" />
           <b className="font-medium text-[12px]">{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">

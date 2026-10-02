@@ -119,7 +119,7 @@ export const JourneyArt = () => (
 
 export const Stamp = () => (
   <div
-    className="stamp flex flex-col items-center justify-center shrink-0 w-[110px] h-[110px] border border-dashed border-[#b6bfa3] rounded-[50%] text-[#94a77d] [transform:rotate(11deg)] max-md:w-[80px] max-md:h-[80px]"
+    className="stamp flex flex-col items-center justify-center shrink-0 w-[110px] h-[110px] border border-dashed border-[#b6bfa3] rounded-[50%] text-[#94a77d] rotate-11 max-md:w-[80px] max-md:h-[80px]"
     aria-hidden="true"
   >
     <span className="text-[10px] tracking-[2px] max-md:text-[9px]">PASO A PASO</span>

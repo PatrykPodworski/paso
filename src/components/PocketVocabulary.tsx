@@ -116,7 +116,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </span>
       </header>
       <div
-        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none"
+        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:transition-width motion-reduce:[&>div]:transition-none"
         role="progressbar"
         aria-label="Flashcards reviewed"
         aria-valuemin={0}
@@ -174,7 +174,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </p>
             <h2
               lang="es"
-              className="font-semibold tracking-[-0.7px] leading-[1.25] font-serif text-[length:clamp(30px,6vw,44px)] m-[18px_0] wrap-anywhere"
+              className="font-semibold tracking-[-0.7px] leading-[1.25] font-serif text-3xl sm:text-4xl md:text-5xl m-[18px_0] wrap-anywhere"
             >
               {word.es}
             </h2>

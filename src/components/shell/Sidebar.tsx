@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SIDEBAR =
-  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-xl:w-[215px] max-md:w-[245px] pt-[36px] xl:pt-[34px] max-md:pt-[28px] px-[20px] max-xl:px-[15px] max-md:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-md:[transition:transform_0.2s] max-md:motion-reduce:transition-none";
+  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-xl:w-[215px] max-md:w-[245px] pt-[36px] xl:pt-[34px] max-md:pt-[28px] px-[20px] max-xl:px-[15px] max-md:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-md:transition-transform max-md:duration-200 max-md:motion-reduce:transition-none";
 
 const NAV_ITEM =
   "w-full flex items-center text-left gap-[12px] max-xl:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] xl:p-[15px_13px] m-[4px_0] xl:m-[5px_0] text-[#718068] text-[14px]";
@@ -38,8 +38,8 @@ export const Sidebar = ({
     <aside
       className={`${SIDEBAR} ${
         mobileNav
-          ? "max-md:[transform:translateX(0)] max-md:shadow-[8px_0_40px_#203b301c]"
-          : "max-md:[transform:translateX(-100%)]"
+          ? "max-md:translate-x-0 max-md:shadow-[8px_0_40px_#203b301c]"
+          : "max-md:-translate-x-full"
       }`}
     >
       <a

@@ -166,8 +166,8 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           </Button>
         </div>
       ) : (
-        <div className="p-[28px_36px] max-[651px]:p-[20px_16px]">
-          <div className="flashcard-prompt text-center p-[24px_16px] border border-line rounded-[16px] bg-paper max-[651px]:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage! [&_button]:text-green">
+        <div className="p-[28px_36px] max-sm:p-[20px_16px]">
+          <div className="flashcard-prompt text-center p-[24px_16px] border border-line rounded-[16px] bg-paper max-sm:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage! [&_button]:text-green">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p className="leading-[1.7] text-[#59675d] text-[14px] mt-[24px]">
               Can you remember the meaning?
@@ -326,14 +326,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           </p>
         </div>
         <span
-          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage text-green max-[651px]:hidden"
+          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage text-green max-sm:hidden"
           aria-hidden="true"
         >
           <Icon name="layers" size={28} />
         </span>
       </SectionHeading>
       <div className="border border-line rounded-[16px] overflow-hidden bg-paper">
-        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-line max-[651px]:grid-cols-[repeat(2,1fr)]">
+        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-line max-sm:grid-cols-[repeat(2,1fr)]">
           {[
             [due.length, "To review"],
             [reviewedToday, "Reviewed today"],
@@ -342,14 +342,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           ].map(([count, label], i) => (
             <div
               key={label}
-              className={`flex flex-col-reverse gap-[7px] p-[24px] max-[651px]:p-[20px] border-line ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-[651px]:border-l-0" : ""} ${i >= 2 ? "max-[651px]:border-t" : ""} ${label === "To review" ? "bg-sage" : ""}`}
+              className={`flex flex-col-reverse gap-[7px] p-[24px] max-sm:p-[20px] border-line ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-sm:border-l-0" : ""} ${i >= 2 ? "max-sm:border-t" : ""} ${label === "To review" ? "bg-sage" : ""}`}
             >
               <dt className="text-[12px] text-[#59675d]">{label}</dt>
               <dd className="m-0 font-serif text-[36px] leading-[1] text-green">{count}</dd>
             </div>
           ))}
         </dl>
-        <div className="flex items-center justify-between gap-[24px] p-[24px] max-[651px]:items-stretch max-[651px]:flex-col max-[651px]:p-[20px] max-[651px]:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
+        <div className="flex items-center justify-between gap-[24px] p-[24px] max-sm:items-stretch max-sm:flex-col max-sm:p-[20px] max-sm:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
           <div>
             <h3 className="font-semibold tracking-[-0.3px] text-[17px]">
               {!words.length
@@ -410,7 +410,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                     </span>
                   )}
                 </span>
-                <span className="flex gap-3 text-xs text-muted max-[651px]:col-span-2">
+                <span className="flex gap-3 text-xs text-muted max-sm:col-span-2">
                   {(["total", "learning", "new", "known"] as const).map((key) => (
                     <span key={key}>
                       {counts[key]} {key}
@@ -420,7 +420,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 <Button
                   variant="secondary"
                   size="small"
-                  className="col-start-2 row-start-1 row-end-3 max-[651px]:row-end-2"
+                  className="col-start-2 row-start-1 row-end-3 max-sm:row-end-2"
                   disabled={!adding}
                   aria-describedby={`topic-${index}`}
                   onClick={(e) => {
@@ -468,7 +468,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 return (
                   <li
                     key={w.id}
-                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-line [&+&]:border-t max-[651px]:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-[651px]:p-[16px] max-[651px]:gap-[8px_12px]"
+                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-line [&+&]:border-t max-sm:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-sm:p-[16px] max-sm:gap-[8px_12px]"
                   >
                     <span className="flex flex-col gap-[5px]">
                       <strong lang="es" className="font-serif text-[18px] wrap-anywhere">
@@ -478,10 +478,10 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                         {w.en}
                       </span>
                     </span>
-                    <span className="text-[12px] text-[#59675d] max-[651px]:col-[1] max-[651px]:row-[2]">
+                    <span className="text-[12px] text-[#59675d] max-sm:col-[1] max-sm:row-[2]">
                       {w.topic}
                     </span>
-                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-[651px]:col-[2] max-[651px]:row-[1/3]">
+                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-sm:col-[2] max-sm:row-[1/3]">
                       <strong className={isDue ? "text-green" : ""}>
                         {isNew
                           ? "New · ready now"

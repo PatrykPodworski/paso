@@ -19,7 +19,7 @@ export const ProgressTrack = ({ value, max = 100, label, className = "" }: Props
     })}
   >
     <span
-      className="block h-full rounded-[10px] bg-[#8eab82] [transition:width_0.4s] motion-reduce:transition-none"
+      className="block h-full rounded-[10px] bg-[#8eab82] transition-width motion-reduce:transition-none"
       style={{ width: `${(value / max) * 100}%` }}
     />
   </span>

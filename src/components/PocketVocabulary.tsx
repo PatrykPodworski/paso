@@ -166,7 +166,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </p>
             <h2
               lang="es"
-              className="font-semibold tracking-[-0.7px] leading-[1.25] font-serif text-[length:clamp(30px,6vw,44px)] m-[18px_0] wrap-anywhere"
+              className="font-semibold tracking-[-0.7px] leading-[1.25] font-serif text-3xl sm:text-4xl md:text-5xl m-[18px_0] wrap-anywhere"
             >
               {word.es}
             </h2>

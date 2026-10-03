@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Question } from "../data/types";
+import type { Question } from "./types";
 
 const taskSizes = (qs: Question[]) => {
   const counts = new Map<string, number>();
@@ -18,14 +18,14 @@ import {
   units,
   vocabulary,
   visualQuestions,
-} from "../data/curriculum";
-import { formPractice, mockQuestions, mockSections } from "../data/mock";
-import { countWords } from "../data/progress";
-import { audioKey } from "../data/audio";
-import { audioSources } from "../data/audio-sources";
+} from "./curriculum";
+import { formPractice, mockQuestions, mockSections } from "./mock";
+import { countWords } from "./progress";
+import { audioKey } from "./audio";
+import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
-import words from "../data/words.json";
-import examples from "../data/examples.json";
+import words from "./words.json";
+import examples from "./examples.json";
 
 const questions = [
   ...allQuestions,

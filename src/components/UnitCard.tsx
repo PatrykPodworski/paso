@@ -119,7 +119,7 @@ export const UnitCard = ({
 
   return (
     <article
-      className={`unit-card border rounded-[10px] bg-paper overflow-hidden ${expanded ? "border-[#ced9c3] shadow-[0_3px_9px_#60734906]" : "border-line"} ${at.card}`}
+      className={`unit-card border rounded-[10px] bg-white overflow-hidden ${expanded ? "border-[#ced9c3] shadow-[0_3px_9px_#60734906]" : "border-sage-200"} ${at.card}`}
     >
       <button
         type="button"

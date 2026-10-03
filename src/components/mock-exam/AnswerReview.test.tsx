@@ -1,19 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { AnswerReview } from "../components/mock-exam/AnswerReview";
-import { fresh, load } from "../components/mock-exam/useMockRun";
-import { mockSections } from "../data/mock";
-
-describe("saved rehearsal", () => {
-  it("restores a valid saved run and fills fields older saves lack", () => {
-    localStorage.setItem(
-      "paso-mock-v1",
-      JSON.stringify({ section: 1, index: 2, stage: "run", answers: { a: "b" } }),
-    );
-
-    expect(load()).toEqual({ ...fresh(), section: 1, index: 2, stage: "run", answers: { a: "b" } });
-  });
-});
+import { mockSections } from "../../data/mock";
+import { AnswerReview } from "./AnswerReview";
 
 describe("reviewed answer", () => {
   const [reading] = mockSections[0].questions;

@@ -21,7 +21,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
 
   return (
     <Panel className="px-[30px] pt-[22px] pb-[20px] [&_.question-card]:px-0 [&_.question-card]:pt-[26px] [&_.question-card]:pb-0 max-md:p-[18px] max-md:[&_.question-card]:pt-[20px] max-md:[&_.question-heading_h2]:text-[25px]">
-      <div className="flex justify-between gap-[10px] border-b border-line pb-[15px] text-[13px] text-[#9aa88b] max-md:text-[12px]">
+      <div className="flex justify-between gap-[10px] border-b border-sage-200 pb-[15px] text-[13px] text-[#9aa88b] max-md:text-[12px]">
         <span>{q.task}</span>
         <strong>
           {run.index + 1} / {section.questions.length}
@@ -47,7 +47,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
           }
         }}
       />
-      <div className="mt-[22px] flex items-center justify-between gap-[15px] border-t border-line pt-[18px] max-md:flex-wrap max-md:gap-[17px]">
+      <div className="mt-[22px] flex items-center justify-between gap-[15px] border-t border-sage-200 pt-[18px] max-md:flex-wrap max-md:gap-[17px]">
         <TextLink
           disabled={run.index === 0}
           onClick={() => {

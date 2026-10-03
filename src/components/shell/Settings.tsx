@@ -110,7 +110,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <Icon name="check" size={17} />
         </Button>
       </ButtonRow>
-      <details className="mt-[25px] pt-[17px] border-t border-t-line text-[13px] text-[#a4ad94]">
+      <details className="mt-[25px] pt-[17px] border-t border-t-sage-200 text-[13px] text-[#a4ad94]">
         <summary className="cursor-pointer">Start over</summary>
         {reset ? (
           <div>

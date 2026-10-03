@@ -16,7 +16,7 @@ const STAT = "flex gap-[5px] items-center";
 const STAT_VALUE = "font-semibold text-[#58624c]";
 
 export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
-  <header className="h-[75px] xl:h-[80px] max-md:h-[65px] flex items-center justify-between p-[0_38px] max-xl:p-[0_27px] max-md:p-[0_20px] max-sm:px-[14px] bg-[#f8f9f5] border-b border-b-line">
+  <header className="h-[75px] xl:h-[80px] max-md:h-[65px] flex items-center justify-between p-[0_38px] max-xl:p-[0_27px] max-md:p-[0_20px] max-sm:px-[14px] bg-[#f8f9f5] border-b border-b-sage-200">
     <div className="flex items-center gap-[10px]">
       <IconButton className="md:hidden!" onClick={() => openNav()} aria-label="Open navigation">
         <Icon name="menu" />

@@ -185,7 +185,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     render: () => (
       <div className="flex w-[240px] flex-col gap-3">
         {[0, 35, 100].map((percent) => (
-          <ProgressTrack key={percent} percent={percent} />
+          <ProgressTrack key={percent} value={percent} />
         ))}
       </div>
     ),

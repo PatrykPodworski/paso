@@ -32,7 +32,9 @@ jobs:
       # diff. A base test that fails leaves its snapshots missing, and the compare step
       # reports them.
       - name: Capture the base
+        # The container runs as root, but the runner owns the checkout, so git refuses it.
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git restore --source=HEAD^1 --worktree -- src public index.html
           pnpm exec playwright test tests/visual --grep "$GREP" --update-snapshots=all || true
           git restore --worktree -- src public index.html

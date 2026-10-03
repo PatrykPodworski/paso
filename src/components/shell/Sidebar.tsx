@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SIDEBAR =
-  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-xl:w-[215px] max-md:w-[245px] pt-[36px] xl:pt-[34px] max-md:pt-[28px] px-[20px] max-xl:px-[15px] max-md:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-line max-md:transition-transform max-md:duration-200 max-md:motion-reduce:transition-none";
+  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-xl:w-[215px] max-md:w-[245px] pt-[36px] xl:pt-[34px] max-md:pt-[28px] px-[20px] max-xl:px-[15px] max-md:px-[20px] pb-0 bg-[#fcfcf8] border-r border-r-sage-200 max-md:transition-transform max-md:duration-200 max-md:motion-reduce:transition-none";
 
 const NAV_ITEM =
   "w-full flex items-center text-left gap-[12px] max-xl:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] xl:p-[15px_13px] m-[4px_0] xl:m-[5px_0] text-[#718068] text-[14px]";
@@ -51,11 +51,11 @@ export const Sidebar = ({
         }}
         aria-label="Paso home"
       >
-        <span className="relative font-[family-name:Georgia,serif] bg-green text-[#f9f4e8] w-[32px] h-[35px] leading-[30px] text-center rounded-[10px_10px_10px_3px] text-[34px] tracking-[-2px] pr-[2px]">
+        <span className="relative font-serif bg-green-900 text-[#f9f4e8] w-[32px] h-[35px] leading-[30px] text-center rounded-[10px_10px_10px_3px] text-[34px] tracking-[-2px] pr-[2px]">
           p<span className="absolute text-[#dfac76] text-[22px] left-[13px] top-[-1px]">•</span>
         </span>
         <span>
-          paso<span className="text-coral">.</span>
+          paso<span className="text-coral-600">.</span>
         </span>
       </a>
       <div className="flex items-center gap-[10px] border border-[#e5e7dc] rounded-[9px] p-[13px_10px] bg-[#f5f6ee] mb-[35px] max-xl:gap-[7px] max-xl:p-[12px_8px]">
@@ -78,7 +78,7 @@ export const Sidebar = ({
           <button
             key={n.id}
             className={`${PRESSABLE} ${NAV_ITEM} ${
-              page === n.id ? "bg-[#e9eee1] text-green font-semibold" : "hover:bg-[#f1f3ea]"
+              page === n.id ? "bg-[#e9eee1] text-green-900 font-semibold" : "hover:bg-[#f1f3ea]"
             }`}
             onClick={() => navigate(n.id)}
             aria-current={page === n.id ? "page" : undefined}
@@ -90,7 +90,7 @@ export const Sidebar = ({
                 {mistakeCount}
               </small>
             )}
-            {page === n.id && <i className="ml-auto w-[5px] h-[5px] rounded-[50%] bg-green" />}
+            {page === n.id && <i className="ml-auto w-[5px] h-[5px] rounded-[50%] bg-green-900" />}
           </button>
         ))}
       </nav>
@@ -116,7 +116,7 @@ export const Sidebar = ({
           <Icon name="external" size={13} />
         </button>
         <button
-          className={`${PRESSABLE} flex items-center gap-[10px] w-full text-left border-0 border-t border-t-line p-[19px_0_0] bg-transparent`}
+          className={`${PRESSABLE} flex items-center gap-[10px] w-full text-left border-0 border-t border-t-sage-200 p-[19px_0_0] bg-transparent`}
           onClick={() => openSettings()}
         >
           <span className="w-[33px] h-[33px] flex items-center justify-center rounded-[50%] bg-[#dfcdb1] text-[#695d43] text-[14px] font-serif font-semibold">

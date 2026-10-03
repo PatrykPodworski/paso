@@ -46,7 +46,7 @@ export const TodayPage = ({
 }: Props) => (
   <>
     <TodayHeading progress={progress} openSettings={openSettings} />
-    <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-[24px] min-[1600px]:gap-[30px] max-xl:grid-cols-[minmax(0,1fr)_236px] max-xl:gap-[19px] max-lg:grid-cols-[minmax(0,1fr)] max-md:gap-[22px]">
+    <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-[24px] min-2xl:gap-[30px] max-xl:grid-cols-[minmax(0,1fr)_236px] max-xl:gap-[19px] max-lg:grid-cols-[minmax(0,1fr)] max-md:gap-[22px]">
       <div className="min-w-0">
         <section className="relative overflow-hidden rounded-[13px] border border-[#ece6d4] bg-[#f0eddf] min-h-[367px] p-[31px] max-xl:min-h-[306px] max-xl:p-[25px_23px] max-lg:min-h-[335px] max-lg:p-[30px] max-md:min-h-[353px] max-md:p-[28px_25px] max-sm:min-h-[425px] max-sm:p-[26px_21px]">
           <div className="relative z-[2] max-w-[60%] max-xl:max-w-[58%] max-lg:max-w-[54%] max-md:max-w-[64%] max-sm:max-w-[89%]">
@@ -99,7 +99,7 @@ export const TodayPage = ({
             <b className="font-medium text-[#536849]">{completed}</b> of {allLessons.length} lessons
             complete
           </span>
-          <ProgressTrack percent={progressPercent} className="flex-1" />
+          <ProgressTrack value={progressPercent} className="flex-1" />
           <b className="font-medium text-[12px]">{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">
@@ -116,7 +116,7 @@ export const TodayPage = ({
           ))}
         </div>
         <button
-          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-[#8a977c] [&:hover]:text-green`}
+          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-[#8a977c] [&:hover]:text-green-900`}
           onClick={() => navigate("path")}
         >
           Home, cafés, adventures & 6 more chapters

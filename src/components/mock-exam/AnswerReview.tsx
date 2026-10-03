@@ -19,7 +19,7 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
   const verdict = section > 1 ? "neutral" : isCorrect(q, answer || "") ? "good" : "bad";
 
   return (
-    <details className="border-t border-line">
+    <details className="border-t border-sage-200">
       <summary className="flex cursor-pointer items-center gap-[12px] py-[17px] text-[14px] max-md:leading-[1.7]">
         <span
           className={`review-status ${verdict} flex h-[25px] w-[25px] shrink-0 items-center justify-center rounded-full ${status[verdict]}`}

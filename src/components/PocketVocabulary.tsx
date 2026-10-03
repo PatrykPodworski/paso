@@ -10,6 +10,7 @@ import { stopAudio } from "./audio/playback";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
+import { ProgressTrack } from "../design-system/ProgressTrack";
 import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 import { FIELD } from "../design-system/field";
@@ -24,7 +25,7 @@ type Props = {
 
 // Shared with LessonSession's completion screen.
 export const COMPLETION_STATS =
-  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-line [&_strong]:block [&_strong]:font-serif [&_strong]:text-[32px] max-md:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-md:[&_span]:text-[11px] max-sm:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
+  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-sage-200 [&_strong]:block [&_strong]:font-serif [&_strong]:text-[32px] max-md:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-md:[&_span]:text-[11px] max-sm:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
 
 const reviewDate = (at: string) =>
   new Date(at).toLocaleString(undefined, {
@@ -115,19 +116,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
-      <div
-        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:transition-width motion-reduce:[&>div]:transition-none"
-        role="progressbar"
-        aria-label="Flashcards reviewed"
-        aria-valuemin={0}
-        aria-valuemax={words.length}
-        aria-valuenow={results.length}
-      >
-        <div style={{ width: `${(results.length / words.length) * 100}%` }} />
-      </div>
+      <ProgressTrack value={results.length} max={words.length} label="Flashcards reviewed" />
       {result && (
         <div
-          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-[#59675d] bg-sage"
+          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-[#59675d] bg-sage-100"
           role="status"
         >
           <strong lang="es">{words[index - 1].es}</strong>
@@ -166,8 +158,8 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           </Button>
         </div>
       ) : (
-        <div className="p-[28px_36px] max-[651px]:p-[20px_16px]">
-          <div className="flashcard-prompt text-center p-[24px_16px] border border-line rounded-[16px] bg-paper max-[651px]:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage! [&_button]:text-green">
+        <div className="p-[28px_36px] max-sm:p-[20px_16px]">
+          <div className="flashcard-prompt text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage-100! [&_button]:text-green-900">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p className="leading-[1.7] text-[#59675d] text-[14px] mt-[24px]">
               Can you remember the meaning?
@@ -181,7 +173,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
-            <div className="flashcard-answer mt-[20px] p-[20px] rounded-[12px] bg-sage">
+            <div className="flashcard-answer mt-[20px] p-[20px] rounded-[12px] bg-sage-100">
               <Eyebrow>THE MEANING</Eyebrow>
               <h3
                 lang="en"
@@ -326,14 +318,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           </p>
         </div>
         <span
-          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage text-green max-[651px]:hidden"
+          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage-100 text-green-900 max-sm:hidden"
           aria-hidden="true"
         >
           <Icon name="layers" size={28} />
         </span>
       </SectionHeading>
-      <div className="border border-line rounded-[16px] overflow-hidden bg-paper">
-        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-line max-[651px]:grid-cols-[repeat(2,1fr)]">
+      <div className="border border-sage-200 rounded-[16px] overflow-hidden bg-white">
+        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-sage-200 max-sm:grid-cols-[repeat(2,1fr)]">
           {[
             [due.length, "To review"],
             [reviewedToday, "Reviewed today"],
@@ -342,14 +334,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           ].map(([count, label], i) => (
             <div
               key={label}
-              className={`flex flex-col-reverse gap-[7px] p-[24px] max-[651px]:p-[20px] border-line ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-[651px]:border-l-0" : ""} ${i >= 2 ? "max-[651px]:border-t" : ""} ${label === "To review" ? "bg-sage" : ""}`}
+              className={`flex flex-col-reverse gap-[7px] p-[24px] max-sm:p-[20px] border-sage-200 ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-sm:border-l-0" : ""} ${i >= 2 ? "max-sm:border-t" : ""} ${label === "To review" ? "bg-sage-100" : ""}`}
             >
               <dt className="text-[12px] text-[#59675d]">{label}</dt>
-              <dd className="m-0 font-serif text-[36px] leading-[1] text-green">{count}</dd>
+              <dd className="m-0 font-serif text-[36px] leading-[1] text-green-900">{count}</dd>
             </div>
           ))}
         </dl>
-        <div className="flex items-center justify-between gap-[24px] p-[24px] max-[651px]:items-stretch max-[651px]:flex-col max-[651px]:p-[20px] max-[651px]:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
+        <div className="flex items-center justify-between gap-[24px] p-[24px] max-sm:items-stretch max-sm:flex-col max-sm:p-[20px] max-sm:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
           <div>
             <h3 className="font-semibold tracking-[-0.3px] text-[17px]">
               {!words.length
@@ -391,7 +383,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
         <h3 className="text-[17px] font-semibold tracking-[-0.3px]" id="topics-title">
           Topics
         </h3>
-        <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
+        <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-sage-200 bg-white">
           {topics.map(({ topic, optional, cards }, index) => {
             const counts = topicCounts(cards, progress);
             const adding = Math.min(WORDS_PER_ADD, counts.new);
@@ -400,17 +392,17 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <li
                 key={topic}
                 tabIndex={-1}
-                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
+                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-sage-200 px-4 py-3 [&+&]:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
               >
                 <span className="flex items-center gap-2 font-semibold">
                   <span id={`topic-${index}`}>{topic}</span>
                   {optional && (
-                    <span className="rounded-full border border-line px-2 text-xs font-normal text-muted">
+                    <span className="rounded-full border border-sage-200 px-2 text-xs font-normal text-sage-700">
                       Optional
                     </span>
                   )}
                 </span>
-                <span className="flex gap-3 text-xs text-muted max-[651px]:col-span-2">
+                <span className="flex gap-3 text-xs text-sage-700 max-sm:col-span-2">
                   {(["total", "learning", "new", "known"] as const).map((key) => (
                     <span key={key}>
                       {counts[key]} {key}
@@ -420,7 +412,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 <Button
                   variant="secondary"
                   size="small"
-                  className="col-start-2 row-start-1 row-end-3 max-[651px]:row-end-2"
+                  className="col-start-2 row-start-1 row-end-3 max-sm:row-end-2"
                   disabled={!adding}
                   aria-describedby={`topic-${index}`}
                   onClick={(e) => {
@@ -447,7 +439,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Your flashcards</h3>
               <p className="leading-[1.7]">Every unlocked word, with its next review.</p>
             </div>
-            <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-line rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
+            <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-sage-200 rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
               <Icon name="search" size={17} />
               <input
                 value={search}
@@ -459,7 +451,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
             </label>
           </SectionHeading>
           {filtered.length ? (
-            <ul className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-line rounded-[12px] bg-paper">
+            <ul className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-sage-200 rounded-[12px] bg-white">
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
@@ -468,7 +460,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 return (
                   <li
                     key={w.id}
-                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-line [&+&]:border-t max-[651px]:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-[651px]:p-[16px] max-[651px]:gap-[8px_12px]"
+                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-sage-200 [&+&]:border-t max-sm:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-sm:p-[16px] max-sm:gap-[8px_12px]"
                   >
                     <span className="flex flex-col gap-[5px]">
                       <strong lang="es" className="font-serif text-[18px] wrap-anywhere">
@@ -478,11 +470,11 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                         {w.en}
                       </span>
                     </span>
-                    <span className="text-[12px] text-[#59675d] max-[651px]:col-[1] max-[651px]:row-[2]">
+                    <span className="text-[12px] text-[#59675d] max-sm:col-[1] max-sm:row-[2]">
                       {w.topic}
                     </span>
-                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-[651px]:col-[2] max-[651px]:row-[1/3]">
-                      <strong className={isDue ? "text-green" : ""}>
+                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-sm:col-[2] max-sm:row-[1/3]">
+                      <strong className={isDue ? "text-green-900" : ""}>
                         {isNew
                           ? "New · ready now"
                           : isDue

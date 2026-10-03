@@ -53,7 +53,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </div>
         <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
           A1
-          <span className="font-[family-name:'Avenir_Next',sans-serif] text-[9px] tracking-[1.4px] mt-[17px]">
+          <span className="font-sans text-[9px] tracking-[1.4px] mt-[17px]">
             UN PEQUEÑO GRAN PASO
           </span>
         </div>
@@ -158,7 +158,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
               </p>
             </section>
           </div>
-          <FieldNote className="border-t border-t-line pt-[17px] mt-[22px]">
+          <FieldNote className="border-t border-t-sage-200 pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
             <a className="underline" href={sources[0].url} target="_blank" rel="noreferrer">
@@ -221,7 +221,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
               </label>
             ))}
             <TextLink
-              className="mt-[5px] border-t border-t-line pt-[14px] text-[13px]!"
+              className="mt-[5px] border-t border-t-sage-200 pt-[14px] text-[13px]!"
               href={sources[g.source].url}
               target="_blank"
               rel="noreferrer"
@@ -282,7 +282,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         {sources.map((s, i) => (
           <a
             key={s.url}
-            className="border border-line rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
+            className="border border-sage-200 rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
             href={s.url}
             target="_blank"
             rel="noreferrer"

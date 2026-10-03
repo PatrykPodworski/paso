@@ -34,11 +34,11 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           } as CSSProperties
         }
       >
-        <div className="flex flex-col items-center justify-center w-full h-full rounded-[50%] bg-paper rotate-90 [&>svg]:w-[21px] [&>svg]:h-[21px] [&>svg]:mb-[6px] [&>svg]:text-[#b4b393]">
+        <div className="flex flex-col items-center justify-center w-full h-full rounded-[50%] bg-white rotate-90 [&>svg]:w-[21px] [&>svg]:h-[21px] [&>svg]:mb-[6px] [&>svg]:text-[#b4b393]">
           <Icon name={today >= progress.goal ? "check" : "spark"} size={24} />
           <strong className="font-serif text-[34px] leading-none text-[#405a3d] font-medium">
             {today}
-            <span className="font-['Avenir_Next',sans-serif] text-[15px] tracking-[1px] text-[#a6ad96] pl-[3px]">
+            <span className="font-sans text-[15px] tracking-[1px] text-[#a6ad96] pl-[3px]">
               /{progress.goal}
             </span>
           </strong>

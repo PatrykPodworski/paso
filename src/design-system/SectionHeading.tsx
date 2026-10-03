@@ -12,7 +12,7 @@ const VARIANT = {
   path: `mt-[30px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px] ${TEXT}`,
   word: `mt-[37px] max-md:mt-[26px] gap-[16px] max-md:gap-[15px] max-sm:gap-[12px] max-md:flex-col max-md:items-start ${TEXT}`,
   collection:
-    "mt-[28px] max-md:mt-[26px] gap-[16px] max-[651px]:flex-col max-[651px]:items-stretch [&_p]:mt-[6px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d]",
+    "mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:flex-col max-sm:items-stretch [&_p]:mt-[6px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d]",
 };
 
 type Props = { variant?: keyof typeof VARIANT; children: ReactNode };

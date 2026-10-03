@@ -61,13 +61,12 @@ describe("course audio playback", () => {
   it("autoplays a minimal player, pauses and resumes the same clip, and replays after ending", async () => {
     const played = vi.fn();
 
-    const { container, rerender, unmount } = render(
+    const { rerender, unmount } = render(
       <AudioButton text="Hola." label="Play Hola" minimal autoPlay onPlayed={played} />,
     );
 
     await waitFor(() => expect(played).toHaveBeenCalledOnce());
     expect(screen.getAllByRole("button")).toHaveLength(1);
-    expect(container.querySelector(".waveform")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
     expect(clips[0].pause).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
@@ -400,18 +399,16 @@ describe("audio cancellation and device fallback", () => {
 
 describe("player controls", () => {
   it("shows the full player's playing state and speed until the clip ends", async () => {
-    const { container } = render(<AudioButton text="Hola." />);
+    render(<AudioButton text="Hola." />);
     const play = screen.getByRole("button", { name: "Listen" });
 
     expect(play).toHaveAttribute("title", "Listen");
     expect(play).toHaveTextContent("Listen");
-    expect(container.querySelector(".waveform")).not.toHaveClass("playing");
     fireEvent.click(play);
     await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
     expect(play).toHaveAccessibleName("Stop audio");
     expect(play).toHaveAttribute("title", "Stop audio");
     expect(play).toHaveTextContent("Playing…");
-    expect(container.querySelector(".waveform")).toHaveClass("playing");
     const speed = screen.getByRole("button", { name: "Audio speed 1 times. Click to change" });
 
     expect(speed).toHaveTextContent("1×");

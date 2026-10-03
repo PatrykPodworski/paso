@@ -17,6 +17,7 @@ export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }
   <div className="sentence-builder">
     <div
       className="sentence-tray flex min-h-[85px] flex-wrap content-center items-center gap-[9px] rounded-[10px] border border-[#dce5ce] bg-[#f5f8ef] p-[16px] mb-[22px]"
+      role="group"
       aria-label="Your sentence"
     >
       {selected.length === 0 && (
@@ -39,7 +40,11 @@ export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }
       ))}
     </div>
     {/* `!`: otherwise stylesheet order picks between the chip's and PRESSABLE's disabled opacity. */}
-    <div className="word-bank flex flex-wrap justify-center gap-[10px] mb-[30px]">
+    <div
+      role="group"
+      aria-label="Word bank"
+      className="word-bank flex flex-wrap justify-center gap-[10px] mb-[30px]"
+    >
       {tokens.map((token, i) => (
         <button
           type="button"

@@ -7,14 +7,18 @@ type Props = { run: Run; left: number };
 export const ExamTopbar = ({ run, left }: Props) =>
   ["run", "prep", "review"].includes(run.stage) && (
     <div className="my-[25px] flex items-center justify-between gap-[20px]">
-      <div className="exam-steps flex gap-[23px] text-[13px] text-[#a9b397] max-lg:gap-[12px] max-lg:text-[11px] max-md:gap-[8px] max-md:text-[0px] max-sm:gap-[6px]">
+      <ol
+        aria-label="Exam sections"
+        className="exam-steps flex gap-[23px] text-[13px] text-[#a9b397] max-lg:gap-[12px] max-lg:text-[11px] max-md:gap-[8px] max-md:text-[0px] max-sm:gap-[6px]"
+      >
         {mockSections.map((s, i) => {
           const active = i === run.section;
           const done = i < run.section;
 
           return (
-            <span
+            <li
               key={s.title}
+              aria-current={active ? "step" : undefined}
               className={`flex items-center gap-[7px] max-sm:gap-[5px] ${active ? "active text-[#536c41] max-md:text-[13px] max-sm:text-[10px]" : done ? "done text-[#809368]" : ""}`}
             >
               <b
@@ -23,10 +27,10 @@ export const ExamTopbar = ({ run, left }: Props) =>
                 {done ? "✓" : i + 1}
               </b>
               {s.title}
-            </span>
+            </li>
           );
         })}
-      </div>
+      </ol>
       {run.stage !== "review" && (
         <span
           role="timer"

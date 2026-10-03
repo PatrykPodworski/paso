@@ -15,6 +15,7 @@ const DOT =
 
 export const DailyGoal = ({ progress, openSettings }: Props) => {
   const today = dailyAnswers(progress);
+  const reached = Math.min(today, progress.goal);
 
   return (
     <Panel
@@ -27,10 +28,16 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
         </IconButton>
       </PanelHeading>
       <div
+        role="progressbar"
+        aria-label="Daily goal"
+        aria-valuemin={0}
+        aria-valuemax={progress.goal}
+        aria-valuenow={reached}
+        aria-valuetext={`${today} of ${progress.goal} exercises today`}
         className="goal-ring flex items-center justify-center rounded-[50%] p-[8px] -rotate-90 bg-[conic-gradient(#8fa374_var(--goal),#edf0e5_0)] m-[24px_auto] w-[158px] h-[158px] max-xl:m-[15px_auto_18px] max-xl:w-[139px] max-xl:h-[139px] max-md:w-[130px] max-md:h-[130px] max-sm:w-[145px] max-sm:h-[145px]"
         style={
           {
-            "--goal": `${Math.min(today / progress.goal, 1) * 100}%`,
+            "--goal": `${(reached / progress.goal) * 100}%`,
           } as CSSProperties
         }
       >
@@ -52,7 +59,10 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
             ? "You’re building a lovely habit."
             : "A few minutes. A little more confidence."}
       </p>
-      <div className="week-dots flex justify-between mt-[23px] px-[6px] max-xl:mt-[20px] max-md:px-0 max-sm:px-[12px]">
+      <ol
+        aria-label="This week"
+        className="week-dots flex justify-between mt-[23px] px-[6px] max-xl:mt-[20px] max-md:px-0 max-sm:px-[12px]"
+      >
         {Array.from({ length: 7 }, (_, i) => {
           const d = new Date();
 
@@ -61,13 +71,15 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           const isToday = localDate(d) === localDate();
 
           return (
-            <div key={i} className="flex flex-col items-center gap-[8px]">
+            <li key={i} className="flex flex-col items-center gap-[8px]">
               <span
                 className={`text-[10px] max-xl:text-[11px] max-sm:text-[12px] ${isToday ? "text-[#788f5c] font-bold" : "text-[#81906e]"}`}
               >
                 {["M", "T", "W", "T", "F", "S", "S"][i]}
               </span>
               <i
+                role="img"
+                aria-label={`${d.toLocaleDateString()}: ${n} exercises`}
                 className={`${DOT} ${n ? "bg-[#8fa674] border-[#8fa674] text-white" : isToday ? "bg-[#f1f4e8] border-[#b3c49a]" : "border-[#e8ecdf]"}`}
                 title={`${d.toLocaleDateString()}: ${n} exercises`}
               >
@@ -77,10 +89,10 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
                   <b className="w-[4px] h-[4px] rounded-[50%] bg-[#94a777]" />
                 ) : null}
               </i>
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ol>
     </Panel>
   );
 };

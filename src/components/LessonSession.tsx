@@ -132,23 +132,23 @@ export const LessonSession = ({
             Look at you go.
           </h2>
           <p className="leading-[1.7]">Another little piece of Spanish, yours to keep.</p>
-          <div className={COMPLETION_STATS}>
+          <dl className={COMPLETION_STATS}>
             <div>
-              <strong>
+              <dt>objective answers</dt>
+              <dd>
                 {results.filter((r) => r).length}
                 <small>/{results.filter((r) => r !== null).length}</small>
-              </strong>
-              <span>objective answers</span>
+              </dd>
             </div>
             <div>
-              <strong>{results.filter((r) => r === null).length}</strong>
-              <span>creative practices</span>
+              <dt>creative practices</dt>
+              <dd>{results.filter((r) => r === null).length}</dd>
             </div>
             <div>
-              <strong>{results.filter((r) => r === false).length}</strong>
-              <span>moments to review</span>
+              <dt>moments to review</dt>
+              <dd>{results.filter((r) => r === false).length}</dd>
             </div>
-          </div>
+          </dl>
           {assisted > 0 && <FieldNote>{assisted} answers used transcript assistance.</FieldNote>}
           <p className="leading-[1.7]">
             {results.some((r) => r === false)

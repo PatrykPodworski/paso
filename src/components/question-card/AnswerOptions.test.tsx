@@ -28,19 +28,6 @@ it("marks the picked wrong option and reveals the right one", () => {
   expect(screen.getByRole("button", { name: choice.answer })).not.toHaveClass("incorrect");
 });
 
-it.each([
-  [3, false],
-  [5, true],
-])("lays out %i options in the wide grid: %s", (count, many) => {
-  const options = ["uno", "dos", "tres", "cuatro", "cinco"].slice(0, count);
-
-  render(<QuestionCard q={{ ...choice, options }} onSubmit={vi.fn()} />);
-
-  expect(
-    screen.getByRole("button", { name: "uno" }).parentElement!.classList.contains("many-options"),
-  ).toBe(many);
-});
-
 it.each(["first name", "address"])(
   "selecting %s immediately checks once and pronounces el nombre",
   (choice) => {

@@ -5,7 +5,7 @@ import { emptyProgress } from "../data/progress";
 import { requirementGroups, sources } from "../data/research";
 
 it("changes only the selected skill and combines the correct score pairs", () => {
-  const { container } = render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
+  render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
   const labels = ["Reading", "Writing", "Listening", "Speaking"];
   const sliders = labels.map((label) => screen.getByRole("slider", { name: new RegExp(label) }));
   const values = [25, 5, 24, 6];
@@ -18,8 +18,7 @@ it("changes only the selected skill and combines the correct score pairs", () =>
     );
   }
 
-  expect(container.querySelectorAll(".passing-groups b")[0]).toHaveTextContent("30/50");
-  expect(container.querySelectorAll(".passing-groups b")[1]).toHaveTextContent("30/50");
+  expect(screen.getAllByText("30/50")).toHaveLength(2);
 
   expect(screen.getByRole("status")).toHaveTextContent(
     "These example scores meet the passing rule.",
@@ -54,9 +53,14 @@ it("counts only recognized completed readiness checks against the full inventory
 });
 
 it("numbers the primary sources from 01", () => {
-  const { container } = render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
+  render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
 
-  expect([...container.querySelectorAll(".source-number")].map((n) => n.textContent)).toEqual(
-    sources.map((_, index) => String(index + 1).padStart(2, "0")),
-  );
+  sources.forEach((source, index) => {
+    expect(
+      screen.getByRole("link", {
+        name: (name) =>
+          name.startsWith(String(index + 1).padStart(2, "0")) && name.includes(source.title),
+      }),
+    ).toHaveAttribute("href", source.url);
+  });
 });

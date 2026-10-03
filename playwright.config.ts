@@ -11,6 +11,7 @@ export default defineConfig({
   workers: 4,
   timeout: 30000,
   expect: { timeout: 5000 },
+  snapshotPathTemplate: "screenshots/baseline/{projectName}/{arg}{ext}",
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: `http://127.0.0.1:${port}`,

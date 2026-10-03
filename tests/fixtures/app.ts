@@ -31,12 +31,21 @@ export const test = base.extend<{ blockExternal: void }>({
 
 export { expect };
 
-// Nothing compares these captures; they land in screenshots/ for inspection.
+// Captures land in screenshots/ for inspection. With VISUAL_COMPARE set they are compared
+// with screenshots/baseline/ instead, which a run with --update-snapshots=all writes.
 export const capture = async (
   page: Page,
   name: string,
   { fullPage = false, element }: { fullPage?: boolean; element?: Locator } = {},
 ) => {
+  if (process.env.VISUAL_COMPARE) {
+    await (element
+      ? expect(element).toHaveScreenshot(`${name}.png`)
+      : expect(page).toHaveScreenshot(`${name}.png`, { fullPage }));
+
+    return;
+  }
+
   const path = `screenshots/${test.info().project.name}/${name}.png`;
 
   await (element ? element.screenshot({ path }) : page.screenshot({ path, fullPage }));

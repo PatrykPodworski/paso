@@ -34,7 +34,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
         aria-valuemax={progress.goal}
         aria-valuenow={reached}
         aria-valuetext={`${today} of ${progress.goal} exercises today`}
-        className="goal-ring flex items-center justify-center rounded-[50%] p-[8px] -rotate-90 bg-[conic-gradient(#8fa374_var(--goal),#edf0e5_0)] m-[24px_auto] w-[158px] h-[158px] max-xl:m-[15px_auto_18px] max-xl:w-[139px] max-xl:h-[139px] max-md:w-[130px] max-md:h-[130px] max-sm:w-[145px] max-sm:h-[145px]"
+        className="flex items-center justify-center rounded-[50%] p-[8px] -rotate-90 bg-[conic-gradient(#8fa374_var(--goal),#edf0e5_0)] m-[24px_auto] w-[158px] h-[158px] max-xl:m-[15px_auto_18px] max-xl:w-[139px] max-xl:h-[139px] max-md:w-[130px] max-md:h-[130px] max-sm:w-[145px] max-sm:h-[145px]"
         style={
           {
             "--goal": `${(reached / progress.goal) * 100}%`,

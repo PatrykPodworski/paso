@@ -9,7 +9,7 @@ export const ExamTopbar = ({ run, left }: Props) =>
     <div className="my-[25px] flex items-center justify-between gap-[20px]">
       <ol
         aria-label="Exam sections"
-        className="exam-steps flex gap-[23px] text-[13px] text-[#a9b397] max-lg:gap-[12px] max-lg:text-[11px] max-md:gap-[8px] max-md:text-[0px] max-sm:gap-[6px]"
+        className="flex gap-[23px] text-[13px] text-[#a9b397] max-lg:gap-[12px] max-lg:text-[11px] max-md:gap-[8px] max-md:text-[0px] max-sm:gap-[6px]"
       >
         {mockSections.map((s, i) => {
           const active = i === run.section;

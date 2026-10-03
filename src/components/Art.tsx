@@ -3,7 +3,7 @@ export const JourneyArt = () => (
     viewBox="0 0 600 410"
     role="img"
     aria-label="A sunlit Spanish village with terracotta rooftops, an orange tree and a winding path to a flag"
-    className="journey-art absolute top-[6px] right-[-65px] w-[65%] h-full z-[1] max-xl:top-[17px] max-xl:right-[-60px] max-xl:w-[64%] max-lg:top-0 max-lg:right-[-50px] max-lg:w-[66%] max-md:top-[10px] max-md:right-[-61px] max-md:w-[63%] max-sm:top-auto max-sm:bottom-[-19px] max-sm:right-[-65px] max-sm:w-[75%] max-sm:h-[59%] max-sm:opacity-[0.96]"
+    className="absolute top-[6px] right-[-65px] w-[65%] h-full z-[1] max-xl:top-[17px] max-xl:right-[-60px] max-xl:w-[64%] max-lg:top-0 max-lg:right-[-50px] max-lg:w-[66%] max-md:top-[10px] max-md:right-[-61px] max-md:w-[63%] max-sm:top-auto max-sm:bottom-[-19px] max-sm:right-[-65px] max-sm:w-[75%] max-sm:h-[59%] max-sm:opacity-[0.96]"
   >
     <defs>
       <pattern

@@ -112,7 +112,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             A little Spanish, remembered.
           </h3>
         </div>
-        <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
+        <span className="text-[14px] text-[#9aa88c] max-md:text-[12px]">
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
@@ -159,7 +159,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </div>
       ) : (
         <div className="p-[28px_36px] max-sm:p-[20px_16px]">
-          <div className="flashcard-prompt text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage-100! [&_button]:text-green-900">
+          <div className="text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage-100! [&_button]:text-green-900">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p className="leading-[1.7] text-[#59675d] text-[14px] mt-[24px]">
               Can you remember the meaning?
@@ -173,7 +173,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
           </div>
           {revealed && (
-            <div className="flashcard-answer mt-[20px] p-[20px] rounded-[12px] bg-sage-100">
+            <div className="mt-[20px] p-[20px] rounded-[12px] bg-sage-100">
               <Eyebrow>THE MEANING</Eyebrow>
               <h3
                 lang="en"
@@ -182,7 +182,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                 {word.en}
               </h3>
               {word.example && (
-                <div className="flashcard-example mt-[16px]">
+                <div className="mt-[16px]">
                   <p lang="es" className="text-[16px] leading-[1.6]">
                     {word.example.es}
                   </p>

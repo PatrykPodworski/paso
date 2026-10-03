@@ -1,0 +1,70 @@
+name: Visual
+
+# Compares the pull request's screenshots with the base branch's. Both sets are taken in
+# this job, in the same container, so fonts and the browser match and no baseline is
+# stored anywhere. The visual-approved label accepts the diff of the current commit.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+env:
+  # Only the top-level views for now; an empty grep compares every capture().
+  GREP: "view: "
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.62.1-noble
+    env:
+      VISUAL_COMPARE: "1"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # HEAD is the merge commit; HEAD^1 is the tip of the base branch.
+          fetch-depth: 2
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # The pull request's tests drive the base's app, so only app changes show up as a
+      # diff. A base test that fails leaves its snapshots missing, and the compare step
+      # reports them.
+      - name: Capture the base
+        # The container runs as root, but the runner owns the checkout, so git refuses it.
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git restore --source=HEAD^1 --worktree -- src public index.html
+          pnpm exec playwright test tests/visual --grep "$GREP" --update-snapshots=all || true
+          git restore --worktree -- src public index.html
+      - name: Compare with the base
+        id: compare
+        continue-on-error: true
+        run: pnpm exec playwright test tests/visual --grep "$GREP" --update-snapshots=none
+      - uses: actions/upload-artifact@v4
+        if: steps.compare.outcome == 'failure'
+        with:
+          name: visual-diff
+          path: playwright-report/
+      - name: Require approval
+        if: >-
+          steps.compare.outcome == 'failure' && (github.event.action == 'synchronize' ||
+          !contains(github.event.pull_request.labels.*.name, 'visual-approved'))
+        run: |
+          echo "::error::Screenshots differ from the base. Open index.html from the visual-diff artifact, then add the visual-approved label to accept the diff."
+          exit 1
+
+  # A new commit needs a new approval. The container above has no gh.
+  reset-approval:
+    if: >-
+      github.event.action == 'synchronize' &&
+      contains(github.event.pull_request.labels.*.name, 'visual-approved')
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - run: gh pr edit ${{ github.event.number }} --remove-label visual-approved
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}

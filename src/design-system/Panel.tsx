@@ -9,7 +9,7 @@ type Props = {
 
 export const Panel = ({ as: Tag = "div", className = "", ...rest }: Props) => (
   <Tag
-    className={`${Tag === "button" ? PRESSABLE : ""} bg-paper border border-line rounded-[13px] ${className}`}
+    className={`${Tag === "button" ? PRESSABLE : ""} bg-white border border-sage-200 rounded-[13px] ${className}`}
     {...rest}
   />
 );

@@ -38,7 +38,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
       <Icon name="arrow" />
     </Button>
     {mistakeQuestions.slice(0, 12).map((q) => (
-      <details key={q.id} className="border-t border-t-line p-[16px_0]">
+      <details key={q.id} className="border-t border-t-sage-200 p-[16px_0]">
         <summary className="cursor-pointer text-[14px] flex items-center gap-[9px]">
           <SkillDot skill={q.skill} />
           {q.prompt}

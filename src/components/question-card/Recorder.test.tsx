@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Recorder } from "../components/question-card/Recorder";
+import { Recorder } from "./Recorder";
 
 let instances: FakeRecorder[];
 let stopTrack: ReturnType<typeof vi.fn>;

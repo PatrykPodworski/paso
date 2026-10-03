@@ -51,7 +51,7 @@ export const Sidebar = ({
         }}
         aria-label="Paso home"
       >
-        <span className="relative font-[family-name:Georgia,serif] bg-green-900 text-[#f9f4e8] w-[32px] h-[35px] leading-[30px] text-center rounded-[10px_10px_10px_3px] text-[34px] tracking-[-2px] pr-[2px]">
+        <span className="relative font-serif bg-green-900 text-[#f9f4e8] w-[32px] h-[35px] leading-[30px] text-center rounded-[10px_10px_10px_3px] text-[34px] tracking-[-2px] pr-[2px]">
           p<span className="absolute text-[#dfac76] text-[22px] left-[13px] top-[-1px]">•</span>
         </span>
         <span>

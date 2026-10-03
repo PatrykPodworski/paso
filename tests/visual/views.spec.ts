@@ -78,6 +78,8 @@ test("vocabulary: overview, review, feedback and no results", async ({ page }) =
   await page.getByRole("button", { name: "Review flashcards" }).click();
   await shot(page, "vocabulary-review");
   await page.getByRole("button", { name: "Reveal answer" }).click();
+  // Revealing autoplays the example; wait for it so shot() stops it instead of racing it.
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
   await shot(page, "vocabulary-flipped");
   await page.getByRole("button", { name: /Got it wrong/ }).click();
   await shot(page, "vocabulary-feedback");

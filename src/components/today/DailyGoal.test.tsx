@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
 import { allQuestions } from "../../data/curriculum";
 import { emptyProgress } from "../../data/progress";
@@ -9,11 +9,11 @@ afterEach(() => {
 });
 
 it.each([
-  [0, 5, "0%", "A few minutes. A little more confidence."],
-  [1, 5, "20%", "You’re building a lovely habit."],
-  [5, 5, "100%", "Daily goal reached. ¡Muy bien!"],
-  [6, 5, "100%", "Daily goal reached. ¡Muy bien!"],
-])("renders the bounded daily goal for %s of %s answers", (count, goal, width, message) => {
+  [0, 5, 0, "A few minutes. A little more confidence."],
+  [1, 5, 1, "You’re building a lovely habit."],
+  [5, 5, 5, "Daily goal reached. ¡Muy bien!"],
+  [6, 5, 5, "Daily goal reached. ¡Muy bien!"],
+])("renders the bounded daily goal for %s of %s answers", (count, goal, value, message) => {
   const p = emptyProgress();
 
   p.goal = goal as number;
@@ -27,13 +27,13 @@ it.each([
     at: new Date().toISOString(),
   }));
 
-  const { container } = render(<DailyGoal progress={p} openSettings={vi.fn()} />);
+  render(<DailyGoal progress={p} openSettings={vi.fn()} />);
 
   expect(screen.getByText(message as string)).toBeInTheDocument();
+  const ring = screen.getByRole("progressbar", { name: "Daily goal" });
 
-  expect(
-    (container.querySelector(".goal-ring") as HTMLElement).style.getPropertyValue("--goal"),
-  ).toBe(width);
+  expect(ring).toHaveAttribute("aria-valuenow", String(value));
+  expect(ring).toHaveAttribute("aria-valuemax", String(goal));
 });
 
 it("renders the week from Monday through Sunday with per-day unique answers", () => {
@@ -60,22 +60,14 @@ it("renders the week from Monday through Sunday with per-day unique answers", ()
     },
   ];
 
-  const { container } = render(<DailyGoal progress={p} openSettings={vi.fn()} />);
-  const days = [...container.querySelectorAll(".week-dots > div")];
+  render(<DailyGoal progress={p} openSettings={vi.fn()} />);
+  const days = within(screen.getByRole("list", { name: "This week" })).getAllByRole("listitem");
 
-  expect(days.map((day) => day.querySelector("span")?.textContent)).toEqual([
-    "M",
-    "T",
-    "W",
-    "T",
-    "F",
-    "S",
-    "S",
-  ]);
+  expect(days.map((day) => day.textContent)).toEqual(["M", "T", "W", "T", "F", "S", "S"]);
 
-  expect(days[0].querySelector("i")?.title).toContain("1 exercises");
+  expect(within(days[0]).getByRole("img")).toHaveAccessibleName(/: 1 exercises$/);
 
-  expect(days.slice(1).every((day) => day.querySelector("i")?.title.includes("0 exercises"))).toBe(
-    true,
-  );
+  days.slice(1).forEach((day) => {
+    expect(within(day).getByRole("img")).toHaveAccessibleName(/: 0 exercises$/);
+  });
 });

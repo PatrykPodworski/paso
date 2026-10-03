@@ -58,9 +58,7 @@ it.each([
   expect(plays).toHaveBeenCalledOnce();
   expect((plays.mock.contexts[0] as HTMLAudioElement).src).toContain(audioSources(expected)[0]);
 
-  expect(document.querySelector(".question-heading")).toContainElement(
-    screen.getByRole("button", { name: "Stop audio" }),
-  );
+  expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
 });
 
 it("starts each listening question on entry and cancels the previous clip", async () => {

@@ -25,7 +25,7 @@ type Props = {
 
 // Shared with LessonSession's completion screen.
 export const COMPLETION_STATS =
-  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-sage-200 [&_strong]:block [&_strong]:font-serif [&_strong]:text-[32px] max-md:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-md:[&_span]:text-[11px] max-sm:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
+  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-sage-200 [&>div]:flex [&>div]:flex-col-reverse [&_dd]:font-serif [&_dd]:text-[32px] max-md:[&_dd]:text-[29px] [&_dd]:text-[#82986a] [&_dd]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_dt]:text-[12px] max-md:[&_dt]:text-[11px] max-sm:[&_dt]:text-[10px] [&_dt]:mt-[6px] [&_dt]:text-[#a0ad8b]";
 
 const reviewDate = (at: string) =>
   new Date(at).toLocaleString(undefined, {
@@ -136,20 +136,20 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             Your review is complete.
           </h2>
           <p className="leading-[1.7]">Every card has its next review scheduled.</p>
-          <div className={COMPLETION_STATS}>
+          <dl className={COMPLETION_STATS}>
             <div>
-              <strong>{results.length}</strong>
-              <span>reviewed</span>
+              <dt>reviewed</dt>
+              <dd>{results.length}</dd>
             </div>
             <div>
-              <strong>{results.filter((r) => r.correct).length}</strong>
-              <span>remembered</span>
+              <dt>remembered</dt>
+              <dd>{results.filter((r) => r.correct).length}</dd>
             </div>
             <div>
-              <strong>{results.filter((r) => !r.correct).length}</strong>
-              <span>to revisit</span>
+              <dt>to revisit</dt>
+              <dd>{results.filter((r) => !r.correct).length}</dd>
             </div>
-          </div>
+          </dl>
           <p className="leading-[1.7]">
             Next review: <time dateTime={nextSessionReview}>{reviewDate(nextSessionReview)}</time>.
           </p>
@@ -436,7 +436,9 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
         <div className="mt-[26px] [&_h3]:text-[17px]">
           <SectionHeading variant="collection">
             <div>
-              <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Your flashcards</h3>
+              <h3 className="text-[17px] font-semibold tracking-[-0.3px]" id="flashcards-title">
+                Your flashcards
+              </h3>
               <p className="leading-[1.7]">Every unlocked word, with its next review.</p>
             </div>
             <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-sage-200 rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
@@ -451,7 +453,10 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
             </label>
           </SectionHeading>
           {filtered.length ? (
-            <ul className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-sage-200 rounded-[12px] bg-white">
+            <ul
+              aria-labelledby="flashcards-title"
+              className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-sage-200 rounded-[12px] bg-white"
+            >
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);

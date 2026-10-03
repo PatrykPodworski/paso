@@ -17,6 +17,8 @@ afterEach(() => {
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 const order = allQuestions.find((q) => q.kind === "order")!;
+const bank = () => within(screen.getByRole("group", { name: "Word bank" }));
+const tray = () => within(screen.getByRole("group", { name: "Your sentence" }));
 
 it("hints at the empty sentence tray until the first word is picked", () => {
   render(<QuestionCard q={order} onSubmit={vi.fn()} />);
@@ -28,20 +30,18 @@ it("hints at the empty sentence tray until the first word is picked", () => {
 
 it("requires all tiles, permits removal, and reads the correct sentence after a wrong order", () => {
   render(<QuestionCard q={order} onSubmit={vi.fn()} />);
-  const bank = document.querySelector(".word-bank")!;
 
   for (const token of order.tokens!) {
-    fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: token }));
+    fireEvent.click(bank().getByRole("button", { name: token }));
   }
 
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(order.tokens!.length);
   expect(screen.getByRole("button", { name: "Check answer" })).toBeEnabled();
-  const tray = document.querySelector(".sentence-tray")!;
 
-  fireEvent.click(within(tray as HTMLElement).getAllByRole("button")[0]);
+  fireEvent.click(tray().getAllByRole("button")[0]);
   expect(screen.getByRole("button", { name: "Check answer" })).toBeDisabled();
-  fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: order.tokens![0] }));
+  fireEvent.click(bank().getByRole("button", { name: order.tokens![0] }));
   const beforeCheck = vi.mocked(HTMLMediaElement.prototype.play).mock.calls.length;
 
   click("Check answer");
@@ -51,10 +51,9 @@ it("requires all tiles, permits removal, and reads the correct sentence after a 
 
 it("plays the tapped word before it lands in the sentence", () => {
   render(<QuestionCard q={order} onSubmit={vi.fn()} />);
-  const bank = document.querySelector(".word-bank")!;
   const token = order.tokens![0];
 
-  fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: token }));
+  fireEvent.click(bank().getByRole("button", { name: token }));
   const play = vi.mocked(HTMLMediaElement.prototype.play);
 
   expect(play).toHaveBeenCalledOnce();
@@ -63,11 +62,10 @@ it("plays the tapped word before it lands in the sentence", () => {
 
 it("reads the final tapped word before the completed sentence", async () => {
   render(<QuestionCard q={order} onSubmit={vi.fn()} />);
-  const bank = document.querySelector(".word-bank")!;
   const words = order.answer.split(" ");
 
   for (const word of words) {
-    fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: word }));
+    fireEvent.click(bank().getByRole("button", { name: word }));
   }
 
   const play = vi.mocked(HTMLMediaElement.prototype.play);
@@ -79,30 +77,22 @@ it("reads the final tapped word before the completed sentence", async () => {
 
 it("auto-submits when the last chip completes the correct sentence, also after a removal", async () => {
   render(<QuestionCard q={order} onSubmit={vi.fn()} />);
-  const bank = document.querySelector(".word-bank")!;
-  const tray = document.querySelector(".sentence-tray")!;
   const words = order.answer.split(" ");
 
   for (const word of words.slice(0, -1)) {
-    fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: word }));
+    fireEvent.click(bank().getByRole("button", { name: word }));
   }
 
   const lastPlaced = words[words.length - 2];
 
-  fireEvent.click(
-    within(tray as HTMLElement)
-      .getAllByRole("button")
-      .at(-1)!,
-  );
+  fireEvent.click(tray().getAllByRole("button").at(-1)!);
 
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
-  fireEvent.click(within(bank as HTMLElement).getByRole("button", { name: lastPlaced }));
+  fireEvent.click(bank().getByRole("button", { name: lastPlaced }));
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
   const beforeLast = vi.mocked(HTMLMediaElement.prototype.play).mock.calls.length;
 
-  fireEvent.click(
-    within(bank as HTMLElement).getByRole("button", { name: words[words.length - 1] }),
-  );
+  fireEvent.click(bank().getByRole("button", { name: words[words.length - 1] }));
 
   expect(screen.getByRole("heading", { name: "¡Muy bien! You’ve got it." })).toBeInTheDocument();
   // The final tap reads its own word, then the completed sentence once it ends.
@@ -115,8 +105,8 @@ it("auto-submits when the last chip completes the correct sentence, also after a
 });
 
 it("each selected sentence tile is disabled until it is removed", () => {
-  const { container } = render(<QuestionCard q={order} onSubmit={vi.fn()} />);
-  const buttons = Array.from(container.querySelectorAll(".word-bank button"));
+  render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+  const buttons = bank().getAllByRole("button");
 
   fireEvent.click(buttons[0]);
   expect(buttons[0]).toBeDisabled();
@@ -125,7 +115,7 @@ it("each selected sentence tile is disabled until it is removed", () => {
     expect(b).toBeEnabled();
   }
 
-  fireEvent.click(container.querySelector(".sentence-tray button")!);
+  fireEvent.click(tray().getByRole("button"));
   expect(buttons[0]).toBeEnabled();
 });
 

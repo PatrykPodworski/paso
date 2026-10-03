@@ -25,9 +25,17 @@ const saved = (): Progress => JSON.parse(localStorage.getItem(STORAGE_KEY)!);
 
 const count = (label: string, value: number) => {
   expect(
-    within(screen.getByText(label, { exact: true }).parentElement!).getByRole("definition"),
+    screen.getAllByRole("definition")[
+      screen.getAllByRole("term").findIndex((term) => term.textContent === label)
+    ],
   ).toHaveTextContent(String(value));
 };
+
+const flashcards = () =>
+  within(screen.getByRole("list", { name: "Your flashcards" })).getAllByRole("listitem");
+
+const flashcard = (es: string) =>
+  flashcards().find((row) => within(row).queryByText(es, { exact: true }))!;
 
 const progressWithDue = (due = words.length) => {
   const p = emptyProgress();
@@ -43,8 +51,8 @@ const progressWithDue = (due = words.length) => {
 
 const topicRow = (topic: string) =>
   within(screen.getByRole("region", { name: "Topics" }))
-    .getByText(topic, { exact: true })
-    .closest("li")!;
+    .getAllByRole("listitem")
+    .find((row) => within(row).queryByText(topic, { exact: true }))!;
 
 const mount = (p = progressWithDue()) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
@@ -86,7 +94,7 @@ it("includes every unlocked word and never grades revealing or leaving a card", 
   count("To review", words.length);
   count("Total flashcards", words.length);
   count("Reviewed today", 0);
-  expect(document.querySelectorAll(".vocabulary-list li")).toHaveLength(words.length);
+  expect(flashcards()).toHaveLength(words.length);
   expect(screen.queryByText("el café")).not.toBeInTheDocument();
   click("Review flashcards");
   const dialog = screen.getByRole("dialog", { name: "Vocabulary review" });
@@ -121,7 +129,7 @@ it("persists explicit right and wrong ratings with next dates and resumes only d
 
   expect(screen.getByRole("status")).toHaveTextContent("Available to review in 7 days");
 
-  expect(screen.getByRole("status").querySelector("time")).toHaveAttribute(
+  expect(within(screen.getByRole("status")).getByRole("time")).toHaveAttribute(
     "datetime",
     "2026-09-16T12:00:00.000Z",
   );
@@ -213,7 +221,7 @@ it("updates today's count and availability when returning to the tab on another 
 it("labels a completed unit's words with their topic", () => {
   mount();
   const card = deckCards(progressWithDue()).find((c) => c.id === words[0].es)!;
-  const row = screen.getByText(words[0].es, { selector: ".vocabulary-list strong" }).closest("li")!;
+  const row = flashcard(words[0].es);
 
   expect(within(row).getByText(card.topic, { exact: true })).toBeInTheDocument();
   click("Review flashcards");
@@ -258,8 +266,8 @@ it("lists every topic in file order, even with an empty deck", () => {
 
   expect(rows).toHaveLength(51);
 
-  expect(rows.map((row) => row.firstChild!.firstChild!.textContent)).toEqual(
-    topics.map((t) => t.topic),
+  rows.forEach((row, i) =>
+    expect(within(row).getByText(topics[i].topic, { exact: true })).toBeInTheDocument(),
   );
 
   expect(rows[0]).toHaveTextContent("Everyday basics");
@@ -279,10 +287,10 @@ it("adds five words from a topic to the deck as new cards", () => {
   expect(row).toHaveTextContent("5 learning");
   expect(Object.keys(saved().vocabularyReviews)).toHaveLength(words.length - 2 + 5);
   const added = topics.find((t) => t.topic === "Weather")!.cards[0];
-  const card = screen.getByText(added.es, { selector: ".vocabulary-list strong" }).closest("li")!;
+  const card = flashcard(added.es);
 
   expect(card).toHaveTextContent("New · ready now");
-  expect(card.querySelector("time")).toBeNull();
+  expect(within(card).queryByRole("time")).toBeNull();
 });
 
 it("adds only the words a topic has left, then shows it as all added", () => {
@@ -350,7 +358,6 @@ it("shows no sentence block for a card without an example", () => {
   mount(p);
   click("Review flashcards");
   click("Reveal answer");
-  expect(document.querySelector(".flashcard-example")).toBeNull();
   expect(screen.queryByRole("button", { name: "Play example sentence" })).toBeNull();
 });
 
@@ -375,7 +382,7 @@ it("searches unlocked vocabulary in either language and clears an empty result",
 
   p.completed["u6-words"] = { score: 1, total: 1, at: "2026-01-01T00:00:00Z" };
 
-  const { container } = render(
+  render(
     <PocketVocabulary progress={p} onReview={onReview} onAddWords={onAddWords} onLearn={vi.fn()} />,
   );
 
@@ -394,5 +401,5 @@ it("searches unlocked vocabulary in either language and clears an empty result",
 
   expect(screen.getByRole("heading", { name: "No word found yet." })).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
-  expect(container.querySelectorAll(".vocabulary-list li")).toHaveLength(8);
+  expect(flashcards()).toHaveLength(8);
 });

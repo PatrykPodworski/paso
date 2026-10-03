@@ -9,6 +9,12 @@ type Props = {
   section: number;
 };
 
+const verdictLabel = {
+  good: "Correct",
+  bad: "Incorrect",
+  neutral: "Not graded",
+};
+
 const status = {
   good: "bg-[#e8f0da] text-[#829965]",
   bad: "bg-[#f4e2d1] text-[#bc8358]",
@@ -22,6 +28,8 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
     <details className="border-t border-sage-200">
       <summary className="flex cursor-pointer items-center gap-[12px] py-[17px] text-[14px] max-md:leading-[1.7]">
         <span
+          role="img"
+          aria-label={verdictLabel[verdict]}
           className={`review-status ${verdict} flex h-[25px] w-[25px] shrink-0 items-center justify-center rounded-full ${status[verdict]}`}
         >
           <Icon name={section > 1 ? "pen" : verdict === "good" ? "check" : "x"} size={16} />

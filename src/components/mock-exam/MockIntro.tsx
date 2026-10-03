@@ -11,7 +11,7 @@ type Props = { progress: Progress; onStart: () => void };
 
 export const MockIntro = ({ progress, onStart }: Props) => (
   <>
-    <div className="flex items-center gap-[45px] rounded-[13px] border border-line bg-[#f0efdf] p-[40px] max-xl:gap-[25px] max-xl:p-[30px] max-md:p-[25px] max-sm:p-[23px]">
+    <div className="flex items-center gap-[45px] rounded-[13px] border border-sage-200 bg-[#f0efdf] p-[40px] max-xl:gap-[25px] max-xl:p-[30px] max-md:p-[25px] max-sm:p-[23px]">
       <div className="flex h-[220px] w-[190px] shrink-0 flex-col items-center justify-center gap-[25px] rounded-[95px_95px_15px_15px] border border-[#d8dfbf] bg-[#e5e8d2] text-[#9aaa7c] max-xl:h-[190px] max-xl:w-[150px] max-lg:hidden">
         <Icon name="flag" size={70} />
         <span className="text-[16px] tracking-[5px]">DELE A1</span>
@@ -92,7 +92,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           .reverse()
           .map((r) => (
             <div
-              className="mt-[13px] flex items-center gap-[22px] border-t border-line py-[15px] text-[14px] text-[#7f8f6f] max-lg:flex-wrap max-lg:gap-[12px]"
+              className="mt-[13px] flex items-center gap-[22px] border-t border-sage-200 py-[15px] text-[14px] text-[#7f8f6f] max-lg:flex-wrap max-lg:gap-[12px]"
               key={r.at}
             >
               <span>{new Date(r.at).toLocaleDateString()}</span>

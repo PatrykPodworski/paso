@@ -164,7 +164,7 @@ const App = () => {
             </Notice>
           )}
           {pages[page]}
-          <footer className="flex max-md:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-md:mt-[32px] p-[20px_0_25px] max-md:p-[20px_0] border-t border-t-line text-[11px] text-[#a2ab96]">
+          <footer className="flex max-md:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-md:mt-[32px] p-[20px_0_25px] max-md:p-[20px_0] border-t border-t-sage-200 text-[11px] text-[#a2ab96]">
             <span className="max-lg:hidden">Made for the joy of getting there.</span>
             <span className="font-serif text-[14px] italic text-[#91a17d]">
               paso a paso <span className="text-[#c8a174] ml-[6px]">✦</span>
@@ -214,7 +214,7 @@ const App = () => {
       )}
       {toast && (
         <div
-          className="fixed bottom-[25px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-[10px] p-[15px_22px] rounded-[10px] bg-green text-[#f5f8ed] text-[14px] shadow-[0_7px_30px_#1f3e3022] max-w-[calc(100vw_-_30px)] max-md:w-max"
+          className="fixed bottom-[25px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-[10px] p-[15px_22px] rounded-[10px] bg-green-900 text-[#f5f8ed] text-[14px] shadow-[0_7px_30px_#1f3e3022] max-w-[calc(100vw_-_30px)] max-md:w-max"
           role="status"
         >
           <Icon name="check" size={17} />

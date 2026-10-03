@@ -116,7 +116,7 @@ export const TodayPage = ({
           ))}
         </div>
         <button
-          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-[#8a977c] [&:hover]:text-green`}
+          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-[#8a977c] [&:hover]:text-green-900`}
           onClick={() => navigate("path")}
         >
           Home, cafés, adventures & 6 more chapters

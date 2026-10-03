@@ -28,7 +28,7 @@ export const PassingRule = () => {
             <b className="font-medium">{scores[i]}/25</b>
           </span>
           <input
-            className="h-[7px] mt-[12px] w-full cursor-pointer accent-green"
+            className="h-[7px] mt-[12px] w-full cursor-pointer accent-green-900"
             type="range"
             min="0"
             max="25"

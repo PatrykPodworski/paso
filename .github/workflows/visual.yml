@@ -7,10 +7,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
-env:
-  # Only the top-level views for now; an empty grep compares every capture().
-  GREP: "view: "
-
 jobs:
   compare:
     runs-on: ubuntu-latest
@@ -36,12 +32,12 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git restore --source=HEAD^1 --worktree -- src public index.html
-          pnpm exec playwright test tests/visual --grep "$GREP" --update-snapshots=all || true
+          pnpm exec playwright test tests/visual --update-snapshots=all || true
           git restore --worktree -- src public index.html
       - name: Compare with the base
         id: compare
         continue-on-error: true
-        run: pnpm exec playwright test tests/visual --grep "$GREP" --update-snapshots=none
+        run: pnpm exec playwright test tests/visual --update-snapshots=none
       - uses: actions/upload-artifact@v4
         if: steps.compare.outcome == 'failure'
         with:

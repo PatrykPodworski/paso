@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit`, the mutation gate and the visual suite on pull requests and pushes to `main`; the coverage gate and the E2E journeys run locally with this command. Only the five top-level views are compared with screenshots, by the Visual workflow on pull requests, so a presentation regression elsewhere is caught only by looking.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit`, the mutation gate and the visual suite on pull requests and pushes to `main`; the coverage gate and the E2E journeys run locally with this command. The Visual workflow compares every screenshot with the base branch on pull requests.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. It does **not** cover presentation: the browser run takes screenshots but compares none of them.
 
@@ -115,7 +115,7 @@ Dates, timezone, locale, motion and AI responses are deterministic. Native recor
 
 Screenshots go through `capture()` in `tests/fixtures/app.ts`, which writes them to the ignored `screenshots/<project>/<name>.png` for inspection. With `VISUAL_COMPARE=1` it compares them with `screenshots/baseline/<project>/<name>.png` instead. No baseline images are committed.
 
-On pull requests, `.github/workflows/visual.yml` takes the baseline from the base branch's app and the comparison from the pull request's, both in the Playwright container, for the five top-level views on both projects. A diff fails the job and uploads the Playwright report as the `visual-diff` artifact; the `visual-approved` label accepts the diff until the next push. To compare locally, run `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then `VISUAL_COMPARE=1 pnpm test:visual` on the change; macOS baselines are only comparable with macOS runs.
+On pull requests, `.github/workflows/visual.yml` takes the baseline from the base branch's app and the comparison from the pull request's, both in the Playwright container, for every `capture()` on both projects. A diff fails the job and uploads the Playwright report as the `visual-diff` artifact; the `visual-approved` label accepts the diff until the next push. To compare locally, run `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then `VISUAL_COMPARE=1 pnpm test:visual` on the change; macOS baselines are only comparable with macOS runs.
 
 A passing `pnpm test:visual` does **not** mean the UI looks the same. It means every view rendered, every journey step it drives succeeded, and `views.spec.ts` found no horizontal overflow.
 

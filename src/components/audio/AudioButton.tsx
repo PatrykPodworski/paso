@@ -49,7 +49,7 @@ export const AudioButton = ({
 
   return (
     <div
-      className={`audio-control flex flex-wrap items-center gap-[10px] [.question-pronunciation_&]:contents [.reading-passage>&]:mb-[14px] ${iconOnly ? "compact" : ""} ${className}`}
+      className={`audio-control flex flex-wrap items-center gap-2.5 [.question-pronunciation_&]:contents [.reading-passage>&]:mb-3.5 ${iconOnly ? "compact" : ""} ${className}`}
     >
       <PlayButton
         label={label}
@@ -63,7 +63,7 @@ export const AudioButton = ({
       {!iconOnly && !limit && (
         <button
           type="button"
-          className={`${PRESSABLE} speed-button p-[8px_10px] bg-lavender-50 border border-lavender-200 rounded-[7px] text-[13px] text-lavender-500 max-sm:text-[12px]`}
+          className={`${PRESSABLE} speed-button py-2 px-2.5 bg-lavender-50 border border-lavender-200 rounded-md text-xs text-lavender-500`}
           onClick={() => setSpeed((s) => (s === 1 ? 0.75 : 1))}
           aria-label={`Audio speed ${speed} times. Click to change`}
         >
@@ -71,14 +71,14 @@ export const AudioButton = ({
         </button>
       )}
       {limit && (
-        <small className="text-[13px] text-lavender-500 [.question-pronunciation_&]:col-[2] [.question-pronunciation_&]:text-center [.question-pronunciation_&]:m-[-12px_0_16px] [.question-pronunciation_&]:whitespace-nowrap">
+        <small className="text-xs text-lavender-500 [.question-pronunciation_&]:col-start-2 [.question-pronunciation_&]:text-center [.question-pronunciation_&]:-mt-3 [.question-pronunciation_&]:mx-0 [.question-pronunciation_&]:mb-4 [.question-pronunciation_&]:whitespace-nowrap">
           {count}/{limit} plays
         </small>
       )}
       {error && (
         <FieldNote
           role="status"
-          className="[.question-pronunciation_&]:col-span-full [.question-pronunciation_&]:m-[-8px_0_18px]"
+          className="[.question-pronunciation_&]:col-span-2 [.question-pronunciation_&]:-mt-2 [.question-pronunciation_&]:mx-0 [.question-pronunciation_&]:mb-4"
         >
           {error}
         </FieldNote>

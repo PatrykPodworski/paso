@@ -78,7 +78,7 @@ export const Sidebar = ({
           <button
             key={n.id}
             className={`${PRESSABLE} ${NAV_ITEM} ${
-              page === n.id ? "bg-sage-100 text-green-900 font-semibold" : "hover:bg-sage-100"
+              page === n.id ? "bg-sage-100 text-green-900 font-semibold" : "hover:bg-sage-50"
             }`}
             onClick={() => navigate(n.id)}
             aria-current={page === n.id ? "page" : undefined}

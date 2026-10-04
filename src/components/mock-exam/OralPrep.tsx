@@ -18,17 +18,17 @@ export const OralPrep = ({ run, setRun, setNow }: Props) => (
     <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25] mt-[10px] mb-[15px] max-md:text-[28px]">
       A moment to find your words.
     </h2>
-    <p className="leading-[1.7] text-[14px] text-[#8c9b7b]">
+    <p className="leading-[1.7] text-[14px] text-sage-500">
       Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather than
       reading a script.
     </p>
     {mockSections[3].questions.slice(0, 2).map((q) => (
-      <div key={q.id} className="my-[24px] rounded-[8px] bg-[#f5f7ef] p-[20px]">
+      <div key={q.id} className="my-[24px] rounded-[8px] bg-sage-50 p-[20px]">
         <h3 className="text-[17px] font-semibold tracking-[-0.3px]">{q.task}</h3>
-        <p className="leading-[1.7] mt-[9px] text-[14px] text-[#859573]">{q.prompt}</p>
+        <p className="leading-[1.7] mt-[9px] text-[14px] text-sage-600">{q.prompt}</p>
       </div>
     ))}
-    <label className="text-[15px] block text-[#8a987b]">
+    <label className="text-[15px] block text-sage-600">
       Your preparation notes
       <textarea
         className={`${FIELD} leading-[1.7] mt-[10px] mb-[20px]`}

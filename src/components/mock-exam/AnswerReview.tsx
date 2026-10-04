@@ -16,9 +16,9 @@ const verdictLabel = {
 };
 
 const status = {
-  good: "bg-[#e8f0da] text-[#829965]",
-  bad: "bg-[#f4e2d1] text-[#bc8358]",
-  neutral: "bg-[#ebe8ef] text-[#a298b1]",
+  good: "bg-sage-100 text-olive-600",
+  bad: "bg-sand-200 text-coral-600",
+  neutral: "bg-lavender-100 text-lavender-500",
 };
 
 const LINE = "leading-[1.7] my-[8px] text-[14px]";
@@ -40,7 +40,7 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
           {number}. {q.prompt}
         </span>
       </summary>
-      <div className="pb-[20px] pl-[40px] text-[#819271] max-md:pl-0">
+      <div className="pb-[20px] pl-[40px] text-sage-600 max-md:pl-0">
         <p className={LINE}>
           Your answer: <strong lang="es">{answer || "Not answered"}</strong>
         </p>

@@ -33,12 +33,12 @@ export const ScoreCalculator = ({
   return (
     <div className="mb-[25px] rounded-[10px] border border-sage-200 p-[26px] text-left max-md:p-[20px]">
       <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Check the two passing groups</h3>
-      <p className="leading-[1.7] my-[12px] text-[14px] text-[#919e80]">
+      <p className="leading-[1.7] my-[12px] text-[14px] text-sage-500">
         Enter scores from a qualified reviewer, or explore hypothetical scores. These inputs do not
         assess your writing or pronunciation.
       </p>
       <div className="mt-[20px] flex gap-[18px] max-md:flex-col">
-        <label className="text-[15px] flex flex-1 flex-col gap-[9px] text-[#859770]">
+        <label className="text-[15px] flex flex-1 flex-col gap-[9px] text-olive-600">
           Writing score /25
           <input
             className={FIELD}
@@ -51,7 +51,7 @@ export const ScoreCalculator = ({
             placeholder="Not yet graded"
           />
         </label>
-        <label className="text-[15px] flex flex-1 flex-col gap-[9px] text-[#859770]">
+        <label className="text-[15px] flex flex-1 flex-col gap-[9px] text-olive-600">
           Speaking score /25
           <input
             className={FIELD}
@@ -67,7 +67,7 @@ export const ScoreCalculator = ({
       </div>
       {entered ? (
         <Notice positive={groups.pass}>
-          <p className="leading-[1.7] my-[12px] text-[#919e80]">
+          <p className="leading-[1.7] my-[12px] text-sage-500">
             Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
             <br />
             Listening + speaking: <strong>{groups.group2.toFixed(2)}/50</strong>

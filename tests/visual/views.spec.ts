@@ -73,13 +73,20 @@ test("vocabulary: overview, review, feedback and no results", async ({ page }) =
     p,
   );
 
+  // Each card autoplays its word and revealing autoplays the example. Waiting for the clip
+  // lets shot() stop it instead of racing it.
+  const playing = page.getByRole("button", { name: "Pause audio" });
+
   await page.goto("/#practice");
   await shot(page, "vocabulary-overview");
   await page.getByRole("button", { name: "Review flashcards" }).click();
+  await expect(playing).toBeVisible();
   await shot(page, "vocabulary-review");
   await page.getByRole("button", { name: "Reveal answer" }).click();
+  await expect(playing).toBeVisible();
   await shot(page, "vocabulary-flipped");
   await page.getByRole("button", { name: /Got it wrong/ }).click();
+  await expect(playing).toBeVisible();
   await shot(page, "vocabulary-feedback");
   await page.getByRole("button", { name: "Close vocabulary review" }).click();
   await page.getByRole("textbox", { name: "Search vocabulary" }).fill("no-such-word");

@@ -24,7 +24,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
     <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25] m-[18px_0_12px]">
       {mistakeQuestions.length ? "Mistakes are little signposts." : "A fresh page. A fresh start."}
     </h2>
-    <p className="leading-[1.7] max-w-[570px] text-[14px] text-[#929d83]">
+    <p className="leading-[1.7] max-w-[570px] text-[14px] text-sage-500">
       {mistakeQuestions.length
         ? `${mistakeQuestions.length} questions are ready for another look. A correct answer without transcript assistance clears a question from this queue.`
         : "No mistakes waiting here yet. As you practise, tricky questions will collect here with their explanations."}
@@ -43,10 +43,10 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
           <SkillDot skill={q.skill} />
           {q.prompt}
         </summary>
-        <p className="leading-[1.7] my-[12px] text-[14px] text-[#768668]">
+        <p className="leading-[1.7] my-[12px] text-[14px] text-sage-700">
           Correct answer: <strong>{q.answer}</strong>
         </p>
-        <p className="leading-[1.7] my-[12px] text-[14px] text-[#768668]">{q.explanation}</p>
+        <p className="leading-[1.7] my-[12px] text-[14px] text-sage-700">{q.explanation}</p>
         <MemoryHint text={q.memoryHint} variant="mistake" />
         <TextLink
           onClick={() =>

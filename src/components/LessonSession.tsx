@@ -91,7 +91,7 @@ export const LessonSession = ({
             {lesson.title}
           </h3>
         </div>
-        <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
+        <span className="text-[14px] text-[#9aa88c] max-md:text-[12px]">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>

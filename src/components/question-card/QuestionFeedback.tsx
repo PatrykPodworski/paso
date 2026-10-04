@@ -57,7 +57,7 @@ type PracticeReviewProps = { q: Question; value: string; checked: number };
 
 const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
   <>
-    <div className="model-answer rounded-[8px] border border-[#e4e9d7] bg-[#fffdf6] p-[18px_20px] mt-[18px] max-md:p-[15px]">
+    <div className="rounded-[8px] border border-[#e4e9d7] bg-[#fffdf6] p-[18px_20px] mt-[18px] max-md:p-[15px]">
       <Eyebrow>One possible answer</Eyebrow>
       <p
         lang="es"

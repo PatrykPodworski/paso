@@ -18,7 +18,7 @@ type Props = {
   onReset: () => void;
 };
 
-const LABEL = "flex flex-col gap-[9px] mb-[20px] text-[#839471] text-[14px]";
+const LABEL = "flex flex-col gap-[9px] mb-[20px] text-sage-600 text-[14px]";
 
 export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [name, setName] = useState(progress.name);
@@ -75,7 +75,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         </select>
       </label>
       <label className={LABEL}>
-        Exam date <span className="text-[13px] text-[#75816b]">(optional)</span>
+        Exam date <span className="text-[13px] text-sage-700">(optional)</span>
         <input
           className={FIELD}
           type="date"
@@ -110,7 +110,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <Icon name="check" size={17} />
         </Button>
       </ButtonRow>
-      <details className="mt-[25px] pt-[17px] border-t border-t-sage-200 text-[13px] text-[#a4ad94]">
+      <details className="mt-[25px] pt-[17px] border-t border-t-sage-200 text-[13px] text-sage-400">
         <summary className="cursor-pointer">Start over</summary>
         {reset ? (
           <div>
@@ -129,7 +129,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           </div>
         ) : (
           <TextLink
-            className="mt-[12px] text-[13px]! text-[#b19475]!"
+            className="mt-[12px] text-[13px]! text-sand-500!"
             onClick={() => setReset(true)}
           >
             Reset my progress

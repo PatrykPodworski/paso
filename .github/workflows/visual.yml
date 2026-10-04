@@ -37,7 +37,30 @@ jobs:
       - name: Compare with the base
         id: compare
         continue-on-error: true
-        run: pnpm exec playwright test tests/visual --update-snapshots=none
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: visual-results.json
+          PLAYWRIGHT_HTML_OPEN: never
+        run: pnpm exec playwright test tests/visual --update-snapshots=none --reporter=list,html,json
+      - name: Summarize the diff
+        if: steps.compare.outcome == 'failure'
+        run: |
+          node - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          const { suites } = require("./visual-results.json");
+          const strip = (text) => text.replace(/\x1b\[[0-9;]*m/g, "");
+          console.log("### Changed screenshots\n");
+          const walk = (suite) => {
+            for (const spec of suite.specs ?? [])
+              for (const test of spec.tests.filter(({ status }) => status === "unexpected")) {
+                const message = strip(test.results.at(-1).errors[0]?.message ?? "");
+                const snapshot = message.match(/Snapshot: (\S+)/)?.[1];
+                const pixels = message.match(/(\d+) pixels \(ratio [\d.]+ of all image pixels\)/)?.[0];
+                const detail = pixels ?? message.split("\n")[0];
+                console.log(`- ${test.projectName} › ${spec.title}${snapshot ? ` › ${snapshot}` : ""}: ${detail}`);
+              }
+            (suite.suites ?? []).forEach(walk);
+          };
+          suites.forEach(walk);
+          EOF
       - uses: actions/upload-artifact@v4
         if: steps.compare.outcome == 'failure'
         with:
@@ -48,7 +71,7 @@ jobs:
           steps.compare.outcome == 'failure' && (github.event.action == 'synchronize' ||
           !contains(github.event.pull_request.labels.*.name, 'visual-approved'))
         run: |
-          echo "::error::Screenshots differ from the base. Open index.html from the visual-diff artifact, then add the visual-approved label to accept the diff."
+          echo "::error::Screenshots differ from the base; the job summary lists them. Open index.html from the visual-diff artifact, then add the visual-approved label to accept the diff."
           exit 1
 
   # A new commit needs a new approval. The container above has no gh.

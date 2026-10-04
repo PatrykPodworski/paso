@@ -18,10 +18,10 @@ export const Notice = ({
   ...rest
 }: Props) => (
   <Tag
-    className={`my-[18px] flex items-start gap-[12px] rounded-[9px] border px-[20px] py-[17px] text-[14px] leading-[1.7] max-md:gap-[9px] max-md:p-[16px] ${positive ? "border-sage-200 bg-sage-100" : "border-sand-200 bg-sand-100"} ${className}`}
+    className={`my-4 flex items-start gap-3 rounded-lg border px-5 py-4 text-sm leading-relaxed max-md:gap-2 max-md:p-4 ${positive ? "border-sage-200 bg-sage-100" : "border-sand-200 bg-sand-100"} ${className}`}
     {...rest}
   >
-    {icon && <Icon name={icon} className="mt-[2px] w-[18px]" />}
+    {icon && <Icon name={icon} className="mt-0.5 w-4" />}
     {children}
   </Tag>
 );

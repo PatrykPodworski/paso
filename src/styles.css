@@ -83,6 +83,9 @@
   --color-blue-900: #39484e;
   --color-blue-950: #29353a;
   --color-yellow-300: #f5d37a;
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: calc(1 / 0.6875);
+  --radius-arch: 6rem;
   --animate-wave: wave 0.65s ease-in-out infinite alternate;
   --animate-ring-pulse: ring-pulse 1.5s ease-in-out infinite;
 

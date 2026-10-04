@@ -6,5 +6,5 @@ type Props = {
 } & Omit<HTMLAttributes<HTMLDivElement>, "className">;
 
 export const ButtonRow = ({ className = "", ...rest }: Props) => (
-  <div className={`flex flex-wrap items-center gap-[12px] ${className}`} {...rest} />
+  <div className={`flex flex-wrap items-center gap-3 ${className}`} {...rest} />
 );

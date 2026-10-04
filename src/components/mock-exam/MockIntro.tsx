@@ -27,13 +27,13 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           Try 55 original tasks and questions. Reading and listening are scored automatically.
           Writing and speaking are saved for self-review or a teacher’s assessment.
         </p>
-        <div className="my-[20px] flex flex-wrap gap-[20px] text-[13px] text-[#8a947d] [&_svg]:w-[16px] max-xl:gap-[13px] max-xl:text-[12px] max-md:gap-[12px] max-md:text-[13px]">
+        <div className="my-[20px] flex flex-wrap gap-[20px] text-[13px] text-[#8a947d] max-xl:gap-[13px] max-xl:text-[12px] max-md:gap-[12px] max-md:text-[13px]">
           <span className="flex items-center gap-[7px]">
-            <Icon name="clock" />
+            <Icon name="clock" className="w-[16px]" />
             105 min + 10 min oral prep
           </span>
           <span className="flex items-center gap-[7px]">
-            <Icon name="book" />4 skills · 100 possible points
+            <Icon name="book" className="w-[16px]" />4 skills · 100 possible points
           </span>
         </div>
         <Button variant="primary" onClick={onStart}>

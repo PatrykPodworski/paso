@@ -20,7 +20,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
   const q = section.questions[run.index];
 
   return (
-    <Panel className="px-[30px] pt-[22px] pb-[20px] [&_.question-card]:px-0 [&_.question-card]:pt-[26px] [&_.question-card]:pb-0 max-md:p-[18px] max-md:[&_.question-card]:pt-[20px] max-md:[&_.question-heading_h2]:text-[25px]">
+    <Panel className="px-[30px] pt-[22px] pb-[20px] max-md:p-[18px]">
       <div className="flex justify-between gap-[10px] border-b border-sage-200 pb-[15px] text-[13px] text-[#9aa88b] max-md:text-[12px]">
         <span>{q.task}</span>
         <strong>

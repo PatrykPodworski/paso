@@ -17,7 +17,7 @@ type Props = {
 
 // Each pair is what the old `.x` / `.path-stop .x` media cascades resolved to per breakpoint.
 const SUMMARY =
-  "flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f8f9f2] gap-[15px] max-xl:gap-[12px] max-lg:gap-[15px] p-[22px_20px] max-xl:p-[16px] max-lg:p-[20px]";
+  "flex items-center w-full text-left border-0 bg-transparent hover:bg-[#f8f9f2] gap-[15px] max-xl:gap-[12px] max-lg:gap-[15px] p-[22px_20px] max-xl:p-[16px] max-lg:p-[20px]";
 
 const ICON =
   "flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-xl:w-[40px] max-xl:h-[43px]";
@@ -41,7 +41,7 @@ const LESSON_LIST =
   "relative before:content-[''] before:absolute before:top-[20px] before:bottom-[23px] before:border-l before:border-dashed before:border-[#d9e1cc] before:left-[17px] max-xl:before:left-[13px]";
 
 const ROW =
-  "relative flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f4f7ed] gap-[12px] max-xl:gap-[9px] p-[13px_0] max-xl:p-[8px_0] max-lg:p-[10px_0] max-md:p-[12px_0]";
+  "relative flex items-center w-full text-left border-0 bg-transparent hover:bg-[#f4f7ed] gap-[12px] max-xl:gap-[9px] p-[13px_0] max-xl:p-[8px_0] max-lg:p-[10px_0] max-md:p-[12px_0]";
 
 const NODE =
   "relative z-[1] flex items-center justify-center shrink-0 rounded-full border w-[35px] h-[35px] max-xl:w-[28px] max-xl:h-[28px]";

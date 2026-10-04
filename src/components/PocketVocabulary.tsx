@@ -1,3 +1,4 @@
+import { CompletionStats } from "./CompletionStats";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
@@ -22,10 +23,6 @@ type Props = {
   onAddWords: (entries: Progress["vocabularyReviews"]) => void;
   onLearn: () => void;
 };
-
-// Shared with LessonSession's completion screen.
-export const COMPLETION_STATS =
-  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-sage-200 [&>div]:flex [&>div]:flex-col-reverse [&_dd]:font-serif [&_dd]:text-[32px] max-md:[&_dd]:text-[29px] [&_dd]:text-[#82986a] [&_dd]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_dt]:text-[12px] max-md:[&_dt]:text-[11px] max-sm:[&_dt]:text-[10px] [&_dt]:mt-[6px] [&_dt]:text-[#a0ad8b]";
 
 const reviewDate = (at: string) =>
   new Date(at).toLocaleString(undefined, {
@@ -130,27 +127,22 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </div>
       )}
       {finished ? (
-        <div className="p-[50px_30px] text-center max-md:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
+        <div className="p-[50px_30px] text-center max-md:p-[35px_20px]">
           <Icon name="check" size={44} />
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Your review is complete.
           </h2>
-          <p className="leading-[1.7]">Every card has its next review scheduled.</p>
-          <dl className={COMPLETION_STATS}>
-            <div>
-              <dt>reviewed</dt>
-              <dd>{results.length}</dd>
-            </div>
-            <div>
-              <dt>remembered</dt>
-              <dd>{results.filter((r) => r.correct).length}</dd>
-            </div>
-            <div>
-              <dt>to revisit</dt>
-              <dd>{results.filter((r) => !r.correct).length}</dd>
-            </div>
-          </dl>
-          <p className="leading-[1.7]">
+          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
+            Every card has its next review scheduled.
+          </p>
+          <CompletionStats
+            stats={[
+              ["reviewed", results.length],
+              ["remembered", results.filter((r) => r.correct).length],
+              ["to revisit", results.filter((r) => !r.correct).length],
+            ]}
+          />
+          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
             Next review: <time dateTime={nextSessionReview}>{reviewDate(nextSessionReview)}</time>.
           </p>
           <Button ref={action} variant="primary" className="mt-[25px]" onClick={onClose}>
@@ -159,7 +151,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </div>
       ) : (
         <div className="p-[28px_36px] max-sm:p-[20px_16px]">
-          <div className="text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage-100! [&_button]:text-green-900">
+          <div className="text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px]">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
             <p className="leading-[1.7] text-[#59675d] text-[14px] mt-[24px]">
               Can you remember the meaning?
@@ -170,7 +162,15 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             >
               {word.es}
             </h2>
-            <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
+            <AudioButton
+              key={word.id}
+              text={word.es}
+              label={`Play ${word.es}`}
+              minimal
+              round="word"
+              className="justify-center"
+              autoPlay
+            />
           </div>
           {revealed && (
             <div className="mt-[20px] p-[20px] rounded-[12px] bg-sage-100">
@@ -202,8 +202,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </div>
           )}
           {!revealed ? (
-            <div className="flex flex-col gap-[16px] mt-[24px] [&>p]:text-[14px] [&>p]:text-[#59675d] [&>p]:leading-[1.6]">
-              <p className="leading-[1.7]">Say the meaning to yourself, then reveal the answer.</p>
+            <div className="flex flex-col gap-[16px] mt-[24px]">
+              <p className="text-[14px] text-[#59675d] leading-[1.6]">
+                Say the meaning to yourself, then reveal the answer.
+              </p>
               <Button
                 ref={action}
                 variant="primary"
@@ -216,9 +218,11 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
               </Button>
             </div>
           ) : (
-            <div className="flex flex-col gap-[16px] mt-[24px] [&>p]:text-[14px] [&>p]:text-[#59675d] [&>p]:leading-[1.6]">
-              <p className="leading-[1.7]">Did you get it right? Choose when this card returns.</p>
-              <div className="grid grid-cols-[1fr_1fr] gap-[12px] [&_small]:block [&_small]:mt-[5px] [&_small]:text-[12px] [&_small]:font-normal">
+            <div className="flex flex-col gap-[16px] mt-[24px]">
+              <p className="text-[14px] text-[#59675d] leading-[1.6]">
+                Did you get it right? Choose when this card returns.
+              </p>
+              <div className="grid grid-cols-[1fr_1fr] gap-[12px]">
                 <Button
                   ref={action}
                   variant="secondary"
@@ -228,7 +232,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                 >
                   <Icon name="repeat" />
                   <span>
-                    Got it wrong<small>Review in 10 min</small>
+                    Got it wrong
+                    <small className="block mt-[5px] text-[12px] font-normal">
+                      Review in 10 min
+                    </small>
                   </span>
                 </Button>
                 <Button
@@ -239,7 +246,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                 >
                   <Icon name="check" />
                   <span>
-                    Got it right<small>Review {reviewWait(nextRight.nextAt, now)}</small>
+                    Got it right
+                    <small className="block mt-[5px] text-[12px] font-normal">
+                      Review {reviewWait(nextRight.nextAt, now)}
+                    </small>
                   </span>
                 </Button>
               </div>
@@ -335,7 +345,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
             </div>
           ))}
         </dl>
-        <div className="flex items-center justify-between gap-[24px] p-[24px] max-sm:items-stretch max-sm:flex-col max-sm:p-[20px] max-sm:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
+        <div className="flex items-center justify-between gap-[24px] p-[24px] max-sm:items-stretch max-sm:flex-col max-sm:p-[20px] max-sm:gap-[18px]">
           <div>
             <h3 className="font-semibold tracking-[-0.3px] text-[17px]">
               {!words.length
@@ -344,7 +354,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   ? "Ready for a little recall?"
                   : "You’re all caught up."}
             </h3>
-            <p className="leading-[1.7]">
+            <p className="text-[13px] leading-[1.6] text-[#59675d] mt-[6px]">
               {!words.length
                 ? "Add words from a topic below or complete a vocabulary lesson."
                 : due.length
@@ -352,7 +362,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   : "Your cards will return when it’s time to practise again."}
             </p>
             {nextAt && (
-              <p className="leading-[1.7]">
+              <p className="text-[13px] leading-[1.6] text-[#59675d] mt-[6px]">
                 Next scheduled review: <time dateTime={nextAt}>{reviewDate(nextAt)}</time>
               </p>
             )}
@@ -386,7 +396,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <li
                 key={topic}
                 tabIndex={-1}
-                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-sage-200 px-4 py-3 [&+&]:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
+                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-sage-200 px-4 py-3 not-first:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
               >
                 <span className="flex items-center gap-2 font-semibold">
                   <span id={`topic-${index}`}>{topic}</span>
@@ -458,7 +468,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 return (
                   <li
                     key={w.id}
-                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-sage-200 [&+&]:border-t max-sm:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-sm:p-[16px] max-sm:gap-[8px_12px]"
+                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-sage-200 not-first:border-t max-sm:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-sm:p-[16px] max-sm:gap-[8px_12px]"
                   >
                     <span className="flex flex-col gap-[5px]">
                       <strong lang="es" className="font-serif text-[18px] wrap-anywhere">

@@ -31,9 +31,7 @@ export const MockResults = ({
   onReset,
 }: Props) => (
   <Panel className="p-[38px] text-center max-md:px-[20px] max-md:py-[28px]">
-    <CompletionArt>
-      <Icon name="trophy" size={48} />
-    </CompletionArt>
+    <CompletionArt icon="trophy" />
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
     <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] my-[12px] text-[36px] max-md:text-[31px]">
       You’ve met the exam.

@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props) => (
-  <Panel className="p-[30px] [&_details_p]:text-[14px] [&_details_p]:m-[12px_0] [&_details_p]:text-[#768668]">
+  <Panel className="p-[30px]">
     <span
       className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 ${TONE.peach}`}
     >
@@ -43,11 +43,11 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
           <SkillDot skill={q.skill} />
           {q.prompt}
         </summary>
-        <p className="leading-[1.7]">
+        <p className="leading-[1.7] my-[12px] text-[14px] text-[#768668]">
           Correct answer: <strong>{q.answer}</strong>
         </p>
-        <p className="leading-[1.7]">{q.explanation}</p>
-        <MemoryHint text={q.memoryHint} />
+        <p className="leading-[1.7] my-[12px] text-[14px] text-[#768668]">{q.explanation}</p>
+        <MemoryHint text={q.memoryHint} variant="mistake" />
         <TextLink
           onClick={() =>
             setSession({

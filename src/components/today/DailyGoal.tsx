@@ -34,7 +34,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
         aria-valuemax={progress.goal}
         aria-valuenow={reached}
         aria-valuetext={`${today} of ${progress.goal} exercises today`}
-        className="flex items-center justify-center rounded-[50%] p-[8px] -rotate-90 bg-[conic-gradient(#8fa374_var(--goal),#edf0e5_0)] m-[24px_auto] w-[158px] h-[158px] max-xl:m-[15px_auto_18px] max-xl:w-[139px] max-xl:h-[139px] max-md:w-[130px] max-md:h-[130px] max-sm:w-[145px] max-sm:h-[145px]"
+        className="flex items-center justify-center rounded-[50%] p-[8px] -rotate-90 bg-[conic-gradient(var(--color-olive-500)_var(--goal),var(--color-sage-100)_0)] m-[24px_auto] w-[158px] h-[158px] max-xl:m-[15px_auto_18px] max-xl:w-[139px] max-xl:h-[139px] max-md:w-[130px] max-md:h-[130px] max-sm:w-[145px] max-sm:h-[145px]"
         style={
           {
             "--goal": `${(reached / progress.goal) * 100}%`,
@@ -45,18 +45,18 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           <Icon
             name={today >= progress.goal ? "check" : "spark"}
             size={21}
-            className="mb-[6px] text-[#b4b393]"
+            className="mb-[6px] text-sage-400"
           />
-          <strong className="font-serif text-[34px] leading-none text-[#405a3d] font-medium">
+          <strong className="font-serif text-[34px] leading-none text-sage-900 font-medium">
             {today}
-            <span className="font-sans text-[15px] tracking-[1px] text-[#a6ad96] pl-[3px]">
+            <span className="font-sans text-[15px] tracking-[1px] text-sage-400 pl-[3px]">
               /{progress.goal}
             </span>
           </strong>
-          <small className="text-[11px] text-[#9da68c] mt-[7px]">exercises today</small>
+          <small className="text-[11px] text-sage-400 mt-[7px]">exercises today</small>
         </div>
       </div>
-      <p className="leading-[1.7] text-[11px] text-[#75816b] max-xl:text-[12px] max-lg:text-[13px] max-md:text-[11px]">
+      <p className="leading-[1.7] text-[11px] text-sage-700 max-xl:text-[12px] max-lg:text-[13px] max-md:text-[11px]">
         {today >= progress.goal
           ? "Daily goal reached. ¡Muy bien!"
           : today
@@ -77,20 +77,20 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           return (
             <li key={i} className="flex flex-col items-center gap-[8px]">
               <span
-                className={`text-[10px] max-xl:text-[11px] max-sm:text-[12px] ${isToday ? "text-[#788f5c] font-bold" : "text-[#81906e]"}`}
+                className={`text-[10px] max-xl:text-[11px] max-sm:text-[12px] ${isToday ? "text-olive-600 font-bold" : "text-sage-600"}`}
               >
                 {["M", "T", "W", "T", "F", "S", "S"][i]}
               </span>
               <i
                 role="img"
                 aria-label={`${d.toLocaleDateString()}: ${n} exercises`}
-                className={`${DOT} ${n ? "bg-[#8fa674] border-[#8fa674] text-white" : isToday ? "bg-[#f1f4e8] border-[#b3c49a]" : "border-[#e8ecdf]"}`}
+                className={`${DOT} ${n ? "bg-olive-500 border-olive-500 text-white" : isToday ? "bg-sage-100 border-olive-400" : "border-sage-100"}`}
                 title={`${d.toLocaleDateString()}: ${n} exercises`}
               >
                 {n ? (
                   <Icon name="check" size={12} />
                 ) : isToday ? (
-                  <b className="w-[4px] h-[4px] rounded-[50%] bg-[#94a777]" />
+                  <b className="w-[4px] h-[4px] rounded-[50%] bg-olive-500" />
                 ) : null}
               </i>
             </li>

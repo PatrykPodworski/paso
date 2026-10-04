@@ -23,7 +23,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
     className="p-[23px_20px] max-xl:p-[18px_15px] max-md:p-[21px_15px] max-sm:p-[23px]"
   >
     <PanelHeading title="A little of every skill" icon="layers" />
-    <p className="leading-[1.7] mt-[7px] mb-[21px] text-[#75816b] text-[12px] max-lg:text-[13px] max-md:text-[11px]">
+    <p className="leading-[1.7] mt-[7px] mb-[21px] text-sage-700 text-[12px] max-lg:text-[13px] max-md:text-[11px]">
       Four ways to grow your Spanish.
     </p>
     {skills.map((s) => {
@@ -36,20 +36,20 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
             <Icon name={s.icon} size={17} />
           </span>
           <span className="flex-1">
-            <strong className="flex justify-between font-medium text-[#667958] text-[12px] max-xl:text-[11px] max-lg:text-[14px] max-md:text-[12px]">
+            <strong className="flex justify-between font-medium text-sage-700 text-[12px] max-xl:text-[11px] max-lg:text-[14px] max-md:text-[12px]">
               {s.name}
-              <small className="font-normal text-[#81906e] text-[10px] max-lg:text-[11px] max-md:text-[9px]">
+              <small className="font-normal text-sage-600 text-[10px] max-lg:text-[11px] max-md:text-[9px]">
                 {stats.practised} practised
               </small>
             </strong>
             <ProgressTrack value={stats.practised} max={total} className="mt-[7px]" />
           </span>
-          <Icon name="chevron" size={13} className="text-[#a2ad91] max-xl:hidden" />
+          <Icon name="chevron" size={13} className="text-sage-400 max-xl:hidden" />
         </button>
       );
     })}
     <TextLink
-      className="w-full justify-between border-t border-t-[#eef0e6] pt-[14px] text-[12px]! font-normal! text-[#8b9879]! max-lg:text-[13px]! xl:text-[12px]!"
+      className="w-full justify-between border-t border-t-sage-100 pt-[14px] text-[12px]! font-normal! text-sage-600! max-lg:text-[13px]! xl:text-[12px]!"
       onClick={() => navigate("guide")}
     >
       How the exam works

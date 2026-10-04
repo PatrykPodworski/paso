@@ -304,19 +304,13 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
 
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
-      <SectionHeading variant="word">
-        <div>
-          <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
-          <h2
-            id="vocabulary-title"
-            className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25] mt-[8px]"
-          >
-            Your pocket vocabulary
-          </h2>
-          <p className="leading-[1.7]">
-            Words from your completed vocabulary lessons, ready to remember.
-          </p>
-        </div>
+      <SectionHeading
+        variant="word"
+        eyebrow={<Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>}
+        title="Your pocket vocabulary"
+        titleId="vocabulary-title"
+        text="Words from your completed vocabulary lessons, ready to remember."
+      >
         <span
           className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage-100 text-green-900 max-sm:hidden"
           aria-hidden="true"
@@ -433,14 +427,13 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
         </ul>
       </section>
       {words.length > 0 && (
-        <div className="mt-[26px] [&_h3]:text-[17px]">
-          <SectionHeading variant="collection">
-            <div>
-              <h3 className="text-[17px] font-semibold tracking-[-0.3px]" id="flashcards-title">
-                Your flashcards
-              </h3>
-              <p className="leading-[1.7]">Every unlocked word, with its next review.</p>
-            </div>
+        <div className="mt-[26px]">
+          <SectionHeading
+            variant="collection"
+            title="Your flashcards"
+            titleId="flashcards-title"
+            text="Every unlocked word, with its next review."
+          >
             <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-sage-200 rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
               <Icon name="search" size={17} />
               <input

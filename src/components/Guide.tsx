@@ -58,11 +58,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </span>
         </div>
       </Panel>
-      <SectionHeading>
-        <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-          Four skills. Two passing groups.
-        </h2>
-      </SectionHeading>
+      <SectionHeading title="Four skills. Two passing groups." />
       <Panel className="pt-[8px] px-[25px] pb-[17px] max-md:px-[12px] overflow-x-auto">
         <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-sm:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-md:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-md:[&_td]:text-[13px] max-sm:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:inline [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
           <thead>
@@ -167,13 +163,10 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </FieldNote>
         </Panel>
       </div>
-      <SectionHeading>
-        <div>
-          <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-            Your A1 readiness checklist
-          </h2>
-          <p className="leading-[1.7]">Self-assess these abilities as you work through the path.</p>
-        </div>
+      <SectionHeading
+        title="Your A1 readiness checklist"
+        text="Self-assess these abilities as you work through the path."
+      >
         <Badge>
           {
             requirementGroups.flatMap((g) => g.items).filter(([id]) => progress.checks.includes(id))
@@ -182,8 +175,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           /{requirementGroups.flatMap((g) => g.items).length} checked
         </Badge>
       </SectionHeading>
-      <Notice>
-        <Icon name="info" />
+      <Notice icon="info">
         <p className="leading-[1.7]">
           There is no official fixed word list or separate grammar test to memorize for a guaranteed
           pass. This is a practical coverage map of the official A1 inventories. The{" "}
@@ -232,11 +224,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </Panel>
         ))}
       </div>
-      <SectionHeading>
-        <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-          Before you walk through the door
-        </h2>
-      </SectionHeading>
+      <SectionHeading title="Before you walk through the door" />
       <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px] max-lg:[&>div]:relative max-lg:[&>div]:pl-[43px] [&>div>span]:font-serif [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-lg:[&>div>span]:absolute max-lg:[&>div>span]:left-0 max-lg:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
         <div>
           <span>01</span>
@@ -272,10 +260,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </p>
         </div>
       </Panel>
-      <SectionHeading>
-        <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-          Go straight to the source
-        </h2>
+      <SectionHeading title="Go straight to the source">
         <span className="text-[14px] text-[#75816b]">Instituto Cervantes · Primary sources</span>
       </SectionHeading>
       <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[12px]">

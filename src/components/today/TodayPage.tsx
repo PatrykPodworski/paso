@@ -80,15 +80,15 @@ export const TodayPage = ({
             POCO A POCO, PASO A PASO.
           </span>
         </section>
-        <SectionHeading variant="path">
-          <div>
+        <SectionHeading
+          variant="path"
+          eyebrow={
             <Eyebrow variant="heading" className="mb-[6px]">
               A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
             </Eyebrow>
-            <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-              Your learning path
-            </h2>
-          </div>
+          }
+          title="Your learning path"
+        >
           <TextLink className="text-[13px]! max-sm:text-[11px]!" onClick={() => navigate("path")}>
             View full path
             <Icon name="arrow" size={16} />
@@ -122,10 +122,7 @@ export const TodayPage = ({
           Home, cafés, adventures & 6 more chapters
           <Icon name="arrow" size={16} />
         </button>
-        <SectionHeading>
-          <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-            A little change of pace
-          </h2>
+        <SectionHeading title="A little change of pace">
           <span className="text-[14px] text-[#75816b]">Make it yours</span>
         </SectionHeading>
         <QuickPractice mistakeCount={mistakeCount} practice={practice} />

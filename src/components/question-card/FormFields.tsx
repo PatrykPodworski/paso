@@ -11,11 +11,11 @@ type Props = {
 };
 
 export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: Props) => (
-  <div className="grid grid-cols-[1fr_1fr] gap-[17px] max-md:gap-[14px] max-sm:grid-cols-[1fr]">
+  <div className="grid grid-cols-2 gap-4 max-md:gap-3.5 max-sm:grid-cols-1">
     {q.fields?.map((f) => (
       <label
         key={f.label}
-        className="flex flex-col gap-[8px] text-[14px] text-olive-600 max-md:text-[13px] max-sm:text-[14px]"
+        className="flex flex-col gap-2 text-sm text-olive-600 max-md:text-xs max-sm:text-sm"
       >
         {f.label}
         <input
@@ -28,7 +28,7 @@ export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: P
         />
       </label>
     ))}
-    <FieldNote className="col-[1/-1]">
+    <FieldNote className="col-span-full">
       {words} words · target {q.minWords}–{q.maxWords}. Use fictional personal details.
     </FieldNote>
   </div>

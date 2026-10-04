@@ -17,8 +17,8 @@ import { WritingArea } from "./WritingArea";
 
 const cardPadding = (exam: boolean) =>
   exam
-    ? "p-[26px_0_0] max-md:p-[20px_0_0]"
-    : "p-[29px_36px_30px] max-md:p-[25px_22px] max-sm:p-[22px_18px]";
+    ? "pt-6 px-0 pb-0 max-md:pt-5 max-md:px-0 max-md:pb-0"
+    : "py-7 px-9 max-md:py-6 max-md:px-5 max-sm:py-5 max-sm:px-4";
 
 type Props = {
   q: Question;

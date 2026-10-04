@@ -12,13 +12,13 @@ type Props = {
 };
 
 export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Props) => (
-  <div className="mt-[20px]">
-    <label htmlFor="written-answer" className="block text-[14px] text-sage-500 mb-[10px]">
+  <div className="mt-5">
+    <label htmlFor="written-answer" className="block text-sm text-sage-500 mb-2.5">
       Your answer in Spanish
     </label>
     {q.kind === "write" ? (
       <textarea
-        className={`${FIELD} leading-[1.7]`}
+        className={`${FIELD} leading-relaxed`}
         id="written-answer"
         lang="es"
         value={answer}
@@ -44,13 +44,13 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         autoComplete="off"
       />
     )}
-    <div className="flex items-center justify-between gap-[12px] mt-[11px] max-md:flex-wrap">
-      <div className="flex flex-wrap gap-[5px]">
+    <div className="flex items-center justify-between gap-3 mt-2.5 max-md:flex-wrap">
+      <div className="flex flex-wrap gap-1">
         {["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"].map((c) => (
           <button
             type="button"
             key={c}
-            className={`${PRESSABLE} h-[27px] w-[25px] rounded-[4px] border border-sage-200 bg-sage-50 p-0 text-[14px] text-olive-500`}
+            className={`${PRESSABLE} h-7 w-6 rounded-sm border border-sage-200 bg-sage-50 p-0 text-sm text-olive-500`}
             onClick={() => {
               const el = document.getElementById("written-answer") as
                 | HTMLInputElement
@@ -75,7 +75,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
       </div>
       {q.minWords && (
         <span
-          className={`word-count whitespace-nowrap text-[13px] ${
+          className={`word-count whitespace-nowrap text-xs ${
             words < q.minWords || words > (q.maxWords || Infinity)
               ? "outside text-sand-500"
               : "text-olive-600"

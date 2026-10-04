@@ -42,7 +42,7 @@ export const MockExam = ({ progress, onResult }: Props) => {
     <div className="mock-page">
       <PageHeading
         eyebrow={
-          <Eyebrow variant="page" className="mb-[9px]">
+          <Eyebrow variant="page" className="mb-2">
             A CALM DRESS REHEARSAL
           </Eyebrow>
         }

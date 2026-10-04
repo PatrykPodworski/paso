@@ -5,7 +5,7 @@ export const OPTION_KEY =
   "flex shrink-0 items-center justify-center rounded-[5px] border border-[#e1e7d7] bg-[#fcfdf8] text-[#a3b28e]";
 
 const OPTION =
-  "answer-option flex items-center rounded-[9px] border text-left leading-[1.65] [&:hover:not(:disabled)]:border-[#b7c7a1] [&:hover:not(:disabled)]:bg-[#f3f6eb]";
+  "answer-option flex items-center rounded-[9px] border text-left leading-[1.65] enabled:hover:border-[#b7c7a1] enabled:hover:bg-[#f3f6eb]";
 
 const SIZE = {
   few: "gap-[14px] p-[14px_17px] min-h-[59px] text-[15px] max-md:gap-[12px] max-md:p-[13px] max-md:min-h-[55px] max-md:text-[14px]",

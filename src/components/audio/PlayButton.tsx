@@ -5,12 +5,11 @@ import { PRESSABLE } from "../../design-system/pressable";
 
 // Round icon-only buttons, one per context that restyles the player.
 const ROUND = {
-  phrase: "h-[30px] w-[30px] border border-[#e7dcc2] bg-[#fcf7e9] text-[#b6986f]",
+  phrase: "h-[30px] w-[30px] border border-sand-200 bg-sand-50 text-sand-500",
   word: "h-[44px] w-[44px] border-0 bg-sage-100 text-green-900",
   pronunciation:
-    "col-start-2 row-start-1 mt-[15px] h-[44px] w-[44px] self-start border border-[#e5dfec] bg-[#f3eff7] text-[#7c698e] hover:bg-[#eae3f1]",
-  passage:
-    "h-[38px] w-[38px] border border-[#e2ddc9] bg-[#fffdf3] text-[#8a8f6d] hover:bg-[#f2eedd]",
+    "col-start-2 row-start-1 mt-[15px] h-[44px] w-[44px] self-start border border-lavender-200 bg-lavender-50 text-lavender-700 hover:bg-lavender-200",
+  passage: "h-[38px] w-[38px] border border-sand-200 bg-sand-50 text-sage-600 hover:bg-sand-100",
 };
 
 export type Round = keyof typeof ROUND;
@@ -35,7 +34,7 @@ const buttonClass = (round: Round | undefined, iconOnly: boolean) => {
     return undefined;
   }
 
-  return `${PRESSABLE} audio-play flex items-center gap-[16px] min-h-[54px] p-[13px_20px] bg-[#eae6ef] text-[#9483a5] border border-[#ded7e6] rounded-[9px] max-md:gap-[10px] max-md:p-[13px_15px] max-sm:gap-[8px] max-sm:p-[12px]`;
+  return `${PRESSABLE} audio-play flex items-center gap-[16px] min-h-[54px] p-[13px_20px] bg-lavender-100 text-lavender-600 border border-lavender-200 rounded-[9px] max-md:gap-[10px] max-md:p-[13px_15px] max-sm:gap-[8px] max-sm:p-[12px]`;
 };
 
 export const PlayButton = ({

@@ -21,7 +21,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
 
   return (
     <Panel className="px-[30px] pt-[22px] pb-[20px] max-md:p-[18px]">
-      <div className="flex justify-between gap-[10px] border-b border-sage-200 pb-[15px] text-[13px] text-[#9aa88b] max-md:text-[12px]">
+      <div className="flex justify-between gap-[10px] border-b border-sage-200 pb-[15px] text-[13px] text-sage-400 max-md:text-[12px]">
         <span>{q.task}</span>
         <strong>
           {run.index + 1} / {section.questions.length}
@@ -80,7 +80,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
         </Button>
       </div>
       {confirm && (
-        <div className="mt-[20px] rounded-[10px] bg-[#f4ebd6] p-[23px]" role="alert">
+        <div className="mt-[20px] rounded-[10px] bg-sand-100 p-[23px]" role="alert">
           <h3 className="text-[17px] font-semibold tracking-[-0.3px]">
             Finish {section.title.toLowerCase()}?
           </h3>

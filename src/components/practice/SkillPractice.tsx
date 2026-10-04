@@ -60,7 +60,7 @@ const SETS = [
 
 export const SkillPractice = ({ progress, filter, setSession, practice }: Props) => (
   <>
-    <Panel className="bg-[#f1f0e4]! p-[30px_34px] max-lg:p-[27px] max-md:p-[24px] max-sm:p-[22px] flex justify-between gap-[20px] overflow-hidden">
+    <Panel className="bg-sage-100! p-[30px_34px] max-lg:p-[27px] max-md:p-[24px] max-sm:p-[22px] flex justify-between gap-[20px] overflow-hidden">
       <div className="max-w-[520px]">
         <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
         <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[33px] max-lg:text-[29px] max-sm:text-[27px] m-[12px_0]">
@@ -74,7 +74,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
                   ? "Make a little room for your words."
                   : "Find the meaning in the details."}
         </h2>
-        <p className="leading-[1.7] text-[14px] text-[#8f967c] max-w-[420px] mb-[21px]">
+        <p className="leading-[1.7] text-[14px] text-sage-600 max-w-[420px] mb-[21px]">
           Fresh questions come first. Revisit the ones you’ve seen as your confidence grows.
         </p>
         <Button variant="primary" onClick={() => practice(filter)}>
@@ -82,13 +82,13 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           <Icon name="arrow" />
         </Button>
       </div>
-      <div className="h-[164px] w-[164px] max-lg:h-[125px] max-lg:w-[125px] bg-[#e0e6d2] rounded-full text-[#869b69] flex max-md:hidden flex-col items-center justify-center m-[0_24px] max-lg:m-[15px_0] relative shrink-0">
+      <div className="h-[164px] w-[164px] max-lg:h-[125px] max-lg:w-[125px] bg-sage-200 rounded-full text-olive-600 flex max-md:hidden flex-col items-center justify-center m-[0_24px] max-lg:m-[15px_0] relative shrink-0">
         <Icon
           name={skills.find((s) => s.id === filter)?.icon || "spark"}
           size={64}
           className="max-lg:w-[45px] max-lg:h-[45px]"
         />
-        <i className="font-serif text-[22px] max-lg:text-[17px] bg-[#fff7e9] p-[4px_14px] rounded-[7px] transform-[rotate(-10deg)] mt-[16px] text-[#aa835b]">
+        <i className="font-serif text-[22px] max-lg:text-[17px] bg-sand-50 p-[4px_14px] rounded-[7px] transform-[rotate(-10deg)] mt-[16px] text-sand-600">
           ¡Tú puedes!
         </i>
       </div>
@@ -103,7 +103,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
             <Panel
               as="button"
               key={s.id}
-              className="text-left p-[23px] max-xl:p-[20px_15px] max-sm:p-[19px_14px] relative hover:transform-[translateY(-2px)] hover:border-[#c4d2b6]"
+              className="text-left p-[23px] max-xl:p-[20px_15px] max-sm:p-[19px_14px] relative hover:transform-[translateY(-2px)] hover:border-sage-300"
               onClick={() => practice(s.id)}
             >
               <span className={`${SKILL_ICON} w-[45px] h-[45px] mb-[17px] ${s.tint}`}>
@@ -113,10 +113,10 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
               <h3 className="font-semibold tracking-[-0.3px] text-[18px] max-md:text-[17px] max-sm:text-[18px] mt-[4px]">
                 {s.name}
               </h3>
-              <p className="leading-[1.7] text-[13px] max-sm:text-[12px] text-[#96a184] m-[10px_0]">
+              <p className="leading-[1.7] text-[13px] max-sm:text-[12px] text-sage-500 m-[10px_0]">
                 {stats.practised} questions practised
               </p>
-              <span className="text-[11px] max-xl:text-[10px] max-lg:text-[12px] max-md:text-[11px] max-sm:text-[10px] text-[#9ca88b]">
+              <span className="text-[11px] max-xl:text-[10px] max-lg:text-[12px] max-md:text-[11px] max-sm:text-[10px] text-sage-400">
                 {stats.accuracy === null
                   ? "A lovely place to start"
                   : `${stats.accuracy}% unassisted objective accuracy`}
@@ -124,7 +124,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
               <Icon
                 name="arrow"
                 size={19}
-                className="absolute right-[20px] top-[35px] text-[#a2ad91]"
+                className="absolute right-[20px] top-[35px] text-sage-400"
               />
             </Panel>
           );
@@ -147,11 +147,11 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
             <h3 className="text-[15px] max-xl:text-[14px] max-lg:text-[16px] max-sm:text-[15px] font-semibold tracking-[-0.3px]">
               {name}
             </h3>
-            <p className="leading-[1.7] text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-sm:text-[11px] text-[#939d86] mt-[5px]">
+            <p className="leading-[1.7] text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-sm:text-[11px] text-sage-500 mt-[5px]">
               {note}
             </p>
           </div>
-          <Icon name="arrow" className="ml-auto text-[#99a589] w-[17px] max-sm:w-[15px]" />
+          <Icon name="arrow" className="ml-auto text-sage-500 w-[17px] max-sm:w-[15px]" />
         </Panel>
       ))}
     </div>

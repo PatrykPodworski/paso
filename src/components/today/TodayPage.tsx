@@ -116,7 +116,7 @@ export const TodayPage = ({
           ))}
         </div>
         <button
-          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-[#8a977c] [&:hover]:text-green-900`}
+          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-[#8a977c] hover:text-green-900`}
           onClick={() => navigate("path")}
         >
           Home, cafés, adventures & 6 more chapters
@@ -142,11 +142,11 @@ export const TodayPage = ({
           </h3>
           <span className="block text-[12px] text-[#b49d7f] mt-[6px]">/ˈpo.ko a ˈpo.ko/</span>
           <p className="leading-[1.7] mt-[11px] text-[14px] text-[#8e7d61]">Little by little.</p>
-          <div className="flex items-center justify-between mt-[8px] max-lg:justify-start max-lg:gap-[20px] [&_button]:h-[30px] [&_button]:w-[30px] [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e7dcc2] [&_button]:bg-[#fcf7e9]! [&_button]:text-[#b6986f]">
+          <div className="flex items-center justify-between mt-[8px] max-lg:justify-start max-lg:gap-[20px]">
             <span className="text-[11px] max-md:text-[13px] text-[#75816b]">
               Progress has its own pace.
             </span>
-            <AudioButton compact text="Poco a poco." label="Listen to poco a poco" />
+            <AudioButton round="phrase" text="Poco a poco." label="Listen to poco a poco" />
           </div>
         </section>
         <div className="flex justify-center items-center gap-[9px] p-[5px] text-[#a5ad97] max-lg:hidden">

@@ -21,7 +21,7 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
 
   return (
     <PageHeading
-      className="[&_h1]:text-[33px] max-xl:[&_h1]:text-[28px] max-md:[&_h1]:text-[29px] max-sm:[&_h1]:text-[26px]"
+      variant="today"
       eyebrow={
         <Eyebrow variant="greeting" className="mb-[9px]">
           {new Date().getHours() < 12
@@ -36,10 +36,10 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
       description="Your next chapter starts with a small step."
     >
       <button
-        className={`${PRESSABLE} flex items-center gap-[8px] text-[13px] text-[#88927a] border border-[#e3e6da] rounded-[7px] p-[9px_11px] bg-[#fffefa] [&>svg:first-child]:text-[#ba9b65] max-xl:text-[12px] max-lg:hidden`}
+        className={`${PRESSABLE} flex items-center gap-[8px] text-[13px] text-[#88927a] border border-[#e3e6da] rounded-[7px] p-[9px_11px] bg-[#fffefa] max-xl:text-[12px] max-lg:hidden`}
         onClick={() => openSettings()}
       >
-        <Icon name="sun" size={17} />
+        <Icon name="sun" size={17} className="text-[#ba9b65]" />
         {daysToExam === null
           ? "At your own pace"
           : daysToExam > 0

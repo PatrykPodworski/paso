@@ -14,7 +14,7 @@ import { TextLink } from "../design-system/TextLink";
 import { CHECKBOX } from "../design-system/field";
 
 const TD =
-  "p-[18px_10px] max-md:p-[15px_10px] border-b border-b-[#edf0e6] max-md:text-[13px] max-sm:text-[12px]";
+  "p-[18px_10px] max-md:p-[15px_10px] border-b border-b-sage-100 max-md:text-[13px] max-sm:text-[12px]";
 
 const SKILLS = [
   ["book", "Reading", "45 min", "4 tasks · 25 questions (5 + 6 + 6 + 8)"],
@@ -91,7 +91,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           <Icon name="check" size={16} /> Researched 7 Sep 2026
         </Badge>
       </PageHeading>
-      <Panel className="p-[32px] max-xl:p-[27px] max-md:p-[25px] max-sm:p-[22px] flex max-lg:block justify-between items-center gap-[35px] max-xl:gap-[20px] bg-[#edf0e3]!">
+      <Panel className="p-[32px] max-xl:p-[27px] max-md:p-[25px] max-sm:p-[22px] flex max-lg:block justify-between items-center gap-[35px] max-xl:gap-[20px] bg-sage-100!">
         <div className="max-w-[680px]">
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[32px] max-xl:text-[28px] max-sm:text-[25px] m-[11px_0_14px]">
@@ -99,7 +99,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             <br />
             You need to connect.
           </h2>
-          <p className="leading-[1.7] text-[#829174] text-[14px]">
+          <p className="leading-[1.7] text-sage-600 text-[14px]">
             A1 is about understanding familiar expressions, giving basic personal information and
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
@@ -109,7 +109,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             <Icon name="external" size={15} />
           </TextLink>
         </div>
-        <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-[#bbcaab] bg-[#e5ecdb] rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-[#8ea078] leading-[1]">
+        <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-sage-300 bg-sage-100 rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-olive-500 leading-[1]">
           A1
           <span className="font-sans text-[9px] tracking-[1.4px] mt-[17px]">
             UN PEQUEÑO GRAN PASO
@@ -124,7 +124,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
               {["Skill", "Time", "What you do", "Points"].map((h) => (
                 <th
                   key={h}
-                  className="text-[#a0aa91] font-medium text-[13px] max-sm:text-[11px] p-[15px_10px] border-b border-b-[#e6ecdd]"
+                  className="text-sage-400 font-medium text-[13px] max-sm:text-[11px] p-[15px_10px] border-b border-b-sage-100"
                 >
                   {h}
                 </th>
@@ -134,13 +134,13 @@ export const Guide = ({ progress, onCheck }: Props) => {
           <tbody>
             {SKILLS.map(([icon, skill, time, tasks]) => (
               <tr key={skill}>
-                <td className={`${TD} text-[#526846] font-semibold`}>
+                <td className={`${TD} text-olive-800 font-semibold`}>
                   <Icon name={icon} className="inline align-middle w-[17px] mr-[10px]" />
                   {skill}
                 </td>
-                <td className={`${TD} text-[#78876a]`}>{time}</td>
-                <td className={`${TD} text-[#78876a]`}>{tasks}</td>
-                <td className={`${TD} text-[#78876a] font-semibold`}>25</td>
+                <td className={`${TD} text-sage-700`}>{time}</td>
+                <td className={`${TD} text-sage-700`}>{tasks}</td>
+                <td className={`${TD} text-sage-700 font-semibold`}>25</td>
               </tr>
             ))}
           </tbody>
@@ -162,10 +162,10 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </h3>
           {CRITERIA.map(([icon, title, text]) => (
             <div key={title} className="flex gap-[15px] mt-[23px]">
-              <Icon name={icon} className="mt-[3px] text-[#a2ae90]" />
+              <Icon name={icon} className="mt-[3px] text-sage-400" />
               <section>
                 <h4 className="font-semibold text-[15px]">{title}</h4>
-                <p className="leading-[1.7] text-[14px] text-[#768762] mt-[6px]">{text}</p>
+                <p className="leading-[1.7] text-[14px] text-sage-700 mt-[6px]">{text}</p>
               </section>
             </div>
           ))}
@@ -205,12 +205,12 @@ export const Guide = ({ progress, onCheck }: Props) => {
         {requirementGroups.map((g) => (
           <Panel as="section" className="p-[25px] max-xl:p-[23px]" key={g.title}>
             <h3 className="font-semibold tracking-[-0.3px] flex items-center gap-[10px] mb-[23px] text-[17px]">
-              <Icon name={g.icon} className="text-[#9ca987] w-[20px]" />
+              <Icon name={g.icon} className="text-sage-400 w-[20px]" />
               {g.title}
             </h3>
             {g.items.map(([id, title, mapping]) => (
               <label
-                className="flex gap-[11px] m-[17px_0] items-start text-[#6d7e5c] text-[14px] leading-[1.65]"
+                className="flex gap-[11px] m-[17px_0] items-start text-sage-700 text-[14px] leading-[1.65]"
                 key={id}
               >
                 <input
@@ -221,7 +221,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
                 />
                 <span>
                   {title}
-                  <small className="text-[11px] max-md:text-[12px] text-[#a5ae98] block mt-[5px]">
+                  <small className="text-[11px] max-md:text-[12px] text-sage-400 block mt-[5px]">
                     {mapping}
                   </small>
                 </span>
@@ -243,42 +243,42 @@ export const Guide = ({ progress, onCheck }: Props) => {
       <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px]">
         {STEPS.map(([title, text], i) => (
           <div key={title} className="max-lg:relative max-lg:pl-[43px]">
-            <span className="font-serif text-[28px] text-[#bac4aa] max-lg:absolute max-lg:left-0 max-lg:top-[3px]">
+            <span className="font-serif text-[28px] text-sage-300 max-lg:absolute max-lg:left-0 max-lg:top-[3px]">
               {String(i + 1).padStart(2, "0")}
             </span>
             <h3 className="text-[16px] m-[10px_0] font-semibold tracking-[-0.3px]">{title}</h3>
-            <p className="leading-[1.7] text-[14px] text-[#929e83]">{text}</p>
+            <p className="leading-[1.7] text-[14px] text-sage-500">{text}</p>
           </div>
         ))}
       </Panel>
       <SectionHeading title="Go straight to the source">
-        <span className="text-[14px] text-[#75816b]">Instituto Cervantes · Primary sources</span>
+        <span className="text-[14px] text-sage-700">Instituto Cervantes · Primary sources</span>
       </SectionHeading>
       <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[12px]">
         {sources.map((s, i) => (
           <a
             key={s.url}
-            className="border border-sage-200 rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline hover:border-[#bdcdb0] hover:bg-[#f6f8ef]"
+            className="border border-sage-200 rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-white no-underline hover:border-sage-300 hover:bg-sage-50"
             href={s.url}
             target="_blank"
             rel="noreferrer"
           >
-            <span className="source-number text-[13px] text-[#b4bea7]">
+            <span className="source-number text-[13px] text-sage-300">
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="flex-1">
               <strong className="text-[14px] max-xl:text-[13px] max-md:text-[14px] font-semibold block leading-[1.5]">
                 {s.title}
               </strong>
-              <small className="text-[12px] max-xl:text-[11px] max-md:text-[12px] leading-[1.5] block text-[#7e8d6c] mt-[4px]">
+              <small className="text-[12px] max-xl:text-[11px] max-md:text-[12px] leading-[1.5] block text-sage-600 mt-[4px]">
                 {s.description}
               </small>
             </span>
-            <Icon name="external" size={17} className="text-[#9eac8b]" />
+            <Icon name="external" size={17} className="text-sage-400" />
           </a>
         ))}
       </div>
-      <p className="leading-[1.7] text-[13px] text-[#a1ac93] mt-[25px]">
+      <p className="leading-[1.7] text-[13px] text-sage-400 mt-[25px]">
         Paso is an independent learning app, not affiliated with Instituto Cervantes. Exercises and
         illustrations are original. Official resources remain on their publishers’ websites.
       </p>

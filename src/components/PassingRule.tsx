@@ -6,7 +6,7 @@ import { passingGroups } from "../data/progress";
 import { sources } from "../data/research";
 import { Icon } from "../design-system/Icon";
 
-const tone = (ok: boolean) => (ok ? "bg-[#eaf1e1] text-[#66834f]" : "bg-[#f7e8dc] text-[#b07853]");
+const tone = (ok: boolean) => (ok ? "bg-sage-100 text-olive-700" : "bg-sand-100 text-coral-600");
 
 export const PassingRule = () => {
   const [scores, setScores] = useState([15, 15, 15, 15]);
@@ -18,12 +18,12 @@ export const PassingRule = () => {
       <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
         Does this score pass?
       </h3>
-      <p className="leading-[1.7] text-[14px] text-[#768762] mb-[23px]">
+      <p className="leading-[1.7] text-[14px] text-sage-700 mb-[23px]">
         Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.
       </p>
       {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
         <label key={s} className="text-[15px] block mb-[16px]">
-          <span className="flex justify-between text-[#7b8d6c] text-[14px]">
+          <span className="flex justify-between text-sage-600 text-[14px]">
             {s}
             <b className="font-medium">{scores[i]}/25</b>
           </span>

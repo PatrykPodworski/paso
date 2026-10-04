@@ -127,7 +127,7 @@ const App = () => {
     <div className="min-h-screen">
       <a
         href="#main-content"
-        className="underline fixed left-[10px] -top-[100px] z-[200] p-[12px] bg-[#fff] text-[#294b36] focus:top-[10px]"
+        className="underline fixed left-[10px] -top-[100px] z-[200] p-[12px] bg-white text-green-900 focus:top-[10px]"
         onClick={(e) => {
           e.preventDefault();
           document.getElementById("main-content")?.focus();
@@ -164,13 +164,13 @@ const App = () => {
             </Notice>
           )}
           {pages[page]}
-          <footer className="flex max-md:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-md:mt-[32px] p-[20px_0_25px] max-md:p-[20px_0] border-t border-t-sage-200 text-[11px] text-[#a2ab96]">
+          <footer className="flex max-md:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-md:mt-[32px] p-[20px_0_25px] max-md:p-[20px_0] border-t border-t-sage-200 text-[11px] text-sage-400">
             <span className="max-lg:hidden">Made for the joy of getting there.</span>
-            <span className="font-serif text-[14px] italic text-[#91a17d]">
-              paso a paso <span className="text-[#c8a174] ml-[6px]">✦</span>
+            <span className="font-serif text-[14px] italic text-sage-500">
+              paso a paso <span className="text-sand-500 ml-[6px]">✦</span>
             </span>
             <button
-              className={`${PRESSABLE} flex items-center gap-[4px] border-0 bg-transparent p-[1px_6px] text-[10px] max-md:text-[9px] text-[#a2ab96]`}
+              className={`${PRESSABLE} flex items-center gap-[4px] border-0 bg-transparent p-[1px_6px] text-[10px] max-md:text-[9px] text-sage-400`}
               onClick={() => navigate("guide")}
             >
               Independent practice · Official sources inside
@@ -214,7 +214,7 @@ const App = () => {
       )}
       {toast && (
         <div
-          className="fixed bottom-[25px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-[10px] p-[15px_22px] rounded-[10px] bg-green-900 text-[#f5f8ed] text-[14px] shadow-[0_7px_30px_#1f3e3022] max-w-[calc(100vw_-_30px)] max-md:w-max"
+          className="fixed bottom-[25px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-[10px] p-[15px_22px] rounded-[10px] bg-green-900 text-sage-50 text-[14px] shadow-[0_7px_30px_var(--color-green-950)]/13 max-w-[calc(100vw_-_30px)] max-md:w-max"
           role="status"
         >
           <Icon name="check" size={17} />

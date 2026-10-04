@@ -13,8 +13,7 @@ import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
 import { CHECKBOX } from "../design-system/field";
 
-const TD =
-  "p-[18px_10px] max-md:p-[15px_10px] border-b border-b-sage-100 max-md:text-[13px] max-sm:text-[12px]";
+const TD = "py-4 px-2.5 max-md:py-3.5 max-md:px-2.5 border-b border-b-sage-100 max-md:text-xs";
 
 const SKILLS = [
   ["book", "Reading", "45 min", "4 tasks · 25 questions (5 + 6 + 6 + 8)"],
@@ -80,7 +79,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
     <div className="guide-page">
       <PageHeading
         eyebrow={
-          <Eyebrow variant="page" className="mb-[9px]">
+          <Eyebrow variant="page" className="mb-2">
             THE BIG PICTURE, MADE SIMPLE
           </Eyebrow>
         }
@@ -91,40 +90,38 @@ export const Guide = ({ progress, onCheck }: Props) => {
           <Icon name="check" size={16} /> Researched 7 Sep 2026
         </Badge>
       </PageHeading>
-      <Panel className="p-[32px] max-xl:p-[27px] max-md:p-[25px] max-sm:p-[22px] flex max-lg:block justify-between items-center gap-[35px] max-xl:gap-[20px] bg-sage-100!">
-        <div className="max-w-[680px]">
+      <Panel className="p-8 max-xl:p-7 max-md:p-6 max-sm:p-5 flex max-lg:block justify-between items-center gap-9 max-xl:gap-5 bg-sage-100!">
+        <div className="max-w-170">
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[32px] max-xl:text-[28px] max-sm:text-[25px] m-[11px_0_14px]">
+          <h2 className="font-serif font-semibold tracking-tight leading-tight text-3xl max-sm:text-2xl mt-2.5 mx-0 mb-3.5">
             You don’t need perfect Spanish.
             <br />
             You need to connect.
           </h2>
-          <p className="leading-[1.7] text-sage-600 text-[14px]">
+          <p className="leading-relaxed text-sage-600 text-sm">
             A1 is about understanding familiar expressions, giving basic personal information and
             taking part in simple exchanges when the other person speaks clearly and helps. This
             course prepares for the general DELE A1, using the format introduced in 2020.
           </p>
-          <TextLink className="mt-[15px]" href={sources[0].url} target="_blank" rel="noreferrer">
+          <TextLink className="mt-3.5" href={sources[0].url} target="_blank" rel="noreferrer">
             Read the official guide
             <Icon name="external" size={15} />
           </TextLink>
         </div>
-        <div className="w-[145px] h-[160px] max-xl:w-[115px] max-xl:h-[140px] shrink-0 border border-sage-300 bg-sage-100 rounded-[75px_75px_14px_14px] text-[76px] max-xl:text-[65px] font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-olive-500 leading-[1]">
+        <div className="w-36 h-40 max-xl:w-29 max-xl:h-35 shrink-0 border border-sage-300 bg-sage-100 rounded-t-arch rounded-b-2xl text-7xl max-xl:text-6xl font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-olive-500 leading-none">
           A1
-          <span className="font-sans text-[9px] tracking-[1.4px] mt-[17px]">
-            UN PEQUEÑO GRAN PASO
-          </span>
+          <span className="font-sans text-2xs tracking-widest mt-4">UN PEQUEÑO GRAN PASO</span>
         </div>
       </Panel>
       <SectionHeading title="Four skills. Two passing groups." />
-      <Panel className="pt-[8px] px-[25px] pb-[17px] max-md:px-[12px] overflow-x-auto">
-        <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap">
+      <Panel className="pt-2 px-6 pb-4 max-md:px-3 overflow-x-auto">
+        <table className="w-full border-collapse text-sm max-xl:text-xs text-left whitespace-nowrap">
           <thead>
             <tr>
               {["Skill", "Time", "What you do", "Points"].map((h) => (
                 <th
                   key={h}
-                  className="text-sage-400 font-medium text-[13px] max-sm:text-[11px] p-[15px_10px] border-b border-b-sage-100"
+                  className="text-sage-400 font-medium text-xs max-sm:text-2xs py-3.5 px-2.5 border-b border-b-sage-100"
                 >
                   {h}
                 </th>
@@ -135,7 +132,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             {SKILLS.map(([icon, skill, time, tasks]) => (
               <tr key={skill}>
                 <td className={`${TD} text-olive-800 font-semibold`}>
-                  <Icon name={icon} className="inline align-middle w-[17px] mr-[10px]" />
+                  <Icon name={icon} className="inline align-middle w-4 mr-2.5" />
                   {skill}
                 </td>
                 <td className={`${TD} text-sage-700`}>{time}</td>
@@ -145,7 +142,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             ))}
           </tbody>
         </table>
-        <FieldNote className="mt-[15px]">
+        <FieldNote className="mt-3.5">
           Administration order is reading, listening, writing, then the oral appointment as arranged
           by your centre. Older A1 guides have different timings.{" "}
           <a className="underline" href={sources[0].url} target="_blank" rel="noreferrer">
@@ -153,23 +150,23 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </a>
         </FieldNote>
       </Panel>
-      <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[22px] mt-[24px]">
+      <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-5 mt-6">
         <PassingRule />
-        <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px]">
+        <Panel className="p-7 max-xl:p-6">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
-          <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
+          <h3 className="tracking-normal font-serif text-2xl font-medium mt-2 mx-0 mb-3">
             Be clear. Cover the task.
           </h3>
           {CRITERIA.map(([icon, title, text]) => (
-            <div key={title} className="flex gap-[15px] mt-[23px]">
-              <Icon name={icon} className="mt-[3px] text-sage-400" />
+            <div key={title} className="flex gap-3.5 mt-6">
+              <Icon name={icon} className="mt-0.5 text-sage-400" />
               <section>
-                <h4 className="font-semibold text-[15px]">{title}</h4>
-                <p className="leading-[1.7] text-[14px] text-sage-700 mt-[6px]">{text}</p>
+                <h4 className="font-semibold text-sm">{title}</h4>
+                <p className="leading-relaxed text-sm text-sage-700 mt-1.5">{text}</p>
               </section>
             </div>
           ))}
-          <FieldNote className="border-t border-t-sage-200 pt-[17px] mt-[22px]">
+          <FieldNote className="border-t border-t-sage-200 pt-4 mt-5">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
             <a className="underline" href={sources[0].url} target="_blank" rel="noreferrer">
@@ -191,7 +188,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         </Badge>
       </SectionHeading>
       <Notice icon="info">
-        <p className="leading-[1.7]">
+        <p className="leading-relaxed">
           There is no official fixed word list or separate grammar test to memorize for a guaranteed
           pass. This is a practical coverage map of the official A1 inventories. The{" "}
           <a className="underline" href={sources[10].url} target="_blank" rel="noreferrer">
@@ -201,34 +198,34 @@ export const Guide = ({ progress, onCheck }: Props) => {
           records your self-assessment.
         </p>
       </Notice>
-      <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[21px]">
+      <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-5">
         {requirementGroups.map((g) => (
-          <Panel as="section" className="p-[25px] max-xl:p-[23px]" key={g.title}>
-            <h3 className="font-semibold tracking-[-0.3px] flex items-center gap-[10px] mb-[23px] text-[17px]">
-              <Icon name={g.icon} className="text-sage-400 w-[20px]" />
+          <Panel as="section" className="p-6" key={g.title}>
+            <h3 className="font-semibold tracking-tight flex items-center gap-2.5 mb-6 text-base">
+              <Icon name={g.icon} className="text-sage-400 w-5" />
               {g.title}
             </h3>
             {g.items.map(([id, title, mapping]) => (
               <label
-                className="flex gap-[11px] m-[17px_0] items-start text-sage-700 text-[14px] leading-[1.65]"
+                className="flex gap-2.5 my-4 mx-0 items-start text-sage-700 text-sm leading-relaxed"
                 key={id}
               >
                 <input
-                  className={`${CHECKBOX} m-[3px_0_0]`}
+                  className={`${CHECKBOX} mt-0.5 mx-0 mb-0`}
                   type="checkbox"
                   checked={progress.checks.includes(id)}
                   onChange={() => onCheck(id)}
                 />
                 <span>
                   {title}
-                  <small className="text-[11px] max-md:text-[12px] text-sage-400 block mt-[5px]">
+                  <small className="text-2xs max-md:text-xs text-sage-400 block mt-1">
                     {mapping}
                   </small>
                 </span>
               </label>
             ))}
             <TextLink
-              className="mt-[5px] border-t border-t-sage-200 pt-[14px] text-[13px]!"
+              className="mt-1 border-t border-t-sage-200 pt-3.5 text-xs!"
               href={sources[g.source].url}
               target="_blank"
               rel="noreferrer"
@@ -240,37 +237,37 @@ export const Guide = ({ progress, onCheck }: Props) => {
         ))}
       </div>
       <SectionHeading title="Before you walk through the door" />
-      <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px]">
+      <Panel className="grid grid-cols-3 max-lg:grid-cols-1 p-7 gap-7 max-lg:gap-5">
         {STEPS.map(([title, text], i) => (
-          <div key={title} className="max-lg:relative max-lg:pl-[43px]">
-            <span className="font-serif text-[28px] text-sage-300 max-lg:absolute max-lg:left-0 max-lg:top-[3px]">
+          <div key={title} className="max-lg:relative max-lg:pl-11">
+            <span className="font-serif text-3xl text-sage-300 max-lg:absolute max-lg:left-0 max-lg:top-0.5">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <h3 className="text-[16px] m-[10px_0] font-semibold tracking-[-0.3px]">{title}</h3>
-            <p className="leading-[1.7] text-[14px] text-sage-500">{text}</p>
+            <h3 className="text-base my-2.5 mx-0 font-semibold tracking-tight">{title}</h3>
+            <p className="leading-relaxed text-sm text-sage-500">{text}</p>
           </div>
         ))}
       </Panel>
       <SectionHeading title="Go straight to the source">
-        <span className="text-[14px] text-sage-700">Instituto Cervantes · Primary sources</span>
+        <span className="text-sm text-sage-700">Instituto Cervantes · Primary sources</span>
       </SectionHeading>
-      <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[12px]">
+      <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-3">
         {sources.map((s, i) => (
           <a
             key={s.url}
-            className="border border-sage-200 rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-white no-underline hover:border-sage-300 hover:bg-sage-50"
+            className="border border-sage-200 rounded-lg flex items-center gap-3.5 max-xl:gap-2.5 p-4 max-xl:p-3.5 bg-white no-underline hover:border-sage-300 hover:bg-sage-50"
             href={s.url}
             target="_blank"
             rel="noreferrer"
           >
-            <span className="source-number text-[13px] text-sage-300">
+            <span className="source-number text-xs text-sage-300">
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="flex-1">
-              <strong className="text-[14px] max-xl:text-[13px] max-md:text-[14px] font-semibold block leading-[1.5]">
+              <strong className="text-sm max-xl:text-xs max-md:text-sm font-semibold block leading-normal">
                 {s.title}
               </strong>
-              <small className="text-[12px] max-xl:text-[11px] max-md:text-[12px] leading-[1.5] block text-sage-600 mt-[4px]">
+              <small className="text-xs max-xl:text-2xs max-md:text-xs leading-normal block text-sage-600 mt-1">
                 {s.description}
               </small>
             </span>
@@ -278,7 +275,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
           </a>
         ))}
       </div>
-      <p className="leading-[1.7] text-[13px] text-sage-400 mt-[25px]">
+      <p className="leading-relaxed text-xs text-sage-400 mt-6">
         Paso is an independent learning app, not affiliated with Instituto Cervantes. Exercises and
         illustrations are original. Official resources remain on their publishers’ websites.
       </p>

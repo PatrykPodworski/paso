@@ -7,7 +7,7 @@ type Props = {
 
 export const Badge = ({ className = "", ...rest }: Props) => (
   <span
-    className={`inline-flex items-center gap-[7px] whitespace-nowrap rounded-[20px] border border-[#dde3d7] bg-[#fdfef9] px-[13px] py-[8px] text-[14px] ${className}`}
+    className={`inline-flex items-center gap-[7px] whitespace-nowrap rounded-[20px] border border-sage-200 bg-white px-[13px] py-[8px] text-[14px] ${className}`}
     {...rest}
   />
 );

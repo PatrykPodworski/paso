@@ -18,7 +18,7 @@ export const Notice = ({
   ...rest
 }: Props) => (
   <Tag
-    className={`my-[18px] flex items-start gap-[12px] rounded-[9px] border px-[20px] py-[17px] text-[14px] leading-[1.7] max-md:gap-[9px] max-md:p-[16px] ${positive ? "border-[#dbe6d1] bg-[#edf3e5]" : "border-[#e9e0c7] bg-[#f4efdf]"} ${className}`}
+    className={`my-[18px] flex items-start gap-[12px] rounded-[9px] border px-[20px] py-[17px] text-[14px] leading-[1.7] max-md:gap-[9px] max-md:p-[16px] ${positive ? "border-sage-200 bg-sage-100" : "border-sand-200 bg-sand-100"} ${className}`}
     {...rest}
   >
     {icon && <Icon name={icon} className="mt-[2px] w-[18px]" />}

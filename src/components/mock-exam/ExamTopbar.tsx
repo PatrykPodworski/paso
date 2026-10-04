@@ -35,9 +35,9 @@ export const ExamTopbar = ({ run, left }: Props) =>
         <span
           role="timer"
           aria-label="Time remaining"
-          className={`flex items-center gap-[8px] rounded-[7px] px-[16px] py-[10px] text-[19px] font-medium font-sans tabular-nums max-lg:p-[9px] max-lg:text-[16px] max-md:text-[17px] max-sm:gap-[5px] max-sm:px-[8px] max-sm:py-[9px] max-sm:text-[15px] max-sm:[&>svg]:w-[15px] ${left < 120 ? "urgent bg-[#f8e7d7] text-[#b36c44]" : "bg-[#edf1e4] text-[#7b8c63]"}`}
+          className={`flex items-center gap-[8px] rounded-[7px] px-[16px] py-[10px] text-[19px] font-medium font-sans tabular-nums max-lg:p-[9px] max-lg:text-[16px] max-md:text-[17px] max-sm:gap-[5px] max-sm:px-[8px] max-sm:py-[9px] max-sm:text-[15px] ${left < 120 ? "urgent bg-[#f8e7d7] text-[#b36c44]" : "bg-[#edf1e4] text-[#7b8c63]"}`}
         >
-          <Icon name="clock" />
+          <Icon name="clock" className="max-sm:w-[15px]" />
           {String(Math.floor(left / 60)).padStart(2, "0")}:{String(left % 60).padStart(2, "0")}
         </span>
       )}

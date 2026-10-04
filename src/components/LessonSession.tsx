@@ -91,7 +91,7 @@ export const LessonSession = ({
             {lesson.title}
           </h3>
         </div>
-        <span className="text-[14px] text-[#9aa88c] max-md:text-[12px]">
+        <span className="text-[14px] text-sage-400 max-md:text-[12px]">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
@@ -102,11 +102,11 @@ export const LessonSession = ({
       />
       {confirmExit && (
         <div className="p-[50px_30px] text-center">
-          <Icon name="book" size={40} className="mx-auto text-[#9eaf85] mb-[22px]" />
+          <Icon name="book" size={40} className="mx-auto text-olive-500 mb-[22px]" />
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[30px]">
             Leave this lesson?
           </h2>
-          <p className="leading-[1.7] text-[15px] text-[#96a483] max-w-[450px] m-[15px_auto_25px]">
+          <p className="leading-[1.7] text-[15px] text-sage-500 max-w-[450px] m-[15px_auto_25px]">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
@@ -127,7 +127,7 @@ export const LessonSession = ({
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Look at you go.
           </h2>
-          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
             Another little piece of Spanish, yours to keep.
           </p>
           <CompletionStats
@@ -136,7 +136,7 @@ export const LessonSession = ({
                 "objective answers",
                 <>
                   {results.filter((r) => r).length}
-                  <small className="text-[16px] text-[#a6b294]">
+                  <small className="text-[16px] text-sage-400">
                     /{results.filter((r) => r !== null).length}
                   </small>
                 </>,
@@ -150,7 +150,7 @@ export const LessonSession = ({
               {assisted} answers used transcript assistance.
             </FieldNote>
           )}
-          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}

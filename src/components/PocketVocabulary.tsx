@@ -109,14 +109,14 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             A little Spanish, remembered.
           </h3>
         </div>
-        <span className="text-[14px] text-[#9aa88c] max-md:text-[12px]">
+        <span className="text-[14px] text-sage-400 max-md:text-[12px]">
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
       <ProgressTrack value={results.length} max={words.length} label="Flashcards reviewed" />
       {result && (
         <div
-          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-[#59675d] bg-sage-100"
+          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-sage-800 bg-sage-100"
           role="status"
         >
           <strong lang="es">{words[index - 1].es}</strong>
@@ -132,7 +132,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Your review is complete.
           </h2>
-          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
             Every card has its next review scheduled.
           </p>
           <CompletionStats
@@ -142,7 +142,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
               ["to revisit", results.filter((r) => !r.correct).length],
             ]}
           />
-          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
             Next review: <time dateTime={nextSessionReview}>{reviewDate(nextSessionReview)}</time>.
           </p>
           <Button ref={action} variant="primary" className="mt-[25px]" onClick={onClose}>
@@ -153,7 +153,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         <div className="p-[28px_36px] max-sm:p-[20px_16px]">
           <div className="text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px]">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
-            <p className="leading-[1.7] text-[#59675d] text-[14px] mt-[24px]">
+            <p className="leading-[1.7] text-sage-800 text-[14px] mt-[24px]">
               Can you remember the meaning?
             </p>
             <h2
@@ -186,7 +186,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                   <p lang="es" className="text-[16px] leading-[1.6]">
                     {word.example.es}
                   </p>
-                  <p lang="en" className="text-[14px] leading-[1.6] text-[#59675d]">
+                  <p lang="en" className="text-[14px] leading-[1.6] text-sage-800">
                     {word.example.en}
                   </p>
                   {/* Starting this clip stops the word clip through stopAudio(). */}
@@ -203,7 +203,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           )}
           {!revealed ? (
             <div className="flex flex-col gap-[16px] mt-[24px]">
-              <p className="text-[14px] text-[#59675d] leading-[1.6]">
+              <p className="text-[14px] text-sage-800 leading-[1.6]">
                 Say the meaning to yourself, then reveal the answer.
               </p>
               <Button
@@ -219,7 +219,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </div>
           ) : (
             <div className="flex flex-col gap-[16px] mt-[24px]">
-              <p className="text-[14px] text-[#59675d] leading-[1.6]">
+              <p className="text-[14px] text-sage-800 leading-[1.6]">
                 Did you get it right? Choose when this card returns.
               </p>
               <div className="grid grid-cols-[1fr_1fr] gap-[12px]">
@@ -255,7 +255,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
               </div>
             </div>
           )}
-          <p className="text-center text-[12px] leading-[1.6] text-[#59675d] mt-[20px]">
+          <p className="text-center text-[12px] leading-[1.6] text-sage-800 mt-[20px]">
             Your choices are saved as you go. You can leave at any time.
           </p>
         </div>
@@ -340,7 +340,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               key={label}
               className={`flex flex-col-reverse gap-[7px] p-[24px] max-sm:p-[20px] border-sage-200 ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-sm:border-l-0" : ""} ${i >= 2 ? "max-sm:border-t" : ""} ${label === "To review" ? "bg-sage-100" : ""}`}
             >
-              <dt className="text-[12px] text-[#59675d]">{label}</dt>
+              <dt className="text-[12px] text-sage-800">{label}</dt>
               <dd className="m-0 font-serif text-[36px] leading-[1] text-green-900">{count}</dd>
             </div>
           ))}
@@ -354,7 +354,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   ? "Ready for a little recall?"
                   : "You’re all caught up."}
             </h3>
-            <p className="text-[13px] leading-[1.6] text-[#59675d] mt-[6px]">
+            <p className="text-[13px] leading-[1.6] text-sage-800 mt-[6px]">
               {!words.length
                 ? "Add words from a topic below or complete a vocabulary lesson."
                 : due.length
@@ -362,7 +362,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   : "Your cards will return when it’s time to practise again."}
             </p>
             {nextAt && (
-              <p className="text-[13px] leading-[1.6] text-[#59675d] mt-[6px]">
+              <p className="text-[13px] leading-[1.6] text-sage-800 mt-[6px]">
                 Next scheduled review: <time dateTime={nextAt}>{reviewDate(nextAt)}</time>
               </p>
             )}
@@ -396,7 +396,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <li
                 key={topic}
                 tabIndex={-1}
-                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-sage-200 px-4 py-3 not-first:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
+                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-sage-200 px-4 py-3 not-first:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-coral-500"
               >
                 <span className="flex items-center gap-2 font-semibold">
                   <span id={`topic-${index}`}>{topic}</span>
@@ -444,7 +444,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
             titleId="flashcards-title"
             text="Every unlocked word, with its next review."
           >
-            <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-sage-200 rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
+            <label className="text-[15px] flex items-center gap-[8px] bg-white border border-sage-200 rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-sage-400">
               <Icon name="search" size={17} />
               <input
                 value={search}
@@ -474,14 +474,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                       <strong lang="es" className="font-serif text-[18px] wrap-anywhere">
                         {w.es}
                       </strong>
-                      <span lang="en" className="text-[12px] text-[#59675d]">
+                      <span lang="en" className="text-[12px] text-sage-800">
                         {w.en}
                       </span>
                     </span>
-                    <span className="text-[12px] text-[#59675d] max-sm:col-[1] max-sm:row-[2]">
+                    <span className="text-[12px] text-sage-800 max-sm:col-[1] max-sm:row-[2]">
                       {w.topic}
                     </span>
-                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-sm:col-[2] max-sm:row-[1/3]">
+                    <span className="flex flex-col gap-[5px] text-[12px] text-sage-800 items-end text-right max-sm:col-[2] max-sm:row-[1/3]">
                       <strong className={isDue ? "text-green-900" : ""}>
                         {isNew
                           ? "New · ready now"
@@ -496,7 +496,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               })}
             </ul>
           ) : (
-            <div className="text-center p-[40px] text-[#91a07d]">
+            <div className="text-center p-[40px] text-sage-500">
               <Icon name="search" className="mx-auto mb-[15px]" />
               <h3 className="text-[17px] font-semibold tracking-[-0.3px]">No word found yet.</h3>
               <p className="leading-[1.7] text-[14px] m-[10px_0]">

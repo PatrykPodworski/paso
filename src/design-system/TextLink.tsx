@@ -2,13 +2,13 @@ import type { ComponentProps } from "react";
 import { PRESSABLE } from "./pressable";
 
 const BASE =
-  "inline-flex items-center gap-[7px] border-0 bg-transparent p-0 text-[14px] font-semibold no-underline text-green-800 hover:underline hover:underline-offset-4";
+  "inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-semibold no-underline text-green-800 hover:underline hover:underline-offset-4";
 
 type Props = {
   /**
    * Placement, plus the context overrides the old descendant rules applied. An override
    * of a BASE property needs `!`: stylesheet order, not class order, decides between two
-   * utilities, and `text-[14px]` is emitted after `text-[13px]`.
+   * utilities, and `text-sm` is emitted after `text-xs`.
    */
   className?: string;
 } & (

@@ -63,9 +63,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         ).map((variant) => (
           <Eyebrow key={variant} variant={variant}>
             {variant.toUpperCase()}{" "}
-            <i
-              className={variant === "unit" || variant === "pathUnit" ? "not-italic px-[5px]" : ""}
-            >
+            <i className={variant === "unit" || variant === "pathUnit" ? "not-italic px-1" : ""}>
               ·
             </i>{" "}
             EYEBROW
@@ -161,7 +159,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           Browser storage is unavailable. Progress is kept for this visit.
         </Notice>
         <Notice icon="info">
-          <p className="leading-[1.7]">
+          <p className="leading-relaxed">
             A notice with an icon and a{" "}
             <a className="underline" href="#design-system">
               link inside
@@ -170,7 +168,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           </p>
         </Notice>
         <Notice positive>
-          <p className="leading-[1.7]">
+          <p className="leading-relaxed">
             Reading + writing: <strong>36.00/50</strong>
           </p>
         </Notice>
@@ -181,7 +179,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     id: "progress-track",
     name: "ProgressTrack",
     render: () => (
-      <div className="flex w-[240px] flex-col gap-3">
+      <div className="flex w-60 flex-col gap-3">
         {[0, 35, 100].map((percent) => (
           <ProgressTrack key={percent} value={percent} />
         ))}
@@ -209,7 +207,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
       <div className="flex flex-col">
         <PageHeading
           eyebrow={
-            <Eyebrow variant="page" className="mb-[9px]">
+            <Eyebrow variant="page" className="mb-2">
               PAGE <i>·</i> EYEBROW
             </Eyebrow>
           }
@@ -220,7 +218,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         </PageHeading>
         <PageHeading
           eyebrow={
-            <Eyebrow variant="page" className="mb-[9px]">
+            <Eyebrow variant="page" className="mb-2">
               PAGE <i>·</i> EYEBROW
             </Eyebrow>
           }

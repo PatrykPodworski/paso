@@ -6,7 +6,7 @@ const BASE =
 
 const VARIANT = {
   primary:
-    "bg-green-900 border-transparent text-sand-50 shadow-[0_2px_3px_var(--color-green-950)]/6 enabled:hover:bg-green-950 enabled:hover:shadow-[0_4px_10px_var(--color-green-950)]/13",
+    "bg-green-900 border-transparent text-sand-50 shadow-sm shadow-green-950/6 enabled:hover:bg-green-950 enabled:hover:shadow-md enabled:hover:shadow-green-950/13",
   secondary: "bg-white border-sage-200 enabled:hover:bg-sage-100",
   danger: "text-coral-800 bg-coral-50 border-coral-300",
 };

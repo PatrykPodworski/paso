@@ -9,7 +9,7 @@ type Props = {
 
 export const ProgressTrack = ({ value, max = 100, label, className = "" }: Props) => (
   <span
-    className={`block h-[4px] overflow-hidden rounded-[10px] bg-sage-100 ${className}`}
+    className={`block h-1 overflow-hidden rounded-lg bg-sage-100 ${className}`}
     {...(label && {
       role: "progressbar",
       "aria-label": label,
@@ -19,7 +19,7 @@ export const ProgressTrack = ({ value, max = 100, label, className = "" }: Props
     })}
   >
     <span
-      className="block h-full rounded-[10px] bg-olive-500 transition-width motion-reduce:transition-none"
+      className="block h-full rounded-lg bg-olive-500 transition-width motion-reduce:transition-none"
       style={{ width: `${(value / max) * 100}%` }}
     />
   </span>

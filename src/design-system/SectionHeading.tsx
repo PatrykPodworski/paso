@@ -2,30 +2,30 @@ import type { ReactNode } from "react";
 
 // One variant per context the old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
 const TITLE =
-  "font-serif text-[25px] max-xl:text-[22px] max-md:text-[25px] max-sm:text-[23px] font-semibold tracking-[-0.7px] leading-[1.25]";
+  "font-serif text-2xl max-xl:text-xl max-md:text-2xl font-semibold tracking-tight leading-tight";
 
-const TEXT = "mt-[5px] text-[14px] leading-[1.7] text-sage-700";
+const TEXT = "mt-1 text-sm leading-relaxed text-sage-700";
 
 const VARIANT = {
   default: {
-    box: "mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px]",
+    box: "mt-7 max-md:mt-6 gap-4 max-sm:gap-3",
     title: TITLE,
     text: TEXT,
   },
   path: {
-    box: "mt-[30px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px]",
+    box: "mt-7 max-md:mt-6 gap-4 max-sm:gap-3",
     title: TITLE,
     text: TEXT,
   },
   word: {
-    box: "mt-[37px] max-md:mt-[26px] gap-[16px] max-md:gap-[15px] max-sm:gap-[12px] max-md:flex-col max-md:items-start",
+    box: "mt-9 max-md:mt-6 gap-4 max-md:gap-3.5 max-sm:gap-3 max-md:flex-col max-md:items-start",
     title: TITLE,
     text: TEXT,
   },
   collection: {
-    box: "mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:flex-col max-sm:items-stretch",
-    title: "text-[17px] font-semibold tracking-[-0.3px]",
-    text: "mt-[6px] text-[13px] leading-[1.6] text-sage-800",
+    box: "mt-7 max-md:mt-6 gap-4 max-sm:flex-col max-sm:items-stretch",
+    title: "text-base font-semibold tracking-tight",
+    text: "mt-1.5 text-xs leading-relaxed text-sage-800",
   },
 };
 
@@ -51,13 +51,10 @@ export const SectionHeading = ({
   const Title = variant === "collection" ? "h3" : "h2";
 
   return (
-    <div className={`flex items-center justify-between mb-[17px] ${v.box}`}>
+    <div className={`flex items-center justify-between mb-4 ${v.box}`}>
       <div>
         {eyebrow}
-        <Title
-          id={titleId}
-          className={`${v.title} ${eyebrow && variant === "word" ? "mt-[8px]" : ""}`}
-        >
+        <Title id={titleId} className={`${v.title} ${eyebrow && variant === "word" ? "mt-2" : ""}`}>
           {title}
         </Title>
         {text && <p className={v.text}>{text}</p>}

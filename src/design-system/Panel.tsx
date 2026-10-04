@@ -24,7 +24,7 @@ export const PanelHeading = ({ title, icon, children }: PanelHeadingProps) => (
     <h3 className="tracking-[-0.3px] text-[14px] max-lg:text-[15px] max-md:text-[14px] xl:text-[15px] font-semibold">
       {title}
     </h3>
-    {icon && <Icon name={icon} size={17} className="text-[#a0a68f]" />}
+    {icon && <Icon name={icon} size={17} className="text-sage-400" />}
     {children}
   </div>
 );

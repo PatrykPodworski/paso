@@ -15,15 +15,15 @@ type Props = {
 };
 
 const SKILL_ROW =
-  "flex items-center w-full p-0 border-0 bg-transparent text-left gap-[11px] max-xl:gap-[7px] max-lg:gap-[12px] max-md:gap-[8px] mb-[23px] max-xl:mb-[18px] max-lg:mb-[20px]";
+  "flex items-center w-full p-0 border-0 bg-transparent text-left gap-2.5 max-xl:gap-1.5 max-lg:gap-3 max-md:gap-2 mb-6 max-xl:mb-4 max-lg:mb-5";
 
 export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
   <Panel
     as="section"
-    className="p-[23px_20px] max-xl:p-[18px_15px] max-md:p-[21px_15px] max-sm:p-[23px]"
+    className="py-6 px-5 max-xl:py-4 max-xl:px-3.5 max-md:py-5 max-md:px-3.5 max-sm:p-6"
   >
     <PanelHeading title="A little of every skill" icon="layers" />
-    <p className="leading-[1.7] mt-[7px] mb-[21px] text-sage-700 text-[12px] max-lg:text-[13px] max-md:text-[11px]">
+    <p className="leading-relaxed mt-1.5 mb-5 text-sage-700 text-xs max-md:text-2xs">
       Four ways to grow your Spanish.
     </p>
     {skills.map((s) => {
@@ -36,20 +36,20 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
             <Icon name={s.icon} size={17} />
           </span>
           <span className="flex-1">
-            <strong className="flex justify-between font-medium text-sage-700 text-[12px] max-xl:text-[11px] max-lg:text-[14px] max-md:text-[12px]">
+            <strong className="flex justify-between font-medium text-sage-700 text-xs max-xl:text-2xs max-lg:text-sm max-md:text-xs">
               {s.name}
-              <small className="font-normal text-sage-600 text-[10px] max-lg:text-[11px] max-md:text-[9px]">
+              <small className="font-normal text-sage-600 text-2xs">
                 {stats.practised} practised
               </small>
             </strong>
-            <ProgressTrack value={stats.practised} max={total} className="mt-[7px]" />
+            <ProgressTrack value={stats.practised} max={total} className="mt-1.5" />
           </span>
           <Icon name="chevron" size={13} className="text-sage-400 max-xl:hidden" />
         </button>
       );
     })}
     <TextLink
-      className="w-full justify-between border-t border-t-sage-100 pt-[14px] text-[12px]! font-normal! text-sage-600! max-lg:text-[13px]! xl:text-[12px]!"
+      className="w-full justify-between border-t border-t-sage-100 pt-3.5 text-xs! font-normal! text-sage-600! max-lg:text-xs! xl:text-xs!"
       onClick={() => navigate("guide")}
     >
       How the exam works

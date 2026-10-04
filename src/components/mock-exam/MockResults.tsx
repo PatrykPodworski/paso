@@ -17,8 +17,7 @@ type Props = {
   onReset: () => void;
 };
 
-const TILE =
-  "flex flex-col gap-[10px] rounded-[10px] bg-sage-100 px-[10px] py-[20px] text-olive-600";
+const TILE = "flex flex-col gap-2.5 rounded-lg bg-sage-100 px-2.5 py-5 text-olive-600";
 
 export const MockResults = ({
   reading,
@@ -30,37 +29,37 @@ export const MockResults = ({
   onDownload,
   onReset,
 }: Props) => (
-  <Panel className="p-[38px] text-center max-md:px-[20px] max-md:py-[28px]">
+  <Panel className="p-9 text-center max-md:px-5 max-md:py-7">
     <CompletionArt icon="trophy" />
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
-    <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] my-[12px] text-[36px] max-md:text-[31px]">
+    <h2 className="font-serif font-semibold tracking-tight leading-tight my-3 text-4xl max-md:text-3xl">
       You’ve met the exam.
     </h2>
-    <p className="leading-[1.7] text-[15px] text-sage-500">
+    <p className="leading-relaxed text-sm text-sage-500">
       Now you know where your next steps can take you.
     </p>
-    <div className="my-[30px] grid grid-cols-[repeat(4,1fr)] gap-[15px] max-lg:grid-cols-[1fr_1fr]">
+    <div className="my-7 grid grid-cols-4 gap-3.5 max-lg:grid-cols-2">
       <div className={TILE}>
-        <span className="text-[14px]">Reading</span>
-        <strong className="font-serif text-[38px] font-medium">
+        <span className="text-sm">Reading</span>
+        <strong className="font-serif text-4xl font-medium">
           {reading}
-          <small className="text-[17px] text-sage-400">/25</small>
+          <small className="text-base text-sage-400">/25</small>
         </strong>
       </div>
       <div className={TILE}>
-        <span className="text-[14px]">Listening</span>
-        <strong className="font-serif text-[38px] font-medium">
+        <span className="text-sm">Listening</span>
+        <strong className="font-serif text-4xl font-medium">
           {listening}
-          <small className="text-[17px] text-sage-400">/25</small>
+          <small className="text-base text-sage-400">/25</small>
         </strong>
       </div>
       <div className={TILE}>
-        <span className="text-[14px]">Writing</span>
-        <strong className="my-[10px] text-[14px] font-medium">Human review</strong>
+        <span className="text-sm">Writing</span>
+        <strong className="my-2.5 text-sm font-medium">Human review</strong>
       </div>
       <div className={TILE}>
-        <span className="text-[14px]">Speaking</span>
-        <strong className="my-[10px] text-[14px] font-medium">Human review</strong>
+        <span className="text-sm">Speaking</span>
+        <strong className="my-2.5 text-sm font-medium">Human review</strong>
       </div>
     </div>
     <ScoreCalculator

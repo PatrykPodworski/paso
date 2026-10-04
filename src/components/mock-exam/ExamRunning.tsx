@@ -20,8 +20,8 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
   const q = section.questions[run.index];
 
   return (
-    <Panel className="px-[30px] pt-[22px] pb-[20px] max-md:p-[18px]">
-      <div className="flex justify-between gap-[10px] border-b border-sage-200 pb-[15px] text-[13px] text-sage-400 max-md:text-[12px]">
+    <Panel className="px-7 pt-5 pb-5 max-md:p-4">
+      <div className="flex justify-between gap-2.5 border-b border-sage-200 pb-3.5 text-xs text-sage-400">
         <span>{q.task}</span>
         <strong>
           {run.index + 1} / {section.questions.length}
@@ -47,7 +47,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
           }
         }}
       />
-      <div className="mt-[22px] flex items-center justify-between gap-[15px] border-t border-sage-200 pt-[18px] max-md:flex-wrap max-md:gap-[17px]">
+      <div className="mt-5 flex items-center justify-between gap-3.5 border-t border-sage-200 pt-4 max-md:flex-wrap max-md:gap-4">
         <TextLink
           disabled={run.index === 0}
           onClick={() => {
@@ -80,11 +80,11 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
         </Button>
       </div>
       {confirm && (
-        <div className="mt-[20px] rounded-[10px] bg-sand-100 p-[23px]" role="alert">
-          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">
+        <div className="mt-5 rounded-lg bg-sand-100 p-6" role="alert">
+          <h3 className="text-base font-semibold tracking-tight">
             Finish {section.title.toLowerCase()}?
           </h3>
-          <p className="leading-[1.7] my-[12px] text-[14px]">
+          <p className="leading-relaxed my-3 text-sm">
             {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
             finishing, answers in this section cannot be changed.
           </p>

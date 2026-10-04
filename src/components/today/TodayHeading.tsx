@@ -23,20 +23,20 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
     <PageHeading
       variant="today"
       eyebrow={
-        <Eyebrow variant="greeting" className="mb-[9px]">
+        <Eyebrow variant="greeting" className="mb-2">
           {new Date().getHours() < 12
             ? "BUENOS DÍAS"
             : new Date().getHours() < 20
               ? "BUENAS TARDES"
               : "BUENAS NOCHES"}{" "}
-          <span className="text-[16px] text-sand-500 ml-[5px] align-[-1px]">✦</span>
+          <span className="text-base text-sand-500 ml-1 relative top-px">✦</span>
         </Eyebrow>
       }
       title={progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
       description="Your next chapter starts with a small step."
     >
       <button
-        className={`${PRESSABLE} flex items-center gap-[8px] text-[13px] text-sage-600 border border-sage-200 rounded-[7px] p-[9px_11px] bg-white max-xl:text-[12px] max-lg:hidden`}
+        className={`${PRESSABLE} flex items-center gap-2 text-xs text-sage-600 border border-sage-200 rounded-md py-2 px-2.5 bg-white max-lg:hidden`}
         onClick={() => openSettings()}
       >
         <Icon name="sun" size={17} className="text-sand-500" />

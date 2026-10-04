@@ -46,61 +46,61 @@ export const TodayPage = ({
 }: Props) => (
   <>
     <TodayHeading progress={progress} openSettings={openSettings} />
-    <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-[24px] min-2xl:gap-[30px] max-xl:grid-cols-[minmax(0,1fr)_236px] max-xl:gap-[19px] max-lg:grid-cols-[minmax(0,1fr)] max-md:gap-[22px]">
-      <div className="min-w-0">
-        <section className="relative overflow-hidden rounded-[13px] border border-sand-100 bg-sand-100 min-h-[367px] p-[31px] max-xl:min-h-[306px] max-xl:p-[25px_23px] max-lg:min-h-[335px] max-lg:p-[30px] max-md:min-h-[353px] max-md:p-[28px_25px] max-sm:min-h-[425px] max-sm:p-[26px_21px]">
-          <div className="relative z-[2] max-w-[60%] max-xl:max-w-[58%] max-lg:max-w-[54%] max-md:max-w-[64%] max-sm:max-w-[89%]">
-            <span className="flex items-center gap-[7px] text-[10px] tracking-[1.4px] font-bold text-sage-600 max-xl:tracking-[1px] max-lg:text-[11px] max-sm:text-[9px]">
-              <i className="h-[5px] w-[5px] rounded-[50%] bg-olive-500" />
+    <div className="flex gap-6 min-2xl:gap-7 max-xl:gap-5 max-lg:flex-col max-md:gap-5">
+      <div className="flex-1 min-w-0">
+        <section className="relative overflow-hidden rounded-xl border border-sand-100 bg-sand-100 min-h-92 p-8 max-xl:min-h-76 max-xl:p-6 max-lg:min-h-84 max-lg:p-7 max-md:min-h-88 max-md:py-7 max-md:px-6 max-sm:min-h-106 max-sm:py-6 max-sm:px-5">
+          <div className="relative z-2 max-w-3/5 max-lg:max-w-1/2 max-md:max-w-2/3 max-sm:max-w-9/10">
+            <span className="flex items-center gap-1.5 text-2xs tracking-widest font-bold text-sage-600">
+              <i className="h-1 w-1 rounded-full bg-olive-500" />
               YOUR JOURNEY TO DELE A1
             </span>
-            <h2 className="font-serif text-[47px] tracking-[-1.5px] leading-[1.06] m-[19px_0_13px] text-green-900 font-medium max-xl:text-[35px] max-xl:mt-[17px] max-lg:text-[45px] max-md:text-[41px] max-sm:text-[39px] max-sm:leading-[1.08]">
+            <h2 className="font-serif text-5xl tracking-tight leading-none mt-5 mx-0 mb-3 text-green-900 font-medium max-xl:text-4xl max-xl:mt-4 max-lg:text-5xl max-md:text-4xl">
               Small steps.
               <br />A world of <em className="font-medium text-coral-600">Spanish.</em>
             </h2>
-            <p className="text-[13px] leading-[1.8] text-sage-700 max-w-[280px] mb-[20px] max-xl:max-w-[250px] max-lg:text-[14px] max-md:text-[13px] max-sm:text-[12px] max-sm:max-w-[230px] max-sm:relative max-sm:z-[3]">
+            <p className="text-xs leading-relaxed text-sage-700 max-w-70 mb-5 max-xl:max-w-62 max-lg:text-sm max-md:text-xs max-sm:max-w-57 max-sm:relative max-sm:z-3">
               Real-life Spanish, little wins, and a clear path to your first diploma.
             </p>
             <Button
               variant="primary"
               size="compact"
-              className="max-sm:mt-[4px] max-sm:relative max-sm:z-[3]"
+              className="max-sm:mt-1 max-sm:relative max-sm:z-3"
               onClick={() => setSession(nextLesson)}
             >
               {completed ? "Continue my journey" : "Let’s take the first step"}
               <Icon name="arrow" size={19} />
             </Button>
-            <span className="flex items-center gap-[5px] mt-[12px] text-[10px] text-sage-700 max-lg:text-[12px] max-md:text-[10px] max-sm:relative max-sm:z-[3] max-sm:max-w-[160px] max-sm:leading-[1.6]">
+            <span className="flex items-center gap-1 mt-3 text-2xs text-sage-700 max-lg:text-xs max-md:text-2xs max-sm:relative max-sm:z-3 max-sm:max-w-40 max-sm:leading-relaxed">
               <Icon name="clock" size={13} />
               {nextLesson.minutes} minutes is a lovely start
             </span>
           </div>
           <JourneyArt />
-          <span className="absolute right-[26px] bottom-[17px] z-[2] text-[10px] tracking-[1.7px] text-sage-500 max-md:text-[9px] max-sm:hidden">
+          <span className="absolute right-6 bottom-4 z-2 text-2xs tracking-widest text-sage-500 max-sm:hidden">
             POCO A POCO, PASO A PASO.
           </span>
         </section>
         <SectionHeading
           variant="path"
           eyebrow={
-            <Eyebrow variant="heading" className="mb-[6px]">
+            <Eyebrow variant="heading" className="mb-1.5">
               A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
             </Eyebrow>
           }
           title="Your learning path"
         >
-          <TextLink className="text-[13px]! max-sm:text-[11px]!" onClick={() => navigate("path")}>
+          <TextLink className="text-xs! max-sm:text-2xs!" onClick={() => navigate("path")}>
             View full path
             <Icon name="arrow" size={16} />
           </TextLink>
         </SectionHeading>
-        <div className="flex items-center gap-[12px] max-sm:gap-[8px] mb-[18px] text-[12px] max-sm:text-[11px] text-sage-700">
+        <div className="flex items-center gap-3 max-sm:gap-2 mb-4 text-xs max-sm:text-2xs text-sage-700">
           <span className="whitespace-nowrap">
             <b className="font-medium text-sage-800">{completed}</b> of {allLessons.length} lessons
             complete
           </span>
           <ProgressTrack value={progressPercent} className="flex-1" />
-          <b className="font-medium text-[12px]">{progressPercent}%</b>
+          <b className="font-medium text-xs">{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">
           {units.slice(0, 3).map((u, i) => (
@@ -116,42 +116,42 @@ export const TodayPage = ({
           ))}
         </div>
         <button
-          className={`${PRESSABLE} flex items-center justify-center w-full gap-[9px] border-0 bg-transparent p-[16px] max-sm:p-[14px_0] text-[13px] max-sm:text-[11px] text-sage-600 hover:text-green-900`}
+          className={`${PRESSABLE} flex items-center justify-center w-full gap-2 border-0 bg-transparent p-4 max-sm:py-3.5 max-sm:px-0 text-xs max-sm:text-2xs text-sage-600 hover:text-green-900`}
           onClick={() => navigate("path")}
         >
           Home, cafés, adventures & 6 more chapters
           <Icon name="arrow" size={16} />
         </button>
         <SectionHeading title="A little change of pace">
-          <span className="text-[14px] text-sage-700">Make it yours</span>
+          <span className="text-sm text-sage-700">Make it yours</span>
         </SectionHeading>
         <QuickPractice mistakeCount={mistakeCount} practice={practice} />
       </div>
-      <aside className="flex flex-col gap-[18px] max-lg:grid max-lg:grid-cols-[1fr_1fr] max-md:gap-[15px] max-sm:grid-cols-[1fr]">
+      <aside className="w-75 shrink-0 flex flex-col gap-4 max-xl:w-59 max-lg:w-auto max-lg:grid max-lg:grid-cols-2 max-md:gap-3.5 max-sm:grid-cols-1">
         <DailyGoal progress={progress} openSettings={openSettings} />
         <SkillsPanel progress={progress} navigate={navigate} practice={practice} />
-        <section className="p-[22px] xl:p-[24px] max-lg:p-[22px_28px] max-lg:col-span-full rounded-[12px] border border-sand-200 bg-sand-100">
+        <section className="p-5 xl:p-6 max-lg:py-5 max-lg:px-7 max-lg:col-span-full rounded-xl border border-sand-200 bg-sand-100">
           <Eyebrow variant="phrase">
             <Icon name="spark" size={14} /> A PHRASE FOR TODAY
           </Eyebrow>
           <h3
             lang="es"
-            className="font-serif italic font-medium tracking-[-1px] text-sand-700 text-[29px] xl:text-[34px] mt-[19px] max-lg:mt-[12px]"
+            className="font-serif italic font-medium tracking-tight text-sand-700 text-3xl xl:text-4xl mt-5 max-lg:mt-3"
           >
             Poco a poco.
           </h3>
-          <span className="block text-[12px] text-sand-500 mt-[6px]">/ˈpo.ko a ˈpo.ko/</span>
-          <p className="leading-[1.7] mt-[11px] text-[14px] text-sand-600">Little by little.</p>
-          <div className="flex items-center justify-between mt-[8px] max-lg:justify-start max-lg:gap-[20px]">
-            <span className="text-[11px] max-md:text-[13px] text-sage-700">
+          <span className="block text-xs text-sand-500 mt-1.5">/ˈpo.ko a ˈpo.ko/</span>
+          <p className="leading-relaxed mt-2.5 text-sm text-sand-600">Little by little.</p>
+          <div className="flex items-center justify-between mt-2 max-lg:justify-start max-lg:gap-5">
+            <span className="text-2xs max-md:text-xs text-sage-700">
               Progress has its own pace.
             </span>
             <AudioButton round="phrase" text="Poco a poco." label="Listen to poco a poco" />
           </div>
         </section>
-        <div className="flex justify-center items-center gap-[9px] p-[5px] text-sage-400 max-lg:hidden">
+        <div className="flex justify-center items-center gap-2 p-1 text-sage-400 max-lg:hidden">
           <Icon name="heart" size={16} className="text-sage-300" />
-          <p className="text-[12px] leading-[1.8]">
+          <p className="text-xs leading-relaxed">
             No rush. No lost hearts.
             <br />
             Just you, getting a little better.

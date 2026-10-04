@@ -34,7 +34,7 @@ export const PracticePage = ({
   <>
     <PageHeading
       eyebrow={
-        <Eyebrow variant="page" className="mb-[9px]">
+        <Eyebrow variant="page" className="mb-2">
           MORE PLAY. MORE PRACTICE. MORE YOU.
         </Eyebrow>
       }
@@ -47,14 +47,14 @@ export const PracticePage = ({
       </Badge>
     </PageHeading>
     <div
-      className="flex flex-wrap gap-[7px] max-md:gap-[5px] border-b border-b-sage-200 pb-[19px] max-md:pb-[15px] mb-[23px]"
+      className="flex flex-wrap gap-1.5 max-md:gap-1 border-b border-b-sage-200 pb-5 max-md:pb-3.5 mb-6"
       role="group"
       aria-label="Filter practice by skill"
     >
       {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
         <button
           key={s}
-          className={`${PRESSABLE} border border-transparent rounded-[20px] p-[9px_15px] max-md:p-[8px_12px] text-[14px] max-md:text-[12px] ${filter === s ? "bg-green-900 text-white" : "bg-transparent text-sage-600 hover:bg-sage-100"}`}
+          className={`${PRESSABLE} border border-transparent rounded-2xl py-2 px-3.5 max-md:py-2 max-md:px-3 text-sm max-md:text-xs ${filter === s ? "bg-green-900 text-white" : "bg-transparent text-sage-600 hover:bg-sage-100"}`}
           onClick={() => setFilter(s)}
         >
           {s === "all"

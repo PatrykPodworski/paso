@@ -6,7 +6,7 @@ import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
 const PASSAGE =
-  "reading-passage relative rounded-[9px] border border-[#e8e5d6] bg-[#f8f5e9] p-[24px_27px] mb-[22px] max-md:p-[20px]";
+  "reading-passage relative rounded-[9px] border border-sand-200 bg-sand-50 p-[24px_27px] mb-[22px] max-md:p-[20px]";
 
 type Props = {
   q: Question;
@@ -36,7 +36,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
       {q.passage && (
         <div className={PASSAGE} lang="es">
           <span
-            className="absolute right-[25px] top-[-7px] h-[25px] w-[11px] rotate-[15deg] rounded-[7px] border-2 border-[#c4c9b2]"
+            className="absolute right-[25px] top-[-7px] h-[25px] w-[11px] rotate-[15deg] rounded-[7px] border-2 border-sage-300"
             aria-hidden="true"
           />
           {!exam && (
@@ -49,7 +49,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
               label="Play the reading passage"
             />
           )}
-          <p className="whitespace-pre-line text-[15px] leading-[1.85] text-[#606e53] max-md:text-[14px]">
+          <p className="whitespace-pre-line text-[15px] leading-[1.85] text-sage-800 max-md:text-[14px]">
             {q.passage}
           </p>
         </div>
@@ -59,7 +59,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
           {!exam && (
             <TextLink
               type="button"
-              className="m-[11px_0_19px] text-[13px]! font-normal! text-[#a394b1]!"
+              className="m-[11px_0_19px] text-[13px]! font-normal! text-lavender-500!"
               onClick={() => {
                 setTranscript((t) => !t);
                 onTranscript();
@@ -70,11 +70,11 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
           )}
           {transcript && (
             <div
-              className="rounded-[5px] border-l-[3px] border-[#c5b7d2] bg-[#f4f0f7] p-[18px_20px] text-[14px] leading-[1.8] text-[#93879f] mb-[20px]"
+              className="rounded-[5px] border-l-[3px] border-lavender-400 bg-lavender-50 p-[18px_20px] text-[14px] leading-[1.8] text-lavender-600 mb-[20px]"
               lang="es"
             >
               {q.audio}
-              <small className="block text-[12px] leading-[1.6] text-[#ad9dbb] mt-[10px]">
+              <small className="block text-[12px] leading-[1.6] text-lavender-500 mt-[10px]">
                 Transcript assistance is recorded; this answer will not count toward unassisted
                 accuracy.
               </small>
@@ -84,7 +84,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
       )}
       {q.visual && (
         <div
-          className="bg-[radial-gradient(ellipse,#f4f0e1_0,transparent_60%)] p-[15px] text-center text-[67px] m-[12px_0_24px]"
+          className="bg-[radial-gradient(ellipse,var(--color-sage-100)_0,transparent_60%)] p-[15px] text-center text-[67px] m-[12px_0_24px]"
           role="img"
           aria-label="Vocabulary illustration"
         >

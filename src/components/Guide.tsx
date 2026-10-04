@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Badge } from "../design-system/Badge";
 import { SectionHeading } from "../design-system/SectionHeading";
@@ -11,6 +12,63 @@ import { Panel } from "../design-system/Panel";
 import { Notice } from "../design-system/Notice";
 import { TextLink } from "../design-system/TextLink";
 import { CHECKBOX } from "../design-system/field";
+
+const TD =
+  "p-[18px_10px] max-md:p-[15px_10px] border-b border-b-[#edf0e6] max-md:text-[13px] max-sm:text-[12px]";
+
+const SKILLS = [
+  ["book", "Reading", "45 min", "4 tasks · 25 questions (5 + 6 + 6 + 8)"],
+  ["headphones", "Listening", "25 min", "4 tasks · 25 questions (5 + 5 + 8 + 7)"],
+  ["pen", "Writing", "25 min", "Form: 15–25 words · Message: 30–40 words"],
+  ["mic", "Speaking", "10 min + 10 prep", "Introduction · Topic · Conversation"],
+];
+
+const CRITERIA = [
+  [
+    "pen",
+    "Writing",
+    "Each task has equal weight. Answer the fields or message prompts with enough understandable information. Check word count, greeting and farewell where requested.",
+  ],
+  [
+    "mic",
+    "Speaking",
+    "Introduce yourself for 1–2 minutes, discuss your chosen topic for 2–3, then converse for 3–4. Ask the interviewer two questions. Task completion and language use are assessed.",
+  ],
+  [
+    "headphones",
+    "Understanding",
+    "Each correct reading or listening answer earns one point. There is no penalty for wrong answers. Official listening texts are played twice.",
+  ],
+];
+
+const STEPS: [string, ReactNode][] = [
+  [
+    "Book the right exam",
+    <>
+      Select general DELE A1 at an authorized centre. No lower-level certificate is required. Fees,
+      dates and deadlines depend on the centre and session; check the{" "}
+      <a className="underline" href={sources[9].url} target="_blank" rel="noreferrer">
+        official registration page
+      </a>
+      .
+    </>,
+  ],
+  [
+    "Check your appointment",
+    "Confirm the location and the separate written and oral times. Ask the centre about any access arrangements when registering. Follow its instructions about materials and arrival time.",
+  ],
+  [
+    "Bring your documents",
+    <>
+      Have the original official photo ID or passport used to register, registration receipt and
+      official exam summons. Check the{" "}
+      <a className="underline" href={sources[8].url} target="_blank" rel="noreferrer">
+        candidate guidance
+      </a>{" "}
+      and your centre’s current instructions.
+    </>,
+  ],
+];
 
 type Props = {
   progress: Progress;
@@ -60,52 +118,31 @@ export const Guide = ({ progress, onCheck }: Props) => {
       </Panel>
       <SectionHeading title="Four skills. Two passing groups." />
       <Panel className="pt-[8px] px-[25px] pb-[17px] max-md:px-[12px] overflow-x-auto">
-        <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap [&_th]:text-[#a0aa91] [&_th]:font-medium [&_th]:text-[13px] max-sm:[&_th]:text-[11px] [&_th]:p-[15px_10px] [&_th]:border-b [&_th]:border-b-[#e6ecdd] [&_td]:p-[18px_10px] max-md:[&_td]:p-[15px_10px] [&_td]:border-b [&_td]:border-b-[#edf0e6] [&_td]:text-[#78876a] max-md:[&_td]:text-[13px] max-sm:[&_td]:text-[12px] [&_td:first-child]:text-[#526846] [&_td:first-child]:font-semibold [&_td:last-child]:font-semibold [&_td_svg]:inline [&_td_svg]:align-middle [&_td_svg]:w-[17px] [&_td_svg]:mr-[10px]">
+        <table className="w-full border-collapse text-[14px] max-xl:text-[13px] text-left whitespace-nowrap">
           <thead>
             <tr>
-              <th>Skill</th>
-              <th>Time</th>
-              <th>What you do</th>
-              <th>Points</th>
+              {["Skill", "Time", "What you do", "Points"].map((h) => (
+                <th
+                  key={h}
+                  className="text-[#a0aa91] font-medium text-[13px] max-sm:text-[11px] p-[15px_10px] border-b border-b-[#e6ecdd]"
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <Icon name="book" />
-                Reading
-              </td>
-              <td>45 min</td>
-              <td>4 tasks · 25 questions (5 + 6 + 6 + 8)</td>
-              <td>25</td>
-            </tr>
-            <tr>
-              <td>
-                <Icon name="headphones" />
-                Listening
-              </td>
-              <td>25 min</td>
-              <td>4 tasks · 25 questions (5 + 5 + 8 + 7)</td>
-              <td>25</td>
-            </tr>
-            <tr>
-              <td>
-                <Icon name="pen" />
-                Writing
-              </td>
-              <td>25 min</td>
-              <td>Form: 15–25 words · Message: 30–40 words</td>
-              <td>25</td>
-            </tr>
-            <tr>
-              <td>
-                <Icon name="mic" />
-                Speaking
-              </td>
-              <td>10 min + 10 prep</td>
-              <td>Introduction · Topic · Conversation</td>
-              <td>25</td>
-            </tr>
+            {SKILLS.map(([icon, skill, time, tasks]) => (
+              <tr key={skill}>
+                <td className={`${TD} text-[#526846] font-semibold`}>
+                  <Icon name={icon} className="inline align-middle w-[17px] mr-[10px]" />
+                  {skill}
+                </td>
+                <td className={`${TD} text-[#78876a]`}>{time}</td>
+                <td className={`${TD} text-[#78876a]`}>{tasks}</td>
+                <td className={`${TD} text-[#78876a] font-semibold`}>25</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <FieldNote className="mt-[15px]">
@@ -118,42 +155,20 @@ export const Guide = ({ progress, onCheck }: Props) => {
       </Panel>
       <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[22px] mt-[24px]">
         <PassingRule />
-        <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px] [&>div]:flex [&>div]:gap-[15px] [&>div]:mt-[23px] [&>div>svg]:mt-[3px] [&>div>svg]:text-[#a2ae90] [&_h4]:text-[15px] [&_section_p]:text-[14px] [&_section_p]:text-[#768762] [&_section_p]:mt-[6px]">
+        <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px]">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
           <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
             Be clear. Cover the task.
           </h3>
-          <div>
-            <Icon name="pen" />
-            <section>
-              <h4 className="font-semibold">Writing</h4>
-              <p className="leading-[1.7]">
-                Each task has equal weight. Answer the fields or message prompts with enough
-                understandable information. Check word count, greeting and farewell where requested.
-              </p>
-            </section>
-          </div>
-          <div>
-            <Icon name="mic" />
-            <section>
-              <h4 className="font-semibold">Speaking</h4>
-              <p className="leading-[1.7]">
-                Introduce yourself for 1–2 minutes, discuss your chosen topic for 2–3, then converse
-                for 3–4. Ask the interviewer two questions. Task completion and language use are
-                assessed.
-              </p>
-            </section>
-          </div>
-          <div>
-            <Icon name="headphones" />
-            <section>
-              <h4 className="font-semibold">Understanding</h4>
-              <p className="leading-[1.7]">
-                Each correct reading or listening answer earns one point. There is no penalty for
-                wrong answers. Official listening texts are played twice.
-              </p>
-            </section>
-          </div>
+          {CRITERIA.map(([icon, title, text]) => (
+            <div key={title} className="flex gap-[15px] mt-[23px]">
+              <Icon name={icon} className="mt-[3px] text-[#a2ae90]" />
+              <section>
+                <h4 className="font-semibold text-[15px]">{title}</h4>
+                <p className="leading-[1.7] text-[14px] text-[#768762] mt-[6px]">{text}</p>
+              </section>
+            </div>
+          ))}
           <FieldNote className="border-t border-t-sage-200 pt-[17px] mt-[22px]">
             Productive tasks use trained human raters and 0–3 rating bands, then scale to 25. This
             app’s completion, XP and practice accuracy are not official grades.{" "}
@@ -225,40 +240,16 @@ export const Guide = ({ progress, onCheck }: Props) => {
         ))}
       </div>
       <SectionHeading title="Before you walk through the door" />
-      <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px] max-lg:[&>div]:relative max-lg:[&>div]:pl-[43px] [&>div>span]:font-serif [&>div>span]:text-[28px] [&>div>span]:text-[#bac4aa] max-lg:[&>div>span]:absolute max-lg:[&>div>span]:left-0 max-lg:[&>div>span]:top-[3px] [&_h3]:text-[16px] [&_h3]:m-[10px_0] [&_p]:text-[14px] [&_p]:text-[#929e83]">
-        <div>
-          <span>01</span>
-          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Book the right exam</h3>
-          <p className="leading-[1.7]">
-            Select general DELE A1 at an authorized centre. No lower-level certificate is required.
-            Fees, dates and deadlines depend on the centre and session; check the{" "}
-            <a className="underline" href={sources[9].url} target="_blank" rel="noreferrer">
-              official registration page
-            </a>
-            .
-          </p>
-        </div>
-        <div>
-          <span>02</span>
-          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Check your appointment</h3>
-          <p className="leading-[1.7]">
-            Confirm the location and the separate written and oral times. Ask the centre about any
-            access arrangements when registering. Follow its instructions about materials and
-            arrival time.
-          </p>
-        </div>
-        <div>
-          <span>03</span>
-          <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Bring your documents</h3>
-          <p className="leading-[1.7]">
-            Have the original official photo ID or passport used to register, registration receipt
-            and official exam summons. Check the{" "}
-            <a className="underline" href={sources[8].url} target="_blank" rel="noreferrer">
-              candidate guidance
-            </a>{" "}
-            and your centre’s current instructions.
-          </p>
-        </div>
+      <Panel className="grid grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[1fr] p-[27px] gap-[28px] max-lg:gap-[20px]">
+        {STEPS.map(([title, text], i) => (
+          <div key={title} className="max-lg:relative max-lg:pl-[43px]">
+            <span className="font-serif text-[28px] text-[#bac4aa] max-lg:absolute max-lg:left-0 max-lg:top-[3px]">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 className="text-[16px] m-[10px_0] font-semibold tracking-[-0.3px]">{title}</h3>
+            <p className="leading-[1.7] text-[14px] text-[#929e83]">{text}</p>
+          </div>
+        ))}
       </Panel>
       <SectionHeading title="Go straight to the source">
         <span className="text-[14px] text-[#75816b]">Instituto Cervantes · Primary sources</span>
@@ -267,7 +258,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         {sources.map((s, i) => (
           <a
             key={s.url}
-            className="border border-sage-200 rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline [&:hover]:border-[#bdcdb0] [&:hover]:bg-[#f6f8ef]"
+            className="border border-sage-200 rounded-[9px] flex items-center gap-[15px] max-xl:gap-[10px] p-[17px] max-xl:p-[15px] bg-[#fffefa] no-underline hover:border-[#bdcdb0] hover:bg-[#f6f8ef]"
             href={s.url}
             target="_blank"
             rel="noreferrer"

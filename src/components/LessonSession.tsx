@@ -11,7 +11,7 @@ import { ProgressTrack } from "../design-system/ProgressTrack";
 import { QuestionCard } from "./question-card/QuestionCard";
 import { stopAudio } from "./audio/playback";
 import { FieldNote } from "../design-system/FieldNote";
-import { COMPLETION_STATS } from "./PocketVocabulary";
+import { CompletionStats } from "./CompletionStats";
 
 type Props = {
   lesson: Lesson;
@@ -121,36 +121,36 @@ export const LessonSession = ({
         </div>
       )}
       {finished ? (
-        <div className="p-[50px_30px] text-center max-md:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
-          <CompletionArt>
-            <span className="translate-y-[-23px]">✦</span>
-            <Icon name="flag" size={50} />
-            <span className="translate-y-[19px]">✧</span>
-          </CompletionArt>
+        <div className="p-[50px_30px] text-center max-md:p-[35px_20px]">
+          <CompletionArt icon="flag" sparkles />
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Look at you go.
           </h2>
-          <p className="leading-[1.7]">Another little piece of Spanish, yours to keep.</p>
-          <dl className={COMPLETION_STATS}>
-            <div>
-              <dt>objective answers</dt>
-              <dd>
-                {results.filter((r) => r).length}
-                <small>/{results.filter((r) => r !== null).length}</small>
-              </dd>
-            </div>
-            <div>
-              <dt>creative practices</dt>
-              <dd>{results.filter((r) => r === null).length}</dd>
-            </div>
-            <div>
-              <dt>moments to review</dt>
-              <dd>{results.filter((r) => r === false).length}</dd>
-            </div>
-          </dl>
-          {assisted > 0 && <FieldNote>{assisted} answers used transcript assistance.</FieldNote>}
-          <p className="leading-[1.7]">
+          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
+            Another little piece of Spanish, yours to keep.
+          </p>
+          <CompletionStats
+            stats={[
+              [
+                "objective answers",
+                <>
+                  {results.filter((r) => r).length}
+                  <small className="text-[16px] text-[#a6b294]">
+                    /{results.filter((r) => r !== null).length}
+                  </small>
+                </>,
+              ],
+              ["creative practices", results.filter((r) => r === null).length],
+              ["moments to review", results.filter((r) => r === false).length],
+            ]}
+          />
+          {assisted > 0 && (
+            <FieldNote className="mt-[13px]">
+              {assisted} answers used transcript assistance.
+            </FieldNote>
+          )}
+          <p className="leading-[1.7] text-[14px] text-[#95a080] mt-[13px]">
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}

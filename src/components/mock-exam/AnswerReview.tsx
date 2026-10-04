@@ -21,6 +21,8 @@ const status = {
   neutral: "bg-[#ebe8ef] text-[#a298b1]",
 };
 
+const LINE = "leading-[1.7] my-[8px] text-[14px]";
+
 export const AnswerReview = ({ q, number, answer, section }: Props) => {
   const verdict = section > 1 ? "neutral" : isCorrect(q, answer || "") ? "good" : "bad";
 
@@ -38,29 +40,29 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
           {number}. {q.prompt}
         </span>
       </summary>
-      <div className="pb-[20px] pl-[40px] text-[#819271] [&>p]:my-[8px] [&>p]:text-[14px] max-md:pl-0">
-        <p className="leading-[1.7]">
+      <div className="pb-[20px] pl-[40px] text-[#819271] max-md:pl-0">
+        <p className={LINE}>
           Your answer: <strong lang="es">{answer || "Not answered"}</strong>
         </p>
-        <p className="leading-[1.7]">
+        <p className={LINE}>
           {section < 2 ? "Correct answer" : "One possible response"}:{" "}
           <strong lang="es">{q.answer}</strong>
         </p>
-        <p className="leading-[1.7]">{q.explanation}</p>
+        <p className={LINE}>{q.explanation}</p>
         {q.audio && (
-          <p className="leading-[1.7]" lang="es">
+          <p className={LINE} lang="es">
             Transcript: {q.audio}
           </p>
         )}
         {q.minWords && (
-          <p className="leading-[1.7]">
+          <p className={LINE}>
             Response length:{" "}
             {countWords(q.kind === "form" ? (answer || "").replace(/^.*?: /gm, "") : answer || "")}{" "}
             words. Target: {q.minWords}–{q.maxWords}.
           </p>
         )}
         {q.checklist?.map((c) => (
-          <p className="leading-[1.7]" key={c}>
+          <p className={LINE} key={c}>
             □ {c}
           </p>
         ))}

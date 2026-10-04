@@ -1,24 +1,68 @@
 import type { ReactNode } from "react";
 
-// Descendant variants keep the old `.section-heading h2|p` specificity. One variant per
-// context the old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
+// One variant per context the old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
 const TITLE =
-  "[&_h2]:text-[25px] max-xl:[&_h2]:text-[22px] max-md:[&_h2]:text-[25px] max-sm:[&_h2]:text-[23px]";
+  "font-serif text-[25px] max-xl:text-[22px] max-md:text-[25px] max-sm:text-[23px] font-semibold tracking-[-0.7px] leading-[1.25]";
 
-const TEXT = "[&_p]:mt-[5px] [&_p]:text-[14px] [&_p]:text-[#75816b]";
+const TEXT = "mt-[5px] text-[14px] leading-[1.7] text-[#75816b]";
 
 const VARIANT = {
-  default: `mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px] ${TEXT}`,
-  path: `mt-[30px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px] ${TEXT}`,
-  word: `mt-[37px] max-md:mt-[26px] gap-[16px] max-md:gap-[15px] max-sm:gap-[12px] max-md:flex-col max-md:items-start ${TEXT}`,
-  collection:
-    "mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:flex-col max-sm:items-stretch [&_p]:mt-[6px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d]",
+  default: {
+    box: "mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px]",
+    title: TITLE,
+    text: TEXT,
+  },
+  path: {
+    box: "mt-[30px] max-md:mt-[26px] gap-[16px] max-sm:gap-[12px]",
+    title: TITLE,
+    text: TEXT,
+  },
+  word: {
+    box: "mt-[37px] max-md:mt-[26px] gap-[16px] max-md:gap-[15px] max-sm:gap-[12px] max-md:flex-col max-md:items-start",
+    title: TITLE,
+    text: TEXT,
+  },
+  collection: {
+    box: "mt-[28px] max-md:mt-[26px] gap-[16px] max-sm:flex-col max-sm:items-stretch",
+    title: "text-[17px] font-semibold tracking-[-0.3px]",
+    text: "mt-[6px] text-[13px] leading-[1.6] text-[#59675d]",
+  },
 };
 
-type Props = { variant?: keyof typeof VARIANT; children: ReactNode };
+type Props = {
+  variant?: keyof typeof VARIANT;
+  title: ReactNode;
+  titleId?: string;
+  eyebrow?: ReactNode;
+  text?: ReactNode;
+  /** The aside on the right: a badge, a link, a caption. */
+  children?: ReactNode;
+};
 
-export const SectionHeading = ({ variant = "default", children }: Props) => (
-  <div className={`flex items-center justify-between mb-[17px] ${TITLE} ${VARIANT[variant]}`}>
-    {children}
-  </div>
-);
+export const SectionHeading = ({
+  variant = "default",
+  title,
+  titleId,
+  eyebrow,
+  text,
+  children,
+}: Props) => {
+  const v = VARIANT[variant];
+  const Title = variant === "collection" ? "h3" : "h2";
+
+  return (
+    <div className={`flex items-center justify-between mb-[17px] ${v.box}`}>
+      <div>
+        {eyebrow}
+        <Title
+          id={titleId}
+          className={`${v.title} ${eyebrow && variant === "word" ? "mt-[8px]" : ""}`}
+        >
+          {title}
+        </Title>
+        {text && <p className={v.text}>{text}</p>}
+      </div>
+      {children}
+    </div>
+  );
+};

@@ -67,8 +67,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
         </Panel>
       ))}
     </div>
-    <Notice>
-      <Icon name="info" />
+    <Notice icon="info">
       <p className="leading-[1.7]">
         This is an independent guided rehearsal. Shorter listening clips, visual symbols and
         navigation differ from the live exam; audio is controlled per question. Use the{" "}

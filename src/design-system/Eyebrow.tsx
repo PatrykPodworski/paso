@@ -12,9 +12,9 @@ const VARIANT = {
   small: "block text-[10px] tracking-[1.6px] font-bold text-[#818879]",
   phrase:
     "flex items-center gap-[6px] text-[10px] xl:text-[9px] tracking-[1.1px] font-bold text-[#b19673]",
-  unit: "block text-[10px] max-lg:text-[11px] max-md:text-[9px] max-sm:leading-[1.5] tracking-[1px] font-medium text-[#8c9980] [&>i]:not-italic [&>i]:px-[5px]",
+  unit: "block text-[10px] max-lg:text-[11px] max-md:text-[9px] max-sm:leading-[1.5] tracking-[1px] font-medium text-[#8c9980]",
   pathUnit:
-    "block text-[10px] max-lg:text-[11px] max-md:text-[10px] max-sm:text-[8px] max-sm:leading-[1.5] tracking-[1px] font-medium text-[#8c9980] [&>i]:not-italic [&>i]:px-[5px]",
+    "block text-[10px] max-lg:text-[11px] max-md:text-[10px] max-sm:text-[8px] max-sm:leading-[1.5] tracking-[1px] font-medium text-[#8c9980]",
 };
 
 type Props = {

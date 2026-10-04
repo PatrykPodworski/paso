@@ -22,9 +22,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
     as="section"
     className="p-[23px_20px] max-xl:p-[18px_15px] max-md:p-[21px_15px] max-sm:p-[23px]"
   >
-    <PanelHeading title="A little of every skill">
-      <Icon name="layers" size={17} />
-    </PanelHeading>
+    <PanelHeading title="A little of every skill" icon="layers" />
     <p className="leading-[1.7] mt-[7px] mb-[21px] text-[#75816b] text-[12px] max-lg:text-[13px] max-md:text-[11px]">
       Four ways to grow your Spanish.
     </p>

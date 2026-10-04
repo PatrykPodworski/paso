@@ -132,7 +132,8 @@ export const UnitCard = ({
         </div>
         <div className="flex-1 min-w-0">
           <Eyebrow variant={at.eyebrow}>
-            UNIT {String(index + 1).padStart(2, "0")} <i>·</i> {unit.spanish}
+            UNIT {String(index + 1).padStart(2, "0")} <i className="not-italic px-[5px]">·</i>{" "}
+            {unit.spanish}
           </Eyebrow>
           <h3 className={`font-semibold tracking-[-0.3px] ${TITLE} ${at.title}`}>{unit.title}</h3>
           <p className={`leading-[1.7] ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>

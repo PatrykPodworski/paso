@@ -13,7 +13,7 @@ import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
 
 const PATH_NUMBER =
-  "flex items-center justify-center shrink-0 rounded-full border border-sage-200 mt-[26px] w-[31px] h-[31px] text-[12px] max-md:w-[27px] max-md:h-[27px] max-md:text-[11px]";
+  "flex items-center justify-center shrink-0 rounded-full border border-sage-200 mt-6 w-8 h-8 text-xs max-md:w-7 max-md:h-7 max-md:text-2xs";
 
 type Props = {
   progress: Progress;
@@ -42,7 +42,7 @@ export const PathPage = ({
     <>
       <PageHeading
         eyebrow={
-          <Eyebrow variant="page" className="mb-[9px]">
+          <Eyebrow variant="page" className="mb-2">
             FROM YOUR FIRST HOLA TO YOUR A1
           </Eyebrow>
         }
@@ -56,39 +56,36 @@ export const PathPage = ({
       >
         <Stamp />
       </PageHeading>
-      <Panel className="flex items-center gap-[18px] max-md:gap-[13px] mb-[30px] p-[23px_25px] max-md:p-[20px] max-lg:flex-wrap">
+      <Panel className="flex items-center gap-4 max-md:gap-3 mb-7 p-6 max-md:p-5 max-lg:flex-wrap">
         <span
-          className={`flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-xl:w-[40px] max-xl:h-[43px] max-md:w-[43px] max-md:h-[45px] max-sm:w-[34px] max-sm:h-[37px] ${TONE[nextUnit.color]}`}
+          className={`flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11 max-md:w-11 max-sm:w-8 max-sm:h-9 ${TONE[nextUnit.color]}`}
         >
           <Icon name={nextUnit.icon} size={28} />
         </span>
-        <div className="flex-1 max-lg:min-w-[250px] max-md:min-w-[200px] max-sm:min-w-[160px]">
-          <Eyebrow variant="banner" className="mb-[7px]">
+        <div className="flex-1 max-lg:min-w-62 max-md:min-w-50 max-sm:min-w-40">
+          <Eyebrow variant="banner" className="mb-1.5">
             YOUR NEXT SMALL STEP
           </Eyebrow>
-          <h3 className="font-semibold tracking-[-0.3px] text-[17px] max-xl:text-[15px] max-sm:text-[14px]">
+          <h3 className="font-semibold tracking-tight text-base max-xl:text-sm">
             {nextUnit.title} · {nextLesson.title}
           </h3>
-          <p className="leading-[1.7] mt-[6px] text-[14px] text-sage-500">
+          <p className="leading-relaxed mt-1.5 text-sm text-sage-500">
             {completed}/{allLessons.length} complete · {progressPercent}% of your path
           </p>
         </div>
         <Button
           variant="primary"
-          className="md:max-lg:ml-[65px]"
+          className="md:max-lg:ml-16"
           onClick={() => setSession(nextLesson)}
         >
           Continue learning
           <Icon name="arrow" />
         </Button>
       </Panel>
-      <div className="grid grid-cols-[minmax(0,1fr)_262px] gap-[27px] max-xl:grid-cols-[minmax(0,1fr)_230px] max-xl:gap-[20px] max-lg:grid-cols-[1fr]">
-        <div className="relative before:content-[''] before:absolute before:top-[20px] before:bottom-[65px] before:left-[15px] max-md:before:left-[13px] before:border-l before:border-dashed before:border-sage-200">
+      <div className="flex gap-7 max-xl:gap-5 max-lg:flex-col">
+        <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-sage-200">
           {units.map((u, i) => (
-            <div
-              className="relative flex items-start gap-[18px] max-md:gap-[11px] mb-[18px]"
-              key={u.id}
-            >
+            <div className="relative flex items-start gap-4 max-md:gap-2.5 mb-4" key={u.id}>
               <span
                 className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-olive-600 text-white" : "bg-sage-50 text-sage-500"}`}
               >
@@ -109,13 +106,13 @@ export const PathPage = ({
               />
             </div>
           ))}
-          <div className="flex flex-wrap items-center gap-[15px] max-md:gap-[12px] mt-[28px] ml-[50px] max-md:ml-[38px] p-[24px] max-md:p-[20px] max-sm:p-[19px] rounded-[12px] bg-sage-100 text-olive-600">
+          <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-sage-100 text-olive-600">
             <Icon name="flag" size={28} />
             <div>
-              <h3 className="font-semibold tracking-[-0.3px] font-serif text-[21px] max-md:text-[20px]">
+              <h3 className="font-semibold tracking-tight font-serif text-xl">
                 The next chapter is yours.
               </h3>
-              <p className="leading-[1.7] mt-[5px] text-[13px]">
+              <p className="leading-relaxed mt-1 text-xs">
                 Put your skills together in the exam rehearsal.
               </p>
             </div>
@@ -132,10 +129,10 @@ export const PathPage = ({
         </div>
         <Panel
           as="aside"
-          className="p-[26px] self-start sticky top-[20px] max-lg:static max-lg:grid max-lg:grid-cols-[1fr_1fr] max-lg:gap-[20px] max-sm:grid-cols-[1fr]"
+          className="w-65 shrink-0 p-6 self-start sticky top-5 max-xl:w-57 max-lg:w-auto max-lg:self-stretch max-lg:static max-lg:grid max-lg:grid-cols-2 max-lg:gap-5 max-sm:grid-cols-1"
         >
           <Eyebrow className="max-lg:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
-          <h3 className="tracking-[-0.3px] font-serif font-medium leading-[1.3] text-[26px] max-sm:text-[25px] m-[12px_0_24px] max-lg:m-0 max-lg:col-span-full">
+          <h3 className="tracking-normal font-serif font-medium leading-tight text-2xl mt-3 mx-0 mb-6 max-lg:m-0 max-lg:col-span-full">
             Learn it. Try it.
             <br />
             Make it yours.
@@ -146,15 +143,15 @@ export const PathPage = ({
             ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
             ["mic", "Use your own voice", "Write, record and reflect on your progress."],
           ].map(([icon, title, body]) => (
-            <div key={title} className="flex gap-[12px] mb-[23px] max-lg:mb-0 text-sage-600">
+            <div key={title} className="flex gap-3 mb-6 max-lg:mb-0 text-sage-600">
               <Icon name={icon} size={20} />
               <section>
-                <h4 className="font-semibold text-[14px] text-sage-800">{title}</h4>
-                <p className="leading-[1.7] mt-[6px] text-[14px]">{body}</p>
+                <h4 className="font-semibold text-sm text-sage-800">{title}</h4>
+                <p className="leading-relaxed mt-1.5 text-sm">{body}</p>
               </section>
             </div>
           ))}
-          <FieldNote className="mt-[6px] max-lg:col-span-full">
+          <FieldNote className="mt-1.5 max-lg:col-span-full">
             All lessons are open. Completion tracks practice, not exam readiness. Review mistakes
             and use the A1 checklist to find gaps.
           </FieldNote>

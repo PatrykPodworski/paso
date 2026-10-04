@@ -130,7 +130,8 @@ On pull requests, the Visual workflow (`.github/workflows/visual.yml`) compares
 screenshots of the five top-level views, desktop and mobile, with the base
 branch's. A diff fails the job and uploads the Playwright report as the
 `visual-diff` artifact. The `visual-approved` label accepts the diff until the
-next push. Other views are not compared. To compare locally, run
+next push. The `main` ruleset requires the job's `compare` check, so a pull request
+with an unapproved diff cannot merge. Other views are not compared. To compare locally, run
 `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then
 `VISUAL_COMPARE=1 pnpm test:visual` on the change. macOS baselines are only
 comparable with macOS runs.

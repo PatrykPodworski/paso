@@ -6,20 +6,20 @@ import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
 
-const NOTE = "text-[14px] leading-[1.8] text-[#63784e] mt-[8px]";
+const NOTE = "text-[14px] leading-[1.8] text-olive-700 mt-[8px]";
 
 const TONE = {
   success: {
-    box: "border-[#dce5cc] bg-[#f1f6e8]",
-    icon: "bg-[#e0ebd1] text-[#8ba768]",
-    heading: "text-[#6f8a52]",
-    paragraph: "text-[#63784e]",
+    box: "border-sage-200 bg-sage-100",
+    icon: "bg-sage-200 text-olive-500",
+    heading: "text-olive-600",
+    paragraph: "text-olive-700",
   },
   needsWork: {
-    box: "border-[#ead7b9] bg-[#faf1e3]",
-    icon: "bg-[#f1dfc5] text-[#bf955f]",
-    heading: "text-[#aa7b4a]",
-    paragraph: "text-[#8d6d48]",
+    box: "border-sand-200 bg-sand-50",
+    icon: "bg-sand-200 text-sand-500",
+    heading: "text-sand-600",
+    paragraph: "text-sand-700",
   },
 };
 
@@ -57,11 +57,11 @@ type PracticeReviewProps = { q: Question; value: string; checked: number };
 
 const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
   <>
-    <div className="rounded-[8px] border border-[#e4e9d7] bg-[#fffdf6] p-[18px_20px] mt-[18px] max-md:p-[15px]">
+    <div className="rounded-[8px] border border-sage-200 bg-white p-[18px_20px] mt-[18px] max-md:p-[15px]">
       <Eyebrow>One possible answer</Eyebrow>
       <p
         lang="es"
-        className="m-[10px_0_17px] text-[15px] leading-[1.9] text-[#687b51] max-md:text-[14px]"
+        className="m-[10px_0_17px] text-[15px] leading-[1.9] text-olive-700 max-md:text-[14px]"
       >
         {q.answer}
       </p>
@@ -90,7 +90,7 @@ const FeedbackBottom = ({
   onContinue,
 }: FeedbackBottomProps) => (
   <div className="flex items-center justify-between gap-[20px] mt-[20px] max-md:flex-wrap max-md:gap-[15px]">
-    <small className="text-[12px] leading-[1.7] text-[#96a480]">
+    <small className="text-[12px] leading-[1.7] text-sage-500">
       {correct === false
         ? "Added to your mistake review."
         : productive
@@ -181,7 +181,7 @@ export const QuestionFeedback = ({
       <MemoryHint text={q.memoryHint} />
       {productive && <PracticeReview q={q} value={value} checked={checked} />}
       {q.audio && (
-        <details className="text-[14px] text-[#889c71] mt-[17px]">
+        <details className="text-[14px] text-olive-500 mt-[17px]">
           <summary className="cursor-pointer">Read the transcript</summary>
           <p lang="es" className="leading-[1.7] mt-[10px]">
             {q.audio}

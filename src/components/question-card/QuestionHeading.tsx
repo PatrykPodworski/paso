@@ -8,7 +8,7 @@ import type { AudioHandle } from "../audio/useAudioPlayer";
 type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
-  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-[#7c8c68] max-md:gap-[6px] max-md:text-[9px] max-md:tracking-[1px] max-sm:tracking-[0.8px]">
+  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-sage-600 max-md:gap-[6px] max-md:text-[9px] max-md:tracking-[1px] max-sm:tracking-[0.8px]">
     <SkillDot skill={q.skill} />
     {q.skill} <span className="px-[4px] opacity-50"> / </span>
     {q.kind === "listen"

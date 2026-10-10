@@ -1,9 +1,9 @@
 import type { Tone } from "../data/types";
 
 export const TONE: Record<Tone, string> = {
-  peach: "bg-[#f3e5d8] text-[#bd7f5c]",
-  sage: "bg-[#e8eddd] text-[#7d956b]",
-  lavender: "bg-[#ece8f1] text-[#9b8cad]",
-  sand: "bg-[#f1ebd8] text-[#b39a68]",
-  blue: "bg-[#e6edf0] text-[#83a0ac]",
+  peach: "bg-sand-100 text-coral-600",
+  sage: "bg-sage-100 text-olive-600",
+  lavender: "bg-lavender-100 text-lavender-600",
+  sand: "bg-sand-100 text-sand-500",
+  blue: "bg-blue-100 text-blue-500",
 };

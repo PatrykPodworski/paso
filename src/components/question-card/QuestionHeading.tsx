@@ -5,15 +5,10 @@ import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
-// The pronunciation player sits in the heading grid's second column; the wrapper
-// becomes `contents` so the button places itself (AudioButton places its counter).
-const PRONUNCIATION =
-  "[&:not([hidden])]:contents [&_button]:col-start-2 [&_button]:row-start-1 [&_button]:mt-[15px] [&_button]:h-[44px] [&_button]:w-[44px] [&_button]:self-start [&_button]:rounded-[50%] [&_button]:border [&_button]:border-[#e5dfec] [&_button]:bg-[#f3eff7] [&_button]:text-[#7c698e] [&_button:hover]:bg-[#eae3f1]";
-
 type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
-  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-[#7c8c68] max-md:gap-[6px] max-md:text-[9px] max-md:tracking-[1px] max-sm:tracking-[0.8px]">
+  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-sage-600 max-md:gap-[6px] max-md:text-[9px] max-md:tracking-[1px] max-sm:tracking-[0.8px]">
     <SkillDot skill={q.skill} />
     {q.skill} <span className="px-[4px] opacity-50"> / </span>
     {q.kind === "listen"
@@ -55,6 +50,7 @@ export const QuestionHeading = ({
   }, [q.id]);
 
   const pronunciation = q.pronunciation || q.audio || q.passage || q.answer;
+  const hidePronunciation = !q.audio && !feedback;
 
   return (
     <>
@@ -69,11 +65,16 @@ export const QuestionHeading = ({
         >
           {q.prompt}
         </h2>
-        <div className={`question-pronunciation ${PRONUNCIATION}`} hidden={!q.audio && !feedback}>
+        {/* The player sits in the heading grid's second column; the wrapper becomes
+            `contents` so the button places itself (AudioButton places its counter). */}
+        <div
+          className={`question-pronunciation ${hidePronunciation ? "" : "contents"}`}
+          hidden={hidePronunciation}
+        >
           {q.audio ? (
             <AudioButton
               ref={listeningAudio}
-              compact
+              round="pronunciation"
               text={q.audio}
               label="Play Spanish audio"
               autoPlay={q.kind === "listen"}
@@ -82,7 +83,7 @@ export const QuestionHeading = ({
           ) : !exam ? (
             <AudioButton
               ref={answerAudio}
-              compact
+              round="pronunciation"
               text={pronunciation}
               label="Play Spanish audio"
             />

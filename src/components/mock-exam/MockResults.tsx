@@ -18,7 +18,7 @@ type Props = {
 };
 
 const TILE =
-  "flex flex-col gap-[10px] rounded-[10px] bg-[#f2f5e9] px-[10px] py-[20px] text-[#81956b]";
+  "flex flex-col gap-[10px] rounded-[10px] bg-sage-100 px-[10px] py-[20px] text-olive-600";
 
 export const MockResults = ({
   reading,
@@ -31,14 +31,12 @@ export const MockResults = ({
   onReset,
 }: Props) => (
   <Panel className="p-[38px] text-center max-md:px-[20px] max-md:py-[28px]">
-    <CompletionArt>
-      <Icon name="trophy" size={48} />
-    </CompletionArt>
+    <CompletionArt icon="trophy" />
     <Eyebrow>REHEARSAL COMPLETE</Eyebrow>
     <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] my-[12px] text-[36px] max-md:text-[31px]">
       You’ve met the exam.
     </h2>
-    <p className="leading-[1.7] text-[15px] text-[#919e81]">
+    <p className="leading-[1.7] text-[15px] text-sage-500">
       Now you know where your next steps can take you.
     </p>
     <div className="my-[30px] grid grid-cols-[repeat(4,1fr)] gap-[15px] max-lg:grid-cols-[1fr_1fr]">
@@ -46,14 +44,14 @@ export const MockResults = ({
         <span className="text-[14px]">Reading</span>
         <strong className="font-serif text-[38px] font-medium">
           {reading}
-          <small className="text-[17px] text-[#a8b596]">/25</small>
+          <small className="text-[17px] text-sage-400">/25</small>
         </strong>
       </div>
       <div className={TILE}>
         <span className="text-[14px]">Listening</span>
         <strong className="font-serif text-[38px] font-medium">
           {listening}
-          <small className="text-[17px] text-[#a8b596]">/25</small>
+          <small className="text-[17px] text-sage-400">/25</small>
         </strong>
       </div>
       <div className={TILE}>

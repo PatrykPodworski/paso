@@ -142,17 +142,17 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
   };
 
   return (
-    <div className="recorder mt-[22px] p-[22px] bg-[#f5ece5] border border-[#ebdbcb] rounded-[10px] max-md:p-[18px]">
+    <div className="recorder mt-[22px] p-[22px] bg-sand-100 border border-sand-200 rounded-[10px] max-md:p-[18px]">
       <div className="record-main flex items-center justify-between gap-[15px] max-sm:flex-col max-sm:items-stretch">
         <button
           type="button"
-          className={`${PRESSABLE} record-button flex items-center gap-[11px] p-[14px_19px] border-0 rounded-[9px] text-[14px] text-[#fff9f0] max-md:p-[13px] max-sm:justify-center ${recording ? "bg-[#ad614d] animate-ring-pulse motion-reduce:animate-none" : "bg-[#d29372]"}`}
+          className={`${PRESSABLE} record-button flex items-center gap-[11px] p-[14px_19px] border-0 rounded-[9px] text-[14px] text-sand-50 max-md:p-[13px] max-sm:justify-center ${recording ? "bg-coral-700 animate-ring-pulse motion-reduce:animate-none" : "bg-coral-500"}`}
           onClick={toggle}
         >
           <Icon name={recording ? "pause" : "mic"} size={24} />
           {recording ? "Stop recording" : url ? "Record again" : "Record your answer"}
         </button>
-        <span className="mono font-[monospace] text-[21px] text-[#b29777] max-md:text-[17px] max-sm:text-center">
+        <span className="mono font-sans tabular-nums text-[21px] text-sand-500 max-md:text-[17px] max-sm:text-center">
           {String(Math.floor(seconds / 60)).padStart(2, "0")}:
           {String(seconds % 60).padStart(2, "0")}
         </span>
@@ -166,7 +166,7 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
           <TextLink
             href={url}
             download={`paso-speaking.${recorder.current?.mimeType.includes("mp4") ? "m4a" : "webm"}`}
-            className="text-[13px]! text-[#b38d6a]!"
+            className="text-[13px]! text-sand-500!"
           >
             <Icon name="download" size={16} /> Save recording
           </TextLink>

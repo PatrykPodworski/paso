@@ -344,14 +344,14 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   const dialog = page.getByRole("dialog", { name: "Vocabulary review" });
 
   for (let i = 0; i < 8; i++) {
-    await expect(dialog.locator(".lesson-counter")).toHaveText(`${i + 1} / 8`);
-    await expect(dialog.locator(".flashcard-answer")).toHaveCount(0);
+    await expect(dialog.getByText(`${i + 1} / 8`, { exact: true })).toBeVisible();
+    await expect(dialog.getByText("THE MEANING", { exact: true })).toHaveCount(0);
 
     await expect
       .poll(() => page.evaluate(() => (window as any).__vocabularyClips.length))
       .toBe(2 * i + 1);
 
-    const word = await dialog.locator(".flashcard-prompt h2").innerText();
+    const word = await dialog.getByRole("heading", { level: 2 }).innerText();
 
     expect(
       await page.evaluate(() => new URL((window as any).__vocabularyClips.at(-1).src).pathname),
@@ -360,8 +360,8 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
     await expect(dialog.locator(".audio-control button")).toHaveCount(1);
     await expect(dialog.locator(".waveform, .speed-button")).toHaveCount(0);
     await page.getByRole("button", { name: "Reveal answer" }).click();
-    await expect(dialog.locator(".memory-hint")).toBeVisible();
-    const example = await dialog.locator(".flashcard-example p[lang='es']").innerText();
+    await expect(dialog.getByText("Memory hint", { exact: true })).toBeVisible();
+    const example = await dialog.locator("p[lang='es']").innerText();
 
     await expect
       .poll(() => page.evaluate(() => (window as any).__vocabularyClips.length))

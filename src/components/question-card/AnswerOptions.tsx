@@ -2,10 +2,10 @@ import { Icon } from "../../design-system/Icon";
 import { PRESSABLE } from "../../design-system/pressable";
 
 export const OPTION_KEY =
-  "flex shrink-0 items-center justify-center rounded-[5px] border border-[#e1e7d7] bg-[#fcfdf8] text-[#a3b28e]";
+  "flex shrink-0 items-center justify-center rounded-[5px] border border-sage-200 bg-white text-sage-400";
 
 const OPTION =
-  "answer-option flex items-center rounded-[9px] border text-left leading-[1.65] [&:hover:not(:disabled)]:border-[#b7c7a1] [&:hover:not(:disabled)]:bg-[#f3f6eb]";
+  "answer-option flex items-center rounded-[9px] border text-left leading-[1.65] enabled:hover:border-sage-300 enabled:hover:bg-sage-50";
 
 const SIZE = {
   few: "gap-[14px] p-[14px_17px] min-h-[59px] text-[15px] max-md:gap-[12px] max-md:p-[13px] max-md:min-h-[55px] max-md:text-[14px]",
@@ -22,12 +22,12 @@ const KEY_SIZE = {
 // for PRESSABLE's disabled opacity, hence `!` on the revealed answers.
 const tone = (picked: boolean, right: boolean, wrong: boolean) =>
   wrong
-    ? "incorrect border-[#cf9b73] bg-[#fcf0e2] text-[#ad784f] disabled:opacity-100!"
+    ? "incorrect border-coral-500 bg-sand-50 text-coral-600 disabled:opacity-100!"
     : right
-      ? "correct border-[#8ea969] bg-[#eef4e3] text-[#66844a] disabled:opacity-100!"
+      ? "correct border-olive-500 bg-sage-100 text-olive-700 disabled:opacity-100!"
       : picked
-        ? "border-[#8ba16d] bg-[#eef3e4]"
-        : "border-[#dee5d3] bg-[#fffefa]";
+        ? "border-olive-500 bg-sage-100"
+        : "border-sage-200 bg-white";
 
 type OptionProps = {
   option: string;
@@ -52,13 +52,13 @@ const Option = ({
 }: OptionProps) => (
   <button
     type="button"
-    className={`${PRESSABLE} ${OPTION} ${SIZE[layout]} ${tone(picked, right, wrong)} ${picked ? "shadow-[0_0_0_1px_#8ba16d]" : ""}`}
+    className={`${PRESSABLE} ${OPTION} ${SIZE[layout]} ${tone(picked, right, wrong)} ${picked ? "shadow-[0_0_0_1px_var(--color-olive-500)]" : ""}`}
     onClick={() => onChoose(option)}
     disabled={feedback}
     aria-pressed={picked}
   >
     <span
-      className={`${OPTION_KEY} ${KEY_SIZE[layout]} ${picked ? "border-[#819964]! bg-[#819964]! text-white!" : ""}`}
+      className={`${OPTION_KEY} ${KEY_SIZE[layout]} ${picked ? "border-olive-600! bg-olive-600! text-white!" : ""}`}
       aria-hidden="true"
     >
       {index + 1}
@@ -66,7 +66,7 @@ const Option = ({
     <span>{option}</span>
     {right && <Icon name="check" className="ml-auto" />}
     {!feedback && picked && (
-      <span className="ml-auto h-[13px] w-[13px] shrink-0 rounded-full border border-[#8aa171] bg-[#8aa171] shadow-[inset_0_0_0_3px_#eef3e4]" />
+      <span className="ml-auto h-[13px] w-[13px] shrink-0 rounded-full border border-olive-500 bg-olive-500 shadow-[inset_0_0_0_3px_var(--color-sage-100)]" />
     )}
   </button>
 );

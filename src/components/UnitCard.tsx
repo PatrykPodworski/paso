@@ -17,7 +17,7 @@ type Props = {
 
 // Each pair is what the old `.x` / `.path-stop .x` media cascades resolved to per breakpoint.
 const SUMMARY =
-  "flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f8f9f2] gap-[15px] max-xl:gap-[12px] max-lg:gap-[15px] p-[22px_20px] max-xl:p-[16px] max-lg:p-[20px]";
+  "flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-[15px] max-xl:gap-[12px] max-lg:gap-[15px] p-[22px_20px] max-xl:p-[16px] max-lg:p-[20px]";
 
 const ICON =
   "flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-xl:w-[40px] max-xl:h-[43px]";
@@ -26,40 +26,40 @@ const TITLE =
   "mt-[6px] leading-[1.3] text-[18px] max-xl:text-[16px] max-lg:text-[17px] max-md:text-[16px]";
 
 const SUBTITLE =
-  "mt-[5px] text-[#75816b] text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-md:text-[11px]";
+  "mt-[5px] text-sage-700 text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-md:text-[11px]";
 
 const STATUS =
-  "flex items-center text-[11px] text-[#939d84] gap-[14px] max-xl:gap-[9px] max-md:gap-[8px]";
+  "flex items-center text-[11px] text-sage-500 gap-[14px] max-xl:gap-[9px] max-md:gap-[8px]";
 
 const EXPANDED =
-  "border-t border-t-[#ebeee3] p-[0_20px_12px] max-xl:p-[8px_15px_12px] max-lg:p-[0_20px_13px]";
+  "border-t border-t-sage-100 p-[0_20px_12px] max-xl:p-[8px_15px_12px] max-lg:p-[0_20px_13px]";
 
 const GOALS =
   "flex max-xl:hidden max-lg:flex flex-wrap gap-[6px_14px] xl:gap-[8px_14px] py-[14px] xl:py-[16px]";
 
 const LESSON_LIST =
-  "relative before:content-[''] before:absolute before:top-[20px] before:bottom-[23px] before:border-l before:border-dashed before:border-[#d9e1cc] before:left-[17px] max-xl:before:left-[13px]";
+  "relative before:content-[''] before:absolute before:top-[20px] before:bottom-[23px] before:border-l before:border-dashed before:border-sage-200 before:left-[17px] max-xl:before:left-[13px]";
 
 const ROW =
-  "relative flex items-center w-full text-left border-0 bg-transparent [&:hover]:bg-[#f4f7ed] gap-[12px] max-xl:gap-[9px] p-[13px_0] max-xl:p-[8px_0] max-lg:p-[10px_0] max-md:p-[12px_0]";
+  "relative flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-[12px] max-xl:gap-[9px] p-[13px_0] max-xl:p-[8px_0] max-lg:p-[10px_0] max-md:p-[12px_0]";
 
 const NODE =
   "relative z-[1] flex items-center justify-center shrink-0 rounded-full border w-[35px] h-[35px] max-xl:w-[28px] max-xl:h-[28px]";
 
 const NODE_STATE = {
-  current: "bg-[#f0dfc9] border-[#e6caa7] text-[#b78a5a]",
-  completed: "bg-[#e1ebd6] border-[#e2e7d9] text-[#658052]",
-  upcoming: "bg-[#f3f5ee] border-[#e2e7d9] text-[#95a186]",
+  current: "bg-sand-200 border-sand-300 text-sand-500",
+  completed: "bg-sage-200 border-sage-200 text-olive-700",
+  upcoming: "bg-sage-50 border-sage-200 text-sage-500",
 };
 
 const ROW_TITLE =
-  "block font-semibold text-[#5f7058] text-[14px] max-xl:text-[12px] max-lg:text-[14px] max-md:text-[13px]";
+  "block font-semibold text-sage-800 text-[14px] max-xl:text-[12px] max-lg:text-[14px] max-md:text-[13px]";
 
 const ROW_SUBTITLE =
-  "block mt-[3px] text-[#75816b] text-[11px] xl:leading-[1.5] max-xl:text-[10px] max-lg:text-[12px]";
+  "block mt-[3px] text-sage-700 text-[11px] xl:leading-[1.5] max-xl:text-[10px] max-lg:text-[12px]";
 
 const LENGTH =
-  "flex items-center text-[#75816b] gap-[12px] text-[11px] max-xl:text-[10px] max-lg:text-[12px]";
+  "flex items-center text-sage-700 gap-[12px] text-[11px] max-xl:text-[10px] max-lg:text-[12px]";
 
 // Phone and tablet tails that differ between the Today list and a path stop.
 const PLACE = {
@@ -119,7 +119,7 @@ export const UnitCard = ({
 
   return (
     <article
-      className={`unit-card border rounded-[10px] bg-paper overflow-hidden ${expanded ? "border-[#ced9c3] shadow-[0_3px_9px_#60734906]" : "border-line"} ${at.card}`}
+      className={`unit-card border rounded-[10px] bg-white overflow-hidden ${expanded ? "border-sage-200 shadow-[0_3px_9px_var(--color-olive-700)]/2" : "border-sage-200"} ${at.card}`}
     >
       <button
         type="button"
@@ -132,7 +132,8 @@ export const UnitCard = ({
         </div>
         <div className="flex-1 min-w-0">
           <Eyebrow variant={at.eyebrow}>
-            UNIT {String(index + 1).padStart(2, "0")} <i>·</i> {unit.spanish}
+            UNIT {String(index + 1).padStart(2, "0")} <i className="not-italic px-[5px]">·</i>{" "}
+            {unit.spanish}
           </Eyebrow>
           <h3 className={`font-semibold tracking-[-0.3px] ${TITLE} ${at.title}`}>{unit.title}</h3>
           <p className={`leading-[1.7] ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
@@ -159,9 +160,9 @@ export const UnitCard = ({
             {unit.goals.map((g) => (
               <span
                 key={g}
-                className="inline-flex items-center gap-[4px] text-[#75816b] text-[11px] max-md:text-[10px]"
+                className="inline-flex items-center gap-[4px] text-sage-700 text-[11px] max-md:text-[10px]"
               >
-                <Icon name="check" size={13} className="w-[11px] text-[#92a17b]" />
+                <Icon name="check" size={13} className="w-[11px] text-sage-500" />
                 {g}
               </span>
             ))}
@@ -197,12 +198,12 @@ export const UnitCard = ({
               );
             })}
           </div>
-          <details className="mt-[11px] xl:mt-[14px] border-t border-t-[#eef0e6] pt-[10px] xl:pt-[14px] text-[#75816b]">
+          <details className="mt-[11px] xl:mt-[14px] border-t border-t-sage-100 pt-[10px] xl:pt-[14px] text-sage-700">
             <summary className="flex items-center gap-[6px] cursor-pointer list-none text-[11px] max-lg:text-[13px] max-sm:text-[11px]">
               <Icon name="spark" size={15} />A little pattern to remember
             </summary>
-            <p className="leading-[1.7] text-[13px] my-[9px] text-[#7c886e]">{unit.tip}</p>
-            <div lang="es" className="flex items-center justify-between text-[14px] text-[#62714e]">
+            <p className="leading-[1.7] text-[13px] my-[9px] text-sage-700">{unit.tip}</p>
+            <div lang="es" className="flex items-center justify-between text-[14px] text-sage-800">
               {unit.example}
               <AudioButton compact text={unit.example} label="Listen to the unit example" />
             </div>

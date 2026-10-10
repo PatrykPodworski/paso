@@ -1,3 +1,4 @@
+import { CompletionStats } from "./CompletionStats";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
@@ -10,6 +11,7 @@ import { stopAudio } from "./audio/playback";
 import { Dialog } from "../design-system/Dialog";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
+import { ProgressTrack } from "../design-system/ProgressTrack";
 import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 import { FIELD } from "../design-system/field";
@@ -21,10 +23,6 @@ type Props = {
   onAddWords: (entries: Progress["vocabularyReviews"]) => void;
   onLearn: () => void;
 };
-
-// Shared with LessonSession's completion screen.
-export const COMPLETION_STATS =
-  "flex justify-center gap-[45px] max-md:gap-[25px] max-sm:gap-[20px] m-[30px_0] p-[22px] max-md:p-[20px_0] border-y border-line [&_strong]:block [&_strong]:font-serif [&_strong]:text-[32px] max-md:[&_strong]:text-[29px] [&_strong]:text-[#82986a] [&_strong]:font-medium [&_small]:text-[16px] [&_small]:text-[#a6b294] [&_span]:block [&_span]:text-[12px] max-md:[&_span]:text-[11px] max-sm:[&_span]:text-[10px] [&_span]:mt-[6px] [&_span]:text-[#a0ad8b]";
 
 const reviewDate = (at: string) =>
   new Date(at).toLocaleString(undefined, {
@@ -111,23 +109,14 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             A little Spanish, remembered.
           </h3>
         </div>
-        <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
+        <span className="text-[14px] text-sage-400 max-md:text-[12px]">
           {Math.min(index + 1, words.length)} / {words.length}
         </span>
       </header>
-      <div
-        className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none"
-        role="progressbar"
-        aria-label="Flashcards reviewed"
-        aria-valuemin={0}
-        aria-valuemax={words.length}
-        aria-valuenow={results.length}
-      >
-        <div style={{ width: `${(results.length / words.length) * 100}%` }} />
-      </div>
+      <ProgressTrack value={results.length} max={words.length} label="Flashcards reviewed" />
       {result && (
         <div
-          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-[#59675d] bg-sage"
+          className="flex flex-wrap gap-[4px_12px] p-[12px_20px] text-[12px] leading-[1.6] text-sage-800 bg-sage-100"
           role="status"
         >
           <strong lang="es">{words[index - 1].es}</strong>
@@ -138,27 +127,22 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
         </div>
       )}
       {finished ? (
-        <div className="p-[50px_30px] text-center max-md:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
+        <div className="p-[50px_30px] text-center max-md:p-[35px_20px]">
           <Icon name="check" size={44} />
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Your review is complete.
           </h2>
-          <p className="leading-[1.7]">Every card has its next review scheduled.</p>
-          <div className={COMPLETION_STATS}>
-            <div>
-              <strong>{results.length}</strong>
-              <span>reviewed</span>
-            </div>
-            <div>
-              <strong>{results.filter((r) => r.correct).length}</strong>
-              <span>remembered</span>
-            </div>
-            <div>
-              <strong>{results.filter((r) => !r.correct).length}</strong>
-              <span>to revisit</span>
-            </div>
-          </div>
-          <p className="leading-[1.7]">
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
+            Every card has its next review scheduled.
+          </p>
+          <CompletionStats
+            stats={[
+              ["reviewed", results.length],
+              ["remembered", results.filter((r) => r.correct).length],
+              ["to revisit", results.filter((r) => !r.correct).length],
+            ]}
+          />
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
             Next review: <time dateTime={nextSessionReview}>{reviewDate(nextSessionReview)}</time>.
           </p>
           <Button ref={action} variant="primary" className="mt-[25px]" onClick={onClose}>
@@ -166,22 +150,30 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           </Button>
         </div>
       ) : (
-        <div className="p-[28px_36px] max-[651px]:p-[20px_16px]">
-          <div className="flashcard-prompt text-center p-[24px_16px] border border-line rounded-[16px] bg-paper max-[651px]:p-[20px_12px] [&>.audio-control]:justify-center [&_button]:w-[44px] [&_button]:h-[44px] [&_button]:rounded-[50%] [&_button]:bg-sage! [&_button]:text-green">
+        <div className="p-[28px_36px] max-sm:p-[20px_16px]">
+          <div className="text-center p-[24px_16px] border border-sage-200 rounded-[16px] bg-white max-sm:p-[20px_12px]">
             <Eyebrow>{word.topic.toLocaleUpperCase()} · SPANISH → ENGLISH</Eyebrow>
-            <p className="leading-[1.7] text-[#59675d] text-[14px] mt-[24px]">
+            <p className="leading-[1.7] text-sage-800 text-[14px] mt-[24px]">
               Can you remember the meaning?
             </p>
             <h2
               lang="es"
-              className="font-semibold tracking-[-0.7px] leading-[1.25] font-serif text-[length:clamp(30px,6vw,44px)] m-[18px_0] wrap-anywhere"
+              className="font-semibold tracking-[-0.7px] leading-[1.25] font-serif text-3xl sm:text-4xl md:text-5xl m-[18px_0] wrap-anywhere"
             >
               {word.es}
             </h2>
-            <AudioButton key={word.id} text={word.es} label={`Play ${word.es}`} minimal autoPlay />
+            <AudioButton
+              key={word.id}
+              text={word.es}
+              label={`Play ${word.es}`}
+              minimal
+              round="word"
+              className="justify-center"
+              autoPlay
+            />
           </div>
           {revealed && (
-            <div className="flashcard-answer mt-[20px] p-[20px] rounded-[12px] bg-sage">
+            <div className="mt-[20px] p-[20px] rounded-[12px] bg-sage-100">
               <Eyebrow>THE MEANING</Eyebrow>
               <h3
                 lang="en"
@@ -190,11 +182,11 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                 {word.en}
               </h3>
               {word.example && (
-                <div className="flashcard-example mt-[16px]">
+                <div className="mt-[16px]">
                   <p lang="es" className="text-[16px] leading-[1.6]">
                     {word.example.es}
                   </p>
-                  <p lang="en" className="text-[14px] leading-[1.6] text-[#59675d]">
+                  <p lang="en" className="text-[14px] leading-[1.6] text-sage-800">
                     {word.example.en}
                   </p>
                   {/* Starting this clip stops the word clip through stopAudio(). */}
@@ -210,8 +202,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </div>
           )}
           {!revealed ? (
-            <div className="flex flex-col gap-[16px] mt-[24px] [&>p]:text-[14px] [&>p]:text-[#59675d] [&>p]:leading-[1.6]">
-              <p className="leading-[1.7]">Say the meaning to yourself, then reveal the answer.</p>
+            <div className="flex flex-col gap-[16px] mt-[24px]">
+              <p className="text-[14px] text-sage-800 leading-[1.6]">
+                Say the meaning to yourself, then reveal the answer.
+              </p>
               <Button
                 ref={action}
                 variant="primary"
@@ -224,9 +218,11 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
               </Button>
             </div>
           ) : (
-            <div className="flex flex-col gap-[16px] mt-[24px] [&>p]:text-[14px] [&>p]:text-[#59675d] [&>p]:leading-[1.6]">
-              <p className="leading-[1.7]">Did you get it right? Choose when this card returns.</p>
-              <div className="grid grid-cols-[1fr_1fr] gap-[12px] [&_small]:block [&_small]:mt-[5px] [&_small]:text-[12px] [&_small]:font-normal">
+            <div className="flex flex-col gap-[16px] mt-[24px]">
+              <p className="text-[14px] text-sage-800 leading-[1.6]">
+                Did you get it right? Choose when this card returns.
+              </p>
+              <div className="grid grid-cols-[1fr_1fr] gap-[12px]">
                 <Button
                   ref={action}
                   variant="secondary"
@@ -236,7 +232,10 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                 >
                   <Icon name="repeat" />
                   <span>
-                    Got it wrong<small>Review in 10 min</small>
+                    Got it wrong
+                    <small className="block mt-[5px] text-[12px] font-normal">
+                      Review in 10 min
+                    </small>
                   </span>
                 </Button>
                 <Button
@@ -247,13 +246,16 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                 >
                   <Icon name="check" />
                   <span>
-                    Got it right<small>Review {reviewWait(nextRight.nextAt, now)}</small>
+                    Got it right
+                    <small className="block mt-[5px] text-[12px] font-normal">
+                      Review {reviewWait(nextRight.nextAt, now)}
+                    </small>
                   </span>
                 </Button>
               </div>
             </div>
           )}
-          <p className="text-center text-[12px] leading-[1.6] text-[#59675d] mt-[20px]">
+          <p className="text-center text-[12px] leading-[1.6] text-sage-800 mt-[20px]">
             Your choices are saved as you go. You can leave at any time.
           </p>
         </div>
@@ -312,28 +314,22 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
 
   return (
     <section className="pocket-vocabulary" aria-labelledby="vocabulary-title">
-      <SectionHeading variant="word">
-        <div>
-          <Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>
-          <h2
-            id="vocabulary-title"
-            className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25] mt-[8px]"
-          >
-            Your pocket vocabulary
-          </h2>
-          <p className="leading-[1.7]">
-            Words from your completed vocabulary lessons, ready to remember.
-          </p>
-        </div>
+      <SectionHeading
+        variant="word"
+        eyebrow={<Eyebrow>A LITTLE PRACTICE, A LASTING MEMORY</Eyebrow>}
+        title="Your pocket vocabulary"
+        titleId="vocabulary-title"
+        text="Words from your completed vocabulary lessons, ready to remember."
+      >
         <span
-          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage text-green max-[651px]:hidden"
+          className="grid place-items-center shrink-0 w-[56px] h-[56px] rounded-[16px] bg-sage-100 text-green-900 max-sm:hidden"
           aria-hidden="true"
         >
           <Icon name="layers" size={28} />
         </span>
       </SectionHeading>
-      <div className="border border-line rounded-[16px] overflow-hidden bg-paper">
-        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-line max-[651px]:grid-cols-[repeat(2,1fr)]">
+      <div className="border border-sage-200 rounded-[16px] overflow-hidden bg-white">
+        <dl className="vocabulary-stats grid grid-cols-[repeat(4,1fr)] m-0 border-b border-sage-200 max-sm:grid-cols-[repeat(2,1fr)]">
           {[
             [due.length, "To review"],
             [reviewedToday, "Reviewed today"],
@@ -342,14 +338,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
           ].map(([count, label], i) => (
             <div
               key={label}
-              className={`flex flex-col-reverse gap-[7px] p-[24px] max-[651px]:p-[20px] border-line ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-[651px]:border-l-0" : ""} ${i >= 2 ? "max-[651px]:border-t" : ""} ${label === "To review" ? "bg-sage" : ""}`}
+              className={`flex flex-col-reverse gap-[7px] p-[24px] max-sm:p-[20px] border-sage-200 ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-sm:border-l-0" : ""} ${i >= 2 ? "max-sm:border-t" : ""} ${label === "To review" ? "bg-sage-100" : ""}`}
             >
-              <dt className="text-[12px] text-[#59675d]">{label}</dt>
-              <dd className="m-0 font-serif text-[36px] leading-[1] text-green">{count}</dd>
+              <dt className="text-[12px] text-sage-800">{label}</dt>
+              <dd className="m-0 font-serif text-[36px] leading-[1] text-green-900">{count}</dd>
             </div>
           ))}
         </dl>
-        <div className="flex items-center justify-between gap-[24px] p-[24px] max-[651px]:items-stretch max-[651px]:flex-col max-[651px]:p-[20px] max-[651px]:gap-[18px] [&_p]:text-[13px] [&_p]:leading-[1.6] [&_p]:text-[#59675d] [&_p]:mt-[6px]">
+        <div className="flex items-center justify-between gap-[24px] p-[24px] max-sm:items-stretch max-sm:flex-col max-sm:p-[20px] max-sm:gap-[18px]">
           <div>
             <h3 className="font-semibold tracking-[-0.3px] text-[17px]">
               {!words.length
@@ -358,7 +354,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   ? "Ready for a little recall?"
                   : "You’re all caught up."}
             </h3>
-            <p className="leading-[1.7]">
+            <p className="text-[13px] leading-[1.6] text-sage-800 mt-[6px]">
               {!words.length
                 ? "Add words from a topic below or complete a vocabulary lesson."
                 : due.length
@@ -366,7 +362,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                   : "Your cards will return when it’s time to practise again."}
             </p>
             {nextAt && (
-              <p className="leading-[1.7]">
+              <p className="text-[13px] leading-[1.6] text-sage-800 mt-[6px]">
                 Next scheduled review: <time dateTime={nextAt}>{reviewDate(nextAt)}</time>
               </p>
             )}
@@ -391,7 +387,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
         <h3 className="text-[17px] font-semibold tracking-[-0.3px]" id="topics-title">
           Topics
         </h3>
-        <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-line bg-paper">
+        <ul className="m-0 mt-3 list-none p-0 rounded-2xl border border-sage-200 bg-white">
           {topics.map(({ topic, optional, cards }, index) => {
             const counts = topicCounts(cards, progress);
             const adding = Math.min(WORDS_PER_ADD, counts.new);
@@ -400,17 +396,17 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               <li
                 key={topic}
                 tabIndex={-1}
-                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-line px-4 py-3 [&+&]:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#cd825e]"
+                className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 border-sage-200 px-4 py-3 not-first:border-t focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-coral-500"
               >
                 <span className="flex items-center gap-2 font-semibold">
                   <span id={`topic-${index}`}>{topic}</span>
                   {optional && (
-                    <span className="rounded-full border border-line px-2 text-xs font-normal text-muted">
+                    <span className="rounded-full border border-sage-200 px-2 text-xs font-normal text-sage-700">
                       Optional
                     </span>
                   )}
                 </span>
-                <span className="flex gap-3 text-xs text-muted max-[651px]:col-span-2">
+                <span className="flex gap-3 text-xs text-sage-700 max-sm:col-span-2">
                   {(["total", "learning", "new", "known"] as const).map((key) => (
                     <span key={key}>
                       {counts[key]} {key}
@@ -420,7 +416,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 <Button
                   variant="secondary"
                   size="small"
-                  className="col-start-2 row-start-1 row-end-3 max-[651px]:row-end-2"
+                  className="col-start-2 row-start-1 row-end-3 max-sm:row-end-2"
                   disabled={!adding}
                   aria-describedby={`topic-${index}`}
                   onClick={(e) => {
@@ -441,13 +437,14 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
         </ul>
       </section>
       {words.length > 0 && (
-        <div className="mt-[26px] [&_h3]:text-[17px]">
-          <SectionHeading variant="collection">
-            <div>
-              <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Your flashcards</h3>
-              <p className="leading-[1.7]">Every unlocked word, with its next review.</p>
-            </div>
-            <label className="text-[15px] flex items-center gap-[8px] bg-[#fffefa] border border-line rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-[#a6ae97]">
+        <div className="mt-[26px]">
+          <SectionHeading
+            variant="collection"
+            title="Your flashcards"
+            titleId="flashcards-title"
+            text="Every unlocked word, with its next review."
+          >
+            <label className="text-[15px] flex items-center gap-[8px] bg-white border border-sage-200 rounded-[8px] pl-[11px] w-[210px] max-md:w-full text-sage-400">
               <Icon name="search" size={17} />
               <input
                 value={search}
@@ -459,7 +456,10 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
             </label>
           </SectionHeading>
           {filtered.length ? (
-            <ul className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-line rounded-[12px] bg-paper">
+            <ul
+              aria-labelledby="flashcards-title"
+              className="vocabulary-list list-none p-0 m-0 max-h-[380px] overflow-y-auto border border-sage-200 rounded-[12px] bg-white"
+            >
               {filtered.map((w) => {
                 const entry = progress.vocabularyReviews[w.id];
                 const isDue = reviewDue(entry, now);
@@ -468,21 +468,21 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                 return (
                   <li
                     key={w.id}
-                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-line [&+&]:border-t max-[651px]:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-[651px]:p-[16px] max-[651px]:gap-[8px_12px]"
+                    className="grid grid-cols-[minmax(0,1fr)_70px_minmax(150px,auto)] items-center gap-[20px] p-[16px_20px] border-sage-200 not-first:border-t max-sm:grid-cols-[minmax(0,1fr)_minmax(120px,auto)] max-sm:p-[16px] max-sm:gap-[8px_12px]"
                   >
                     <span className="flex flex-col gap-[5px]">
                       <strong lang="es" className="font-serif text-[18px] wrap-anywhere">
                         {w.es}
                       </strong>
-                      <span lang="en" className="text-[12px] text-[#59675d]">
+                      <span lang="en" className="text-[12px] text-sage-800">
                         {w.en}
                       </span>
                     </span>
-                    <span className="text-[12px] text-[#59675d] max-[651px]:col-[1] max-[651px]:row-[2]">
+                    <span className="text-[12px] text-sage-800 max-sm:col-[1] max-sm:row-[2]">
                       {w.topic}
                     </span>
-                    <span className="flex flex-col gap-[5px] text-[12px] text-[#59675d] items-end text-right max-[651px]:col-[2] max-[651px]:row-[1/3]">
-                      <strong className={isDue ? "text-green" : ""}>
+                    <span className="flex flex-col gap-[5px] text-[12px] text-sage-800 items-end text-right max-sm:col-[2] max-sm:row-[1/3]">
+                      <strong className={isDue ? "text-green-900" : ""}>
                         {isNew
                           ? "New · ready now"
                           : isDue
@@ -496,7 +496,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               })}
             </ul>
           ) : (
-            <div className="text-center p-[40px] text-[#91a07d]">
+            <div className="text-center p-[40px] text-sage-500">
               <Icon name="search" className="mx-auto mb-[15px]" />
               <h3 className="text-[17px] font-semibold tracking-[-0.3px]">No word found yet.</h3>
               <p className="leading-[1.7] text-[14px] m-[10px_0]">

@@ -1,6 +1,6 @@
 # Refactor regression contract
 
-This suite protects the existing Paso learning experience before its implementation is reorganized. It tests observable results, durable state and provider boundaries; no screenshots are compared, by this suite or anywhere else. It does not replace review of Spanish teaching content or a teacher's assessment.
+This suite protects the existing Paso learning experience before its implementation is reorganized. It tests observable results, durable state and provider boundaries; it compares no screenshots; the Visual workflow on pull requests compares a few. It does not replace review of Spanish teaching content or a teacher's assessment.
 
 ## Run the gate
 
@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit` and the visual suite on pull requests and pushes to `main`. The mutation gate runs nightly on `main` (`.github/workflows/mutation.yml`) and skips nights when `main` has not changed; the coverage gate and the E2E journeys run locally with this command. There is no visual comparison anywhere, so a presentation regression is caught only by looking.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit` and the visual suite on pull requests and pushes to `main`. The mutation gate runs nightly on `main` (`.github/workflows/mutation.yml`) and skips nights when `main` has not changed; the coverage gate and the E2E journeys run locally with this command. The Visual workflow compares every screenshot with the base branch on pull requests.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. It does **not** cover presentation: the browser run takes screenshots but compares none of them.
 
@@ -111,11 +111,13 @@ Test paths without a directory above are in `src/test/` for TS/TSX and `scripts/
 
 Dates, timezone, locale, motion and AI responses are deterministic. Native recording and local audio playback are exercised in E2E tests. Browser tests use the Playwright-managed Chromium revision installed from the lockfile in the ignored project-local `.cache/playwright` directory, **not** the locally auto-updating Chrome application. This is not a Safari/WebKit or Firefox compatibility claim.
 
-### No visual comparison
+### Visual comparison
 
-Screenshots go through `capture()` in `tests/fixtures/app.ts`, which writes them to the ignored `screenshots/<project>/<name>.png` for inspection. Nothing compares them, locally or in CI, and no baseline images are committed.
+Screenshots go through `capture()` in `tests/fixtures/app.ts`, which writes them to the ignored `screenshots/<project>/<name>.png` for inspection. With `VISUAL_COMPARE=1` it compares them with `screenshots/baseline/<project>/<name>.png` instead. No baseline images are committed.
 
-A passing `pnpm test:visual` therefore does **not** mean the UI looks the same. It means every view rendered, every journey step it drives succeeded, and `views.spec.ts` found no horizontal overflow.
+On pull requests, `.github/workflows/visual.yml` takes the baseline from the base branch's app and the comparison from the pull request's, both in the Playwright container, for every `capture()` on both projects. A diff fails the job and publishes the Playwright report to the `gh-pages` branch under `pr-<number>/`, linked from a pull request comment that a later passing run updates; `.github/workflows/visual-cleanup.yml` removes the folder when the pull request closes. The compare run records no traces, failure screenshots or retries, so the report holds only the expected, actual and diff images; the `visual-approved` label accepts the diff until the next push. To compare locally, run `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then `VISUAL_COMPARE=1 pnpm test:visual` on the change; macOS baselines are only comparable with macOS runs.
+
+A passing `pnpm test:visual` does **not** mean the UI looks the same. It means every view rendered, every journey step it drives succeeded, and `views.spec.ts` found no horizontal overflow.
 
 ## Mutation scope and interpretation
 

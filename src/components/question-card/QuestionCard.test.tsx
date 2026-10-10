@@ -80,11 +80,9 @@ it.each([
   [formPractice, "Your turn"],
   // fallow-ignore-next-line complexity -- moved unchanged from src/test/question-rules.test.tsx (#190: move, don't rewrite)
 ])("renders only the appropriate controls for exercise case %#", (q, description) => {
-  const { container } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+  render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 
-  expect(container.querySelector(".question-kind")).toHaveTextContent(
-    `${q.skill} / ${description}`,
-  );
+  expect(screen.getByText(`${q.skill} ${description}`)).toBeInTheDocument();
 
   expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(1);
 
@@ -96,15 +94,18 @@ it.each([
     expect(screen.getByRole("textbox").tagName).toBe(q.kind === "write" ? "TEXTAREA" : "INPUT");
   }
 
-  expect(container.querySelectorAll(".sentence-builder")).toHaveLength(q.kind === "order" ? 1 : 0);
-  expect(container.querySelectorAll(".answer-option")).toHaveLength(q.options?.length || 0);
+  expect(screen.queryAllByRole("group", { name: "Word bank" })).toHaveLength(
+    q.kind === "order" ? 1 : 0,
+  );
 
-  expect(container.querySelectorAll(".self-checks")).toHaveLength(
+  expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(q.options?.length || 0);
+
+  expect(screen.queryAllByText("Your self-review checklist")).toHaveLength(
     ["write", "speak", "form"].includes(q.kind) ? 1 : 0,
   );
 
-  expect(container.querySelectorAll(".model-answer")).toHaveLength(0);
-  expect(container.querySelectorAll(".feedback")).toHaveLength(0);
+  expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
 });
 
 it("selecting a listening answer keeps the original playback running without restarting", async () => {

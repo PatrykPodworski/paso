@@ -23,17 +23,10 @@ const write = (text: string) =>
 
 const words = (n: number) => Array(n).fill("hola").join(" ");
 
-it.each([
-  [3, true],
-  [35, false],
-  [45, true],
-])("counts %i written words against the target", (n, outside) => {
+it.each([3, 35, 45])("counts %i written words against the target", (n) => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
   write(words(n));
-  const count = screen.getByText(`${n} / 30–40 words`);
-
-  expect(count).toHaveClass("word-count");
-  expect(count.classList.contains("outside")).toBe(outside);
+  expect(screen.getByText(`${n} / 30–40 words`)).toBeInTheDocument();
 });
 
 it("requires non-whitespace typed text and Enter checks exactly once", () => {

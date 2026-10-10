@@ -12,7 +12,7 @@ export const PlayLabel = ({ label, playing }: Props) => (
       {[9, 17, 26, 13, 21, 30, 17, 24, 10, 18, 27, 13].map((h, i) => (
         <i
           key={i}
-          className={`w-[3px] bg-[#b4a6c3] rounded-[4px] max-md:w-[2px] ${i >= 8 ? "max-sm:hidden" : ""} ${playing ? "animate-wave motion-reduce:animate-none" : ""}`}
+          className={`w-[3px] bg-lavender-400 rounded-[4px] max-md:w-[2px] ${i >= 8 ? "max-sm:hidden" : ""} ${playing ? "animate-wave motion-reduce:animate-none" : ""}`}
           style={{ height: h, animationDelay: `${i * 0.08}s` }}
         />
       ))}

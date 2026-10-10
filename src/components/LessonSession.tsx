@@ -7,10 +7,11 @@ import type { Attempt, Lesson, Progress } from "../data/types";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
+import { ProgressTrack } from "../design-system/ProgressTrack";
 import { QuestionCard } from "./question-card/QuestionCard";
 import { stopAudio } from "./audio/playback";
 import { FieldNote } from "../design-system/FieldNote";
-import { COMPLETION_STATS } from "./PocketVocabulary";
+import { CompletionStats } from "./CompletionStats";
 
 type Props = {
   lesson: Lesson;
@@ -90,20 +91,22 @@ export const LessonSession = ({
             {lesson.title}
           </h3>
         </div>
-        <span className="lesson-counter text-[14px] text-[#9aa88c] max-md:text-[12px]">
+        <span className="text-[14px] text-sage-400 max-md:text-[12px]">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
-      <div className="h-[4px] bg-[#eff2e8] [&>div]:h-full [&>div]:bg-[#91a776] [&>div]:[transition:width_0.3s] motion-reduce:[&>div]:transition-none">
-        <div style={{ width: `${finished ? 100 : (index / lesson.questions.length) * 100}%` }} />
-      </div>
+      <ProgressTrack
+        value={finished ? lesson.questions.length : index}
+        max={lesson.questions.length}
+        label="Lesson progress"
+      />
       {confirmExit && (
         <div className="p-[50px_30px] text-center">
-          <Icon name="book" size={40} className="mx-auto text-[#9eaf85] mb-[22px]" />
+          <Icon name="book" size={40} className="mx-auto text-olive-500 mb-[22px]" />
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[30px]">
             Leave this lesson?
           </h2>
-          <p className="leading-[1.7] text-[15px] text-[#96a483] max-w-[450px] m-[15px_auto_25px]">
+          <p className="leading-[1.7] text-[15px] text-sage-500 max-w-[450px] m-[15px_auto_25px]">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
@@ -118,36 +121,36 @@ export const LessonSession = ({
         </div>
       )}
       {finished ? (
-        <div className="p-[50px_30px] text-center max-md:p-[35px_20px] [&>p]:text-[14px] [&>p]:text-[#95a080] [&>p]:mt-[13px]">
-          <CompletionArt>
-            <span className="translate-y-[-23px]">✦</span>
-            <Icon name="flag" size={50} />
-            <span className="translate-y-[19px]">✧</span>
-          </CompletionArt>
+        <div className="p-[50px_30px] text-center max-md:p-[35px_20px]">
+          <CompletionArt icon="flag" sparkles />
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
           <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[39px] m-[12px_0] max-md:text-[34px]">
             Look at you go.
           </h2>
-          <p className="leading-[1.7]">Another little piece of Spanish, yours to keep.</p>
-          <div className={COMPLETION_STATS}>
-            <div>
-              <strong>
-                {results.filter((r) => r).length}
-                <small>/{results.filter((r) => r !== null).length}</small>
-              </strong>
-              <span>objective answers</span>
-            </div>
-            <div>
-              <strong>{results.filter((r) => r === null).length}</strong>
-              <span>creative practices</span>
-            </div>
-            <div>
-              <strong>{results.filter((r) => r === false).length}</strong>
-              <span>moments to review</span>
-            </div>
-          </div>
-          {assisted > 0 && <FieldNote>{assisted} answers used transcript assistance.</FieldNote>}
-          <p className="leading-[1.7]">
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
+            Another little piece of Spanish, yours to keep.
+          </p>
+          <CompletionStats
+            stats={[
+              [
+                "objective answers",
+                <>
+                  {results.filter((r) => r).length}
+                  <small className="text-[16px] text-sage-400">
+                    /{results.filter((r) => r !== null).length}
+                  </small>
+                </>,
+              ],
+              ["creative practices", results.filter((r) => r === null).length],
+              ["moments to review", results.filter((r) => r === false).length],
+            ]}
+          />
+          {assisted > 0 && (
+            <FieldNote className="mt-[13px]">
+              {assisted} answers used transcript assistance.
+            </FieldNote>
+          )}
+          <p className="leading-[1.7] text-[14px] text-sage-500 mt-[13px]">
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}

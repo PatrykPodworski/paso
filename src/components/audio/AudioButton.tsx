@@ -1,6 +1,7 @@
 import type { Ref } from "react";
 import { FieldNote } from "../../design-system/FieldNote";
 import { PlayButton } from "./PlayButton";
+import type { Round } from "./PlayButton";
 import { useAudioPlayer } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";
 import { PRESSABLE } from "../../design-system/pressable";
@@ -11,6 +12,10 @@ type Props = {
   label?: string;
   compact?: boolean;
   minimal?: boolean;
+  /** A round play button styled for its context; implies icon only. */
+  round?: Round;
+  /** Placement and alignment of the control only. */
+  className?: string;
   autoPlay?: boolean;
   continuous?: boolean;
   limit?: number;
@@ -23,6 +28,8 @@ export const AudioButton = ({
   label = "Listen",
   compact = false,
   minimal = false,
+  round,
+  className = "",
   autoPlay = false,
   continuous = false,
   limit,
@@ -38,16 +45,17 @@ export const AudioButton = ({
     onPlayed,
   });
 
-  const iconOnly = compact || minimal;
+  const iconOnly = compact || minimal || !!round;
 
   return (
     <div
-      className={`audio-control flex flex-wrap items-center gap-[10px] [.question-pronunciation_&]:contents [.reading-passage>&]:mb-[14px] ${iconOnly ? "compact" : ""}`}
+      className={`audio-control flex flex-wrap items-center gap-[10px] [.question-pronunciation_&]:contents [.reading-passage>&]:mb-[14px] ${iconOnly ? "compact" : ""} ${className}`}
     >
       <PlayButton
         label={label}
         iconOnly={iconOnly}
         minimal={minimal}
+        round={round}
         playing={playing}
         disabled={!!limit && count >= limit && !playing}
         onClick={() => void play()}
@@ -55,7 +63,7 @@ export const AudioButton = ({
       {!iconOnly && !limit && (
         <button
           type="button"
-          className={`${PRESSABLE} speed-button p-[8px_10px] bg-[#f5f2f7] border border-[#e5dfec] rounded-[7px] text-[13px] text-[#a596b5] max-sm:text-[12px]`}
+          className={`${PRESSABLE} speed-button p-[8px_10px] bg-lavender-50 border border-lavender-200 rounded-[7px] text-[13px] text-lavender-500 max-sm:text-[12px]`}
           onClick={() => setSpeed((s) => (s === 1 ? 0.75 : 1))}
           aria-label={`Audio speed ${speed} times. Click to change`}
         >
@@ -63,7 +71,7 @@ export const AudioButton = ({
         </button>
       )}
       {limit && (
-        <small className="text-[13px] text-[#a798b5] [.question-pronunciation_&]:col-[2] [.question-pronunciation_&]:text-center [.question-pronunciation_&]:m-[-12px_0_16px] [.question-pronunciation_&]:whitespace-nowrap">
+        <small className="text-[13px] text-lavender-500 [.question-pronunciation_&]:col-[2] [.question-pronunciation_&]:text-center [.question-pronunciation_&]:m-[-12px_0_16px] [.question-pronunciation_&]:whitespace-nowrap">
           {count}/{limit} plays
         </small>
       )}

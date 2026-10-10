@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import { PRESSABLE } from "./pressable";
 
 const BASE =
-  "inline-flex items-center gap-[7px] border-0 bg-transparent p-0 text-[14px] font-semibold no-underline text-[#4a6d55] [&:hover]:underline [&:hover]:underline-offset-4";
+  "inline-flex items-center gap-[7px] border-0 bg-transparent p-0 text-[14px] font-semibold no-underline text-green-800 hover:underline hover:underline-offset-4";
 
 type Props = {
   /**

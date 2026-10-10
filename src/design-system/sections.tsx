@@ -62,7 +62,13 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           ] as const
         ).map((variant) => (
           <Eyebrow key={variant} variant={variant}>
-            {variant.toUpperCase()} <i>·</i> EYEBROW
+            {variant.toUpperCase()}{" "}
+            <i
+              className={variant === "unit" || variant === "pathUnit" ? "not-italic px-[5px]" : ""}
+            >
+              ·
+            </i>{" "}
+            EYEBROW
           </Eyebrow>
         ))}
       </div>
@@ -119,17 +125,12 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     render: () => (
       <div>
         {(["default", "path", "word", "collection"] as const).map((variant) => (
-          <SectionHeading key={variant} variant={variant}>
-            <div>
-              {variant === "collection" ? (
-                <h3 className="text-[17px] font-semibold tracking-[-0.3px]">Collection heading</h3>
-              ) : (
-                <h2 className="font-serif text-[27px] font-semibold tracking-[-0.7px] leading-[1.25]">
-                  {variant} heading
-                </h2>
-              )}
-              <p className="leading-[1.7]">A short line of supporting text.</p>
-            </div>
+          <SectionHeading
+            key={variant}
+            variant={variant}
+            title={variant === "collection" ? "Collection heading" : `${variant} heading`}
+            text="A short line of supporting text."
+          >
             <TextLink>Text link</TextLink>
           </SectionHeading>
         ))}
@@ -143,9 +144,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
       <div className="flex flex-col gap-4">
         <Panel className="p-5">Plain panel</Panel>
         <Panel as="section" className="p-5">
-          <PanelHeading title="Heading with icon">
-            <Icon name="layers" size={17} />
-          </PanelHeading>
+          <PanelHeading title="Heading with icon" icon="layers" />
         </Panel>
         <Panel as="button" className="p-5 text-left">
           Button panel
@@ -161,8 +160,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         <Notice as="p" role="status">
           Browser storage is unavailable. Progress is kept for this visit.
         </Notice>
-        <Notice>
-          <Icon name="info" />
+        <Notice icon="info">
           <p className="leading-[1.7]">
             A notice with an icon and a{" "}
             <a className="underline" href="#design-system">
@@ -185,7 +183,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     render: () => (
       <div className="flex w-[240px] flex-col gap-3">
         {[0, 35, 100].map((percent) => (
-          <ProgressTrack key={percent} percent={percent} />
+          <ProgressTrack key={percent} value={percent} />
         ))}
       </div>
     ),

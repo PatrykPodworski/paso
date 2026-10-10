@@ -6,9 +6,9 @@ const BASE =
 
 const VARIANT = {
   primary:
-    "bg-green border-transparent text-[#fffdf4] shadow-[0_2px_3px_#223c3010] [&:hover:not(:disabled)]:bg-[#193e2e] [&:hover:not(:disabled)]:shadow-[0_4px_10px_#223c3020]",
-  secondary: "bg-paper border-[#d9dfd4] [&:hover:not(:disabled)]:bg-[#eff3e9]",
-  danger: "text-[#a14031] bg-[#fff0e8] border-[#e7c9bc]",
+    "bg-green-900 border-transparent text-sand-50 shadow-[0_2px_3px_var(--color-green-950)]/6 enabled:hover:bg-green-950 enabled:hover:shadow-[0_4px_10px_var(--color-green-950)]/13",
+  secondary: "bg-white border-sage-200 enabled:hover:bg-sage-100",
+  danger: "text-coral-800 bg-coral-50 border-coral-300",
 };
 
 const SIZE = {

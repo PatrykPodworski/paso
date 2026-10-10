@@ -116,15 +116,26 @@ pnpm test:refactor
 ```
 
 The gate builds, lints, enforces unit coverage and mutation scores, and runs
-desktop and mobile browser journeys. It does not check presentation: nothing
-compares screenshots, locally or in CI, so a passing gate says nothing about
-whether the UI still looks the same. It uses fake provider
+desktop and mobile browser journeys. It does not check presentation, so a
+passing gate says nothing about whether the UI still looks the same. It uses
+fake provider
 responses, so it spends no ElevenLabs allowance. Setup, individual commands and
 measured results are in [docs/REFACTOR_TESTING.md](docs/REFACTOR_TESTING.md).
 GitHub Actions runs lint, build, unit tests, the mutation gate and the visual
 suite on every pull request and push to `main`
 (`.github/workflows/ci.yml`); coverage and the browser journeys run only in the
 local gate.
+
+On pull requests, the Visual workflow (`.github/workflows/visual.yml`) compares
+screenshots of the five top-level views, desktop and mobile, with the base
+branch's. A diff fails the job, publishes the Playwright report to GitHub Pages under
+`pr-<number>/` and links it in a pull request comment; closing the pull request removes
+the report. The `visual-approved` label accepts the diff until the
+next push. The `main` ruleset requires the job's `compare` check, so a pull request
+with an unapproved diff cannot merge. Other views are not compared. To compare locally, run
+`VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then
+`VISUAL_COMPARE=1 pnpm test:visual` on the change. macOS baselines are only
+comparable with macOS runs.
 
 ## Research
 

@@ -13,7 +13,7 @@ import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
 
 const PATH_NUMBER =
-  "flex items-center justify-center shrink-0 rounded-full border border-[#dbe3d1] mt-[26px] w-[31px] h-[31px] text-[12px] max-md:w-[27px] max-md:h-[27px] max-md:text-[11px]";
+  "flex items-center justify-center shrink-0 rounded-full border border-sage-200 mt-[26px] w-[31px] h-[31px] text-[12px] max-md:w-[27px] max-md:h-[27px] max-md:text-[11px]";
 
 type Props = {
   progress: Progress;
@@ -69,7 +69,7 @@ export const PathPage = ({
           <h3 className="font-semibold tracking-[-0.3px] text-[17px] max-xl:text-[15px] max-sm:text-[14px]">
             {nextUnit.title} · {nextLesson.title}
           </h3>
-          <p className="leading-[1.7] mt-[6px] text-[14px] text-[#8e9b7f]">
+          <p className="leading-[1.7] mt-[6px] text-[14px] text-sage-500">
             {completed}/{allLessons.length} complete · {progressPercent}% of your path
           </p>
         </div>
@@ -83,14 +83,14 @@ export const PathPage = ({
         </Button>
       </Panel>
       <div className="grid grid-cols-[minmax(0,1fr)_262px] gap-[27px] max-xl:grid-cols-[minmax(0,1fr)_230px] max-xl:gap-[20px] max-lg:grid-cols-[1fr]">
-        <div className="relative before:content-[''] before:absolute before:top-[20px] before:bottom-[65px] before:left-[15px] max-md:before:left-[13px] before:border-l before:border-dashed before:border-[#cfdac3]">
+        <div className="relative before:content-[''] before:absolute before:top-[20px] before:bottom-[65px] before:left-[15px] max-md:before:left-[13px] before:border-l before:border-dashed before:border-sage-200">
           {units.map((u, i) => (
             <div
               className="relative flex items-start gap-[18px] max-md:gap-[11px] mb-[18px]"
               key={u.id}
             >
               <span
-                className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-[#789363] text-[#fff]" : "bg-[#f2f5ec] text-[#94a37e]"}`}
+                className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-olive-600 text-white" : "bg-sage-50 text-sage-500"}`}
               >
                 {u.lessons.every((l) => progress.completed[l.id]) ? (
                   <Icon name="check" size={16} />
@@ -109,7 +109,7 @@ export const PathPage = ({
               />
             </div>
           ))}
-          <div className="flex flex-wrap items-center gap-[15px] max-md:gap-[12px] mt-[28px] ml-[50px] max-md:ml-[38px] p-[24px] max-md:p-[20px] max-sm:p-[19px] rounded-[12px] bg-[#eaf0e2] text-[#6f8a56]">
+          <div className="flex flex-wrap items-center gap-[15px] max-md:gap-[12px] mt-[28px] ml-[50px] max-md:ml-[38px] p-[24px] max-md:p-[20px] max-sm:p-[19px] rounded-[12px] bg-sage-100 text-olive-600">
             <Icon name="flag" size={28} />
             <div>
               <h3 className="font-semibold tracking-[-0.3px] font-serif text-[21px] max-md:text-[20px]">
@@ -146,10 +146,10 @@ export const PathPage = ({
             ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
             ["mic", "Use your own voice", "Write, record and reflect on your progress."],
           ].map(([icon, title, body]) => (
-            <div key={title} className="flex gap-[12px] mb-[23px] max-lg:mb-0 text-[#869576]">
+            <div key={title} className="flex gap-[12px] mb-[23px] max-lg:mb-0 text-sage-600">
               <Icon name={icon} size={20} />
               <section>
-                <h4 className="font-semibold text-[14px] text-[#647455]">{title}</h4>
+                <h4 className="font-semibold text-[14px] text-sage-800">{title}</h4>
                 <p className="leading-[1.7] mt-[6px] text-[14px]">{body}</p>
               </section>
             </div>

@@ -3,7 +3,7 @@ import { OPTION_KEY } from "./AnswerOptions";
 import { PRESSABLE } from "../../design-system/pressable";
 
 const CHIP =
-  "flex items-center gap-[8px] rounded-[7px] border border-[#d6e1c7] bg-[#fffefa] p-[10px_13px] text-[15px] shadow-[0_2px_0_#dfe7d2]";
+  "flex items-center gap-[8px] rounded-[7px] border border-sage-200 bg-white p-[10px_13px] text-[15px] shadow-[0_2px_0_var(--color-sage-200)]";
 
 type Props = {
   tokens: string[];
@@ -16,11 +16,12 @@ type Props = {
 export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }: Props) => (
   <div className="sentence-builder">
     <div
-      className="sentence-tray flex min-h-[85px] flex-wrap content-center items-center gap-[9px] rounded-[10px] border border-[#dce5ce] bg-[#f5f8ef] p-[16px] mb-[22px]"
+      className="sentence-tray flex min-h-[85px] flex-wrap content-center items-center gap-[9px] rounded-[10px] border border-sage-200 bg-sage-50 p-[16px] mb-[22px]"
+      role="group"
       aria-label="Your sentence"
     >
       {selected.length === 0 && (
-        <span className="text-[14px] text-[#a5b393]">
+        <span className="text-[14px] text-sage-400">
           Tap the words below to build your sentence…
         </span>
       )}
@@ -39,7 +40,11 @@ export const SentenceBuilder = ({ tokens, selected, feedback, onRemove, onPick }
       ))}
     </div>
     {/* `!`: otherwise stylesheet order picks between the chip's and PRESSABLE's disabled opacity. */}
-    <div className="word-bank flex flex-wrap justify-center gap-[10px] mb-[30px]">
+    <div
+      role="group"
+      aria-label="Word bank"
+      className="word-bank flex flex-wrap justify-center gap-[10px] mb-[30px]"
+    >
       {tokens.map((token, i) => (
         <button
           type="button"

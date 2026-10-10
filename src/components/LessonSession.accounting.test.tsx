@@ -48,14 +48,16 @@ const submit = (correct: boolean | null, help = false) =>
   act(() => card.onSubmit("Learner answer", correct, help));
 
 const stat = (label: string) =>
-  screen.getByText(label, { exact: true }).parentElement!.querySelector("strong")!;
+  screen.getAllByRole("definition")[
+    screen.getAllByRole("term").findIndex((term) => term.textContent === label)
+  ];
 
 it("counts mixed objective, creative and assisted work independently", () => {
-  const { onComplete, container } = mount(allQuestions.slice(0, 4));
+  const { onComplete } = mount(allQuestions.slice(0, 4));
 
-  expect(container.querySelector(".lesson-counter")).toHaveTextContent("1 / 4");
+  expect(screen.getByText("1 / 4")).toBeInTheDocument();
   submit(true);
-  expect(container.querySelector(".lesson-counter")).toHaveTextContent("2 / 4");
+  expect(screen.getByText("2 / 4")).toBeInTheDocument();
   submit(false);
   submit(null);
   expect(onComplete).not.toHaveBeenCalled();

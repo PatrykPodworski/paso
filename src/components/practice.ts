@@ -10,28 +10,28 @@ export const skills: { id: Skill; name: string; spanish: string; icon: string; t
     name: "Reading",
     spanish: "Leer",
     icon: "book",
-    tint: "bg-[#edf1e7] text-[#91a27a]",
+    tint: "bg-sage-100 text-olive-500",
   },
   {
     id: "listening",
     name: "Listening",
     spanish: "Escuchar",
     icon: "headphones",
-    tint: "bg-[#efebf2] text-[#a294b1]",
+    tint: "bg-lavender-100 text-lavender-500",
   },
   {
     id: "writing",
     name: "Writing",
     spanish: "Escribir",
     icon: "pen",
-    tint: "bg-[#f6eddf] text-[#be9971]",
+    tint: "bg-sand-100 text-sand-500",
   },
   {
     id: "speaking",
     name: "Speaking",
     spanish: "Hablar",
     icon: "mic",
-    tint: "bg-[#f5e9e3] text-[#be8b78]",
+    tint: "bg-coral-100 text-coral-500",
   },
 ];
 

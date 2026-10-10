@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit`, the mutation gate and the visual suite on pull requests and pushes to `main`; the coverage gate and the E2E journeys run locally with this command. The Visual workflow compares every screenshot with the base branch on pull requests.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit` and the visual suite on pull requests and pushes to `main`. The mutation gate runs nightly on `main` (`.github/workflows/mutation.yml`) and skips nights when `main` has not changed; the coverage gate and the E2E journeys run locally with this command. The Visual workflow compares every screenshot with the base branch on pull requests.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. It does **not** cover presentation: the browser run takes screenshots but compares none of them.
 

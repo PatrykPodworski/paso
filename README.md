@@ -121,10 +121,10 @@ passing gate says nothing about whether the UI still looks the same. It uses
 fake provider
 responses, so it spends no ElevenLabs allowance. Setup, individual commands and
 measured results are in [docs/REFACTOR_TESTING.md](docs/REFACTOR_TESTING.md).
-GitHub Actions runs lint, build, unit tests, the mutation gate and the visual
-suite on every pull request and push to `main`
-(`.github/workflows/ci.yml`); coverage and the browser journeys run only in the
-local gate.
+GitHub Actions runs lint, build, unit tests and the visual suite on every pull
+request and push to `main` (`.github/workflows/ci.yml`). The mutation gate runs
+nightly on `main` when it has new commits (`.github/workflows/mutation.yml`);
+coverage and the browser journeys run only in the local gate.
 
 On pull requests, the Visual workflow (`.github/workflows/visual.yml`) compares
 screenshots of the five top-level views, desktop and mobile, with the base

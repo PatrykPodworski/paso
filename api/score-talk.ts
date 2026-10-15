@@ -38,14 +38,21 @@ const gradeOf = (items: LiveScore["items"]): LiveScore["grade"] => {
 
 // Joins consecutive fragments from one speaker, so a transcript split into many short
 // turns still reads as a conversation.
-const joinTurns = (turns: TalkTurn[]) =>
-  turns.reduce<TalkTurn[]>((joined, t) => {
+const joinTurns = (turns: TalkTurn[]) => {
+  const joined: TalkTurn[] = [];
+
+  for (const t of turns) {
     const last = joined.at(-1);
 
-    return last?.role === t.role
-      ? [...joined.slice(0, -1), { role: t.role, text: `${last.text} ${t.text.trim()}` }]
-      : [...joined, { role: t.role, text: t.text.trim() }];
-  }, []);
+    if (last?.role === t.role) {
+      last.text = `${last.text} ${t.text.trim()}`;
+    } else {
+      joined.push({ role: t.role, text: t.text.trim() });
+    }
+  }
+
+  return joined;
+};
 
 const parseTurns = (turns: unknown): TalkTurn[] | null => {
   if (!Array.isArray(turns) || turns.length > MAX_FRAGMENTS) {

@@ -4,6 +4,7 @@ import type { TalkStatus } from "./useLiveTalk";
 
 const LABELS: Record<TalkStatus, string> = {
   idle: "",
+  microphone: "Waiting for the microphone…",
   connecting: "Connecting to the examiner…",
   live: "Live",
   ending: "Finishing the talk…",
@@ -40,7 +41,7 @@ export const LiveStatus = ({ status, seconds, scoring, onEnd, onCancel }: Props)
           End the talk
         </Button>
       )}
-      {status === "connecting" && (
+      {(status === "microphone" || status === "connecting") && (
         <Button variant="secondary" className="mbs-[12px]" onClick={onCancel}>
           Cancel
         </Button>

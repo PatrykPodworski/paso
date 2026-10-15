@@ -78,7 +78,11 @@ const closeLater = async (id: string, key: string) => {
     socket.onopen = () => socket.send(JSON.stringify({ type: "session.close" }));
 
     socket.onmessage = (e) => {
-      closed ||= JSON.parse(String(e.data)).type === "session.closed";
+      try {
+        closed ||= JSON.parse(String(e.data))?.type === "session.closed";
+      } catch {
+        // A message that is not JSON is not session.closed.
+      }
     };
 
     socket.onclose = socket.onerror = () => {

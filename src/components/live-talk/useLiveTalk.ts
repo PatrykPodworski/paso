@@ -3,7 +3,7 @@ import type { TalkTurn } from "../../data/types";
 import { connectExaminer, type LiveEvent } from "./examinerConnection";
 import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 
-export type TalkStatus = "idle" | "connecting" | "live" | "ending" | "ended";
+export type TalkStatus = "idle" | "microphone" | "connecting" | "live" | "ending" | "ended";
 
 // The examiner must start within CONNECT_MS of the microphone turning on. The server
 // closes a session after two minutes; the client asks a little later in case it did not.
@@ -21,7 +21,6 @@ type Connection = {
   examiner: ReturnType<typeof connectExaminer>;
   handlers: Handlers;
   live: boolean;
-  timers: number[];
 };
 
 export const useLiveTalk = () => {
@@ -35,7 +34,6 @@ export const useLiveTalk = () => {
     const current = connection.current;
 
     connection.current = null;
-    current?.timers.forEach((t) => window.clearTimeout(t));
     current?.examiner.close();
 
     return current;
@@ -63,27 +61,11 @@ export const useLiveTalk = () => {
   };
 
   const end = () => {
-    const current = connection.current;
-
-    if (!current?.examiner.end()) {
+    if (connection.current?.examiner.end()) {
+      setStatus("ending");
+    } else {
       finish();
-
-      return;
     }
-
-    setStatus("ending");
-    current.timers.push(window.setTimeout(finish, CLOSE_MS));
-  };
-
-  const drop = () => (connection.current?.live ? finish() : fail("unavailable"));
-
-  const begin = () => {
-    const current = connection.current!;
-
-    current.timers.forEach((t) => window.clearTimeout(t));
-    current.live = true;
-    current.timers = [window.setTimeout(end, TALK_MS)];
-    setStatus("live");
   };
 
   const add = (role: TalkTurn["role"], event: LiveEvent) => {
@@ -98,8 +80,9 @@ export const useLiveTalk = () => {
   };
 
   const handle = (event: LiveEvent) => {
-    if (event.type === "session.started") {
-      begin();
+    if (event.type === "session.started" && connection.current) {
+      connection.current.live = true;
+      setStatus("live");
     } else if (event.type === "session.input_transcript.delta") {
       add("student", event);
     } else if (event.type === "session.output_transcript.delta") {
@@ -109,7 +92,27 @@ export const useLiveTalk = () => {
     }
   };
 
+  const drop = () => (connection.current?.live ? finish() : fail("unavailable"));
+
   useEffect(() => () => void release(), []);
+
+  useEffect(() => {
+    const limits = {
+      connecting: [CONNECT_MS, () => fail("unavailable")],
+      live: [TALK_MS, end],
+      ending: [CLOSE_MS, finish],
+    } as const;
+
+    const limit = limits[status as keyof typeof limits];
+
+    if (!limit) {
+      return;
+    }
+
+    const timer = window.setTimeout(limit[1], limit[0]);
+
+    return () => clearTimeout(timer);
+  }, [status]);
 
   useEffect(() => {
     if (status !== "live") {
@@ -121,17 +124,11 @@ export const useLiveTalk = () => {
     return () => clearInterval(timer);
   }, [status]);
 
-  const connectWithin = (current: Connection, passcode: string | undefined) => {
-    current.timers.push(window.setTimeout(() => fail("unavailable"), CONNECT_MS));
-
-    return current.examiner.connect(passcode);
-  };
-
   const start = async (passcode: string | undefined, handlers: Handlers) => {
     fragments.current = [];
     setTurns([]);
     setSeconds(0);
-    setStatus("connecting");
+    setStatus("microphone");
 
     const examiner = connectExaminer({
       onEvent: handle,
@@ -139,10 +136,25 @@ export const useLiveTalk = () => {
       onCreated: handlers.onCreated,
     });
 
-    const current: Connection = { examiner, handlers, live: false, timers: [] };
+    const current: Connection = { examiner, handlers, live: false };
 
     connection.current = current;
-    const code = (await examiner.listen()) ?? (await connectWithin(current, passcode));
+    const denied = await examiner.listen();
+
+    if (connection.current !== current) {
+      examiner.close();
+
+      return;
+    }
+
+    if (denied) {
+      fail(denied);
+
+      return;
+    }
+
+    setStatus("connecting");
+    const code = await examiner.connect(passcode);
 
     if (code && connection.current === current) {
       fail(code);

@@ -64,7 +64,7 @@ export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) =
   const [checks, setChecks] = useState<number[]>([]);
   const [spoken, setSpoken] = useState(false);
   const [fieldValues, setFieldValues] = useState(() => parseFields(draft));
-  const productive = ["write", "speak", "form", "live"].includes(q.kind);
+  const productive = ["write", "speak", "form"].includes(q.kind);
   const built = selected.map((i) => q.tokens![i]).join(" ");
   const formText = (q.fields || []).map((f) => fieldValues[f.label] || "").join(" ");
   const value = answerValue(q, built, formText, spoken, answer);

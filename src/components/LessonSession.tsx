@@ -8,7 +8,7 @@ import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
 import { ProgressTrack } from "../design-system/ProgressTrack";
-import { QuestionCard } from "./question-card/QuestionCard";
+import { QuestionView } from "./question-card/QuestionView";
 import { stopAudio } from "./audio/playback";
 import { FieldNote } from "../design-system/FieldNote";
 import { CompletionStats } from "./CompletionStats";
@@ -162,7 +162,7 @@ export const LessonSession = ({
         </div>
       ) : (
         <div hidden={confirmExit}>
-          <QuestionCard
+          <QuestionView
             key={question.id}
             q={question}
             onSubmit={submit}

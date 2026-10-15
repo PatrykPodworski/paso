@@ -3,6 +3,7 @@ import type { ComponentProps } from "react";
 import { expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
 import type { QuestionCard } from "./question-card/QuestionCard";
+import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
@@ -18,6 +19,16 @@ vi.mock("./question-card/QuestionCard", () => ({
     card = props;
 
     return <div data-testid="current-question">{props.q.id}</div>;
+  },
+}));
+
+let talk: ComponentProps<typeof LiveQuestion>;
+
+vi.mock("./live-talk/LiveQuestion", () => ({
+  LiveQuestion: (props: typeof talk) => {
+    talk = props;
+
+    return null;
   },
 }));
 
@@ -125,7 +136,7 @@ it("saves a live talk's grade with its attempt", () => {
   const live = allQuestions.find((q) => q.kind === "live")!;
   const { onAttempt } = mount([live]);
 
-  act(() => card.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad"));
+  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad"));
 
   expect(onAttempt.mock.calls[0][0]).toMatchObject({
     questionId: "u1-o3",

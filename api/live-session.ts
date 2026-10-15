@@ -9,7 +9,9 @@ export const PASSCODE_TRIES = 10;
 const SESSION_SECONDS = 120;
 const FREE_COOKIE = "paso_live_free";
 
-export const config = { maxDuration: SESSION_SECONDS + 30 };
+// Vercel reads this statically, so it must be a literal: SESSION_SECONDS plus time
+// to close the session.
+export const config = { maxDuration: 150 };
 
 const instructions = `Eres un examinador del DELE A1 en España. Hablas solo en español de España, nunca en otro idioma, aunque el candidato use otro idioma o te lo pida.
 El candidato tiene nivel A1. Habla muy despacio, con frases muy cortas y palabras sencillas.

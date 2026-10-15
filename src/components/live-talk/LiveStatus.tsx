@@ -1,0 +1,36 @@
+import { Button } from "../../design-system/Button";
+import { Icon } from "../../design-system/Icon";
+import type { TalkStatus } from "./useLiveTalk";
+
+const LABELS: Record<TalkStatus, string> = {
+  idle: "",
+  connecting: "Connecting to the examiner…",
+  live: "Live",
+  ending: "Finishing the talk…",
+  ended: "",
+};
+
+const clock = (seconds: number) =>
+  `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+
+type Props = { status: TalkStatus; seconds: number; scoring: boolean; onEnd: () => void };
+
+export const LiveStatus = ({ status, seconds, scoring, onEnd }: Props) => {
+  const live = status === "live" || status === "ending";
+
+  return (
+    <>
+      <p role="status" className="flex items-center gap-[10px] text-[14px] text-sage-800">
+        {live && <span className="size-[9px] rounded-full bg-coral-500" aria-hidden />}
+        {status === "live" ? `Live · ${clock(seconds)}` : LABELS[status]}
+        {scoring && "Scoring your answers…"}
+      </p>
+      {live && (
+        <Button variant="secondary" className="mbs-[12px]" onClick={onEnd}>
+          <Icon name="pause" size={20} />
+          End the talk
+        </Button>
+      )}
+    </>
+  );
+};

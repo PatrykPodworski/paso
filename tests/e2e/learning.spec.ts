@@ -1,4 +1,5 @@
 import { test, expect, openLesson, answer, closeLesson, stored } from "../fixtures/app";
+import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
@@ -429,4 +430,43 @@ test("listening records transcript assistance and plays bundled audio", async ({
   await page.getByRole("button", { name: "Hide transcript" }).click();
   await answer(page, q);
   expect((await stored(page)).attempts.at(-1)).toMatchObject({ correct: true, assisted: true });
+});
+
+test("talk to the examiner live, get scored and pass unit 1's speaking", async ({ page }) => {
+  await mockLiveTalk(page, {
+    grade: "good",
+    items: { name: "correct", age: "understandable", country: "correct" },
+  });
+
+  const lesson = await openLesson(page, 3);
+
+  for (const q of lesson.questions.slice(0, 3)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await page.getByRole("button", { name: "Start the talk" }).click();
+  await expect(page.getByRole("status")).toHaveText("Connecting to the examiner…");
+  await examiner(page, { type: "session.started", session: { id: "live_1" } });
+  await examiner(page, { type: "session.output_transcript.delta", delta: "¿Cómo te llamas?" });
+  await examiner(page, { type: "session.input_transcript.delta", delta: "Me llamo Ana." });
+  await expect(page.getByRole("status")).toContainText("Live · 0:0");
+  await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");
+  await page.getByRole("button", { name: "End the talk" }).click();
+  expect(await sentEvents(page)).toEqual(["session.close"]);
+  await examiner(page, { type: "session.closed", reason: "close_requested" });
+  await expect(page.getByRole("heading", { name: "Good. You passed." })).toBeVisible();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
+
+  const progress = await stored(page);
+
+  expect(progress.attempts.at(-1)).toMatchObject({
+    questionId: lesson.questions[3].id,
+    correct: true,
+    grade: "good",
+    answer: "Examiner: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+  });
+
+  expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "" });
 });

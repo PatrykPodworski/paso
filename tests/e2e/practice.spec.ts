@@ -2,7 +2,9 @@ import { test, expect, answer, stored } from "../fixtures/app";
 import { allQuestions, foundations, visualQuestions } from "../../src/data/curriculum";
 import { formPractice } from "../../src/data/mock";
 
-const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
+const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
+  (q) => q.kind !== "live",
+);
 
 for (const skill of ["reading", "listening", "writing", "speaking"] as const) {
   test(`complete focused ${skill} practice without advancing the learning path`, async ({

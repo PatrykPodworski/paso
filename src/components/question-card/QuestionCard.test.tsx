@@ -33,7 +33,7 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const order = allQuestions.find((q) => q.kind === "order")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = allQuestions.find((q) => q.id === "u1-o3")!;
+const speaking = allQuestions.find((q) => q.kind === "speak")!;
 
 // All productive and objective save paths run against the actual component.
 for (const q of [type, writing, speaking, formPractice]) {
@@ -171,4 +171,16 @@ it("adds the numbered word to the tray and ignores a repeat of the same digit", 
 
   expect(within(tray).getAllByRole("button")).toHaveLength(1);
   expect(tray).toHaveTextContent(q.tokens![1]);
+});
+
+it("holds a live question as a talk with the examiner instead of a written answer", () => {
+  const live = allQuestions.find((q) => q.kind === "live")!;
+
+  render(<QuestionCard q={live} onSubmit={vi.fn()} />);
+
+  expect(screen.getByRole("heading", { name: live.prompt })).toBeVisible();
+  expect(screen.getByText(/Your turn/)).toBeVisible();
+  expect(screen.getByRole("button", { name: "Start the talk" })).toBeEnabled();
+  expect(screen.queryByRole("button", { name: "Review my practice" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
 });

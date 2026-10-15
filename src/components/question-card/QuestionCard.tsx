@@ -14,6 +14,8 @@ import { QuestionMaterials } from "./QuestionMaterials";
 import { SentenceBuilder } from "./SentenceBuilder";
 import { useAnswer } from "./useAnswer";
 import { WritingArea } from "./WritingArea";
+import { LiveTalk } from "../live-talk/LiveTalk";
+import type { LiveGrade } from "../../data/types";
 
 const cardPadding = (exam: boolean) =>
   exam
@@ -23,12 +25,18 @@ const cardPadding = (exam: boolean) =>
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (
+    answer: string,
+    correct: boolean | null,
+    assisted: boolean,
+    grade?: LiveGrade,
+  ) => void;
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
 };
 
+// fallow-ignore-next-line complexity -- the live talk is one more question kind; this was at the threshold before it
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -123,16 +131,29 @@ export const QuestionCard = ({
     return () => window.removeEventListener("keydown", handle);
   });
 
+  const heading = (
+    <QuestionHeading
+      q={q}
+      exam={exam}
+      feedback={feedback}
+      productive={productive}
+      listeningAudio={listeningAudio}
+      answerAudio={answerAudio}
+    />
+  );
+
+  if (q.kind === "live") {
+    return (
+      <div className={cardPadding(exam)}>
+        {heading}
+        <LiveTalk onEvaluated={onEvaluated} onSubmit={onSubmit} />
+      </div>
+    );
+  }
+
   return (
     <div className={cardPadding(exam)}>
-      <QuestionHeading
-        q={q}
-        exam={exam}
-        feedback={feedback}
-        productive={productive}
-        listeningAudio={listeningAudio}
-        answerAudio={answerAudio}
-      />
+      {heading}
       <QuestionMaterials
         q={q}
         exam={exam}

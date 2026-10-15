@@ -120,3 +120,18 @@ it.each(["write", "form", "choice", "type", "speak"] as const)(
     }
   },
 );
+
+it("saves a live talk's grade with its attempt", () => {
+  const live = allQuestions.find((q) => q.kind === "live")!;
+  const { onAttempt } = mount([live]);
+
+  act(() => card.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad"));
+
+  expect(onAttempt.mock.calls[0][0]).toMatchObject({
+    questionId: "u1-o3",
+    skill: "speaking",
+    answer: "Examiner: ¿Cómo te llamas?\nYou: Ana.",
+    correct: false,
+    grade: "bad",
+  });
+});

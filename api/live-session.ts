@@ -1,6 +1,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { waitUntil } from "@vercel/functions";
-import { clientIp, count, DAY_SECONDS, json, today, used } from "./_lib/limits.js";
+import { WebSocket } from "undici";
+import { clientIp, DAY_SECONDS, give, json, take, today } from "./_lib/limits.js";
 
 // A session costs at most about 2.25 minutes at $0.05 a minute (2 minutes plus 15
 // seconds billed at startup), so the cap holds voice spend under $3.50 a day.
@@ -8,6 +9,7 @@ export const DAILY_SESSIONS = 30;
 export const PASSCODE_TRIES = 10;
 const SESSION_SECONDS = 120;
 const FREE_COOKIE = "paso_live_free";
+const FREE_SECONDS = 30 * 86_400;
 
 // Vercel reads this statically, so it must be a literal: SESSION_SECONDS plus time
 // to close the session.
@@ -55,12 +57,17 @@ const passcodeMatches = (given: string) => {
   return !!expected && timingSafeEqual(digest(given), digest(expected));
 };
 
+const hasFreeCookie = (request: Request) =>
+  (request.headers.get("cookie") ?? "").split(";").some((c) => c.trim() === `${FREE_COOKIE}=used`);
+
 // GPT-Live has no duration setting and its hangup endpoint is for SIP calls only, so
 // the server attaches a sideband connection and closes the session itself.
 const closeLater = async (id: string, key: string) => {
   await new Promise((resolve) => setTimeout(resolve, SESSION_SECONDS * 1000));
 
-  await new Promise<void>((resolve) => {
+  const confirmed = await new Promise<boolean>((resolve) => {
+    let closed = false;
+
     const socket = new WebSocket(
       `wss://api.openai.com/v1/live/sessions/${encodeURIComponent(id)}/attach`,
       { headers: { Authorization: `Bearer ${key}` } },
@@ -70,11 +77,82 @@ const closeLater = async (id: string, key: string) => {
 
     socket.onopen = () => socket.send(JSON.stringify({ type: "session.close" }));
 
+    socket.onmessage = (e) => {
+      closed ||= JSON.parse(String(e.data)).type === "session.closed";
+    };
+
     socket.onclose = socket.onerror = () => {
       clearTimeout(timeout);
-      resolve();
+      resolve(closed);
     };
   });
+
+  console.log("Live session close", id, confirmed ? "confirmed" : "unconfirmed");
+};
+
+// Reserves a talk: the passcode or the free talk first, then a place under the daily cap.
+// Returns the refusal, or a refund for when OpenAI cannot create the session.
+const reserve = async (request: Request, passcode: string | undefined) => {
+  const ip = clientIp(request);
+  const triesKey = `live:tries:${ip}:${today()}`;
+  const freeKey = `live:free:${ip}`;
+  const dayKey = `live:day:${today()}`;
+
+  if (passcode !== undefined) {
+    if (!(await take(triesKey, PASSCODE_TRIES, DAY_SECONDS))) {
+      return { refusal: json({ error: "passcode_tries" }, 429) };
+    }
+
+    if (!passcodeMatches(passcode)) {
+      return { refusal: json({ error: "passcode" }, 401) };
+    }
+
+    await give(triesKey, DAY_SECONDS);
+  } else if (hasFreeCookie(request) || !(await take(freeKey, 1, FREE_SECONDS))) {
+    return { refusal: json({ error: "free_used" }, 403) };
+  }
+
+  const refundFree = async () => {
+    if (passcode === undefined) {
+      await give(freeKey, FREE_SECONDS);
+    }
+  };
+
+  if (!(await take(dayKey, DAILY_SESSIONS, DAY_SECONDS))) {
+    await refundFree();
+
+    return { refusal: json({ error: "daily_cap" }, 429) };
+  }
+
+  return {
+    refund: async () => {
+      await give(dayKey, DAY_SECONDS);
+      await refundFree();
+    },
+  };
+};
+
+const createSession = async (key: string, sdp: string) => {
+  const response = await fetch("https://api.openai.com/v1/live/sessions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ session, transport: { type: "webrtc", sdp } }),
+  });
+
+  const created = response.ok
+    ? ((await response.json().catch(() => null)) as {
+        session?: { id?: string };
+        transport?: { sdp?: string };
+      } | null)
+    : null;
+
+  if (!created?.session?.id || !created.transport?.sdp) {
+    console.error("Live session creation failed", response.status);
+
+    return null;
+  }
+
+  return { id: created.session.id, sdp: created.transport.sdp };
 };
 
 export const POST = async (request: Request) => {
@@ -91,60 +169,23 @@ export const POST = async (request: Request) => {
     return json({ error: "unavailable" }, 503);
   }
 
-  const triesKey = `live:tries:${clientIp(request)}:${today()}`;
+  const reserved = await reserve(request, passcode);
 
-  if (passcode !== undefined && (await used(triesKey)) >= PASSCODE_TRIES) {
-    return json({ error: "passcode_tries" }, 429);
+  if (reserved.refusal) {
+    return reserved.refusal;
   }
 
-  if (passcode !== undefined && !passcodeMatches(passcode)) {
-    await count(triesKey, DAY_SECONDS);
+  const created = await createSession(key, sdp);
 
-    return json({ error: "passcode" }, 401);
-  }
-
-  const freeKey = `live:free:${clientIp(request)}`;
-  const dayKey = `live:day:${today()}`;
-  const free = passcode === undefined;
-
-  if (
-    free &&
-    (request.headers.get("cookie")?.includes(`${FREE_COOKIE}=used`) || (await used(freeKey)))
-  ) {
-    return json({ error: "free_used" }, 403);
-  }
-
-  if ((await used(dayKey)) >= DAILY_SESSIONS) {
-    return json({ error: "daily_cap" }, 429);
-  }
-
-  const response = await fetch("https://api.openai.com/v1/live/sessions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ session, transport: { type: "webrtc", sdp } }),
-  });
-
-  if (!response.ok) {
-    console.error("Live session creation failed", response.status);
+  if (!created) {
+    await reserved.refund();
 
     return json({ error: "upstream" }, 502);
   }
 
-  const created = (await response.json()) as {
-    session: { id: string };
-    transport: { sdp: string };
-  };
+  waitUntil(closeLater(created.id, key));
 
-  await count(dayKey, DAY_SECONDS);
-  waitUntil(closeLater(created.session.id, key));
+  const cookie = `${FREE_COOKIE}=used; Path=/api; Max-Age=31536000; HttpOnly; Secure; SameSite=Strict`;
 
-  if (!free) {
-    return json({ sdp: created.transport.sdp }, 201);
-  }
-
-  await count(freeKey, 30 * DAY_SECONDS);
-
-  return json({ sdp: created.transport.sdp }, 201, {
-    "Set-Cookie": `${FREE_COOKIE}=used; Path=/api; Max-Age=31536000; HttpOnly; Secure; SameSite=Strict`,
-  });
+  return json({ sdp: created.sdp }, 201, passcode === undefined ? { "Set-Cookie": cookie } : {});
 };

@@ -1,9 +1,10 @@
 import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
-import { clientIp, count, DAY_SECONDS, json, today, used } from "./_lib/limits.js";
+import { clientIp, DAY_SECONDS, give, json, take, today } from "./_lib/limits.js";
 
 export const SCORES_PER_IP = 20;
-const DAILY_SCORES = 200;
+export const DAILY_SCORES = 200;
 const MAX_CHARACTERS = 4000;
+const MAX_FRAGMENTS = 1000;
 const ITEMS = ["name", "age", "country"] as const;
 const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
 
@@ -35,8 +36,19 @@ const gradeOf = (items: LiveScore["items"]): LiveScore["grade"] => {
   return levels.every((level) => level === "correct") ? "perfect" : "good";
 };
 
+// Joins consecutive fragments from one speaker, so a transcript split into many short
+// turns still reads as a conversation.
+const joinTurns = (turns: TalkTurn[]) =>
+  turns.reduce<TalkTurn[]>((joined, t) => {
+    const last = joined.at(-1);
+
+    return last?.role === t.role
+      ? [...joined.slice(0, -1), { role: t.role, text: `${last.text} ${t.text.trim()}` }]
+      : [...joined, { role: t.role, text: t.text.trim() }];
+  }, []);
+
 const parseTurns = (turns: unknown): TalkTurn[] | null => {
-  if (!Array.isArray(turns) || turns.length > 40) {
+  if (!Array.isArray(turns) || turns.length > MAX_FRAGMENTS) {
     return null;
   }
 
@@ -44,7 +56,9 @@ const parseTurns = (turns: unknown): TalkTurn[] | null => {
     (t) => (t?.role === "examiner" || t?.role === "student") && typeof t.text === "string",
   );
 
-  return valid && turns.reduce((n, t) => n + t.text.length, 0) <= MAX_CHARACTERS ? turns : null;
+  return valid && turns.reduce((n, t) => n + t.text.length, 0) <= MAX_CHARACTERS
+    ? joinTurns(turns)
+    : null;
 };
 
 type ModelResponse = {
@@ -90,12 +104,15 @@ export const POST = async (request: Request) => {
   const ipKey = `score:ip:${clientIp(request)}:${today()}`;
   const dayKey = `score:day:${today()}`;
 
-  if ((await used(ipKey)) >= SCORES_PER_IP || (await used(dayKey)) >= DAILY_SCORES) {
+  if (!(await take(ipKey, SCORES_PER_IP, DAY_SECONDS))) {
     return json({ error: "limit" }, 429);
   }
 
-  await count(ipKey, DAY_SECONDS);
-  await count(dayKey, DAY_SECONDS);
+  if (!(await take(dayKey, DAILY_SCORES, DAY_SECONDS))) {
+    await give(ipKey, DAY_SECONDS);
+
+    return json({ error: "limit" }, 429);
+  }
 
   const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
@@ -106,7 +123,7 @@ export const POST = async (request: Request) => {
       store: false,
       instructions: rubric,
       input: turns
-        .map((t) => `${t.role === "student" ? "Student" : "Examiner"}: ${t.text.trim()}`)
+        .map((t) => `${t.role === "student" ? "Student" : "Examiner"}: ${t.text}`)
         .join("\n"),
       text: { format: { type: "json_schema", name: "talk_score", strict: true, schema } },
     }),
@@ -116,6 +133,8 @@ export const POST = async (request: Request) => {
 
   if (!items) {
     console.error("Talk scoring failed", response.status);
+    await give(ipKey, DAY_SECONDS);
+    await give(dayKey, DAY_SECONDS);
 
     return json({ error: "upstream" }, 502);
   }

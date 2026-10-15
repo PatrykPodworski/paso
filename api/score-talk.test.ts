@@ -14,7 +14,7 @@ vi.mock("@vercel/functions", () => ({
   ipAddress: (request: Request) => request.headers.get("x-real-ip") ?? undefined,
 }));
 
-const { POST, SCORES_PER_IP } = await import("./score-talk.ts");
+const { POST, SCORES_PER_IP, DAILY_SCORES } = await import("./score-talk.ts");
 
 const openai = vi.fn();
 
@@ -107,6 +107,39 @@ describe("scoring a talk", () => {
 });
 
 describe("guards", () => {
+  it("joins a transcript split into many short turns instead of refusing it", async () => {
+    model({ name: "correct", age: "correct", country: "correct" });
+
+    const fragments = Array.from({ length: 60 }, (_, i) => ({
+      role: i % 3 === 2 ? "examiner" : "student",
+      text: `palabra${i}`,
+    }));
+
+    expect((await score({ turns: fragments })).status).toBe(200);
+    const input = JSON.parse(openai.mock.calls[0][1].body).input as string;
+
+    expect(input.split("\n")).toHaveLength(40);
+    expect(input.split("\n")[0]).toBe("Student: palabra0 palabra1");
+  });
+
+  it("gives a score back when the model fails", async () => {
+    openai.mockImplementation(async () => new Response("{}", { status: 500 }));
+
+    for (let i = 0; i < SCORES_PER_IP + 3; i++) {
+      expect((await score({ turns })).status).toBe(502);
+    }
+  });
+
+  it("stops scoring for everyone at the daily cap", async () => {
+    model({ name: "correct", age: "correct", country: "correct" });
+
+    for (let i = 0; i < DAILY_SCORES; i++) {
+      expect((await score({ turns }, `198.51.${Math.floor(i / 10)}.${i % 10}`)).status).toBe(200);
+    }
+
+    expect((await score({ turns }, "192.0.2.1")).status).toBe(429);
+  });
+
   it("rejects a malformed or oversized transcript", async () => {
     model({ name: "correct", age: "correct", country: "correct" });
 

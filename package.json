@@ -41,7 +41,8 @@
     "@tanstack/react-router": "^1.170.18",
     "@vercel/functions": "^3.9.11",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "undici": "^8.11.2"
   },
   "devDependencies": {
     "@babel/parser": "^8.0.4",

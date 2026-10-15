@@ -4,6 +4,41 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const vercel = vi.hoisted(() => ({
   store: new Map<string, unknown>(),
   pending: [] as Promise<unknown>[],
+  sockets: [] as { url: string; init: unknown; sent: string[] }[],
+  confirmClose: true,
+}));
+
+// The examiner side of a sideband connection: it answers session.close with
+// session.closed when confirmClose is set, then hangs up.
+vi.mock("undici", () => ({
+  WebSocket: class {
+    onopen?: () => void;
+    onmessage?: (e: { data: string }) => void;
+    onclose?: () => void;
+    onerror?: () => void;
+    sent: string[] = [];
+
+    constructor(url: string, init: unknown) {
+      vercel.sockets.push({ url, init, sent: this.sent });
+      queueMicrotask(() => this.onopen?.());
+    }
+
+    send(data: string) {
+      this.sent.push(data);
+
+      queueMicrotask(() => {
+        if (vercel.confirmClose) {
+          this.onmessage?.({
+            data: JSON.stringify({ type: "session.closed", reason: "close_requested" }),
+          });
+        }
+
+        this.onclose?.();
+      });
+    }
+
+    close() {}
+  },
 }));
 
 vi.mock("@vercel/functions", () => ({
@@ -35,6 +70,8 @@ const talk = (body: object, headers: Record<string, string> = {}) =>
 beforeEach(() => {
   vercel.store.clear();
   vercel.pending = [];
+  vercel.sockets = [];
+  vercel.confirmClose = true;
   vi.stubEnv("OPENAI_API_KEY", "sk-test");
   vi.stubEnv("PASSCODE", "olé-2026");
 
@@ -50,6 +87,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllEnvs();
+  vi.useRealTimers();
 });
 
 describe("creating a live session", () => {
@@ -105,6 +143,15 @@ describe("access", () => {
     expect(again.status).toBe(403);
     expect(await again.json()).toEqual({ error: "free_used" });
     expect(openai).toHaveBeenCalledTimes(1);
+  });
+
+  it("reads only its own cookie", async () => {
+    const response = await talk(
+      { sdp: "offer-sdp" },
+      { cookie: "xpaso_live_free=used; theme=dark" },
+    );
+
+    expect(response.status).toBe(201);
   });
 
   it("counts the free talk per IP address when the cookie is gone", async () => {
@@ -166,37 +213,21 @@ describe("access", () => {
 });
 
 describe("session length", () => {
-  it("closes the session from the server two minutes after it starts", async () => {
-    vi.useFakeTimers();
-    const sockets: { url: string; init: unknown; sent: string[] }[] = [];
-
-    class FakeSocket {
-      onopen?: () => void;
-      onclose?: () => void;
-      onerror?: () => void;
-      sent: string[] = [];
-
-      constructor(url: string, init: unknown) {
-        sockets.push({ url, init, sent: this.sent });
-        queueMicrotask(() => this.onopen?.());
-      }
-
-      send(data: string) {
-        this.sent.push(data);
-        queueMicrotask(() => this.onclose?.());
-      }
-
-      close() {}
-    }
-
-    vi.stubGlobal("WebSocket", FakeSocket);
-    await talk({ sdp: "offer-sdp" });
+  const twoMinutesLater = async () => {
     await vi.advanceTimersByTimeAsync(119_000);
-    expect(sockets).toHaveLength(0);
+    expect(vercel.sockets).toHaveLength(0);
     await vi.advanceTimersByTimeAsync(1_000);
     await Promise.all(vercel.pending);
+  };
 
-    expect(sockets).toEqual([
+  it("closes the session from the server two minutes after it starts", async () => {
+    vi.useFakeTimers();
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    await talk({ sdp: "offer-sdp" });
+    await twoMinutesLater();
+
+    expect(vercel.sockets).toEqual([
       {
         url: "wss://api.openai.com/v1/live/sessions/live_123/attach",
         init: { headers: { Authorization: "Bearer sk-test" } },
@@ -204,6 +235,51 @@ describe("session length", () => {
       },
     ]);
 
-    vi.useRealTimers();
+    expect(log).toHaveBeenCalledWith("Live session close", "live_123", "confirmed");
+  });
+
+  it("logs a close that OpenAI never confirmed", async () => {
+    vi.useFakeTimers();
+    vercel.confirmClose = false;
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    await talk({ sdp: "offer-sdp" });
+    await twoMinutesLater();
+
+    expect(log).toHaveBeenCalledWith("Live session close", "live_123", "unconfirmed");
+  });
+});
+
+describe("caps under concurrent requests", () => {
+  it("gives one free talk when two arrive at once", async () => {
+    const statuses = await Promise.all([talk({ sdp: "offer-sdp" }), talk({ sdp: "offer-sdp" })]);
+
+    expect(statuses.map((r) => r.status).sort()).toEqual([201, 403]);
+    expect(openai).toHaveBeenCalledTimes(1);
+  });
+
+  it("refunds the day's talk when OpenAI fails", async () => {
+    openai.mockResolvedValueOnce(new Response("{}", { status: 500 }));
+    await talk({ sdp: "offer-sdp", passcode: "olé-2026" });
+
+    for (let i = 0; i < DAILY_SESSIONS; i++) {
+      expect((await talk({ sdp: "offer-sdp", passcode: "olé-2026" })).status).toBe(201);
+    }
+  });
+
+  it("counts a passcode guess even when guesses arrive at once", async () => {
+    await Promise.all(
+      Array.from({ length: PASSCODE_TRIES + 5 }, (_, i) =>
+        talk({ sdp: "offer-sdp", passcode: `guess-${i}` }),
+      ),
+    );
+
+    expect((await talk({ sdp: "offer-sdp", passcode: "olé-2026" })).status).toBe(429);
+  });
+
+  it("keeps a right passcode from using up a try", async () => {
+    for (let i = 0; i < PASSCODE_TRIES + 2; i++) {
+      expect((await talk({ sdp: "offer-sdp", passcode: "olé-2026" })).status).toBe(201);
+    }
   });
 });

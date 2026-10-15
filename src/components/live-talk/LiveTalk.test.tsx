@@ -1,5 +1,5 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LiveTalk } from "./LiveTalk";
 
 class FakeChannel {
@@ -21,12 +21,15 @@ let channel: FakeChannel;
 const peers: FakePeer[] = [];
 const speakers: { srcObject: unknown }[] = [];
 let remote: RTCSessionDescriptionInit | undefined;
+let remoteFails = false;
 const stopped: string[] = [];
 
 class FakePeer {
   iceGatheringState = "complete";
   localDescription: RTCSessionDescriptionInit | null = null;
   ontrack: ((e: { streams: unknown[] }) => void) | null = null;
+  connectionState = "new";
+  onconnectionstatechange: (() => void) | null = null;
 
   constructor() {
     peers.push(this);
@@ -49,7 +52,16 @@ class FakePeer {
   }
 
   async setRemoteDescription(description: RTCSessionDescriptionInit) {
+    if (remoteFails) {
+      throw new DOMException("Bad answer", "InvalidAccessError");
+    }
+
     remote = description;
+  }
+
+  become(state: string) {
+    this.connectionState = state;
+    act(() => this.onconnectionstatechange?.());
   }
 
   close() {
@@ -84,12 +96,20 @@ const click = async (name: string) => {
   await act(async () => fireEvent.click(screen.getByRole("button", { name })));
 };
 
+const say = (role: "examiner" | "student", delta: string, start: number) =>
+  channel.emit({
+    type: `session.${role === "student" ? "input" : "output"}_transcript.delta`,
+    delta,
+    start_ms: start,
+    end_ms: start + 300,
+  });
+
 const talk = async () => {
   await click("Start the talk");
   channel.emit({ type: "session.started", session: { id: "live_1" } });
-  channel.emit({ type: "session.output_transcript.delta", delta: "¿Cómo te ", start_ms: 0 });
-  channel.emit({ type: "session.output_transcript.delta", delta: "llamas?", start_ms: 400 });
-  channel.emit({ type: "session.input_transcript.delta", delta: "Me llamo Ana.", start_ms: 2100 });
+  say("examiner", "¿Cómo te ", 0);
+  say("examiner", "llamas?", 400);
+  say("student", "Me llamo Ana.", 2100);
 };
 
 const finish = async () => {
@@ -101,6 +121,7 @@ const body = (url: string) => JSON.parse(api.mock.calls.find((c) => c[0] === url
 
 beforeEach(() => {
   remote = undefined;
+  remoteFails = false;
   stopped.length = 0;
   vi.stubGlobal("RTCPeerConnection", FakePeer);
   vi.stubGlobal("fetch", api);
@@ -121,6 +142,10 @@ beforeEach(() => {
     configurable: true,
     value: { getUserMedia: async () => microphone },
   });
+});
+
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 describe("a live talk", () => {
@@ -258,7 +283,7 @@ describe("access", () => {
     mount();
     await click("Start the talk");
 
-    expect(screen.getByText(/used your free live talk/)).toBeVisible();
+    expect(screen.getByText("This network has already used its free live talk.")).toBeVisible();
     expect(screen.getByLabelText("Passcode")).toBeVisible();
   });
 
@@ -314,8 +339,8 @@ describe("connection", () => {
     await talk();
     await act(async () => vi.advanceTimersByTime(62_000));
 
-    expect(screen.getByRole("status")).toHaveTextContent("Live · 1:02");
-    vi.useRealTimers();
+    expect(screen.getByRole("status")).toHaveTextContent(/^Live$/);
+    expect(screen.getByText("1:02")).toBeVisible();
   });
 
   it("scores what was said when the connection drops", async () => {
@@ -345,7 +370,6 @@ describe("connection", () => {
     await act(async () => vi.advanceTimersByTime(15_000));
 
     expect(stopped).toEqual(["mic", "peer"]);
-    vi.useRealTimers();
   });
 
   it("releases the microphone when the lesson closes mid-talk", async () => {
@@ -372,5 +396,102 @@ describe("connection", () => {
     mount();
 
     expect(screen.getByText("Your first live talk is free.")).toBeVisible();
+  });
+});
+
+describe("guards", () => {
+  it("shows the turns in the order they were spoken", async () => {
+    replies(started());
+    mount();
+    await talk();
+    say("examiner", "¿Cuántos años tienes?", 4000);
+    say("student", "Ana, ", 1800);
+
+    expect(screen.getByRole("list", { name: "Transcript" })).toHaveTextContent(
+      "Examiner¿Cómo te llamas?YouAna, Me llamo Ana.Examiner¿Cuántos años tienes?",
+    );
+  });
+
+  it("gives up when the examiner does not answer within 15 seconds", async () => {
+    vi.useFakeTimers();
+    replies(started());
+    mount();
+    await click("Start the talk");
+    await act(async () => vi.advanceTimersByTimeAsync(15_000));
+
+    expect(
+      screen.getByText("The examiner is not available right now. Try again later."),
+    ).toBeVisible();
+
+    expect(stopped).toEqual(["mic", "peer"]);
+    expect(screen.getByLabelText("Passcode")).toBeVisible();
+  });
+
+  it("lets the learner cancel while connecting", async () => {
+    replies(started());
+    mount();
+    await click("Start the talk");
+    await click("Cancel");
+
+    expect(stopped).toEqual(["mic", "peer"]);
+    expect(screen.getByRole("button", { name: "Start the talk" })).toBeVisible();
+    expect(api.mock.calls.map((c) => c[0])).toEqual(["/api/live-session"]);
+  });
+
+  it("gives up when the connection fails before the examiner starts", async () => {
+    replies(started());
+    mount();
+    await click("Start the talk");
+    peers.at(-1)!.become("failed");
+
+    expect(
+      screen.getByText("The examiner is not available right now. Try again later."),
+    ).toBeVisible();
+
+    expect(stopped).toEqual(["mic", "peer"]);
+  });
+
+  it("scores what was said when the connection is lost mid-talk", async () => {
+    replies(started(), {
+      grade: "perfect",
+      items: { name: "correct", age: "correct", country: "correct" },
+    });
+
+    mount();
+    await talk();
+    await act(async () => peers.at(-1)!.become("disconnected"));
+
+    expect(await screen.findByRole("heading", { name: "Perfect. You passed." })).toBeVisible();
+  });
+
+  it("ends the talk itself after two minutes", async () => {
+    vi.useFakeTimers();
+    replies(started());
+    mount();
+    await talk();
+    await act(async () => vi.advanceTimersByTimeAsync(124_000));
+    expect(channel.sent).toEqual([]);
+    await act(async () => vi.advanceTimersByTimeAsync(1_000));
+
+    expect(channel.sent).toEqual([JSON.stringify({ type: "session.close" })]);
+    expect(screen.getByRole("status")).toHaveTextContent("Finishing the talk…");
+  });
+
+  it("counts the free talk as used once the session exists, even if the call fails", async () => {
+    remoteFails = true;
+    replies(started());
+    mount();
+    await click("Start the talk");
+
+    expect(
+      screen.getByText("The examiner is not available right now. Try again later."),
+    ).toBeVisible();
+
+    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
+      freeUsed: true,
+      passcode: "",
+    });
+
+    expect(screen.getByLabelText("Passcode")).toBeVisible();
   });
 });

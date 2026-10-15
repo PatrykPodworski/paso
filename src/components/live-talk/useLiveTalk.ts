@@ -1,14 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import type { TalkTurn } from "../../data/types";
 import { connectExaminer, type LiveEvent } from "./examinerConnection";
-import { addDelta, type LiveTurn } from "./transcript";
+import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 
 export type TalkStatus = "idle" | "connecting" | "live" | "ending" | "ended";
 
+// The examiner must start within CONNECT_MS of the microphone turning on. The server
+// closes a session after two minutes; the client asks a little later in case it did not.
+const CONNECT_MS = 15_000;
+const TALK_MS = 125_000;
+const CLOSE_MS = 15_000;
+
+type Handlers = {
+  onCreated: () => void;
+  onEnded: (turns: TalkTurn[]) => void;
+  onFail: (code: string) => void;
+};
+
 type Connection = {
   examiner: ReturnType<typeof connectExaminer>;
-  timeout?: number;
-  onEnded: (turns: TalkTurn[]) => void;
+  handlers: Handlers;
+  live: boolean;
+  timers: number[];
 };
 
 export const useLiveTalk = () => {
@@ -16,13 +29,13 @@ export const useLiveTalk = () => {
   const [turns, setTurns] = useState<LiveTurn[]>([]);
   const [seconds, setSeconds] = useState(0);
   const connection = useRef<Connection | null>(null);
-  const transcript = useRef<LiveTurn[]>([]);
+  const fragments = useRef<Fragment[]>([]);
 
   const release = () => {
     const current = connection.current;
 
     connection.current = null;
-    window.clearTimeout(current?.timeout);
+    current?.timers.forEach((t) => window.clearTimeout(t));
     current?.examiner.close();
 
     return current;
@@ -33,18 +46,60 @@ export const useLiveTalk = () => {
 
     if (current) {
       setStatus("ended");
-      current.onEnded(transcript.current.map(({ role, text }) => ({ role, text })));
+
+      current.handlers.onEnded(
+        turnsOf(fragments.current).map(({ role, text }) => ({ role, text })),
+      );
     }
   };
 
+  const fail = (code: string) => {
+    const current = release();
+
+    if (current) {
+      setStatus("idle");
+      current.handlers.onFail(code);
+    }
+  };
+
+  const end = () => {
+    const current = connection.current;
+
+    if (!current?.examiner.end()) {
+      finish();
+
+      return;
+    }
+
+    setStatus("ending");
+    current.timers.push(window.setTimeout(finish, CLOSE_MS));
+  };
+
+  const drop = () => (connection.current?.live ? finish() : fail("unavailable"));
+
+  const begin = () => {
+    const current = connection.current!;
+
+    current.timers.forEach((t) => window.clearTimeout(t));
+    current.live = true;
+    current.timers = [window.setTimeout(end, TALK_MS)];
+    setStatus("live");
+  };
+
   const add = (role: TalkTurn["role"], event: LiveEvent) => {
-    transcript.current = addDelta(transcript.current, role, event.delta ?? "", event.start_ms);
-    setTurns(transcript.current);
+    const start = event.start_ms ?? 0;
+
+    fragments.current = [
+      ...fragments.current,
+      { role, text: event.delta ?? "", start, end: event.end_ms ?? start },
+    ];
+
+    setTurns(turnsOf(fragments.current));
   };
 
   const handle = (event: LiveEvent) => {
     if (event.type === "session.started") {
-      setStatus("live");
+      begin();
     } else if (event.type === "session.input_transcript.delta") {
       add("student", event);
     } else if (event.type === "session.output_transcript.delta") {
@@ -66,36 +121,37 @@ export const useLiveTalk = () => {
     return () => clearInterval(timer);
   }, [status]);
 
-  // Resolves to an error code, or null once the examiner session is connecting.
-  const start = async (passcode: string | undefined, onEnded: Connection["onEnded"]) => {
-    transcript.current = [];
+  const connectWithin = (current: Connection, passcode: string | undefined) => {
+    current.timers.push(window.setTimeout(() => fail("unavailable"), CONNECT_MS));
+
+    return current.examiner.connect(passcode);
+  };
+
+  const start = async (passcode: string | undefined, handlers: Handlers) => {
+    fragments.current = [];
     setTurns([]);
     setSeconds(0);
     setStatus("connecting");
-    const examiner = connectExaminer(handle, finish);
 
-    connection.current = { examiner, onEnded };
-    const code = await examiner.start(passcode);
+    const examiner = connectExaminer({
+      onEvent: handle,
+      onDrop: drop,
+      onCreated: handlers.onCreated,
+    });
 
-    if (code) {
-      release();
-      setStatus("idle");
+    const current: Connection = { examiner, handlers, live: false, timers: [] };
+
+    connection.current = current;
+    const code = (await examiner.listen()) ?? (await connectWithin(current, passcode));
+
+    if (code && connection.current === current) {
+      fail(code);
     }
-
-    return code;
   };
 
-  const end = () => {
-    const current = connection.current;
-
-    if (!current?.examiner.end()) {
-      finish();
-
-      return;
-    }
-
-    setStatus("ending");
-    current.timeout = window.setTimeout(finish, 15_000);
+  const cancel = () => {
+    release();
+    setStatus("idle");
   };
 
   const reset = () => {
@@ -103,5 +159,5 @@ export const useLiveTalk = () => {
     setTurns([]);
   };
 
-  return { status, turns, seconds, start, end, reset };
+  return { status, turns, seconds, start, end, cancel, reset };
 };

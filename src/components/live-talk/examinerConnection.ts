@@ -1,4 +1,12 @@
-export type LiveEvent = { type: string; delta?: string; start_ms?: number };
+export type LiveEvent = { type: string; delta?: string; start_ms?: number; end_ms?: number };
+
+type Handlers = {
+  onEvent: (event: LiveEvent) => void;
+  // The connection dropped or failed.
+  onDrop: () => void;
+  // The server created the session, which uses up a free talk.
+  onCreated: () => void;
+};
 
 // Sends the offer with the candidates gathered so far if gathering stalls.
 const gathered = (peer: RTCPeerConnection) =>
@@ -28,7 +36,7 @@ const microphoneError = (e: unknown) =>
 
 // A WebRTC connection to the examiner through the /api/live-session proxy. The caller
 // owns it and must call close().
-export const connectExaminer = (onEvent: (event: LiveEvent) => void, onClose: () => void) => {
+export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
   const peer = new RTCPeerConnection();
   const audio = new Audio();
   const channel = peer.createDataChannel("oai-events");
@@ -41,11 +49,17 @@ export const connectExaminer = (onEvent: (event: LiveEvent) => void, onClose: ()
     void audio.play().catch(() => {});
   };
 
-  channel.onmessage = (e) => onEvent(JSON.parse(e.data));
-  channel.onclose = onClose;
+  peer.onconnectionstatechange = () => {
+    if (peer.connectionState === "failed" || peer.connectionState === "disconnected") {
+      onDrop();
+    }
+  };
 
-  // Resolves to an error code, or null once the session is connecting.
-  const start = async (passcode: string | undefined) => {
+  channel.onmessage = (e) => onEvent(JSON.parse(e.data));
+  channel.onclose = onDrop;
+
+  // Resolves to an error code, or null once the microphone is on.
+  const listen = async () => {
     try {
       microphone = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (e) {
@@ -54,6 +68,11 @@ export const connectExaminer = (onEvent: (event: LiveEvent) => void, onClose: ()
 
     microphone.getAudioTracks().forEach((t) => peer.addTrack(t, microphone!));
 
+    return null;
+  };
+
+  // Resolves to an error code, or null once the session is connecting.
+  const connect = async (passcode: string | undefined) => {
     try {
       await peer.setLocalDescription(await peer.createOffer());
       await gathered(peer);
@@ -70,6 +89,7 @@ export const connectExaminer = (onEvent: (event: LiveEvent) => void, onClose: ()
 
       const { sdp } = (await response.json()) as { sdp: string };
 
+      onCreated();
       await peer.setRemoteDescription({ type: "answer", sdp });
 
       return null;
@@ -95,5 +115,5 @@ export const connectExaminer = (onEvent: (event: LiveEvent) => void, onClose: ()
     audio.srcObject = null;
   };
 
-  return { start, end, close };
+  return { listen, connect, end, close };
 };

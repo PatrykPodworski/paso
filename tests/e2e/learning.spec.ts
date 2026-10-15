@@ -461,7 +461,8 @@ test("talk to the examiner live, get scored and pass unit 1's speaking", async (
     start_ms: 2000,
   });
 
-  await expect(page.getByRole("status")).toContainText("Live · 0:0");
+  await expect(page.getByRole("status")).toHaveText("Live");
+  await expect(page.getByText(/^0:0\d$/)).toBeVisible();
   await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");
   await page.getByRole("button", { name: "End the talk" }).click();
   expect(await sentEvents(page)).toEqual(["session.close"]);

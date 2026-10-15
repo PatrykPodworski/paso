@@ -23,7 +23,8 @@ export const saveAccess = (access: LiveAccess) => {
   }
 };
 
-// A started free talk uses it up; a rejected passcode is forgotten.
+// A created session uses up the free talk; a rejected passcode is forgotten. Any other
+// outcome leaves access as it was.
 export const accessAfter = (
   code: string | null,
   access: LiveAccess,
@@ -33,8 +34,12 @@ export const accessAfter = (
     return { freeUsed: true, passcode: "" };
   }
 
-  if (code === null || code === "free_used") {
+  if (code === null) {
     return { freeUsed: true, passcode: access.freeUsed ? passcode : "" };
+  }
+
+  if (code === "free_used") {
+    return { freeUsed: true, passcode: "" };
   }
 
   return access;

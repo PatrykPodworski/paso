@@ -13,22 +13,36 @@ const LABELS: Record<TalkStatus, string> = {
 const clock = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
 
-type Props = { status: TalkStatus; seconds: number; scoring: boolean; onEnd: () => void };
+type Props = {
+  status: TalkStatus;
+  seconds: number;
+  scoring: boolean;
+  onEnd: () => void;
+  onCancel: () => void;
+};
 
-export const LiveStatus = ({ status, seconds, scoring, onEnd }: Props) => {
+export const LiveStatus = ({ status, seconds, scoring, onEnd, onCancel }: Props) => {
   const live = status === "live" || status === "ending";
 
   return (
     <>
-      <p role="status" className="flex items-center gap-[10px] text-[14px] text-sage-800">
+      <div className="flex items-center gap-[10px] text-[14px] text-sage-800">
         {live && <span className="size-[9px] rounded-full bg-coral-500" aria-hidden />}
-        {status === "live" ? `Live · ${clock(seconds)}` : LABELS[status]}
-        {scoring && "Scoring your answers…"}
-      </p>
+        <p role="status">
+          {LABELS[status]}
+          {scoring && "Scoring your answers…"}
+        </p>
+        {status === "live" && <span className="tabular-nums">{clock(seconds)}</span>}
+      </div>
       {live && (
         <Button variant="secondary" className="mbs-[12px]" onClick={onEnd}>
           <Icon name="pause" size={20} />
           End the talk
+        </Button>
+      )}
+      {status === "connecting" && (
+        <Button variant="secondary" className="mbs-[12px]" onClick={onCancel}>
+          Cancel
         </Button>
       )}
     </>

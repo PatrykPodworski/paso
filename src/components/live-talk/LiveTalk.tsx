@@ -17,6 +17,7 @@ const PROBLEMS: Record<string, string> = {
   microphone: "The microphone could not start. Check it and try again.",
   passcode: "That passcode is not right.",
   passcode_tries: "Too many wrong passcodes. Try again tomorrow.",
+  free_used: "This network has already used its free live talk.",
   daily_cap: "The live talks for today are used up. Try again tomorrow.",
   unavailable: "The examiner is not available right now. Try again later.",
 };
@@ -61,16 +62,27 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
     }
   };
 
-  const start = async () => {
-    setProblem("");
-    const code = await talk.start(access.freeUsed ? passcode : undefined, score);
-
+  const remember = (code: string | null) => {
     const next = accessAfter(code, access, passcode);
 
-    setAccess(next);
-    saveAccess(next);
-    setPasscode(code === "passcode" ? "" : passcode);
-    setProblem(PROBLEMS[code ?? ""] ?? "");
+    if (next !== access) {
+      setAccess(next);
+      saveAccess(next);
+    }
+  };
+
+  const start = () => {
+    setProblem("");
+
+    return talk.start(access.freeUsed ? passcode : undefined, {
+      onCreated: () => remember(null),
+      onEnded: score,
+      onFail: (code) => {
+        remember(code);
+        setPasscode(code === "passcode" ? "" : passcode);
+        setProblem(PROBLEMS[code] ?? PROBLEMS.unavailable);
+      },
+    });
   };
 
   const again = () => {
@@ -97,6 +109,7 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
         seconds={talk.seconds}
         scoring={scoring.state === "scoring"}
         onEnd={talk.end}
+        onCancel={talk.cancel}
       />
       {talk.turns.length > 0 && <LiveTranscript turns={talk.turns} />}
       {problem && <Notice as="p">{problem}</Notice>}

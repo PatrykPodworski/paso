@@ -335,10 +335,31 @@ test("question: live talk with the examiner", async ({ page }) => {
   await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Start the talk" }).click();
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
-  await examiner(page, { type: "session.output_transcript.delta", delta: "¿Cómo te llamas?" });
-  await examiner(page, { type: "session.input_transcript.delta", delta: "Me llamo Ana." });
-  await examiner(page, { type: "session.output_transcript.delta", delta: "¿Cuántos años tienes?" });
-  await examiner(page, { type: "session.input_transcript.delta", delta: "Soy veinte años." });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cómo te llamas?",
+    start_ms: 1000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Me llamo Ana.",
+    start_ms: 2000,
+  });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cuántos años tienes?",
+    start_ms: 3000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Soy veinte años.",
+    start_ms: 4000,
+  });
+
   await shot(page, "question-live-talk");
   await examiner(page, { type: "session.closed", reason: "close_requested" });
   await expect(page.getByRole("heading", { name: "Not yet. Talk again to pass." })).toBeVisible();

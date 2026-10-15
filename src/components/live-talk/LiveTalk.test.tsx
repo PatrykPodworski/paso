@@ -87,9 +87,9 @@ const click = async (name: string) => {
 const talk = async () => {
   await click("Start the talk");
   channel.emit({ type: "session.started", session: { id: "live_1" } });
-  channel.emit({ type: "session.output_transcript.delta", delta: "¿Cómo te " });
-  channel.emit({ type: "session.output_transcript.delta", delta: "llamas?" });
-  channel.emit({ type: "session.input_transcript.delta", delta: "Me llamo Ana." });
+  channel.emit({ type: "session.output_transcript.delta", delta: "¿Cómo te ", start_ms: 0 });
+  channel.emit({ type: "session.output_transcript.delta", delta: "llamas?", start_ms: 400 });
+  channel.emit({ type: "session.input_transcript.delta", delta: "Me llamo Ana.", start_ms: 2100 });
 };
 
 const finish = async () => {

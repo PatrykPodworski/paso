@@ -448,8 +448,19 @@ test("talk to the examiner live, get scored and pass unit 1's speaking", async (
   await page.getByRole("button", { name: "Start the talk" }).click();
   await expect(page.getByRole("status")).toHaveText("Connecting to the examiner…");
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
-  await examiner(page, { type: "session.output_transcript.delta", delta: "¿Cómo te llamas?" });
-  await examiner(page, { type: "session.input_transcript.delta", delta: "Me llamo Ana." });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cómo te llamas?",
+    start_ms: 1000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Me llamo Ana.",
+    start_ms: 2000,
+  });
+
   await expect(page.getByRole("status")).toContainText("Live · 0:0");
   await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");
   await page.getByRole("button", { name: "End the talk" }).click();

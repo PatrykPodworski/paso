@@ -115,10 +115,15 @@ export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   if (attempt.correct === true && !attempt.assisted && trackedMistakeReview) {
     const nextLevel = nextReviewLevel(p.mistakeReviews[attempt.questionId]?.level ?? 0);
 
-    mistakeReviews[attempt.questionId] = {
-      level: nextLevel,
-      nextAt: nextReviewAt(attempt.at, nextLevel),
-    };
+    // A graded live talk costs a session, so passing it once clears it for good.
+    if (attempt.grade) {
+      delete mistakeReviews[attempt.questionId];
+    } else {
+      mistakeReviews[attempt.questionId] = {
+        level: nextLevel,
+        nextAt: nextReviewAt(attempt.at, nextLevel),
+      };
+    }
 
     mistakes.delete(attempt.questionId);
   }

@@ -271,6 +271,24 @@ describe("app business orchestration", () => {
     expect(localStorage.getItem("paso-mock-v1")).toBeNull();
   });
 
+  it("finishes a reset when browser storage refuses to clear the mock run", () => {
+    mount();
+
+    vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
+      throw new Error("blocked");
+    });
+
+    click("Open your learning preferences");
+    fireEvent.click(screen.getByText("Start over"));
+    click("Reset my progress");
+    click("Clear my practice data");
+    expect(saved()).toEqual(emptyProgress());
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "A fresh start. Your practice data has been cleared.",
+    );
+  });
+
   it("reports persistence failures and keeps the current session usable", () => {
     mount();
 

@@ -13,7 +13,7 @@ export interface Run {
 }
 
 export type SetRun = Dispatch<SetStateAction<Run>>;
-const KEY = "paso-mock-v1";
+export const MOCK_STORAGE_KEY = "paso-mock-v1";
 
 export const fresh = (): Run => ({
   section: 0,
@@ -27,7 +27,7 @@ export const fresh = (): Run => ({
 
 export const load = (): Run => {
   try {
-    const raw = JSON.parse(localStorage.getItem(KEY) || "null");
+    const raw = JSON.parse(localStorage.getItem(MOCK_STORAGE_KEY) || "null");
 
     return raw &&
       Number.isInteger(raw.section) &&
@@ -45,13 +45,21 @@ export const load = (): Run => {
   }
 };
 
+export const clearMockRun = () => {
+  try {
+    localStorage.removeItem(MOCK_STORAGE_KEY);
+  } catch {
+    /* The caller's state still resets for this visit. */
+  }
+};
+
 export const useMockRun = () => {
   const [run, setRun] = useState<Run>(load);
   const [storageError, setStorageError] = useState(false);
 
   useEffect(() => {
     try {
-      localStorage.setItem(KEY, JSON.stringify(run));
+      localStorage.setItem(MOCK_STORAGE_KEY, JSON.stringify(run));
     } catch {
       setStorageError(true);
     }

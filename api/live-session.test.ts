@@ -63,7 +63,8 @@ vi.mock("@vercel/functions", () => ({
   },
 }));
 
-const { POST, DAILY_SESSIONS, PASSCODE_TRIES } = await import("./live-session.ts");
+const { POST } = await import("./live-session.ts");
+const { PASSCODE_TRIES } = await import("./_lib/passcode.ts");
 
 const openai = vi.fn();
 
@@ -227,15 +228,10 @@ describe("access", () => {
     expect((await talk({ sdp: "offer-sdp", passcode: "" })).status).toBe(401);
   });
 
-  it("stops all talks for the day at the daily cap", async () => {
-    for (let i = 0; i < DAILY_SESSIONS; i++) {
+  it("has no daily cap on passcode talks", async () => {
+    for (let i = 0; i < 50; i++) {
       expect((await talk({ sdp: "offer-sdp", passcode: "olé-2026" })).status).toBe(201);
     }
-
-    const response = await talk({ sdp: "offer-sdp", passcode: "olé-2026" });
-
-    expect(response.status).toBe(429);
-    expect(await response.json()).toEqual({ error: "daily_cap" });
   });
 });
 
@@ -295,15 +291,6 @@ describe("caps under concurrent requests", () => {
 
     expect(statuses.map((r) => r.status).sort()).toEqual([201, 403]);
     expect(openai).toHaveBeenCalledTimes(1);
-  });
-
-  it("refunds the day's talk when OpenAI fails", async () => {
-    openai.mockResolvedValueOnce(new Response("{}", { status: 500 }));
-    await talk({ sdp: "offer-sdp", passcode: "olé-2026" });
-
-    for (let i = 0; i < DAILY_SESSIONS; i++) {
-      expect((await talk({ sdp: "offer-sdp", passcode: "olé-2026" })).status).toBe(201);
-    }
   });
 
   it("counts a passcode guess even when guesses arrive at once", async () => {

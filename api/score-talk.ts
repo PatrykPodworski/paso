@@ -1,9 +1,8 @@
 import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
-import { clientIp, DAY_SECONDS, give, json, take, today } from "./_lib/limits.js";
+import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
+import { passcodeRefusal } from "./_lib/passcode.js";
 import { rubric } from "./_lib/talk-rubric.js";
 
-export const SCORES_PER_IP = 20;
-export const DAILY_SCORES = 200;
 const MAX_CHARACTERS = 4000;
 const MAX_FRAGMENTS = 1000;
 const ITEMS = ["name", "age", "country"] as const;
@@ -79,7 +78,11 @@ const modelItems = (data: ModelResponse) => {
 };
 
 export const POST = async (request: Request) => {
-  const body = (await request.json().catch(() => ({}))) as { turns?: unknown };
+  const body = (await request.json().catch(() => ({}))) as {
+    turns?: unknown;
+    passcode?: unknown;
+  };
+  const passcode = typeof body.passcode === "string" ? body.passcode : undefined;
   const turns = parseTurns(body.turns);
   const key = process.env.OPENAI_API_KEY;
 
@@ -98,17 +101,16 @@ export const POST = async (request: Request) => {
     return json({ error: "unavailable" }, 503);
   }
 
-  const ipKey = `score:ip:${clientIp(request)}:${today()}`;
-  const dayKey = `score:day:${today()}`;
+  const freeKey = `score:free:${clientIp(request)}`;
 
-  if (!(await take(ipKey, SCORES_PER_IP, DAY_SECONDS))) {
-    return json({ error: "limit" }, 429);
-  }
+  if (passcode !== undefined) {
+    const refusal = await passcodeRefusal(request, passcode);
 
-  if (!(await take(dayKey, DAILY_SCORES, DAY_SECONDS))) {
-    await give(ipKey, DAY_SECONDS);
-
-    return json({ error: "limit" }, 429);
+    if (refusal) {
+      return refusal;
+    }
+  } else if (!(await take(freeKey, 1, FREE_SECONDS))) {
+    return json({ error: "free_used" }, 403);
   }
 
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -130,8 +132,9 @@ export const POST = async (request: Request) => {
 
   if (!items) {
     console.error("Talk scoring failed", response.status);
-    await give(ipKey, DAY_SECONDS);
-    await give(dayKey, DAY_SECONDS);
+    if (passcode === undefined) {
+      await give(freeKey, FREE_SECONDS);
+    }
 
     return json({ error: "upstream" }, 502);
   }

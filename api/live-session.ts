@@ -1,16 +1,11 @@
-import { createHash, timingSafeEqual } from "node:crypto";
 import { waitUntil } from "@vercel/functions";
 import { WebSocket } from "undici";
-import { clientIp, DAY_SECONDS, give, json, take, today } from "./_lib/limits.js";
+import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
+import { passcodeRefusal } from "./_lib/passcode.js";
 import { greeting, instructions } from "./_lib/talk-instructions.js";
 
-// A session costs at most about 2.25 minutes at $0.05 a minute (2 minutes plus 15
-// seconds billed at startup), so the cap holds voice spend under $3.50 a day.
-export const DAILY_SESSIONS = 30;
-export const PASSCODE_TRIES = 10;
 const SESSION_SECONDS = 120;
 const FREE_COOKIE = "paso_live_free";
-const FREE_SECONDS = 30 * 86_400;
 
 // Vercel reads this statically, so it must be a literal: SESSION_SECONDS plus time
 // to close the session.
@@ -33,14 +28,6 @@ const session = {
       ].map((type) => ({ type })),
     },
   },
-};
-
-const digest = (text: string) => createHash("sha256").update(text).digest();
-
-const passcodeMatches = (given: string) => {
-  const expected = process.env.PASSCODE;
-
-  return !!expected && timingSafeEqual(digest(given), digest(expected));
 };
 
 const hasFreeCookie = (request: Request) =>
@@ -85,44 +72,26 @@ const closeLater = async (id: string, key: string) => {
   console.log("Live session close", id, confirmed ? "confirmed" : "unconfirmed");
 };
 
-// Reserves a talk: the passcode or the free talk first, then a place under the daily cap.
-// Returns the refusal, or a refund for when OpenAI cannot create the session.
+// Reserves a talk with the passcode or the free talk. Returns the refusal, or a refund
+// for when OpenAI cannot create the session.
 const reserve = async (request: Request, passcode: string | undefined) => {
-  const ip = clientIp(request);
-  const triesKey = `live:tries:${ip}:${today()}`;
-  const freeKey = `live:free:${ip}`;
-  const dayKey = `live:day:${today()}`;
+  const freeKey = `live:free:${clientIp(request)}`;
 
   if (passcode !== undefined) {
-    if (!(await take(triesKey, PASSCODE_TRIES, DAY_SECONDS))) {
-      return { refusal: json({ error: "passcode_tries" }, 429) };
-    }
+    const refusal = await passcodeRefusal(request, passcode);
 
-    if (!passcodeMatches(passcode)) {
-      return { refusal: json({ error: "passcode" }, 401) };
+    if (refusal) {
+      return { refusal };
     }
-
-    await give(triesKey, DAY_SECONDS);
   } else if (hasFreeCookie(request) || !(await take(freeKey, 1, FREE_SECONDS))) {
     return { refusal: json({ error: "free_used" }, 403) };
   }
 
-  const refundFree = async () => {
-    if (passcode === undefined) {
-      await give(freeKey, FREE_SECONDS);
-    }
-  };
-
-  if (!(await take(dayKey, DAILY_SESSIONS, DAY_SECONDS))) {
-    await refundFree();
-
-    return { refusal: json({ error: "daily_cap" }, 429) };
-  }
-
   return {
     refund: async () => {
-      await give(dayKey, DAY_SECONDS);
-      await refundFree();
+      if (passcode === undefined) {
+        await give(freeKey, FREE_SECONDS);
+      }
     },
   };
 };

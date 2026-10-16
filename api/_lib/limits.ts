@@ -2,8 +2,8 @@ import { getCache, ipAddress } from "@vercel/functions";
 
 // Vercel Runtime Cache: regional and ephemeral, so a count can reset when an entry is
 // evicted, and two instances can race on the same key. Within one instance, updates to
-// a key run one at a time. That is enough for a cost cap on a hobby app; the OpenAI
-// project budget is the hard backstop.
+// a key run one at a time. That is enough for the free talk and the passcode tries;
+// the spend limit on the OpenAI key caps the cost.
 const cache = getCache({ namespace: "paso" });
 const queues = new Map<string, Promise<unknown>>();
 
@@ -22,6 +22,9 @@ const oneAtATime = <T>(key: string, update: () => Promise<T>) => {
 };
 
 export const DAY_SECONDS = 86_400;
+
+// How long an address keeps its free use of a paid endpoint.
+export const FREE_SECONDS = 30 * DAY_SECONDS;
 
 export const today = () => new Date().toISOString().slice(0, 10);
 

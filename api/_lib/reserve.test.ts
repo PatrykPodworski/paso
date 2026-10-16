@@ -26,6 +26,7 @@ beforeEach(() => {
 it("counts the free use per scope and address", async () => {
   expect("refund" in (await reserve(request(), undefined, "live"))).toBe(true);
   expect("refund" in (await reserve(request(), undefined, "score"))).toBe(true);
+
   expect(Object.fromEntries(store)).toEqual({
     "live:free:203.0.113.7": 1,
     "score:free:203.0.113.7": 1,

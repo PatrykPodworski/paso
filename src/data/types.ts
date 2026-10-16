@@ -1,6 +1,15 @@
 export type Skill = "reading" | "listening" | "writing" | "speaking";
 export type Tone = "peach" | "sage" | "lavender" | "sand" | "blue";
-export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "speak" | "form";
+
+export type QuestionKind =
+  | "choice"
+  | "listen"
+  | "type"
+  | "order"
+  | "write"
+  | "speak"
+  | "form"
+  | "live";
 
 export type LiveGrade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
@@ -61,6 +70,7 @@ export interface Attempt {
   answer: string;
   at: string;
   assisted?: boolean;
+  grade?: LiveGrade;
 }
 
 export interface Progress {

@@ -2,16 +2,18 @@ import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
 import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
 import { passcodeRefusal } from "./_lib/passcode.js";
 import { rubric } from "./_lib/talk-rubric.js";
+import { LIVE_ITEMS } from "../src/data/types.ts";
 
 const MAX_CHARACTERS = 4000;
 const MAX_FRAGMENTS = 1000;
-const ITEMS = ["name", "age", "country"] as const;
 const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
 
 const schema = {
   type: "object",
-  properties: Object.fromEntries(ITEMS.map((item) => [item, { type: "string", enum: LEVELS }])),
-  required: ITEMS,
+  properties: Object.fromEntries(
+    LIVE_ITEMS.map((item) => [item, { type: "string", enum: LEVELS }]),
+  ),
+  required: LIVE_ITEMS,
   additionalProperties: false,
 };
 
@@ -69,8 +71,8 @@ const modelItems = (data: ModelResponse) => {
   try {
     const items = JSON.parse(text ?? "");
 
-    return ITEMS.every((item) => LEVELS.includes(items[item]))
-      ? (Object.fromEntries(ITEMS.map((item) => [item, items[item]])) as LiveScore["items"])
+    return LIVE_ITEMS.every((item) => LEVELS.includes(items[item]))
+      ? (Object.fromEntries(LIVE_ITEMS.map((item) => [item, items[item]])) as LiveScore["items"])
       : null;
   } catch {
     return null;
@@ -92,10 +94,11 @@ export const POST = async (request: Request) => {
   }
 
   if (!turns.some((t) => t.role === "student" && t.text.trim())) {
-    return json(
-      { grade: "bad", items: { name: "missing", age: "missing", country: "missing" } },
-      200,
-    );
+    const items = Object.fromEntries(
+      LIVE_ITEMS.map((item) => [item, "missing"]),
+    ) as LiveScore["items"];
+
+    return json({ grade: "bad", items }, 200);
   }
 
   if (!key) {

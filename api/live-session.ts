@@ -2,6 +2,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { waitUntil } from "@vercel/functions";
 import { WebSocket } from "undici";
 import { clientIp, DAY_SECONDS, give, json, take, today } from "./_lib/limits.js";
+import { greeting, instructions } from "./_lib/talk-instructions.js";
 
 // A session costs at most about 2.25 minutes at $0.05 a minute (2 minutes plus 15
 // seconds billed at startup), so the cap holds voice spend under $3.50 a day.
@@ -14,26 +15,6 @@ const FREE_SECONDS = 30 * 86_400;
 // Vercel reads this statically, so it must be a literal: SESSION_SECONDS plus time
 // to close the session.
 export const config = { maxDuration: 150 };
-
-const instructions = `Eres Lucía, una profesora de español de España. Hablas con un estudiante de nivel A1 que practica para el DELE A1. Hablas solo en español de España, nunca en otro idioma, aunque el estudiante use otro idioma o te lo pida.
-Empiezas tú la conversación: saluda y preséntate con «Hola, soy Lucía» sin esperar a que el estudiante hable.
-Habla muy despacio, con frases muy cortas y palabras sencillas. Eres amable y natural.
-Nunca digas que eres examinadora ni que esto es un examen.
-Haz exactamente estas tres preguntas, una cada vez y en este orden:
-1. ¿Cómo te llamas?
-2. ¿Cuántos años tienes?
-3. ¿De dónde eres?
-Después de cada respuesta di solo «Muy bien» o «Gracias» y haz la pregunta siguiente. No hagas preguntas de seguimiento, no corrijas errores, no expliques nada y no hables de otros temas.
-Si el estudiante no responde o no entiendes la respuesta, repite la misma pregunta una vez, más despacio, y después pasa a la siguiente.
-Después de la tercera respuesta, despídete con una frase corta y amable, por ejemplo «Muchas gracias. ¡Hasta luego!», y no digas nada más.
-Backchannel policy: No uses sonidos de escucha.
-Interruption policy: Si el estudiante habla, deja de hablar y escucha.
-Delegation policy: No delegues nunca. No tienes herramientas.`;
-
-// Sent at startup, and again by the client if Lucía is still silent once the talk is
-// live: the docs say startup instructions do not guarantee that the model speaks first.
-const greeting =
-  "Empieza ahora, sin esperar al estudiante. Saluda en español y preséntate: «Hola, soy Lucía.» Después pregunta «¿Cómo te llamas?» y escucha.";
 
 const session = {
   model: "gpt-live-1",

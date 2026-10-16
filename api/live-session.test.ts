@@ -6,10 +6,12 @@ const vercel = vi.hoisted(() => ({
   pending: [] as Promise<unknown>[],
   sockets: [] as { url: string; init: unknown; sent: string[] }[],
   confirmClose: true,
+  dropFirst: false,
 }));
 
 // The examiner side of a sideband connection: it answers session.close with
-// session.closed when confirmClose is set, then hangs up.
+// session.closed when confirmClose is set, then hangs up. With dropFirst the hang-up
+// reaches the socket before the session.closed message, as an abrupt drop can.
 vi.mock("undici", () => ({
   WebSocket: class {
     onopen?: () => void;
@@ -26,14 +28,21 @@ vi.mock("undici", () => ({
     send(data: string) {
       this.sent.push(data);
 
-      queueMicrotask(() => {
-        if (vercel.confirmClose) {
-          this.onmessage?.({
-            data: JSON.stringify({ type: "session.closed", reason: "close_requested" }),
-          });
-        }
+      const closed = () =>
+        vercel.confirmClose &&
+        this.onmessage?.({
+          data: JSON.stringify({ type: "session.closed", reason: "close_requested" }),
+        });
 
-        this.onclose?.();
+      queueMicrotask(() => {
+        if (vercel.dropFirst) {
+          this.onerror?.();
+          this.onclose?.();
+          closed();
+        } else {
+          closed();
+          this.onclose?.();
+        }
       });
     }
 
@@ -72,6 +81,7 @@ beforeEach(() => {
   vercel.pending = [];
   vercel.sockets = [];
   vercel.confirmClose = true;
+  vercel.dropFirst = false;
   vi.stubEnv("OPENAI_API_KEY", "sk-test");
   vi.stubEnv("PASSCODE", "olé-2026");
 
@@ -234,6 +244,7 @@ describe("session length", () => {
     await vi.advanceTimersByTimeAsync(119_000);
     expect(vercel.sockets).toHaveLength(0);
     await vi.advanceTimersByTimeAsync(1_000);
+    await vi.advanceTimersByTimeAsync(1_000);
     await Promise.all(vercel.pending);
   };
 
@@ -251,6 +262,17 @@ describe("session length", () => {
         sent: [JSON.stringify({ type: "session.close" })],
       },
     ]);
+
+    expect(log).toHaveBeenCalledWith("Live session close", "live_123", "confirmed");
+  });
+
+  it("confirms a close whose session.closed arrives after the socket drops", async () => {
+    vi.useFakeTimers();
+    vercel.dropFirst = true;
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    await talk({ sdp: "offer-sdp" });
+    await twoMinutesLater();
 
     expect(log).toHaveBeenCalledWith("Live session close", "live_123", "confirmed");
   });

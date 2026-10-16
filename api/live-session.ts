@@ -71,8 +71,6 @@ const closeLater = async (id: string, key: string) => {
   await new Promise((resolve) => setTimeout(resolve, SESSION_SECONDS * 1000));
 
   const confirmed = await new Promise<boolean>((resolve) => {
-    let closed = false;
-
     const socket = new WebSocket(
       `wss://api.openai.com/v1/live/sessions/${encodeURIComponent(id)}/attach`,
       { headers: { Authorization: `Bearer ${key}` } },
@@ -80,20 +78,27 @@ const closeLater = async (id: string, key: string) => {
 
     const timeout = setTimeout(() => socket.close(), 10_000);
 
+    const settle = (closed: boolean) => {
+      clearTimeout(timeout);
+      resolve(closed);
+    };
+
     socket.onopen = () => socket.send(JSON.stringify({ type: "session.close" }));
 
     socket.onmessage = (e) => {
       try {
-        closed ||= JSON.parse(String(e.data))?.type === "session.closed";
+        if (JSON.parse(String(e.data))?.type === "session.closed") {
+          settle(true);
+          socket.close();
+        }
       } catch {
         // A message that is not JSON is not session.closed.
       }
     };
 
-    socket.onclose = socket.onerror = () => {
-      clearTimeout(timeout);
-      resolve(closed);
-    };
+    // OpenAI drops the socket right after session.closed, and undici can report the
+    // drop before that last message, so a drop waits a moment for it.
+    socket.onclose = socket.onerror = () => setTimeout(() => settle(false), 1000);
   });
 
   console.log("Live session close", id, confirmed ? "confirmed" : "unconfirmed");

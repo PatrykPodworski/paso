@@ -23,6 +23,9 @@ const oneAtATime = <T>(key: string, update: () => Promise<T>) => {
 
 export const DAY_SECONDS = 86_400;
 
+// How long an address keeps its free use of a paid endpoint.
+export const FREE_SECONDS = 30 * DAY_SECONDS;
+
 export const today = () => new Date().toISOString().slice(0, 10);
 
 export const clientIp = (request: Request) => ipAddress(request) ?? "unknown";

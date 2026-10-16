@@ -1,13 +1,11 @@
-import { createHash, timingSafeEqual } from "node:crypto";
 import { waitUntil } from "@vercel/functions";
 import { WebSocket } from "undici";
-import { clientIp, DAY_SECONDS, give, json, take, today } from "./_lib/limits.js";
+import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
+import { passcodeRefusal } from "./_lib/passcode.js";
 import { greeting, instructions } from "./_lib/talk-instructions.js";
 
-export const PASSCODE_TRIES = 10;
 const SESSION_SECONDS = 120;
 const FREE_COOKIE = "paso_live_free";
-const FREE_SECONDS = 30 * 86_400;
 
 // Vercel reads this statically, so it must be a literal: SESSION_SECONDS plus time
 // to close the session.
@@ -30,14 +28,6 @@ const session = {
       ].map((type) => ({ type })),
     },
   },
-};
-
-const digest = (text: string) => createHash("sha256").update(text).digest();
-
-const passcodeMatches = (given: string) => {
-  const expected = process.env.PASSCODE;
-
-  return !!expected && timingSafeEqual(digest(given), digest(expected));
 };
 
 const hasFreeCookie = (request: Request) =>
@@ -85,20 +75,14 @@ const closeLater = async (id: string, key: string) => {
 // Reserves a talk with the passcode or the free talk. Returns the refusal, or a refund
 // for when OpenAI cannot create the session.
 const reserve = async (request: Request, passcode: string | undefined) => {
-  const ip = clientIp(request);
-  const triesKey = `live:tries:${ip}:${today()}`;
-  const freeKey = `live:free:${ip}`;
+  const freeKey = `live:free:${clientIp(request)}`;
 
   if (passcode !== undefined) {
-    if (!(await take(triesKey, PASSCODE_TRIES, DAY_SECONDS))) {
-      return { refusal: json({ error: "passcode_tries" }, 429) };
-    }
+    const refusal = await passcodeRefusal(request, passcode);
 
-    if (!passcodeMatches(passcode)) {
-      return { refusal: json({ error: "passcode" }, 401) };
+    if (refusal) {
+      return { refusal };
     }
-
-    await give(triesKey, DAY_SECONDS);
   } else if (hasFreeCookie(request) || !(await take(freeKey, 1, FREE_SECONDS))) {
     return { refusal: json({ error: "free_used" }, 403) };
   }

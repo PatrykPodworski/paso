@@ -63,7 +63,8 @@ vi.mock("@vercel/functions", () => ({
   },
 }));
 
-const { POST, PASSCODE_TRIES } = await import("./live-session.ts");
+const { POST } = await import("./live-session.ts");
+const { PASSCODE_TRIES } = await import("./_lib/passcode.ts");
 
 const openai = vi.fn();
 

@@ -127,7 +127,7 @@ const App = () => {
     <div className="min-h-screen">
       <a
         href="#main-content"
-        className="underline fixed left-[10px] -top-[100px] z-[200] p-[12px] bg-white text-green-900 focus:top-[10px]"
+        className="underline fixed left-2.5 -top-25 z-200 p-3 bg-white text-green-900 focus:top-2.5"
         onClick={(e) => {
           e.preventDefault();
           document.getElementById("main-content")?.focus();
@@ -145,7 +145,7 @@ const App = () => {
         name={progress.name}
         openSettings={() => setSettings(true)}
       />
-      <div className="ml-[260px] max-xl:ml-[215px] max-md:ml-0">
+      <div className="ml-65 max-xl:ml-54 max-md:ml-0">
         <Topbar
           page={page}
           progress={progress}
@@ -155,7 +155,7 @@ const App = () => {
         <main
           id="main-content"
           tabIndex={-1}
-          className="max-w-[1570px] m-auto outline-none p-[34px_38px_0] max-xl:p-[28px_27px_0] max-md:p-[26px_20px_0] max-sm:px-[16px]"
+          className="max-w-392 m-auto outline-none pt-8 px-9 pb-0 max-xl:pt-7 max-xl:px-7 max-xl:pb-0 max-md:pt-6 max-md:px-5 max-md:pb-0 max-sm:px-4"
         >
           {storageError && (
             <Notice as="p" role="status">
@@ -164,13 +164,13 @@ const App = () => {
             </Notice>
           )}
           {pages[page]}
-          <footer className="flex max-md:flex-wrap items-center justify-between gap-[15px] mt-[42px] max-md:mt-[32px] p-[20px_0_25px] max-md:p-[20px_0] border-t border-t-sage-200 text-[11px] text-sage-400">
+          <footer className="flex max-md:flex-wrap items-center justify-between gap-3.5 mt-10 max-md:mt-8 pt-5 px-0 pb-6 max-md:py-5 max-md:px-0 border-t border-t-sage-200 text-2xs text-sage-400">
             <span className="max-lg:hidden">Made for the joy of getting there.</span>
-            <span className="font-serif text-[14px] italic text-sage-500">
-              paso a paso <span className="text-sand-500 ml-[6px]">✦</span>
+            <span className="font-serif text-sm italic text-sage-500">
+              paso a paso <span className="text-sand-500 ml-1.5">✦</span>
             </span>
             <button
-              className={`${PRESSABLE} flex items-center gap-[4px] border-0 bg-transparent p-[1px_6px] text-[10px] max-md:text-[9px] text-sage-400`}
+              className={`${PRESSABLE} flex items-center gap-1 border-0 bg-transparent py-px px-1.5 text-2xs text-sage-400`}
               onClick={() => navigate("guide")}
             >
               Independent practice · Official sources inside
@@ -214,7 +214,7 @@ const App = () => {
       )}
       {toast && (
         <div
-          className="fixed bottom-[25px] left-1/2 -translate-x-1/2 z-[100] flex items-center gap-[10px] p-[15px_22px] rounded-[10px] bg-green-900 text-sage-50 text-[14px] shadow-[0_7px_30px_var(--color-green-950)]/13 max-w-[calc(100vw_-_30px)] max-md:w-max"
+          className="fixed bottom-6 inset-x-4 mx-auto w-fit z-100 flex items-center gap-2.5 py-3.5 px-5 rounded-lg bg-green-900 text-sage-50 text-sm shadow-xl shadow-green-950/13"
           role="status"
         >
           <Icon name="check" size={17} />

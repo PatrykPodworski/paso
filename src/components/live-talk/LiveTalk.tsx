@@ -16,13 +16,12 @@ const PROBLEMS: Record<string, string> = {
   passcode: "That passcode is not right.",
   passcode_tries: "Too many wrong passcodes. Try again tomorrow.",
   free_used: "This network has already used its free live talk.",
-  daily_cap: "The live talks for today are used up. Try again tomorrow.",
   unavailable: "Lucía is not available right now. Try again later.",
 };
 
 type Scoring =
   | { state: "idle" }
-  | { state: "scoring" | "failed"; turns: TalkTurn[] }
+  | { state: "scoring" | "failed"; turns: TalkTurn[]; passcode?: string }
   | { state: "done"; turns: TalkTurn[]; score: LiveScore };
 
 type Props = {
@@ -37,14 +36,14 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
   const [problem, setProblem] = useState("");
   const [scoring, setScoring] = useState<Scoring>({ state: "idle" });
 
-  const score = async (turns: TalkTurn[]) => {
-    setScoring({ state: "scoring", turns });
+  const score = async (turns: TalkTurn[], passcode: string | undefined) => {
+    setScoring({ state: "scoring", turns, passcode });
 
     try {
       const response = await fetch("/api/score-talk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ turns }),
+        body: JSON.stringify({ turns, passcode }),
       });
 
       if (!response.ok) {
@@ -56,7 +55,7 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
       setScoring({ state: "done", turns, score: result });
       onEvaluated?.(transcriptText(turns), result.grade !== "bad", false, result.grade);
     } catch {
-      setScoring({ state: "failed", turns });
+      setScoring({ state: "failed", turns, passcode });
     }
   };
 
@@ -72,9 +71,11 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
   const start = () => {
     setProblem("");
 
-    return talk.start(access.freeUsed ? passcode : undefined, {
+    const used = access.freeUsed ? passcode : undefined;
+
+    return talk.start(used, {
       onCreated: () => remember(null),
-      onEnded: score,
+      onEnded: (turns) => score(turns, used),
       onFail: (code) => {
         remember(code);
         setPasscode(code === "passcode" ? "" : passcode);
@@ -113,7 +114,11 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
       {scoring.state === "failed" && (
         <Notice as="div">
           <p>The talk could not be scored.</p>
-          <Button variant="secondary" size="small" onClick={() => score(scoring.turns)}>
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={() => score(scoring.turns, scoring.passcode)}
+          >
             Score again
           </Button>
         </Notice>

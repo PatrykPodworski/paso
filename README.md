@@ -124,10 +124,11 @@ marks each answer correct, understandable or missing. Perfect and good pass; a
 missing answer fails and the talk waits in your mistakes. Only the transcript is
 scored, never pronunciation.
 
-The first talk is free. Further talks need the passcode, checked on the server
-against the `PASSCODE` environment variable. The functions also need
-`OPENAI_API_KEY`, and they cap talks and scoring per day. `pnpm dev` does not run
-the functions; use `vercel dev` to try a real talk locally.
+The first talk and its score are free for each network. Further talks need the
+passcode, checked on the server against the `PASSCODE` environment variable. The
+functions also need `OPENAI_API_KEY`; the spend limit on that key caps the cost.
+`pnpm dev` does not run the functions; use `vercel dev` to try a real talk
+locally.
 
 ## Tests
 

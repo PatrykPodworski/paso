@@ -274,6 +274,31 @@ describe("access", () => {
     expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
   });
 
+  it("sends the passcode with the transcript, also when scoring again", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+    let scores = 0;
+
+    api.mockImplementation(async (url: string) =>
+      url === "/api/live-session"
+        ? started()
+        : ++scores === 1
+          ? new Response("{}", { status: 502 })
+          : Response.json({ grade: "perfect", items: {} }),
+    );
+
+    mount();
+    await talk();
+    await finish();
+    expect(await screen.findByText(/could not be scored/)).toBeVisible();
+    await click("Score again");
+
+    const passcodes = api.mock.calls
+      .filter((c) => c[0] === "/api/score-talk")
+      .map((c) => JSON.parse(c[1].body).passcode);
+
+    expect(passcodes).toEqual(["olé", "olé"]);
+  });
+
   it("forgets a passcode the server rejects", async () => {
     localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "old" }));
     replies(Response.json({ error: "passcode" }, { status: 401 }));
@@ -301,14 +326,6 @@ describe("access", () => {
     await click("Start the talk");
 
     expect(screen.getByText("Too many wrong passcodes. Try again tomorrow.")).toBeVisible();
-  });
-
-  it("explains the daily limit", async () => {
-    replies(Response.json({ error: "daily_cap" }, { status: 429 }));
-    mount();
-    await click("Start the talk");
-
-    expect(screen.getByText(/live talks for today are used up/)).toBeVisible();
   });
 
   it("explains a declined microphone without starting a session", async () => {

@@ -26,7 +26,7 @@ const gathered = (peer: RTCPeerConnection) =>
 const startError = async (response: Response) => {
   const body = (await response.json().catch(() => ({}))) as { error?: string };
 
-  return ["passcode", "passcode_tries", "free_used", "daily_cap"].includes(body.error ?? "")
+  return ["passcode", "passcode_tries", "free_used"].includes(body.error ?? "")
     ? body.error!
     : "unavailable";
 };

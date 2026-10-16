@@ -82,6 +82,7 @@ export const POST = async (request: Request) => {
     turns?: unknown;
     passcode?: unknown;
   };
+
   const passcode = typeof body.passcode === "string" ? body.passcode : undefined;
   const turns = parseTurns(body.turns);
   const key = process.env.OPENAI_API_KEY;
@@ -132,6 +133,7 @@ export const POST = async (request: Request) => {
 
   if (!items) {
     console.error("Talk scoring failed", response.status);
+
     if (passcode === undefined) {
       await give(freeKey, FREE_SECONDS);
     }

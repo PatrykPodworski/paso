@@ -13,7 +13,8 @@ export type QuestionKind =
 
 export type LiveGrade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
-export type LiveScore = { grade: LiveGrade; items: Record<"name" | "age" | "country", LiveItem> };
+export const LIVE_ITEMS = ["name", "age", "country"] as const;
+export type LiveScore = { grade: LiveGrade; items: Record<(typeof LIVE_ITEMS)[number], LiveItem> };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
 
 export interface Question {

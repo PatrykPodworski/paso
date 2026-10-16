@@ -1,11 +1,6 @@
-import type { Attempt, Progress, Question, Skill } from "./types.ts";
+import type { Attempt, Progress, Question, ReviewState, Skill } from "./types.ts";
 
 export const REVIEW_WINDOWS = [0, 1, 3, 7, 14, 30] as const;
-
-export type ReviewState = {
-  level: number;
-  nextAt: string;
-};
 
 export const STORAGE_KEY = "paso-progress-v1";
 

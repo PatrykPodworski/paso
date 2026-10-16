@@ -1544,7 +1544,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
           kind: "live",
           skill: "speaking",
           prompt:
-            "Talk to the examiner. Answer three short questions in Spanish: your name, your age and where you are from.",
+            "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
           answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
           explanation:
             "A perfect or good talk passes. A talk that misses an answer waits in your mistakes until you pass it.",

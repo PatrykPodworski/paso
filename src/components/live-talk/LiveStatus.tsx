@@ -5,7 +5,7 @@ import type { TalkStatus } from "./useLiveTalk";
 const LABELS: Record<TalkStatus, string> = {
   idle: "",
   microphone: "Waiting for the microphone…",
-  connecting: "Connecting to the examiner…",
+  connecting: "Connecting to Lucía…",
   live: "Live",
   ending: "Finishing the talk…",
   ended: "",

@@ -314,7 +314,7 @@ test("illustrated scenarios in the picture studio", async ({ page }) => {
   }
 });
 
-test("question: live talk with the examiner", async ({ page }) => {
+test("question: live talk with Lucía", async ({ page }) => {
   await mockLiveTalk(page, {
     grade: "bad",
     items: { name: "correct", age: "understandable", country: "missing" },
@@ -334,6 +334,7 @@ test("question: live talk with the examiner", async ({ page }) => {
   await shot(page, "question-live-passcode");
   await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Start the talk" }).click();
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
 
   await examiner(page, {
@@ -360,8 +361,11 @@ test("question: live talk with the examiner", async ({ page }) => {
     start_ms: 4000,
   });
 
+  await expect(page.getByRole("status")).toHaveText("Live");
   await shot(page, "question-live-talk");
   await examiner(page, { type: "session.closed", reason: "close_requested" });
   await expect(page.getByRole("heading", { name: "Not yet. Talk again to pass." })).toBeVisible();
   await shot(page, "question-live-result");
+  await page.getByText("Transcript", { exact: true }).click();
+  await shot(page, "question-live-transcript");
 });

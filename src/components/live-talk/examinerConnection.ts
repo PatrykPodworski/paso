@@ -41,6 +41,7 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
   const audio = new Audio();
   const channel = peer.createDataChannel("oai-events");
   let microphone: MediaStream | undefined;
+  let greeting = "";
 
   audio.autoplay = true;
 
@@ -87,10 +88,11 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
         return startError(response);
       }
 
-      const { sdp } = (await response.json()) as { sdp: string };
+      const answer = (await response.json()) as { sdp: string; greeting?: string };
 
+      greeting = answer.greeting ?? "";
       onCreated();
-      await peer.setRemoteDescription({ type: "answer", sdp });
+      await peer.setRemoteDescription({ type: "answer", sdp: answer.sdp });
 
       return null;
     } catch {
@@ -109,11 +111,24 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
     return true;
   };
 
+  // Asks Lucía to open the talk with the greeting the server sent.
+  const greet = () => {
+    if (greeting && channel.readyState === "open") {
+      channel.send(
+        JSON.stringify({
+          type: "session.instructions.append",
+          delegation_id: null,
+          content: greeting,
+        }),
+      );
+    }
+  };
+
   const close = () => {
     microphone?.getTracks().forEach((t) => t.stop());
     peer.close();
     audio.srcObject = null;
   };
 
-  return { listen, connect, end, close };
+  return { listen, connect, end, greet, close };
 };

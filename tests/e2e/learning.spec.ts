@@ -432,7 +432,7 @@ test("listening records transcript assistance and plays bundled audio", async ({
   expect((await stored(page)).attempts.at(-1)).toMatchObject({ correct: true, assisted: true });
 });
 
-test("talk to the examiner live, get scored and pass unit 1's speaking", async ({ page }) => {
+test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page }) => {
   await mockLiveTalk(page, {
     grade: "good",
     items: { name: "correct", age: "understandable", country: "correct" },
@@ -446,7 +446,7 @@ test("talk to the examiner live, get scored and pass unit 1's speaking", async (
   }
 
   await page.getByRole("button", { name: "Start the talk" }).click();
-  await expect(page.getByRole("status")).toHaveText("Connecting to the examiner…");
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
 
   await examiner(page, {
@@ -463,11 +463,14 @@ test("talk to the examiner live, get scored and pass unit 1's speaking", async (
 
   await expect(page.getByRole("status")).toHaveText("Live");
   await expect(page.getByText(/^0:0\d$/)).toBeVisible();
-  await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");
+  await expect(page.getByText("Me llamo Ana.")).toBeHidden();
   await page.getByRole("button", { name: "End the talk" }).click();
   expect(await sentEvents(page)).toEqual(["session.close"]);
   await examiner(page, { type: "session.closed", reason: "close_requested" });
   await expect(page.getByRole("heading", { name: "Good. You passed." })).toBeVisible();
+  await expect(page.getByRole("list", { name: "Transcript" })).toBeHidden();
+  await page.getByText("Transcript", { exact: true }).click();
+  await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
 
@@ -477,7 +480,7 @@ test("talk to the examiner live, get scored and pass unit 1's speaking", async (
     questionId: lesson.questions[3].id,
     correct: true,
     grade: "good",
-    answer: "Examiner: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+    answer: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
   });
 
   expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "" });

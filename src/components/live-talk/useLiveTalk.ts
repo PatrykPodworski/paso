@@ -5,9 +5,11 @@ import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 
 export type TalkStatus = "idle" | "microphone" | "connecting" | "live" | "ending" | "ended";
 
-// The examiner must start within CONNECT_MS of the microphone turning on. The server
-// closes a session after two minutes; the client asks a little later in case it did not.
+// Lucía must start within CONNECT_MS of the microphone turning on, and is asked to greet
+// if she is still silent GREET_MS into the talk. The server closes a session after two
+// minutes; the client asks a little later in case it did not.
 const CONNECT_MS = 15_000;
+const GREET_MS = 2_500;
 const TALK_MS = 125_000;
 const CLOSE_MS = 15_000;
 
@@ -43,11 +45,11 @@ export const useLiveTalk = () => {
     const current = release();
 
     if (current) {
-      setStatus("ended");
+      const spoken = turnsOf(fragments.current);
 
-      current.handlers.onEnded(
-        turnsOf(fragments.current).map(({ role, text }) => ({ role, text })),
-      );
+      setStatus("ended");
+      setTurns(spoken);
+      current.handlers.onEnded(spoken.map(({ role, text }) => ({ role, text })));
     }
   };
 
@@ -75,8 +77,6 @@ export const useLiveTalk = () => {
       ...fragments.current,
       { role, text: event.delta ?? "", start, end: event.end_ms ?? start },
     ];
-
-    setTurns(turnsOf(fragments.current));
   };
 
   const handle = (event: LiveEvent) => {
@@ -110,6 +110,20 @@ export const useLiveTalk = () => {
     }
 
     const timer = window.setTimeout(limit[1], limit[0]);
+
+    return () => clearTimeout(timer);
+  }, [status]);
+
+  useEffect(() => {
+    if (status !== "live") {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      if (!fragments.current.some((f) => f.role === "examiner")) {
+        connection.current?.examiner.greet();
+      }
+    }, GREET_MS);
 
     return () => clearTimeout(timer);
   }, [status]);

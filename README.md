@@ -8,7 +8,7 @@ written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
 It runs in the browser and keeps your progress there. There is no account and no
-database. The one exception is the live talk with the examiner in unit 1: your
+database. The one exception is the live talk with Lucía in unit 1: your
 voice goes to OpenAI for that talk, and its transcript is sent back for scoring.
 
 Try it: **https://paso.podwor.ski**
@@ -113,11 +113,11 @@ download; nothing is uploaded. AI feedback on your writing is coming soon.
 
 ## Live examiner
 
-Unit 1's speaking task is a live talk. The examiner, OpenAI's `gpt-live-1`, asks
-three short questions in slow Castilian Spanish: your name, your age and where you
-are from. The browser connects over WebRTC; `api/live-session.ts` exchanges its
+Unit 1's speaking task is a live talk with Lucía, OpenAI's `gpt-live-1` with a
+female voice. She greets you first, then asks three short questions in slow
+Castilian Spanish: your name, your age and where you are from. The browser connects over WebRTC; `api/live-session.ts` exchanges its
 offer with OpenAI, so the API key stays on the server. The server closes every
-session after two minutes.
+session after two minutes. The transcript stays hidden during the talk.
 
 After the talk, `api/score-talk.ts` sends the transcript to a text model, which
 marks each answer correct, understandable or missing. Perfect and good pass; a

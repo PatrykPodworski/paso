@@ -5,21 +5,19 @@ import { Notice } from "../../design-system/Notice";
 import type { LiveGrade, LiveScore, TalkTurn } from "../../data/types";
 import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
-import { LiveTranscript } from "./LiveTranscript";
 import { accessAfter, readAccess, saveAccess } from "./liveAccess";
 import { LiveStatus } from "./LiveStatus";
 import { transcriptText } from "./transcript";
 import { useLiveTalk } from "./useLiveTalk";
 
 const PROBLEMS: Record<string, string> = {
-  denied:
-    "Microphone access was declined. Allow it in your browser settings to talk to the examiner.",
+  denied: "Microphone access was declined. Allow it in your browser settings to talk to Lucía.",
   microphone: "The microphone could not start. Check it and try again.",
   passcode: "That passcode is not right.",
   passcode_tries: "Too many wrong passcodes. Try again tomorrow.",
   free_used: "This network has already used its free live talk.",
   daily_cap: "The live talks for today are used up. Try again tomorrow.",
-  unavailable: "The examiner is not available right now. Try again later.",
+  unavailable: "Lucía is not available right now. Try again later.",
 };
 
 type Scoring =
@@ -93,7 +91,7 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
   return (
     <div className="mbs-[4px] rounded-[10px] border border-sand-200 bg-sand-100 p-[22px] max-md:p-[18px]">
       <FieldNote className="mbe-[16px]">
-        The examiner asks three short questions in Spanish. The talk lasts about a minute and ends
+        Lucía asks you three short questions in Spanish. The talk lasts about a minute and ends
         after two. Your voice goes to OpenAI for the talk; the transcript is scored.
       </FieldNote>
       {talk.status === "idle" && (
@@ -111,7 +109,6 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
         onEnd={talk.end}
         onCancel={talk.cancel}
       />
-      {talk.turns.length > 0 && <LiveTranscript turns={talk.turns} />}
       {problem && <Notice as="p">{problem}</Notice>}
       {scoring.state === "failed" && (
         <Notice as="div">
@@ -124,6 +121,7 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
       {scoring.state === "done" && (
         <LiveResult
           score={scoring.score}
+          turns={talk.turns}
           onAgain={again}
           onContinue={() =>
             onSubmit(transcriptText(scoring.turns), scoring.score.grade !== "bad", false)

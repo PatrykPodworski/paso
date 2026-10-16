@@ -50,5 +50,5 @@ it("writes a transcript as labelled lines", () => {
       { role: "examiner", text: "¿Cómo te llamas?" },
       { role: "student", text: " Me llamo Ana. " },
     ]),
-  ).toBe("Examiner: ¿Cómo te llamas?\nYou: Me llamo Ana.");
+  ).toBe("Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.");
 });

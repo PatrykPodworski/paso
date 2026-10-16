@@ -81,7 +81,7 @@ const replies = (session: Response, score?: object) =>
     url === "/api/live-session" ? session : Response.json(score),
   );
 
-const started = () => Response.json({ sdp: "answer-sdp" }, { status: 201 });
+const started = () => Response.json({ sdp: "answer-sdp", greeting: "Saluda." }, { status: 201 });
 
 const mount = () => {
   const onEvaluated = vi.fn();
@@ -117,6 +117,12 @@ const finish = async () => {
   await act(async () => channel.onmessage?.({ data: JSON.stringify({ type: "session.closed" }) }));
 };
 
+const openTranscript = async () => {
+  await act(async () => fireEvent.click(screen.getByText("Transcript")));
+
+  return screen.getByRole("list", { name: "Transcript" });
+};
+
 const body = (url: string) => JSON.parse(api.mock.calls.find((c) => c[0] === url)![1].body);
 
 beforeEach(() => {
@@ -149,7 +155,7 @@ afterEach(() => {
 });
 
 describe("a live talk", () => {
-  it("connects, shows both sides of the transcript and closes on request", async () => {
+  it("connects, shows only the status during the talk and closes on request", async () => {
     replies(started(), { grade: "perfect", items: {} });
     mount();
     await talk();
@@ -157,10 +163,7 @@ describe("a live talk", () => {
     expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp" });
     expect(remote).toEqual({ type: "answer", sdp: "answer-sdp" });
     expect(screen.getByRole("status")).toHaveTextContent("Live");
-
-    expect(screen.getByRole("list", { name: "Transcript" })).toHaveTextContent(
-      "Examiner¿Cómo te llamas?YouMe llamo Ana.",
-    );
+    expect(screen.queryByText("Me llamo Ana.")).toBeNull();
 
     await click("End the talk");
 
@@ -194,8 +197,12 @@ describe("a live talk", () => {
       "NameCorrectAgeUnderstandable, with mistakesCountryCorrect",
     );
 
+    expect(screen.getByRole("list", { name: "Transcript" })).not.toBeVisible();
+    expect(await openTranscript()).toHaveTextContent("Lucía¿Cómo te llamas?YouMe llamo Ana.");
+    expect(screen.getByRole("list", { name: "Transcript" })).toBeVisible();
+
     expect(onEvaluated).toHaveBeenCalledWith(
-      "Examiner: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+      "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
       true,
       false,
       "good",
@@ -204,7 +211,7 @@ describe("a live talk", () => {
     await click("Continue");
 
     expect(onSubmit).toHaveBeenCalledWith(
-      "Examiner: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+      "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
       true,
       false,
     );
@@ -323,13 +330,13 @@ describe("access", () => {
 });
 
 describe("connection", () => {
-  it("plays the examiner's voice", async () => {
+  it("plays Lucía's voice", async () => {
     replies(started());
     mount();
     await talk();
-    act(() => peers.at(-1)!.ontrack?.({ streams: ["examiner-stream"] }));
+    act(() => peers.at(-1)!.ontrack?.({ streams: ["lucia-stream"] }));
 
-    expect(speakers.at(-1)!.srcObject).toBe("examiner-stream");
+    expect(speakers.at(-1)!.srcObject).toBe("lucia-stream");
   });
 
   it("counts the talk time while live", async () => {
@@ -360,7 +367,7 @@ describe("connection", () => {
     ).toBeVisible();
   });
 
-  it("ends the talk itself when the examiner never confirms the close", async () => {
+  it("ends the talk itself when Lucía never confirms the close", async () => {
     vi.useFakeTimers();
     replies(started(), { grade: "perfect", items: {} });
     mount();
@@ -386,9 +393,7 @@ describe("connection", () => {
     mount();
     await click("Start the talk");
 
-    expect(
-      screen.getByText("The examiner is not available right now. Try again later."),
-    ).toBeVisible();
+    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
   });
 
   it("starts as a free visitor when the saved access is unreadable", () => {
@@ -401,27 +406,27 @@ describe("connection", () => {
 
 describe("guards", () => {
   it("shows the turns in the order they were spoken", async () => {
-    replies(started());
+    replies(started(), { grade: "perfect", items: {} });
     mount();
     await talk();
     say("examiner", "¿Cuántos años tienes?", 4000);
     say("student", "Ana, ", 1800);
+    await finish();
+    await screen.findByRole("heading", { name: "Perfect. You passed." });
 
-    expect(screen.getByRole("list", { name: "Transcript" })).toHaveTextContent(
-      "Examiner¿Cómo te llamas?YouAna, Me llamo Ana.Examiner¿Cuántos años tienes?",
+    expect(await openTranscript()).toHaveTextContent(
+      "Lucía¿Cómo te llamas?YouAna, Me llamo Ana.Lucía¿Cuántos años tienes?",
     );
   });
 
-  it("gives up when the examiner does not answer within 15 seconds", async () => {
+  it("gives up when Lucía does not answer within 15 seconds", async () => {
     vi.useFakeTimers();
     replies(started());
     mount();
     await click("Start the talk");
     await act(async () => vi.advanceTimersByTimeAsync(15_000));
 
-    expect(
-      screen.getByText("The examiner is not available right now. Try again later."),
-    ).toBeVisible();
+    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
 
     expect(stopped).toEqual(["mic", "peer"]);
     expect(screen.getByLabelText("Passcode")).toBeVisible();
@@ -438,15 +443,13 @@ describe("guards", () => {
     expect(api.mock.calls.map((c) => c[0])).toEqual(["/api/live-session"]);
   });
 
-  it("gives up when the connection fails before the examiner starts", async () => {
+  it("gives up when the connection fails before Lucía starts", async () => {
     replies(started());
     mount();
     await click("Start the talk");
     peers.at(-1)!.become("failed");
 
-    expect(
-      screen.getByText("The examiner is not available right now. Try again later."),
-    ).toBeVisible();
+    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
 
     expect(stopped).toEqual(["mic", "peer"]);
   });
@@ -483,9 +486,7 @@ describe("guards", () => {
     mount();
     await click("Start the talk");
 
-    expect(
-      screen.getByText("The examiner is not available right now. Try again later."),
-    ).toBeVisible();
+    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
 
     expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
       freeUsed: true,
@@ -493,5 +494,36 @@ describe("guards", () => {
     });
 
     expect(screen.getByLabelText("Passcode")).toBeVisible();
+  });
+});
+
+describe("greeting", () => {
+  it("asks Lucía to greet when she is still silent after the talk starts", async () => {
+    vi.useFakeTimers();
+    replies(started());
+    mount();
+    await click("Start the talk");
+    channel.emit({ type: "session.started", session: { id: "live_1" } });
+    await act(async () => vi.advanceTimersByTime(2_499));
+    expect(channel.sent).toEqual([]);
+    await act(async () => vi.advanceTimersByTime(1));
+
+    expect(channel.sent).toEqual([
+      JSON.stringify({
+        type: "session.instructions.append",
+        delegation_id: null,
+        content: "Saluda.",
+      }),
+    ]);
+  });
+
+  it("leaves Lucía alone when she greets on her own", async () => {
+    vi.useFakeTimers();
+    replies(started());
+    mount();
+    await talk();
+    await act(async () => vi.advanceTimersByTime(10_000));
+
+    expect(channel.sent).toEqual([]);
   });
 });

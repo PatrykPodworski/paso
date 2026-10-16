@@ -2,6 +2,8 @@ import { Button } from "../../design-system/Button";
 import { ButtonRow } from "../../design-system/ButtonRow";
 import { FieldNote } from "../../design-system/FieldNote";
 import type { LiveScore } from "../../data/types";
+import { LiveTranscript } from "./LiveTranscript";
+import type { LiveTurn } from "./transcript";
 
 const HEADINGS = {
   perfect: "Perfect. You passed.",
@@ -11,8 +13,8 @@ const HEADINGS = {
 
 const NOTES = {
   perfect: "You gave your name, age and country in correct Spanish.",
-  good: "The examiner understood you. Talk again to make your answers correct.",
-  bad: "The examiner did not get all three answers. If you continue now, this talk waits in your mistakes.",
+  good: "Lucía understood you. Talk again to make your answers correct.",
+  bad: "Lucía did not get all three answers. If you continue now, this talk waits in your mistakes.",
 };
 
 const LEVELS = {
@@ -27,9 +29,9 @@ const ITEMS = [
   ["country", "Country"],
 ] as const;
 
-type Props = { score: LiveScore; onAgain: () => void; onContinue: () => void };
+type Props = { score: LiveScore; turns: LiveTurn[]; onAgain: () => void; onContinue: () => void };
 
-export const LiveResult = ({ score, onAgain, onContinue }: Props) => (
+export const LiveResult = ({ score, turns, onAgain, onContinue }: Props) => (
   <div className="mbs-[22px] border-bs border-sage-200 pbs-[22px]">
     <h3 className="font-serif text-[22px] font-medium">{HEADINGS[score.grade]}</h3>
     <p className="mbs-[8px] text-[14px] leading-[1.7] text-sage-700">{NOTES[score.grade]}</p>
@@ -46,6 +48,7 @@ export const LiveResult = ({ score, onAgain, onContinue }: Props) => (
     <FieldNote className="mbs-[14px]">
       Only the transcript is scored, never your pronunciation.
     </FieldNote>
+    <LiveTranscript turns={turns} />
     <ButtonRow className="mbs-[18px]">
       {score.grade !== "perfect" && (
         <Button variant={score.grade === "bad" ? "primary" : "secondary"} onClick={onAgain}>

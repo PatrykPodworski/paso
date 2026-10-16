@@ -86,6 +86,18 @@ describe("DELE scoring and progress", () => {
     expect(skillStats(p, "speaking")).toEqual({ practised: 1, graded: 0, accuracy: null });
   });
 
+  it("clears a failed live talk on its first pass without spaced returns", () => {
+    const talk = { questionId: "u1-o3", skill: "speaking" as const };
+    let p = withAttempt(emptyProgress(), attempt({ ...talk, correct: false, grade: "bad" }));
+
+    expect(p.mistakes).toEqual(["u1-o3"]);
+    p = withAttempt(p, attempt({ ...talk, correct: true, grade: "good" }));
+
+    expect(p.mistakes).toEqual([]);
+    expect(p.mistakeReviews).toEqual({});
+    expect(p.reviewed).toEqual(["u1-o3"]);
+  });
+
   it("does not farm XP or daily progress by repeating the same question", () => {
     const p = withAttempt(withAttempt(emptyProgress(), attempt()), attempt({ id: "a2" }));
 

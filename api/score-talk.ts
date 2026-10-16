@@ -1,6 +1,6 @@
 import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
-import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
-import { passcodeRefusal } from "./_lib/passcode.js";
+import { json } from "./_lib/limits.js";
+import { reserve } from "./_lib/reserve.js";
 import { rubric } from "./_lib/talk-rubric.js";
 
 const MAX_CHARACTERS = 4000;
@@ -102,16 +102,10 @@ export const POST = async (request: Request) => {
     return json({ error: "unavailable" }, 503);
   }
 
-  const freeKey = `score:free:${clientIp(request)}`;
+  const reserved = await reserve(request, passcode, "score");
 
-  if (passcode !== undefined) {
-    const refusal = await passcodeRefusal(request, passcode);
-
-    if (refusal) {
-      return refusal;
-    }
-  } else if (!(await take(freeKey, 1, FREE_SECONDS))) {
-    return json({ error: "free_used" }, 403);
+  if (reserved.refusal) {
+    return reserved.refusal;
   }
 
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -134,9 +128,7 @@ export const POST = async (request: Request) => {
   if (!items) {
     console.error("Talk scoring failed", response.status);
 
-    if (passcode === undefined) {
-      await give(freeKey, FREE_SECONDS);
-    }
+    await reserved.refund();
 
     return json({ error: "upstream" }, 502);
   }

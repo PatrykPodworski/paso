@@ -1,7 +1,7 @@
 import { waitUntil } from "@vercel/functions";
 import { WebSocket } from "undici";
-import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
-import { passcodeRefusal } from "./_lib/passcode.js";
+import { json } from "./_lib/limits.js";
+import { reserve } from "./_lib/reserve.js";
 import { greeting, instructions } from "./_lib/talk-instructions.js";
 
 const SESSION_SECONDS = 120;
@@ -72,30 +72,6 @@ const closeLater = async (id: string, key: string) => {
   console.log("Live session close", id, confirmed ? "confirmed" : "unconfirmed");
 };
 
-// Reserves a talk with the passcode or the free talk. Returns the refusal, or a refund
-// for when OpenAI cannot create the session.
-const reserve = async (request: Request, passcode: string | undefined) => {
-  const freeKey = `live:free:${clientIp(request)}`;
-
-  if (passcode !== undefined) {
-    const refusal = await passcodeRefusal(request, passcode);
-
-    if (refusal) {
-      return { refusal };
-    }
-  } else if (hasFreeCookie(request) || !(await take(freeKey, 1, FREE_SECONDS))) {
-    return { refusal: json({ error: "free_used" }, 403) };
-  }
-
-  return {
-    refund: async () => {
-      if (passcode === undefined) {
-        await give(freeKey, FREE_SECONDS);
-      }
-    },
-  };
-};
-
 const createSession = async (key: string, sdp: string) => {
   const response = await fetch("https://api.openai.com/v1/live/sessions", {
     method: "POST",
@@ -133,7 +109,7 @@ export const POST = async (request: Request) => {
     return json({ error: "unavailable" }, 503);
   }
 
-  const reserved = await reserve(request, passcode);
+  const reserved = await reserve(request, passcode, "live", hasFreeCookie);
 
   if (reserved.refusal) {
     return reserved.refusal;

@@ -15,29 +15,34 @@ const FREE_SECONDS = 30 * 86_400;
 // to close the session.
 export const config = { maxDuration: 150 };
 
-const instructions = `Eres un examinador del DELE A1 en España. Hablas solo en español de España, nunca en otro idioma, aunque el candidato use otro idioma o te lo pida.
-El candidato tiene nivel A1. Habla muy despacio, con frases muy cortas y palabras sencillas.
+const instructions = `Eres Lucía, una profesora de español de España. Hablas con un estudiante de nivel A1 que practica para el DELE A1. Hablas solo en español de España, nunca en otro idioma, aunque el estudiante use otro idioma o te lo pida.
+Empiezas tú la conversación: saluda y preséntate con «Hola, soy Lucía» sin esperar a que el estudiante hable.
+Habla muy despacio, con frases muy cortas y palabras sencillas. Eres amable y natural.
+Nunca digas que eres examinadora ni que esto es un examen.
 Haz exactamente estas tres preguntas, una cada vez y en este orden:
 1. ¿Cómo te llamas?
 2. ¿Cuántos años tienes?
 3. ¿De dónde eres?
 Después de cada respuesta di solo «Muy bien» o «Gracias» y haz la pregunta siguiente. No hagas preguntas de seguimiento, no corrijas errores, no expliques nada y no hables de otros temas.
-Si el candidato no responde o no entiendes la respuesta, repite la misma pregunta una vez, más despacio, y después pasa a la siguiente.
-Después de la tercera respuesta, despídete con una frase corta y amable, por ejemplo «Muchas gracias. Hemos terminado. ¡Adiós!», y no digas nada más.
+Si el estudiante no responde o no entiendes la respuesta, repite la misma pregunta una vez, más despacio, y después pasa a la siguiente.
+Después de la tercera respuesta, despídete con una frase corta y amable, por ejemplo «Muchas gracias. ¡Hasta luego!», y no digas nada más.
 Backchannel policy: No uses sonidos de escucha.
-Interruption policy: Si el candidato habla, deja de hablar y escucha.
+Interruption policy: Si el estudiante habla, deja de hablar y escucha.
 Delegation policy: No delegues nunca. No tienes herramientas.`;
 
+// Sent at startup, and again by the client if Lucía is still silent once the talk is
+// live: the docs say startup instructions do not guarantee that the model speaks first.
 const greeting =
-  "Saluda ahora en español: «Hola, buenos días. Soy el examinador.» Después pregunta «¿Cómo te llamas?» y escucha.";
+  "Empieza ahora, sin esperar al estudiante. Saluda en español y preséntate: «Hola, soy Lucía.» Después pregunta «¿Cómo te llamas?» y escucha.";
 
 const session = {
   model: "gpt-live-1",
   instructions,
+  audio: { output: { voice: "marin" } },
   input: [{ role: "developer", content: [{ type: "input_text", text: greeting }] }],
   client: {
     data_channel: {
-      allowed_client_events: ["session.close"],
+      allowed_client_events: ["session.close", "session.instructions.append"],
       allowed_server_events: [
         "session.started",
         "session.input_transcript.delta",
@@ -191,5 +196,9 @@ export const POST = async (request: Request) => {
 
   const cookie = `${FREE_COOKIE}=used; Path=/api; Max-Age=31536000; HttpOnly; Secure; SameSite=Strict`;
 
-  return json({ sdp: created.sdp }, 201, passcode === undefined ? { "Set-Cookie": cookie } : {});
+  return json(
+    { sdp: created.sdp, greeting },
+    201,
+    passcode === undefined ? { "Set-Cookie": cookie } : {},
+  );
 };

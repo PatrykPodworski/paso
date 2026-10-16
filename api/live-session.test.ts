@@ -91,11 +91,14 @@ afterEach(() => {
 });
 
 describe("creating a live session", () => {
-  it("exchanges the browser offer for the examiner session's answer", async () => {
+  it("exchanges the browser offer for the session's answer and Lucía's greeting", async () => {
     const response = await talk({ sdp: "offer-sdp" });
 
     expect(response.status).toBe(201);
-    expect(await response.json()).toEqual({ sdp: "answer-sdp" });
+    const { sdp, greeting } = (await response.json()) as { sdp: string; greeting: string };
+
+    expect(sdp).toBe("answer-sdp");
+    expect(greeting).toContain("«Hola, soy Lucía.»");
     const [url, init] = openai.mock.calls[0];
 
     expect(url).toBe("https://api.openai.com/v1/live/sessions");
@@ -104,7 +107,21 @@ describe("creating a live session", () => {
 
     expect(body.transport).toEqual({ type: "webrtc", sdp: "offer-sdp" });
     expect(body.session.model).toBe("gpt-live-1");
-    expect(body.session.client.data_channel.allowed_client_events).toEqual(["session.close"]);
+    expect(body.session.audio).toEqual({ output: { voice: "marin" } });
+    expect(body.session.input[0].content[0].text).toBe(greeting);
+
+    expect(body.session.client.data_channel.allowed_client_events).toEqual([
+      "session.close",
+      "session.instructions.append",
+    ]);
+  });
+
+  it("introduces Lucía by name and never as an examiner", async () => {
+    await talk({ sdp: "offer-sdp" });
+    const { session } = JSON.parse(openai.mock.calls[0][1].body);
+
+    expect(session.instructions).toMatch(/^Eres Lucía,/);
+    expect(JSON.stringify(session)).not.toMatch(/soy (el |la |una? )?examinador/i);
   });
 
   it("refuses a request without an offer before calling OpenAI", async () => {

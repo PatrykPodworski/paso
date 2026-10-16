@@ -149,7 +149,7 @@ Generated detail reports are local and ignored by Git:
 
 Two regression defects found while adding this suite were fixed: an intentionally cleared exam draft could restore an old submitted answer, and a corrupt saved exam question index could crash the view.
 
-The pre-existing `scripts/browser-check.mjs` is a manual smoke check excluded from every routine gate. ElevenLabs generation is never invoked live by the suite.
+ElevenLabs generation is never invoked live by the suite.
 
 During the refactor, preserve these tests' observable expectations. For a changed rule, update its inventory row and add a counterexample or boundary that fails if the rule is removed or reversed. Add a browser journey for a new flow and a `capture()` for a new view. Keep test inputs and expected outcomes independent of the helper being tested. A moved file should keep its tests and enter automatic source discovery; never reduce thresholds, narrow the mutation scope merely to make a refactor pass.
 

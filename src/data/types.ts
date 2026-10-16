@@ -16,6 +16,11 @@ export type LiveItem = "correct" | "understandable" | "missing";
 export type LiveScore = { grade: LiveGrade; items: Record<"name" | "age" | "country", LiveItem> };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
 
+export type LiveGrade = "perfect" | "good" | "bad";
+export type LiveItem = "correct" | "understandable" | "missing";
+export type LiveScore = { grade: LiveGrade; items: Record<"name" | "age" | "country", LiveItem> };
+export type TalkTurn = { role: "examiner" | "student"; text: string };
+
 export interface Question {
   id: string;
   kind: QuestionKind;

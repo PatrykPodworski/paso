@@ -21,7 +21,7 @@ import {
 } from "./curriculum";
 import { formPractice, mockQuestions, mockSections } from "./mock";
 import { countWords } from "./progress";
-import { audioKey } from "./audio";
+import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
@@ -118,9 +118,7 @@ describe("original curriculum integrity", () => {
           ])
           .filter((x): x is string => !!x)
           .concat(
-            [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(
-              (q) => q.pronunciation || q.audio || q.passage || q.answer,
-            ),
+            [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(spokenText),
             vocabulary.map((w) => w.es),
             units.map((u) => u.example),
             ["Poco a poco."],

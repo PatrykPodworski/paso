@@ -33,7 +33,7 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const order = allQuestions.find((q) => q.kind === "order")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = allQuestions.find((q) => q.id === "u1-o3")!;
+const speaking = allQuestions.find((q) => q.kind === "speak")!;
 
 // All productive and objective save paths run against the actual component.
 for (const q of [type, writing, speaking, formPractice]) {

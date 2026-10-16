@@ -1538,16 +1538,27 @@ export const units: Unit[] = seeds.map((s, ui) => {
       minWords: 30,
       maxWords: 40,
     },
-    {
-      id: `${uid}-o3`,
-      kind: "speak",
-      skill: "speaking",
-      prompt: s.speaking,
-      answer: s.speech,
-      explanation:
-        "Replay your recording and review the checklist. The model is a short starting example, not a full timed response. Add your own details. Pronunciation and communication need human judgment; no automatic score is assigned.",
-      checklist: s.speechChecks,
-    },
+    ui === 0
+      ? {
+          id: `${uid}-o3`,
+          kind: "live",
+          skill: "speaking",
+          prompt:
+            "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
+          answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
+          explanation:
+            "A perfect or good talk passes. A talk that misses an answer waits in your mistakes until you pass it.",
+        }
+      : {
+          id: `${uid}-o3`,
+          kind: "speak",
+          skill: "speaking",
+          prompt: s.speaking,
+          answer: s.speech,
+          explanation:
+            "Replay your recording and review the checklist. The model is a short starting example, not a full timed response. Add your own details. Pronunciation and communication need human judgment; no automatic score is assigned.",
+          checklist: s.speechChecks,
+        },
   ];
 
   return {

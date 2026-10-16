@@ -5,10 +5,7 @@ import { exerciseBank } from "./practice";
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
 
 export const mistakeQueue = (progress: Progress, now: Date) => {
-  const mistakeEntries = new Map<
-    string,
-    { id: string; q: Question; insertion: number; inQueue: boolean }
-  >();
+  const mistakeEntries = new Map<string, { id: string; q: Question; insertion: number }>();
 
   for (const [i, id] of progress.mistakes.entries()) {
     const q = exerciseMap.get(id);
@@ -17,7 +14,7 @@ export const mistakeQueue = (progress: Progress, now: Date) => {
       continue;
     }
 
-    mistakeEntries.set(id, { id, q, insertion: i, inQueue: true });
+    mistakeEntries.set(id, { id, q, insertion: i });
   }
 
   for (const [id, review] of Object.entries(progress.mistakeReviews)) {
@@ -30,7 +27,7 @@ export const mistakeQueue = (progress: Progress, now: Date) => {
     const insertion = progress.mistakes.length;
 
     if (reviewDue(review, now)) {
-      mistakeEntries.set(id, { id, q, insertion, inQueue: false });
+      mistakeEntries.set(id, { id, q, insertion });
     }
   }
 
@@ -41,7 +38,6 @@ export const mistakeQueue = (progress: Progress, now: Date) => {
   };
 
   return [...mistakeEntries.values()]
-    .filter((entry) => entry.inQueue || reviewDue(progress.mistakeReviews[entry.id], now))
     .sort((a, b) => {
       const aDue = dueTime(a.id);
       const bDue = dueTime(b.id);

@@ -2,8 +2,8 @@ import { getCache, ipAddress } from "@vercel/functions";
 
 // Vercel Runtime Cache: regional and ephemeral, so a count can reset when an entry is
 // evicted, and two instances can race on the same key. Within one instance, updates to
-// a key run one at a time. That is enough for a cost cap on a hobby app; the OpenAI
-// project budget is the hard backstop.
+// a key run one at a time. That is enough for the free talk and the passcode tries;
+// the spend limit on the OpenAI key caps the cost.
 const cache = getCache({ namespace: "paso" });
 const queues = new Map<string, Promise<unknown>>();
 

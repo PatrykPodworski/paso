@@ -176,6 +176,27 @@ describe("access", () => {
     expect((await score(free)).status).toBe(200);
   });
 
+  it("gives the free score back when the model cannot be reached", async () => {
+    openai.mockRejectedValueOnce(new TypeError("fetch failed"));
+
+    expect((await score(free)).status).toBe(502);
+    expect((await score(free)).status).toBe(200);
+  });
+
+  it("gives the free score back when the model answers with a body that is not JSON", async () => {
+    openai.mockImplementationOnce(async () => new Response("<html>", { status: 200 }));
+
+    expect((await score(free)).status).toBe(502);
+    expect((await score(free)).status).toBe(200);
+  });
+
+  it("gives the free score back when the model answers with a malformed envelope", async () => {
+    openai.mockImplementationOnce(async () => Response.json({ output: {} }));
+
+    expect((await score(free)).status).toBe(502);
+    expect((await score(free)).status).toBe(200);
+  });
+
   it("scores without a limit with the passcode", async () => {
     for (let i = 0; i < 50; i++) {
       expect((await score({ turns })).status).toBe(200);

@@ -158,6 +158,16 @@ describe("creating a live session", () => {
     expect(failed.headers.get("set-cookie")).toBeNull();
     expect((await talk({ sdp: "offer-sdp" })).status).toBe(201);
   });
+
+  it("reports a failed connection to OpenAI without spending the free talk", async () => {
+    openai.mockRejectedValueOnce(new TypeError("fetch failed"));
+
+    const failed = await talk({ sdp: "offer-sdp" });
+
+    expect(failed.status).toBe(502);
+    expect(failed.headers.get("set-cookie")).toBeNull();
+    expect((await talk({ sdp: "offer-sdp" })).status).toBe(201);
+  });
 });
 
 describe("access", () => {

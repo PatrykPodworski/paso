@@ -272,6 +272,62 @@ describe("unit 5", () => {
   });
 });
 
+describe("unit 6", () => {
+  it("makes Lucía a waiter who takes the order, answers about the price and the bill, and asks what food the learner likes", () => {
+    const instructions = instructionsOf(taskOf("u6")!);
+
+    expect(instructions).toContain(
+      "Eres camarera en un café de España y el estudiante es tu cliente. Si el estudiante pregunta el precio, responde con un precio sencillo, por ejemplo «Son cinco euros». Si pide la cuenta, di «Aquí tienes la cuenta» y el total. Si te da las gracias, responde «De nada».",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+
+    expect(instructions).toContain(
+      `1. Buenos días. ¿Qué quieres tomar?
+2. ¿Algo más?
+3. Aquí tienes. ¿Todo bien?
+4. ¿Qué comida te gusta?`,
+    );
+
+    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u6")!)).toMatch(
+      /Después pregunta «Buenos días\. ¿Qué quieres tomar\?» y escucha\.$/,
+    );
+  });
+
+  it("grades the greeting, the order, the price, the bill, the thank you and the food they like", () => {
+    const rubric = rubricOf(taskOf("u6")!);
+
+    expect(schemaOf(taskOf("u6")!).required).toEqual([
+      "greeting",
+      "order",
+      "price",
+      "bill",
+      "thanks",
+      "likes",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of greeting, order, price, bill, thanks and likes, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The order counts only when the learner orders both food and a drink, and the price and the bill only when the learner asks for them, not when the examiner offers them.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Buenos días", "Un café con leche y una tostada, por favor", "¿Cuánto es?", "La cuenta, por favor", "Muchas gracias" or "Me gusta el pan con tomate" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Yo quiere un café con leche".');
+  });
+
+  it("closes after three minutes", () => {
+    expect(taskOf("u6")!.limitSeconds).toBe(180);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -281,7 +337,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

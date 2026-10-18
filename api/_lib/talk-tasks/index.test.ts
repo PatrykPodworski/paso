@@ -326,6 +326,61 @@ describe("unit 6", () => {
   });
 });
 
+describe("unit 7", () => {
+  it("makes Lucía a neighbour who asks about the neighborhood in order and answers where the bank is", () => {
+    const instructions = instructionsOf(taskOf("u7")!);
+
+    expect(instructions).toContain(
+      "Eres una vecina y hablas con el estudiante en la calle de su barrio. Cuando el estudiante te pregunte dónde está el banco y si está lejos de la estación, responde a cada pregunta con una frase corta, por ejemplo «El banco está enfrente de la farmacia» y «Está cerca, a cinco minutos a pie», y después despídete.",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+
+    expect(instructions).toContain(
+      `1. ¿Dónde está tu barrio?
+2. ¿Qué hay en tu barrio?
+3. ¿Qué te gusta de tu barrio?
+4. Ahora, pregúntame dónde está el banco y si está lejos de la estación.`,
+    );
+
+    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u7")!)).toMatch(
+      /Después pregunta «¿Dónde está tu barrio\?» y escucha\.$/,
+    );
+  });
+
+  it("grades the location, the places, what they like, the bank question and the distance question", () => {
+    const rubric = rubricOf(taskOf("u7")!);
+
+    expect(schemaOf(taskOf("u7")!).required).toEqual([
+      "location",
+      "places",
+      "likes",
+      "bank",
+      "distance",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of location, places, likes, bank and distance, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The bank and the distance count only when the learner asks the examiner, not when the examiner gives the answer unasked.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Mi barrio está en el centro", "Hay un parque, una farmacia y dos supermercados", "Me gusta porque es tranquilo", "¿Dónde está el banco?" or "¿Está lejos de la estación?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "En mi barrio está un parque".');
+  });
+
+  it("closes after three minutes", () => {
+    expect(taskOf("u7")!.limitSeconds).toBe(180);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -335,7 +390,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6", "u7"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

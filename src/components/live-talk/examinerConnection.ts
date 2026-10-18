@@ -36,7 +36,7 @@ const microphoneError = (e: unknown) =>
 
 // A WebRTC connection to the examiner through the /api/live-session proxy. The caller
 // owns it and must call close().
-export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
+export const createExaminerConnection = ({ onEvent, onDrop, onCreated }: Handlers) => {
   const peer = new RTCPeerConnection();
   const audio = new Audio();
   const channel = peer.createDataChannel("oai-events");
@@ -61,7 +61,7 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
   channel.onclose = onDrop;
 
   // Resolves to an error code, or null once the microphone is on.
-  const listen = async () => {
+  const acquireMicrophone = async () => {
     let stream: MediaStream;
 
     try {
@@ -151,5 +151,5 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
     audio.srcObject = null;
   };
 
-  return { listen, connect, end, greet, close };
+  return { acquireMicrophone, connect, end, greet, close };
 };

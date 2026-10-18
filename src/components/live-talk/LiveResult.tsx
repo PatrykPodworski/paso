@@ -14,7 +14,7 @@ const HEADINGS = {
 const NOTES = {
   perfect: "You gave your name, age and country in correct Spanish.",
   good: "Lucía understood you. Talk again to make your answers correct.",
-  bad: "Lucía did not get all three answers. If you continue now, this talk waits in your mistakes.",
+  bad: "Lucía did not get all three answers. If you continue now, you can try it again later under My mistakes in Practice.",
 };
 
 const LEVELS = {

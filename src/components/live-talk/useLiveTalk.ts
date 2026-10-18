@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { TalkTurn } from "../../data/types";
-import { connectExaminer, type LiveEvent } from "./examinerConnection";
+import { createExaminerConnection, type LiveEvent } from "./examinerConnection";
 import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 
 export type TalkStatus = "idle" | "microphone" | "connecting" | "live" | "ending" | "ended";
@@ -20,7 +20,7 @@ type Handlers = {
 };
 
 type Connection = {
-  examiner: ReturnType<typeof connectExaminer>;
+  examiner: ReturnType<typeof createExaminerConnection>;
   handlers: Handlers;
   live: boolean;
 };
@@ -144,7 +144,7 @@ export const useLiveTalk = () => {
     setSeconds(0);
     setStatus("microphone");
 
-    const examiner = connectExaminer({
+    const examiner = createExaminerConnection({
       onEvent: handle,
       onDrop: drop,
       onCreated: handlers.onCreated,
@@ -153,7 +153,7 @@ export const useLiveTalk = () => {
     const current: Connection = { examiner, handlers, live: false };
 
     connection.current = current;
-    const denied = await examiner.listen();
+    const micError = await examiner.acquireMicrophone();
 
     if (connection.current !== current) {
       examiner.close();
@@ -161,8 +161,8 @@ export const useLiveTalk = () => {
       return;
     }
 
-    if (denied) {
-      fail(denied);
+    if (micError) {
+      fail(micError);
 
       return;
     }

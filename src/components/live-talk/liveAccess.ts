@@ -23,8 +23,9 @@ export const saveAccess = (access: LiveAccess) => {
   }
 };
 
-// A created session uses up the free talk; a rejected passcode is forgotten. Any other
-// outcome leaves access as it was.
+// `code` is null when the server created a session, which uses up the free talk. A
+// rejected passcode is forgotten, and `free_used` (the server already counted this
+// network's free talk) switches to the passcode. Any other outcome leaves access as it was.
 export const accessAfter = (
   code: string | null,
   access: LiveAccess,

@@ -22,10 +22,11 @@ const peers: FakePeer[] = [];
 const speakers: { srcObject: unknown }[] = [];
 let remote: RTCSessionDescriptionInit | undefined;
 let remoteFails = false;
+let gathering = false;
 const stopped: string[] = [];
 
 class FakePeer {
-  iceGatheringState = "complete";
+  iceGatheringState = gathering ? "gathering" : "complete";
   localDescription: RTCSessionDescriptionInit | null = null;
   ontrack: ((e: { streams: unknown[] }) => void) | null = null;
   connectionState = "new";
@@ -34,6 +35,8 @@ class FakePeer {
   constructor() {
     peers.push(this);
   }
+
+  addEventListener() {}
 
   addTrack() {
     if (this.connectionState === "closed") {
@@ -133,6 +136,7 @@ const body = (url: string) => JSON.parse(api.mock.calls.find((c) => c[0] === url
 beforeEach(() => {
   remote = undefined;
   remoteFails = false;
+  gathering = false;
   stopped.length = 0;
   vi.stubGlobal("RTCPeerConnection", FakePeer);
   vi.stubGlobal("fetch", api);
@@ -479,6 +483,18 @@ describe("guards", () => {
     await act(async () => grant(microphone));
 
     expect(stopped).toContain("mic");
+    expect(api).not.toHaveBeenCalled();
+  });
+
+  it("sends no session request when the learner cancels while connecting", async () => {
+    vi.useFakeTimers();
+    gathering = true;
+    replies(started());
+    mount();
+    await click("Start the talk");
+    await click("Cancel");
+    await act(async () => vi.advanceTimersByTimeAsync(5_000));
+
     expect(api).not.toHaveBeenCalled();
   });
 

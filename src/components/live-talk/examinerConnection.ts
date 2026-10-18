@@ -90,6 +90,11 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
       await peer.setLocalDescription(await peer.createOffer());
       await gathered(peer);
 
+      // Cancelled while gathering: send nothing, so no session is created or paid for.
+      if (closed) {
+        return null;
+      }
+
       const response = await fetch("/api/live-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

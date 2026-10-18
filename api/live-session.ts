@@ -96,27 +96,34 @@ const reserve = async (request: Request, passcode: string | undefined) => {
   };
 };
 
+// Returns null on any failure, so the caller has one path that refunds the talk.
 const createSession = async (key: string, sdp: string) => {
-  const response = await fetch("https://api.openai.com/v1/live/sessions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ session, transport: { type: "webrtc", sdp } }),
-  });
+  try {
+    const response = await fetch("https://api.openai.com/v1/live/sessions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ session, transport: { type: "webrtc", sdp } }),
+    });
 
-  const created = response.ok
-    ? ((await response.json().catch(() => null)) as {
-        session?: { id?: string };
-        transport?: { sdp?: string };
-      } | null)
-    : null;
+    const created = response.ok
+      ? ((await response.json().catch(() => null)) as {
+          session?: { id?: string };
+          transport?: { sdp?: string };
+        } | null)
+      : null;
 
-  if (!created?.session?.id || !created.transport?.sdp) {
-    console.error("Live session creation failed", response.status);
+    if (!created?.session?.id || !created.transport?.sdp) {
+      console.error("Live session creation failed", response.status);
+
+      return null;
+    }
+
+    return { id: created.session.id, sdp: created.transport.sdp };
+  } catch (error) {
+    console.error("Live session creation failed", error);
 
     return null;
   }
-
-  return { id: created.session.id, sdp: created.transport.sdp };
 };
 
 export const POST = async (request: Request) => {

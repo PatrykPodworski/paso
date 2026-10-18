@@ -32,12 +32,12 @@ const ITEMS = [
 type Props = { score: LiveScore; turns: LiveTurn[]; onAgain: () => void; onContinue: () => void };
 
 export const LiveResult = ({ score, turns, onAgain, onContinue }: Props) => (
-  <div className="mbs-[22px] border-bs border-sage-200 pbs-[22px]">
-    <h3 className="font-serif text-[22px] font-medium">{HEADINGS[score.grade]}</h3>
-    <p className="mbs-[8px] text-[14px] leading-[1.7] text-sage-700">{NOTES[score.grade]}</p>
-    <ul aria-label="Your answers" className="mbs-[14px] flex flex-col gap-[6px] text-[14px]">
+  <div className="mbs-5 border-bs border-sage-200 pbs-5">
+    <h3 className="font-serif text-2xl font-medium">{HEADINGS[score.grade]}</h3>
+    <p className="mbs-2 text-sm leading-relaxed text-sage-700">{NOTES[score.grade]}</p>
+    <ul aria-label="Your answers" className="mbs-3.5 flex flex-col gap-1.5 text-sm">
       {ITEMS.map(([item, label]) => (
-        <li key={item} className="flex justify-between gap-[12px]">
+        <li key={item} className="flex justify-between gap-3">
           <span>{label}</span>
           <span className={score.items[item] === "missing" ? "text-coral-700" : "text-sage-700"}>
             {LEVELS[score.items[item]]}
@@ -45,11 +45,11 @@ export const LiveResult = ({ score, turns, onAgain, onContinue }: Props) => (
         </li>
       ))}
     </ul>
-    <FieldNote className="mbs-[14px]">
+    <FieldNote className="mbs-3.5">
       Only the transcript is scored, never your pronunciation.
     </FieldNote>
     <LiveTranscript turns={turns} />
-    <ButtonRow className="mbs-[18px]">
+    <ButtonRow className="mbs-4">
       {score.grade !== "perfect" && (
         <Button variant={score.grade === "bad" ? "primary" : "secondary"} onClick={onAgain}>
           Talk again

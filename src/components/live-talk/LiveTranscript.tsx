@@ -3,15 +3,15 @@ import type { LiveTurn } from "./transcript";
 type Props = { turns: LiveTurn[] };
 
 export const LiveTranscript = ({ turns }: Props) => (
-  <details className="mbs-[18px] text-[14px] text-sage-700">
+  <details className="mbs-4 text-sm text-sage-700">
     <summary className="cursor-pointer">Transcript</summary>
-    <ol aria-label="Transcript" className="mbs-[12px] flex flex-col gap-[10px]">
+    <ol aria-label="Transcript" className="mbs-3 flex flex-col gap-2.5">
       {turns.map((turn) => (
         <li
           key={`${turn.role}-${turn.at}`}
-          className={`max-w-[85%] rounded-[9px] px-[14px] py-[10px] leading-[1.6] ${turn.role === "student" ? "self-end bg-sage-100" : "self-start bg-white"}`}
+          className={`max-w-5/6 rounded-lg px-3.5 py-2.5 leading-relaxed ${turn.role === "student" ? "self-end bg-sage-100" : "self-start bg-white"}`}
         >
-          <span className="block text-[11px] uppercase tracking-[1.2px] text-sage-600">
+          <span className="block text-xs uppercase tracking-widest text-sage-600">
             {turn.role === "student" ? "You" : "Lucía"}
           </span>
           <p lang={turn.role === "student" ? undefined : "es"} className="text-green-950">

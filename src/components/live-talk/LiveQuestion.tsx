@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import type { LiveGrade, Question } from "../../data/types";
 import type { AudioHandle } from "../audio/useAudioPlayer";
+import { cardPadding } from "../question-card/cardPadding";
 import { QuestionHeading } from "../question-card/QuestionHeading";
 import { LiveTalk } from "./LiveTalk";
 
@@ -15,7 +16,7 @@ export const LiveQuestion = ({ q, onEvaluated, onSubmit }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
 
   return (
-    <div className="p-[29px_36px_30px] max-md:p-[25px_22px] max-sm:p-[22px_18px]">
+    <div className={cardPadding(false)}>
       <QuestionHeading
         q={q}
         exam={false}

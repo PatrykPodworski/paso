@@ -12,7 +12,7 @@ type Props = {
 
 export const LiveStart = ({ needsPasscode, passcode, onPasscode, onStart }: Props) => (
   <form
-    className="flex flex-col gap-[14px]"
+    className="flex flex-col gap-3.5"
     onSubmit={(e) => {
       e.preventDefault();
       onStart();
@@ -24,12 +24,12 @@ export const LiveStart = ({ needsPasscode, passcode, onPasscode, onStart }: Prop
         : "Your first live talk is free."}
     </FieldNote>
     {needsPasscode && (
-      <label className="flex flex-col gap-[6px] text-[14px]">
+      <label className="flex flex-col gap-1.5 text-sm">
         Passcode
         <input
           type="password"
           autoComplete="off"
-          className={`${FIELD} max-w-[320px]`}
+          className={`${FIELD} max-w-xs`}
           value={passcode}
           onChange={(e) => onPasscode(e.target.value)}
         />

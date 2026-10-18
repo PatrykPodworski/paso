@@ -90,8 +90,8 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
   };
 
   return (
-    <div className="mbs-[4px] rounded-[10px] border border-sand-200 bg-sand-100 p-[22px] max-md:p-[18px]">
-      <FieldNote className="mbe-[16px]">
+    <div className="mbs-1 rounded-lg border border-sand-200 bg-sand-100 p-5 max-md:p-4">
+      <FieldNote className="mbe-4">
         Lucía asks you three short questions in Spanish. The talk lasts about a minute and ends
         after two. Your voice goes to OpenAI for the talk; the transcript is scored.
       </FieldNote>

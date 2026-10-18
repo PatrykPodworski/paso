@@ -27,8 +27,8 @@ export const LiveStatus = ({ status, seconds, scoring, onEnd, onCancel }: Props)
 
   return (
     <>
-      <div className="flex items-center gap-[10px] text-[14px] text-sage-800">
-        {live && <span className="size-[9px] rounded-full bg-coral-500" aria-hidden />}
+      <div className="flex items-center gap-2.5 text-sm text-sage-800">
+        {live && <span className="size-2 rounded-full bg-coral-500" aria-hidden />}
         <p role="status">
           {LABELS[status]}
           {scoring && "Scoring your answers…"}
@@ -36,13 +36,13 @@ export const LiveStatus = ({ status, seconds, scoring, onEnd, onCancel }: Props)
         {status === "live" && <span className="tabular-nums">{clock(seconds)}</span>}
       </div>
       {live && (
-        <Button variant="secondary" className="mbs-[12px]" onClick={onEnd}>
+        <Button variant="secondary" className="mbs-3" onClick={onEnd}>
           <Icon name="pause" size={20} />
           End the talk
         </Button>
       )}
       {(status === "microphone" || status === "connecting") && (
-        <Button variant="secondary" className="mbs-[12px]" onClick={onCancel}>
+        <Button variant="secondary" className="mbs-3" onClick={onCancel}>
           Cancel
         </Button>
       )}

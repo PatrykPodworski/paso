@@ -761,6 +761,15 @@ const seeds: Seed[] = [
       "I asked for the price and bill politely.",
       "I expressed a preference clearly.",
     ],
+    live: {
+      task: "u6",
+      prompt:
+        "Talk to Lucía, a waiter in a café. Greet her, order food and a drink, ask the price, ask for the bill and say thank you, then tell her what food you like.",
+      answer:
+        "Buenos días. Quiero un café con leche y una tostada, por favor. ¿Cuánto es? La cuenta, por favor. Muchas gracias. Me gusta el pan con tomate.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Around the neighborhood",

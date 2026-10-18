@@ -73,14 +73,14 @@ describe("original curriculum integrity", () => {
     }
   });
 
-  it("runs unit 1's speaking as a live talk that the server knows, and the rest as recordings", () => {
+  it("runs units 1 and 2's speaking as live talks that the server knows, and the rest as recordings", () => {
     const speaking = units.map((u) =>
       u.lessons.flatMap((l) => l.questions).find((q) => q.id.endsWith("-o3"))!,
     );
 
-    expect(speaking.map((q) => q.kind)).toEqual(["live", ...Array(11).fill("speak")]);
-    expect(speaking[0].talk).toBe("u1");
-    expect(speaking[0].prompt).toMatch(/^Talk to Lucía\./);
+    expect(speaking.map((q) => q.kind)).toEqual(["live", "live", ...Array(10).fill("speak")]);
+    expect(speaking.slice(0, 2).map((q) => q.talk)).toEqual(["u1", "u2"]);
+    expect(speaking[1].prompt).toMatch(/^Talk to Lucía\b/);
 
     for (const q of speaking.filter((q) => q.kind === "live")) {
       expect(taskOf(q.talk)?.id, q.id).toBe(q.talk);

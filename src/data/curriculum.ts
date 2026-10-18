@@ -266,6 +266,15 @@ const seeds: Seed[] = [
       "I spelled the name and spoke the digits separately.",
       "I asked two understandable questions.",
     ],
+    live: {
+      task: "u2",
+      prompt:
+        "Talk to Lucía, who takes your details. Say and spell your name, give your age and your city, say a phone number slowly (a made-up nine-digit one is fine), then ask her two questions.",
+      answer:
+        "Me llamo Elena: e, ele, e, ene, a. Tengo veintiséis años. Vivo en Bilbao. Mi teléfono es seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho. ¿Cómo te llamas? ¿Dónde vives?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "My favorite people",

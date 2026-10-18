@@ -492,6 +492,53 @@ describe("unit 9", () => {
   });
 });
 
+describe("unit 10", () => {
+  it("makes Lucía a ticket clerk who sells a ticket and answers about the train, then a hotel receptionist who takes a booking", () => {
+    const instructions = instructionsOf(taskOf("u10")!);
+
+    expect(instructions).toContain(
+      "Eres primero empleada de la taquilla en una estación de tren de España y después recepcionista de un hotel, y el estudiante es tu cliente. Cuando el estudiante te pregunte a qué hora sale el tren y cuánto cuesta el billete, responde a cada pregunta con una frase corta, por ejemplo «El tren sale a las diez» y «Cuesta quince euros». Si te da las gracias, responde «De nada».",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+
+    expect(instructions).toContain(
+      `1. Buenos días. ¿Adónde quieres viajar?
+2. Aquí tienes el billete. Ahora, pregúntame a qué hora sale el tren y cuánto cuesta.
+3. Ahora estás en el hotel. Buenas tardes. ¿Qué quieres?
+4. ¿Para cuántas personas y cuántas noches?`,
+    );
+
+    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u10")!)).toMatch(
+      /Después pregunta «Buenos días\. ¿Adónde quieres viajar\?» y escucha\.$/,
+    );
+  });
+
+  it("grades the ticket, the departure time, the price and the room for two for three nights", () => {
+    const rubric = rubricOf(taskOf("u10")!);
+
+    expect(schemaOf(taskOf("u10")!).required).toEqual(["ticket", "departure", "price", "room"]);
+
+    expect(rubric).toContain("For each of ticket, departure, price and room, return one of:");
+
+    expect(rubric).toContain(
+      "The departure time and the price count only when the learner asks the examiner, not when the examiner gives them unasked, and the room only when the learner says both two people and three nights.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Un billete a Madrid, por favor", "¿A qué hora sale el tren?", "¿Cuánto cuesta?" or "Una habitación para dos personas, para tres noches" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Quiero un habitación para dos persona".');
+  });
+
+  it("closes after three minutes", () => {
+    expect(taskOf("u10")!.limitSeconds).toBe(180);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -501,7 +548,18 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8", "u9"]);
+    expect(tasks.map((t) => t.id)).toEqual([
+      "u1",
+      "u2",
+      "u3",
+      "u4",
+      "u5",
+      "u6",
+      "u7",
+      "u8",
+      "u9",
+      "u10",
+    ]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

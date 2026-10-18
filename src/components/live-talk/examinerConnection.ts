@@ -42,6 +42,7 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
   const channel = peer.createDataChannel("oai-events");
   let microphone: MediaStream | undefined;
   let greeting = "";
+  let closed = false;
 
   audio.autoplay = true;
 
@@ -61,13 +62,24 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
 
   // Resolves to an error code, or null once the microphone is on.
   const listen = async () => {
+    let stream: MediaStream;
+
     try {
-      microphone = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (e) {
       return microphoneError(e);
     }
 
-    microphone.getAudioTracks().forEach((t) => peer.addTrack(t, microphone!));
+    // The learner can cancel while the browser asks for permission; the caller has
+    // already moved on, so only the late stream needs stopping.
+    if (closed) {
+      stream.getTracks().forEach((t) => t.stop());
+
+      return null;
+    }
+
+    microphone = stream;
+    stream.getAudioTracks().forEach((t) => peer.addTrack(t, stream));
 
     return null;
   };
@@ -125,6 +137,7 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
   };
 
   const close = () => {
+    closed = true;
     microphone?.getTracks().forEach((t) => t.stop());
     peer.close();
     audio.srcObject = null;

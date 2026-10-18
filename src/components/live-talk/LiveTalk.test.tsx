@@ -35,7 +35,11 @@ class FakePeer {
     peers.push(this);
   }
 
-  addTrack() {}
+  addTrack() {
+    if (this.connectionState === "closed") {
+      throw new DOMException("The peer is closed", "InvalidStateError");
+    }
+  }
 
   createDataChannel() {
     channel = new FakeChannel();
@@ -65,6 +69,7 @@ class FakePeer {
   }
 
   close() {
+    this.connectionState = "closed";
     stopped.push("peer");
   }
 }
@@ -458,6 +463,23 @@ describe("guards", () => {
     expect(stopped).toEqual(["mic", "peer"]);
     expect(screen.getByRole("button", { name: "Start the talk" })).toBeVisible();
     expect(api.mock.calls.map((c) => c[0])).toEqual(["/api/live-session"]);
+  });
+
+  it("stops a microphone the browser grants after the learner cancelled", async () => {
+    let grant!: (stream: typeof microphone) => void;
+
+    Object.defineProperty(navigator, "mediaDevices", {
+      configurable: true,
+      value: { getUserMedia: () => new Promise((resolve) => (grant = resolve)) },
+    });
+
+    mount();
+    await click("Start the talk");
+    await click("Cancel");
+    await act(async () => grant(microphone));
+
+    expect(stopped).toContain("mic");
+    expect(api).not.toHaveBeenCalled();
   });
 
   it("gives up when the connection fails before Lucía starts", async () => {

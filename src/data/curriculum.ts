@@ -1133,6 +1133,15 @@ const seeds: Seed[] = [
       "I expressed likes using infinitives or nouns.",
       "I made an invitation and asked a question.",
     ],
+    live: {
+      task: "u9",
+      prompt:
+        "Talk to Lucía, a friendly interviewer, about your free time. Say what you like doing, when and with whom, then invite her to an activity and ask what she likes doing.",
+      answer:
+        "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Quieres ir al cine el domingo? ¿Qué te gusta hacer?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A ticket to somewhere",

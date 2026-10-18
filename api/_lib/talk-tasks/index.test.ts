@@ -379,6 +379,61 @@ describe("unit 7", () => {
   });
 });
 
+describe("unit 8", () => {
+  it("makes Lucía a shop assistant who helps buy a garment, answers about the price and the card, and asks which colors the learner likes", () => {
+    const instructions = instructionsOf(taskOf("u8")!);
+
+    expect(instructions).toContain(
+      "Eres dependienta en una tienda de ropa de España y el estudiante es tu cliente. Si el estudiante pregunta el precio, responde con un precio sencillo, por ejemplo «Cuesta veinte euros». Si pregunta si puede pagar con tarjeta, di «Sí, claro». Si te da las gracias, responde «De nada».",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+
+    expect(instructions).toContain(
+      `1. Buenos días. ¿Qué buscas?
+2. ¿De qué color y de qué talla?
+3. Aquí tienes. ¿Algo más?
+4. ¿Qué colores te gustan?`,
+    );
+
+    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u8")!)).toMatch(
+      /Después pregunta «Buenos días\. ¿Qué buscas\?» y escucha\.$/,
+    );
+  });
+
+  it("grades the garment, the color and size, the price, the card and the colors they like", () => {
+    const rubric = rubricOf(taskOf("u8")!);
+
+    expect(schemaOf(taskOf("u8")!).required).toEqual([
+      "garment",
+      "colorSize",
+      "price",
+      "card",
+      "colors",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of garment, colorSize, price, card and colors, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The price and the card count only when the learner asks the examiner, not when the examiner offers them.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Quiero una camisa, por favor", "Azul, talla mediana", "¿Cuánto cuesta?", "¿Puedo pagar con tarjeta?" or "Me gusta el azul, pero no me gusta el rojo" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Quiero un camisa azul".');
+  });
+
+  it("closes after three minutes", () => {
+    expect(taskOf("u8")!.limitSeconds).toBe(180);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -388,7 +443,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6", "u7"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

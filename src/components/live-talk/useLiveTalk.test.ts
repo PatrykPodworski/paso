@@ -42,7 +42,7 @@ const mount = () => {
 
   const start = (passcode?: string) =>
     act(async () => {
-      void talk().start(passcode, handlers);
+      void talk().start("u1", passcode, handlers);
     });
 
   const microphone = (code: MicrophoneError = null) =>
@@ -50,15 +50,17 @@ const mount = () => {
 
   const session = (code: string | null = null) => act(async () => examiner().session.resolve(code));
 
+  const created = (limitSeconds = 120) => act(() => examiner().handlers.onCreated(limitSeconds));
   const started = () => act(() => examiner().handlers.onStarted());
   const closed = () => act(() => examiner().handlers.onClosed());
   const dropped = () => act(() => examiner().handlers.onDrop());
   const spoken = (fragment: Fragment) => act(() => examiner().handlers.onFragment(fragment));
   const elapse = (ms: number) => act(() => vi.advanceTimersByTime(ms));
 
-  const live = async () => {
+  const live = async (limitSeconds = 120) => {
     await start();
     await microphone();
+    created(limitSeconds);
     started();
   };
 
@@ -69,6 +71,7 @@ const mount = () => {
     start,
     microphone,
     session,
+    created,
     started,
     closed,
     dropped,
@@ -114,7 +117,7 @@ describe("steps", () => {
     steps.push(h.talk().status);
 
     expect(steps).toEqual(["idle", "microphone", "connecting", "live", "ending", "ended"]);
-    expect(examiner().connect).toHaveBeenCalledWith("olé");
+    expect(examiner().connect).toHaveBeenCalledWith("u1", "olé");
     expect(examiner().end).toHaveBeenCalledTimes(1);
     expect(examiner().close).toHaveBeenCalledTimes(1);
     expect(h.handlers.onEnded).toHaveBeenCalledWith([]);
@@ -135,7 +138,7 @@ describe("steps", () => {
     const h = mount();
 
     await h.start();
-    examiner().handlers.onCreated();
+    h.created();
 
     expect(h.handlers.onCreated).toHaveBeenCalledTimes(1);
   });
@@ -345,7 +348,21 @@ describe("timers", () => {
     expect(examiner().greet).not.toHaveBeenCalled();
   });
 
-  it("asks the examiner to close when the talk reaches its limit", async () => {
+  it("asks the examiner to close five seconds after the limit the server gave", async () => {
+    const h = mount();
+
+    await h.live(30);
+    h.elapse(34_999);
+
+    expect(examiner().end).not.toHaveBeenCalled();
+
+    h.elapse(1);
+
+    expect(examiner().end).toHaveBeenCalledTimes(1);
+    expect(h.talk().status).toBe("ending");
+  });
+
+  it("keeps a two-minute talk open until 2:05", async () => {
     const h = mount();
 
     await h.live();
@@ -356,7 +373,6 @@ describe("timers", () => {
     h.elapse(1);
 
     expect(examiner().end).toHaveBeenCalledTimes(1);
-    expect(h.talk().status).toBe("ending");
   });
 
   it("ends on its own when the examiner never confirms the close", async () => {

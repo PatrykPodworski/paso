@@ -12,9 +12,9 @@ const HEADINGS = {
 };
 
 const NOTES = {
-  perfect: "You gave your name, age and country in correct Spanish.",
+  perfect: "You gave Lucía everything she asked for in correct Spanish.",
   good: "Lucía understood you. Talk again to make your answers correct.",
-  bad: "Lucía did not get all three answers. If you continue now, you can try it again later under My mistakes in Practice.",
+  bad: "Lucía did not get everything she asked for. If you continue now, you can try it again later under My mistakes in Practice.",
 };
 
 const LEVELS = {
@@ -23,12 +23,6 @@ const LEVELS = {
   missing: "Missing",
 };
 
-const ITEMS = [
-  ["name", "Name"],
-  ["age", "Age"],
-  ["country", "Country"],
-] as const;
-
 type Props = { score: LiveScore; turns: LiveTurn[]; onAgain: () => void; onContinue: () => void };
 
 export const LiveResult = ({ score, turns, onAgain, onContinue }: Props) => (
@@ -36,11 +30,11 @@ export const LiveResult = ({ score, turns, onAgain, onContinue }: Props) => (
     <h3 className="font-serif text-2xl font-medium">{HEADINGS[score.grade]}</h3>
     <p className="mbs-2 text-sm leading-relaxed text-sage-700">{NOTES[score.grade]}</p>
     <ul aria-label="Your answers" className="mbs-3.5 flex flex-col gap-1.5 text-sm">
-      {ITEMS.map(([item, label]) => (
-        <li key={item} className="flex justify-between gap-3">
+      {score.items.map(({ id, label, level }) => (
+        <li key={id} className="flex justify-between gap-3">
           <span>{label}</span>
-          <span className={score.items[item] === "missing" ? "text-coral-700" : "text-sage-700"}>
-            {LEVELS[score.items[item]]}
+          <span className={level === "missing" ? "text-coral-700" : "text-sage-700"}>
+            {LEVELS[level]}
           </span>
         </li>
       ))}

@@ -42,7 +42,10 @@ export const mockLiveTalk = async (page: Page, score: LiveScore) => {
   });
 
   await page.route("**/api/live-session", (route) =>
-    route.fulfill({ status: 201, json: { sdp: "answer-sdp", greeting: "Saluda." } }),
+    route.fulfill({
+      status: 201,
+      json: { sdp: "answer-sdp", greeting: "Saluda.", limitSeconds: 120 },
+    }),
   );
 
   await page.route("**/api/score-talk", (route) => route.fulfill({ json: score }));

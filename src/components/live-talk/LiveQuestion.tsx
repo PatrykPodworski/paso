@@ -25,7 +25,7 @@ export const LiveQuestion = ({ q, onEvaluated, onSubmit }: Props) => {
         listeningAudio={listeningAudio}
         answerAudio={answerAudio}
       />
-      <LiveTalk onEvaluated={onEvaluated} onSubmit={onSubmit} />
+      <LiveTalk task={q.talk ?? ""} onEvaluated={onEvaluated} onSubmit={onSubmit} />
     </div>
   );
 };

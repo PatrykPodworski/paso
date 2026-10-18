@@ -498,6 +498,24 @@ describe("guards", () => {
     expect(api).not.toHaveBeenCalled();
   });
 
+  it("ignores a cancelled call's late events during the next talk", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+    api.mockImplementation(async () => started());
+    mount();
+    await click("Start the talk");
+    await click("Cancel");
+
+    const [oldChannel, oldPeer] = [channel, peers.at(-1)!];
+
+    await click("Start the talk");
+    await act(async () => oldChannel.onclose?.());
+    oldPeer.become("failed");
+    oldChannel.emit({ type: "session.closed" });
+
+    expect(screen.getByRole("status")).toHaveTextContent("Connecting to Lucía…");
+    expect(screen.queryByText(/not available/)).toBeNull();
+  });
+
   it("gives up when the connection fails before Lucía starts", async () => {
     replies(started());
     mount();

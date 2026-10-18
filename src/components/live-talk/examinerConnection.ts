@@ -141,8 +141,11 @@ export const connectExaminer = ({ onEvent, onDrop, onCreated }: Handlers) => {
     }
   };
 
+  // Detaches the handlers first: a closed call's late events must not reach the next talk.
   const close = () => {
     closed = true;
+    peer.ontrack = peer.onconnectionstatechange = null;
+    channel.onmessage = channel.onclose = null;
     microphone?.getTracks().forEach((t) => t.stop());
     peer.close();
     audio.srcObject = null;

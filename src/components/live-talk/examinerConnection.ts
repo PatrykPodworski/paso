@@ -1,11 +1,24 @@
-export type LiveEvent = { type: string; delta?: string; start_ms?: number; end_ms?: number };
+import type { TalkTurn } from "../../data/types";
+import type { Fragment } from "./transcript";
 
 type Handlers = {
-  onEvent: (event: LiveEvent) => void;
-  // The connection dropped or failed.
-  onDrop: () => void;
   // The server created the session, which uses up a free talk.
   onCreated: () => void;
+  // The examiner is on the line: the talk is live.
+  onStarted: () => void;
+  // A piece of what the examiner or the learner said.
+  onFragment: (fragment: Fragment) => void;
+  // The examiner closed the talk.
+  onClosed: () => void;
+  // The connection dropped or failed.
+  onDrop: () => void;
+};
+
+type ServerEvent = { type: string; delta?: string; start_ms?: number; end_ms?: number };
+
+const SPEAKERS: Record<string, TalkTurn["role"]> = {
+  "session.input_transcript.delta": "student",
+  "session.output_transcript.delta": "examiner",
 };
 
 // Sends the offer with the candidates gathered so far if gathering stalls.
@@ -17,10 +30,16 @@ const gathered = (peer: RTCPeerConnection) =>
       return;
     }
 
-    const check = () => peer.iceGatheringState === "complete" && resolve();
+    const done = () => {
+      peer.removeEventListener("icegatheringstatechange", check);
+      clearTimeout(timer);
+      resolve();
+    };
+
+    const check = () => peer.iceGatheringState === "complete" && done();
+    const timer = window.setTimeout(done, 5000);
 
     peer.addEventListener("icegatheringstatechange", check);
-    window.setTimeout(resolve, 5000);
   });
 
 const startError = async (response: Response) => {
@@ -36,7 +55,13 @@ const microphoneError = (e: unknown) =>
 
 // A WebRTC connection to the examiner through the /api/live-session proxy. The caller
 // owns it and must call close().
-export const createExaminerConnection = ({ onEvent, onDrop, onCreated }: Handlers) => {
+export const createExaminerConnection = ({
+  onCreated,
+  onStarted,
+  onFragment,
+  onClosed,
+  onDrop,
+}: Handlers) => {
   const peer = new RTCPeerConnection();
   const audio = new Audio();
   const channel = peer.createDataChannel("oai-events");
@@ -57,7 +82,21 @@ export const createExaminerConnection = ({ onEvent, onDrop, onCreated }: Handler
     }
   };
 
-  channel.onmessage = (e) => onEvent(JSON.parse(e.data));
+  const receive = (event: ServerEvent) => {
+    const role = SPEAKERS[event.type];
+
+    if (role) {
+      const start = event.start_ms ?? 0;
+
+      onFragment({ role, text: event.delta ?? "", start, end: event.end_ms ?? start });
+    } else if (event.type === "session.started") {
+      onStarted();
+    } else if (event.type === "session.closed") {
+      onClosed();
+    }
+  };
+
+  channel.onmessage = (e) => receive(JSON.parse(e.data));
   channel.onclose = onDrop;
 
   // Resolves to an error code, or null once the microphone is on.

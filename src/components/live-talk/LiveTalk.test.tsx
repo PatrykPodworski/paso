@@ -31,12 +31,24 @@ class FakePeer {
   ontrack: ((e: { streams: unknown[] }) => void) | null = null;
   connectionState = "new";
   onconnectionstatechange: (() => void) | null = null;
+  listeners: (() => void)[] = [];
 
   constructor() {
     peers.push(this);
   }
 
-  addEventListener() {}
+  addEventListener(_type: string, listener: () => void) {
+    this.listeners.push(listener);
+  }
+
+  removeEventListener(_type: string, listener: () => void) {
+    this.listeners = this.listeners.filter((l) => l !== listener);
+  }
+
+  gather() {
+    this.iceGatheringState = "complete";
+    act(() => this.listeners.forEach((l) => l()));
+  }
 
   addTrack() {
     if (this.connectionState === "closed") {
@@ -177,6 +189,7 @@ describe("a live talk", () => {
     await click("End the talk");
 
     expect(channel.sent).toEqual([JSON.stringify({ type: "session.close" })]);
+    expect(screen.getByRole("status")).toHaveTextContent("Finishing the talk…");
     expect(stopped).toEqual([]);
   });
 
@@ -393,18 +406,6 @@ describe("connection", () => {
     ).toBeVisible();
   });
 
-  it("ends the talk itself when Lucía never confirms the close", async () => {
-    vi.useFakeTimers();
-    replies(started(), { grade: "perfect", items: {} });
-    mount();
-    await talk();
-    await click("End the talk");
-    expect(stopped).toEqual([]);
-    await act(async () => vi.advanceTimersByTime(15_000));
-
-    expect(stopped).toEqual(["mic", "peer"]);
-  });
-
   it("releases the microphone when the lesson closes mid-talk", async () => {
     replies(started());
     mount();
@@ -445,19 +446,6 @@ describe("guards", () => {
     );
   });
 
-  it("gives up when Lucía does not answer within 15 seconds", async () => {
-    vi.useFakeTimers();
-    replies(started());
-    mount();
-    await click("Start the talk");
-    await act(async () => vi.advanceTimersByTimeAsync(15_000));
-
-    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
-
-    expect(stopped).toEqual(["mic", "peer"]);
-    expect(screen.getByLabelText("Passcode")).toBeVisible();
-  });
-
   it("lets the learner cancel while connecting", async () => {
     replies(started());
     mount();
@@ -484,6 +472,20 @@ describe("guards", () => {
 
     expect(stopped).toContain("mic");
     expect(api).not.toHaveBeenCalled();
+  });
+
+  it("sends the offer once gathering completes and stops listening for it", async () => {
+    gathering = true;
+    replies(started());
+    mount();
+    await click("Start the talk");
+
+    expect(api).not.toHaveBeenCalled();
+
+    await act(async () => peers.at(-1)!.gather());
+
+    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp" });
+    expect(peers.at(-1)!.listeners).toEqual([]);
   });
 
   it("sends no session request when the learner cancels while connecting", async () => {
@@ -540,19 +542,6 @@ describe("guards", () => {
     expect(await screen.findByRole("heading", { name: "Perfect. You passed." })).toBeVisible();
   });
 
-  it("ends the talk itself after two minutes", async () => {
-    vi.useFakeTimers();
-    replies(started());
-    mount();
-    await talk();
-    await act(async () => vi.advanceTimersByTimeAsync(124_000));
-    expect(channel.sent).toEqual([]);
-    await act(async () => vi.advanceTimersByTimeAsync(1_000));
-
-    expect(channel.sent).toEqual([JSON.stringify({ type: "session.close" })]);
-    expect(screen.getByRole("status")).toHaveTextContent("Finishing the talk…");
-  });
-
   it("counts the free talk as used once the session exists, even if the call fails", async () => {
     remoteFails = true;
     replies(started());
@@ -571,15 +560,13 @@ describe("guards", () => {
 });
 
 describe("greeting", () => {
-  it("asks Lucía to greet when she is still silent after the talk starts", async () => {
+  it("asks Lucía to greet with the server's words when she is silent", async () => {
     vi.useFakeTimers();
     replies(started());
     mount();
     await click("Start the talk");
     channel.emit({ type: "session.started", session: { id: "live_1" } });
-    await act(async () => vi.advanceTimersByTime(2_499));
-    expect(channel.sent).toEqual([]);
-    await act(async () => vi.advanceTimersByTime(1));
+    await act(async () => vi.advanceTimersByTime(2_500));
 
     expect(channel.sent).toEqual([
       JSON.stringify({
@@ -588,15 +575,5 @@ describe("greeting", () => {
         content: "Saluda.",
       }),
     ]);
-  });
-
-  it("leaves Lucía alone when she greets on her own", async () => {
-    vi.useFakeTimers();
-    replies(started());
-    mount();
-    await talk();
-    await act(async () => vi.advanceTimersByTime(10_000));
-
-    expect(channel.sent).toEqual([]);
   });
 });

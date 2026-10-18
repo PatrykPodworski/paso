@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { TalkTurn } from "../../data/types";
-import { createExaminerConnection, type LiveEvent } from "./examinerConnection";
+import { createExaminerConnection } from "./examinerConnection";
 import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 
 export type TalkStatus = "idle" | "microphone" | "connecting" | "live" | "ending" | "ended";
@@ -70,26 +70,15 @@ export const useLiveTalk = () => {
     }
   };
 
-  const add = (role: TalkTurn["role"], event: LiveEvent) => {
-    const start = event.start_ms ?? 0;
-
-    fragments.current = [
-      ...fragments.current,
-      { role, text: event.delta ?? "", start, end: event.end_ms ?? start },
-    ];
-  };
-
-  const handle = (event: LiveEvent) => {
-    if (event.type === "session.started" && connection.current) {
+  const started = () => {
+    if (connection.current) {
       connection.current.live = true;
       setStatus("live");
-    } else if (event.type === "session.input_transcript.delta") {
-      add("student", event);
-    } else if (event.type === "session.output_transcript.delta") {
-      add("examiner", event);
-    } else if (event.type === "session.closed") {
-      finish();
     }
+  };
+
+  const spoken = (fragment: Fragment) => {
+    fragments.current.push(fragment);
   };
 
   const drop = () => (connection.current?.live ? finish() : fail("unavailable"));
@@ -145,9 +134,11 @@ export const useLiveTalk = () => {
     setStatus("microphone");
 
     const examiner = createExaminerConnection({
-      onEvent: handle,
-      onDrop: drop,
       onCreated: handlers.onCreated,
+      onStarted: started,
+      onFragment: spoken,
+      onClosed: finish,
+      onDrop: drop,
     });
 
     const current: Connection = { examiner, handlers, live: false };
@@ -156,8 +147,6 @@ export const useLiveTalk = () => {
     const micError = await examiner.acquireMicrophone();
 
     if (connection.current !== current) {
-      examiner.close();
-
       return;
     }
 

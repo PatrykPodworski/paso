@@ -390,6 +390,15 @@ const seeds: Seed[] = [
       "I added simple details instead of a list of names.",
       "I asked two questions about family.",
     ],
+    live: {
+      task: "u3",
+      prompt:
+        "Talk to Lucía about your family. Say who is in it, describe one person, say what you do together, then ask her two questions about her family.",
+      answer:
+        "Mi familia es pequeña. Vivo con mi madre y mi hermano. Mi madre es profesora, es alta y muy simpática. Los domingos vamos al parque. ¿Tienes hermanos? ¿Dónde vive tu familia?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A place called home",

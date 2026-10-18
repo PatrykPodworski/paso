@@ -513,6 +513,15 @@ const seeds: Seed[] = [
       "I located objects using estar and position words.",
       "I asked two questions.",
     ],
+    live: {
+      task: "u4",
+      prompt:
+        "Talk to Lucía about your home. Say where it is, which rooms it has and which one you like most, say where three things are, then ask her two questions about her home.",
+      answer:
+        "Vivo en un piso en el centro. Tiene dos habitaciones, una cocina y un salón. Me gusta el salón porque es grande. La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación. ¿Dónde vives? ¿Cómo es tu casa?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A day in my life",

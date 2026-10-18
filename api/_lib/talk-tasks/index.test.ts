@@ -160,6 +160,62 @@ describe("unit 3", () => {
   });
 });
 
+describe("unit 4", () => {
+  it("makes Lucía an interviewer who asks about the home in order and answers two questions back", () => {
+    const instructions = instructionsOf(taskOf("u4")!);
+
+    expect(instructions).toContain(
+      "Eres una entrevistadora amable y hablas con el estudiante de su casa. Cuando el estudiante te haga sus dos preguntas sobre tu casa, responde a cada una con una frase corta y después despídete.",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cinco preguntas");
+
+    expect(instructions).toContain(
+      `1. ¿Dónde está tu casa?
+2. ¿Qué habitaciones hay en tu casa?
+3. ¿Cuál es tu habitación favorita? ¿Por qué?
+4. Dime dónde están tres cosas de tu casa, por ejemplo el sofá, la mesa y la cama.
+5. Ahora, hazme dos preguntas sobre mi casa.`,
+    );
+
+    expect(instructions).toContain("Después de la quinta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u4")!)).toMatch(
+      /Después pregunta «¿Dónde está tu casa\?» y escucha\.$/,
+    );
+  });
+
+  it("grades the location, the rooms, the favorite room, where three objects are and the two questions", () => {
+    const rubric = rubricOf(taskOf("u4")!);
+
+    expect(schemaOf(taskOf("u4")!).required).toEqual([
+      "location",
+      "rooms",
+      "favorite",
+      "objects",
+      "questions",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of location, rooms, favorite, objects and questions, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The objects count only when the learner says where three things are, not only names them, and the questions only when the learner asks the examiner two questions about her home.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Vivo en un piso en el centro", "Tiene dos habitaciones, una cocina y un salón", "Me gusta el salón porque es grande", "La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación" or "¿Dónde vives? ¿Cómo es tu casa?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "La mesa es en la cocina".');
+  });
+
+  it("closes after three and a half minutes", () => {
+    expect(taskOf("u4")!.limitSeconds).toBe(210);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -169,7 +225,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

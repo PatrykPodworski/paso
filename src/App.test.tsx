@@ -179,7 +179,7 @@ describe("app business orchestration", () => {
       const p = emptyProgress();
 
       const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
-        (q) => q.skill === skill,
+        (q) => q.skill === skill && q.kind !== "live",
       );
 
       p.attempts = [

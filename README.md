@@ -113,22 +113,13 @@ download; nothing is uploaded. AI feedback on your writing is coming soon.
 
 ## Live examiner
 
-Unit 1's speaking task is a live talk with Lucía, OpenAI's `gpt-live-1` with a
-female voice. She greets you first, then asks three short questions in slow
-Castilian Spanish: your name, your age and where you are from. The browser connects over WebRTC; `api/live-session.ts` exchanges its
-offer with OpenAI, so the API key stays on the server. The server closes every
-session after two minutes. The transcript stays hidden during the talk.
+Unit 1's speaking task is a two-minute voice talk with Lucía, an OpenAI
+realtime model. `api/live-session.ts` opens the session, so the API key stays
+on the server; `api/score-talk.ts` grades the transcript afterwards.
 
-After the talk, `api/score-talk.ts` sends the transcript to a text model, which
-marks each answer correct, understandable or missing. Perfect and good pass; a
-missing answer fails and the talk waits in your mistakes. Only the transcript is
-scored, never pronunciation.
-
-The first talk and its score are free for each network. Further talks need the
-passcode, checked on the server against the `PASSCODE` environment variable. The
-functions also need `OPENAI_API_KEY`; the spend limit on that key caps the cost.
-`pnpm dev` does not run the functions; use `vercel dev` to try a real talk
-locally.
+The first talk is free for each network; later talks need the passcode. The
+functions read `OPENAI_API_KEY` and `PASSCODE`. `pnpm dev` does not run them, so
+use `vercel dev` to try a real talk locally.
 
 ## Tests
 

@@ -118,9 +118,9 @@ describe("original curriculum integrity", () => {
           ])
           .filter((x): x is string => !!x)
           .concat(
-            [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(
-              (q) => q.pronunciation || q.audio || q.passage || q.answer,
-            ),
+            [...allQuestions, ...foundations, ...visualQuestions, formPractice]
+              .filter((q) => q.kind !== "live")
+              .map((q) => q.pronunciation || q.audio || q.passage || q.answer),
             vocabulary.map((w) => w.es),
             units.map((u) => u.example),
             ["Poco a poco."],

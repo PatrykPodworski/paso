@@ -31,7 +31,7 @@ afterEach(() => {
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = allQuestions.find((q) => q.id === "u1-o3")!;
+const speaking = allQuestions.find((q) => q.kind === "speak")!;
 
 const write = (text: string) =>
   fireEvent.change(screen.getByRole("textbox"), { target: { value: text } });

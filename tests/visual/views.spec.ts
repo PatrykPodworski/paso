@@ -3,6 +3,7 @@ import { allLessons, allQuestions, visualQuestions } from "../../src/data/curric
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
 import type { Page } from "@playwright/test";
+import { examiner, mockLiveTalk } from "../fixtures/live";
 
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });
@@ -311,4 +312,60 @@ test("illustrated scenarios in the picture studio", async ({ page }) => {
     await answer(page, q);
     await page.getByRole("button", { name: "Continue", exact: true }).click();
   }
+});
+
+test("question: live talk with Lucía", async ({ page }) => {
+  await mockLiveTalk(page, {
+    grade: "bad",
+    items: { name: "correct", age: "understandable", country: "missing" },
+  });
+
+  await page.addInitScript(() =>
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "" })),
+  );
+
+  const lesson = await openLesson(page, 3);
+
+  for (const q of lesson.questions.slice(0, 3)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await shot(page, "question-live-passcode");
+  await page.getByLabel("Passcode").fill("olé");
+  await page.getByRole("button", { name: "Start the talk" }).click();
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
+  await examiner(page, { type: "session.started", session: { id: "live_1" } });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cómo te llamas?",
+    start_ms: 1000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Me llamo Ana.",
+    start_ms: 2000,
+  });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cuántos años tienes?",
+    start_ms: 3000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Soy veinte años.",
+    start_ms: 4000,
+  });
+
+  await expect(page.getByRole("status")).toHaveText("Live");
+  await shot(page, "question-live-talk");
+  await examiner(page, { type: "session.closed", reason: "close_requested" });
+  await expect(page.getByRole("heading", { name: "Not yet. Talk again to pass." })).toBeVisible();
+  await shot(page, "question-live-result");
+  await page.getByText("Transcript", { exact: true }).click();
+  await shot(page, "question-live-transcript");
 });

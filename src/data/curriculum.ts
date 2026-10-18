@@ -1010,6 +1010,15 @@ const seeds: Seed[] = [
       "I asked two shopping questions.",
       "I expressed a preference politely.",
     ],
+    live: {
+      task: "u8",
+      prompt:
+        "Talk to Lucía, a shop assistant in a clothes shop. Ask for a garment, say which color and size you want, ask the price and whether you can pay by card, then tell her which colors you like.",
+      answer:
+        "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Life beyond work",

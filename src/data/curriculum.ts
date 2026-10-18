@@ -637,6 +637,15 @@ const seeds: Seed[] = [
       "I gave clear times and used reflexive verbs.",
       "I asked two routine questions.",
     ],
+    live: {
+      task: "u5",
+      prompt:
+        "Talk to Lucía about a typical day. Say what you do in the morning, whether you work or study, and what you do in the evening, say at what time you do things, then ask her two questions about her routine.",
+      answer:
+        "Me levanto a las siete y desayuno café con pan. Trabajo en una oficina de nueve a cinco. Por la noche estudio español y leo un libro. Como a las dos y me acuesto a las once. ¿A qué hora te levantas? ¿Trabajas por la tarde?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A table for two",

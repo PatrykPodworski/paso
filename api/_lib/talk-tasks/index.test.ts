@@ -438,6 +438,60 @@ describe("unit 8", () => {
   });
 });
 
+describe("unit 9", () => {
+  it("makes Lucía a friendly interviewer who asks about free time, then accepts an invitation and answers about her hobbies", () => {
+    const instructions = instructionsOf(taskOf("u9")!);
+
+    expect(instructions).toContain(
+      "Eres una entrevistadora amable y hablas con el estudiante de su tiempo libre. Cuando el estudiante te invite a una actividad, acepta con una frase corta, por ejemplo «Sí, gracias. Buena idea». Cuando te pregunte qué te gusta hacer, responde con una frase corta, por ejemplo «Me gusta leer y pasear», y después despídete.",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+
+    expect(instructions).toContain(
+      `1. ¿Qué te gusta hacer en tu tiempo libre?
+2. ¿Cuándo haces esas actividades y con quién?
+3. Ahora, invítame a una actividad.
+4. Y ahora, pregúntame qué me gusta hacer a mí.`,
+    );
+
+    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u9")!)).toMatch(
+      /Después pregunta «¿Qué te gusta hacer en tu tiempo libre\?» y escucha\.$/,
+    );
+  });
+
+  it("grades the activities, when and with whom, the invitation and the question about her hobbies", () => {
+    const rubric = rubricOf(taskOf("u9")!);
+
+    expect(schemaOf(taskOf("u9")!).required).toEqual([
+      "activities",
+      "whenWith",
+      "invitation",
+      "hobbies",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of activities, whenWith, invitation and hobbies, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The when and with whom counts only when the learner says both when and with whom, and the invitation and the question only when the learner asks the examiner, not when the examiner suggests them.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Me gusta leer y nadar", "Los sábados voy a la piscina con mi amiga", "¿Quieres ir al cine el domingo?" or "¿Qué te gusta hacer?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Me gusta leo libros".');
+  });
+
+  it("closes after three and a half minutes", () => {
+    expect(taskOf("u9")!.limitSeconds).toBe(210);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -447,7 +501,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8", "u9"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

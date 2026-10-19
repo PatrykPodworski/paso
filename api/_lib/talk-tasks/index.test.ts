@@ -652,6 +652,7 @@ describe("mock exam task 1", () => {
     );
 
     expect(instructions).not.toContain("Haz exactamente estas");
+    expect(instructions).toContain("por ejemplo «¿Y qué lenguas hablas?»");
 
     expect(greetingOf(taskOf("mock-s1")!)).toMatch(
       /Después di «Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres\.» y escucha\.$/,
@@ -727,6 +728,22 @@ describe("mock exam task 2", () => {
     expect(instructionsOf(taskOf("mock-s2", "freeTime")!)).toContain(
       "El estudiante habla de su tiempo libre y tú escuchas.",
     );
+  });
+
+  it("nudges a silent learner about a point of the chosen topic", () => {
+    expect(instructionsOf(taskOf("mock-s2", "home")!)).toContain(
+      "por ejemplo «¿Y cuál es tu habitación favorita?»",
+    );
+
+    expect(instructionsOf(taskOf("mock-s2", "studies")!)).toContain(
+      "por ejemplo «¿Y cómo es tu horario?»",
+    );
+
+    expect(instructionsOf(taskOf("mock-s2", "freeTime")!)).toContain(
+      "por ejemplo «¿Y con quién haces esas actividades?»",
+    );
+
+    expect(instructionsOf(taskOf("mock-s2", "studies")!)).not.toContain("dónde vives");
   });
 
   it("grades the three points of the chosen topic", () => {
@@ -942,7 +959,13 @@ describe("the template", () => {
     expect(instructions).toContain("escucha sin interrumpir");
 
     expect(instructions).toContain(
-      "Solo si el estudiante calla durante más de diez segundos, anímale una vez con una pregunta corta sobre un punto que todavía no ha dicho, por ejemplo «¿Y dónde vives?», y después escucha otra vez.",
+      "Solo si el estudiante calla durante más de diez segundos, anímale una vez con una pregunta corta sobre un punto que todavía no ha dicho, y después escucha otra vez.",
+    );
+
+    expect(instructions).not.toContain("por ejemplo «¿Y");
+
+    expect(instructionsOf({ ...family, nudge: "¿Y cómo es tu madre?" })).toContain(
+      "sobre un punto que todavía no ha dicho, por ejemplo «¿Y cómo es tu madre?», y después escucha otra vez.",
     );
 
     expect(instructions).not.toContain("Haz exactamente estas");

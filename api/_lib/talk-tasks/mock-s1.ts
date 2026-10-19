@@ -8,6 +8,7 @@ export const mockS1: TaskSpec = {
   asks: [
     "Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres.",
   ],
+  nudge: "¿Y qué lenguas hablas?",
   items: [
     { id: "name", label: "Name", example: "Me llamo Ana" },
     { id: "nationality", label: "Nationality", example: "Soy polaca" },

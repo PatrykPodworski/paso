@@ -80,7 +80,7 @@ const monologue = (task: TaskSpec) => [
   "El estudiante habla solo. Dile la tarea con estas palabras, en este orden, y después escucha sin interrumpir:",
   ...numbered(task.asks),
   "No hagas preguntas de seguimiento, no corrijas errores, no expliques nada y no hables de otros temas.",
-  "Solo si el estudiante calla durante más de diez segundos, anímale una vez con una pregunta corta sobre un punto que todavía no ha dicho, por ejemplo «¿Y dónde vives?», y después escucha otra vez.",
+  `Solo si el estudiante calla durante más de diez segundos, anímale una vez con una pregunta corta sobre un punto que todavía no ha dicho,${task.nudge ? ` por ejemplo «${task.nudge}»,` : ""} y después escucha otra vez.`,
   `Cuando el estudiante termine, ${farewell}`,
 ];
 

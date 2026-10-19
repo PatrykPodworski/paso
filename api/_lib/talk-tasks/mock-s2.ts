@@ -5,17 +5,19 @@ type TopicTask = {
   about: string;
   their: string;
   ask: string;
+  nudge: string;
   // The three points, as the rubric lists them.
   points: string;
   items: TaskItem[];
   flawed: string;
 };
 
-const spec = ({ about, their, ask, points, items, flawed }: TopicTask): TaskSpec => ({
+const spec = ({ about, their, ask, nudge, points, items, flawed }: TopicTask): TaskSpec => ({
   id: "mock-s2",
   mode: "monologue",
   scenario: `Eres una entrevistadora amable. El estudiante habla de ${about} y tú escuchas.`,
   asks: [ask],
+  nudge,
   items,
   asked: `The examiner asked the learner to talk about ${their} for two to three minutes: ${points}.`,
   flawed,
@@ -27,6 +29,7 @@ export const mockS2: Record<Topic, TaskSpec> = {
     about: "su casa",
     their: "their home",
     ask: "Háblame de tu casa: dónde está, qué habitaciones hay y cuál es tu habitación favorita.",
+    nudge: "¿Y cuál es tu habitación favorita?",
     points: "where it is, which rooms it has and which room is their favourite",
     items: [
       { id: "location", label: "Where your home is", example: "Mi casa está cerca del centro" },
@@ -43,6 +46,7 @@ export const mockS2: Record<Topic, TaskSpec> = {
     about: "sus estudios",
     their: "their studies",
     ask: "Háblame de tus estudios: tu escuela, tus profesores y tu horario.",
+    nudge: "¿Y cómo es tu horario?",
     points: "their school, their teachers and their timetable",
     items: [
       { id: "school", label: "Your school", example: "Estudio español en una escuela de idiomas" },
@@ -63,6 +67,7 @@ export const mockS2: Record<Topic, TaskSpec> = {
     about: "su tiempo libre",
     their: "their free time",
     ask: "Háblame de tu tiempo libre: qué actividades haces, cuándo las haces y con quién.",
+    nudge: "¿Y con quién haces esas actividades?",
     points: "which activities they do, when they do them and with whom",
     items: [
       { id: "activities", label: "Your activities", example: "Me gusta leer y nadar" },

@@ -17,6 +17,9 @@ export type TaskSpec = {
   scenario?: string;
   // What Lucía asks (questions) or asks for (points to cover), in order.
   asks: string[];
+  // In a monologue, the short question Lucía may ask after a long silence, about one of
+  // the task's points.
+  nudge?: string;
   items: TaskItem[];
   // What the examiner asked for, as the rubric states it.
   asked: string;

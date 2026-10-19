@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react";
-import type { LiveGrade } from "../../data/types";
+import type { LiveScore } from "../../data/types";
 import { LiveQuestion } from "../live-talk/LiveQuestion";
 import { QuestionCard } from "./QuestionCard";
 
@@ -8,7 +8,7 @@ type Props = Omit<ComponentProps<typeof QuestionCard>, "onEvaluated"> & {
     answer: string,
     correct: boolean | null,
     assisted: boolean,
-    grade?: LiveGrade,
+    score?: LiveScore,
   ) => void;
 };
 

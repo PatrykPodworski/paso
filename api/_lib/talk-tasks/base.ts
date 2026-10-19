@@ -25,6 +25,11 @@ export type TaskSpec = {
   limitSeconds: number;
 };
 
+// The mock exam's Tasks 2 and 3 run on the topic the learner picked before Task 2.
+export const TOPICS = ["home", "studies", "freeTime"] as const;
+
+export type Topic = (typeof TOPICS)[number];
+
 // Vercel Hobby stops a function after 300 s, and confirming the close takes about 15 s.
 export const MAX_LIMIT_SECONDS = 270;
 

@@ -79,7 +79,18 @@ it("starts oral preparation, persists notes, then gives a separate ten minutes t
   act(() => vi.advanceTimersByTime(600000));
   expect(state()).toMatchObject({ stage: "run", deadline: now + 1200000 });
   expect(screen.getByRole("timer")).toHaveTextContent("10:00");
-  expect(screen.getByRole("button", { name: "Save answer" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Start the talk" })).toBeEnabled();
+});
+
+it("lets a speaking talk run past the section's clock instead of cutting it", () => {
+  seed({ section: 3, stage: "run", deadline: now + 1000 });
+  mount();
+  act(() => vi.advanceTimersByTime(3000));
+  expect(state().stage).toBe("run");
+  expect(screen.getByRole("timer")).toHaveTextContent("00:00");
+  click("Finish section");
+  click("Finish & review");
+  expect(state().stage).toBe("review");
 });
 
 it("keeps the results page after the last deadline has passed", () => {

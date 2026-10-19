@@ -2,6 +2,7 @@ import { test as base, expect, type Locator, type Page } from "@playwright/test"
 import { allLessons } from "../../src/data/curriculum";
 import { mockSections } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
+import { talkToLucia } from "./live";
 
 export const test = base.extend<{ blockExternal: void }>({
   blockExternal: [
@@ -115,6 +116,17 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     }
   } else if (q.kind === "speak") {
     await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
+  } else if (q.kind === "live") {
+    const home = page.getByRole("radio", { name: /Your home/ });
+
+    if (await home.isVisible()) {
+      await home.check();
+    }
+
+    await talkToLucia(page);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+
+    return;
   } else {
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
   }
@@ -155,7 +167,13 @@ export const resumeMockExam = async (
     drafts: {},
   };
 
-  await page.addInitScript((run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)), run);
+  // Seeded once per tab, so a reload inside the test keeps what the app saved since.
+  await page.addInitScript((run) => {
+    if (!sessionStorage.getItem("paso-mock-seeded")) {
+      localStorage.setItem("paso-mock-v1", JSON.stringify(run));
+      sessionStorage.setItem("paso-mock-seeded", "1");
+    }
+  }, run);
 
   await page.goto("/#exam");
 };

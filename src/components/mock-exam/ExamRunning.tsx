@@ -5,6 +5,7 @@ import { TextLink } from "../../design-system/TextLink";
 import { mockSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
+import { SpeakingTask } from "./SpeakingTask";
 import type { Run, SetRun } from "./useMockRun";
 
 type Props = {
@@ -18,6 +19,15 @@ type Props = {
 export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
+  const last = section.questions.length - 1;
+
+  const advance = () => {
+    setRun((r) => ({ ...r, index: Math.min(r.index + 1, last) }));
+
+    if (run.index === last) {
+      setConfirm(true);
+    }
+  };
 
   return (
     <Panel className="px-[30px] pt-[22px] pb-[20px] max-md:p-[18px]">
@@ -27,26 +37,28 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
           {run.index + 1} / {section.questions.length}
         </strong>
       </div>
-      <QuestionCard
-        key={`${run.section}-${run.index}`}
-        q={q}
-        exam
-        draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
-        onDraft={(text) => setRun((r) => ({ ...r, drafts: { ...r.drafts, [q.id]: text } }))}
-        onSubmit={(answer) => {
-          stopAudio();
-
-          setRun((r) => ({
-            ...r,
-            answers: { ...r.answers, [q.id]: answer },
-            index: Math.min(r.index + 1, section.questions.length - 1),
-          }));
-
-          if (run.index === section.questions.length - 1) {
-            setConfirm(true);
-          }
-        }}
-      />
+      {q.kind === "live" ? (
+        <SpeakingTask
+          key={`${run.section}-${run.index}`}
+          q={q}
+          run={run}
+          setRun={setRun}
+          onNext={advance}
+        />
+      ) : (
+        <QuestionCard
+          key={`${run.section}-${run.index}`}
+          q={q}
+          exam
+          draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
+          onDraft={(text) => setRun((r) => ({ ...r, drafts: { ...r.drafts, [q.id]: text } }))}
+          onSubmit={(answer) => {
+            stopAudio();
+            setRun((r) => ({ ...r, answers: { ...r.answers, [q.id]: answer } }));
+            advance();
+          }}
+        />
+      )}
       <div className="mt-[22px] flex items-center justify-between gap-[15px] border-t border-sage-200 pt-[18px] max-md:flex-wrap max-md:gap-[17px]">
         <TextLink
           disabled={run.index === 0}
@@ -61,11 +73,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
           onClick={() => {
             stopAudio();
 
-            if (run.index === section.questions.length - 1) {
-              setConfirm(true);
-            } else {
-              setRun((r) => ({ ...r, index: r.index + 1 }));
-            }
+            advance();
           }}
         >
           Skip for now →

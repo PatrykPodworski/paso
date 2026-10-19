@@ -6,9 +6,10 @@ import type { QuestionCard } from "./question-card/QuestionCard";
 import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
-import { formPractice, mockQuestions } from "../data/mock";
+import { formPractice } from "../data/mock";
+import { speakQuestion } from "../test/speakQuestion";
 import { emptyProgress } from "../data/progress";
-import type { Question } from "../data/types";
+import type { LiveScore, Question } from "../data/types";
 
 // Test session accounting independently of the question widget. The real
 // widget and its integration are exercised in the question-card and browser tests.
@@ -118,7 +119,9 @@ it.each(["write", "form", "choice", "type", "speak"] as const)(
     const q =
       kind === "form"
         ? formPractice
-        : [...allQuestions, ...mockQuestions].find((q) => q.kind === kind)!;
+        : kind === "speak"
+          ? speakQuestion
+          : allQuestions.find((q) => q.kind === kind)!;
 
     const progress = emptyProgress();
 
@@ -136,11 +139,13 @@ it.each(["write", "form", "choice", "type", "speak"] as const)(
   },
 );
 
+const bad: LiveScore = { grade: "bad", items: [{ id: "name", label: "Name", level: "missing" }] };
+
 it("saves a live talk's grade with its attempt", () => {
   const live = allQuestions.find((q) => q.kind === "live")!;
   const { onAttempt } = mount([live]);
 
-  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad"));
+  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, bad));
 
   expect(onAttempt.mock.calls[0][0]).toMatchObject({
     questionId: "u1-o3",

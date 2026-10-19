@@ -19,7 +19,7 @@ import {
   vocabulary,
   visualQuestions,
 } from "./curriculum";
-import { formPractice, mockQuestions, mockSections } from "./mock";
+import { formPractice, mockQuestions, mockSections, mockTopics, topicTalks } from "./mock";
 import { countWords } from "./progress";
 import { audioKey } from "./audio";
 import { audioSources } from "./audio-sources";
@@ -102,6 +102,36 @@ describe("original curriculum integrity", () => {
     for (const q of speaking) {
       expect(taskOf(q.talk)?.id, q.id).toBe(q.talk);
       expect(q.checklist, q.id).toBeUndefined();
+    }
+  });
+
+  it("runs the mock exam's speaking as three live talks, two of them on the picked topic", () => {
+    const speaking = mockSections[3].questions;
+
+    expect(speaking.map((q) => q.kind)).toEqual(["live", "live", "live"]);
+    expect(speaking.map((q) => q.talk)).toEqual(["mock-s1", "mock-s2", "mock-s3"]);
+
+    expect(speaking.map((q) => q.task)).toEqual([
+      "Task 1 · Personal presentation · 1–2 min",
+      "Task 2 · A familiar topic · 2–3 min",
+      "Task 3 · Conversation · 3–4 min",
+    ]);
+
+    expect(taskOf("mock-s1")?.limitSeconds).toBe(150);
+    expect(topicTalks).toEqual(["mock-s2", "mock-s3"]);
+    expect(mockTopics.map((t) => t.id)).toEqual(["home", "studies", "freeTime"]);
+
+    for (const talk of topicTalks) {
+      expect(taskOf(talk), talk).toBeUndefined();
+
+      for (const topic of mockTopics) {
+        expect(taskOf(talk, topic.id)?.id, `${talk} ${topic.id}`).toBe(talk);
+      }
+    }
+
+    for (const q of speaking) {
+      expect(q.checklist, q.id).toBeUndefined();
+      expect(q.audio, q.id).toBeUndefined();
     }
   });
 

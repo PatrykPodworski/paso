@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
-import type { LiveGrade, LiveScore, TalkTurn } from "../../data/types";
+import type { LiveScore, TalkTurn } from "../../data/types";
 import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
 import { accessAfter, readAccess, saveAccess } from "./liveAccess";
@@ -26,16 +26,25 @@ type Scoring =
 
 type Props = {
   task: string;
-  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: LiveGrade) => void;
+  // Sent with the task when the talk depends on the learner's pick.
+  topic?: string;
+  // In the exam a talk runs once: the result is kept and there is no second talk.
+  exam?: boolean;
+  // The result of an earlier session of this task, shown instead of a new talk.
+  result?: LiveScore;
+  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, score: LiveScore) => void;
   onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
 };
 
-export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
+export const LiveTalk = ({ task, topic, exam = false, result, onEvaluated, onSubmit }: Props) => {
   const talk = useLiveTalk();
   const [access, setAccess] = useState(readAccess);
   const [passcode, setPasscode] = useState(access.passcode);
   const [problem, setProblem] = useState("");
-  const [scoring, setScoring] = useState<Scoring>({ state: "idle" });
+
+  const [scoring, setScoring] = useState<Scoring>(
+    result ? { state: "done", turns: [], score: result } : { state: "idle" },
+  );
 
   const score = async (turns: TalkTurn[], passcode: string | undefined) => {
     setScoring({ state: "scoring", turns, passcode });
@@ -44,7 +53,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
       const response = await fetch("/api/score-talk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task, turns, passcode }),
+        body: JSON.stringify({ task, topic, turns, passcode }),
       });
 
       if (!response.ok) {
@@ -54,7 +63,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
       const result = (await response.json()) as LiveScore;
 
       setScoring({ state: "done", turns, score: result });
-      onEvaluated?.(transcriptText(turns), result.grade !== "bad", false, result.grade);
+      onEvaluated?.(transcriptText(turns), result.grade !== "bad", false, result);
     } catch {
       setScoring({ state: "failed", turns, passcode });
     }
@@ -74,15 +83,20 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
 
     const used = access.freeUsed ? passcode : undefined;
 
-    return talk.start(task, used, {
-      onCreated: () => remember(null),
-      onEnded: (turns) => score(turns, used),
-      onFail: (code) => {
-        remember(code);
-        setPasscode(code === "passcode" ? "" : passcode);
-        setProblem(PROBLEMS[code] ?? PROBLEMS.unavailable);
+    return talk.start(
+      task,
+      used,
+      {
+        onCreated: () => remember(null),
+        onEnded: (turns) => score(turns, used),
+        onFail: (code) => {
+          remember(code);
+          setPasscode(code === "passcode" ? "" : passcode);
+          setProblem(PROBLEMS[code] ?? PROBLEMS.unavailable);
+        },
       },
-    });
+      topic,
+    );
   };
 
   const again = () => {
@@ -96,7 +110,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
         Lucía talks with you in Spanish. Your voice goes to OpenAI for the talk; the transcript is
         scored.
       </FieldNote>
-      {talk.status === "idle" && (
+      {talk.status === "idle" && scoring.state === "idle" && (
         <LiveStart
           needsPasscode={access.freeUsed}
           passcode={passcode}
@@ -128,6 +142,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
         <LiveResult
           score={scoring.score}
           turns={talk.turns}
+          exam={exam}
           onAgain={again}
           onContinue={() =>
             onSubmit(transcriptText(scoring.turns), scoring.score.grade !== "bad", false)

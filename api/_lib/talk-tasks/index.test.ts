@@ -639,6 +639,250 @@ describe("unit 12", () => {
   });
 });
 
+describe("mock exam task 1", () => {
+  it("makes Lucía give the presentation task in one sentence and listen", () => {
+    const instructions = instructionsOf(taskOf("mock-s1")!);
+
+    expect(instructions).toContain(
+      "Eres una entrevistadora amable. El estudiante se presenta y tú escuchas su presentación.",
+    );
+
+    expect(instructions).toContain(
+      "El estudiante habla solo. Dile la tarea con estas palabras, en este orden, y después escucha sin interrumpir:\n1. Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres.\nNo hagas preguntas de seguimiento",
+    );
+
+    expect(instructions).not.toContain("Haz exactamente estas");
+
+    expect(greetingOf(taskOf("mock-s1")!)).toMatch(
+      /Después di «Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres\.» y escucha\.$/,
+    );
+  });
+
+  it("grades the seven points of the presentation", () => {
+    const rubric = rubricOf(taskOf("mock-s1")!);
+
+    expect(schemaOf(taskOf("mock-s1")!).required).toEqual([
+      "name",
+      "nationality",
+      "age",
+      "residence",
+      "occupation",
+      "languages",
+      "personality",
+    ]);
+
+    expect(rubric).toMatch(/^You grade a DELE A1 Spanish learner's short spoken presentation/);
+
+    expect(rubric).toContain(
+      "The examiner asked the learner to present themselves for one to two minutes: their name, nationality, age, where they live, their occupation, the languages they speak and what they are like.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Me llamo Ana", "Soy polaca", "Tengo treinta años", "Vivo en Varsovia", "Soy profesora de música", "Hablo polaco e inglés" or "Soy tranquila y simpática" is correct.',
+    );
+
+    expect(rubric).toContain(
+      'with errors, for example "Soy treinta años y soy profesora de la música".',
+    );
+  });
+
+  it("closes after two and a half minutes", () => {
+    expect(taskOf("mock-s1")!.limitSeconds).toBe(150);
+  });
+});
+
+describe("mock exam task 2", () => {
+  it("needs one of the three topics", () => {
+    expect(taskOf("mock-s2")).toBeUndefined();
+    expect(taskOf("mock-s2", "garden")).toBeUndefined();
+    expect(taskOf("mock-s2", "toString")).toBeUndefined();
+    expect(taskOf("mock-s2", ["home"])).toBeUndefined();
+    expect(taskOf("mock-s2", "home")?.id).toBe("mock-s2");
+    expect(taskOf("u1", "home")?.id).toBe("u1");
+  });
+
+  it("makes Lucía give the home topic's three points and listen", () => {
+    const instructions = instructionsOf(taskOf("mock-s2", "home")!);
+
+    expect(instructions).toContain(
+      "Eres una entrevistadora amable. El estudiante habla de su casa y tú escuchas.",
+    );
+
+    expect(instructions).toContain(
+      "1. Háblame de tu casa: dónde está, qué habitaciones hay y cuál es tu habitación favorita.\nNo hagas preguntas de seguimiento",
+    );
+
+    expect(instructions).not.toContain("Haz exactamente estas");
+  });
+
+  it("gives each topic its own task sentence", () => {
+    expect(taskOf("mock-s2", "studies")!.asks).toEqual([
+      "Háblame de tus estudios: tu escuela, tus profesores y tu horario.",
+    ]);
+
+    expect(taskOf("mock-s2", "freeTime")!.asks).toEqual([
+      "Háblame de tu tiempo libre: qué actividades haces, cuándo las haces y con quién.",
+    ]);
+
+    expect(instructionsOf(taskOf("mock-s2", "freeTime")!)).toContain(
+      "El estudiante habla de su tiempo libre y tú escuchas.",
+    );
+  });
+
+  it("grades the three points of the chosen topic", () => {
+    expect(schemaOf(taskOf("mock-s2", "home")!).required).toEqual([
+      "location",
+      "rooms",
+      "favorite",
+    ]);
+
+    expect(schemaOf(taskOf("mock-s2", "studies")!).required).toEqual([
+      "school",
+      "teachers",
+      "timetable",
+    ]);
+
+    expect(schemaOf(taskOf("mock-s2", "freeTime")!).required).toEqual([
+      "activities",
+      "when",
+      "withWhom",
+    ]);
+
+    const rubric = rubricOf(taskOf("mock-s2", "home")!);
+
+    expect(rubric).toMatch(/^You grade a DELE A1 Spanish learner's short spoken presentation/);
+
+    expect(rubric).toContain(
+      "The examiner asked the learner to talk about their home for two to three minutes: where it is, which rooms it has and which room is their favourite.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Mi casa está cerca del centro", "Tiene dos dormitorios, un salón y una cocina" or "Me gusta el salón porque tiene una ventana grande" is correct.',
+    );
+
+    expect(rubric).toContain(
+      'with errors, for example "Mi casa es en el centro y tiene dos dormitorio".',
+    );
+
+    expect(rubricOf(taskOf("mock-s2", "studies")!)).toContain(
+      "The examiner asked the learner to talk about their studies for two to three minutes: their school, their teachers and their timetable.",
+    );
+
+    expect(rubricOf(taskOf("mock-s2", "freeTime")!)).toContain(
+      "The examiner asked the learner to talk about their free time for two to three minutes: which activities they do, when they do them and with whom.",
+    );
+  });
+
+  it("closes after three and a half minutes for every topic", () => {
+    expect(taskOf("mock-s2", "home")!.limitSeconds).toBe(210);
+    expect(taskOf("mock-s2", "studies")!.limitSeconds).toBe(210);
+    expect(taskOf("mock-s2", "freeTime")!.limitSeconds).toBe(210);
+  });
+});
+
+describe("mock exam task 3", () => {
+  it("needs one of the three topics", () => {
+    expect(taskOf("mock-s3")).toBeUndefined();
+    expect(taskOf("mock-s3", "garden")).toBeUndefined();
+    expect(taskOf("mock-s3", "studies")?.id).toBe("mock-s3");
+  });
+
+  it("makes Lucía ask the home topic's two follow-ups, then answer two questions back", () => {
+    const instructions = instructionsOf(taskOf("mock-s3", "home")!);
+
+    expect(instructions).toContain(
+      "Eres una entrevistadora amable y conversas con el estudiante sobre su casa. Cuando el estudiante te haga dos preguntas sobre tu casa, responde a cada pregunta con una frase corta, por ejemplo «Vivo con mi marido» y «Cerca de mi casa hay un parque», y después despídete.",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas tres preguntas");
+
+    expect(instructions).toContain(
+      `1. ¿Con quién vives?
+2. ¿Qué hay cerca de tu casa?
+3. Ahora, hazme dos preguntas sobre mi casa.`,
+    );
+
+    expect(instructions).toContain("Después de la tercera respuesta, despídete");
+
+    expect(greetingOf(taskOf("mock-s3", "home")!)).toMatch(
+      /Después pregunta «¿Con quién vives\?» y escucha\.$/,
+    );
+  });
+
+  it("asks the follow-ups of the other topics", () => {
+    expect(taskOf("mock-s3", "studies")!.asks).toEqual([
+      "¿Por qué estudias español?",
+      "¿Cómo es tu profesor o tu profesora?",
+      "Ahora, hazme dos preguntas sobre mis estudios.",
+    ]);
+
+    expect(taskOf("mock-s3", "freeTime")!.asks).toEqual([
+      "¿Qué haces los domingos?",
+      "¿Qué no te gusta hacer?",
+      "Ahora, hazme dos preguntas sobre mi tiempo libre.",
+    ]);
+
+    expect(instructionsOf(taskOf("mock-s3", "studies")!)).toContain(
+      "por ejemplo «Estudio inglés porque me gusta viajar» y «Mi profesor es muy simpático»",
+    );
+
+    expect(instructionsOf(taskOf("mock-s3", "freeTime")!)).toContain(
+      "por ejemplo «Los domingos paseo por el parque» y «No me gusta cocinar»",
+    );
+  });
+
+  it("grades the two answers and the two questions of the chosen topic", () => {
+    expect(schemaOf(taskOf("mock-s3", "home")!).required).toEqual([
+      "withWhom",
+      "nearby",
+      "questions",
+    ]);
+
+    expect(schemaOf(taskOf("mock-s3", "studies")!).required).toEqual([
+      "reason",
+      "teacher",
+      "questions",
+    ]);
+
+    expect(schemaOf(taskOf("mock-s3", "freeTime")!).required).toEqual([
+      "sundays",
+      "dislikes",
+      "questions",
+    ]);
+
+    const rubric = rubricOf(taskOf("mock-s3", "home")!);
+
+    expect(rubric).toMatch(
+      /^You grade a DELE A1 Spanish learner's answers in a short spoken conversation/,
+    );
+
+    expect(rubric).toContain(
+      "The examiner, a friendly interviewer, asked two questions about the learner's home, who they live with and what there is nearby, and then asked the learner for two questions about the examiner's home. The questions count only when the learner asks the examiner both questions, not when the examiner gives the answers unasked.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Vivo con mi hermana", "Cerca hay una biblioteca y un parque" or "¿Dónde vives tú? ¿Cómo es tu casa?" is correct.',
+    );
+
+    expect(rubric).toContain(
+      'with errors, for example "Cerca de mi casa está un parque y una biblioteca".',
+    );
+
+    expect(rubricOf(taskOf("mock-s3", "studies")!)).toContain(
+      "asked two questions about the learner's studies, why they study Spanish and what their teacher is like, and then asked the learner for two questions about the examiner's studies.",
+    );
+
+    expect(rubricOf(taskOf("mock-s3", "freeTime")!)).toContain(
+      "asked two questions about the learner's free time, what they do on Sundays and what they do not like doing, and then asked the learner for two questions about the examiner's free time.",
+    );
+  });
+
+  it("closes after four and a half minutes, the most a Vercel Hobby function allows", () => {
+    expect(taskOf("mock-s3", "home")!.limitSeconds).toBe(270);
+    expect(taskOf("mock-s3", "freeTime")!.limitSeconds).toBe(270);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -661,6 +905,13 @@ describe("the list", () => {
       "u10",
       "u11",
       "u12",
+      "mock-s1",
+      "mock-s2",
+      "mock-s2",
+      "mock-s2",
+      "mock-s3",
+      "mock-s3",
+      "mock-s3",
     ]);
 
     for (const task of tasks) {
@@ -689,7 +940,11 @@ describe("the template", () => {
     expect(instructions).toContain("El estudiante te presenta a su familia.");
     expect(instructions).toContain("1. Habla de tu familia.\n2. ¿Cuántas personas hay y cómo son?");
     expect(instructions).toContain("escucha sin interrumpir");
-    expect(instructions).toContain("Solo si el estudiante calla durante más de diez segundos");
+
+    expect(instructions).toContain(
+      "Solo si el estudiante calla durante más de diez segundos, anímale una vez con una pregunta corta sobre un punto que todavía no ha dicho, por ejemplo «¿Y dónde vives?», y después escucha otra vez.",
+    );
+
     expect(instructions).not.toContain("Haz exactamente estas");
     expect(greetingOf(family)).toMatch(/Después di «Habla de tu familia.» y escucha.$/);
   });

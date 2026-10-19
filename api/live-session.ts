@@ -130,11 +130,12 @@ export const POST = async (request: Request) => {
   const body = (await request.json().catch(() => ({}))) as {
     sdp?: unknown;
     task?: unknown;
+    topic?: unknown;
     passcode?: unknown;
   };
 
   const sdp = typeof body.sdp === "string" ? body.sdp : "";
-  const task = taskOf(body.task);
+  const task = taskOf(body.task, body.topic);
   const passcode = typeof body.passcode === "string" ? body.passcode : undefined;
   const key = process.env.OPENAI_API_KEY;
 

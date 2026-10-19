@@ -20,26 +20,26 @@ const family: TaskSpec = {
 describe("unit 1", () => {
   it("keeps Lucía's instructions word for word", () => {
     expect(instructionsOf(taskOf("u1")!)).toBe(
-      `Eres Lucía, una profesora de español de España. Hablas con un estudiante de nivel A1 que practica para el DELE A1. Hablas solo en español de España, nunca en otro idioma, aunque el estudiante use otro idioma o te lo pida.
-Empiezas tú la conversación: saluda y preséntate con «Hola, soy Lucía» sin esperar a que el estudiante hable.
-Habla muy despacio, con frases muy cortas y palabras sencillas. Eres amable y natural.
-Nunca digas que eres examinadora ni que esto es un examen.
-Haz exactamente estas tres preguntas, una cada vez y en este orden:
+      `You are Lucía, a Spanish teacher from Spain. You talk with an A1 learner who is practising for the DELE A1. You speak only the Spanish of Spain, never another language, even if the learner uses another language or asks you to.
+You start the conversation: greet the learner and introduce yourself with «Hola, soy Lucía» without waiting for the learner to speak.
+Speak very slowly, in very short sentences with simple words. You are friendly and natural.
+Never say that you are an examiner or that this is an exam.
+Ask exactly these three questions, one at a time and in this order:
 1. ¿Cómo te llamas?
 2. ¿Cuántos años tienes?
 3. ¿De dónde eres?
-Después de cada respuesta di solo «Muy bien» o «Gracias» y haz la pregunta siguiente. No hagas preguntas de seguimiento, no corrijas errores, no expliques nada y no hables de otros temas.
-Si el estudiante no responde o no entiendes la respuesta, repite la misma pregunta una vez, más despacio, y después pasa a la siguiente.
-Después de la tercera respuesta, despídete con una frase corta y amable, por ejemplo «Muchas gracias. ¡Hasta luego!», y no digas nada más.
-Backchannel policy: No uses sonidos de escucha.
-Interruption policy: Si el estudiante habla, deja de hablar y escucha.
-Delegation policy: No delegues nunca. No tienes herramientas.`,
+After each answer say only «Muy bien» or «Gracias» and ask the next question. Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.
+If the learner does not answer or you do not understand the answer, repeat the same question once, more slowly, and then move on to the next one.
+After the third answer, say goodbye with a short, friendly sentence, for example «Muchas gracias. ¡Hasta luego!», and say nothing more.
+Backchannel policy: Do not make listening sounds.
+Interruption policy: If the learner speaks, stop talking and listen.
+Delegation policy: Never delegate. You have no tools.`,
     );
   });
 
   it("keeps the greeting word for word", () => {
     expect(greetingOf(taskOf("u1")!)).toBe(
-      "Empieza ahora, sin esperar al estudiante. Saluda en español y preséntate: «Hola, soy Lucía.» Después pregunta «¿Cómo te llamas?» y escucha.",
+      "Start now, without waiting for the learner. Greet them in Spanish and introduce yourself: «Hola, soy Lucía.» Then ask «¿Cómo te llamas?» and listen.",
     );
   });
 
@@ -68,10 +68,10 @@ describe("unit 2", () => {
     const instructions = instructionsOf(taskOf("u2")!);
 
     expect(instructions).toContain(
-      "Trabajas en la recepción de una escuela de español y apuntas los datos de un estudiante nuevo. Cuando el estudiante te haga sus dos preguntas, responde a cada una con una frase corta y después despídete.",
+      "You work at the reception of a Spanish school and take down the details of a new learner. When the learner asks you their two questions, answer each one with a short sentence and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cinco preguntas");
+    expect(instructions).toContain("Ask exactly these five questions");
 
     expect(instructions).toContain(
       `1. ¿Cómo te llamas? ¿Me lo deletreas, por favor?
@@ -81,10 +81,10 @@ describe("unit 2", () => {
 5. Ahora, hazme dos preguntas a mí.`,
     );
 
-    expect(instructions).toContain("Después de la quinta respuesta, despídete");
+    expect(instructions).toContain("After the fifth answer, say goodbye");
 
     expect(greetingOf(taskOf("u2")!)).toMatch(
-      /Después pregunta «¿Cómo te llamas\? ¿Me lo deletreas, por favor\?» y escucha\.$/,
+      /Then ask «¿Cómo te llamas\? ¿Me lo deletreas, por favor\?» and listen\.$/,
     );
   });
 
@@ -113,10 +113,10 @@ describe("unit 3", () => {
     const instructions = instructionsOf(taskOf("u3")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante de su familia. Cuando el estudiante te haga sus dos preguntas sobre tu familia, responde a cada una con una frase corta y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. ¿Quién hay en tu familia?
@@ -125,10 +125,10 @@ describe("unit 3", () => {
 4. Ahora, hazme dos preguntas sobre mi familia.`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
     expect(greetingOf(taskOf("u3")!)).toMatch(
-      /Después pregunta «¿Quién hay en tu familia\?» y escucha\.$/,
+      /Then ask «¿Quién hay en tu familia\?» and listen\.$/,
     );
   });
 
@@ -165,10 +165,10 @@ describe("unit 4", () => {
     const instructions = instructionsOf(taskOf("u4")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante de su casa. Cuando el estudiante te haga sus dos preguntas sobre tu casa, responde a cada una con una frase corta y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you their two questions about your home, answer each one with a short sentence and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cinco preguntas");
+    expect(instructions).toContain("Ask exactly these five questions");
 
     expect(instructions).toContain(
       `1. ¿Dónde está tu casa?
@@ -178,11 +178,9 @@ describe("unit 4", () => {
 5. Ahora, hazme dos preguntas sobre mi casa.`,
     );
 
-    expect(instructions).toContain("Después de la quinta respuesta, despídete");
+    expect(instructions).toContain("After the fifth answer, say goodbye");
 
-    expect(greetingOf(taskOf("u4")!)).toMatch(
-      /Después pregunta «¿Dónde está tu casa\?» y escucha\.$/,
-    );
+    expect(greetingOf(taskOf("u4")!)).toMatch(/Then ask «¿Dónde está tu casa\?» and listen\.$/);
   });
 
   it("grades the location, the rooms, the favorite room, where three objects are and the two questions", () => {
@@ -221,10 +219,10 @@ describe("unit 5", () => {
     const instructions = instructionsOf(taskOf("u5")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante de su día a día. Cuando el estudiante te haga sus dos preguntas sobre tu rutina, responde a cada una con una frase corta y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you their two questions about your routine, answer each one with a short sentence and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cinco preguntas");
+    expect(instructions).toContain("Ask exactly these five questions");
 
     expect(instructions).toContain(
       `1. ¿Qué haces por la mañana?
@@ -234,10 +232,10 @@ describe("unit 5", () => {
 5. Ahora, hazme dos preguntas sobre mi rutina.`,
     );
 
-    expect(instructions).toContain("Después de la quinta respuesta, despídete");
+    expect(instructions).toContain("After the fifth answer, say goodbye");
 
     expect(greetingOf(taskOf("u5")!)).toMatch(
-      /Después pregunta «¿Qué haces por la mañana\?» y escucha\.$/,
+      /Then ask «¿Qué haces por la mañana\?» and listen\.$/,
     );
   });
 
@@ -277,10 +275,10 @@ describe("unit 6", () => {
     const instructions = instructionsOf(taskOf("u6")!);
 
     expect(instructions).toContain(
-      "Eres camarera en un café de España y el estudiante es tu cliente. Si el estudiante pregunta el precio, responde con un precio sencillo, por ejemplo «Son cinco euros». Si pide la cuenta, di «Aquí tienes la cuenta» y el total. Si te da las gracias, responde «De nada».",
+      "You are a waitress in a café in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Son cinco euros». If they ask for the bill, say «Aquí tienes la cuenta» and the total. If they thank you, answer «De nada».",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. Buenos días. ¿Qué quieres tomar?
@@ -289,10 +287,10 @@ describe("unit 6", () => {
 4. ¿Qué comida te gusta?`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
     expect(greetingOf(taskOf("u6")!)).toMatch(
-      /Después pregunta «Buenos días\. ¿Qué quieres tomar\?» y escucha\.$/,
+      /Then ask «Buenos días\. ¿Qué quieres tomar\?» and listen\.$/,
     );
   });
 
@@ -419,10 +417,10 @@ describe("the template", () => {
 
     expect(instructions).toContain("El estudiante te presenta a su familia.");
     expect(instructions).toContain("1. Habla de tu familia.\n2. ¿Cuántas personas hay y cómo son?");
-    expect(instructions).toContain("escucha sin interrumpir");
-    expect(instructions).toContain("Solo si el estudiante calla durante más de diez segundos");
-    expect(instructions).not.toContain("Haz exactamente estas");
-    expect(greetingOf(family)).toMatch(/Después di «Habla de tu familia.» y escucha.$/);
+    expect(instructions).toContain("listen without interrupting");
+    expect(instructions).toContain("Only if the learner is silent for more than ten seconds");
+    expect(instructions).not.toContain("Ask exactly these");
+    expect(greetingOf(family)).toMatch(/Then say «Habla de tu familia.» and listen.$/);
   });
 
   it("grades a monologue's items with the task's own examples", () => {
@@ -442,12 +440,12 @@ describe("the template", () => {
     expect(rubric).toContain('A short answer such as "Tengo dos hermanos" is correct.');
   });
 
-  it("counts the questions of an interview in Spanish", () => {
+  it("counts the questions of an interview", () => {
     const instructions = instructionsOf({ ...family, mode: "interview", scenario: undefined });
 
-    expect(instructions).toContain("Haz exactamente estas dos preguntas");
-    expect(instructions).toContain("Después de la segunda respuesta, despídete");
-    expect(instructions).not.toContain("familia.\nHaz");
-    expect(greetingOf({ ...family, mode: "interview" })).toMatch(/Después pregunta «Habla/);
+    expect(instructions).toContain("Ask exactly these two questions");
+    expect(instructions).toContain("After the second answer, say goodbye");
+    expect(instructions).not.toContain("familia.\nAsk");
+    expect(greetingOf({ ...family, mode: "interview" })).toMatch(/Then ask «Habla/);
   });
 });

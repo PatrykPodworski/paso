@@ -4,7 +4,7 @@ export const u5: TaskSpec = {
   id: "u5",
   mode: "interview",
   scenario:
-    "Eres una entrevistadora amable y hablas con el estudiante de su día a día. Cuando el estudiante te haga sus dos preguntas sobre tu rutina, responde a cada una con una frase corta y después despídete.",
+    "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you their two questions about your routine, answer each one with a short sentence and then say goodbye.",
   asks: [
     "¿Qué haces por la mañana?",
     "¿Trabajas o estudias? ¿Qué haces?",

@@ -540,10 +540,10 @@ describe("unit 11", () => {
     const instructions = instructionsOf(taskOf("u11")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante del tiempo y de las estaciones del año. Cuando el estudiante te pregunte cuál es tu estación favorita y qué tiempo hace en tu ciudad, responde a cada pregunta con una frase corta, por ejemplo «Mi estación favorita es la primavera» y «En mi ciudad hoy hace sol», y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about the weather and the seasons of the year. When the learner asks you what your favourite season is and what the weather is like in your city, answer each question with a short sentence, for example «Mi estación favorita es la primavera» and «En mi ciudad hoy hace sol», and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. ¿Qué tiempo hace hoy?
@@ -552,11 +552,9 @@ describe("unit 11", () => {
 4. Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad.`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
-    expect(greetingOf(taskOf("u11")!)).toMatch(
-      /Después pregunta «¿Qué tiempo hace hoy\?» y escucha\.$/,
-    );
+    expect(greetingOf(taskOf("u11")!)).toMatch(/Then ask «¿Qué tiempo hace hoy\?» and listen\.$/);
   });
 
   it("grades today's weather, the favourite season, the feeling with the need, and the two questions", () => {

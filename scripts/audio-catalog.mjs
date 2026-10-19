@@ -25,9 +25,9 @@ export const phrases = [
         // Each sentence-builder tile is read on its own when the learner taps it.
         allQuestions.filter((q) => q.kind === "order").flatMap((q) => q.tokens ?? []),
         // Every practice task reads the Spanish word, completed sentence, passage or model.
-        [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(
-          (q) => q.pronunciation || q.audio || q.passage || q.answer,
-        ),
+        [...allQuestions, ...foundations, ...visualQuestions, formPractice]
+          .filter((q) => q.kind !== "live")
+          .map((q) => q.pronunciation || q.audio || q.passage || q.answer),
         // Topic flashcards: each word, then its example sentence on reveal.
         words.flatMap((t) => t.words.map((w) => w.es)),
         Object.values(examples).map((e) => e.es),

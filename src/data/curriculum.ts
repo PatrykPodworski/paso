@@ -1381,6 +1381,15 @@ const seeds: Seed[] = [
       "I explained my favorite season simply.",
       "I asked two questions.",
     ],
+    live: {
+      task: "u11",
+      prompt:
+        "Talk to Lucía, a friendly interviewer, about the weather. Say what the weather is like today, which season you like most, and how you feel and what you need. Then ask her about her favourite season and the weather in her city.",
+      answer:
+        "Hoy hace sol y calor. Me gusta el verano porque puedo nadar. Tengo calor y necesito un vaso de agua. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Ready for your next chapter",

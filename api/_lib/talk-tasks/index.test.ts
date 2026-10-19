@@ -108,6 +108,58 @@ describe("unit 2", () => {
   });
 });
 
+describe("unit 3", () => {
+  it("makes Lucía an interviewer who asks about the family in order and answers two questions back", () => {
+    const instructions = instructionsOf(taskOf("u3")!);
+
+    expect(instructions).toContain(
+      "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
+    );
+
+    expect(instructions).toContain("Ask exactly these four questions");
+
+    expect(instructions).toContain(
+      `1. ¿Quién hay en tu familia?
+2. Describe a una persona de tu familia, por favor. ¿Cómo es?
+3. ¿Qué hacéis juntos?
+4. Ahora, hazme dos preguntas sobre mi familia.`,
+    );
+
+    expect(instructions).toContain("After the fourth answer, say goodbye");
+
+    expect(greetingOf(taskOf("u3")!)).toMatch(
+      /Then ask «¿Quién hay en tu familia\?» and listen\.$/,
+    );
+  });
+
+  it("grades the family members, one person described, what they do together and the two questions", () => {
+    const rubric = rubricOf(taskOf("u3")!);
+
+    expect(schemaOf(taskOf("u3")!).required).toEqual([
+      "members",
+      "person",
+      "together",
+      "questions",
+    ]);
+
+    expect(rubric).toContain("For each of members, person, together and questions, return one of:");
+
+    expect(rubric).toContain(
+      "The description counts only when the learner says what one person is like, not only who they are, and the questions only when the learner asks the examiner two questions about her family.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Vivo con mi madre y mi hermano", "Mi madre es alta y simpática", "Los domingos vamos al parque" or "¿Tienes hermanos? ¿Dónde vive tu familia?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Mi madre es simpático".');
+  });
+
+  it("closes after three and a half minutes", () => {
+    expect(taskOf("u3")!.limitSeconds).toBe(210);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -117,7 +169,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

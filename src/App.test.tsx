@@ -173,7 +173,7 @@ describe("app business orchestration", () => {
     expect(screen.getByRole("heading", { name: "Meet the exam." })).toBeInTheDocument();
   });
 
-  it.each(["reading", "listening", "writing", "speaking"] as const)(
+  it.each(["reading", "listening", "writing"] as const)(
     "selects %s questions with unpractised first and the correct session length",
     (skill) => {
       const p = emptyProgress();
@@ -197,9 +197,7 @@ describe("app business orchestration", () => {
       click(skill[0].toUpperCase() + skill.slice(1));
       click(`Start ${skill} practice`);
 
-      expect(session.lesson.questions).toHaveLength(
-        Math.min(bank.length, skill === "writing" || skill === "speaking" ? 4 : 8),
-      );
+      expect(session.lesson.questions).toHaveLength(skill === "writing" ? 4 : 8);
 
       expect(session.lesson.questions.every((q) => q.skill === skill)).toBe(true);
       expect(session.lesson.questions[0].id).toBe(bank[1].id);

@@ -539,6 +539,58 @@ describe("unit 10", () => {
   });
 });
 
+describe("unit 11", () => {
+  it("makes Lucía a friendly interviewer who asks about the weather and seasons, then answers two questions about her own", () => {
+    const instructions = instructionsOf(taskOf("u11")!);
+
+    expect(instructions).toContain(
+      "Eres una entrevistadora amable y hablas con el estudiante del tiempo y de las estaciones del año. Cuando el estudiante te pregunte cuál es tu estación favorita y qué tiempo hace en tu ciudad, responde a cada pregunta con una frase corta, por ejemplo «Mi estación favorita es la primavera» y «En mi ciudad hoy hace sol», y después despídete.",
+    );
+
+    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+
+    expect(instructions).toContain(
+      `1. ¿Qué tiempo hace hoy?
+2. ¿Qué estación del año te gusta más?
+3. Con este tiempo, ¿cómo estás y qué necesitas?
+4. Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad.`,
+    );
+
+    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+
+    expect(greetingOf(taskOf("u11")!)).toMatch(
+      /Después pregunta «¿Qué tiempo hace hoy\?» y escucha\.$/,
+    );
+  });
+
+  it("grades today's weather, the favourite season, the feeling with the need, and the two questions", () => {
+    const rubric = rubricOf(taskOf("u11")!);
+
+    expect(schemaOf(taskOf("u11")!).required).toEqual([
+      "weather",
+      "season",
+      "feeling",
+      "questions",
+    ]);
+
+    expect(rubric).toContain("For each of weather, season, feeling and questions, return one of:");
+
+    expect(rubric).toContain(
+      "The feeling counts only when the learner says both how they feel and what they need, and the questions only when the learner asks the examiner both questions, not when the examiner gives the answers unasked.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Hoy hace sol y calor", "Me gusta el verano", "Tengo calor y necesito agua" or "¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Hoy es frío y tengo cansado".');
+  });
+
+  it("closes after three minutes", () => {
+    expect(taskOf("u11")!.limitSeconds).toBe(180);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -559,6 +611,7 @@ describe("the list", () => {
       "u8",
       "u9",
       "u10",
+      "u11",
     ]);
 
     for (const task of tasks) {

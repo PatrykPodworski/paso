@@ -275,10 +275,10 @@ describe("unit 6", () => {
     const instructions = instructionsOf(taskOf("u6")!);
 
     expect(instructions).toContain(
-      "Eres camarera en un café de España y el estudiante es tu cliente. Si el estudiante pregunta el precio, responde con un precio sencillo, por ejemplo «Son cinco euros». Si pide la cuenta, di «Aquí tienes la cuenta» y el total. Si te da las gracias, responde «De nada».",
+      "You are a waitress in a café in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Son cinco euros». If they ask for the bill, say «Aquí tienes la cuenta» and the total. If they thank you, answer «De nada».",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. Buenos días. ¿Qué quieres tomar?
@@ -287,10 +287,10 @@ describe("unit 6", () => {
 4. ¿Qué comida te gusta?`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
     expect(greetingOf(taskOf("u6")!)).toMatch(
-      /Después pregunta «Buenos días\. ¿Qué quieres tomar\?» y escucha\.$/,
+      /Then ask «Buenos días\. ¿Qué quieres tomar\?» and listen\.$/,
     );
   });
 

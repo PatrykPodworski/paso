@@ -214,6 +214,62 @@ describe("unit 4", () => {
   });
 });
 
+describe("unit 5", () => {
+  it("makes Lucía an interviewer who asks about the day in order and answers two questions back", () => {
+    const instructions = instructionsOf(taskOf("u5")!);
+
+    expect(instructions).toContain(
+      "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you their two questions about your routine, answer each one with a short sentence and then say goodbye.",
+    );
+
+    expect(instructions).toContain("Ask exactly these five questions");
+
+    expect(instructions).toContain(
+      `1. ¿Qué haces por la mañana?
+2. ¿Trabajas o estudias? ¿Qué haces?
+3. ¿Qué haces por la tarde y por la noche?
+4. ¿A qué hora te levantas, a qué hora comes y a qué hora te acuestas?
+5. Ahora, hazme dos preguntas sobre mi rutina.`,
+    );
+
+    expect(instructions).toContain("After the fifth answer, say goodbye");
+
+    expect(greetingOf(taskOf("u5")!)).toMatch(
+      /Then ask «¿Qué haces por la mañana\?» and listen\.$/,
+    );
+  });
+
+  it("grades the morning, work or studies, the evening, the times and the two questions", () => {
+    const rubric = rubricOf(taskOf("u5")!);
+
+    expect(schemaOf(taskOf("u5")!).required).toEqual([
+      "morning",
+      "work",
+      "evening",
+      "times",
+      "questions",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of morning, work, evening, times and questions, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The times count only when the learner says at what time they do things, not only what they do, and the questions only when the learner asks the examiner two questions about her routine.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Me levanto a las siete y desayuno café con pan", "Trabajo en una oficina", "Por la noche estudio español y leo un libro", "Como a las dos y me acuesto a las once" or "¿A qué hora te levantas? ¿Trabajas por la tarde?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Yo levanto a las siete".');
+  });
+
+  it("closes after three and a half minutes", () => {
+    expect(taskOf("u5")!.limitSeconds).toBe(210);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -223,7 +279,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4", "u5"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

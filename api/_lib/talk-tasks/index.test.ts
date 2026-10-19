@@ -638,18 +638,18 @@ describe("mock exam task 1", () => {
     const instructions = instructionsOf(taskOf("mock-s1")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable. El estudiante se presenta y tú escuchas su presentación.",
+      "You are a friendly interviewer. The learner introduces themselves and you listen to their introduction.",
     );
 
     expect(instructions).toContain(
-      "El estudiante habla solo. Dile la tarea con estas palabras, en este orden, y después escucha sin interrumpir:\n1. Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres.\nNo hagas preguntas de seguimiento",
+      "The learner speaks alone. Give them the task in these words, in this order, and then listen without interrupting:\n1. Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres.\nDo not ask follow-up questions",
     );
 
-    expect(instructions).not.toContain("Haz exactamente estas");
-    expect(instructions).toContain("por ejemplo «¿Y qué lenguas hablas?»");
+    expect(instructions).not.toContain("Ask exactly these");
+    expect(instructions).toContain("for example «¿Y qué lenguas hablas?»");
 
     expect(greetingOf(taskOf("mock-s1")!)).toMatch(
-      /Después di «Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres\.» y escucha\.$/,
+      /Then say «Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres\.» and listen\.$/,
     );
   });
 
@@ -700,14 +700,14 @@ describe("mock exam task 2", () => {
     const instructions = instructionsOf(taskOf("mock-s2", "home")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable. El estudiante habla de su casa y tú escuchas.",
+      "You are a friendly interviewer. The learner talks about their home and you listen.",
     );
 
     expect(instructions).toContain(
-      "1. Háblame de tu casa: dónde está, qué habitaciones hay y cuál es tu habitación favorita.\nNo hagas preguntas de seguimiento",
+      "1. Háblame de tu casa: dónde está, qué habitaciones hay y cuál es tu habitación favorita.\nDo not ask follow-up questions",
     );
 
-    expect(instructions).not.toContain("Haz exactamente estas");
+    expect(instructions).not.toContain("Ask exactly these");
   });
 
   it("gives each topic its own task sentence", () => {
@@ -720,21 +720,21 @@ describe("mock exam task 2", () => {
     ]);
 
     expect(instructionsOf(taskOf("mock-s2", "freeTime")!)).toContain(
-      "El estudiante habla de su tiempo libre y tú escuchas.",
+      "The learner talks about their free time and you listen.",
     );
   });
 
   it("nudges a silent learner about a point of the chosen topic", () => {
     expect(instructionsOf(taskOf("mock-s2", "home")!)).toContain(
-      "por ejemplo «¿Y cuál es tu habitación favorita?»",
+      "for example «¿Y cuál es tu habitación favorita?»",
     );
 
     expect(instructionsOf(taskOf("mock-s2", "studies")!)).toContain(
-      "por ejemplo «¿Y cómo es tu horario?»",
+      "for example «¿Y cómo es tu horario?»",
     );
 
     expect(instructionsOf(taskOf("mock-s2", "freeTime")!)).toContain(
-      "por ejemplo «¿Y con quién haces esas actividades?»",
+      "for example «¿Y con quién haces esas actividades?»",
     );
 
     expect(instructionsOf(taskOf("mock-s2", "studies")!)).not.toContain("dónde vives");
@@ -802,10 +802,10 @@ describe("mock exam task 3", () => {
     const instructions = instructionsOf(taskOf("mock-s3", "home")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y conversas con el estudiante sobre su casa. Cuando el estudiante te haga dos preguntas sobre tu casa, responde a cada pregunta con una frase corta, por ejemplo «Vivo con mi marido» y «Cerca de mi casa hay un parque», y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you two questions about your home, answer each question with a short sentence, for example «Vivo con mi marido» and «Cerca de mi casa hay un parque», and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas tres preguntas");
+    expect(instructions).toContain("Ask exactly these three questions");
 
     expect(instructions).toContain(
       `1. ¿Con quién vives?
@@ -813,10 +813,10 @@ describe("mock exam task 3", () => {
 3. Ahora, hazme dos preguntas sobre mi casa.`,
     );
 
-    expect(instructions).toContain("Después de la tercera respuesta, despídete");
+    expect(instructions).toContain("After the third answer, say goodbye");
 
     expect(greetingOf(taskOf("mock-s3", "home")!)).toMatch(
-      /Después pregunta «¿Con quién vives\?» y escucha\.$/,
+      /Then ask «¿Con quién vives\?» and listen\.$/,
     );
   });
 
@@ -834,11 +834,11 @@ describe("mock exam task 3", () => {
     ]);
 
     expect(instructionsOf(taskOf("mock-s3", "studies")!)).toContain(
-      "por ejemplo «Estudio inglés porque me gusta viajar» y «Mi profesor es muy simpático»",
+      "for example «Estudio inglés porque me gusta viajar» and «Mi profesor es muy simpático»",
     );
 
     expect(instructionsOf(taskOf("mock-s3", "freeTime")!)).toContain(
-      "por ejemplo «Los domingos paseo por el parque» y «No me gusta cocinar»",
+      "for example «Los domingos paseo por el parque» and «No me gusta cocinar»",
     );
   });
 
@@ -953,13 +953,13 @@ describe("the template", () => {
     expect(instructions).toContain("listen without interrupting");
 
     expect(instructions).toContain(
-      "Solo si el estudiante calla durante más de diez segundos, anímale una vez con una pregunta corta sobre un punto que todavía no ha dicho, y después escucha otra vez.",
+      "Only if the learner is silent for more than ten seconds, encourage them once with a short question about a point they have not mentioned yet, and then listen again.",
     );
 
-    expect(instructions).not.toContain("por ejemplo «¿Y");
+    expect(instructions).not.toContain("for example «¿Y");
 
     expect(instructionsOf({ ...family, nudge: "¿Y cómo es tu madre?" })).toContain(
-      "sobre un punto que todavía no ha dicho, por ejemplo «¿Y cómo es tu madre?», y después escucha otra vez.",
+      "about a point they have not mentioned yet, for example «¿Y cómo es tu madre?», and then listen again.",
     );
 
     expect(instructions).not.toContain("Ask exactly these");

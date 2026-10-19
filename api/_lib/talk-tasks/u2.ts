@@ -4,7 +4,7 @@ export const u2: TaskSpec = {
   id: "u2",
   mode: "interview",
   scenario:
-    "Trabajas en la recepción de una escuela de español y apuntas los datos de un estudiante nuevo. Cuando el estudiante te haga sus dos preguntas, responde a cada una con una frase corta y después despídete.",
+    "You work at the reception of a Spanish school and take down the details of a new learner. When the learner asks you their two questions, answer each one with a short sentence and then say goodbye.",
   asks: [
     "¿Cómo te llamas? ¿Me lo deletreas, por favor?",
     "¿Cuántos años tienes?",

@@ -7,7 +7,6 @@ import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
-import { speakQuestion } from "../test/speakQuestion";
 import { emptyProgress } from "../data/progress";
 import type { LiveScore, Question } from "../data/types";
 
@@ -113,15 +112,10 @@ it.each([
   expect(stopAudio).toHaveBeenCalledTimes(3);
 });
 
-it.each(["write", "form", "choice", "type", "speak"] as const)(
+it.each(["write", "form", "choice", "type"] as const)(
   "restores drafts only for editable productive work: %s",
   (kind) => {
-    const q =
-      kind === "form"
-        ? formPractice
-        : kind === "speak"
-          ? speakQuestion
-          : allQuestions.find((q) => q.kind === kind)!;
+    const q = kind === "form" ? formPractice : allQuestions.find((q) => q.kind === kind)!;
 
     const progress = emptyProgress();
 

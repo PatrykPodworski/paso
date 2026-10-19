@@ -1,6 +1,5 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import type { Question } from "../../data/types";
-import { Recorder } from "./Recorder";
 import type { Answer } from "./useAnswer";
 import { CHECKBOX } from "../../design-system/field";
 
@@ -12,34 +11,13 @@ type Props = {
   exam: boolean;
   feedback: boolean;
   practice: Answer;
-  onStart: () => void;
 };
 
-export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) => {
+export const PracticeChecks = ({ q, exam, feedback, practice }: Props) => {
   const ticked = new Set(practice.checks);
 
   return (
     <>
-      {q.kind === "speak" && (
-        <>
-          <Recorder
-            onRecorded={() => practice.setSpoken(true)}
-            onStart={onStart}
-            onRecordingChange={practice.setRecording}
-          />
-          {!feedback && (
-            <label className={CHECK_ROW}>
-              <input
-                type="checkbox"
-                className={`${CHECKBOX} m-[1px_3px_3px_4px]`}
-                checked={practice.spoken}
-                onChange={(e) => practice.setSpoken(e.target.checked)}
-              />
-              I practised aloud (with or without a recording).
-            </label>
-          )}
-        </>
-      )}
       {practice.productive && !exam && (
         <div className="self-checks mt-[26px] rounded-[9px] bg-sage-50 p-[19px_20px] max-md:p-[16px]">
           <Eyebrow variant="checklist" className="mb-[13px]">

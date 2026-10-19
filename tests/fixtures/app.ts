@@ -114,8 +114,6 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     for (const f of q.fields!) {
       await page.getByRole("textbox", { name: f.label, exact: true }).fill(f.example);
     }
-  } else if (q.kind === "speak") {
-    await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
   } else if (q.kind === "live") {
     const home = page.getByRole("radio", { name: /Your home/ });
 
@@ -135,7 +133,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     .getByRole("button", {
       name: exam
         ? "Save answer"
-        : ["write", "speak", "form"].includes(q.kind)
+        : ["write", "form"].includes(q.kind)
           ? "Review my practice"
           : "Check answer",
       exact: true,

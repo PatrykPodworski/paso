@@ -317,7 +317,11 @@ test("illustrated scenarios in the picture studio", async ({ page }) => {
 test("question: live talk with Lucía", async ({ page }) => {
   await mockLiveTalk(page, {
     grade: "bad",
-    items: { name: "correct", age: "understandable", country: "missing" },
+    items: [
+      { id: "name", label: "Name", level: "correct" },
+      { id: "age", label: "Age", level: "understandable" },
+      { id: "country", label: "Country", level: "missing" },
+    ],
   });
 
   await page.addInitScript(() =>

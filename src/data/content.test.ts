@@ -26,6 +26,7 @@ import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
 import examples from "./examples.json";
+import { taskOf } from "../../api/_lib/talk-tasks/index";
 
 const questions = [
   ...allQuestions,
@@ -69,6 +70,25 @@ describe("original curriculum integrity", () => {
       if (q.kind === "order") {
         expect([...q.tokens!].sort()).toEqual(q.answer.split(" ").sort());
       }
+    }
+  });
+
+  it("runs unit 1's speaking as a live talk that the server knows, and the rest as recordings", () => {
+    const speaking = units.map((u) =>
+      u.lessons.flatMap((l) => l.questions).find((q) => q.id.endsWith("-o3"))!,
+    );
+
+    expect(speaking.map((q) => q.kind)).toEqual(["live", ...Array(11).fill("speak")]);
+    expect(speaking[0].talk).toBe("u1");
+    expect(speaking[0].prompt).toMatch(/^Talk to Lucía\./);
+
+    for (const q of speaking.filter((q) => q.kind === "live")) {
+      expect(taskOf(q.talk)?.id, q.id).toBe(q.talk);
+    }
+
+    for (const q of speaking.filter((q) => q.kind === "speak")) {
+      expect(q.talk, q.id).toBeUndefined();
+      expect(q.checklist, q.id).toHaveLength(3);
     }
   });
 

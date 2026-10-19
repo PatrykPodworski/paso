@@ -24,6 +24,8 @@ type Seed = {
   speaking: string;
   speech: string;
   speechChecks: string[];
+  // Set when the unit's speaking task is a live talk with Lucía instead of a recording.
+  live?: { task: string; prompt: string; answer: string; explanation: string };
 };
 
 const seeds: Seed[] = [
@@ -141,6 +143,14 @@ const seeds: Seed[] = [
       "My words were understandable when I replayed them.",
       "I used short sentences and added simple details.",
     ],
+    live: {
+      task: "u1",
+      prompt:
+        "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
+      answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "This is me",
@@ -1538,16 +1548,15 @@ export const units: Unit[] = seeds.map((s, ui) => {
       minWords: 30,
       maxWords: 40,
     },
-    ui === 0
+    s.live
       ? {
           id: `${uid}-o3`,
           kind: "live",
           skill: "speaking",
-          prompt:
-            "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
-          answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
-          explanation:
-            "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+          prompt: s.live.prompt,
+          answer: s.live.answer,
+          explanation: s.live.explanation,
+          talk: s.live.task,
         }
       : {
           id: `${uid}-o3`,

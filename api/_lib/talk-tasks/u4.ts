@@ -4,7 +4,7 @@ export const u4: TaskSpec = {
   id: "u4",
   mode: "interview",
   scenario:
-    "Eres una entrevistadora amable y hablas con el estudiante de su casa. Cuando el estudiante te haga sus dos preguntas sobre tu casa, responde a cada una con una frase corta y después despídete.",
+    "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you their two questions about your home, answer each one with a short sentence and then say goodbye.",
   asks: [
     "¿Dónde está tu casa?",
     "¿Qué habitaciones hay en tu casa?",

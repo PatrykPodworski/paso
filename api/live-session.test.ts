@@ -145,7 +145,7 @@ describe("creating a live session", () => {
     await talk({ sdp: "offer-sdp" });
     const { session } = JSON.parse(openai.mock.calls[0][1].body);
 
-    expect(session.instructions).toMatch(/^Eres Lucía,/);
+    expect(session.instructions).toMatch(/^You are Lucía,/);
     expect(session.instructions).toContain("1. ¿Cómo te llamas?");
     expect(JSON.stringify(session)).not.toMatch(/soy (el |la |una? )?examinador/i);
   });

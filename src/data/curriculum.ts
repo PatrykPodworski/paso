@@ -886,6 +886,15 @@ const seeds: Seed[] = [
       "I used hay and estar appropriately.",
       "I asked two practical questions.",
     ],
+    live: {
+      task: "u7",
+      prompt:
+        "Talk to Lucía, a neighbour on the street. Tell her where your neighborhood is, which places it has and what you like about it, then ask her where the bank is and how far it is from the station.",
+      answer:
+        "Mi barrio está en el centro. Hay un parque, una farmacia y dos supermercados. Me gusta porque es tranquilo. ¿Dónde está el banco? ¿Está lejos de la estación?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A little shopping",

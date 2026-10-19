@@ -12,7 +12,6 @@ describe("practice lesson", () => {
     const live = allQuestions.find((q) => q.kind === "live")!;
 
     expect(practiceLesson("speaking", emptyProgress(), [])!.questions.map((q) => q.id)).toEqual([
-      "u11-o3",
       "u12-o3",
     ]);
 

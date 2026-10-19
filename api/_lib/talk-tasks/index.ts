@@ -8,8 +8,9 @@ import {
   type TaskSpec,
 } from "./base.ts";
 import { u1 } from "./u1.ts";
+import { u2 } from "./u2.ts";
 
-const TASKS = new Map<string, TaskSpec>([u1].map((task) => [task.id, task]));
+const TASKS = new Map<string, TaskSpec>([u1, u2].map((task) => [task.id, task]));
 
 export const tasks = [...TASKS.values()];
 

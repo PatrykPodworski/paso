@@ -165,10 +165,10 @@ describe("unit 4", () => {
     const instructions = instructionsOf(taskOf("u4")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante de su casa. Cuando el estudiante te haga sus dos preguntas sobre tu casa, responde a cada una con una frase corta y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you their two questions about your home, answer each one with a short sentence and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cinco preguntas");
+    expect(instructions).toContain("Ask exactly these five questions");
 
     expect(instructions).toContain(
       `1. ¿Dónde está tu casa?
@@ -178,11 +178,9 @@ describe("unit 4", () => {
 5. Ahora, hazme dos preguntas sobre mi casa.`,
     );
 
-    expect(instructions).toContain("Después de la quinta respuesta, despídete");
+    expect(instructions).toContain("After the fifth answer, say goodbye");
 
-    expect(greetingOf(taskOf("u4")!)).toMatch(
-      /Después pregunta «¿Dónde está tu casa\?» y escucha\.$/,
-    );
+    expect(greetingOf(taskOf("u4")!)).toMatch(/Then ask «¿Dónde está tu casa\?» and listen\.$/);
   });
 
   it("grades the location, the rooms, the favorite room, where three objects are and the two questions", () => {

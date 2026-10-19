@@ -113,10 +113,10 @@ describe("unit 3", () => {
     const instructions = instructionsOf(taskOf("u3")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante de su familia. Cuando el estudiante te haga sus dos preguntas sobre tu familia, responde a cada una con una frase corta y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. ¿Quién hay en tu familia?
@@ -125,10 +125,10 @@ describe("unit 3", () => {
 4. Ahora, hazme dos preguntas sobre mi familia.`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
     expect(greetingOf(taskOf("u3")!)).toMatch(
-      /Después pregunta «¿Quién hay en tu familia\?» y escucha\.$/,
+      /Then ask «¿Quién hay en tu familia\?» and listen\.$/,
     );
   });
 

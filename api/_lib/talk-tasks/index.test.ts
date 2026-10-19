@@ -331,10 +331,10 @@ describe("unit 7", () => {
     const instructions = instructionsOf(taskOf("u7")!);
 
     expect(instructions).toContain(
-      "Eres una vecina y hablas con el estudiante en la calle de su barrio. Cuando el estudiante te pregunte dónde está el banco y si está lejos de la estación, responde a cada pregunta con una frase corta, por ejemplo «El banco está enfrente de la farmacia» y «Está cerca, a cinco minutos a pie», y después despídete.",
+      "You are a neighbour and you talk with the learner in a street in their neighbourhood. When the learner asks you where the bank is and whether it is far from the station, answer each question with a short sentence, for example «El banco está enfrente de la farmacia» and «Está cerca, a cinco minutos a pie», and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. ¿Dónde está tu barrio?
@@ -343,11 +343,9 @@ describe("unit 7", () => {
 4. Ahora, pregúntame dónde está el banco y si está lejos de la estación.`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
-    expect(greetingOf(taskOf("u7")!)).toMatch(
-      /Después pregunta «¿Dónde está tu barrio\?» y escucha\.$/,
-    );
+    expect(greetingOf(taskOf("u7")!)).toMatch(/Then ask «¿Dónde está tu barrio\?» and listen\.$/);
   });
 
   it("grades the location, the places, what they like, the bank question and the distance question", () => {

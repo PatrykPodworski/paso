@@ -4,7 +4,7 @@ export const u3: TaskSpec = {
   id: "u3",
   mode: "interview",
   scenario:
-    "Eres una entrevistadora amable y hablas con el estudiante de su familia. Cuando el estudiante te haga sus dos preguntas sobre tu familia, responde a cada una con una frase corta y después despídete.",
+    "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
   asks: [
     "¿Quién hay en tu familia?",
     "Describe a una persona de tu familia, por favor. ¿Cómo es?",

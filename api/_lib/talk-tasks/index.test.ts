@@ -160,6 +160,60 @@ describe("unit 3", () => {
   });
 });
 
+describe("unit 4", () => {
+  it("makes Lucía an interviewer who asks about the home in order and answers two questions back", () => {
+    const instructions = instructionsOf(taskOf("u4")!);
+
+    expect(instructions).toContain(
+      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you their two questions about your home, answer each one with a short sentence and then say goodbye.",
+    );
+
+    expect(instructions).toContain("Ask exactly these five questions");
+
+    expect(instructions).toContain(
+      `1. ¿Dónde está tu casa?
+2. ¿Qué habitaciones hay en tu casa?
+3. ¿Cuál es tu habitación favorita? ¿Por qué?
+4. Dime dónde están tres cosas de tu casa, por ejemplo el sofá, la mesa y la cama.
+5. Ahora, hazme dos preguntas sobre mi casa.`,
+    );
+
+    expect(instructions).toContain("After the fifth answer, say goodbye");
+
+    expect(greetingOf(taskOf("u4")!)).toMatch(/Then ask «¿Dónde está tu casa\?» and listen\.$/);
+  });
+
+  it("grades the location, the rooms, the favorite room, where three objects are and the two questions", () => {
+    const rubric = rubricOf(taskOf("u4")!);
+
+    expect(schemaOf(taskOf("u4")!).required).toEqual([
+      "location",
+      "rooms",
+      "favorite",
+      "objects",
+      "questions",
+    ]);
+
+    expect(rubric).toContain(
+      "For each of location, rooms, favorite, objects and questions, return one of:",
+    );
+
+    expect(rubric).toContain(
+      "The objects count only when the learner says where three things are, not only names them, and the questions only when the learner asks the examiner two questions about her home.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Vivo en un piso en el centro", "Tiene dos habitaciones, una cocina y un salón", "Me gusta el salón porque es grande", "La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación" or "¿Dónde vives? ¿Cómo es tu casa?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "La mesa es en la cocina".');
+  });
+
+  it("closes after three and a half minutes", () => {
+    expect(taskOf("u4")!.limitSeconds).toBe(210);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -169,7 +223,7 @@ describe("the list", () => {
   });
 
   it("gives every task something to grade within Vercel's function limit", () => {
-    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3"]);
+    expect(tasks.map((t) => t.id)).toEqual(["u1", "u2", "u3", "u4"]);
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);

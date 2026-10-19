@@ -10,8 +10,9 @@ import {
 import { u1 } from "./u1.ts";
 import { u2 } from "./u2.ts";
 import { u3 } from "./u3.ts";
+import { u4 } from "./u4.ts";
 
-const TASKS = new Map<string, TaskSpec>([u1, u2, u3].map((task) => [task.id, task]));
+const TASKS = new Map<string, TaskSpec>([u1, u2, u3, u4].map((task) => [task.id, task]));
 
 export const tasks = [...TASKS.values()];
 

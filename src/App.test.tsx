@@ -317,7 +317,6 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
 
   for (const [name, skill] of [
     ["Tune your ear", "listening"],
-    ["Find your voice", "speaking"],
     ["Make it stick", "all"],
   ]) {
     fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
@@ -325,10 +324,17 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
     click("Test close session");
   }
 
-  for (const skill of ["Reading", "Listening", "Writing", "Speaking"]) {
+  for (const skill of ["Reading", "Listening", "Writing"]) {
     fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${skill}0 practised$`) }));
     expect(session.lesson.questions.every((q) => q.skill === skill.toLowerCase())).toBe(true);
     click("Test close session");
+  }
+
+  // Every speaking task is a live talk, and live talks stay out of skill practice.
+  for (const name of [/Find your voice/, /^Speaking0 practised$/]) {
+    fireEvent.click(screen.getByRole("button", { name }));
+    expect(screen.queryByRole("region", { name: "Active lesson" })).not.toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Nothing to review yet");
   }
 
   for (const name of ["Adjust your daily goal", "At your own pace", "Your Spanish journey"]) {

@@ -1,7 +1,14 @@
-import { test, expect, openLesson, answer, stabilise, capture } from "../fixtures/app";
+import {
+  test,
+  expect,
+  openLesson,
+  answer,
+  stabilise,
+  capture,
+  resumeMockExam,
+} from "../fixtures/app";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
-import { mockSections } from "../../src/data/mock";
 import type { Page } from "@playwright/test";
 import { examiner, mockLiveTalk } from "../fixtures/live";
 
@@ -227,16 +234,6 @@ test("question: image", async ({ page }) => {
   await shot(page, "question-image");
 });
 
-test("question: speaking and reflection", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
-  await shot(page, "question-speaking");
-  await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
-  await shot(page, "speaking-feedback");
-});
-
 const examCases = [
   ["reading", 0, 0, "run"],
   ["listening", 1, 0, "run"],
@@ -253,22 +250,7 @@ const examCases = [
 
 for (const [name, section, index, stage] of examCases) {
   test(`exam state: ${name}`, async ({ page }) => {
-    const run = {
-      section,
-      index,
-      stage,
-      answers: { [mockSections[0].questions[0].id]: mockSections[0].questions[0].answer },
-      deadline: new Date("2026-09-09T10:25:00+02:00").getTime(),
-      started: "2026-09-09T08:00:00Z",
-      drafts: {},
-    };
-
-    await page.addInitScript(
-      (run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)),
-      run,
-    );
-
-    await page.goto("/#exam");
+    await resumeMockExam(page, { section, index, stage });
     await shot(page, `exam-${name}`);
 
     if (name === "reading") {
@@ -291,8 +273,7 @@ test("microphone denial", async ({ page }) => {
     };
   });
 
-  await page.goto("/");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
+  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
   await page.getByRole("button", { name: "Record your answer" }).click();
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
   await shot(page, "microphone-denied");

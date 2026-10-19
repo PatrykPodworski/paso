@@ -1505,6 +1505,15 @@ const seeds: Seed[] = [
       "I could answer questions and ask two of my own.",
       "I stayed understandable and requested repetition if needed.",
     ],
+    live: {
+      task: "u12",
+      prompt:
+        "Talk to Lucía, a friendly interviewer, in a short exam rehearsal. Introduce yourself briefly, talk about your studies, your work or your home, answer two questions about it, and then ask her two questions about the same topic. The full oral exam is in the mock exam.",
+      answer:
+        "Me llamo Pablo, soy polaco, tengo veinticinco años y vivo en Madrid. Vivo en un piso pequeño con dos dormitorios y un salón. Vivo con mi hermana. Me gusta el salón porque tiene una ventana grande. ¿Dónde vives tú? ¿Cómo es tu casa?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
 ];
 

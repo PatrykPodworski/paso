@@ -38,7 +38,7 @@ export const PracticeChecks = ({ q, exam, feedback, practice }: Props) => {
       )}
       {practice.productive && !exam && !feedback && (
         <p className="mt-[22px] text-[13px] leading-[1.6] text-sage-800">
-          AI feedback on your writing and speaking is coming soon.
+          AI feedback on your writing is coming soon.
         </p>
       )}
     </>

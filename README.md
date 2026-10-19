@@ -76,7 +76,7 @@ rather than components, so the units, lessons and exercises live under
 | `src/data/mock.ts`       | Exam rehearsal and personal form          |
 | `src/data/progress.ts`   | Scoring, persistence, writing checks      |
 | `src/data/research.ts`   | The source-linked readiness map           |
-| `src/components/`        | Question types, exam, audio, recorder     |
+| `src/components/`        | Question types, exam, audio, live talk    |
 | `public/audio/`          | Generated speech and its manifest         |
 | `api/`                   | Live examiner session and talk scoring    |
 

@@ -23,7 +23,7 @@ const write = (text: string) =>
 
 it("counts ticked self-review points and hides the coming-soon note after review", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
-  const note = "AI feedback on your writing and speaking is coming soon.";
+  const note = "AI feedback on your writing is coming soon.";
 
   expect(screen.getByText(note)).toBeInTheDocument();
   fireEvent.click(screen.getByRole("checkbox", { name: writing.checklist![0] }));

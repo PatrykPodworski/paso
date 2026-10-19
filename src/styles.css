@@ -84,16 +84,10 @@
   --color-blue-950: #29353a;
   --color-yellow-300: #f5d37a;
   --animate-wave: wave 0.65s ease-in-out infinite alternate;
-  --animate-ring-pulse: ring-pulse 1.5s ease-in-out infinite;
 
   @keyframes wave {
     to {
       transform: scaleY(0.35);
-    }
-  }
-  @keyframes ring-pulse {
-    50% {
-      box-shadow: 0 0 0 5px --alpha(var(--color-coral-700) / 14%);
     }
   }
 }

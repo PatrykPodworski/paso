@@ -439,10 +439,10 @@ describe("unit 9", () => {
     const instructions = instructionsOf(taskOf("u9")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante de su tiempo libre. Cuando el estudiante te invite a una actividad, acepta con una frase corta, por ejemplo «Sí, gracias. Buena idea». Cuando te pregunte qué te gusta hacer, responde con una frase corta, por ejemplo «Me gusta leer y pasear», y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about their free time. When the learner invites you to an activity, accept with a short sentence, for example «Sí, gracias. Buena idea». When they ask you what you like to do, answer with a short sentence, for example «Me gusta leer y pasear», and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cuatro preguntas");
+    expect(instructions).toContain("Ask exactly these four questions");
 
     expect(instructions).toContain(
       `1. ¿Qué te gusta hacer en tu tiempo libre?
@@ -451,10 +451,10 @@ describe("unit 9", () => {
 4. Y ahora, pregúntame qué me gusta hacer a mí.`,
     );
 
-    expect(instructions).toContain("Después de la cuarta respuesta, despídete");
+    expect(instructions).toContain("After the fourth answer, say goodbye");
 
     expect(greetingOf(taskOf("u9")!)).toMatch(
-      /Después pregunta «¿Qué te gusta hacer en tu tiempo libre\?» y escucha\.$/,
+      /Then ask «¿Qué te gusta hacer en tu tiempo libre\?» and listen\.$/,
     );
   });
 

@@ -4,7 +4,7 @@ export const mockS1: TaskSpec = {
   id: "mock-s1",
   mode: "monologue",
   scenario:
-    "Eres una entrevistadora amable. El estudiante se presenta y tú escuchas su presentación.",
+    "You are a friendly interviewer. The learner introduces themselves and you listen to their introduction.",
   asks: [
     "Preséntate, por favor: dime cómo te llamas, tu nacionalidad, cuántos años tienes, dónde vives, en qué trabajas o qué estudias, qué lenguas hablas y cómo eres.",
   ],

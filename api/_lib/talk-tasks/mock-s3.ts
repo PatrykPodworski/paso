@@ -1,9 +1,8 @@
 import type { TaskItem, TaskSpec, Topic } from "./base.ts";
 
 type TopicTask = {
-  // The topic as Lucía names it, the learner's ("su casa") and her own ("tu casa"), and as
-  // the rubric names it ("home").
-  theirs: string;
+  // The topic as Lucía names her own in Spanish ("tu casa"), and as the instructions and the
+  // rubric name it ("home").
   hers: string;
   about: string;
   // Lucía's own short answers to the learner's two questions.
@@ -17,7 +16,6 @@ type TopicTask = {
 };
 
 const spec = ({
-  theirs,
   hers,
   about,
   replies,
@@ -29,7 +27,7 @@ const spec = ({
 }: TopicTask): TaskSpec => ({
   id: "mock-s3",
   mode: "interview",
-  scenario: `Eres una entrevistadora amable y conversas con el estudiante sobre ${theirs}. Cuando el estudiante te haga dos preguntas sobre ${hers}, responde a cada pregunta con una frase corta, por ejemplo «${replies[0]}» y «${replies[1]}», y después despídete.`,
+  scenario: `You are a friendly interviewer and you talk with the learner about their ${about}. When the learner asks you two questions about your ${about}, answer each question with a short sentence, for example «${replies[0]}» and «${replies[1]}», and then say goodbye.`,
   asks: [...questions, `Ahora, hazme dos preguntas sobre ${hers.replace(/^tu/, "mi")}.`],
   items: [
     ...items,
@@ -42,7 +40,6 @@ const spec = ({
 
 export const mockS3: Record<Topic, TaskSpec> = {
   home: spec({
-    theirs: "su casa",
     hers: "tu casa",
     about: "home",
     replies: ["Vivo con mi marido", "Cerca de mi casa hay un parque"],
@@ -60,7 +57,6 @@ export const mockS3: Record<Topic, TaskSpec> = {
     flawed: "Cerca de mi casa está un parque y una biblioteca",
   }),
   studies: spec({
-    theirs: "sus estudios",
     hers: "tus estudios",
     about: "studies",
     replies: ["Estudio inglés porque me gusta viajar", "Mi profesor es muy simpático"],
@@ -82,7 +78,6 @@ export const mockS3: Record<Topic, TaskSpec> = {
     flawed: "Estudio español porque me gusta el viajar y mi profesor es simpática",
   }),
   freeTime: spec({
-    theirs: "su tiempo libre",
     hers: "tu tiempo libre",
     about: "free time",
     replies: ["Los domingos paseo por el parque", "No me gusta cocinar"],

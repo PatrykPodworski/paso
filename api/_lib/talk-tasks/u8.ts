@@ -4,7 +4,7 @@ export const u8: TaskSpec = {
   id: "u8",
   mode: "interview",
   scenario:
-    "Eres dependienta en una tienda de ropa de España y el estudiante es tu cliente. Si el estudiante pregunta el precio, responde con un precio sencillo, por ejemplo «Cuesta veinte euros». Si pregunta si puede pagar con tarjeta, di «Sí, claro». Si te da las gracias, responde «De nada».",
+    "You are a shop assistant in a clothes shop in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Cuesta veinte euros». If they ask whether they can pay by card, say «Sí, claro». If they thank you, answer «De nada».",
   asks: [
     "Buenos días. ¿Qué buscas?",
     "¿De qué color y de qué talla?",

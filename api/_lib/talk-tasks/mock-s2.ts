@@ -1,8 +1,7 @@
 import type { TaskItem, TaskSpec, Topic } from "./base.ts";
 
 type TopicTask = {
-  // The topic as Lucía names it ("su casa") and as the rubric names it ("their home").
-  about: string;
+  // The topic as the instructions and the rubric name it ("their home").
   their: string;
   ask: string;
   nudge: string;
@@ -12,10 +11,10 @@ type TopicTask = {
   flawed: string;
 };
 
-const spec = ({ about, their, ask, nudge, points, items, flawed }: TopicTask): TaskSpec => ({
+const spec = ({ their, ask, nudge, points, items, flawed }: TopicTask): TaskSpec => ({
   id: "mock-s2",
   mode: "monologue",
-  scenario: `Eres una entrevistadora amable. El estudiante habla de ${about} y tú escuchas.`,
+  scenario: `You are a friendly interviewer. The learner talks about ${their} and you listen.`,
   asks: [ask],
   nudge,
   items,
@@ -26,7 +25,6 @@ const spec = ({ about, their, ask, nudge, points, items, flawed }: TopicTask): T
 
 export const mockS2: Record<Topic, TaskSpec> = {
   home: spec({
-    about: "su casa",
     their: "their home",
     ask: "Háblame de tu casa: dónde está, qué habitaciones hay y cuál es tu habitación favorita.",
     nudge: "¿Y cuál es tu habitación favorita?",
@@ -43,7 +41,6 @@ export const mockS2: Record<Topic, TaskSpec> = {
     flawed: "Mi casa es en el centro y tiene dos dormitorio",
   }),
   studies: spec({
-    about: "sus estudios",
     their: "their studies",
     ask: "Háblame de tus estudios: tu escuela, tus profesores y tu horario.",
     nudge: "¿Y cómo es tu horario?",
@@ -64,7 +61,6 @@ export const mockS2: Record<Topic, TaskSpec> = {
     flawed: "Mi profesor es simpática y la clase es en lunes",
   }),
   freeTime: spec({
-    about: "su tiempo libre",
     their: "their free time",
     ask: "Háblame de tu tiempo libre: qué actividades haces, cuándo las haces y con quién.",
     nudge: "¿Y con quién haces esas actividades?",

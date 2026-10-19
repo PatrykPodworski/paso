@@ -590,10 +590,10 @@ describe("unit 12", () => {
     const instructions = instructionsOf(taskOf("u12")!);
 
     expect(instructions).toContain(
-      "Eres una entrevistadora amable y hablas con el estudiante sobre él y sobre sus estudios, su trabajo o su casa, el tema que el estudiante elija. Cuando el estudiante te haga dos preguntas sobre ese tema, responde a cada pregunta con una frase corta, por ejemplo «Vivo en un piso pequeño en Madrid» y «Me gusta mi casa porque es tranquila», y después despídete.",
+      "You are a friendly interviewer and you talk with the learner about themselves and about their studies, their work or their home, whichever topic the learner chooses. When the learner asks you two questions about that topic, answer each question with a short sentence, for example «Vivo en un piso pequeño en Madrid» and «Me gusta mi casa porque es tranquila», and then say goodbye.",
     );
 
-    expect(instructions).toContain("Haz exactamente estas cinco preguntas");
+    expect(instructions).toContain("Ask exactly these five questions");
 
     expect(instructions).toContain(
       `1. Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives?
@@ -603,10 +603,10 @@ describe("unit 12", () => {
 5. Ahora, hazme dos preguntas sobre ese tema.`,
     );
 
-    expect(instructions).toContain("Después de la quinta respuesta, despídete");
+    expect(instructions).toContain("After the fifth answer, say goodbye");
 
     expect(greetingOf(taskOf("u12")!)).toMatch(
-      /Después pregunta «Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives\?» y escucha\.$/,
+      /Then ask «Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives\?» and listen\.$/,
     );
   });
 

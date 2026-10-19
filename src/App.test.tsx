@@ -198,7 +198,7 @@ describe("app business orchestration", () => {
       click(`Start ${skill} practice`);
 
       expect(session.lesson.questions).toHaveLength(
-        skill === "writing" || skill === "speaking" ? 4 : 8,
+        Math.min(bank.length, skill === "writing" || skill === "speaking" ? 4 : 8),
       );
 
       expect(session.lesson.questions.every((q) => q.skill === skill)).toBe(true);

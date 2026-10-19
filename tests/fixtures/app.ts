@@ -2,7 +2,7 @@ import { test as base, expect, type Locator, type Page } from "@playwright/test"
 import { allLessons } from "../../src/data/curriculum";
 import { mockSections } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
-import { talkToLucia } from "./live";
+import { answerTalk } from "./live";
 
 export const test = base.extend<{ blockExternal: void }>({
   blockExternal: [
@@ -115,14 +115,7 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
       await page.getByRole("textbox", { name: f.label, exact: true }).fill(f.example);
     }
   } else if (q.kind === "live") {
-    const home = page.getByRole("radio", { name: /Your home/ });
-
-    if (await home.isVisible()) {
-      await home.check();
-    }
-
-    await talkToLucia(page);
-    await page.getByRole("button", { name: "Continue", exact: true }).click();
+    await answerTalk(page);
 
     return;
   } else {

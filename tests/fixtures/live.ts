@@ -82,5 +82,17 @@ export const talkToLucia = async (page: Page) => {
   await examiner(page, { type: "session.closed", reason: "close_requested" });
 };
 
+// Answers a live question of the exam: picks the home topic when asked, talks, continues.
+export const answerTalk = async (page: Page) => {
+  const home = page.getByRole("radio", { name: /Your home/ });
+
+  if (await home.isVisible()) {
+    await home.check();
+  }
+
+  await talkToLucia(page);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+};
+
 export const sentEvents = (page: Page) =>
   page.evaluate(() => (window as any).__live.sent.map((s: string) => JSON.parse(s).type));

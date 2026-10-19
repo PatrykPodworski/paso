@@ -25,8 +25,8 @@ export const tasks = [...TASKS.values()];
 
 export const taskOf = (id: unknown) => (typeof id === "string" ? TASKS.get(id) : undefined);
 
-const COUNTS = ["una", "dos", "tres", "cuatro", "cinco", "seis"];
-const ORDINALS = ["primera", "segunda", "tercera", "cuarta", "quinta", "sexta"];
+const COUNTS = ["one", "two", "three", "four", "five", "six"];
+const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth"];
 const LEVELS = ["correct", "understandable", "missing"];
 
 const numbered = (asks: string[]) => asks.map((ask, i) => `${i + 1}. ${ask}`);
@@ -38,19 +38,19 @@ const join = (words: string[], last: string) =>
 const quoted = (words: string[]) => words.map((w) => `"${w}"`);
 
 const interview = (task: TaskSpec) => [
-  `Haz exactamente estas ${COUNTS[task.asks.length - 1]} preguntas, una cada vez y en este orden:`,
+  `Ask exactly these ${COUNTS[task.asks.length - 1]} questions, one at a time and in this order:`,
   ...numbered(task.asks),
-  "Después de cada respuesta di solo «Muy bien» o «Gracias» y haz la pregunta siguiente. No hagas preguntas de seguimiento, no corrijas errores, no expliques nada y no hables de otros temas.",
-  "Si el estudiante no responde o no entiendes la respuesta, repite la misma pregunta una vez, más despacio, y después pasa a la siguiente.",
-  `Después de la ${ORDINALS[task.asks.length - 1]} respuesta, ${farewell}`,
+  "After each answer say only «Muy bien» or «Gracias» and ask the next question. Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.",
+  "If the learner does not answer or you do not understand the answer, repeat the same question once, more slowly, and then move on to the next one.",
+  `After the ${ORDINALS[task.asks.length - 1]} answer, ${farewell}`,
 ];
 
 const monologue = (task: TaskSpec) => [
-  "El estudiante habla solo. Dile la tarea con estas palabras, en este orden, y después escucha sin interrumpir:",
+  "The learner speaks alone. Give them the task in these words, in this order, and then listen without interrupting:",
   ...numbered(task.asks),
-  "No hagas preguntas de seguimiento, no corrijas errores, no expliques nada y no hables de otros temas.",
-  "Solo si el estudiante calla durante más de diez segundos, anímale con una frase corta, por ejemplo «Sigue, por favor».",
-  `Cuando el estudiante termine, ${farewell}`,
+  "Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.",
+  "Only if the learner is silent for more than ten seconds, encourage them with a short sentence, for example «Sigue, por favor».",
+  `When the learner finishes, ${farewell}`,
 ];
 
 export const instructionsOf = (task: TaskSpec) =>
@@ -62,7 +62,7 @@ export const instructionsOf = (task: TaskSpec) =>
   ].join("\n");
 
 export const greetingOf = (task: TaskSpec) =>
-  `${greetingStart} Después ${task.mode === "interview" ? "pregunta" : "di"} «${task.asks[0]}» y escucha.`;
+  `${greetingStart} Then ${task.mode === "interview" ? "ask" : "say"} «${task.asks[0]}» and listen.`;
 
 export const rubricOf = (task: TaskSpec) => {
   const [frame, turns] = rubricFrame[task.mode];

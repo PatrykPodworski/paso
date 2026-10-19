@@ -6,7 +6,7 @@ import { greetingOf, instructionsOf, rubricOf, schemaOf, taskOf, tasks } from ".
 const family: TaskSpec = {
   id: "family",
   mode: "monologue",
-  scenario: "El estudiante te presenta a su familia.",
+  scenario: "The learner introduces their family to you.",
   asks: ["Habla de tu familia.", "¿Cuántas personas hay y cómo son?"],
   items: [
     { id: "members", label: "Family members", example: "Tengo dos hermanos" },
@@ -948,7 +948,7 @@ describe("the template", () => {
   it("tells Lucía to give a monologue task, listen and nudge only after a silence", () => {
     const instructions = instructionsOf(family);
 
-    expect(instructions).toContain("El estudiante te presenta a su familia.");
+    expect(instructions).toContain("The learner introduces their family to you.");
     expect(instructions).toContain("1. Habla de tu familia.\n2. ¿Cuántas personas hay y cómo son?");
     expect(instructions).toContain("listen without interrupting");
 
@@ -988,7 +988,7 @@ describe("the template", () => {
 
     expect(instructions).toContain("Ask exactly these two questions");
     expect(instructions).toContain("After the second answer, say goodbye");
-    expect(instructions).not.toContain("familia.\nAsk");
+    expect(instructions).not.toContain("to you.\nAsk");
     expect(greetingOf({ ...family, mode: "interview" })).toMatch(/Then ask «Habla/);
   });
 });

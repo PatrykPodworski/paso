@@ -1258,6 +1258,15 @@ const seeds: Seed[] = [
       "I requested the type of room and number of nights.",
       "My numbers and time expressions were clear.",
     ],
+    live: {
+      task: "u10",
+      prompt:
+        "Talk to Lucía, first a ticket clerk at the station, then a hotel receptionist. Buy a ticket, ask the departure time and the price, then ask for a room for two people for three nights.",
+      answer:
+        "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Buenas tardes. Quiero una habitación para dos personas, para tres noches. Gracias.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Come rain or shine",

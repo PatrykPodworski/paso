@@ -101,13 +101,20 @@ const replies = (session: Response, score?: object) =>
     url === "/api/live-session" ? session : Response.json(score),
   );
 
-const started = () => Response.json({ sdp: "answer-sdp", greeting: "Saluda." }, { status: 201 });
+const started = (limitSeconds = 120) =>
+  Response.json({ sdp: "answer-sdp", greeting: "Saluda.", limitSeconds }, { status: 201 });
+
+const graded = (name: string, age: string, country: string) => [
+  { id: "name", label: "Name", level: name },
+  { id: "age", label: "Age", level: age },
+  { id: "country", label: "Country", level: country },
+];
 
 const mount = () => {
   const onEvaluated = vi.fn();
   const onSubmit = vi.fn();
 
-  render(<LiveTalk onEvaluated={onEvaluated} onSubmit={onSubmit} />);
+  render(<LiveTalk task="u1" onEvaluated={onEvaluated} onSubmit={onSubmit} />);
 
   return { onEvaluated, onSubmit };
 };
@@ -177,11 +184,11 @@ afterEach(() => {
 
 describe("a live talk", () => {
   it("connects, shows only the status during the talk and closes on request", async () => {
-    replies(started(), { grade: "perfect", items: {} });
+    replies(started(), { grade: "perfect", items: [] });
     mount();
     await talk();
 
-    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp" });
+    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp", task: "u1" });
     expect(remote).toEqual({ type: "answer", sdp: "answer-sdp" });
     expect(screen.getByRole("status")).toHaveTextContent("Live");
     expect(screen.queryByText("Me llamo Ana.")).toBeNull();
@@ -196,7 +203,11 @@ describe("a live talk", () => {
   it("scores the transcript after the talk and records a passing grade", async () => {
     replies(started(), {
       grade: "good",
-      items: { name: "correct", age: "understandable", country: "correct" },
+      items: [
+        { id: "name", label: "Name", level: "correct" },
+        { id: "age", label: "Age", level: "understandable" },
+        { id: "home", label: "Home town", level: "correct" },
+      ],
     });
 
     const { onEvaluated, onSubmit } = mount();
@@ -207,6 +218,7 @@ describe("a live talk", () => {
     expect(stopped).toEqual(["mic", "peer"]);
 
     expect(body("/api/score-talk")).toEqual({
+      task: "u1",
       turns: [
         { role: "examiner", text: "¿Cómo te llamas?" },
         { role: "student", text: "Me llamo Ana." },
@@ -216,7 +228,7 @@ describe("a live talk", () => {
     expect(await screen.findByRole("heading", { name: "Good. You passed." })).toBeVisible();
 
     expect(screen.getByRole("list", { name: "Your answers" })).toHaveTextContent(
-      "NameCorrectAgeUnderstandable, with mistakesCountryCorrect",
+      "NameCorrectAgeUnderstandable, with mistakesHome townCorrect",
     );
 
     expect(screen.getByRole("list", { name: "Transcript" })).not.toBeVisible();
@@ -240,10 +252,7 @@ describe("a live talk", () => {
   });
 
   it("asks for another talk after a bad grade", async () => {
-    replies(started(), {
-      grade: "bad",
-      items: { name: "correct", age: "missing", country: "missing" },
-    });
+    replies(started(), { grade: "bad", items: graded("correct", "missing", "missing") });
 
     const { onEvaluated } = mount();
 
@@ -254,12 +263,14 @@ describe("a live talk", () => {
       await screen.findByRole("heading", { name: "Not yet. Talk again to pass." }),
     ).toBeVisible();
 
+    expect(screen.getByText(/Lucía did not get everything she asked for\./)).toBeVisible();
+
     expect(onEvaluated.mock.calls[0].slice(1)).toEqual([false, false, "bad"]);
     expect(screen.getByRole("button", { name: "Talk again" })).toBeEnabled();
   });
 
   it("offers to score again when scoring fails", async () => {
-    replies(started(), { grade: "perfect", items: {} });
+    replies(started(), { grade: "perfect", items: [] });
     api.mockImplementationOnce(async () => started());
     api.mockImplementationOnce(async () => new Response("{}", { status: 502 }));
     mount();
@@ -273,7 +284,7 @@ describe("a live talk", () => {
 
 describe("access", () => {
   it("uses the free talk once and then asks for the passcode", async () => {
-    replies(started(), { grade: "perfect", items: {} });
+    replies(started(), { grade: "perfect", items: [] });
     mount();
     await talk();
 
@@ -285,14 +296,14 @@ describe("access", () => {
 
   it("starts a talk with the passcode once the free talk is used", async () => {
     localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "" }));
-    replies(started(), { grade: "perfect", items: {} });
+    replies(started(), { grade: "perfect", items: [] });
     mount();
 
     expect(screen.getByRole("button", { name: "Start the talk" })).toBeDisabled();
     fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
     await talk();
 
-    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp", passcode: "olé" });
+    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp", task: "u1", passcode: "olé" });
     expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
   });
 
@@ -305,7 +316,7 @@ describe("access", () => {
         ? started()
         : ++scores === 1
           ? new Response("{}", { status: 502 })
-          : Response.json({ grade: "perfect", items: {} }),
+          : Response.json({ grade: "perfect", items: [] }),
     );
 
     mount();
@@ -378,6 +389,21 @@ describe("connection", () => {
     expect(speakers.at(-1)!.srcObject).toBe("lucia-stream");
   });
 
+  it("asks to close shortly after the limit the server returned", async () => {
+    vi.useFakeTimers();
+    replies(started(40));
+    mount();
+    await talk();
+    await act(async () => vi.advanceTimersByTime(44_999));
+
+    expect(channel.sent).toEqual([]);
+
+    await act(async () => vi.advanceTimersByTime(1));
+
+    expect(channel.sent).toEqual([JSON.stringify({ type: "session.close" })]);
+    expect(screen.getByRole("status")).toHaveTextContent("Finishing the talk…");
+  });
+
   it("counts the talk time while live", async () => {
     vi.useFakeTimers();
     replies(started());
@@ -390,10 +416,7 @@ describe("connection", () => {
   });
 
   it("scores what was said when the connection drops", async () => {
-    replies(started(), {
-      grade: "bad",
-      items: { name: "correct", age: "missing", country: "missing" },
-    });
+    replies(started(), { grade: "bad", items: graded("correct", "missing", "missing") });
 
     mount();
     await talk();
@@ -428,12 +451,13 @@ describe("connection", () => {
     mount();
 
     expect(screen.getByText("Your first live talk is free.")).toBeVisible();
+    expect(screen.getByText(/^Lucía talks with you in Spanish\./)).toBeVisible();
   });
 });
 
 describe("guards", () => {
   it("shows the turns in the order they were spoken", async () => {
-    replies(started(), { grade: "perfect", items: {} });
+    replies(started(), { grade: "perfect", items: [] });
     mount();
     await talk();
     say("examiner", "¿Cuántos años tienes?", 4000);
@@ -484,7 +508,7 @@ describe("guards", () => {
 
     await act(async () => peers.at(-1)!.gather());
 
-    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp" });
+    expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp", task: "u1" });
     expect(peers.at(-1)!.listeners).toEqual([]);
   });
 
@@ -530,10 +554,7 @@ describe("guards", () => {
   });
 
   it("scores what was said when the connection is lost mid-talk", async () => {
-    replies(started(), {
-      grade: "perfect",
-      items: { name: "correct", age: "correct", country: "correct" },
-    });
+    replies(started(), { grade: "perfect", items: graded("correct", "correct", "correct") });
 
     mount();
     await talk();

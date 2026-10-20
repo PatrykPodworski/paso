@@ -25,11 +25,12 @@ type Scoring =
   | { state: "done"; turns: TalkTurn[]; score: LiveScore };
 
 type Props = {
+  task: string;
   onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: LiveGrade) => void;
   onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
 };
 
-export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
+export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
   const talk = useLiveTalk();
   const [access, setAccess] = useState(readAccess);
   const [passcode, setPasscode] = useState(access.passcode);
@@ -43,7 +44,7 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
       const response = await fetch("/api/score-talk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ turns, passcode }),
+        body: JSON.stringify({ task, turns, passcode }),
       });
 
       if (!response.ok) {
@@ -73,7 +74,7 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
 
     const used = access.freeUsed ? passcode : undefined;
 
-    return talk.start(used, {
+    return talk.start(task, used, {
       onCreated: () => remember(null),
       onEnded: (turns) => score(turns, used),
       onFail: (code) => {
@@ -92,8 +93,8 @@ export const LiveTalk = ({ onEvaluated, onSubmit }: Props) => {
   return (
     <div className="mbs-1 rounded-lg border border-sand-200 bg-sand-100 p-5 max-md:p-4">
       <FieldNote className="mbe-4">
-        Lucía asks you three short questions in Spanish. The talk lasts about a minute and ends
-        after two. Your voice goes to OpenAI for the talk; the transcript is scored.
+        Lucía talks with you in Spanish. Your voice goes to OpenAI for the talk; the transcript is
+        scored.
       </FieldNote>
       {talk.status === "idle" && (
         <LiveStart

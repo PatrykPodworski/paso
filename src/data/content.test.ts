@@ -26,6 +26,7 @@ import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
 import examples from "./examples.json";
+import { taskOf } from "../../api/_lib/talk-tasks/index";
 
 const questions = [
   ...allQuestions,
@@ -69,6 +70,52 @@ describe("original curriculum integrity", () => {
       if (q.kind === "order") {
         expect([...q.tokens!].sort()).toEqual(q.answer.split(" ").sort());
       }
+    }
+  });
+
+  it("runs units 1 to 11's speaking as live talks that the server knows, and the rest as recordings", () => {
+    const speaking = units.map((u) =>
+      u.lessons.flatMap((l) => l.questions).find((q) => q.id.endsWith("-o3"))!,
+    );
+
+    expect(speaking.map((q) => q.kind)).toEqual([
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      "live",
+      ...Array(1).fill("speak"),
+    ]);
+
+    expect(speaking.slice(0, 11).map((q) => q.talk)).toEqual([
+      "u1",
+      "u2",
+      "u3",
+      "u4",
+      "u5",
+      "u6",
+      "u7",
+      "u8",
+      "u9",
+      "u10",
+      "u11",
+    ]);
+
+    expect(speaking[10].prompt).toMatch(/^Talk to Lucía\b/);
+
+    for (const q of speaking.filter((q) => q.kind === "live")) {
+      expect(taskOf(q.talk)?.id, q.id).toBe(q.talk);
+    }
+
+    for (const q of speaking.filter((q) => q.kind === "speak")) {
+      expect(q.talk, q.id).toBeUndefined();
+      expect(q.checklist, q.id).toHaveLength(3);
     }
   });
 

@@ -2,8 +2,9 @@ import type { TalkTurn } from "../../data/types";
 import type { Fragment } from "./transcript";
 
 type Handlers = {
-  // The server created the session, which uses up a free talk.
-  onCreated: () => void;
+  // The server created the session, which uses up a free talk, and will close it
+  // after limitSeconds.
+  onCreated: (limitSeconds: number) => void;
   // The examiner is on the line: the talk is live.
   onStarted: () => void;
   // A piece of what the examiner or the learner said.
@@ -124,7 +125,7 @@ export const createExaminerConnection = ({
   };
 
   // Resolves to an error code, or null once the session is connecting.
-  const connect = async (passcode: string | undefined) => {
+  const connect = async (task: string, passcode: string | undefined) => {
     try {
       await peer.setLocalDescription(await peer.createOffer());
       await gathered(peer);
@@ -137,17 +138,21 @@ export const createExaminerConnection = ({
       const response = await fetch("/api/live-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sdp: peer.localDescription?.sdp, passcode }),
+        body: JSON.stringify({ sdp: peer.localDescription?.sdp, task, passcode }),
       });
 
       if (!response.ok) {
         return startError(response);
       }
 
-      const answer = (await response.json()) as { sdp: string; greeting?: string };
+      const answer = (await response.json()) as {
+        sdp: string;
+        greeting?: string;
+        limitSeconds: number;
+      };
 
       greeting = answer.greeting ?? "";
-      onCreated();
+      onCreated(answer.limitSeconds);
       await peer.setRemoteDescription({ type: "answer", sdp: answer.sdp });
 
       return null;

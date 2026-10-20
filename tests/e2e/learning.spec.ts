@@ -435,7 +435,11 @@ test("listening records transcript assistance and plays bundled audio", async ({
 test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page }) => {
   await mockLiveTalk(page, {
     grade: "good",
-    items: { name: "correct", age: "understandable", country: "correct" },
+    items: [
+      { id: "name", label: "Name", level: "correct" },
+      { id: "age", label: "Age", level: "understandable" },
+      { id: "country", label: "Country", level: "correct" },
+    ],
   });
 
   const lesson = await openLesson(page, 3);

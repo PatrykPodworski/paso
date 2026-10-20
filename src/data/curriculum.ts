@@ -24,6 +24,8 @@ type Seed = {
   speaking: string;
   speech: string;
   speechChecks: string[];
+  // Set when the unit's speaking task is a live talk with Lucía instead of a recording.
+  live?: { task: string; prompt: string; answer: string; explanation: string };
 };
 
 const seeds: Seed[] = [
@@ -141,6 +143,14 @@ const seeds: Seed[] = [
       "My words were understandable when I replayed them.",
       "I used short sentences and added simple details.",
     ],
+    live: {
+      task: "u1",
+      prompt:
+        "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
+      answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "This is me",
@@ -256,6 +266,15 @@ const seeds: Seed[] = [
       "I spelled the name and spoke the digits separately.",
       "I asked two understandable questions.",
     ],
+    live: {
+      task: "u2",
+      prompt:
+        "Talk to Lucía, who takes your details. Say and spell your name, give your age and your city, say a phone number slowly (a made-up nine-digit one is fine), then ask her two questions.",
+      answer:
+        "Me llamo Elena: e, ele, e, ene, a. Tengo veintiséis años. Vivo en Bilbao. Mi teléfono es seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho. ¿Cómo te llamas? ¿Dónde vives?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "My favorite people",
@@ -371,6 +390,15 @@ const seeds: Seed[] = [
       "I added simple details instead of a list of names.",
       "I asked two questions about family.",
     ],
+    live: {
+      task: "u3",
+      prompt:
+        "Talk to Lucía about your family. Say who is in it, describe one person, say what you do together, then ask her two questions about her family.",
+      answer:
+        "Mi familia es pequeña. Vivo con mi madre y mi hermano. Mi madre es profesora, es alta y muy simpática. Los domingos vamos al parque. ¿Tienes hermanos? ¿Dónde vive tu familia?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A place called home",
@@ -485,6 +513,15 @@ const seeds: Seed[] = [
       "I located objects using estar and position words.",
       "I asked two questions.",
     ],
+    live: {
+      task: "u4",
+      prompt:
+        "Talk to Lucía about your home. Say where it is, which rooms it has and which one you like most, say where three things are, then ask her two questions about her home.",
+      answer:
+        "Vivo en un piso en el centro. Tiene dos habitaciones, una cocina y un salón. Me gusta el salón porque es grande. La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación. ¿Dónde vives? ¿Cómo es tu casa?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A day in my life",
@@ -600,6 +637,15 @@ const seeds: Seed[] = [
       "I gave clear times and used reflexive verbs.",
       "I asked two routine questions.",
     ],
+    live: {
+      task: "u5",
+      prompt:
+        "Talk to Lucía about a typical day. Say what you do in the morning, whether you work or study, and what you do in the evening, say at what time you do things, then ask her two questions about her routine.",
+      answer:
+        "Me levanto a las siete y desayuno café con pan. Trabajo en una oficina de nueve a cinco. Por la noche estudio español y leo un libro. Como a las dos y me acuesto a las once. ¿A qué hora te levantas? ¿Trabajas por la tarde?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A table for two",
@@ -715,6 +761,15 @@ const seeds: Seed[] = [
       "I asked for the price and bill politely.",
       "I expressed a preference clearly.",
     ],
+    live: {
+      task: "u6",
+      prompt:
+        "Talk to Lucía, a waiter in a café. Greet her, order food and a drink, ask the price, ask for the bill and say thank you, then tell her what food you like.",
+      answer:
+        "Buenos días. Quiero un café con leche y una tostada, por favor. ¿Cuánto es? La cuenta, por favor. Muchas gracias. Me gusta el pan con tomate.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Around the neighborhood",
@@ -831,6 +886,15 @@ const seeds: Seed[] = [
       "I used hay and estar appropriately.",
       "I asked two practical questions.",
     ],
+    live: {
+      task: "u7",
+      prompt:
+        "Talk to Lucía, a neighbour on the street. Tell her where your neighborhood is, which places it has and what you like about it, then ask her where the bank is and how far it is from the station.",
+      answer:
+        "Mi barrio está en el centro. Hay un parque, una farmacia y dos supermercados. Me gusta porque es tranquilo. ¿Dónde está el banco? ¿Está lejos de la estación?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A little shopping",
@@ -946,6 +1010,15 @@ const seeds: Seed[] = [
       "I asked two shopping questions.",
       "I expressed a preference politely.",
     ],
+    live: {
+      task: "u8",
+      prompt:
+        "Talk to Lucía, a shop assistant in a clothes shop. Ask for a garment, say which color and size you want, ask the price and whether you can pay by card, then tell her which colors you like.",
+      answer:
+        "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Life beyond work",
@@ -1060,6 +1133,15 @@ const seeds: Seed[] = [
       "I expressed likes using infinitives or nouns.",
       "I made an invitation and asked a question.",
     ],
+    live: {
+      task: "u9",
+      prompt:
+        "Talk to Lucía, a friendly interviewer, about your free time. Say what you like doing, when and with whom, then invite her to an activity and ask what she likes doing.",
+      answer:
+        "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Quieres ir al cine el domingo? ¿Qué te gusta hacer?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "A ticket to somewhere",
@@ -1176,6 +1258,15 @@ const seeds: Seed[] = [
       "I requested the type of room and number of nights.",
       "My numbers and time expressions were clear.",
     ],
+    live: {
+      task: "u10",
+      prompt:
+        "Talk to Lucía, first a ticket clerk at the station, then a hotel receptionist. Buy a ticket, ask the departure time and the price, then ask for a room for two people for three nights.",
+      answer:
+        "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Buenas tardes. Quiero una habitación para dos personas, para tres noches. Gracias.",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Come rain or shine",
@@ -1290,6 +1381,15 @@ const seeds: Seed[] = [
       "I explained my favorite season simply.",
       "I asked two questions.",
     ],
+    live: {
+      task: "u11",
+      prompt:
+        "Talk to Lucía, a friendly interviewer, about the weather. Say what the weather is like today, which season you like most, and how you feel and what you need. Then ask her about her favourite season and the weather in her city.",
+      answer:
+        "Hoy hace sol y calor. Me gusta el verano porque puedo nadar. Tengo calor y necesito un vaso de agua. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
+      explanation:
+        "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+    },
   },
   {
     title: "Ready for your next chapter",
@@ -1538,16 +1638,15 @@ export const units: Unit[] = seeds.map((s, ui) => {
       minWords: 30,
       maxWords: 40,
     },
-    ui === 0
+    s.live
       ? {
           id: `${uid}-o3`,
           kind: "live",
           skill: "speaking",
-          prompt:
-            "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
-          answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
-          explanation:
-            "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
+          prompt: s.live.prompt,
+          answer: s.live.answer,
+          explanation: s.live.explanation,
+          talk: s.live.task,
         }
       : {
           id: `${uid}-o3`,

@@ -6,11 +6,11 @@ import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 export type TalkStatus = "idle" | "microphone" | "connecting" | "live" | "ending" | "ended";
 
 // Lucía must start within CONNECT_MS of the microphone turning on, and is asked to greet
-// if she is still silent GREET_MS into the talk. The server closes a session after two
-// minutes; the client asks a little later in case it did not.
+// if she is still silent GREET_MS into the talk. The server closes a session at the
+// task's limit; the client asks GRACE_MS later in case it did not.
 const CONNECT_MS = 15_000;
 const GREET_MS = 2_500;
-const TALK_MS = 125_000;
+const GRACE_MS = 5_000;
 const CLOSE_MS = 15_000;
 
 type Handlers = {
@@ -23,6 +23,8 @@ type Connection = {
   examiner: ReturnType<typeof createExaminerConnection>;
   handlers: Handlers;
   live: boolean;
+  // Known once the server has created the session.
+  limitMs?: number;
 };
 
 export const useLiveTalk = () => {
@@ -70,6 +72,13 @@ export const useLiveTalk = () => {
     }
   };
 
+  const created = (limitSeconds: number) => {
+    if (connection.current) {
+      connection.current.limitMs = limitSeconds * 1000 + GRACE_MS;
+      connection.current.handlers.onCreated();
+    }
+  };
+
   const started = () => {
     if (connection.current) {
       connection.current.live = true;
@@ -88,13 +97,13 @@ export const useLiveTalk = () => {
   useEffect(() => {
     const limits = {
       connecting: [CONNECT_MS, () => fail("unavailable")],
-      live: [TALK_MS, end],
+      live: [connection.current?.limitMs, end],
       ending: [CLOSE_MS, finish],
     } as const;
 
     const limit = limits[status as keyof typeof limits];
 
-    if (!limit) {
+    if (!limit?.[0]) {
       return;
     }
 
@@ -127,14 +136,14 @@ export const useLiveTalk = () => {
     return () => clearInterval(timer);
   }, [status]);
 
-  const start = async (passcode: string | undefined, handlers: Handlers) => {
+  const start = async (task: string, passcode: string | undefined, handlers: Handlers) => {
     fragments.current = [];
     setTurns([]);
     setSeconds(0);
     setStatus("microphone");
 
     const examiner = createExaminerConnection({
-      onCreated: handlers.onCreated,
+      onCreated: created,
       onStarted: started,
       onFragment: spoken,
       onClosed: finish,
@@ -157,7 +166,7 @@ export const useLiveTalk = () => {
     }
 
     setStatus("connecting");
-    const code = await examiner.connect(passcode);
+    const code = await examiner.connect(task, passcode);
 
     if (code && connection.current === current) {
       fail(code);

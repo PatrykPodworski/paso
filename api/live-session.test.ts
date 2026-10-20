@@ -50,6 +50,14 @@ vi.mock("undici", () => ({
   },
 }));
 
+// One extra task with a short limit, so the close timer is seen to read the spec.
+vi.mock("./_lib/talk-tasks/index.ts", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./_lib/talk-tasks/index.ts")>();
+  const short = { ...original.taskOf("u1")!, id: "short", limitSeconds: 30 };
+
+  return { ...original, taskOf: (id: unknown) => (id === "short" ? short : original.taskOf(id)) };
+});
+
 vi.mock("@vercel/functions", () => ({
   getCache: () => ({
     get: async (key: string) => vercel.store.get(key) ?? null,
@@ -73,7 +81,7 @@ const talk = (body: object, headers: Record<string, string> = {}) =>
     new Request("https://paso.podwor.ski/api/live-session", {
       method: "POST",
       headers: { "content-type": "application/json", "x-real-ip": "203.0.113.7", ...headers },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ task: "u1", ...body }),
     }),
   );
 
@@ -106,10 +114,16 @@ describe("creating a live session", () => {
     const response = await talk({ sdp: "offer-sdp" });
 
     expect(response.status).toBe(201);
-    const { sdp, greeting } = (await response.json()) as { sdp: string; greeting: string };
+
+    const { sdp, greeting, limitSeconds } = (await response.json()) as {
+      sdp: string;
+      greeting: string;
+      limitSeconds: number;
+    };
 
     expect(sdp).toBe("answer-sdp");
     expect(greeting).toContain("«Hola, soy Lucía.»");
+    expect(limitSeconds).toBe(120);
     const [url, init] = openai.mock.calls[0];
 
     expect(url).toBe("https://api.openai.com/v1/live/sessions");
@@ -131,8 +145,20 @@ describe("creating a live session", () => {
     await talk({ sdp: "offer-sdp" });
     const { session } = JSON.parse(openai.mock.calls[0][1].body);
 
-    expect(session.instructions).toMatch(/^Eres Lucía,/);
+    expect(session.instructions).toMatch(/^You are Lucía,/);
+    expect(session.instructions).toContain("1. ¿Cómo te llamas?");
     expect(JSON.stringify(session)).not.toMatch(/soy (el |la |una? )?examinador/i);
+  });
+
+  it("refuses a task it does not know before calling OpenAI", async () => {
+    for (const task of ["u99", 1, undefined]) {
+      const response = await talk({ sdp: "offer-sdp", task });
+
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({ error: "task" });
+    }
+
+    expect(openai).not.toHaveBeenCalled();
   });
 
   it("refuses a request without an offer before calling OpenAI", async () => {
@@ -246,20 +272,22 @@ describe("access", () => {
 });
 
 describe("session length", () => {
-  const twoMinutesLater = async () => {
-    await vi.advanceTimersByTimeAsync(119_000);
+  const afterTheLimit = async (seconds: number) => {
+    await vi.advanceTimersByTimeAsync(seconds * 1000 - 1000);
     expect(vercel.sockets).toHaveLength(0);
     await vi.advanceTimersByTimeAsync(1_000);
     await vi.advanceTimersByTimeAsync(1_000);
     await Promise.all(vercel.pending);
   };
 
-  it("closes the session from the server two minutes after it starts", async () => {
+  it("closes the session from the server when the task's limit passes", async () => {
     vi.useFakeTimers();
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
 
-    await talk({ sdp: "offer-sdp" });
-    await twoMinutesLater();
+    const response = await talk({ sdp: "offer-sdp", task: "short" });
+
+    expect(((await response.json()) as { limitSeconds: number }).limitSeconds).toBe(30);
+    await afterTheLimit(30);
 
     expect(vercel.sockets).toEqual([
       {
@@ -272,13 +300,23 @@ describe("session length", () => {
     expect(log).toHaveBeenCalledWith("Live session close", "live_123", "confirmed");
   });
 
+  it("gives unit 1 two minutes", async () => {
+    vi.useFakeTimers();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+
+    await talk({ sdp: "offer-sdp" });
+    await afterTheLimit(120);
+
+    expect(vercel.sockets).toHaveLength(1);
+  });
+
   it("confirms a close whose session.closed arrives after the socket drops", async () => {
     vi.useFakeTimers();
     vercel.dropFirst = true;
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
 
-    await talk({ sdp: "offer-sdp" });
-    await twoMinutesLater();
+    await talk({ sdp: "offer-sdp", task: "short" });
+    await afterTheLimit(30);
 
     expect(log).toHaveBeenCalledWith("Live session close", "live_123", "confirmed");
   });
@@ -288,8 +326,8 @@ describe("session length", () => {
     vercel.confirmClose = false;
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
 
-    await talk({ sdp: "offer-sdp" });
-    await twoMinutesLater();
+    await talk({ sdp: "offer-sdp", task: "short" });
+    await afterTheLimit(30);
 
     expect(log).toHaveBeenCalledWith("Live session close", "live_123", "unconfirmed");
   });

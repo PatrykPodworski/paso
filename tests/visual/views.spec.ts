@@ -33,7 +33,7 @@ const shot = async (page: Page, name: string) => {
   ).toBe(true);
 };
 
-for (const view of ["today", "path", "practice", "exam", "guide"]) {
+for (const view of ["today", "path", "practice", "exam", "guide", "backoffice"]) {
   test(`view: ${view}`, async ({ page }) => {
     await page.goto(`/#${view}`);
     await shot(page, view);

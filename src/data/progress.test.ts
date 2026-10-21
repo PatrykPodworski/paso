@@ -32,36 +32,6 @@ const attempt = (patch: Partial<Attempt> = {}): Attempt => ({
 });
 
 describe("DELE scoring and progress", () => {
-  it("requires 30 in each group rather than 60 overall", () => {
-    expect(passingGroups(25, 25, 5, 5).pass).toBe(false);
-    expect(passingGroups(15, 15, 15, 15).pass).toBe(true);
-    expect(passingGroups(24, 6, 10, 20).pass).toBe(true);
-    expect(passingGroups(25, 4.99, 25, 25).pass).toBe(false);
-  });
-
-  it("normalizes punctuation and spaces but preserves accents and ñ", () => {
-    expect(normalize("  ¿DÓNDE   está? ")).toBe("dónde está");
-    expect(normalize("años")).not.toBe(normalize("anos"));
-
-    expect(
-      isCorrect(
-        allQuestions.find((q) => q.id === "u1-o1")!,
-        "  soy de polonia!",
-      ),
-    ).toBe(true);
-  });
-
-  it("keeps a mistake until an unassisted correct answer", () => {
-    let p = withAttempt(emptyProgress(), attempt({ correct: false }));
-
-    expect(p.mistakes).toEqual(["u1-v0"]);
-    p = withAttempt(p, attempt({ correct: true, assisted: true }));
-    expect(p.mistakes).toEqual(["u1-v0"]);
-    p = withAttempt(p, attempt({ correct: true }));
-    expect(p.mistakes).toEqual([]);
-    expect(p.reviewed).toEqual(["u1-v0"]);
-  });
-
   it("schedules a legacy mistake that has no review metadata after a correct answer", () => {
     const p = emptyProgress();
 
@@ -98,20 +68,6 @@ describe("DELE scoring and progress", () => {
     expect(p.reviewed).toEqual(["u1-o3"]);
   });
 
-  it("does not farm XP or daily progress by repeating the same question", () => {
-    const p = withAttempt(withAttempt(emptyProgress(), attempt()), attempt({ id: "a2" }));
-
-    expect(dailyAnswers(p)).toBe(1);
-    expect(xp(p)).toBe(5);
-  });
-
-  it("uses the latest unassisted objective attempt for skill statistics", () => {
-    let p = withAttempt(emptyProgress(), attempt({ correct: false }));
-
-    p = withAttempt(p, attempt());
-    expect(skillStats(p, "reading").accuracy).toBe(100);
-  });
-
   it("counts local study days without ISO UTC midnight shifts", () => {
     const d = new Date(2026, 8, 7, 0, 5);
 
@@ -120,18 +76,6 @@ describe("DELE scoring and progress", () => {
 
     p.attempts = [attempt({ at: d.toISOString() })];
     expect(dailyAnswers(p, "2026-09-07")).toBe(1);
-  });
-
-  it("starts a streak only after real practice", () => {
-    expect(streak(emptyProgress())).toBe(0);
-    expect(streak(withAttempt(emptyProgress(), attempt()))).toBe(1);
-  });
-
-  it("recovers from malformed storage", () => {
-    localStorage.setItem(STORAGE_KEY, "{broken");
-    expect(readProgress()).toEqual(emptyProgress());
-    localStorage.setItem(STORAGE_KEY, '{"version":9}');
-    expect(readProgress()).toEqual(emptyProgress());
   });
 
   it("makes an invalid saved review date immediately reviewable", () => {
@@ -160,20 +104,6 @@ describe("DELE scoring and progress", () => {
     });
 
     expect(withAttempt(p, attempt()).mistakeReviews).toEqual({ "u1-o1": other });
-  });
-
-  it("counts Spanish words without counting punctuation", () => {
-    expect(countWords("¡Hola! ¿Cómo estás?")).toBe(3);
-    expect(countWords("  \n ")).toBe(0);
-    expect(countWords("Ana María López, treinta años.")).toBe(5);
-  });
-
-  it("explains targeted writing errors without pretending to grade everything", () => {
-    expect(
-      writingHints("Soy 20 años. Me gusta las manzanas. Mi padres viven a el lado de el banco."),
-    ).toHaveLength(5);
-
-    expect(writingHints("Tengo veinte años. Me gustan las manzanas.")).toHaveLength(0);
   });
 });
 
@@ -225,6 +155,11 @@ describe("progress contracts", () => {
     expect(readProgress()).toEqual(emptyProgress());
   });
 
+  it("recovers from saved progress that is not JSON", () => {
+    localStorage.setItem(STORAGE_KEY, "{broken");
+    expect(readProgress()).toEqual(emptyProgress());
+  });
+
   it("restores older valid progress with defaults for newly added fields", () => {
     localStorage.setItem(
       STORAGE_KEY,
@@ -258,6 +193,7 @@ describe("progress contracts", () => {
 
   it.each([
     ["¿¡HÓLA!,.;:…?", "hóla"],
+    ["  ¿DÓNDE   está? ", "dónde está"],
     ["  uno\n\t dos  ", "uno dos"],
     ["cafe\u0301", "café"],
     ["año", "año"],
@@ -273,6 +209,13 @@ describe("progress contracts", () => {
     expect(isCorrect(q, "Espana")).toBe(false);
     expect(isCorrect({ ...q, accepted: undefined }, "España")).toBe(true);
     expect(isCorrect(q, "Hola")).toBe(false);
+
+    expect(
+      isCorrect(
+        allQuestions.find((q) => q.id === "u1-o1")!,
+        "  soy de polonia!",
+      ),
+    ).toBe(true);
   });
 
   it.each([
@@ -281,6 +224,9 @@ describe("progress contracts", () => {
     ["Ana-María d’Ávila O'Neil 25", 4],
     ["uno\ndos\ttres", 3],
     ["¡Sí! café 中文", 3],
+    ["¡Hola! ¿Cómo estás?", 3],
+    ["  \n ", 0],
+    ["Ana María López, treinta años.", 5],
   ])("counts words in %s", (input, n) => expect(countWords(input)).toBe(n));
 
   it("caps attempt history at the newest 6000 without changing its input", () => {
@@ -345,6 +291,7 @@ describe("progress contracts", () => {
     [[9, 7], 1],
     [[7, 6], 0],
     [[9, 9, 8, 6], 2],
+    [[], 0],
   ])("counts consecutive calendar days %j", (days, n) => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 8, 9, 12));
@@ -375,6 +322,8 @@ describe("progress contracts", () => {
 
   it.each([
     [15, 15, 15, 15, true],
+    [24, 6, 10, 20, true],
+    [25, 25, 5, 5, false],
     [25, 5, 25, 5, true],
     [25, 4.99, 25, 25, false],
     [25, 25, 25, 4.99, false],
@@ -397,8 +346,15 @@ describe("progress contracts", () => {
     expect(writingHints(text).join(" ")).toContain(fragment),
   );
 
+  it("gives one hint per error when a text has several", () => {
+    expect(
+      writingHints("Soy 20 años. Me gusta las manzanas. Mi padres viven a el lado de el banco."),
+    ).toHaveLength(5);
+  });
+
   it.each([
     "Tengo veinte años. Me gustan los libros. Mis padres viven cerca del banco. Voy al parque.",
+    "Tengo veinte años. Me gustan las manzanas.",
     "¿Cómo estás?",
     "Todo bien.",
     "soy profesor",

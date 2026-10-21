@@ -13,8 +13,8 @@ export type QuestionKind =
 
 export type LiveGrade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
-export const LIVE_ITEMS = ["name", "age", "country"] as const;
-export type LiveScore = { grade: LiveGrade; items: Record<(typeof LIVE_ITEMS)[number], LiveItem> };
+export type LiveScoreItem = { id: string; label: string; level: LiveItem };
+export type LiveScore = { grade: LiveGrade; items: LiveScoreItem[] };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
 
 export interface Question {
@@ -39,6 +39,8 @@ export interface Question {
   maxWords?: number;
   fields?: { label: string; example: string }[];
   task?: string;
+  // The server-side talk task a live question runs.
+  talk?: string;
 }
 
 export interface Lesson {

@@ -56,8 +56,7 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
   logistics and a calculator for the two-group pass rule.
 - **Progress stays in your browser.** Lessons, history, goals, streaks, XP,
   preferences, drafts and self-assessments persist locally and can be exported
-  from preferences. Recordings live only in the open tab unless you download
-  them.
+  from preferences.
 
 The interface is built for long sessions: large default type and controls,
 keyboard navigation, modal focus containment, reduced-motion support and
@@ -77,7 +76,7 @@ rather than components, so the units, lessons and exercises live under
 | `src/data/mock.ts`       | Exam rehearsal and personal form          |
 | `src/data/progress.ts`   | Scoring, persistence, writing checks      |
 | `src/data/research.ts`   | The source-linked readiness map           |
-| `src/components/`        | Question types, exam, audio, recorder     |
+| `src/components/`        | Question types, exam, audio, live talk    |
 | `public/audio/`          | Generated speech and its manifest         |
 | `api/`                   | Live examiner session and talk scoring    |
 
@@ -106,10 +105,10 @@ Generating new clips, the voice assignments and the credit guards are in
 
 ## Writing and speaking
 
-Free writing, the personal form and speaking tasks end in a reflection panel:
-a model answer, word-count guidance, a few targeted pattern checks and a
-self-review checklist. Speaking tasks record in the browser with playback and
-download; nothing is uploaded. AI feedback on your writing is coming soon.
+Free writing and the personal form end in a reflection panel: a model answer,
+word-count guidance, a few targeted pattern checks and a self-review checklist.
+AI feedback on your writing is coming soon. Every speaking task is a live talk
+with Lucía; nothing is recorded in the browser.
 
 ## Live examiner
 

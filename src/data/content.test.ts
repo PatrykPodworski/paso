@@ -175,10 +175,7 @@ describe("original curriculum integrity", () => {
     const phrases = [
       ...new Set(
         questions
-          .flatMap((q) => [
-            q.audio,
-            ...(["speak", "write", "order"].includes(q.kind) ? [q.answer] : []),
-          ])
+          .flatMap((q) => [q.audio, ...(["write", "order"].includes(q.kind) ? [q.answer] : [])])
           .filter((x): x is string => !!x)
           .concat(
             [...allQuestions, ...foundations, ...visualQuestions, formPractice]

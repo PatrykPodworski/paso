@@ -4,21 +4,6 @@ import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
-import { speakQuestion } from "../../test/speakQuestion";
-
-let recordingProps: {
-  onRecorded: (b: Blob) => void;
-  onStart: () => void;
-  onRecordingChange: (v: boolean) => void;
-};
-
-vi.mock("./Recorder", () => ({
-  Recorder: (props: typeof recordingProps) => {
-    recordingProps = props;
-
-    return null;
-  },
-}));
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -32,14 +17,13 @@ afterEach(() => {
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = speakQuestion;
 
 const write = (text: string) =>
   fireEvent.change(screen.getByRole("textbox"), { target: { value: text } });
 
 it("counts ticked self-review points and hides the coming-soon note after review", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
-  const note = "AI feedback on your writing and speaking is coming soon.";
+  const note = "AI feedback on your writing is coming soon.";
 
   expect(screen.getByText(note)).toBeInTheDocument();
   fireEvent.click(screen.getByRole("checkbox", { name: writing.checklist![0] }));
@@ -80,57 +64,6 @@ it("hides the self-review checklist in the exam", () => {
   expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
 });
 
-it("speaking requires the practised-aloud attestation, not checklist ticks alone", () => {
-  const evaluated = vi.fn();
-
-  render(<QuestionCard q={speaking} onSubmit={vi.fn()} onEvaluated={evaluated} />);
-  fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![0] }));
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
-  click("Review my practice");
-
-  expect(evaluated).toHaveBeenCalledExactlyOnceWith(
-    "Practised aloud. Audio must be reviewed from the downloaded recording.",
-    null,
-    false,
-  );
-});
-
-it("blocks review while recording and enables it after the take", () => {
-  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
-
-  act(() => {
-    recordingProps.onStart();
-    recordingProps.onRecordingChange(true);
-  });
-
-  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-
-  act(() => {
-    recordingProps.onRecordingChange(false);
-    recordingProps.onRecorded(new Blob(["voice"]));
-  });
-
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
-});
-
-it("stores a placeholder answer for a practised-aloud submission", () => {
-  const submitted = vi.fn();
-
-  render(<QuestionCard q={speaking} onSubmit={submitted} />);
-  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  click("Review my practice");
-  click("Continue");
-
-  expect(submitted).toHaveBeenCalledWith(
-    "Practised aloud. Audio must be reviewed from the downloaded recording.",
-    null,
-    false,
-  );
-});
-
 it("unchecking one self-review point retains the others", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
   const boxes = screen.getAllByRole("checkbox");
@@ -140,13 +73,4 @@ it("unchecking one self-review point retains the others", () => {
   fireEvent.click(boxes[0]);
   expect(boxes[0]).not.toBeChecked();
   expect(boxes[1]).toBeChecked();
-});
-
-it("a new recording clears the practised flag and blocks review", () => {
-  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
-  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
-  act(() => recordingProps.onStart());
-  expect(screen.getByRole("checkbox", { name: /I practised aloud/ })).not.toBeChecked();
-  expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
 });

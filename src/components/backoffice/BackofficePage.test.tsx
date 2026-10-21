@@ -19,10 +19,18 @@ it("lists every question of every unit and of the mock exam, grouped by unit", (
   );
 
   const mock = within(screen.getByRole("region", { name: "Mock exam" }));
+  const row = within(mock.getByRole("button", { name: /Task 1 · Personal presentation/ }));
 
-  expect(
-    mock.getByRole("button", { name: /Task 1 · Personal presentation · 1–2 min/ }),
-  ).toHaveTextContent("SpeakingTask 1 · Personal presentation · 1–2 minSpeaking");
+  expect(row.getAllByText("Speaking")).toHaveLength(2);
+});
+
+it("tells apart rows that share a title by their answer", () => {
+  render(<BackofficePage setSession={() => {}} />);
+  const unit = within(screen.getByRole("region", { name: "Unit 1 · ¡Hola, mundo!" }));
+  const rows = unit.getAllByRole("button", { name: /Listen\. What does the Spanish/ });
+
+  expect(rows).toHaveLength(4);
+  expect(new Set(rows.map((r) => r.textContent)).size).toBe(4);
 });
 
 it("labels unit 1's live talk and opens it alone, off the learning path", () => {
@@ -34,6 +42,11 @@ it("labels unit 1's live talk and opens it alone, off the learning path", () => 
 
   expect(within(row).getByText("Live talk")).toBeInTheDocument();
   expect(within(row).getByText("Make it your own")).toBeInTheDocument();
+
+  expect(
+    within(row).getByText("Me llamo Ana. Tengo treinta años. Soy de Polonia."),
+  ).toBeInTheDocument();
+
   fireEvent.click(row);
   expect(lesson?.questions.map((q) => q.id)).toEqual(["u1-o3"]);
   expect(lesson?.title).toBe("Make it your own");

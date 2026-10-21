@@ -82,7 +82,9 @@ export const BackofficePage = ({ setSession }: Props) => (
                     <strong className="block font-semibold text-sage-800 text-[14px] line-clamp-2">
                       {question.task || question.prompt}
                     </strong>
-                    <small className="block text-sage-600 text-[12px]">{context}</small>
+                    <small className="block text-sage-600 text-[12px] line-clamp-1">
+                      <span>{context}</span> · <span>{question.answer}</span>
+                    </small>
                   </span>
                 </button>
               </li>

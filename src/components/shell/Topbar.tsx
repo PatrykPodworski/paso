@@ -25,7 +25,7 @@ export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
         Your Spanish journey
         <Icon name="chevron" size={13} className="max-md:hidden" />
         <strong className="font-medium text-sage-800 max-md:hidden">
-          {navigation.find((n) => n.id === page)?.label ?? "Backoffice"}
+          {page === "backoffice" ? "Backoffice" : navigation.find((n) => n.id === page)?.label}
         </strong>
       </span>
     </div>

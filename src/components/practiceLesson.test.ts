@@ -11,10 +11,8 @@ describe("practice lesson", () => {
   it("keeps the live talks out of skill practice but brings one back as a mistake", () => {
     const live = allQuestions.find((q) => q.kind === "live")!;
 
-    expect(practiceLesson("speaking", emptyProgress(), [])!.questions.map((q) => q.id)).toEqual([
-      "u12-o3",
-    ]);
-
+    expect(practiceLesson("speaking", emptyProgress(), [])).toBeNull();
+    expect(practiceLesson("all", emptyProgress(), [])!.questions).not.toContain(live);
     expect(practiceLesson("mistakes", emptyProgress(), [live])!.questions).toEqual([live]);
   });
 });

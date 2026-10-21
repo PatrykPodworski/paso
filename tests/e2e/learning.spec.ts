@@ -1,8 +1,17 @@
-import { test, expect, openLesson, answer, closeLesson, stored } from "../fixtures/app";
+import {
+  test,
+  expect,
+  openLesson,
+  answer,
+  closeLesson,
+  resumeMockExam,
+  stored,
+} from "../fixtures/app";
 import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
+import { mockSections } from "../../src/data/mock";
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -268,37 +277,46 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
   ).toBe(true);
 });
 
-test("record, review and download speaking", async ({ page }) => {
-  await page.goto("/#today");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
+// The mock exam holds the only recording tasks: every unit's speaking task is a live talk.
+const [speakingTask, nextSpeakingTask] = mockSections[3].questions;
+
+test("record, save and download a speaking answer in the mock exam", async ({ page }) => {
+  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
+  await expect(page.getByRole("heading", { name: speakingTask.prompt, exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Record your answer" }).click();
   await expect(page.getByRole("button", { name: "Stop recording" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Save answer" })).toBeDisabled();
   await expect.poll(() => page.locator(".recorder .mono").innerText()).not.toBe("00:00");
   await page.getByRole("button", { name: "Stop recording" }).click();
-  await expect(page.getByRole("button", { name: "Review my practice" })).toBeEnabled();
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Save answer" })).toBeEnabled();
   const download = page.waitForEvent("download");
 
   await page.getByRole("link", { name: "Save recording" }).click();
   expect((await download).suggestedFilename()).toMatch(/^paso-speaking\.(webm|m4a)$/);
+  await page.getByRole("button", { name: "Save answer" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: nextSpeakingTask.prompt, exact: true }),
+  ).toBeVisible();
 });
 
-test("speaking supports microphone denial and self-review", async ({ page }) => {
+test("speaking supports microphone denial and the practised-aloud fallback", async ({ page }) => {
   await page.addInitScript(() => {
     navigator.mediaDevices.getUserMedia = async () => {
       throw new DOMException("Denied", "NotAllowedError");
     };
   });
 
-  await page.goto("/#today");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
+  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
   await page.getByRole("button", { name: "Record your answer" }).click();
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
+  await expect(page.getByRole("button", { name: "Save answer" })).toBeDisabled();
   await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await page.getByRole("button", { name: "Save answer" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: nextSpeakingTask.prompt, exact: true }),
+  ).toBeVisible();
 });
 
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {

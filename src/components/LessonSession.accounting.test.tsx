@@ -6,7 +6,7 @@ import type { QuestionCard } from "./question-card/QuestionCard";
 import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
-import { formPractice } from "../data/mock";
+import { formPractice, mockQuestions } from "../data/mock";
 import { emptyProgress } from "../data/progress";
 import type { Question } from "../data/types";
 
@@ -115,7 +115,11 @@ it.each([
 it.each(["write", "form", "choice", "type", "speak"] as const)(
   "restores drafts only for editable productive work: %s",
   (kind) => {
-    const q = kind === "form" ? formPractice : allQuestions.find((q) => q.kind === kind)!;
+    const q =
+      kind === "form"
+        ? formPractice
+        : [...allQuestions, ...mockQuestions].find((q) => q.kind === kind)!;
+
     const progress = emptyProgress();
 
     progress.drafts[q.id] = "Saved learner draft";

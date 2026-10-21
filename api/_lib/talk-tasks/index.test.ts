@@ -585,6 +585,54 @@ describe("unit 11", () => {
   });
 });
 
+describe("unit 12", () => {
+  it("makes Lucía a friendly interviewer who rehearses the oral exam in short, then answers two questions about her own", () => {
+    const instructions = instructionsOf(taskOf("u12")!);
+
+    expect(instructions).toContain(
+      "You are a friendly interviewer and you talk with the learner about themselves and about their studies, their work or their home, whichever topic the learner chooses. When the learner asks you two questions about that topic, answer each question with a short sentence, for example «Vivo en un piso pequeño en Madrid» and «Me gusta mi casa porque es tranquila», and then say goodbye.",
+    );
+
+    expect(instructions).toContain("Ask exactly these five questions");
+
+    expect(instructions).toContain(
+      `1. Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives?
+2. Ahora háblame de tus estudios, de tu trabajo o de tu casa. Elige un tema.
+3. ¿Con quién estudias, trabajas o vives?
+4. ¿Qué te gusta de tus estudios, de tu trabajo o de tu casa?
+5. Ahora, hazme dos preguntas sobre ese tema.`,
+    );
+
+    expect(instructions).toContain("After the fifth answer, say goodbye");
+
+    expect(greetingOf(taskOf("u12")!)).toMatch(
+      /Then ask «Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives\?» and listen\.$/,
+    );
+  });
+
+  it("grades the introduction, the chosen topic, the follow-up answers and the two questions", () => {
+    const rubric = rubricOf(taskOf("u12")!);
+
+    expect(schemaOf(taskOf("u12")!).required).toEqual(["intro", "topic", "answers", "questions"]);
+
+    expect(rubric).toContain("For each of intro, topic, answers and questions, return one of:");
+
+    expect(rubric).toContain(
+      "The introduction counts only when the learner gives all four details, the answers only when the learner answers both follow-up questions, and the questions only when the learner asks the examiner both questions, not when the examiner gives the answers unasked.",
+    );
+
+    expect(rubric).toContain(
+      'such as "Me llamo Ana, soy polaca, tengo treinta años y vivo en Varsovia", "Vivo en un piso pequeño con dos dormitorios y un salón", "Vivo con mi hermana. Me gusta el salón porque tiene una ventana grande" or "¿Dónde vives tú? ¿Cómo es tu casa?" is correct.',
+    );
+
+    expect(rubric).toContain('with errors, for example "Yo soy treinta años y vivo en Varsovia".');
+  });
+
+  it("closes after four and a half minutes, the most a Vercel Hobby function allows", () => {
+    expect(taskOf("u12")!.limitSeconds).toBe(270);
+  });
+});
+
 describe("the list", () => {
   it("knows only its own ids", () => {
     expect(taskOf("u1")?.id).toBe("u1");
@@ -606,6 +654,7 @@ describe("the list", () => {
       "u9",
       "u10",
       "u11",
+      "u12",
     ]);
 
     for (const task of tasks) {

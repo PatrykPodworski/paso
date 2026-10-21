@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 import type { LiveScore } from "../../src/data/types";
 
 // Stands in for OpenAI: a fake WebRTC peer whose data channel the test drives, and
@@ -56,6 +56,43 @@ export const examiner = (page: Page, event: object) =>
     (data) => (window as any).__live.channel.onmessage({ data: JSON.stringify(data) }),
     event,
   );
+
+// Runs one whole talk against the fake examiner: start (with the passcode once the free
+// talk is used), one exchange, end, and Lucía's close.
+export const talkToLucia = async (page: Page) => {
+  const passcode = page.getByLabel("Passcode");
+
+  if (await passcode.isVisible()) {
+    await passcode.fill("olé-2026");
+  }
+
+  await page.getByRole("button", { name: "Start the talk" }).click();
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
+  await examiner(page, { type: "session.started", session: { id: "live_1" } });
+  await examiner(page, { type: "session.output_transcript.delta", delta: "Hola.", start_ms: 1000 });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Hola, soy Ana.",
+    start_ms: 2000,
+  });
+
+  await expect(page.getByRole("status")).toHaveText("Live");
+  await page.getByRole("button", { name: "End the talk" }).click();
+  await examiner(page, { type: "session.closed", reason: "close_requested" });
+};
+
+// Answers a live question of the exam: picks the home topic when asked, talks, continues.
+export const answerTalk = async (page: Page) => {
+  const home = page.getByRole("radio", { name: /Your home/ });
+
+  if (await home.isVisible()) {
+    await home.check();
+  }
+
+  await talkToLucia(page);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+};
 
 export const sentEvents = (page: Page) =>
   page.evaluate(() => (window as any).__live.sent.map((s: string) => JSON.parse(s).type));

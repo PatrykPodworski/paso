@@ -176,16 +176,7 @@ export const QuestionCard = ({
           onFieldChange={a.setField}
         />
       )}
-      <PracticeChecks
-        q={q}
-        exam={exam}
-        feedback={feedback}
-        practice={a}
-        onStart={() => {
-          a.setSpoken(false);
-          setFeedback(false);
-        }}
-      />
+      <PracticeChecks q={q} exam={exam} feedback={feedback} practice={a} />
       {!feedback ? (
         <QuestionFooter
           exam={exam}

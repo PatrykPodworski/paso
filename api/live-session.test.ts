@@ -55,7 +55,10 @@ vi.mock("./_lib/talk-tasks/index.ts", async (importOriginal) => {
   const original = await importOriginal<typeof import("./_lib/talk-tasks/index.ts")>();
   const short = { ...original.taskOf("u1")!, id: "short", limitSeconds: 30 };
 
-  return { ...original, taskOf: (id: unknown) => (id === "short" ? short : original.taskOf(id)) };
+  return {
+    ...original,
+    taskOf: (id: unknown, topic?: unknown) => (id === "short" ? short : original.taskOf(id, topic)),
+  };
 });
 
 vi.mock("@vercel/functions", () => ({
@@ -159,6 +162,24 @@ describe("creating a live session", () => {
     }
 
     expect(openai).not.toHaveBeenCalled();
+  });
+
+  it("refuses a topic task without one of its topics, and runs it with one", async () => {
+    for (const topic of [undefined, "garden", 1]) {
+      const response = await talk({ sdp: "offer-sdp", task: "mock-s2", topic });
+
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({ error: "task" });
+    }
+
+    expect(openai).not.toHaveBeenCalled();
+    const response = await talk({ sdp: "offer-sdp", task: "mock-s3", topic: "studies" });
+
+    expect(response.status).toBe(201);
+    expect(await response.json()).toMatchObject({ limitSeconds: 270 });
+    const { session } = JSON.parse(openai.mock.calls[0][1].body);
+
+    expect(session.instructions).toContain("¿Por qué estudias español?");
   });
 
   it("refuses a request without an offer before calling OpenAI", async () => {

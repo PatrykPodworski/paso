@@ -1,13 +1,18 @@
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
+import { mockSections } from "../../data/mock";
 import { passingGroups } from "../../data/progress";
 import { FIELD } from "../../design-system/field";
+import type { Run } from "./useMockRun";
+
+const GRADES = { perfect: "Perfect", good: "Good", bad: "Not everything" };
 
 type Props = {
   reading: number;
   listening: number;
   writing: string;
   speaking: string;
+  talks: Run["talks"];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
 };
@@ -17,6 +22,7 @@ export const ScoreCalculator = ({
   listening,
   writing,
   speaking,
+  talks,
   onWriting,
   onSpeaking,
 }: Props) => {
@@ -65,6 +71,20 @@ export const ScoreCalculator = ({
           />
         </label>
       </div>
+      <ul aria-label="Lucía's grades" className="mbs-[18px] flex flex-col gap-[6px] text-[14px]">
+        {mockSections[3].questions.map((q, i) => (
+          <li key={q.id} className="flex justify-between gap-[12px]">
+            <span>Task {i + 1}</span>
+            <span className="text-sage-700">
+              {talks[q.id] ? GRADES[talks[q.id].grade] : "Not done"}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <FieldNote className="mbs-[10px]">
+        Lucía's grades for the three talks are not DELE points. Enter the speaking score yourself
+        for now.
+      </FieldNote>
       {entered ? (
         <Notice positive={groups.pass}>
           <p className="leading-[1.7] my-[12px] text-sage-500">

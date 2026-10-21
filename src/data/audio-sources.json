@@ -769,18 +769,8 @@
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
-  "14jiuei": {
-    "src": "/audio/elevenlabs/da0b41d6c8d6c425c19979f8.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
   "qpjj25": {
     "src": "/audio/elevenlabs/49c0eed5623a2642bfc3db38.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
-  "9duzxl": {
-    "src": "/audio/elevenlabs/0197a34cebdfce96d44e4759.mp3",
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
@@ -789,18 +779,8 @@
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
-  "9z1gjh": {
-    "src": "/audio/elevenlabs/45970877e4386b1a0ab57f39.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
   "sxumn5": {
     "src": "/audio/elevenlabs/6ee6998cd0a532a3834c7314.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
-  "uythoi": {
-    "src": "/audio/elevenlabs/383573f904fac7ec970ac3fc.mp3",
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
@@ -809,28 +789,13 @@
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
-  "b9f4ne": {
-    "src": "/audio/elevenlabs/7e1297fe0fc6432bc054acfd.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
   "1bmofb4": {
     "src": "/audio/elevenlabs/4ca725356084f60ba51d2d6d.mp3",
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
-  "7rfjjp": {
-    "src": "/audio/elevenlabs/42f01f2cf6b19560ef3031f0.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
   "k5q19i": {
     "src": "/audio/elevenlabs/2c6f2023466599cbc08fcf42.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
-  },
-  "r7tlbc": {
-    "src": "/audio/elevenlabs/080abf386ef9e5704d089b2e.mp3",
     "voiceId": "EXAVITQu4vr4xnSDxMaL",
     "modelId": "eleven_multilingual_v2"
   },
@@ -841,21 +806,6 @@
     "text": "Hola, Mario. Hay una tienda de ropa junto al banco. Tiene camisas azules por veinte euros y chaquetas muy bonitas. Abre de diez a siete. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto.",
     "request": {
       "text": "[warmly] [slowly] Hola, Mario. Hay una tienda de ropa junto al banco. Tiene camisas azules por veinte euros y chaquetas muy bonitas. Abre de diez a siete. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
-    }
-  },
-  "2x27q9": {
-    "src": "/audio/elevenlabs/eda797bd913f473509a793c8.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
-    "text": "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo. Muchas gracias.",
-    "request": {
-      "text": "[warmly] [slowly] Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo. Muchas gracias.",
       "model_id": "eleven_v3",
       "voice_settings": {
         "stability": 0.5
@@ -879,23 +829,6 @@
       "seed": 20260909
     }
   },
-  "xliq86": {
-    "src": "/audio/elevenlabs/75a3bf6b849a89b99af2aa18.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_multilingual_v2",
-    "text": "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Qué te gusta hacer? ¿Quieres ir al cine el domingo?",
-    "request": {
-      "text": "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Qué te gusta hacer? ¿Quieres ir al cine el domingo?",
-      "model_id": "eleven_multilingual_v2",
-      "voice_settings": {
-        "stability": 0.65,
-        "similarity_boost": 0.75,
-        "style": 0,
-        "use_speaker_boost": true,
-        "speed": 0.85
-      }
-    }
-  },
   "1g30v6u": {
     "src": "/audio/elevenlabs/711b152fa11e70fbf5befa02.mp3",
     "voiceId": "KHCvMklQZZo0O30ERnVn",
@@ -903,21 +836,6 @@
     "text": "Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
     "request": {
       "text": "[warmly] [slowly] Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
-    }
-  },
-  "10gju85": {
-    "src": "/audio/elevenlabs/53025f147371556f462ce1a1.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
-    "text": "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Tengo una reserva en el hotel. Quiero una habitación doble para tres noches. Gracias.",
-    "request": {
-      "text": "[warmly] [slowly] Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Tengo una reserva en el hotel. Quiero una habitación doble para tres noches. Gracias.",
       "model_id": "eleven_v3",
       "voice_settings": {
         "stability": 0.5
@@ -941,21 +859,6 @@
       "seed": 20260909
     }
   },
-  "1w2gwwk": {
-    "src": "/audio/elevenlabs/482a72b91c680e263941986e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
-    "text": "Hoy hace sol y tengo calor. Quiero un vaso de agua. Me gusta el verano porque puedo nadar. Estoy contento. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
-    "request": {
-      "text": "[calm] [slowly] Hoy hace sol y tengo calor. Quiero un vaso de agua. Me gusta el verano porque puedo nadar. Estoy contento. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
-    }
-  },
   "j3bp1m": {
     "src": "/audio/elevenlabs/38db2dd1b9ccafbdc4f01715.mp3",
     "voiceId": "htFfPSZGJwjBv1CL0aMD",
@@ -970,21 +873,6 @@
       },
       "language_code": "es",
       "seed": 20260910
-    }
-  },
-  "1jz71my": {
-    "src": "/audio/elevenlabs/4e0a4c75173e1b6c958181ad.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
-    "text": "Me llamo Pablo. Soy polaco y vivo en Madrid. Trabajo en una tienda. Estudio español los lunes. Mi clase es pequeña y mi profesora es simpática. ¿Dónde trabajas? ¿Qué lenguas hablas?",
-    "request": {
-      "text": "[calm] [slowly] Me llamo Pablo. Soy polaco y vivo en Madrid. Trabajo en una tienda. Estudio español los lunes. Mi clase es pequeña y mi profesora es simpática. ¿Dónde trabajas? ¿Qué lenguas hablas?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
     }
   },
   "1nbq59n": {

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
 import { emptyProgress, withAttempt } from "./data/progress";
 import type { Attempt, Lesson, Skill } from "./data/types";
+import { BackofficePage } from "./components/backoffice/BackofficePage";
 import { Guide } from "./components/Guide";
 import { Icon } from "./design-system/Icon";
 import { LessonSession } from "./components/LessonSession";
@@ -122,6 +123,7 @@ const App = () => {
         }
       />
     ),
+    backoffice: <BackofficePage setSession={setSession} />,
   };
 
   return (

@@ -1,6 +1,6 @@
 import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
-import { clientIp, FREE_SECONDS, give, json, take } from "./_lib/limits.js";
-import { passcodeRefusal } from "./_lib/passcode.js";
+import { json } from "./_lib/limits.js";
+import { reserve } from "./_lib/reserve.js";
 import type { TaskSpec } from "./_lib/talk-tasks/base.js";
 import { rubricOf, schemaOf, taskOf } from "./_lib/talk-tasks/index.js";
 
@@ -150,24 +150,16 @@ export const POST = async (request: Request) => {
     return json({ error: "unavailable" }, 503);
   }
 
-  const freeKey = `score:free:${clientIp(request)}`;
+  const reserved = await reserve(request, passcode, "score");
 
-  if (passcode !== undefined) {
-    const refusal = await passcodeRefusal(request, passcode);
-
-    if (refusal) {
-      return refusal;
-    }
-  } else if (!(await take(freeKey, 1, FREE_SECONDS))) {
-    return json({ error: "free_used" }, 403);
+  if (reserved.refusal) {
+    return reserved.refusal;
   }
 
   const items = await scoreTurns(key, task, turns);
 
   if (!items) {
-    if (passcode === undefined) {
-      await give(freeKey, FREE_SECONDS);
-    }
+    await reserved.refund();
 
     return json({ error: "upstream" }, 502);
   }

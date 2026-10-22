@@ -35,6 +35,10 @@ for attempt in 1 2 3 4 5; do
 
   # Without it, Pages runs Jekyll, which skips files whose names start with "_".
   git update-index --add --cacheinfo "100644,$(git hash-object -w --stdin </dev/null),.nojekyll"
+  # Without it, Vercel builds every gh-pages push as a Preview deployment, which fails
+  # because the branch has no app. Vercel reads this file from the pushed commit.
+  vercel='{"git":{"deploymentEnabled":false}}'
+  git update-index --add --cacheinfo "100644,$(git hash-object -w --stdin <<<"$vercel"),vercel.json"
 
   commit=$(git commit-tree "$(git write-tree)" -m "Update $folder")
   if git push --force-with-lease="refs/heads/gh-pages:$base" origin "$commit:refs/heads/gh-pages"; then

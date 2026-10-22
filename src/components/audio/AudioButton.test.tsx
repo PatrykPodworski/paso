@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AudioButton } from "./AudioButton";
 import { stopAudio } from "./playback";
+import { TAP_TO_PLAY } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";
 
 vi.mock("../../data/audio-sources", () => ({
@@ -106,7 +107,7 @@ describe("course audio playback", () => {
     const played = vi.fn();
 
     render(<AudioButton text="Hola." autoPlay limit={2} onPlayed={played} />);
-    await screen.findByText("Tap the play button to start the audio.");
+    await screen.findByText(TAP_TO_PLAY);
     expect(played).not.toHaveBeenCalled();
     expect(clips).toHaveLength(1);
     expect(screen.getByText("0/2 plays")).toBeInTheDocument();
@@ -451,7 +452,7 @@ describe("resuming and replay limits", () => {
     fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
     clips[0].play.mockRejectedValueOnce(new DOMException("Blocked", "NotAllowedError"));
     fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
-    await screen.findByText("Tap the play button to start the audio.");
+    await screen.findByText(TAP_TO_PLAY);
     fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
     await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(3));
     expect(clips).toHaveLength(1);

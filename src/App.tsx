@@ -9,6 +9,7 @@ import { Icon } from "./design-system/Icon";
 import { LessonSession } from "./components/LessonSession";
 import { mistakeQueue } from "./components/mistakeQueue";
 import { MockExam } from "./components/mock-exam/MockExam";
+import { clearMockRun } from "./components/mock-exam/useMockRun";
 import type { Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
@@ -200,12 +201,7 @@ const App = () => {
           onSave={(patch) => setProgress((p) => ({ ...p, ...patch }))}
           onReset={() => {
             setProgress(emptyProgress());
-
-            try {
-              localStorage.removeItem("paso-mock-v1");
-            } catch {
-              /* State still resets for this visit. */
-            }
+            clearMockRun();
 
             setSettings(false);
             setPage("today");

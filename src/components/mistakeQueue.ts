@@ -1,15 +1,11 @@
-import type { allQuestions } from "../data/curriculum";
 import { reviewDue } from "../data/progress";
-import type { Progress } from "../data/types";
+import type { Progress, Question } from "../data/types";
 import { exerciseBank } from "./practice";
 
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
 
 export const mistakeQueue = (progress: Progress, now: Date) => {
-  const mistakeEntries = new Map<
-    string,
-    { id: string; q: (typeof allQuestions)[number]; insertion: number; inQueue: boolean }
-  >();
+  const mistakeEntries = new Map<string, { id: string; q: Question; insertion: number }>();
 
   for (const [i, id] of progress.mistakes.entries()) {
     const q = exerciseMap.get(id);
@@ -18,37 +14,33 @@ export const mistakeQueue = (progress: Progress, now: Date) => {
       continue;
     }
 
-    mistakeEntries.set(id, { id, q, insertion: i, inQueue: true });
+    mistakeEntries.set(id, { id, q, insertion: i });
   }
 
   for (const [id, review] of Object.entries(progress.mistakeReviews)) {
-    if (mistakeEntries.has(id) || !exerciseMap.has(id)) {
-      continue;
-    }
-
     const q = exerciseMap.get(id);
 
-    if (!q) {
+    if (mistakeEntries.has(id) || !q) {
       continue;
     }
 
     const insertion = progress.mistakes.length;
 
-    if (!review.nextAt || reviewDue(review, now)) {
-      mistakeEntries.set(id, { id, q, insertion, inQueue: false });
+    if (reviewDue(review, now)) {
+      mistakeEntries.set(id, { id, q, insertion });
     }
   }
 
-  return [...mistakeEntries.values()]
-    .filter((entry) => entry.inQueue || reviewDue(progress.mistakeReviews[entry.id], now))
-    .sort((a, b) => {
-      const aDue = progress.mistakeReviews[a.id]?.nextAt
-        ? new Date(progress.mistakeReviews[a.id]!.nextAt).getTime()
-        : now.getTime();
+  const dueTime = (id: string) => {
+    const nextAt = progress.mistakeReviews[id]?.nextAt;
 
-      const bDue = progress.mistakeReviews[b.id]?.nextAt
-        ? new Date(progress.mistakeReviews[b.id]!.nextAt).getTime()
-        : now.getTime();
+    return nextAt ? new Date(nextAt).getTime() : now.getTime();
+  };
+
+  return [...mistakeEntries.values()]
+    .sort((a, b) => {
+      const aDue = dueTime(a.id);
+      const bDue = dueTime(b.id);
 
       if (aDue !== bDue) {
         return aDue - bDue;

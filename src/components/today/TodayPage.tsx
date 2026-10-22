@@ -17,6 +17,8 @@ import { TodayHeading } from "./TodayHeading";
 import { UnitCard } from "../UnitCard";
 import { PRESSABLE } from "../../design-system/pressable";
 
+const TODAY_UNITS = 3;
+
 type Props = {
   progress: Progress;
   nextLesson: Lesson;
@@ -103,7 +105,7 @@ export const TodayPage = ({
           <b className="font-medium text-[12px]">{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">
-          {units.slice(0, 3).map((u, i) => (
+          {units.slice(0, TODAY_UNITS).map((u, i) => (
             <UnitCard
               key={u.id}
               unit={u}

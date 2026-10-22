@@ -19,7 +19,6 @@
     "scripts/generate-elevenlabs.mjs"
   ],
   "ignorePatterns": [
-    "docs/screenshots",
     "dist",
     "coverage",
     "test-results",

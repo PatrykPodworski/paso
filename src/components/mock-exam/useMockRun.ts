@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { mockSections } from "../../data/mock";
 
+const STAGES = ["intro", "run", "review", "prep", "done"] as const;
+
 export interface Run {
   section: number;
   index: number;
-  stage: "intro" | "run" | "review" | "prep" | "done";
+  stage: (typeof STAGES)[number];
   answers: Record<string, string>;
   deadline: number;
   started: string;
@@ -13,7 +15,7 @@ export interface Run {
 }
 
 export type SetRun = Dispatch<SetStateAction<Run>>;
-const KEY = "paso-mock-v1";
+export const MOCK_STORAGE_KEY = "paso-mock-v1";
 
 export const fresh = (): Run => ({
   section: 0,
@@ -27,7 +29,7 @@ export const fresh = (): Run => ({
 
 export const load = (): Run => {
   try {
-    const raw = JSON.parse(localStorage.getItem(KEY) || "null");
+    const raw = JSON.parse(localStorage.getItem(MOCK_STORAGE_KEY) || "null");
 
     return raw &&
       Number.isInteger(raw.section) &&
@@ -36,12 +38,20 @@ export const load = (): Run => {
       Number.isInteger(raw.index) &&
       raw.index >= 0 &&
       raw.index < mockSections[raw.section].questions.length &&
-      ["intro", "run", "review", "prep", "done"].includes(raw.stage) &&
+      STAGES.includes(raw.stage) &&
       raw.answers
       ? { ...fresh(), ...raw }
       : fresh();
   } catch {
     return fresh();
+  }
+};
+
+export const clearMockRun = () => {
+  try {
+    localStorage.removeItem(MOCK_STORAGE_KEY);
+  } catch {
+    /* The caller's state still resets for this visit. */
   }
 };
 
@@ -51,7 +61,7 @@ export const useMockRun = () => {
 
   useEffect(() => {
     try {
-      localStorage.setItem(KEY, JSON.stringify(run));
+      localStorage.setItem(MOCK_STORAGE_KEY, JSON.stringify(run));
     } catch {
       setStorageError(true);
     }

@@ -1,11 +1,6 @@
-import type { Attempt, Progress, Question, Skill } from "./types.ts";
+import type { Attempt, Progress, Question, ReviewState, Skill } from "./types.ts";
 
 export const REVIEW_WINDOWS = [0, 1, 3, 7, 14, 30] as const;
-
-export type ReviewState = {
-  level: number;
-  nextAt: string;
-};
 
 export const STORAGE_KEY = "paso-progress-v1";
 
@@ -115,10 +110,15 @@ export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   if (attempt.correct === true && !attempt.assisted && trackedMistakeReview) {
     const nextLevel = nextReviewLevel(p.mistakeReviews[attempt.questionId]?.level ?? 0);
 
-    mistakeReviews[attempt.questionId] = {
-      level: nextLevel,
-      nextAt: nextReviewAt(attempt.at, nextLevel),
-    };
+    // A graded live talk costs a session, so passing it once clears it for good.
+    if (attempt.grade) {
+      delete mistakeReviews[attempt.questionId];
+    } else {
+      mistakeReviews[attempt.questionId] = {
+        level: nextLevel,
+        nextAt: nextReviewAt(attempt.at, nextLevel),
+      };
+    }
 
     mistakes.delete(attempt.questionId);
   }

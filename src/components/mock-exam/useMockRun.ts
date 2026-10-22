@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { mockSections } from "../../data/mock";
 
+const STAGES = ["intro", "run", "review", "prep", "done"] as const;
+
 export interface Run {
   section: number;
   index: number;
-  stage: "intro" | "run" | "review" | "prep" | "done";
+  stage: (typeof STAGES)[number];
   answers: Record<string, string>;
   deadline: number;
   started: string;
@@ -36,7 +38,7 @@ export const load = (): Run => {
       Number.isInteger(raw.index) &&
       raw.index >= 0 &&
       raw.index < mockSections[raw.section].questions.length &&
-      ["intro", "run", "review", "prep", "done"].includes(raw.stage) &&
+      STAGES.includes(raw.stage) &&
       raw.answers
       ? { ...fresh(), ...raw }
       : fresh();

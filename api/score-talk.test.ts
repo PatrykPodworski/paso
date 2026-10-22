@@ -43,7 +43,7 @@ const score = (body: object, ip = "203.0.113.7"): Promise<Response> =>
     new Request("https://paso.podwor.ski/api/score-talk", {
       method: "POST",
       headers: { "content-type": "application/json", "x-real-ip": ip },
-      body: JSON.stringify({ passcode: "olé-2026", ...body }),
+      body: JSON.stringify({ task: "u1", passcode: "olé-2026", ...body }),
     }),
   );
 
@@ -66,8 +66,37 @@ describe("scoring a talk", () => {
 
     expect(await response.json()).toEqual({
       grade: "perfect",
-      items: { name: "correct", age: "correct", country: "correct" },
+      items: [
+        { id: "name", label: "Name", level: "correct" },
+        { id: "age", label: "Age", level: "correct" },
+        { id: "country", label: "Country", level: "correct" },
+      ],
     });
+  });
+
+  it("lists the items in the task's order, whatever order the model used", async () => {
+    model({ country: "missing", age: "understandable", name: "correct" });
+
+    const { items } = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(items.map((i) => `${i.id}:${i.level}`)).toEqual([
+      "name:correct",
+      "age:understandable",
+      "country:missing",
+    ]);
+  });
+
+  it("refuses a task it does not know before calling the model", async () => {
+    model({ name: "correct", age: "correct", country: "correct" });
+
+    for (const task of ["u99", 7, undefined]) {
+      const response = await score({ turns, task });
+
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({ error: "task" });
+    }
+
+    expect(openai).not.toHaveBeenCalled();
   });
 
   it("passes understandable answers with mistakes as good", async () => {
@@ -93,7 +122,9 @@ describe("scoring a talk", () => {
     expect(body.model).toBe("gpt-5.6-luna");
     expect(body.input).toContain("Student: Soy veinte años.");
     expect(body.input).toContain("Examiner: Gracias. ¿De dónde eres?");
+    expect(body.instructions).toContain("For each of name, age and country, return one of:");
     expect(body.text.format.type).toBe("json_schema");
+    expect(body.text.format.schema.required).toEqual(["name", "age", "country"]);
   });
 
   it("fails a talk where the student said nothing without calling the model", async () => {
@@ -101,7 +132,11 @@ describe("scoring a talk", () => {
 
     expect(await response.json()).toEqual({
       grade: "bad",
-      items: { name: "missing", age: "missing", country: "missing" },
+      items: [
+        { id: "name", label: "Name", level: "missing" },
+        { id: "age", label: "Age", level: "missing" },
+        { id: "country", label: "Country", level: "missing" },
+      ],
     });
 
     expect(openai).not.toHaveBeenCalled();
@@ -171,6 +206,27 @@ describe("access", () => {
 
   it("gives the free score back when the model fails", async () => {
     openai.mockImplementationOnce(async () => new Response("{}", { status: 500 }));
+
+    expect((await score(free)).status).toBe(502);
+    expect((await score(free)).status).toBe(200);
+  });
+
+  it("gives the free score back when the model cannot be reached", async () => {
+    openai.mockRejectedValueOnce(new TypeError("fetch failed"));
+
+    expect((await score(free)).status).toBe(502);
+    expect((await score(free)).status).toBe(200);
+  });
+
+  it("gives the free score back when the model answers with a body that is not JSON", async () => {
+    openai.mockImplementationOnce(async () => new Response("<html>", { status: 200 }));
+
+    expect((await score(free)).status).toBe(502);
+    expect((await score(free)).status).toBe(200);
+  });
+
+  it("gives the free score back when the model answers with a malformed envelope", async () => {
+    openai.mockImplementationOnce(async () => Response.json({ output: {} }));
 
     expect((await score(free)).status).toBe(502);
     expect((await score(free)).status).toBe(200);

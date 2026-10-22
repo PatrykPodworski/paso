@@ -8,7 +8,8 @@ written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
 It runs in the browser and keeps your progress there. There is no account and no
-database, so nothing you do leaves your device.
+database. The one exception is the live talk with Lucía in unit 1: your
+voice goes to OpenAI for that talk, and its transcript is sent back for scoring.
 
 Try it: **https://paso.podwor.ski**
 
@@ -64,7 +65,8 @@ original SVG illustrations.
 
 ## How it is built
 
-Vite, React and TypeScript, with pnpm. No runtime backend. The course is data
+Vite, React and TypeScript, with pnpm. The only backend is two Vercel functions in
+`api/` for the live examiner. The course is data
 rather than components, so the units, lessons and exercises live under
 `src/data/` and are edited without touching the UI.
 
@@ -77,6 +79,7 @@ rather than components, so the units, lessons and exercises live under
 | `src/data/research.ts`   | The source-linked readiness map           |
 | `src/components/`        | Question types, exam, audio, recorder     |
 | `public/audio/`          | Generated speech and its manifest         |
+| `api/`                   | Live examiner session and talk scoring    |
 
 Styling is the hand-written `src/styles.css`. Tailwind utilities are available
 alongside it and new styling should use them; Tailwind's preflight is
@@ -106,8 +109,17 @@ Generating new clips, the voice assignments and the credit guards are in
 Free writing, the personal form and speaking tasks end in a reflection panel:
 a model answer, word-count guidance, a few targeted pattern checks and a
 self-review checklist. Speaking tasks record in the browser with playback and
-download; nothing is uploaded. AI feedback on your writing and speaking is
-coming soon.
+download; nothing is uploaded. AI feedback on your writing is coming soon.
+
+## Live examiner
+
+Unit 1's speaking task is a two-minute voice talk with Lucía, an OpenAI
+realtime model. `api/live-session.ts` opens the session, so the API key stays
+on the server; `api/score-talk.ts` grades the transcript afterwards.
+
+The first talk is free for each network; later talks need the passcode. The
+functions read `OPENAI_API_KEY` and `PASSCODE`. `pnpm dev` does not run them, so
+use `vercel dev` to try a real talk locally.
 
 ## Tests
 

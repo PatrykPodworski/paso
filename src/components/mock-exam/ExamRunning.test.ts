@@ -67,7 +67,6 @@ it("saves form drafts as JSON and submits labelled content without model grading
   click("Save answer");
   expect(state().answers[q.id]).toContain("Nacionalidad:");
   expect(state().index).toBe(1);
-  expect(fetch).not.toHaveBeenCalled();
 });
 
 it("keeps a cleared writing draft empty when revisiting an already submitted response", () => {

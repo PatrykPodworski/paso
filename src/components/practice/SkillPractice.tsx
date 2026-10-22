@@ -28,7 +28,7 @@ const SETS = [
     },
     tone: TONE.sage,
     name: "Picture this",
-    note: "6 visual puzzles · cafés, trains & your neighborhood",
+    note: `${visualQuestions.length} visual puzzles · cafés, trains & your neighborhood`,
   },
   {
     session: {
@@ -41,7 +41,7 @@ const SETS = [
     },
     tone: TONE.sand,
     name: "The foundation lab",
-    note: "24 checks · sounds, spelling, numbers & patterns",
+    note: `${foundations.length} checks · sounds, spelling, numbers & patterns`,
   },
   {
     session: {

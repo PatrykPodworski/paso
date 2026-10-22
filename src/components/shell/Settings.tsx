@@ -6,6 +6,7 @@ import { Dialog } from "../../design-system/Dialog";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { TextLink } from "../../design-system/TextLink";
 import { localDate } from "../../data/progress";
+import { downloadJson } from "../downloadJson";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
@@ -26,18 +27,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [date, setDate] = useState(progress.examDate);
   const [reset, setReset] = useState(false);
 
-  const exportProgress = () => {
-    const url = URL.createObjectURL(
-      new Blob([JSON.stringify(progress, null, 2)], { type: "application/json" }),
-    );
-
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = `paso-progress-${localDate()}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
+  const exportProgress = () => downloadJson(progress, `paso-progress-${localDate()}.json`);
 
   return (
     <Dialog

@@ -5,6 +5,8 @@ import type { Playback } from "./playback";
 import { playClips } from "./playClips";
 import { speakFallback, UNAVAILABLE } from "./speakFallback";
 
+export const TAP_TO_PLAY = "Tap the play button to start the audio.";
+
 export type AudioHandle = { play: () => void; playing: () => boolean };
 
 export const useAudioPlayer = ({
@@ -88,7 +90,7 @@ export const useAudioPlayer = ({
       await resumeClip();
     } catch {
       setPlaying(false);
-      setError("Tap the play button to start the audio.");
+      setError(TAP_TO_PLAY);
     }
   };
 
@@ -156,7 +158,7 @@ export const useAudioPlayer = ({
       },
       onBlocked: () => {
         setPlaying(false);
-        setError("Tap the play button to start the audio.");
+        setError(TAP_TO_PLAY);
       },
     });
 

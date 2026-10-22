@@ -26,6 +26,7 @@ import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
 import examples from "./examples.json";
+import { taskOf } from "../../api/_lib/talk-tasks/index";
 
 const questions = [
   ...allQuestions,
@@ -69,6 +70,38 @@ describe("original curriculum integrity", () => {
       if (q.kind === "order") {
         expect([...q.tokens!].sort()).toEqual(q.answer.split(" ").sort());
       }
+    }
+  });
+
+  it("runs every unit's speaking as a live talk that the server knows", () => {
+    const speaking = units.map((u) =>
+      u.lessons.flatMap((l) => l.questions).find((q) => q.id.endsWith("-o3"))!,
+    );
+
+    expect(speaking.map((q) => q.kind)).toEqual(Array(12).fill("live"));
+
+    expect(speaking.map((q) => q.talk)).toEqual([
+      "u1",
+      "u2",
+      "u3",
+      "u4",
+      "u5",
+      "u6",
+      "u7",
+      "u8",
+      "u9",
+      "u10",
+      "u11",
+      "u12",
+    ]);
+
+    expect(speaking[11].prompt).toMatch(/^Talk to Lucía\b/);
+    expect(speaking[11].prompt).toMatch(/short exam rehearsal/);
+    expect(speaking[11].prompt).toMatch(/full oral exam is in the mock exam/);
+
+    for (const q of speaking) {
+      expect(taskOf(q.talk)?.id, q.id).toBe(q.talk);
+      expect(q.checklist, q.id).toBeUndefined();
     }
   });
 
@@ -118,7 +151,9 @@ describe("original curriculum integrity", () => {
           ])
           .filter((x): x is string => !!x)
           .concat(
-            [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(spokenText),
+            [...allQuestions, ...foundations, ...visualQuestions, formPractice]
+              .filter((q) => q.kind !== "live")
+              .map(spokenText),
             vocabulary.map((w) => w.es),
             units.map((u) => u.example),
             ["Poco a poco."],

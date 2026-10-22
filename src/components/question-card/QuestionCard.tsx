@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { AnswerOptions } from "./AnswerOptions";
+import { cardPadding } from "./cardPadding";
 import { FormFields } from "./FormFields";
 import { playWord } from "../audio/playWord";
 import { stopAudio } from "../audio/playback";
@@ -14,11 +15,6 @@ import { QuestionMaterials } from "./QuestionMaterials";
 import { SentenceBuilder } from "./SentenceBuilder";
 import { useAnswer } from "./useAnswer";
 import { WritingArea } from "./WritingArea";
-
-const cardPadding = (exam: boolean) =>
-  exam
-    ? "p-[26px_0_0] max-md:p-[20px_0_0]"
-    : "p-[29px_36px_30px] max-md:p-[25px_22px] max-sm:p-[22px_18px]";
 
 type Props = {
   q: Question;

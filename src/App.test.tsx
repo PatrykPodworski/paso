@@ -173,13 +173,13 @@ describe("app business orchestration", () => {
     expect(screen.getByRole("heading", { name: "Meet the exam." })).toBeInTheDocument();
   });
 
-  it.each(["reading", "listening", "writing", "speaking"] as const)(
+  it.each(["reading", "listening", "writing"] as const)(
     "selects %s questions with unpractised first and the correct session length",
     (skill) => {
       const p = emptyProgress();
 
       const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
-        (q) => q.skill === skill,
+        (q) => q.skill === skill && q.kind !== "live",
       );
 
       p.attempts = [
@@ -197,9 +197,7 @@ describe("app business orchestration", () => {
       click(skill[0].toUpperCase() + skill.slice(1));
       click(`Start ${skill} practice`);
 
-      expect(session.lesson.questions).toHaveLength(
-        skill === "writing" || skill === "speaking" ? 4 : 8,
-      );
+      expect(session.lesson.questions).toHaveLength(skill === "writing" ? 4 : 8);
 
       expect(session.lesson.questions.every((q) => q.skill === skill)).toBe(true);
       expect(session.lesson.questions[0].id).toBe(bank[1].id);
@@ -271,6 +269,24 @@ describe("app business orchestration", () => {
     expect(localStorage.getItem("paso-mock-v1")).toBeNull();
   });
 
+  it("finishes a reset when browser storage refuses to clear the mock run", () => {
+    mount();
+
+    vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
+      throw new Error("blocked");
+    });
+
+    click("Open your learning preferences");
+    fireEvent.click(screen.getByText("Start over"));
+    click("Reset my progress");
+    click("Clear my practice data");
+    expect(saved()).toEqual(emptyProgress());
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "A fresh start. Your practice data has been cleared.",
+    );
+  });
+
   it("reports persistence failures and keeps the current session usable", () => {
     mount();
 
@@ -319,7 +335,6 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
 
   for (const [name, skill] of [
     ["Tune your ear", "listening"],
-    ["Find your voice", "speaking"],
     ["Make it stick", "all"],
   ]) {
     fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
@@ -327,10 +342,17 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
     click("Test close session");
   }
 
-  for (const skill of ["Reading", "Listening", "Writing", "Speaking"]) {
+  for (const skill of ["Reading", "Listening", "Writing"]) {
     fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${skill}0 practised$`) }));
     expect(session.lesson.questions.every((q) => q.skill === skill.toLowerCase())).toBe(true);
     click("Test close session");
+  }
+
+  // Every speaking task is a live talk, and live talks stay out of skill practice.
+  for (const name of [/Find your voice/, /^Speaking0 practised$/]) {
+    fireEvent.click(screen.getByRole("button", { name }));
+    expect(screen.queryByRole("region", { name: "Active lesson" })).not.toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Nothing to review yet");
   }
 
   for (const name of ["Adjust your daily goal", "At your own pace", "Your Spanish journey"]) {

@@ -1,0 +1,28 @@
+import type { TaskSpec } from "./base.ts";
+
+export const u3: TaskSpec = {
+  id: "u3",
+  mode: "interview",
+  scenario:
+    "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
+  asks: [
+    "¿Quién hay en tu familia?",
+    "Describe a una persona de tu familia, por favor. ¿Cómo es?",
+    "¿Qué hacéis juntos?",
+    "Ahora, hazme dos preguntas sobre mi familia.",
+  ],
+  items: [
+    { id: "members", label: "Family members", example: "Vivo con mi madre y mi hermano" },
+    { id: "person", label: "One person described", example: "Mi madre es alta y simpática" },
+    { id: "together", label: "What you do together", example: "Los domingos vamos al parque" },
+    {
+      id: "questions",
+      label: "Two questions to Lucía",
+      example: "¿Tienes hermanos? ¿Dónde vive tu familia?",
+    },
+  ],
+  asked:
+    "The examiner, a friendly interviewer, asked for four things: who is in the learner's family, a description of one of them, what the learner does with their family, and then two questions from the learner about the examiner's family. The description counts only when the learner says what one person is like, not only who they are, and the questions only when the learner asks the examiner two questions about her family.",
+  flawed: "Mi madre es simpático",
+  limitSeconds: 210,
+};

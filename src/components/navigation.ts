@@ -1,4 +1,4 @@
-export type Page = "today" | "path" | "practice" | "exam" | "guide";
+export type Page = "today" | "path" | "practice" | "exam" | "guide" | "backoffice";
 
 export const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "today", label: "My learning space", icon: "home" },
@@ -11,5 +11,5 @@ export const navigation: { id: Page; label: string; icon: string }[] = [
 export const pageFromHash = (): Page => {
   const h = window.location.hash.slice(1);
 
-  return navigation.some((n) => n.id === h) ? (h as Page) : "today";
+  return h === "backoffice" || navigation.some((n) => n.id === h) ? (h as Page) : "today";
 };

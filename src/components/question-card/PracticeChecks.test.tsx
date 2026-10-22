@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
-import { formPractice } from "../../data/mock";
+import { formPractice, mockQuestions } from "../../data/mock";
 
 let recordingProps: {
   onRecorded: (b: Blob) => void;
@@ -31,7 +31,7 @@ afterEach(() => {
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = allQuestions.find((q) => q.id === "u1-o3")!;
+const speaking = mockQuestions.find((q) => q.kind === "speak")!;
 
 const write = (text: string) =>
   fireEvent.change(screen.getByRole("textbox"), { target: { value: text } });

@@ -269,6 +269,24 @@ describe("app business orchestration", () => {
     expect(localStorage.getItem("paso-mock-v1")).toBeNull();
   });
 
+  it("finishes a reset when browser storage refuses to clear the mock run", () => {
+    mount();
+
+    vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
+      throw new Error("blocked");
+    });
+
+    click("Open your learning preferences");
+    fireEvent.click(screen.getByText("Start over"));
+    click("Reset my progress");
+    click("Clear my practice data");
+    expect(saved()).toEqual(emptyProgress());
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "A fresh start. Your practice data has been cleared.",
+    );
+  });
+
   it("reports persistence failures and keeps the current session usable", () => {
     mount();
 
@@ -373,6 +391,16 @@ it("keeps old unknown mistake references safe and dismisses the notice", () => {
   fireEvent.click(screen.getByRole("button", { name: /Try a daily mix/ }));
   act(() => vi.advanceTimersByTime(4000));
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
+});
+
+it("shows the first three units on Today", () => {
+  mount();
+
+  for (const title of ["¡Hola, mundo!", "This is me", "My favorite people"]) {
+    expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
+  }
+
+  expect(screen.queryByRole("heading", { name: "A place called home" })).not.toBeInTheDocument();
 });
 
 it("routes help, footer, path links and the brand consistently", () => {

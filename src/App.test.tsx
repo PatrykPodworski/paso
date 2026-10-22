@@ -393,6 +393,16 @@ it("keeps old unknown mistake references safe and dismisses the notice", () => {
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
 });
 
+it("shows the first three units on Today", () => {
+  mount();
+
+  for (const title of ["¡Hola, mundo!", "This is me", "My favorite people"]) {
+    expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
+  }
+
+  expect(screen.queryByRole("heading", { name: "A place called home" })).not.toBeInTheDocument();
+});
+
 it("routes help, footer, path links and the brand consistently", () => {
   mount();
 

@@ -1,22 +1,15 @@
 import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
 import { json } from "./_lib/limits.js";
 import { reserve } from "./_lib/reserve.js";
-import { rubric } from "./_lib/talk-rubric.js";
+import type { TaskSpec } from "./_lib/talk-tasks/base.js";
+import { rubricOf, schemaOf, taskOf } from "./_lib/talk-tasks/index.js";
 
 const MAX_CHARACTERS = 4000;
 const MAX_FRAGMENTS = 1000;
-const ITEMS = ["name", "age", "country"] as const;
 const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
 
-const schema = {
-  type: "object",
-  properties: Object.fromEntries(ITEMS.map((item) => [item, { type: "string", enum: LEVELS }])),
-  required: ITEMS,
-  additionalProperties: false,
-};
-
 const gradeOf = (items: LiveScore["items"]): LiveScore["grade"] => {
-  const levels = Object.values(items);
+  const levels = items.map((item) => item.level);
 
   if (levels.includes("missing")) {
     return "bad";
@@ -24,6 +17,9 @@ const gradeOf = (items: LiveScore["items"]): LiveScore["grade"] => {
 
   return levels.every((level) => level === "correct") ? "perfect" : "good";
 };
+
+const itemsOf = (task: TaskSpec, levelOf: (id: string) => LiveItem): LiveScore["items"] =>
+  task.items.map(({ id, label }) => ({ id, label, level: levelOf(id) }));
 
 // Joins consecutive fragments from one speaker, so a transcript split into many short
 // turns still reads as a conversation.
@@ -57,22 +53,71 @@ const parseTurns = (turns: unknown): TalkTurn[] | null => {
     : null;
 };
 
-type ModelResponse = {
-  output?: { type: string; content?: { type: string; text: string }[] }[];
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null;
+
+// The text of the model's message in a Responses API envelope, or undefined when the
+// envelope has another shape.
+const modelText = (data: unknown) => {
+  if (!isRecord(data) || !Array.isArray(data.output)) {
+    return undefined;
+  }
+
+  const message: unknown = data.output.find((o: unknown) => isRecord(o) && o.type === "message");
+
+  if (!isRecord(message) || !Array.isArray(message.content)) {
+    return undefined;
+  }
+
+  const part: unknown = message.content.find(
+    (c: unknown) => isRecord(c) && c.type === "output_text",
+  );
+
+  return isRecord(part) && typeof part.text === "string" ? part.text : undefined;
 };
 
-const modelItems = (data: ModelResponse) => {
-  const text = data.output
-    ?.find((o) => o.type === "message")
-    ?.content?.find((c) => c.type === "output_text")?.text;
-
+const modelItems = (task: TaskSpec, data: unknown) => {
   try {
-    const items = JSON.parse(text ?? "");
+    const levels = JSON.parse(modelText(data) ?? "");
 
-    return ITEMS.every((item) => LEVELS.includes(items[item]))
-      ? (Object.fromEntries(ITEMS.map((item) => [item, items[item]])) as LiveScore["items"])
+    return task.items.every((item) => LEVELS.includes(levels[item.id]))
+      ? itemsOf(task, (id) => levels[id])
       : null;
   } catch {
+    return null;
+  }
+};
+
+// Returns null on any failure, so the caller has one path that refunds the score.
+const scoreTurns = async (key: string, task: TaskSpec, turns: TalkTurn[]) => {
+  try {
+    const response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "gpt-5.6-luna",
+        reasoning: { effort: "low" },
+        store: false,
+        instructions: rubricOf(task),
+        input: turns
+          .map((t) => `${t.role === "student" ? "Student" : "Examiner"}: ${t.text}`)
+          .join("\n"),
+        text: {
+          format: { type: "json_schema", name: "talk_score", strict: true, schema: schemaOf(task) },
+        },
+      }),
+    });
+
+    const items = response.ok ? modelItems(task, await response.json()) : null;
+
+    if (!items) {
+      console.error("Talk scoring failed", response.status);
+    }
+
+    return items;
+  } catch (error) {
+    console.error("Talk scoring failed", error);
+
     return null;
   }
 };
@@ -80,10 +125,12 @@ const modelItems = (data: ModelResponse) => {
 export const POST = async (request: Request) => {
   const body = (await request.json().catch(() => ({}))) as {
     turns?: unknown;
+    task?: unknown;
     passcode?: unknown;
   };
 
   const passcode = typeof body.passcode === "string" ? body.passcode : undefined;
+  const task = taskOf(body.task);
   const turns = parseTurns(body.turns);
   const key = process.env.OPENAI_API_KEY;
 
@@ -91,11 +138,12 @@ export const POST = async (request: Request) => {
     return json({ error: "transcript" }, 400);
   }
 
+  if (!task) {
+    return json({ error: "task" }, 400);
+  }
+
   if (!turns.some((t) => t.role === "student" && t.text.trim())) {
-    return json(
-      { grade: "bad", items: { name: "missing", age: "missing", country: "missing" } },
-      200,
-    );
+    return json({ grade: "bad", items: itemsOf(task, () => "missing") }, 200);
   }
 
   if (!key) {
@@ -108,26 +156,9 @@ export const POST = async (request: Request) => {
     return reserved.refusal;
   }
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "gpt-5.6-luna",
-      reasoning: { effort: "low" },
-      store: false,
-      instructions: rubric,
-      input: turns
-        .map((t) => `${t.role === "student" ? "Student" : "Examiner"}: ${t.text}`)
-        .join("\n"),
-      text: { format: { type: "json_schema", name: "talk_score", strict: true, schema } },
-    }),
-  });
-
-  const items = response.ok ? modelItems((await response.json()) as ModelResponse) : null;
+  const items = await scoreTurns(key, task, turns);
 
   if (!items) {
-    console.error("Talk scoring failed", response.status);
-
     await reserved.refund();
 
     return json({ error: "upstream" }, 502);

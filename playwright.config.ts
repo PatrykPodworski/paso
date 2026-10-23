@@ -2,12 +2,15 @@ import { defineConfig } from "@playwright/test";
 
 // Parallel worktrees each set their own PW_PORT; CI leaves it unset.
 const port = process.env.PW_PORT ?? "4174";
+// The compare run's report is published to GitHub Pages, so it keeps only what
+// toHaveScreenshot attaches: no traces, failure screenshots or retried attempts.
+const compare = !!process.env.VISUAL_COMPARE;
 
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI && !compare ? 2 : 0,
   workers: 4,
   timeout: 30000,
   expect: { timeout: 5000 },
@@ -19,8 +22,8 @@ export default defineConfig({
     timezoneId: "Europe/Warsaw",
     colorScheme: "light",
     reducedMotion: "reduce",
-    trace: "retain-on-failure",
-    screenshot: "only-on-failure",
+    trace: compare ? "off" : "retain-on-failure",
+    screenshot: compare ? "off" : "only-on-failure",
     permissions: ["microphone"],
     launchOptions: {
       args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"],

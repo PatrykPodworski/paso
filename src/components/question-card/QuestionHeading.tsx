@@ -1,6 +1,7 @@
 import { SkillDot } from "../SkillDot";
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
+import { spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
@@ -49,7 +50,7 @@ export const QuestionHeading = ({
     }
   }, [q.id]);
 
-  const pronunciation = q.pronunciation || q.audio || q.passage || q.answer;
+  const pronunciation = spokenText(q);
   const hidePronunciation = !q.audio && !feedback;
 
   return (

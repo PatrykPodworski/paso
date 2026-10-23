@@ -13,6 +13,8 @@ jobs:
     container: mcr.microsoft.com/playwright:v1.62.1-noble
     env:
       VISUAL_COMPARE: "1"
+    outputs:
+      outcome: ${{ steps.compare.outcome }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -44,7 +46,7 @@ jobs:
       - name: Summarize the diff
         if: steps.compare.outcome == 'failure'
         run: |
-          node - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          node - <<'EOF' > changed.md
           const { suites } = require("./visual-results.json");
           const strip = (text) => text.replace(/\x1b\[[0-9;]*m/g, "");
           console.log("### Changed screenshots\n");
@@ -61,18 +63,69 @@ jobs:
           };
           suites.forEach(walk);
           EOF
+          cat changed.md >> "$GITHUB_STEP_SUMMARY"
+      # The publish job runs outside the container, where gh is available.
       - uses: actions/upload-artifact@v4
         if: steps.compare.outcome == 'failure'
         with:
           name: visual-diff
-          path: playwright-report/
+          retention-days: 1
+          path: |
+            playwright-report/
+            changed.md
       - name: Require approval
         if: >-
           steps.compare.outcome == 'failure' && (github.event.action == 'synchronize' ||
           !contains(github.event.pull_request.labels.*.name, 'visual-approved'))
         run: |
-          echo "::error::Screenshots differ from the base; the job summary lists them. Open index.html from the visual-diff artifact, then add the visual-approved label to accept the diff."
+          echo "::error::Screenshots differ from the base; the job summary lists them. Open the report linked in the pull request comment, then add the visual-approved label to accept the diff."
           exit 1
+
+  # Publishes the report to GitHub Pages under pr-<number>/ and keeps one comment on the
+  # pull request that links it, or says there is no difference.
+  publish:
+    needs: compare
+    if: always() && contains(fromJSON('["success", "failure"]'), needs.compare.outputs.outcome)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      NUMBER: ${{ github.event.number }}
+      MARKER: "<!-- visual-report -->"
+    steps:
+      - uses: actions/checkout@v5
+        if: needs.compare.outputs.outcome == 'failure'
+      - uses: actions/download-artifact@v5
+        if: needs.compare.outputs.outcome == 'failure'
+        with:
+          name: visual-diff
+          path: visual-diff
+      - name: Publish the report
+        if: needs.compare.outputs.outcome == 'failure'
+        run: .github/scripts/pages.sh "pr-$NUMBER" visual-diff/playwright-report
+      - name: Comment on the pull request
+        env:
+          OUTCOME: ${{ needs.compare.outputs.outcome }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          URL: https://patrykpodworski.github.io/paso/pr-${{ github.event.number }}/
+        run: |
+          id=$(gh api "repos/$GH_REPO/issues/$NUMBER/comments" --paginate \
+            --jq ".[] | select(.body | startswith(\"$MARKER\")) | .id" | head -n 1)
+          if [ "$OUTCOME" = failure ]; then
+            body="$MARKER"$'\n'"Screenshots of $SHA differ from the base. [Open the report]($URL) (it can take a minute to deploy)."$'\n\n'"$(cat visual-diff/changed.md)"
+          elif [ -n "$id" ]; then
+            body="$MARKER"$'\n'"Screenshots of $SHA match the base; there are no differences."
+          else
+            exit 0
+          fi
+          if [ -n "$id" ]; then
+            gh api --method PATCH "repos/$GH_REPO/issues/comments/$id" -f body="$body" > /dev/null
+          else
+            gh pr comment "$NUMBER" --body "$body"
+          fi
 
   # A new commit needs a new approval. The container above has no gh.
   reset-approval:

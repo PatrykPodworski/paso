@@ -4,6 +4,7 @@ import { globSync } from "node:fs";
 // visual comparisons. New application modules enter coverage automatically.
 export const sourceIncludes = [
   "src/**/*.{ts,tsx}",
+  "api/**/*.ts",
   "scripts/{audio-budget,audio-direction,elevenlabs,generate-elevenlabs}.mjs",
 ];
 

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 
 // `!` keeps the old `.field-note` !important: it beat every contextual `p` rule it sat in.
-const BASE = "text-[14px]! leading-[1.6]! text-sage-700!";
+const BASE = "text-sm! leading-relaxed! text-sage-700!";
 
 type Props = {
   /** Placement only — margin, border, grid placement. Never type or colour. */

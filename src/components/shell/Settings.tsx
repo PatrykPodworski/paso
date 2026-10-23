@@ -6,6 +6,7 @@ import { Dialog } from "../../design-system/Dialog";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { TextLink } from "../../design-system/TextLink";
 import { localDate } from "../../data/progress";
+import { downloadJson } from "../downloadJson";
 import type { Progress } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
@@ -18,7 +19,7 @@ type Props = {
   onReset: () => void;
 };
 
-const LABEL = "flex flex-col gap-[9px] mb-[20px] text-sage-600 text-[14px]";
+const LABEL = "flex flex-col gap-2 mb-5 text-sage-600 text-sm";
 
 export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [name, setName] = useState(progress.name);
@@ -26,29 +27,14 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [date, setDate] = useState(progress.examDate);
   const [reset, setReset] = useState(false);
 
-  const exportProgress = () => {
-    const url = URL.createObjectURL(
-      new Blob([JSON.stringify(progress, null, 2)], { type: "application/json" }),
-    );
-
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = `paso-progress-${localDate()}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
+  const exportProgress = () => downloadJson(progress, `paso-progress-${localDate()}.json`);
 
   return (
-    <Dialog
-      label="Your learning preferences"
-      onClose={onClose}
-      className="w-[min(560px,calc(100vw_-_35px))] p-[30px] max-md:p-[25px]"
-    >
-      <header className="flex justify-between gap-[10px] mb-[27px]">
+    <Dialog label="Your learning preferences" onClose={onClose} className="w-140 p-7 max-md:p-6">
+      <header className="flex justify-between gap-2.5 mb-7">
         <div>
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] mt-[8px] text-[27px] max-md:text-[26px]">
+          <h2 className="font-serif font-semibold tracking-tight leading-tight mt-2 text-2xl">
             Your little preferences.
           </h2>
         </div>
@@ -75,7 +61,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         </select>
       </label>
       <label className={LABEL}>
-        Exam date <span className="text-[13px] text-sage-700">(optional)</span>
+        Exam date <span className="text-xs text-sage-700">(optional)</span>
         <input
           className={FIELD}
           type="date"
@@ -83,7 +69,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           onChange={(e) => setDate(e.target.value)}
         />
       </label>
-      <FieldNote className="mb-[22px]">
+      <FieldNote className="mb-5">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
         data. Microphone recordings stay only in the active tab unless downloaded.
       </FieldNote>
@@ -110,11 +96,11 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <Icon name="check" size={17} />
         </Button>
       </ButtonRow>
-      <details className="mt-[25px] pt-[17px] border-t border-t-sage-200 text-[13px] text-sage-400">
+      <details className="mt-6 pt-4 border-t border-t-sage-200 text-xs text-sage-400">
         <summary className="cursor-pointer">Start over</summary>
         {reset ? (
           <div>
-            <p className="leading-[1.7] m-[14px_0]">
+            <p className="leading-relaxed my-3.5 mx-0">
               This clears lesson progress, drafts, checklists and the exam rehearsal in this
               browser.
             </p>
@@ -128,10 +114,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
             </ButtonRow>
           </div>
         ) : (
-          <TextLink
-            className="mt-[12px] text-[13px]! text-sand-500!"
-            onClick={() => setReset(true)}
-          >
+          <TextLink className="mt-3 text-xs! text-sand-500!" onClick={() => setReset(true)}>
             Reset my progress
           </TextLink>
         )}

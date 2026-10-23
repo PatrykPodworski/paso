@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { KEY, click, mount, run, seed, setupMockExam } from "../../test/mockExam";
-import { fresh, load } from "./useMockRun";
+import { click, mount, run, seed, setupMockExam } from "../../test/mockExam";
+import { MOCK_STORAGE_KEY, clearMockRun, fresh, load } from "./useMockRun";
 
 setupMockExam();
 
@@ -14,7 +14,7 @@ it.each([
   JSON.stringify(run({ stage: "unknown" })),
   JSON.stringify(run({ answers: null })),
 ])("recovers invalid saved state %s", (raw) => {
-  localStorage.setItem(KEY, raw);
+  localStorage.setItem(MOCK_STORAGE_KEY, raw);
   mount();
   expect(screen.getByRole("button", { name: "Start exam rehearsal" })).toBeInTheDocument();
 });
@@ -43,4 +43,21 @@ it("restores a valid saved run and fills fields older saves lack", () => {
   );
 
   expect(load()).toEqual({ ...fresh(), section: 1, index: 2, stage: "run", answers: { a: "b" } });
+});
+
+it("clears a saved run", () => {
+  seed();
+  clearMockRun();
+  expect(localStorage.getItem("paso-mock-v1")).toBeNull();
+});
+
+it("leaves the saved run in place without throwing when storage refuses to clear it", () => {
+  seed();
+
+  vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
+    throw new Error("blocked");
+  });
+
+  clearMockRun();
+  expect(JSON.parse(localStorage.getItem("paso-mock-v1")!)).toEqual(run());
 });

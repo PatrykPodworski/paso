@@ -50,7 +50,6 @@
       }
     ]
   },
-  "ignorePatterns": ["src/routeTree.gen.ts", "public/mockServiceWorker.js"],
   "overrides": [
     {
       "files": ["**/*.tsx"],

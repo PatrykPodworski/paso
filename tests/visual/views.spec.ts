@@ -1,8 +1,16 @@
-import { test, expect, openLesson, answer, stabilise, capture } from "../fixtures/app";
+import {
+  test,
+  expect,
+  openLesson,
+  answer,
+  stabilise,
+  capture,
+  resumeMockExam,
+} from "../fixtures/app";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
-import { mockSections } from "../../src/data/mock";
 import type { Page } from "@playwright/test";
+import { examiner, mockLiveTalk } from "../fixtures/live";
 
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });
@@ -32,7 +40,7 @@ const shot = async (page: Page, name: string) => {
   ).toBe(true);
 };
 
-for (const view of ["today", "path", "practice", "exam", "guide"]) {
+for (const view of ["today", "path", "practice", "exam", "guide", "backoffice"]) {
   test(`view: ${view}`, async ({ page }) => {
     await page.goto(`/#${view}`);
     await shot(page, view);
@@ -226,16 +234,6 @@ test("question: image", async ({ page }) => {
   await shot(page, "question-image");
 });
 
-test("question: speaking and reflection", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
-  await shot(page, "question-speaking");
-  await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
-  await shot(page, "speaking-feedback");
-});
-
 const examCases = [
   ["reading", 0, 0, "run"],
   ["listening", 1, 0, "run"],
@@ -252,22 +250,7 @@ const examCases = [
 
 for (const [name, section, index, stage] of examCases) {
   test(`exam state: ${name}`, async ({ page }) => {
-    const run = {
-      section,
-      index,
-      stage,
-      answers: { [mockSections[0].questions[0].id]: mockSections[0].questions[0].answer },
-      deadline: new Date("2026-09-09T10:25:00+02:00").getTime(),
-      started: "2026-09-09T08:00:00Z",
-      drafts: {},
-    };
-
-    await page.addInitScript(
-      (run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)),
-      run,
-    );
-
-    await page.goto("/#exam");
+    await resumeMockExam(page, { section, index, stage });
     await shot(page, `exam-${name}`);
 
     if (name === "reading") {
@@ -290,8 +273,7 @@ test("microphone denial", async ({ page }) => {
     };
   });
 
-  await page.goto("/");
-  await page.getByRole("button", { name: "Find your voice", exact: false }).click();
+  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
   await page.getByRole("button", { name: "Record your answer" }).click();
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
   await shot(page, "microphone-denied");
@@ -311,4 +293,64 @@ test("illustrated scenarios in the picture studio", async ({ page }) => {
     await answer(page, q);
     await page.getByRole("button", { name: "Continue", exact: true }).click();
   }
+});
+
+test("question: live talk with Lucía", async ({ page }) => {
+  await mockLiveTalk(page, {
+    grade: "bad",
+    items: [
+      { id: "name", label: "Name", level: "correct" },
+      { id: "age", label: "Age", level: "understandable" },
+      { id: "country", label: "Country", level: "missing" },
+    ],
+  });
+
+  await page.addInitScript(() =>
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "" })),
+  );
+
+  const lesson = await openLesson(page, 3);
+
+  for (const q of lesson.questions.slice(0, 3)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await shot(page, "question-live-passcode");
+  await page.getByLabel("Passcode").fill("olé");
+  await page.getByRole("button", { name: "Start the talk" }).click();
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
+  await examiner(page, { type: "session.started", session: { id: "live_1" } });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cómo te llamas?",
+    start_ms: 1000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Me llamo Ana.",
+    start_ms: 2000,
+  });
+
+  await examiner(page, {
+    type: "session.output_transcript.delta",
+    delta: "¿Cuántos años tienes?",
+    start_ms: 3000,
+  });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Soy veinte años.",
+    start_ms: 4000,
+  });
+
+  await expect(page.getByRole("status")).toHaveText("Live");
+  await shot(page, "question-live-talk");
+  await examiner(page, { type: "session.closed", reason: "close_requested" });
+  await expect(page.getByRole("heading", { name: "Not yet. Talk again to pass." })).toBeVisible();
+  await shot(page, "question-live-result");
+  await page.getByText("Transcript", { exact: true }).click();
+  await shot(page, "question-live-transcript");
 });

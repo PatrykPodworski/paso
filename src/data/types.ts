@@ -1,6 +1,21 @@
 export type Skill = "reading" | "listening" | "writing" | "speaking";
 export type Tone = "peach" | "sage" | "lavender" | "sand" | "blue";
-export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "speak" | "form";
+
+export type QuestionKind =
+  | "choice"
+  | "listen"
+  | "type"
+  | "order"
+  | "write"
+  | "speak"
+  | "form"
+  | "live";
+
+export type LiveGrade = "perfect" | "good" | "bad";
+export type LiveItem = "correct" | "understandable" | "missing";
+export type LiveScoreItem = { id: string; label: string; level: LiveItem };
+export type LiveScore = { grade: LiveGrade; items: LiveScoreItem[] };
+export type TalkTurn = { role: "examiner" | "student"; text: string };
 
 export interface Question {
   id: string;
@@ -24,6 +39,8 @@ export interface Question {
   maxWords?: number;
   fields?: { label: string; example: string }[];
   task?: string;
+  // The server-side talk task a live question runs.
+  talk?: string;
 }
 
 export interface Lesson {
@@ -56,7 +73,15 @@ export interface Attempt {
   answer: string;
   at: string;
   assisted?: boolean;
+  grade?: LiveGrade;
 }
+
+export type ReviewState = {
+  level: number;
+  nextAt: string;
+};
+
+export type VocabularyReview = ReviewState & { reviewedAt?: string };
 
 export interface Progress {
   version: 1;
@@ -66,8 +91,8 @@ export interface Progress {
   attempts: Attempt[];
   mistakes: string[];
   reviewed: string[];
-  mistakeReviews: Record<string, { level: number; nextAt: string }>;
-  vocabularyReviews: Record<string, { level: number; nextAt: string; reviewedAt?: string }>;
+  mistakeReviews: Record<string, ReviewState>;
+  vocabularyReviews: Record<string, VocabularyReview>;
   checks: string[];
   examDate: string;
   mockResults: {

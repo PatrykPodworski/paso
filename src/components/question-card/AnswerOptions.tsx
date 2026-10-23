@@ -2,19 +2,19 @@ import { Icon } from "../../design-system/Icon";
 import { PRESSABLE } from "../../design-system/pressable";
 
 export const OPTION_KEY =
-  "flex shrink-0 items-center justify-center rounded-[5px] border border-sage-200 bg-white text-sage-400";
+  "flex shrink-0 items-center justify-center rounded-sm border border-sage-200 bg-white text-sage-400";
 
 const OPTION =
-  "answer-option flex items-center rounded-[9px] border text-left leading-[1.65] enabled:hover:border-sage-300 enabled:hover:bg-sage-50";
+  "answer-option flex items-center rounded-lg border text-left leading-relaxed enabled:hover:border-sage-300 enabled:hover:bg-sage-50";
 
 const SIZE = {
-  few: "gap-[14px] p-[14px_17px] min-h-[59px] text-[15px] max-md:gap-[12px] max-md:p-[13px] max-md:min-h-[55px] max-md:text-[14px]",
-  many: "gap-[14px] p-[11px] min-h-[59px] text-[14px] max-md:gap-[7px] max-md:min-h-[55px] max-md:text-[12px]",
+  few: "gap-3.5 py-3.5 px-4 min-h-15 text-sm max-md:gap-3 max-md:p-3 max-md:min-h-14",
+  many: "gap-3.5 p-2.5 min-h-15 text-sm max-md:gap-1.5 max-md:min-h-14 max-md:text-xs",
 };
 
 const KEY_SIZE = {
-  few: "w-[25px] h-[25px] text-[13px]",
-  many: "w-[25px] h-[25px] text-[13px] max-md:w-[20px] max-md:h-[20px] max-md:text-[11px]",
+  few: "w-6 h-6 text-xs",
+  many: "w-6 h-6 text-xs max-md:w-5 max-md:h-5 max-md:text-2xs",
 };
 
 // Stylesheet order, not class order, decides between two utilities of one property,
@@ -52,7 +52,7 @@ const Option = ({
 }: OptionProps) => (
   <button
     type="button"
-    className={`${PRESSABLE} ${OPTION} ${SIZE[layout]} ${tone(picked, right, wrong)} ${picked ? "shadow-[0_0_0_1px_var(--color-olive-500)]" : ""}`}
+    className={`${PRESSABLE} ${OPTION} ${SIZE[layout]} ${tone(picked, right, wrong)} ${picked ? "ring ring-olive-500" : ""}`}
     onClick={() => onChoose(option)}
     disabled={feedback}
     aria-pressed={picked}
@@ -66,7 +66,7 @@ const Option = ({
     <span>{option}</span>
     {right && <Icon name="check" className="ml-auto" />}
     {!feedback && picked && (
-      <span className="ml-auto h-[13px] w-[13px] shrink-0 rounded-full border border-olive-500 bg-olive-500 shadow-[inset_0_0_0_3px_var(--color-sage-100)]" />
+      <span className="ml-auto h-3 w-3 shrink-0 rounded-full border border-olive-500 bg-olive-500 inset-ring-3 inset-ring-sage-100" />
     )}
   </button>
 );
@@ -93,7 +93,7 @@ export const AnswerOptions = ({
 
   return (
     <div
-      className={`grid gap-[11px] m-[17px_0_25px] ${layout === "many" ? "many-options grid-cols-[repeat(2,minmax(0,1fr))]" : ""}`}
+      className={`grid gap-2.5 mt-4 mx-0 mb-6 ${layout === "many" ? "many-options grid-cols-2" : ""}`}
     >
       {options.map((option, i) => (
         <Option

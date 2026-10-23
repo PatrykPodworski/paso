@@ -9,36 +9,37 @@ type Props = {
 };
 
 const CARD =
-  "relative min-w-0 text-left rounded-[10px] border border-sage-200 bg-white p-[20px_16px] hover:border-sage-300 hover:transform-[translateY(-2px)] max-xl:p-[15px_11px] max-md:p-[17px_12px] max-sm:grid max-sm:grid-cols-[36px_1fr] max-sm:gap-[0_13px] max-sm:p-[16px]";
+  "relative min-w-0 text-left rounded-lg border border-sage-200 bg-white py-5 px-4 hover:border-sage-300 hover:-translate-y-0.5 max-xl:py-3.5 max-xl:px-2.5 max-md:py-4 max-md:px-3 max-sm:flex max-sm:items-center max-sm:gap-3 max-sm:p-4";
 
-const ARROW =
-  "absolute right-[13px] top-[25px] text-sage-400 max-sm:right-[16px] max-sm:top-[27px]";
+const ARROW = "absolute right-3 top-6 text-sage-400 max-sm:right-4 max-sm:top-7";
 
-const ICON =
-  "h-[36px] w-[36px] rounded-[10px] mb-[14px] flex items-center justify-center shrink-0 max-sm:row-[1/3] max-sm:m-0";
+const ICON = "h-9 w-9 rounded-lg mb-3.5 flex items-center justify-center shrink-0 max-sm:m-0";
 
-const TITLE =
-  "block text-[14px] max-xl:text-[13px] max-lg:text-[14px] max-sm:text-[15px] max-sm:self-end";
+const TITLE = "block text-sm max-xl:text-xs max-lg:text-sm";
 
 const NOTE =
-  "block text-[11px] text-sage-700 mt-[6px] pr-[6px] xl:leading-[1.6] max-xl:text-[10px] max-lg:text-[12px] max-md:text-[11px] max-sm:text-[12px] max-sm:mt-[5px]";
+  "block text-2xs text-sage-700 mt-1.5 pr-1.5 xl:leading-relaxed max-lg:text-xs max-md:text-2xs max-sm:text-xs max-sm:mt-1";
 
 export const QuickPractice = ({ mistakeCount, practice }: Props) => (
-  <div className="grid grid-cols-[repeat(3,1fr)] gap-[12px] max-md:gap-[10px] max-sm:grid-cols-[1fr]">
+  <div className="grid grid-cols-3 gap-3 max-md:gap-2.5 max-sm:grid-cols-1">
     <button className={`${PRESSABLE} ${CARD}`} onClick={() => practice("listening")}>
       <span className={`${ICON} ${TONE.lavender}`}>
         <Icon name="headphones" size={23} />
       </span>
-      <strong className={TITLE}>Tune your ear</strong>
-      <small className={NOTE}>Listen to everyday Spanish</small>
+      <span className="block min-w-0">
+        <strong className={TITLE}>Tune your ear</strong>
+        <small className={NOTE}>Listen to everyday Spanish</small>
+      </span>
       <Icon name="arrow" size={17} className={ARROW} />
     </button>
     <button className={`${PRESSABLE} ${CARD}`} onClick={() => practice("speaking")}>
       <span className={`${ICON} ${TONE.peach}`}>
         <Icon name="mic" size={23} />
       </span>
-      <strong className={TITLE}>Find your voice</strong>
-      <small className={NOTE}>A safe space to speak</small>
+      <span className="block min-w-0">
+        <strong className={TITLE}>Find your voice</strong>
+        <small className={NOTE}>A safe space to speak</small>
+      </span>
       <Icon name="arrow" size={17} className={ARROW} />
     </button>
     <button
@@ -48,10 +49,14 @@ export const QuickPractice = ({ mistakeCount, practice }: Props) => (
       <span className={`${ICON} ${TONE.sage}`}>
         <Icon name="repeat" size={23} />
       </span>
-      <strong className={TITLE}>Make it stick</strong>
-      <small className={NOTE}>
-        {mistakeCount ? `${mistakeCount} mistakes to revisit` : "A fresh mix of little challenges"}
-      </small>
+      <span className="block min-w-0">
+        <strong className={TITLE}>Make it stick</strong>
+        <small className={NOTE}>
+          {mistakeCount
+            ? `${mistakeCount} mistakes to revisit`
+            : "A fresh mix of little challenges"}
+        </small>
+      </span>
       <Icon name="arrow" size={17} className={ARROW} />
     </button>
   </div>

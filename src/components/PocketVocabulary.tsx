@@ -5,7 +5,7 @@ import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
 import { localDate, reviewDue, vocabularyReview } from "../data/progress";
 import { type Card, WORDS_PER_ADD, addWords, deckCards, topicCounts, topics } from "../data/topics";
-import type { Progress } from "../data/types";
+import type { Progress, VocabularyReview } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { stopAudio } from "./audio/playback";
 import { Dialog } from "../design-system/Dialog";
@@ -16,10 +16,9 @@ import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 import { FIELD } from "../design-system/field";
 
-type Review = Progress["vocabularyReviews"][string];
 type Props = {
   progress: Progress;
-  onReview: (word: string, review: Review) => void;
+  onReview: (word: string, review: VocabularyReview) => void;
   onAddWords: (entries: Progress["vocabularyReviews"]) => void;
   onLearn: () => void;
 };
@@ -58,7 +57,7 @@ type VocabularySessionProps = Omit<Props, "onLearn" | "onAddWords"> & {
 const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySessionProps) => {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
-  const [results, setResults] = useState<{ correct: boolean; review: Review }[]>([]);
+  const [results, setResults] = useState<{ correct: boolean; review: VocabularyReview }[]>([]);
   const ratingLock = useRef(false);
   const action = useRef<HTMLButtonElement>(null);
   const word = words[index];

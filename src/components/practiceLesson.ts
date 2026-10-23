@@ -9,7 +9,7 @@ export const practiceLesson = (
   let questions =
     skill === "mistakes"
       ? mistakeQuestions
-      : exerciseBank.filter((q) => skill === "all" || q.skill === skill);
+      : exerciseBank.filter((q) => q.kind !== "live" && (skill === "all" || q.skill === skill));
 
   if (!questions.length) {
     return null;

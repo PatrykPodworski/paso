@@ -3,7 +3,7 @@ export const JourneyArt = () => (
     viewBox="0 0 600 410"
     role="img"
     aria-label="A sunlit Spanish village with terracotta rooftops, an orange tree and a winding path to a flag"
-    className="absolute top-[6px] right-[-65px] w-[65%] h-full z-[1] max-xl:top-[17px] max-xl:right-[-60px] max-xl:w-[64%] max-lg:top-0 max-lg:right-[-50px] max-lg:w-[66%] max-md:top-[10px] max-md:right-[-61px] max-md:w-[63%] max-sm:top-auto max-sm:bottom-[-19px] max-sm:right-[-65px] max-sm:w-[75%] max-sm:h-[59%] max-sm:opacity-[0.96]"
+    className="absolute top-1.5 -right-16 w-2/3 h-full z-1 max-xl:top-4 max-xl:-right-15 max-lg:top-0 max-lg:-right-12 max-md:top-2.5 max-md:-right-15 max-sm:top-auto max-sm:-bottom-5 max-sm:-right-16 max-sm:w-3/4 max-sm:h-3/5 max-sm:opacity-95"
   >
     <defs>
       <pattern
@@ -119,11 +119,11 @@ export const JourneyArt = () => (
 
 export const Stamp = () => (
   <div
-    className="stamp flex flex-col items-center justify-center shrink-0 w-[110px] h-[110px] border border-dashed border-[#b6bfa3] rounded-[50%] text-[#94a77d] rotate-11 max-md:w-[80px] max-md:h-[80px]"
+    className="stamp flex flex-col items-center justify-center shrink-0 w-27 h-27 border border-dashed border-sage-300 rounded-full text-olive-500 rotate-11 max-md:w-20 max-md:h-20"
     aria-hidden="true"
   >
-    <span className="text-[10px] tracking-[2px] max-md:text-[9px]">PASO A PASO</span>
-    <svg viewBox="0 0 60 45" className="shrink-0 w-[50px] h-[45px] max-md:w-[38px] max-md:h-[34px]">
+    <span className="text-2xs tracking-widest">PASO A PASO</span>
+    <svg viewBox="0 0 60 45" className="shrink-0 w-12 h-11 max-md:w-9 max-md:h-8">
       <path
         d="m5 35 16-27 13 27M12 24h17m7 11V10l-7 6m3 19h15"
         fill="none"
@@ -132,6 +132,6 @@ export const Stamp = () => (
       />
       <path d="m7 41 42-3" stroke="currentColor" />
     </svg>
-    <small className="text-[4px] tracking-[1px] max-md:text-[3px]">YOUR JOURNEY STARTS HERE</small>
+    <small className="text-[4px] tracking-widest max-md:text-[3px]">YOUR JOURNEY STARTS HERE</small>
   </div>
 );

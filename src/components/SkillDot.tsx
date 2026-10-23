@@ -10,5 +10,5 @@ const COLOR: Record<Skill, string> = {
 type Props = { skill: Skill };
 
 export const SkillDot = ({ skill }: Props) => (
-  <span className={`inline-block w-[6px] h-[6px] rounded-full shrink-0 ${COLOR[skill]}`} />
+  <span className={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${COLOR[skill]}`} />
 );

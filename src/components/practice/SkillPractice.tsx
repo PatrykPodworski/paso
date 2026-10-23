@@ -60,10 +60,10 @@ const SETS = [
 
 export const SkillPractice = ({ progress, filter, setSession, practice }: Props) => (
   <>
-    <Panel className="bg-sage-100! p-[30px_34px] max-lg:p-[27px] max-md:p-[24px] max-sm:p-[22px] flex justify-between gap-[20px] overflow-hidden">
-      <div className="max-w-[520px]">
+    <Panel className="bg-sage-100! py-7 px-8 max-lg:p-7 max-md:p-6 max-sm:p-5 flex justify-between gap-5 overflow-hidden">
+      <div className="max-w-130">
         <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
-        <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] text-[33px] max-lg:text-[29px] max-sm:text-[27px] m-[12px_0]">
+        <h2 className="font-serif font-semibold tracking-tight leading-tight text-3xl max-sm:text-2xl my-3 mx-0">
           {filter === "all"
             ? "A little bit of everything."
             : filter === "listening"
@@ -74,7 +74,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
                   ? "Make a little room for your words."
                   : "Find the meaning in the details."}
         </h2>
-        <p className="leading-[1.7] text-[14px] text-sage-600 max-w-[420px] mb-[21px]">
+        <p className="leading-relaxed text-sm text-sage-600 max-w-105 mb-5">
           Fresh questions come first. Revisit the ones you’ve seen as your confidence grows.
         </p>
         <Button variant="primary" onClick={() => practice(filter)}>
@@ -82,18 +82,18 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           <Icon name="arrow" />
         </Button>
       </div>
-      <div className="h-[164px] w-[164px] max-lg:h-[125px] max-lg:w-[125px] bg-sage-200 rounded-full text-olive-600 flex max-md:hidden flex-col items-center justify-center m-[0_24px] max-lg:m-[15px_0] relative shrink-0">
+      <div className="h-41 w-41 max-lg:h-31 max-lg:w-31 bg-sage-200 rounded-full text-olive-600 flex max-md:hidden flex-col items-center justify-center my-0 mx-6 max-lg:my-3.5 max-lg:mx-0 relative shrink-0">
         <Icon
           name={skills.find((s) => s.id === filter)?.icon || "spark"}
           size={64}
-          className="max-lg:w-[45px] max-lg:h-[45px]"
+          className="max-lg:w-11 max-lg:h-11"
         />
-        <i className="font-serif text-[22px] max-lg:text-[17px] bg-sand-50 p-[4px_14px] rounded-[7px] transform-[rotate(-10deg)] mt-[16px] text-sand-600">
+        <i className="font-serif text-xl max-lg:text-base bg-sand-50 py-1 px-3.5 rounded-md -rotate-10 mt-4 text-sand-600">
           ¡Tú puedes!
         </i>
       </div>
     </Panel>
-    <div className="grid grid-cols-[repeat(4,1fr)] max-lg:grid-cols-[1fr_1fr] gap-[15px] max-md:gap-[13px] mt-[22px]">
+    <div className="grid grid-cols-4 max-lg:grid-cols-2 gap-3.5 max-md:gap-3 mt-5">
       {skills
         .filter((s) => filter === "all" || filter === s.id)
         .map((s) => {
@@ -103,55 +103,51 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
             <Panel
               as="button"
               key={s.id}
-              className="text-left p-[23px] max-xl:p-[20px_15px] max-sm:p-[19px_14px] relative hover:transform-[translateY(-2px)] hover:border-sage-300"
+              className="text-left p-6 max-xl:py-5 max-xl:px-3.5 max-sm:py-5 max-sm:px-3.5 relative hover:-translate-y-0.5 hover:border-sage-300"
               onClick={() => practice(s.id)}
             >
-              <span className={`${SKILL_ICON} w-[45px] h-[45px] mb-[17px] ${s.tint}`}>
+              <span className={`${SKILL_ICON} w-11 h-11 mb-4 ${s.tint}`}>
                 <Icon name={s.icon} size={24} />
               </span>
               <Eyebrow variant="small">{s.spanish}</Eyebrow>
-              <h3 className="font-semibold tracking-[-0.3px] text-[18px] max-md:text-[17px] max-sm:text-[18px] mt-[4px]">
+              <h3 className="font-semibold tracking-tight text-lg max-md:text-base max-sm:text-lg mt-1">
                 {s.name}
               </h3>
-              <p className="leading-[1.7] text-[13px] max-sm:text-[12px] text-sage-500 m-[10px_0]">
+              <p className="leading-relaxed text-xs text-sage-500 my-2.5 mx-0">
                 {stats.practised} questions practised
               </p>
-              <span className="text-[11px] max-xl:text-[10px] max-lg:text-[12px] max-md:text-[11px] max-sm:text-[10px] text-sage-400">
+              <span className="text-2xs max-lg:text-xs max-md:text-2xs text-sage-400">
                 {stats.accuracy === null
                   ? "A lovely place to start"
                   : `${stats.accuracy}% unassisted objective accuracy`}
               </span>
-              <Icon
-                name="arrow"
-                size={19}
-                className="absolute right-[20px] top-[35px] text-sage-400"
-              />
+              <Icon name="arrow" size={19} className="absolute right-5 top-9 text-sage-400" />
             </Panel>
           );
         })}
     </div>
-    <div className="grid grid-cols-[1fr_1fr] max-lg:grid-cols-[1fr] gap-[16px] mt-[20px]">
+    <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-4 mt-5">
       {SETS.map(({ session, tone, name, note }) => (
         <Panel
           as="button"
           key={session.id}
-          className="flex items-center gap-[15px] max-sm:gap-[11px] p-[20px] max-xl:p-[17px_13px] text-left"
+          className="flex items-center gap-3.5 max-sm:gap-2.5 p-5 max-xl:py-4 max-xl:px-3 text-left"
           onClick={() => setSession(session)}
         >
           <span
-            className={`h-[47px] w-[47px] rounded-[12px] flex items-center justify-center shrink-0 max-sm:w-[35px] max-sm:h-[39px] ${tone}`}
+            className={`h-12 w-12 rounded-xl flex items-center justify-center shrink-0 max-sm:w-9 max-sm:h-10 ${tone}`}
           >
             <Icon name={session.icon} />
           </span>
           <div>
-            <h3 className="text-[15px] max-xl:text-[14px] max-lg:text-[16px] max-sm:text-[15px] font-semibold tracking-[-0.3px]">
+            <h3 className="text-sm max-lg:text-base max-sm:text-sm font-semibold tracking-tight">
               {name}
             </h3>
-            <p className="leading-[1.7] text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-sm:text-[11px] text-sage-500 mt-[5px]">
+            <p className="leading-relaxed text-xs max-xl:text-2xs max-lg:text-xs max-sm:text-2xs text-sage-500 mt-1">
               {note}
             </p>
           </div>
-          <Icon name="arrow" className="ml-auto text-sage-500 w-[17px] max-sm:w-[15px]" />
+          <Icon name="arrow" className="ml-auto text-sage-500 w-4 max-sm:w-3.5" />
         </Panel>
       ))}
     </div>

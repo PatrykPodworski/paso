@@ -173,10 +173,12 @@ it("persists explicit right and wrong ratings with next dates and resumes only d
 });
 
 it("reviews all due cards once, finishes with a summary, and counts unique cards reviewed today", () => {
-  mount();
+  const due = 3;
+
+  mount(progressWithDue(due));
   click("Review flashcards");
 
-  for (let index = 0; index < words.length; index++) {
+  for (let index = 0; index < due; index++) {
     const dialog = screen.getByRole("dialog");
 
     expect(within(dialog).getByRole("heading", { name: words[index].es })).toBeInTheDocument();
@@ -185,10 +187,10 @@ it("reviews all due cards once, finishes with a summary, and counts unique cards
   }
 
   expect(screen.getByRole("heading", { name: "Your review is complete." })).toBeInTheDocument();
-  expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", String(words.length));
+  expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", String(due));
   click("Back to vocabulary");
   count("To review", 0);
-  count("Reviewed today", words.length);
+  count("Reviewed today", due);
 
   act(() => {
     vi.advanceTimersByTime(10 * 60_000);
@@ -198,7 +200,7 @@ it("reviews all due cards once, finishes with a summary, and counts unique cards
   click("Reveal answer");
   click(/Got it right/);
   click("Close vocabulary review");
-  count("Reviewed today", words.length);
+  count("Reviewed today", due);
   expect(saved().vocabularyReviews[words[0].es].level).toBe(1);
 });
 

@@ -1,4 +1,5 @@
 {
   "$schema": "./node_modules/fallow/schema.json",
-  "ignorePatterns": [".claude/**"]
+  "ignorePatterns": [".claude/**"],
+  "ignoreExports": [{ "file": "api/*.ts", "exports": ["config"] }]
 }

@@ -1,5 +1,6 @@
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
 import { allLessons } from "../../src/data/curriculum";
+import { mockSections } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
 
 export const test = base.extend<{ blockExternal: void }>({
@@ -136,6 +137,27 @@ export const closeLesson = async (page: Page) => {
   if (await page.getByRole("button", { name: "Save & leave" }).isVisible()) {
     await page.getByRole("button", { name: "Save & leave" }).click();
   }
+};
+
+// Opens the exam page with a mock run saved at the given point. The deadline is after
+// the fixed clock, so the section timer runs.
+export const resumeMockExam = async (
+  page: Page,
+  { section, index, stage }: { section: number; index: number; stage: string },
+) => {
+  const run = {
+    section,
+    index,
+    stage,
+    answers: { [mockSections[0].questions[0].id]: mockSections[0].questions[0].answer },
+    deadline: new Date("2026-09-09T10:25:00+02:00").getTime(),
+    started: "2026-09-09T08:00:00Z",
+    drafts: {},
+  };
+
+  await page.addInitScript((run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)), run);
+
+  await page.goto("/#exam");
 };
 
 export const stored = async (page: Page, key = "paso-progress-v1") =>

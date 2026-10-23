@@ -12,7 +12,7 @@ pnpm test:browser:install
 pnpm test:refactor
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit`, the mutation gate and the visual suite on pull requests and pushes to `main`; the coverage gate and the E2E journeys run locally with this command. The Visual workflow compares every screenshot with the base branch on pull requests.
+CI (`.github/workflows/ci.yml`) runs lint, build, unit tests, `fallow audit` and the visual suite on pull requests and pushes to `main`. The mutation gate runs nightly on `main` (`.github/workflows/mutation.yml`) and skips nights when `main` has not changed; the coverage gate and the E2E journeys run locally with this command. The Visual workflow compares every screenshot with the base branch on pull requests.
 
 The gate first verifies stable test IDs, then builds/type-checks the app, lints, checks unit coverage, exercises browser journeys, and runs Stryker business mutations. It exits unsuccessfully if any required check fails. It does **not** cover presentation: the browser run takes screenshots but compares none of them.
 
@@ -115,7 +115,7 @@ Dates, timezone, locale, motion and AI responses are deterministic. Native recor
 
 Screenshots go through `capture()` in `tests/fixtures/app.ts`, which writes them to the ignored `screenshots/<project>/<name>.png` for inspection. With `VISUAL_COMPARE=1` it compares them with `screenshots/baseline/<project>/<name>.png` instead. No baseline images are committed.
 
-On pull requests, `.github/workflows/visual.yml` takes the baseline from the base branch's app and the comparison from the pull request's, both in the Playwright container, for every `capture()` on both projects. A diff fails the job and uploads the Playwright report as the `visual-diff` artifact; the `visual-approved` label accepts the diff until the next push. To compare locally, run `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then `VISUAL_COMPARE=1 pnpm test:visual` on the change; macOS baselines are only comparable with macOS runs.
+On pull requests, `.github/workflows/visual.yml` takes the baseline from the base branch's app and the comparison from the pull request's, both in the Playwright container, for every `capture()` on both projects. A diff fails the job and publishes the Playwright report to the `gh-pages` branch under `pr-<number>/`, linked from a pull request comment that a later passing run updates; `.github/workflows/visual-cleanup.yml` removes the folder when the pull request closes. The compare run records no traces, failure screenshots or retries, so the report holds only the expected, actual and diff images; the `visual-approved` label accepts the diff until the next push. To compare locally, run `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then `VISUAL_COMPARE=1 pnpm test:visual` on the change; macOS baselines are only comparable with macOS runs.
 
 A passing `pnpm test:visual` does **not** mean the UI looks the same. It means every view rendered, every journey step it drives succeeded, and `views.spec.ts` found no horizontal overflow.
 
@@ -149,7 +149,7 @@ Generated detail reports are local and ignored by Git:
 
 Two regression defects found while adding this suite were fixed: an intentionally cleared exam draft could restore an old submitted answer, and a corrupt saved exam question index could crash the view.
 
-The pre-existing `scripts/browser-check.mjs` is a manual smoke check excluded from every routine gate. ElevenLabs generation is never invoked live by the suite.
+ElevenLabs generation is never invoked live by the suite.
 
 During the refactor, preserve these tests' observable expectations. For a changed rule, update its inventory row and add a counterexample or boundary that fails if the rule is removed or reversed. Add a browser journey for a new flow and a `capture()` for a new view. Keep test inputs and expected outcomes independent of the helper being tested. A moved file should keep its tests and enter automatic source discovery; never reduce thresholds, narrow the mutation scope merely to make a refactor pass.
 

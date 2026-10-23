@@ -13,10 +13,10 @@ type Props = {
 };
 
 const SIDEBAR =
-  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-[260px] max-xl:w-[215px] max-md:w-[245px] pt-[36px] xl:pt-[34px] max-md:pt-[28px] px-[20px] max-xl:px-[15px] max-md:px-[20px] pb-0 bg-white border-r border-r-sage-200 max-md:transition-transform max-md:duration-200 max-md:motion-reduce:transition-none";
+  "fixed left-0 top-0 bottom-0 z-30 flex flex-col w-65 max-xl:w-54 max-md:w-61 pt-9 xl:pt-8 max-md:pt-7 px-5 max-xl:px-3.5 max-md:px-5 pb-0 bg-white border-r border-r-sage-200 max-md:transition-transform max-md:duration-200 max-md:motion-reduce:transition-none";
 
 const NAV_ITEM =
-  "w-full flex items-center text-left gap-[12px] max-xl:gap-[10px] bg-transparent border-0 rounded-[8px] p-[13px] xl:p-[15px_13px] m-[4px_0] xl:m-[5px_0] text-sage-700 text-[14px]";
+  "w-full flex items-center text-left gap-3 max-xl:gap-2.5 bg-transparent border-0 rounded-lg p-3 xl:py-3.5 xl:px-3 my-1 mx-0 xl:my-1 xl:mx-0 text-sage-700 text-sm";
 
 export const Sidebar = ({
   page,
@@ -30,7 +30,7 @@ export const Sidebar = ({
   <>
     {mobileNav && (
       <button
-        className={`${PRESSABLE} hidden max-md:block fixed inset-0 z-[25] border-0 bg-green-950/47 backdrop-blur-[3px]`}
+        className={`${PRESSABLE} hidden max-md:block fixed inset-0 z-25 border-0 bg-green-950/47 backdrop-blur-xs`}
         onClick={() => closeNav()}
         aria-label="Close navigation"
       />
@@ -38,39 +38,43 @@ export const Sidebar = ({
     <aside
       className={`${SIDEBAR} ${
         mobileNav
-          ? "max-md:translate-x-0 max-md:shadow-[8px_0_40px_var(--color-green-950)]/11"
+          ? "max-md:translate-x-0 max-md:shadow-2xl max-md:shadow-green-950/11"
           : "max-md:-translate-x-full"
       }`}
     >
       <a
         href="#today"
-        className="flex items-center gap-[9px] no-underline m-[0_12px_34px] text-[37px] font-bold tracking-[-2.5px] leading-[1]"
+        className="flex items-center gap-2 no-underline mt-0 mx-3 mb-8 text-4xl font-bold tracking-tighter leading-none"
         onClick={(e) => {
           e.preventDefault();
           navigate("today");
         }}
         aria-label="Paso home"
       >
-        <span className="relative font-serif bg-green-900 text-sand-50 w-[32px] h-[35px] leading-[30px] text-center rounded-[10px_10px_10px_3px] text-[34px] tracking-[-2px] pr-[2px]">
-          p<span className="absolute text-sand-400 text-[22px] left-[13px] top-[-1px]">•</span>
+        <span className="relative font-serif bg-green-900 text-sand-50 w-8 h-9 leading-7 text-center rounded-lg rounded-bl-xs text-4xl tracking-tighter pr-0.5">
+          p<span className="absolute text-sand-400 text-xl left-3 -top-px">•</span>
         </span>
         <span>
           paso<span className="text-coral-600">.</span>
         </span>
       </a>
-      <div className="flex items-center gap-[10px] border border-sage-200 rounded-[9px] p-[13px_10px] bg-sage-50 mb-[35px] max-xl:gap-[7px] max-xl:p-[12px_8px]">
+      <div className="flex items-center gap-2.5 border border-sage-200 rounded-lg py-3 px-2.5 bg-sage-50 mb-9 max-xl:gap-1.5 max-xl:py-3 max-xl:px-2">
         <span
-          className="w-[25px] h-[25px] rounded-[50%] bg-[linear-gradient(var(--color-coral-700)_0_27%,var(--color-yellow-300)_27%_72%,var(--color-coral-700)_72%)] border-[3px] border-sand-50 shadow-[0_0_0_1px_var(--color-sage-200)] shrink-0"
+          className="flex flex-col w-6 h-6 overflow-hidden rounded-full border-3 border-sand-50 ring ring-sage-200 shrink-0"
           aria-label="Spanish flag"
-        />
+        >
+          <span className="h-1/4 bg-coral-700" />
+          <span className="flex-1 bg-yellow-300" />
+          <span className="h-1/4 bg-coral-700" />
+        </span>
         <div>
-          <strong className="block text-[12px] tracking-[-0.1px]">Spanish for your world</strong>
-          <span className="block text-[11px] text-sage-700 mt-[4px] max-xl:text-[12px]">
+          <strong className="block text-xs tracking-normal">Spanish for your world</strong>
+          <span className="block text-2xs text-sage-700 mt-1 max-xl:text-xs">
             DELE A1 · Beginner
           </span>
         </div>
       </div>
-      <span className="text-[11px] xl:text-[10px] font-bold tracking-[1.5px] text-sage-500 px-[13px] mb-[13px]">
+      <span className="text-2xs xl:text-2xs font-bold tracking-widest text-sage-500 px-3 mb-3">
         YOUR LEARNING SPACE
       </span>
       <nav aria-label="Main navigation">
@@ -83,32 +87,32 @@ export const Sidebar = ({
             onClick={() => navigate(n.id)}
             aria-current={page === n.id ? "page" : undefined}
           >
-            <Icon name={n.icon} className="w-[18px]" />
+            <Icon name={n.icon} className="w-4" />
             <span>{n.label}</span>
             {n.id === "practice" && mistakeCount > 0 && (
-              <small className="ml-auto rounded-[4px] bg-sand-200 p-[2px_5px] text-[12px] text-coral-800">
+              <small className="ml-auto rounded-sm bg-sand-200 py-0.5 px-1 text-xs text-coral-800">
                 {mistakeCount}
               </small>
             )}
-            {page === n.id && <i className="ml-auto w-[5px] h-[5px] rounded-[50%] bg-green-900" />}
+            {page === n.id && <i className="ml-auto w-1 h-1 rounded-full bg-green-900" />}
           </button>
         ))}
       </nav>
-      <div className="pt-[38px] max-md:pt-[25px] px-[17px] pb-[30px] mt-[20px]">
-        <span className="block text-[33px] text-sand-500 leading-[1]">✺</span>
-        <p className="leading-[1.7] font-serif text-[19px] italic text-sage-700 m-[11px_0_5px]">
+      <div className="pt-9 max-md:pt-6 px-4 pb-7 mt-5">
+        <span className="block text-3xl text-sand-500 leading-none">✺</span>
+        <p className="leading-relaxed font-serif text-lg italic text-sage-700 mt-2.5 mx-0 mb-1">
           Un poquito cada día.
         </p>
-        <span className="text-sage-600 text-[14px] xl:text-[13px] leading-[1.7]">
+        <span className="text-sage-600 text-sm xl:text-xs leading-relaxed">
           A little every day
           <br />
           takes you a long way.
         </span>
-        <div className="w-[68px] h-[9px] border-t border-t-sage-300 rounded-[50%] -rotate-[5deg] mt-[17px]" />
+        <div className="w-17 h-2 border-t border-t-sage-300 rounded-full -rotate-5 mt-4" />
       </div>
-      <div className="mt-auto pb-[22px] max-md:pb-[17px]">
+      <div className="mt-auto pb-5 max-md:pb-4">
         <button
-          className={`${PRESSABLE} flex items-center gap-[9px] text-[13px] text-sage-600 p-[15px_8px] bg-transparent border-0`}
+          className={`${PRESSABLE} flex items-center gap-2 text-xs text-sage-600 py-3.5 px-2 bg-transparent border-0`}
           onClick={() => navigate("guide")}
         >
           <Icon name="info" size={17} />
@@ -116,17 +120,17 @@ export const Sidebar = ({
           <Icon name="external" size={13} />
         </button>
         <button
-          className={`${PRESSABLE} flex items-center gap-[10px] w-full text-left border-0 border-t border-t-sage-200 p-[19px_0_0] bg-transparent`}
+          className={`${PRESSABLE} flex items-center gap-2.5 w-full text-left border-0 border-t border-t-sage-200 pt-5 px-0 pb-0 bg-transparent`}
           onClick={() => openSettings()}
         >
-          <span className="w-[33px] h-[33px] flex items-center justify-center rounded-[50%] bg-sand-300 text-sand-800 text-[14px] font-serif font-semibold">
+          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-sand-300 text-sand-800 text-sm font-serif font-semibold">
             {name ? name[0].toUpperCase() : "P"}
           </span>
           <span>
-            <strong className="block max-w-[130px] overflow-hidden text-ellipsis text-[13px] xl:text-[12px]">
+            <strong className="block max-w-32 overflow-hidden text-ellipsis text-xs xl:text-xs">
               {name || "Your Spanish journey"}
             </strong>
-            <small className="block mt-[3px] text-[11px] xl:text-[10px] text-sage-400">
+            <small className="block mt-0.5 text-2xs xl:text-2xs text-sage-400">
               Learning at your pace
             </small>
           </span>

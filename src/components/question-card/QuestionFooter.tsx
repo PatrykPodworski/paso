@@ -14,8 +14,8 @@ export const QuestionFooter = ({ exam, productive, kind, canSubmit, onCheck }: P
   const singleChoice = kind === "choice" || kind === "listen";
 
   return (
-    <div className="flex items-center justify-between gap-[20px] mt-[22px] border-t border-sage-200 pt-[22px] max-md:flex-col max-md:items-stretch max-md:gap-[15px] max-md:mt-[21px] max-md:pt-[18px]">
-      <span className="max-w-[300px] text-[13px] leading-[1.7] text-sage-700 max-lg:max-w-[210px] max-md:max-w-none max-md:text-center max-md:text-[12px]">
+    <div className="flex items-center justify-between gap-5 mt-5 border-t border-sage-200 pt-5 max-md:flex-col max-md:items-stretch max-md:gap-3.5 max-md:pt-4">
+      <span className="max-w-75 text-xs leading-relaxed text-sage-700 max-lg:max-w-52 max-md:max-w-none max-md:text-center">
         {exam
           ? "Answers are reviewed after the section."
           : productive

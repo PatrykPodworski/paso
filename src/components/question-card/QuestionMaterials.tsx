@@ -6,7 +6,7 @@ import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 
 const PASSAGE =
-  "reading-passage relative rounded-[9px] border border-sand-200 bg-sand-50 p-[24px_27px] mb-[22px] max-md:p-[20px]";
+  "reading-passage relative rounded-lg border border-sand-200 bg-sand-50 py-6 px-7 mb-5 max-md:p-5";
 
 type Props = {
   q: Question;
@@ -22,7 +22,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
     <>
       {q.image && (
         <img
-          className="w-full max-h-[160px] rounded-[10px] object-cover mb-[20px] max-sm:max-h-[130px]"
+          className="w-full max-h-40 rounded-lg object-cover mb-5 max-sm:max-h-32"
           src={`/illustrations/${q.image}.svg`}
           alt={
             q.image === "cafe"
@@ -36,7 +36,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
       {q.passage && (
         <div className={PASSAGE} lang="es">
           <span
-            className="absolute right-[25px] top-[-7px] h-[25px] w-[11px] rotate-[15deg] rounded-[7px] border-2 border-sage-300"
+            className="absolute right-6 -top-1.5 h-6 w-2.5 rotate-15 rounded-md border-2 border-sage-300"
             aria-hidden="true"
           />
           {!exam && (
@@ -49,9 +49,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
               label="Play the reading passage"
             />
           )}
-          <p className="whitespace-pre-line text-[15px] leading-[1.85] text-sage-800 max-md:text-[14px]">
-            {q.passage}
-          </p>
+          <p className="whitespace-pre-line text-sm leading-loose text-sage-800">{q.passage}</p>
         </div>
       )}
       {q.audio && (
@@ -59,7 +57,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
           {!exam && (
             <TextLink
               type="button"
-              className="m-[11px_0_19px] text-[13px]! font-normal! text-lavender-500!"
+              className="mt-2.5 mx-0 mb-5 text-xs! font-normal! text-lavender-500!"
               onClick={() => {
                 setTranscript((t) => !t);
                 onTranscript();
@@ -70,11 +68,11 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
           )}
           {transcript && (
             <div
-              className="rounded-[5px] border-l-[3px] border-lavender-400 bg-lavender-50 p-[18px_20px] text-[14px] leading-[1.8] text-lavender-600 mb-[20px]"
+              className="rounded-sm border-l-3 border-lavender-400 bg-lavender-50 py-4 px-5 text-sm leading-relaxed text-lavender-600 mb-5"
               lang="es"
             >
               {q.audio}
-              <small className="block text-[12px] leading-[1.6] text-lavender-500 mt-[10px]">
+              <small className="block text-xs leading-relaxed text-lavender-500 mt-2.5">
                 Transcript assistance is recorded; this answer will not count toward unassisted
                 accuracy.
               </small>
@@ -84,7 +82,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
       )}
       {q.visual && (
         <div
-          className="bg-[radial-gradient(ellipse,var(--color-sage-100)_0,transparent_60%)] p-[15px] text-center text-[67px] m-[12px_0_24px]"
+          className="bg-radial from-sage-100 to-transparent to-60% p-3.5 text-center text-7xl mt-3 mx-0 mb-6"
           role="img"
           aria-label="Vocabulary illustration"
         >

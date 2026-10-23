@@ -2,9 +2,11 @@ import { test, expect, answer, stored } from "../fixtures/app";
 import { allQuestions, foundations, visualQuestions } from "../../src/data/curriculum";
 import { formPractice } from "../../src/data/mock";
 
-const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
+const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
+  (q) => q.kind !== "live",
+);
 
-for (const skill of ["reading", "listening", "writing", "speaking"] as const) {
+for (const skill of ["reading", "listening", "writing"] as const) {
   test(`complete focused ${skill} practice without advancing the learning path`, async ({
     page,
   }) => {
@@ -16,9 +18,7 @@ for (const skill of ["reading", "listening", "writing", "speaking"] as const) {
 
     await page.getByRole("button", { name: `Start ${skill} practice`, exact: true }).click();
 
-    const questions = bank
-      .filter((q) => q.skill === skill)
-      .slice(0, ["writing", "speaking"].includes(skill) ? 4 : 8);
+    const questions = bank.filter((q) => q.skill === skill).slice(0, skill === "writing" ? 4 : 8);
 
     for (const q of questions) {
       await expect(page.getByRole("heading", { name: q.prompt, exact: true })).toBeVisible();

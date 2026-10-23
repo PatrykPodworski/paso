@@ -46,7 +46,7 @@ export const BackofficePage = ({ setSession }: Props) => (
   <>
     <PageHeading
       eyebrow={
-        <Eyebrow variant="page" className="mb-[9px]">
+        <Eyebrow variant="page" className="mb-2">
           BACKOFFICE
         </Eyebrow>
       }
@@ -74,15 +74,15 @@ export const BackofficePage = ({ setSession }: Props) => (
                     })
                   }
                 >
-                  <span className="flex items-center gap-2 basis-36 shrink-0 text-[11px] uppercase tracking-[1px] text-sage-600">
+                  <span className="flex items-center gap-2 basis-36 shrink-0 text-2xs uppercase tracking-widest text-sage-600">
                     <SkillDot skill={question.skill} />
                     {KIND[question.kind]}
                   </span>
                   <span className="flex-1 basis-60 min-w-0">
-                    <strong className="block font-semibold text-sage-800 text-[14px] line-clamp-2">
+                    <strong className="block font-semibold text-sage-800 text-sm line-clamp-2">
                       {question.task || question.prompt}
                     </strong>
-                    <small className="block text-sage-600 text-[12px] line-clamp-1">
+                    <small className="block text-sage-600 text-xs line-clamp-1">
                       <span>{context}</span> · <span>{question.answer}</span>
                     </small>
                   </span>

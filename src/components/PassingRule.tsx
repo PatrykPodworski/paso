@@ -13,22 +13,22 @@ export const PassingRule = () => {
   const groups = passingGroups(scores[0], scores[1], scores[2], scores[3]);
 
   return (
-    <Panel className="p-[27px] max-xl:p-[23px] max-md:p-[24px]">
+    <Panel className="p-7 max-xl:p-6">
       <Eyebrow>TRY THE PASSING RULE</Eyebrow>
-      <h3 className="tracking-[-0.3px] font-serif text-[25px] font-medium m-[9px_0_12px]">
+      <h3 className="tracking-normal font-serif text-2xl font-medium mt-2 mx-0 mb-3">
         Does this score pass?
       </h3>
-      <p className="leading-[1.7] text-[14px] text-sage-700 mb-[23px]">
+      <p className="leading-relaxed text-sm text-sage-700 mb-6">
         Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.
       </p>
       {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
-        <label key={s} className="text-[15px] block mb-[16px]">
-          <span className="flex justify-between text-sage-600 text-[14px]">
+        <label key={s} className="text-sm block mb-4">
+          <span className="flex justify-between text-sage-600 text-sm">
             {s}
             <b className="font-medium">{scores[i]}/25</b>
           </span>
           <input
-            className="h-[7px] mt-[12px] w-full cursor-pointer accent-green-900"
+            className="h-1.5 mt-3 w-full cursor-pointer accent-green-900"
             type="range"
             min="0"
             max="25"
@@ -37,27 +37,24 @@ export const PassingRule = () => {
           />
         </label>
       ))}
-      <div className="passing-groups flex gap-[10px] mt-[22px]">
+      <div className="passing-groups flex gap-2.5 mt-5">
         {(
           [
             ["Reading + writing", groups.group1],
             ["Listening + speaking", groups.group2],
           ] as const
         ).map(([label, score]) => (
-          <div
-            key={label}
-            className={`flex-1 rounded-[8px] p-[12px] text-center ${tone(score >= 30)}`}
-          >
-            <span className="block text-[12px]">{label}</span>
-            <b className="block text-[20px] mt-[5px] font-medium">{score}/50</b>
+          <div key={label} className={`flex-1 rounded-lg p-3 text-center ${tone(score >= 30)}`}>
+            <span className="block text-xs">{label}</span>
+            <b className="block text-xl mt-1 font-medium">{score}/50</b>
           </div>
         ))}
       </div>
       <div
-        className={`pass-verdict flex gap-[8px] items-center rounded-[8px] m-[12px_0_16px] p-[12px] text-[13px] ${tone(groups.pass)}`}
+        className={`pass-verdict flex gap-2 items-center rounded-lg mt-3 mx-0 mb-4 p-3 text-xs ${tone(groups.pass)}`}
         role="status"
       >
-        <Icon name={groups.pass ? "check" : "info"} className="w-[17px]" />
+        <Icon name={groups.pass ? "check" : "info"} className="w-4" />
         {groups.pass
           ? "These example scores meet the passing rule."
           : "These example scores do not meet the passing rule."}

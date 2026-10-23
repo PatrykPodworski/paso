@@ -8,7 +8,7 @@ type Props = {
 
 export const IconButton = ({ className = "", ...rest }: Props) => (
   <button
-    className={`${PRESSABLE} inline-flex h-[34px] w-[34px] items-center justify-center rounded-[7px] border-0 bg-transparent p-0 hover:bg-green-900/4 ${className}`}
+    className={`${PRESSABLE} inline-flex h-8 w-8 items-center justify-center rounded-md border-0 bg-transparent p-0 hover:bg-green-900/4 ${className}`}
     {...rest}
   />
 );

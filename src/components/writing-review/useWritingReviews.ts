@@ -13,25 +13,28 @@ export const useWritingReviews = () => {
   const check = async (answers: Record<string, string>) => {
     setLoading(true);
 
-    const entries = await Promise.all(
-      Object.entries(answers).map(
-        async ([id, answer]) => [id, await requestReview(id, answer, passcode)] as const,
-      ),
-    );
+    try {
+      const entries = await Promise.all(
+        Object.entries(answers).map(
+          async ([id, answer]) => [id, await requestReview(id, answer, passcode)] as const,
+        ),
+      );
 
-    const outcomes = entries.map(([, result]) => result);
+      const outcomes = entries.map(([, result]) => result);
 
-    if (outcomes.some((r) => "error" in r && r.error === "passcode")) {
-      saveAccess({ ...readAccess(), passcode: "" });
-      setStored(false);
-      setPasscode("");
-    } else if (outcomes.some((r) => "review" in r)) {
-      saveAccess({ ...readAccess(), passcode });
-      setStored(true);
+      if (outcomes.some((r) => "error" in r && r.error === "passcode")) {
+        saveAccess({ ...readAccess(), passcode: "" });
+        setStored(false);
+        setPasscode("");
+      } else if (outcomes.some((r) => "review" in r)) {
+        saveAccess({ ...readAccess(), passcode });
+        setStored(true);
+      }
+
+      setResults(Object.fromEntries(entries));
+    } finally {
+      setLoading(false);
     }
-
-    setResults(Object.fromEntries(entries));
-    setLoading(false);
   };
 
   return { passcode, setPasscode, needsPasscode: !stored, loading, results, check };

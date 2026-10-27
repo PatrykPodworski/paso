@@ -34,8 +34,8 @@ export const WritingFeedback = ({ review, minWords, maxWords }: Props) => (
       <div>
         <Eyebrow>Corrections</Eyebrow>
         <ul className="mbs-2 flex flex-col gap-2">
-          {review.corrections.map((c, i) => (
-            <li key={`${i}-${c.original}`} className={TEXT}>
+          {review.corrections.map((c) => (
+            <li key={`${c.original}→${c.corrected}`} className={TEXT}>
               <span lang="es" className="line-through decoration-sand-500">
                 {c.original}
               </span>{" "}

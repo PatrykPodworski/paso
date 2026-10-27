@@ -5,7 +5,7 @@ import { Notice } from "../../design-system/Notice";
 import type { LiveGrade, LiveScore, TalkTurn } from "../../data/types";
 import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
-import { accessAfter, readAccess, saveAccess } from "./liveAccess";
+import { accessAfter, readAccess, saveAccess } from "../liveAccess";
 import { LiveStatus } from "./LiveStatus";
 import { transcriptText } from "./transcript";
 import { useLiveTalk } from "./useLiveTalk";

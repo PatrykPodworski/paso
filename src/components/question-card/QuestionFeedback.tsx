@@ -5,6 +5,7 @@ import { countWords, writingHints } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
+import { WritingCheck } from "./WritingCheck";
 
 const NOTE = "text-sm leading-relaxed text-olive-700 mt-2";
 
@@ -53,9 +54,9 @@ const WritingNotes = ({ q, value }: WritingNotesProps) => {
   );
 };
 
-type PracticeReviewProps = { q: Question; value: string; checked: number };
+type PracticeReviewProps = { q: Question; value: string; submission: string; checked: number };
 
-const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
+const PracticeReview = ({ q, value, submission, checked }: PracticeReviewProps) => (
   <>
     <div className="rounded-lg border border-sage-200 bg-white py-4 px-5 mt-4 max-md:p-3.5">
       <Eyebrow>One possible answer</Eyebrow>
@@ -64,6 +65,7 @@ const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
       </p>
     </div>
     {q.kind !== "speak" && <WritingNotes q={q} value={value} />}
+    {q.kind !== "speak" && <WritingCheck q={q} answer={submission} />}
     <FieldNote className="mt-3">
       {checked}/{q.checklist?.length || 0} self-review points checked. Productive practice is saved
       without a numerical grade.
@@ -126,6 +128,8 @@ type Props = {
   correct: boolean | null;
   productive: boolean;
   value: string;
+  // The answer as it is saved: a form's fields are "Label: value" lines.
+  submission: string;
   checked: number;
   assisted: boolean;
   onRevise: () => void;
@@ -137,6 +141,7 @@ export const QuestionFeedback = ({
   correct,
   productive,
   value,
+  submission,
   checked,
   assisted,
   onRevise,
@@ -172,7 +177,9 @@ export const QuestionFeedback = ({
       )}
       <p className={paragraph}>{q.explanation}</p>
       <MemoryHint text={q.memoryHint} />
-      {productive && <PracticeReview q={q} value={value} checked={checked} />}
+      {productive && (
+        <PracticeReview q={q} value={value} submission={submission} checked={checked} />
+      )}
       {q.audio && (
         <details className="text-sm text-olive-500 mt-4">
           <summary className="cursor-pointer">Read the transcript</summary>

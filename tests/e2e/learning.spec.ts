@@ -8,6 +8,7 @@ import {
   stored,
 } from "../fixtures/app";
 import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
+import { mockWritingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
@@ -275,6 +276,49 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
       .filter((a: any) => a.questionId === lesson.questions[2].id)
       .every((a: any) => a.correct === null),
   ).toBe(true);
+});
+
+test("check a lesson's writing with the AI tutor and keep the answer", async ({ page }) => {
+  const lesson = await openLesson(page, 3);
+  const writing = lesson.questions[2];
+
+  await mockWritingReview(page, {
+    [writing.id]: {
+      wordCount: 6,
+      coverage: writing.checklist!.map((point, i) => ({
+        point,
+        met: i > 0,
+        feedback: i > 0 ? "Covered." : "Add a greeting and a farewell.",
+      })),
+      corrections: [
+        { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
+      ],
+      revised: "Hola. Me llamo Ana. Tengo veinte años. Adiós.",
+    },
+  });
+
+  for (const q of lesson.questions.slice(0, 2)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill("Me llamo Ana. Soy veinte años.");
+
+  await page.getByRole("button", { name: "Review my practice" }).click();
+  await page.getByLabel("Passcode").fill("olé");
+  await page.getByRole("button", { name: "Check my writing" }).click();
+
+  await expect(page.getByText("6 words. Target: 30–40.")).toBeVisible();
+  await expect(page.getByText("Add a greeting and a farewell.")).toBeVisible();
+  await expect(page.getByText("Tengo veinte años", { exact: true })).toBeVisible();
+  await expect(page.getByText("Hola. Me llamo Ana. Tengo veinte años. Adiós.")).toBeVisible();
+  await page.getByRole("button", { name: "Revise my answer" }).click();
+
+  await expect(page.getByRole("textbox", { name: "Your answer in Spanish" })).toHaveValue(
+    "Me llamo Ana. Soy veinte años.",
+  );
 });
 
 // The mock exam holds the only recording tasks: every unit's speaking task is a live talk.

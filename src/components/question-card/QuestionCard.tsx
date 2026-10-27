@@ -200,6 +200,7 @@ export const QuestionCard = ({
           correct={correct}
           productive={productive}
           value={value}
+          submission={submission}
           checked={a.checks.length}
           assisted={assisted}
           onRevise={() => {

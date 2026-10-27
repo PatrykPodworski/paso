@@ -126,6 +126,8 @@ const modelContent = (data: unknown) => {
   return isRecord(message) && typeof message.content === "string" ? message.content : "";
 };
 
+export const writingModel = () => process.env.OPENROUTER_MODEL ?? "anthropic/claude-sonnet-5.5";
+
 // Returns null on any failure: an error status, no connection, or output outside the schema.
 export const modelReview = async (
   key: string,
@@ -138,7 +140,7 @@ export const modelReview = async (
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: process.env.OPENROUTER_MODEL ?? "anthropic/claude-sonnet-5.5",
+        model: writingModel(),
         temperature: 0,
         messages: messagesOf(task, answer, wordCount),
         response_format: {

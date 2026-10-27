@@ -109,7 +109,23 @@ Generating new clips, the voice assignments and the credit guards are in
 Free writing, the personal form and speaking tasks end in a reflection panel:
 a model answer, word-count guidance, a few targeted pattern checks and a
 self-review checklist. Speaking tasks record in the browser with playback and
-download; nothing is uploaded. AI feedback on your writing is coming soon.
+download; nothing is uploaded.
+
+After a writing task, "Check my writing" asks an AI tutor for feedback: each
+requested point covered or missing, corrections, the word count and a revised
+version. At the mock exam's writing review, one button marks both tasks with a
+DELE band from 0 to 3 and scales them to the 25-point writing score. Nothing is
+sent until the learner asks, and nothing is stored.
+
+`api/review-writing.ts` looks the task up on the server, so the client sends
+only the task id, the answer and the passcode. It calls OpenRouter with
+`OPENROUTER_API_KEY`, on `anthropic/claude-sonnet-5.5` unless `OPENROUTER_MODEL`
+names another model, and checks the same `PASSCODE` as the live talks. Use
+`vercel dev` to try it locally.
+
+`pnpm eval:writing` marks the sample answers in `scripts/writing-evals/samples.json`
+and fails when any band differs from the expected one. It reads the key from the
+environment or `.env.local`; rerun it after changing the prompt or the model.
 
 ## Live examiner
 

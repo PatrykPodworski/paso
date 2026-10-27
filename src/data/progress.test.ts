@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  answerWords,
   countWords,
   dailyAnswers,
   emptyProgress,
@@ -16,6 +17,7 @@ import {
   streak,
   withAttempt,
   writingHints,
+  writingScore,
   xp,
 } from "./progress";
 import { allQuestions } from "./curriculum";
@@ -228,6 +230,27 @@ describe("progress contracts", () => {
     ["  \n ", 0],
     ["Ana María López, treinta años.", 5],
   ])("counts words in %s", (input, n) => expect(countWords(input)).toBe(n));
+
+  it("counts only the field values of a form answer", () => {
+    const form =
+      "Nombre y apellidos: Elena García\nNacionalidad: polaca\nCiudad: \nAficiones: leer: novelas";
+
+    expect(answerWords({ kind: "form" }, form)).toBe(5);
+    expect(answerWords({ kind: "write" }, form)).toBe(11);
+    expect(answerWords({ kind: "write" }, "Hola, Ana: nos vemos.")).toBe(4);
+  });
+
+  it.each([
+    [[2, 2], 16.67],
+    [[3, 3], 25],
+    [[0, 0], 0],
+    [[3, 0], 12.5],
+    [[1, 2], 12.5],
+    [[3, 2], 20.83],
+    [[1, 0], 4.17],
+  ] as const)("scales DELE writing bands %j to %d out of 25", (bands, score) =>
+    expect(writingScore(bands)).toBe(score),
+  );
 
   it("caps attempt history at the newest 6000 without changing its input", () => {
     const p = emptyProgress();

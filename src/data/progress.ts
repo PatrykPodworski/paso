@@ -94,6 +94,10 @@ export const isCorrect = (q: Question, answer: string) =>
 export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
 
+// A form answer is one "Label: value" line per field; only the values are the learner's words.
+export const answerWords = (q: Pick<Question, "kind">, answer: string) =>
+  countWords(q.kind === "form" ? answer.replace(/^.*?: /gm, "") : answer);
+
 export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   const mistakes = new Set(p.mistakes);
 
@@ -185,6 +189,10 @@ export const passingGroups = (
   group2: listening + speaking,
   pass: reading + writing >= 30 && listening + speaking >= 30,
 });
+
+// DELE A1 marks each writing task 0–3; the two tasks weigh equally in a 25-point section.
+export const writingScore = ([first, second]: readonly [number, number]) =>
+  Math.round(((first + second) / 2) * (25 / 3) * 100) / 100;
 
 export const writingHints = (text: string) => {
   const hints: string[] = [];

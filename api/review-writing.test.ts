@@ -180,6 +180,15 @@ describe("guards", () => {
     expect(openrouter).not.toHaveBeenCalled();
   });
 
+  it("refuses a body that is not JSON as an unknown task", async () => {
+    const response = await POST(
+      new Request("https://paso.podwor.ski/api/review-writing", { method: "POST", body: "{oops" }),
+    );
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ error: "task" });
+  });
+
   it("refuses an answer that is not text or is too long", async () => {
     for (const answer of [undefined, 42, "a".repeat(2001)]) {
       const response = await review({ answer });

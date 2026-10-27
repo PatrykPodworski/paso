@@ -49,6 +49,18 @@ const isMark = (value: unknown): value is WritingMark =>
   typeof value.band === "number" &&
   BANDS.includes(value.band);
 
+const isCoverageOf = (
+  task: WritingTask,
+  value: unknown,
+): value is { met: boolean; feedback: string }[] =>
+  Array.isArray(value) && value.length === task.points.length && value.every(isCoverage);
+
+const isCorrections = (value: unknown): value is WritingCorrection[] =>
+  Array.isArray(value) && value.every(isCorrection);
+
+const isRevised = (value: unknown): value is string =>
+  typeof value === "string" && value.length <= MAX_REVISED;
+
 const isShortLetter = (task: WritingTask, wordCount: number) =>
   task.exam && task.kind === "write" && wordCount < task.wordRange[0];
 
@@ -60,6 +72,20 @@ const parseJson = (content: string): unknown => {
   }
 };
 
+type Output = {
+  coverage: { met: boolean; feedback: string }[];
+  corrections: WritingCorrection[];
+  revised: string;
+  mark?: WritingMark;
+};
+
+const isOutput = (task: WritingTask, value: unknown): value is Output =>
+  isRecord(value) &&
+  isCoverageOf(task, value.coverage) &&
+  isCorrections(value.corrections) &&
+  isRevised(value.revised) &&
+  (!task.exam || isMark(value.mark));
+
 // Null when the output breaks the schema. Point text comes from the task, not the model.
 export const parseReview = (
   task: WritingTask,
@@ -68,43 +94,28 @@ export const parseReview = (
 ): WritingReview | null => {
   const output = parseJson(content);
 
-  if (
-    !isRecord(output) ||
-    typeof output.revised !== "string" ||
-    output.revised.length > MAX_REVISED ||
-    !Array.isArray(output.coverage) ||
-    output.coverage.length !== task.points.length ||
-    !output.coverage.every(isCoverage) ||
-    !Array.isArray(output.corrections) ||
-    !output.corrections.every(isCorrection) ||
-    (task.exam && !isMark(output.mark))
-  ) {
+  if (!isOutput(task, output)) {
     return null;
   }
 
+  const { coverage, corrections, revised, mark } = output;
+
   const review: WritingReview = {
     wordCount,
-    coverage: output.coverage.map(({ met, feedback }, i) => ({
-      point: task.points[i],
-      met,
-      feedback,
-    })),
-    corrections: output.corrections
+    coverage: coverage.map(({ met, feedback }, i) => ({ point: task.points[i], met, feedback })),
+    corrections: corrections
       .slice(0, MAX_CORRECTIONS)
       .map(({ original, corrected, explanation }) => ({ original, corrected, explanation })),
-    revised: output.revised,
+    revised,
   };
 
-  if (!task.exam || !isMark(output.mark)) {
+  if (!task.exam || !mark) {
     return review;
   }
 
-  const { band, reason } = output.mark;
+  const band = isShortLetter(task, wordCount) ? Math.min(mark.band, SHORT_BAND) : mark.band;
 
-  return {
-    ...review,
-    mark: { band: isShortLetter(task, wordCount) ? Math.min(band, SHORT_BAND) : band, reason },
-  };
+  return { ...review, mark: { band, reason: mark.reason } };
 };
 
 const unmarked = (task: WritingTask, wordCount: number, reason: string): WritingReview => ({

@@ -6,6 +6,28 @@ const REJECTED: ReviewResult = { error: "passcode" };
 
 const isRejected = (result: ReviewResult) => "error" in result && result.error === "passcode";
 
+// One request at a time; after a rejected passcode the rest are not sent.
+const reviewInTurn = async (
+  answers: [string, string][],
+  passcode: string,
+  done: Record<string, ReviewResult> = {},
+): Promise<Record<string, ReviewResult>> => {
+  if (!answers.length) {
+    return done;
+  }
+
+  const [[id, answer], ...rest] = answers;
+
+  if (Object.values(done).some(isRejected)) {
+    return reviewInTurn(rest, passcode, { ...done, [id]: REJECTED });
+  }
+
+  return reviewInTurn(rest, passcode, {
+    ...done,
+    [id]: await requestReview(id, answer, passcode),
+  });
+};
+
 // Requests reviews for several answers with the passcode the live talks share. They go one
 // after another, and a rejected passcode stops the rest, so one wrong passcode costs one of
 // the daily tries. A rejected passcode is forgotten; one that got a review is remembered.
@@ -19,13 +41,7 @@ export const useWritingReviews = () => {
     setLoading(true);
 
     try {
-      const next: Record<string, ReviewResult> = {};
-
-      for (const [id, answer] of Object.entries(answers)) {
-        next[id] = Object.values(next).some(isRejected)
-          ? REJECTED
-          : await requestReview(id, answer, passcode);
-      }
+      const next = await reviewInTurn(Object.entries(answers), passcode);
 
       const outcomes = Object.values(next);
 

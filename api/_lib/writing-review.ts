@@ -3,6 +3,9 @@ import { messagesOf } from "./writing-prompt.ts";
 import type { WritingTask } from "./writing-tasks.ts";
 
 const MAX_CORRECTIONS = 8;
+// Mirrors the 2000-character limit on the answer, so the revision cannot grow into free text.
+const MAX_REVISED = 2000;
+const MAX_TOKENS = 4000;
 const BANDS = [0, 1, 2, 3];
 // DELE A1 task 2: under 20 words is not marked, and below the task's range points to band 1.
 const MARKED_WORDS = 20;
@@ -68,6 +71,7 @@ export const parseReview = (
   if (
     !isRecord(output) ||
     typeof output.revised !== "string" ||
+    output.revised.length > MAX_REVISED ||
     !Array.isArray(output.coverage) ||
     output.coverage.length !== task.points.length ||
     !output.coverage.every(isCoverage) ||
@@ -141,6 +145,7 @@ export const modelReview = async (
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: writingModel(),
+        max_tokens: MAX_TOKENS,
         temperature: 0,
         messages: messagesOf(task, answer, wordCount),
         response_format: {

@@ -54,6 +54,12 @@ describe("parsing the model's review", () => {
     );
   });
 
+  it("accepts a revised version of 2000 characters", () => {
+    expect(parseReview(letter, 35, output({ revised: "a".repeat(2000) }))?.revised).toHaveLength(
+      2000,
+    );
+  });
+
   it("keeps at most eight corrections", () => {
     const corrections = Array.from({ length: 10 }, (_, i) => ({
       original: `o${i}`,
@@ -93,6 +99,7 @@ describe("parsing the model's review", () => {
     ["a correction without a reason", output({ corrections: [{ original: "a", corrected: "b" }] })],
     ["corrections that are not a list", output({ corrections: "none" })],
     ["a list instead of an object", "[]"],
+    ["a revised version over 2000 characters", output({ revised: "a".repeat(2001) })],
   ])("rejects %s", (_, text) => expect(parseReview(letter, 35, text)).toBeNull());
 });
 

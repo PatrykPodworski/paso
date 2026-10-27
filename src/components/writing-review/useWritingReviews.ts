@@ -2,8 +2,13 @@ import { useState } from "react";
 import { readAccess, saveAccess } from "../liveAccess";
 import { requestReview, type ReviewResult } from "./requestReview";
 
-// Requests reviews for several answers at once with the passcode the live talks share.
-// A rejected passcode is forgotten; one that got a review is remembered.
+const REJECTED: ReviewResult = { error: "passcode" };
+
+const isRejected = (result: ReviewResult) => "error" in result && result.error === "passcode";
+
+// Requests reviews for several answers with the passcode the live talks share. They go one
+// after another, and a rejected passcode stops the rest, so one wrong passcode costs one of
+// the daily tries. A rejected passcode is forgotten; one that got a review is remembered.
 export const useWritingReviews = () => {
   const [passcode, setPasscode] = useState(() => readAccess().passcode);
   const [stored, setStored] = useState(() => readAccess().passcode !== "");
@@ -14,15 +19,17 @@ export const useWritingReviews = () => {
     setLoading(true);
 
     try {
-      const entries = await Promise.all(
-        Object.entries(answers).map(
-          async ([id, answer]) => [id, await requestReview(id, answer, passcode)] as const,
-        ),
-      );
+      const next: Record<string, ReviewResult> = {};
 
-      const outcomes = entries.map(([, result]) => result);
+      for (const [id, answer] of Object.entries(answers)) {
+        next[id] = Object.values(next).some(isRejected)
+          ? REJECTED
+          : await requestReview(id, answer, passcode);
+      }
 
-      if (outcomes.some((r) => "error" in r && r.error === "passcode")) {
+      const outcomes = Object.values(next);
+
+      if (outcomes.some(isRejected)) {
         saveAccess({ ...readAccess(), passcode: "" });
         setStored(false);
         setPasscode("");
@@ -31,7 +38,7 @@ export const useWritingReviews = () => {
         setStored(true);
       }
 
-      setResults(Object.fromEntries(entries));
+      setResults(next);
     } finally {
       setLoading(false);
     }

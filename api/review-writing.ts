@@ -7,7 +7,9 @@ import { writingTaskOf } from "./_lib/writing-tasks.js";
 const MAX_CHARACTERS = 2000;
 
 export const POST = async (request: Request) => {
-  const body = (await request.json().catch(() => ({}))) as {
+  const parsed: unknown = await request.json().catch(() => ({}));
+
+  const body = (typeof parsed === "object" && parsed !== null ? parsed : {}) as {
     questionId?: unknown;
     answer?: unknown;
     passcode?: unknown;
@@ -24,13 +26,6 @@ export const POST = async (request: Request) => {
     return json({ error: "answer" }, 400);
   }
 
-  const wordCount = answerWords(task, answer);
-  const preset = presetReview(task, wordCount);
-
-  if (preset) {
-    return json(preset, 200);
-  }
-
   const refusal = await passcodeRefusal(
     request,
     typeof body.passcode === "string" ? body.passcode : "",
@@ -38,6 +33,13 @@ export const POST = async (request: Request) => {
 
   if (refusal) {
     return refusal;
+  }
+
+  const wordCount = answerWords(task, answer);
+  const preset = presetReview(task, wordCount);
+
+  if (preset) {
+    return json(preset, 200);
   }
 
   const key = process.env.OPENROUTER_API_KEY;

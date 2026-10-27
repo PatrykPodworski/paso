@@ -156,3 +156,38 @@ it("offers no writing feedback outside the writing section", () => {
     screen.queryByRole("button", { name: "Get feedback on my writing" }),
   ).not.toBeInTheDocument();
 });
+
+it("stops after a wrong passcode, so one click uses one passcode try", async () => {
+  seedWriting();
+
+  const api = reviewWriting({
+    [form.id]: async () => Response.json({ error: "passcode" }, { status: 401 }),
+    [letter.id]: async () => Response.json(reviewOf(letter, 3, "Clear and complete.")),
+  });
+
+  mount();
+  click("Get feedback on my writing");
+
+  expect(await screen.findAllByText("That passcode is not right.")).toHaveLength(2);
+  expect(api).toHaveBeenCalledTimes(1);
+  expect(screen.getByLabelText("Passcode")).toHaveValue("");
+});
+
+it("sends the second task only after the first one's answer arrives", async () => {
+  seedWriting();
+  let answerForm = (_: Response) => {};
+
+  const api = reviewWriting({
+    [form.id]: () => new Promise<Response>((resolve) => (answerForm = resolve)),
+    [letter.id]: async () => Response.json(reviewOf(letter, 2, "One missed point.")),
+  });
+
+  mount();
+  click("Get feedback on my writing");
+  await Promise.resolve();
+  expect(api).toHaveBeenCalledTimes(1);
+  answerForm(Response.json(reviewOf(form, 2, "Every field at A1 level.")));
+
+  expect(await screen.findByText("16.67 out of 25 for writing.")).toBeInTheDocument();
+  expect(api).toHaveBeenCalledTimes(2);
+});

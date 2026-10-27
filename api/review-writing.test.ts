@@ -143,8 +143,10 @@ describe("reviewing writing", () => {
     expect([wordCount, mark]).toEqual([25, { band: 1, reason: "Clear and complete." }]);
   });
 
-  it("marks a blank answer 0 without calling the model", async () => {
-    const response = await review({ answer: "   ", passcode: undefined });
+  it("marks a blank answer 0 without calling the model or needing the key", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "");
+
+    const response = await review({ answer: "   " });
 
     expect(response.status).toBe(200);
 
@@ -164,6 +166,22 @@ describe("reviewing writing", () => {
     expect([wordCount, mark]).toEqual([19, { band: 0, reason: "Under 20 words: not marked." }]);
     expect(openrouter).not.toHaveBeenCalled();
   });
+
+  it("checks the passcode before answering a blank or short answer", async () => {
+    for (const answer of ["", words(19)]) {
+      const response = await review({ answer, passcode: "ole" });
+
+      expect(response.status).toBe(401);
+      expect(await response.json()).toEqual({ error: "passcode" });
+    }
+  });
+
+  it("limits the length of the model's output", async () => {
+    model(2);
+    await review({});
+
+    expect(JSON.parse(openrouter.mock.calls[0][1].body).max_tokens).toBe(4000);
+  });
 });
 
 describe("guards", () => {
@@ -180,9 +198,9 @@ describe("guards", () => {
     expect(openrouter).not.toHaveBeenCalled();
   });
 
-  it("refuses a body that is not JSON as an unknown task", async () => {
+  it.each(["{oops", "null", "7", "[]"])("refuses the body %s as an unknown task", async (body) => {
     const response = await POST(
-      new Request("https://paso.podwor.ski/api/review-writing", { method: "POST", body: "{oops" }),
+      new Request("https://paso.podwor.ski/api/review-writing", { method: "POST", body }),
     );
 
     expect(response.status).toBe(400);

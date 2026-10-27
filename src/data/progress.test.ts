@@ -238,6 +238,7 @@ describe("progress contracts", () => {
     expect(answerWords({ kind: "form" }, form)).toBe(5);
     expect(answerWords({ kind: "write" }, form)).toBe(11);
     expect(answerWords({ kind: "write" }, "Hola, Ana: nos vemos.")).toBe(4);
+    expect(answerWords({ kind: "form" }, "Nombre: Ana\nCiudad:")).toBe(1);
   });
 
   it.each([

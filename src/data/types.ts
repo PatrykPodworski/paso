@@ -17,6 +17,19 @@ export type LiveScoreItem = { id: string; label: string; level: LiveItem };
 export type LiveScore = { grade: LiveGrade; items: LiveScoreItem[] };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
 
+export type WritingCoverage = { point: string; met: boolean; feedback: string };
+export type WritingCorrection = { original: string; corrected: string; explanation: string };
+// A DELE A1 writing mark: one holistic band from 0 to 3 per task.
+export type WritingMark = { band: number; reason: string };
+
+export type WritingReview = {
+  wordCount: number;
+  coverage: WritingCoverage[];
+  corrections: WritingCorrection[];
+  revised: string;
+  mark?: WritingMark;
+};
+
 export interface Question {
   id: string;
   kind: QuestionKind;

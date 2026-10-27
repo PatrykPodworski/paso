@@ -96,7 +96,7 @@ export const countWords = (s: string) =>
 
 // A form answer is one "Label: value" line per field; only the values are the learner's words.
 export const answerWords = (q: Pick<Question, "kind">, answer: string) =>
-  countWords(q.kind === "form" ? answer.replace(/^.*?: /gm, "") : answer);
+  countWords(q.kind === "form" ? answer.replace(/^.*?:[^\S\n]*/gm, "") : answer);
 
 export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   const mistakes = new Set(p.mistakes);

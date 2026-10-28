@@ -51,6 +51,8 @@ const App = () => {
 
   const saveAttempt = (a: Attempt) => setProgress((p) => withAttempt(p, a));
 
+  const toggleExpanded = (id: string) => setExpanded((open) => (open === id ? "" : id));
+
   const complete = (score: number, total: number) => {
     if (!session) {
       return;
@@ -73,7 +75,7 @@ const App = () => {
         progressPercent={progressPercent}
         mistakeCount={mistakeQuestions.length}
         expanded={expanded}
-        setExpanded={setExpanded}
+        toggleExpanded={toggleExpanded}
         setSession={setSession}
         openSettings={() => setSettings(true)}
         navigate={navigate}
@@ -87,7 +89,7 @@ const App = () => {
         completed={completed}
         progressPercent={progressPercent}
         expanded={expanded}
-        setExpanded={setExpanded}
+        toggleExpanded={toggleExpanded}
         setSession={setSession}
         navigate={navigate}
       />

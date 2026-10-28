@@ -38,7 +38,6 @@
     "test:browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium"
   },
   "dependencies": {
-    "@tanstack/react-router": "^1.170.18",
     "@vercel/functions": "^3.9.11",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -51,8 +50,6 @@
     "@stryker-mutator/vitest-runner": "^10.0.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/vite": "^4.3.3",
-    "@tanstack/react-router-devtools": "^1.167.0",
-    "@tanstack/router-plugin": "^1.168.23",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",

@@ -201,12 +201,17 @@ const App = () => {
           onSave={(patch) => setProgress((p) => ({ ...p, ...patch }))}
           onReset={() => {
             setProgress(emptyProgress());
-            clearMockRun();
+            const mockRunCleared = clearMockRun();
 
             setSettings(false);
             setPage("today");
             window.location.hash = "today";
-            setToast("A fresh start. Your practice data has been cleared.");
+
+            setToast(
+              mockRunCleared
+                ? "A fresh start. Your practice data has been cleared."
+                : "Your progress was reset, but this browser kept your saved mock exam.",
+            );
           }}
         />
       )}

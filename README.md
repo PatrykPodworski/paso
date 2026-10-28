@@ -119,13 +119,14 @@ sent until the learner asks, and nothing is stored.
 
 `api/review-writing.ts` looks the task up on the server, so the client sends
 only the task id, the answer and the passcode. It calls OpenRouter with
-`OPENROUTER_API_KEY`, on `anthropic/claude-sonnet-5.5` unless `OPENROUTER_MODEL`
-names another model, and checks the same `PASSCODE` as the live talks. Use
-`vercel dev` to try it locally.
+`OPENROUTER_API_KEY` on the model that `OPENROUTER_MODEL` names, and checks the
+same `PASSCODE` as the live talks. Both OpenRouter variables are required: without
+either one the function logs which is missing and answers 503. Use `vercel dev`
+to try it locally.
 
 `pnpm eval:writing` marks the sample answers in `scripts/writing-evals/samples.json`
-and fails when any band differs from the expected one. It reads the key from the
-environment or `.env.local`; rerun it after changing the prompt or the model.
+and fails when any band differs from the expected one. It reads the key and the model
+from the environment or `.env.local`; rerun it after changing the prompt or the model.
 
 ## Live examiner
 

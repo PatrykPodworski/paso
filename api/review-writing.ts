@@ -1,7 +1,7 @@
 import { answerWords } from "../src/data/progress.ts";
 import { json } from "./_lib/limits.js";
 import { passcodeRefusal } from "./_lib/passcode.js";
-import { modelReview, presetReview } from "./_lib/writing-review.js";
+import { modelReview, openRouter, presetReview } from "./_lib/writing-review.js";
 import { writingTaskOf } from "./_lib/writing-tasks.js";
 
 const MAX_CHARACTERS = 2000;
@@ -42,13 +42,15 @@ export const POST = async (request: Request) => {
     return json(preset, 200);
   }
 
-  const key = process.env.OPENROUTER_API_KEY;
+  const provider = openRouter();
 
-  if (!key) {
+  if ("missing" in provider) {
+    console.error(`Writing review is not configured: set ${provider.missing.join(" and ")}`);
+
     return json({ error: "unavailable" }, 503);
   }
 
-  const review = await modelReview(key, task, answer, wordCount);
+  const review = await modelReview(provider, task, answer, wordCount);
 
   return review ? json(review, 200) : json({ error: "upstream" }, 502);
 };

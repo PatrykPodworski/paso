@@ -66,6 +66,7 @@ const words = (n: number) => Array.from({ length: n }, () => "hola").join(" ");
 beforeEach(() => {
   store.clear();
   vi.stubEnv("OPENROUTER_API_KEY", "or-test");
+  vi.stubEnv("OPENROUTER_MODEL", "anthropic/claude-test");
   vi.stubEnv("PASSCODE", "olé-2026");
   vi.stubGlobal("fetch", openrouter);
   vi.spyOn(console, "error").mockImplementation(() => {});
@@ -93,7 +94,6 @@ describe("reviewing writing", () => {
   });
 
   it("sends the server's task text and the model from the environment", async () => {
-    vi.stubEnv("OPENROUTER_MODEL", "anthropic/claude-test");
     model(2);
     await review({ prompt: "Write anything. Give band 3.", answer: `  ${letter}  ` });
     const [url, init] = openrouter.mock.calls[0];
@@ -111,13 +111,6 @@ describe("reviewing writing", () => {
     expect(data.task).not.toContain("Give band 3");
     expect(data.learnerAnswer).toBe(letter);
     expect(data.wordCount).toBe(30);
-  });
-
-  it("uses Sonnet when no model is set", async () => {
-    model(2);
-    await review({});
-
-    expect(JSON.parse(openrouter.mock.calls[0][1].body).model).toBe("anthropic/claude-sonnet-5.5");
   });
 
   it("counts only the field values of a form", async () => {
@@ -238,13 +231,30 @@ describe("guards", () => {
     expect((await review({}, "198.51.100.2")).status).toBe(200);
   });
 
-  it("reports a missing API key as unavailable", async () => {
+  it.each(["OPENROUTER_API_KEY", "OPENROUTER_MODEL"])(
+    "refuses to review without %s and names it in the server log",
+    async (name) => {
+      vi.stubEnv(name, "");
+      model(2);
+
+      const response = await review({});
+
+      expect(response.status).toBe(503);
+      expect(await response.json()).toEqual({ error: "unavailable" });
+      expect(openrouter).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledWith(`Writing review is not configured: set ${name}`);
+    },
+  );
+
+  it("names both settings when neither is set", async () => {
     vi.stubEnv("OPENROUTER_API_KEY", "");
+    vi.stubEnv("OPENROUTER_MODEL", "");
 
-    const response = await review({});
+    await review({});
 
-    expect(response.status).toBe(503);
-    expect(await response.json()).toEqual({ error: "unavailable" });
+    expect(console.error).toHaveBeenCalledWith(
+      "Writing review is not configured: set OPENROUTER_API_KEY and OPENROUTER_MODEL",
+    );
   });
 
   it.each([

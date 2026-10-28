@@ -141,11 +141,23 @@ const modelContent = (data: unknown) => {
   return isRecord(message) && typeof message.content === "string" ? message.content : "";
 };
 
-export const writingModel = () => process.env.OPENROUTER_MODEL ?? "anthropic/claude-sonnet-5.5";
+export type OpenRouter = { key: string; model: string };
+
+const SETTINGS = ["OPENROUTER_API_KEY", "OPENROUTER_MODEL"];
+
+// The key and the model come only from the environment: a missing one is an error, so a
+// model change is always deliberate.
+export const openRouter = (): OpenRouter | { missing: string[] } => {
+  const missing = SETTINGS.filter((name) => !process.env[name]);
+
+  return missing.length
+    ? { missing }
+    : { key: process.env.OPENROUTER_API_KEY!, model: process.env.OPENROUTER_MODEL! };
+};
 
 // Returns null on any failure: an error status, no connection, or output outside the schema.
 export const modelReview = async (
-  key: string,
+  { key, model }: OpenRouter,
   task: WritingTask,
   answer: string,
   wordCount: number,
@@ -155,7 +167,7 @@ export const modelReview = async (
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: writingModel(),
+        model,
         max_tokens: MAX_TOKENS,
         temperature: 0,
         messages: messagesOf(task, answer, wordCount),

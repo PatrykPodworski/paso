@@ -6,6 +6,7 @@ import {
   vocabulary,
 } from "../src/data/curriculum.ts";
 import { formPractice, mockQuestions } from "../src/data/mock.ts";
+import { spokenText } from "../src/data/audio.ts";
 import words from "../src/data/words.json" with { type: "json" };
 import examples from "../src/data/examples.json" with { type: "json" };
 
@@ -27,7 +28,7 @@ export const phrases = [
         // Every practice task reads the Spanish word, completed sentence, passage or model.
         [...allQuestions, ...foundations, ...visualQuestions, formPractice]
           .filter((q) => q.kind !== "live")
-          .map((q) => q.pronunciation || q.audio || q.passage || q.answer),
+          .map(spokenText),
         // Topic flashcards: each word, then its example sentence on reveal.
         words.flatMap((t) => t.words.map((w) => w.es)),
         Object.values(examples).map((e) => e.es),

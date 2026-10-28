@@ -27,3 +27,25 @@ it("launches each focused practice bank", () => {
     expect(lesson?.questions).toEqual(questions);
   }
 });
+
+it.each([
+  ["Picture this", "6 visual puzzles · cafés, trains & your neighborhood", 6],
+  ["The foundation lab", "24 checks · sounds, spelling, numbers & patterns", 24],
+])("%s counts the questions it launches", (title, note, count) => {
+  let lesson: Lesson | undefined;
+
+  render(
+    <SkillPractice
+      progress={emptyProgress()}
+      filter="all"
+      setSession={(l) => (lesson = l)}
+      practice={vi.fn()}
+    />,
+  );
+
+  const bank = screen.getByRole("button", { name: new RegExp(title) });
+
+  expect(bank).toHaveTextContent(note);
+  fireEvent.click(bank);
+  expect(lesson?.questions).toHaveLength(count);
+});

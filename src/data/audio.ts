@@ -1,3 +1,5 @@
+import type { Question } from "./types.ts";
+
 export const audioKey = (text: string) => {
   let hash = 2166136261;
 
@@ -7,3 +9,5 @@ export const audioKey = (text: string) => {
 
   return (hash >>> 0).toString(36);
 };
+
+export const spokenText = (q: Question) => q.pronunciation || q.audio || q.passage || q.answer;

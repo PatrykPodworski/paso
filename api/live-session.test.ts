@@ -246,6 +246,16 @@ describe("access", () => {
     expect((await talk({ sdp: "offer-sdp" }, { "x-real-ip": "198.51.100.2" })).status).toBe(201);
   });
 
+  it("refuses the free talk to the cookie even from a new address", async () => {
+    const response = await talk(
+      { sdp: "offer-sdp" },
+      { cookie: "paso_live_free=used", "x-real-ip": "198.51.100.2" },
+    );
+
+    expect(response.status).toBe(403);
+    expect(openai).not.toHaveBeenCalled();
+  });
+
   it("lets the passcode start further talks", async () => {
     await talk({ sdp: "offer-sdp" });
 

@@ -17,12 +17,12 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
   const section = mockSections[run.section];
 
   return (
-    <Panel className="p-[32px] max-md:p-[24px]">
+    <Panel className="p-8 max-md:p-6">
       <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
-      <h2 className="font-serif font-semibold tracking-[-0.7px] leading-[1.25] mt-[10px] mb-[15px] text-[33px] max-md:text-[29px]">
+      <h2 className="font-serif font-semibold tracking-tight leading-tight mt-2.5 mb-3.5 text-3xl">
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
       </h2>
-      <p className="leading-[1.7] mb-[21px] text-[14px] text-sage-500">
+      <p className="leading-relaxed mb-5 text-sm text-sage-500">
         {run.section < 2
           ? "Correct answers earn one point. Wrong or unanswered questions earn zero, with no penalty."
           : "Open responses require human judgment. Compare your response with the model and cover every requested point."}
@@ -37,7 +37,7 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
           <Icon name="arrow" />
         </Button>
       </ButtonRow>
-      <div className="mt-[28px]">
+      <div className="mt-7">
         {section.questions.map((q, i) => (
           <AnswerReview
             key={q.id}

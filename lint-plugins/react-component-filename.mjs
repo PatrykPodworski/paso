@@ -5,17 +5,7 @@
 // A component is a PascalCase function: `const X = () => ...`, `const X = memo(...)`,
 // `const X = forwardRef(...)` or `function X() {}`. No options.
 import path from "node:path";
-
-// PascalCase, not SCREAMING_CASE: `UserCard` is a component name, `MAX_ITEMS` is not.
-const isComponentName = (name) => /^[A-Z]/.test(name) && /[a-z]/.test(name);
-
-const isFunction = (node) => ["ArrowFunctionExpression", "FunctionExpression"].includes(node?.type);
-
-// `memo(() => ...)` and `forwardRef(() => ...)` wrap the component function.
-const unwrapCall = (init) => (init?.type === "CallExpression" ? init.arguments[0] : init);
-
-const isComponentDeclarator = ({ id, init }) =>
-  id.type === "Identifier" && isComponentName(id.name) && isFunction(unwrapCall(init));
+import { isComponentDeclarator, isComponentName } from "./component-detection.mjs";
 
 const componentsIn = (statement) => {
   const node = statement.declaration ?? statement;

@@ -11,7 +11,7 @@ type Props = {
 };
 
 const DOT =
-  "flex items-center justify-center rounded-[50%] border h-[25px] w-[25px] max-xl:h-[20px] max-xl:w-[20px] max-md:h-[18px] max-md:w-[18px] max-sm:h-[23px] max-sm:w-[23px]";
+  "flex items-center justify-center rounded-full border h-6 w-6 max-xl:h-5 max-xl:w-5 max-md:h-4 max-md:w-4 max-sm:h-6 max-sm:w-6";
 
 export const DailyGoal = ({ progress, openSettings }: Props) => {
   const today = dailyAnswers(progress);
@@ -20,7 +20,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
   return (
     <Panel
       as="section"
-      className="text-center p-[20px] max-xl:p-[16px] max-lg:p-[18px_20px] max-md:p-[15px] max-sm:p-[20px_25px]"
+      className="text-center p-5 max-xl:p-4 max-lg:py-4 max-lg:px-5 max-md:p-3.5 max-sm:py-5 max-sm:px-6"
     >
       <PanelHeading title="Your daily little win">
         <IconButton onClick={() => openSettings()} aria-label="Adjust your daily goal">
@@ -34,29 +34,29 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
         aria-valuemax={progress.goal}
         aria-valuenow={reached}
         aria-valuetext={`${today} of ${progress.goal} exercises today`}
-        className="flex items-center justify-center rounded-[50%] p-[8px] -rotate-90 bg-[conic-gradient(var(--color-olive-500)_var(--goal),var(--color-sage-100)_0)] m-[24px_auto] w-[158px] h-[158px] max-xl:m-[15px_auto_18px] max-xl:w-[139px] max-xl:h-[139px] max-md:w-[130px] max-md:h-[130px] max-sm:w-[145px] max-sm:h-[145px]"
+        className="flex items-center justify-center rounded-full p-2 -rotate-90 bg-[conic-gradient(var(--color-olive-500)_var(--goal),var(--color-sage-100)_0)] my-6 mx-auto w-39 h-39 max-xl:mt-3.5 max-xl:mx-auto max-xl:mb-4 max-xl:w-35 max-xl:h-35 max-md:w-32 max-md:h-32 max-sm:w-36 max-sm:h-36"
         style={
           {
             "--goal": `${(reached / progress.goal) * 100}%`,
           } as CSSProperties
         }
       >
-        <div className="flex flex-col items-center justify-center w-full h-full rounded-[50%] bg-white rotate-90">
+        <div className="flex flex-col items-center justify-center w-full h-full rounded-full bg-white rotate-90">
           <Icon
             name={today >= progress.goal ? "check" : "spark"}
             size={21}
-            className="mb-[6px] text-sage-400"
+            className="mb-1.5 text-sage-400"
           />
-          <strong className="font-serif text-[34px] leading-none text-sage-900 font-medium">
+          <strong className="font-serif text-4xl leading-none text-sage-900 font-medium">
             {today}
-            <span className="font-sans text-[15px] tracking-[1px] text-sage-400 pl-[3px]">
+            <span className="font-sans text-sm tracking-wider text-sage-400 pl-0.5">
               /{progress.goal}
             </span>
           </strong>
-          <small className="text-[11px] text-sage-400 mt-[7px]">exercises today</small>
+          <small className="text-2xs text-sage-400 mt-1.5">exercises today</small>
         </div>
       </div>
-      <p className="leading-[1.7] text-[11px] text-sage-700 max-xl:text-[12px] max-lg:text-[13px] max-md:text-[11px]">
+      <p className="leading-relaxed text-2xs text-sage-700 max-xl:text-xs max-md:text-2xs">
         {today >= progress.goal
           ? "Daily goal reached. ¡Muy bien!"
           : today
@@ -65,7 +65,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
       </p>
       <ol
         aria-label="This week"
-        className="week-dots flex justify-between mt-[23px] px-[6px] max-xl:mt-[20px] max-md:px-0 max-sm:px-[12px]"
+        className="week-dots flex justify-between mt-6 px-1.5 max-xl:mt-5 max-md:px-0 max-sm:px-3"
       >
         {Array.from({ length: 7 }, (_, i) => {
           const d = new Date();
@@ -75,9 +75,9 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           const isToday = localDate(d) === localDate();
 
           return (
-            <li key={i} className="flex flex-col items-center gap-[8px]">
+            <li key={i} className="flex flex-col items-center gap-2">
               <span
-                className={`text-[10px] max-xl:text-[11px] max-sm:text-[12px] ${isToday ? "text-olive-600 font-bold" : "text-sage-600"}`}
+                className={`text-2xs max-xl:text-2xs max-sm:text-xs ${isToday ? "text-olive-600 font-bold" : "text-sage-600"}`}
               >
                 {["M", "T", "W", "T", "F", "S", "S"][i]}
               </span>
@@ -90,7 +90,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
                 {n ? (
                   <Icon name="check" size={12} />
                 ) : isToday ? (
-                  <b className="w-[4px] h-[4px] rounded-[50%] bg-olive-500" />
+                  <b className="w-1 h-1 rounded-full bg-olive-500" />
                 ) : null}
               </i>
             </li>

@@ -68,6 +68,13 @@ export interface Attempt {
   grade?: LiveGrade;
 }
 
+export type ReviewState = {
+  level: number;
+  nextAt: string;
+};
+
+export type VocabularyReview = ReviewState & { reviewedAt?: string };
+
 export interface Progress {
   version: 1;
   name: string;
@@ -76,8 +83,8 @@ export interface Progress {
   attempts: Attempt[];
   mistakes: string[];
   reviewed: string[];
-  mistakeReviews: Record<string, { level: number; nextAt: string }>;
-  vocabularyReviews: Record<string, { level: number; nextAt: string; reviewedAt?: string }>;
+  mistakeReviews: Record<string, ReviewState>;
+  vocabularyReviews: Record<string, VocabularyReview>;
   checks: string[];
   examDate: string;
   mockResults: {

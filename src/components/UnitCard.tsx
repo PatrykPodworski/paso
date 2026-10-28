@@ -17,34 +17,31 @@ type Props = {
 
 // Each pair is what the old `.x` / `.path-stop .x` media cascades resolved to per breakpoint.
 const SUMMARY =
-  "flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-[15px] max-xl:gap-[12px] max-lg:gap-[15px] p-[22px_20px] max-xl:p-[16px] max-lg:p-[20px]";
+  "flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-3.5 max-xl:gap-3 max-lg:gap-3.5 p-5 max-xl:p-4 max-lg:p-5";
 
 const ICON =
-  "flex items-center justify-center shrink-0 rounded-[12px] w-[47px] h-[47px] max-xl:w-[40px] max-xl:h-[43px]";
+  "flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11";
 
-const TITLE =
-  "mt-[6px] leading-[1.3] text-[18px] max-xl:text-[16px] max-lg:text-[17px] max-md:text-[16px]";
+const TITLE = "mt-1.5 leading-tight text-lg max-xl:text-base";
 
-const SUBTITLE =
-  "mt-[5px] text-sage-700 text-[12px] max-xl:text-[11px] max-lg:text-[13px] max-md:text-[11px]";
+const SUBTITLE = "mt-1 text-sage-700 text-xs max-xl:text-2xs max-lg:text-xs max-md:text-2xs";
 
-const STATUS =
-  "flex items-center text-[11px] text-sage-500 gap-[14px] max-xl:gap-[9px] max-md:gap-[8px]";
+const STATUS = "flex items-center text-2xs text-sage-500 gap-3.5 max-xl:gap-2";
 
 const EXPANDED =
-  "border-t border-t-sage-100 p-[0_20px_12px] max-xl:p-[8px_15px_12px] max-lg:p-[0_20px_13px]";
+  "border-t border-t-sage-100 pt-0 px-5 pb-3 max-xl:pt-2 max-xl:px-3.5 max-xl:pb-3 max-lg:pt-0 max-lg:px-5 max-lg:pb-3";
 
 const GOALS =
-  "flex max-xl:hidden max-lg:flex flex-wrap gap-[6px_14px] xl:gap-[8px_14px] py-[14px] xl:py-[16px]";
+  "flex max-xl:hidden max-lg:flex flex-wrap gap-y-1.5 gap-x-3.5 xl:gap-y-2 xl:gap-x-3.5 py-3.5 xl:py-4";
 
 const LESSON_LIST =
-  "relative before:content-[''] before:absolute before:top-[20px] before:bottom-[23px] before:border-l before:border-dashed before:border-sage-200 before:left-[17px] max-xl:before:left-[13px]";
+  "relative before:absolute before:top-5 before:bottom-6 before:border-l before:border-dashed before:border-sage-200 before:left-4 max-xl:before:left-3";
 
 const ROW =
-  "relative flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-[12px] max-xl:gap-[9px] p-[13px_0] max-xl:p-[8px_0] max-lg:p-[10px_0] max-md:p-[12px_0]";
+  "relative flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-3 max-xl:gap-2 py-3 px-0 max-xl:py-2 max-xl:px-0 max-lg:py-2.5 max-lg:px-0 max-md:py-3 max-md:px-0";
 
 const NODE =
-  "relative z-[1] flex items-center justify-center shrink-0 rounded-full border w-[35px] h-[35px] max-xl:w-[28px] max-xl:h-[28px]";
+  "relative z-1 flex items-center justify-center shrink-0 rounded-full border w-9 h-9 max-xl:w-7 max-xl:h-7";
 
 const NODE_STATE = {
   current: "bg-sand-200 border-sand-300 text-sand-500",
@@ -53,54 +50,52 @@ const NODE_STATE = {
 };
 
 const ROW_TITLE =
-  "block font-semibold text-sage-800 text-[14px] max-xl:text-[12px] max-lg:text-[14px] max-md:text-[13px]";
+  "block font-semibold text-sage-800 text-sm max-xl:text-xs max-lg:text-sm max-md:text-xs";
 
-const ROW_SUBTITLE =
-  "block mt-[3px] text-sage-700 text-[11px] xl:leading-[1.5] max-xl:text-[10px] max-lg:text-[12px]";
+const ROW_SUBTITLE = "block mt-0.5 text-sage-700 text-2xs xl:leading-normal max-lg:text-xs";
 
-const LENGTH =
-  "flex items-center text-sage-700 gap-[12px] text-[11px] max-xl:text-[10px] max-lg:text-[12px]";
+const LENGTH = "flex items-center text-sage-700 gap-3 text-2xs max-lg:text-xs";
 
 // Phone and tablet tails that differ between the Today list and a path stop.
 const PLACE = {
   today: {
     eyebrow: "unit" as const,
     card: "",
-    summary: "max-md:p-[20px_17px] max-sm:p-[20px_13px] max-sm:gap-[11px]",
-    icon: "max-md:w-[43px] max-md:h-[45px] max-sm:w-[39px] max-sm:h-[42px]",
+    summary: "max-md:py-5 max-md:px-4 max-sm:py-5 max-sm:px-3 max-sm:gap-2.5",
+    icon: "max-md:w-11 max-md:h-11 max-sm:w-10 max-sm:h-10",
     iconSvg: "",
-    title: "max-sm:text-[17px]",
+    title: "max-sm:text-base",
     subtitle: "",
     status: "",
-    expanded: "max-sm:px-[13px]",
+    expanded: "max-sm:px-3",
     goals: "",
     list: "",
-    row: "max-sm:gap-[8px]",
+    row: "max-sm:gap-2",
     node: "",
     nodeSvg: "",
     rowTitle: "",
-    rowSubtitle: "max-md:text-[10px]",
-    length: "max-md:text-[10px] max-sm:text-[9px] max-sm:gap-[3px]",
+    rowSubtitle: "max-md:text-2xs",
+    length: "max-md:text-2xs max-sm:gap-0.5",
     lengthSvg: "",
   },
   path: {
     eyebrow: "pathUnit" as const,
     card: "flex-1 min-w-0",
-    summary: "max-md:p-[15px_13px] max-md:gap-[10px] max-sm:gap-[8px]",
-    icon: "max-md:w-[35px] max-md:h-[39px] max-sm:w-[31px] max-sm:h-[34px]",
-    iconSvg: "max-md:w-[21px]",
-    title: "max-sm:text-[15px]",
+    summary: "max-md:py-3.5 max-md:px-3 max-md:gap-2.5 max-sm:gap-2",
+    icon: "max-md:w-9 max-md:h-10 max-sm:w-8 max-sm:h-8",
+    iconSvg: "max-md:w-5",
+    title: "max-sm:text-sm",
     subtitle: "max-sm:hidden",
     status: "max-sm:hidden",
-    expanded: "max-md:px-[13px] max-sm:p-[10px_11px]",
+    expanded: "max-md:px-3 max-sm:p-2.5",
     goals: "max-sm:hidden",
-    list: "max-sm:before:left-[12px]",
-    row: "max-sm:gap-[7px]",
-    node: "max-sm:w-[25px] max-sm:h-[25px]",
-    nodeSvg: "max-sm:w-[13px]",
-    rowTitle: "max-sm:text-[12px]",
-    rowSubtitle: "max-md:text-[11px] max-sm:text-[9px]",
-    length: "max-md:text-[11px] max-md:gap-[6px] max-sm:text-[9px] max-sm:gap-[3px]",
+    list: "max-sm:before:left-3",
+    row: "max-sm:gap-1.5",
+    node: "max-sm:w-6 max-sm:h-6",
+    nodeSvg: "max-sm:w-3",
+    rowTitle: "max-sm:text-xs",
+    rowSubtitle: "max-md:text-2xs",
+    length: "max-md:text-2xs max-md:gap-1.5 max-sm:gap-0.5",
     lengthSvg: "max-sm:hidden",
   },
 };
@@ -119,7 +114,7 @@ export const UnitCard = ({
 
   return (
     <article
-      className={`unit-card border rounded-[10px] bg-white overflow-hidden ${expanded ? "border-sage-200 shadow-[0_3px_9px_var(--color-olive-700)]/2" : "border-sage-200"} ${at.card}`}
+      className={`unit-card border rounded-lg bg-white overflow-hidden ${expanded ? "border-sage-200 shadow-md shadow-olive-700/2" : "border-sage-200"} ${at.card}`}
     >
       <button
         type="button"
@@ -132,14 +127,14 @@ export const UnitCard = ({
         </div>
         <div className="flex-1 min-w-0">
           <Eyebrow variant={at.eyebrow}>
-            UNIT {String(index + 1).padStart(2, "0")} <i className="not-italic px-[5px]">·</i>{" "}
+            UNIT {String(index + 1).padStart(2, "0")} <i className="not-italic px-1">·</i>{" "}
             {unit.spanish}
           </Eyebrow>
-          <h3 className={`font-semibold tracking-[-0.3px] ${TITLE} ${at.title}`}>{unit.title}</h3>
-          <p className={`leading-[1.7] ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
+          <h3 className={`font-semibold tracking-tight ${TITLE} ${at.title}`}>{unit.title}</h3>
+          <p className={`leading-relaxed ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
         </div>
         <div className={`${STATUS} ${at.status}`}>
-          <span className="flex items-center gap-[4px] whitespace-nowrap max-xl:text-[10px] max-lg:text-[12px] max-md:hidden">
+          <span className="flex items-center gap-1 whitespace-nowrap max-xl:text-2xs max-lg:text-xs max-md:hidden">
             {done === 4 ? (
               <>
                 <Icon name="check" size={14} />
@@ -158,11 +153,8 @@ export const UnitCard = ({
         <div className={`${EXPANDED} ${at.expanded}`}>
           <div className={`${GOALS} ${at.goals}`}>
             {unit.goals.map((g) => (
-              <span
-                key={g}
-                className="inline-flex items-center gap-[4px] text-sage-700 text-[11px] max-md:text-[10px]"
-              >
-                <Icon name="check" size={13} className="w-[11px] text-sage-500" />
+              <span key={g} className="inline-flex items-center gap-1 text-sage-700 text-2xs">
+                <Icon name="check" size={13} className="w-2.5 text-sage-500" />
                 {g}
               </span>
             ))}
@@ -198,12 +190,12 @@ export const UnitCard = ({
               );
             })}
           </div>
-          <details className="mt-[11px] xl:mt-[14px] border-t border-t-sage-100 pt-[10px] xl:pt-[14px] text-sage-700">
-            <summary className="flex items-center gap-[6px] cursor-pointer list-none text-[11px] max-lg:text-[13px] max-sm:text-[11px]">
+          <details className="mt-2.5 xl:mt-3.5 border-t border-t-sage-100 pt-2.5 xl:pt-3.5 text-sage-700">
+            <summary className="flex items-center gap-1.5 cursor-pointer list-none text-2xs max-lg:text-xs max-sm:text-2xs">
               <Icon name="spark" size={15} />A little pattern to remember
             </summary>
-            <p className="leading-[1.7] text-[13px] my-[9px] text-sage-700">{unit.tip}</p>
-            <div lang="es" className="flex items-center justify-between text-[14px] text-sage-800">
+            <p className="leading-relaxed text-xs my-2 text-sage-700">{unit.tip}</p>
+            <div lang="es" className="flex items-center justify-between text-sm text-sage-800">
               {unit.example}
               <AudioButton compact text={unit.example} label="Listen to the unit example" />
             </div>

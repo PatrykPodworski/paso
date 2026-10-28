@@ -1,6 +1,7 @@
 import { SkillDot } from "../SkillDot";
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
+import { spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
@@ -8,9 +9,9 @@ import type { AudioHandle } from "../audio/useAudioPlayer";
 type QuestionKindProps = { q: Question; productive: boolean };
 
 const QuestionKind = ({ q, productive }: QuestionKindProps) => (
-  <div className="question-kind flex items-center gap-[8px] text-[12px] uppercase tracking-[1.4px] text-sage-600 max-md:gap-[6px] max-md:text-[9px] max-md:tracking-[1px] max-sm:tracking-[0.8px]">
+  <div className="question-kind flex items-center gap-2 text-xs uppercase tracking-widest text-sage-600 max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
     <SkillDot skill={q.skill} />
-    {q.skill} <span className="px-[4px] opacity-50"> / </span>
+    {q.skill} <span className="px-1 opacity-50"> / </span>
     {q.kind === "listen"
       ? "Listen closely"
       : q.kind === "order"
@@ -49,19 +50,17 @@ export const QuestionHeading = ({
     }
   }, [q.id]);
 
-  const pronunciation = q.pronunciation || q.audio || q.passage || q.answer;
+  const pronunciation = spokenText(q);
   const hidePronunciation = !q.audio && !feedback;
 
   return (
     <>
       <QuestionKind q={q} productive={productive} />
-      <div className="question-heading grid grid-cols-[minmax(0,1fr)_auto] gap-x-[12px]">
+      <div className="question-heading grid grid-cols-1 gap-x-3">
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`font-serif tracking-[-0.7px] col-[1] row-[1] m-[15px_0_23px] text-[27px] font-medium leading-[1.5] focus:outline-none max-md:m-[15px_0_21px] ${
-            exam ? "max-md:text-[25px]" : "max-md:text-[24px]"
-          }`}
+          className={`font-serif tracking-tight col-start-1 row-start-1 mt-3.5 mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mt-3.5 max-md:mx-0 max-md:mb-5`}
         >
           {q.prompt}
         </h2>

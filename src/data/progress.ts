@@ -2,6 +2,8 @@ import type { Attempt, Progress, Question, ReviewState, Skill } from "./types.ts
 
 export const REVIEW_WINDOWS = [0, 1, 3, 7, 14, 30] as const;
 
+export const RELEARN_MINUTES = 10;
+
 export const STORAGE_KEY = "paso-progress-v1";
 
 export const emptyProgress = (): Progress => ({
@@ -54,7 +56,7 @@ export const vocabularyReview = (
     reviewedAt: at,
     nextAt: correct
       ? nextReviewAt(at, level)
-      : new Date(new Date(at).getTime() + 10 * 60_000).toISOString(),
+      : new Date(new Date(at).getTime() + RELEARN_MINUTES * 60_000).toISOString(),
   };
 };
 

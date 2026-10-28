@@ -90,6 +90,7 @@ export const LiveTalk = ({ questionId, task, onEvaluated, onSubmit }: Props) => 
       onCreated: () => {
         remember(null);
         clearPendingTalk(questionId);
+        setScoring({ state: "idle" });
       },
       onEnded: (turns) => score(turns, used),
       onFail: (code) => {
@@ -142,7 +143,10 @@ export const LiveTalk = ({ questionId, task, onEvaluated, onSubmit }: Props) => 
       {scoring.state === "done" && (
         <LiveResult
           score={scoring.score}
-          turns={talk.turns}
+          // A talk restored from storage has no timeline, so its turns are keyed by position.
+          turns={
+            talk.turns.length ? talk.turns : scoring.turns.map((turn, at) => ({ ...turn, at }))
+          }
           onAgain={again}
           onContinue={() =>
             onSubmit(transcriptText(scoring.turns), scoring.score.grade !== "bad", false)

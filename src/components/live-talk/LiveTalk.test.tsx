@@ -302,6 +302,7 @@ describe("a live talk", () => {
 
     await click("Score again");
     expect(await screen.findByRole("heading", { name: "Good. You passed." })).toBeVisible();
+    expect(await openTranscript()).toHaveTextContent("Lucía¿Cómo te llamas?YouMe llamo Ana.");
 
     expect(body("/api/score-talk")).toEqual({
       task: "u1",
@@ -359,6 +360,9 @@ describe("a live talk", () => {
     mount();
     expect(screen.getByText(/could not be scored/)).toBeVisible();
     await talk();
+
+    expect(screen.queryByText(/could not be scored/)).toBeNull();
+
     cleanup();
     mount();
 

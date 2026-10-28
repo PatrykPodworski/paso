@@ -135,6 +135,24 @@ export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   };
 };
 
+export const withCompletion = (
+  p: Progress,
+  lessonId: string,
+  score: number,
+  total: number,
+  at: string,
+): Progress => ({ ...p, completed: { ...p.completed, [lessonId]: { score, total, at } } });
+
+export const withMockResult = (p: Progress, result: Progress["mockResults"][number]): Progress => ({
+  ...p,
+  mockResults: [...p.mockResults, result],
+});
+
+export const withCheckToggled = (p: Progress, id: string): Progress => ({
+  ...p,
+  checks: p.checks.includes(id) ? p.checks.filter((c) => c !== id) : [...p.checks, id],
+});
+
 export const dailyAnswers = (p: Progress, date = localDate()) =>
   new Set(p.attempts.filter((a) => localDate(new Date(a.at)) === date).map((a) => a.questionId))
     .size;

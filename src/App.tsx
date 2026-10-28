@@ -1,7 +1,13 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
-import { emptyProgress, withAttempt } from "./data/progress";
+import {
+  emptyProgress,
+  withAttempt,
+  withCheckToggled,
+  withCompletion,
+  withMockResult,
+} from "./data/progress";
 import type { Attempt, Lesson, Skill } from "./data/types";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
 import { Guide } from "./components/Guide";
@@ -57,10 +63,7 @@ const App = () => {
     }
 
     if (allLessons.some((l) => l.id === session.id)) {
-      setProgress((p) => ({
-        ...p,
-        completed: { ...p.completed, [session.id]: { score, total, at: new Date().toISOString() } },
-      }));
+      setProgress((p) => withCompletion(p, session.id, score, total, new Date().toISOString()));
     }
   };
 
@@ -107,21 +110,11 @@ const App = () => {
     exam: (
       <MockExam
         progress={progress}
-        onResult={(result) =>
-          setProgress((p) => ({ ...p, mockResults: [...p.mockResults, result] }))
-        }
+        onResult={(result) => setProgress((p) => withMockResult(p, result))}
       />
     ),
     guide: (
-      <Guide
-        progress={progress}
-        onCheck={(id) =>
-          setProgress((p) => ({
-            ...p,
-            checks: p.checks.includes(id) ? p.checks.filter((c) => c !== id) : [...p.checks, id],
-          }))
-        }
-      />
+      <Guide progress={progress} onCheck={(id) => setProgress((p) => withCheckToggled(p, id))} />
     ),
     backoffice: <BackofficePage setSession={setSession} />,
   };

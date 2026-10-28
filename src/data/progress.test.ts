@@ -15,6 +15,9 @@ import {
   STORAGE_KEY,
   streak,
   withAttempt,
+  withCheckToggled,
+  withCompletion,
+  withMockResult,
   writingHints,
   xp,
 } from "./progress";
@@ -263,6 +266,41 @@ describe("progress contracts", () => {
     p = withAttempt(withAttempt(p, a({ correct: false })), a());
     expect(p.reviewed).toEqual(["one"]);
     expect(withAttempt(emptyProgress(), a()).reviewed).toEqual([]);
+  });
+
+  it("records a lesson completion and overwrites a repeated one without changing its input", () => {
+    const p = withCompletion(emptyProgress(), "u1-l1", 3, 5, "2026-09-09T12:00:00.000Z");
+    const next = withCompletion(p, "u1-l1", 5, 5, "2026-09-10T12:00:00.000Z");
+
+    expect(p.completed).toEqual({
+      "u1-l1": { score: 3, total: 5, at: "2026-09-09T12:00:00.000Z" },
+    });
+
+    expect(next.completed).toEqual({
+      "u1-l1": { score: 5, total: 5, at: "2026-09-10T12:00:00.000Z" },
+    });
+
+    expect(withCompletion(next, "u1-l2", 4, 6, "2026-09-11T12:00:00.000Z").completed).toEqual({
+      "u1-l1": { score: 5, total: 5, at: "2026-09-10T12:00:00.000Z" },
+      "u1-l2": { score: 4, total: 6, at: "2026-09-11T12:00:00.000Z" },
+    });
+  });
+
+  it("appends mock results in order without changing its input", () => {
+    const first = { at: "2026-09-09T12:00:00.000Z", reading: 20, listening: 18 };
+    const second = { at: "2026-09-10T12:00:00.000Z", reading: 22, listening: 19, writing: 15 };
+    const p = withMockResult(emptyProgress(), first);
+
+    expect(withMockResult(p, second).mockResults).toEqual([first, second]);
+    expect(p.mockResults).toEqual([first]);
+  });
+
+  it("toggles a checklist item on and off and keeps the other items", () => {
+    const p = withCheckToggled(withCheckToggled(emptyProgress(), "dni"), "photo");
+
+    expect(p.checks).toEqual(["dni", "photo"]);
+    expect(withCheckToggled(p, "dni").checks).toEqual(["photo"]);
+    expect(p.checks).toEqual(["dni", "photo"]);
   });
 
   it("counts unique questions on the requested local day and awards lesson XP separately", () => {

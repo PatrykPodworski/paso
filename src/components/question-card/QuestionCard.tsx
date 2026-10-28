@@ -23,6 +23,7 @@ type Props = {
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
+  active?: boolean;
 };
 
 export const QuestionCard = ({
@@ -32,6 +33,7 @@ export const QuestionCard = ({
   exam = false,
   draft = "",
   onDraft,
+  active = true,
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
@@ -91,6 +93,10 @@ export const QuestionCard = ({
   // Number keys answer the question, mirroring the badges on each button.
   // ponytail: re-subscribed every render so the handler reads current state.
   useEffect(() => {
+    if (!active) {
+      return;
+    }
+
     const handle = (e: KeyboardEvent) => {
       const typing = document.activeElement?.closest("input, textarea");
 

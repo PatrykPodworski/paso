@@ -161,6 +161,7 @@ export const LessonSession = ({
           <QuestionView
             key={question.id}
             q={question}
+            active={!confirmExit}
             onSubmit={submit}
             onEvaluated={(answer, correct, assisted, grade) => {
               const q = lesson.questions[index];

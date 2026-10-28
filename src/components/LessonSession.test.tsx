@@ -195,3 +195,34 @@ it("still restores longer writing drafts in a new practice session", () => {
 
   expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
 });
+
+it("ignores answer shortcuts while the leave confirmation is open", () => {
+  const choices = allQuestions.filter((q) => q.options);
+  const questions: Question[] = [choices[0], choices[1]];
+  const attempt = vi.fn();
+
+  render(
+    <LessonSession
+      lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions }}
+      progress={emptyProgress()}
+      onClose={vi.fn()}
+      onAttempt={attempt}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: questions[0].answer }));
+  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  fireEvent.click(screen.getByRole("button", { name: "Close lesson" }));
+  fireEvent.keyDown(window, { key: "2" });
+  expect(attempt).toHaveBeenCalledOnce();
+  fireEvent.click(screen.getByRole("button", { name: "Keep learning" }));
+  fireEvent.keyDown(window, { key: "2" });
+  expect(attempt).toHaveBeenCalledTimes(2);
+
+  expect(attempt.mock.calls[1][0]).toMatchObject({
+    questionId: questions[1].id,
+    answer: questions[1].options![1],
+  });
+});

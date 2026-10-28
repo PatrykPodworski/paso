@@ -43,7 +43,7 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
         {daysToExam === null
           ? "At your own pace"
           : daysToExam > 0
-            ? `${daysToExam} days to your exam`
+            ? `${daysToExam} ${daysToExam === 1 ? "day" : "days"} to your exam`
             : daysToExam === 0
               ? "Your exam day"
               : "Keep your Spanish growing"}

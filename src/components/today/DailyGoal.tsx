@@ -73,6 +73,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
           const n = dailyAnswers(progress, localDate(d));
           const isToday = localDate(d) === localDate();
+          const label = `${d.toLocaleDateString()}: ${n} ${n === 1 ? "exercise" : "exercises"}`;
 
           return (
             <li key={i} className="flex flex-col items-center gap-2">
@@ -83,9 +84,9 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
               </span>
               <i
                 role="img"
-                aria-label={`${d.toLocaleDateString()}: ${n} exercises`}
+                aria-label={label}
                 className={`${DOT} ${n ? "bg-olive-500 border-olive-500 text-white" : isToday ? "bg-sage-100 border-olive-400" : "border-sage-100"}`}
-                title={`${d.toLocaleDateString()}: ${n} exercises`}
+                title={label}
               >
                 {n ? (
                   <Icon name="check" size={12} />

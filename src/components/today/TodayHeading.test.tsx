@@ -10,7 +10,8 @@ afterEach(() => {
 it.each([
   ["2026-09-08", "Keep your Spanish growing"],
   ["2026-09-09", "Your exam day"],
-  ["2026-09-10", "1 days to your exam"],
+  ["2026-09-10", "1 day to your exam"],
+  ["2026-09-11", "2 days to your exam"],
 ])("calculates the local exam countdown for %s", (date, label) => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date(2026, 8, 9, 12));

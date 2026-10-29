@@ -283,8 +283,10 @@ describe("app business orchestration", () => {
     expect(saved()).toEqual(emptyProgress());
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "A fresh start. Your practice data has been cleared.",
+      "Your progress was reset, but this browser kept your saved mock exam.",
     );
+
+    expect(screen.queryByText(/A fresh start/)).not.toBeInTheDocument();
   });
 
   it("reports persistence failures and keeps the current session usable", () => {

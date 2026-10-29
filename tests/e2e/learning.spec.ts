@@ -287,8 +287,23 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
   }
 
   await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
+
+  await page.evaluate(() => {
+    (window as any).__plays = [];
+    const original = HTMLMediaElement.prototype.play;
+
+    HTMLMediaElement.prototype.play = function () {
+      (window as any).__plays.push(this.src);
+
+      return original.call(this);
+    };
+  });
+
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  // A writing task never reads its model answer aloud.
+  await expect(page.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).__plays.length)).toBe(0);
   await page.getByRole("button", { name: "Revise my answer" }).click();
   await expect(input).toBeEnabled();
   await input.fill("Me llamo Ana. Tengo veinte años.");

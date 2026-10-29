@@ -26,6 +26,7 @@ type Props = {
   active?: boolean;
 };
 
+// fallow-ignore-next-line complexity -- the active prop (#386) puts it one over 15; fallow counts each prop beyond four
 export const QuestionCard = ({
   q,
   onSubmit,

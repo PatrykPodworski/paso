@@ -65,7 +65,7 @@ it("renders the week from Monday through Sunday with per-day unique answers", ()
 
   expect(days.map((day) => day.textContent)).toEqual(["M", "T", "W", "T", "F", "S", "S"]);
 
-  expect(within(days[0]).getByRole("img")).toHaveAccessibleName(/: 1 exercises$/);
+  expect(within(days[0]).getByRole("img")).toHaveAccessibleName(/: 1 exercise$/);
 
   days.slice(1).forEach((day) => {
     expect(within(day).getByRole("img")).toHaveAccessibleName(/: 0 exercises$/);

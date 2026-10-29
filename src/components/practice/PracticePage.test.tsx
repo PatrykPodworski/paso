@@ -33,9 +33,18 @@ it("resolves mistake IDs safely, explains each one and opens an individual retry
   p.mistakes = ["not-in-course", allQuestions[0].id];
   render(<Practice progress={p} setSession={(l) => (lesson = l)} />);
   fireEvent.click(screen.getByRole("button", { name: "My mistakes (1)" }));
-  expect(screen.getByText(/1 questions are ready/)).toBeInTheDocument();
+  expect(screen.getByText(/1 question is ready/)).toBeInTheDocument();
   fireEvent.click(screen.getByText(allQuestions[0].prompt));
   expect(screen.getByText(allQuestions[0].explanation)).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Try again" }));
   expect(lesson?.questions).toEqual([allQuestions[0]]);
+});
+
+it("counts several mistakes in the plural", () => {
+  const p = emptyProgress();
+
+  p.mistakes = [allQuestions[0].id, allQuestions[1].id];
+  render(<Practice progress={p} setSession={vi.fn()} />);
+  fireEvent.click(screen.getByRole("button", { name: "My mistakes (2)" }));
+  expect(screen.getByText(/2 questions are ready/)).toBeInTheDocument();
 });

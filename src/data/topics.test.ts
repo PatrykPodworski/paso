@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { vocabulary } from "./curriculum";
 import { emptyProgress } from "./progress";
-import { addWords, cardStatus, deckCards, topicCounts, topics } from "./topics";
+import {
+  type Card,
+  addWords,
+  cardStatus,
+  deckCards,
+  deckReview,
+  topicCounts,
+  topics,
+} from "./topics";
 
 const cards = topics.flatMap((t) => t.cards);
 const card = (id: string) => cards.find((c) => c.id === id)!;
@@ -128,5 +136,66 @@ describe("the learner's deck", () => {
 
     expect(new Set(ids).size).toBe(ids.length);
     expect(ids.sort()).toEqual([...unitWords, ...animals.slice(0, 5).map((c) => c.id)].sort());
+  });
+});
+
+describe("the deck's review state", () => {
+  const now = new Date(2026, 8, 25, 12);
+  const at = (day: number, hour: number) => new Date(2026, 8, day, hour).toISOString();
+  const entry = (nextAt: string, reviewedAt?: string) => ({ level: 1, nextAt, reviewedAt });
+  const weather = topics.find((t) => t.topic === "Weather")!.cards;
+  const ids = (cards: Card[]) => cards.map((c) => c.id);
+
+  it("lists due cards first-due first, with cards never scheduled before dated ones", () => {
+    const progress = emptyProgress();
+    const unit = card("hola").unit!;
+    const unitWords = vocabulary.filter((w) => w.unit === unit).map((w) => w.es);
+
+    progress.completed[`u${unit}-words`] = { score: 1, total: 1, at: "2026-09-20" };
+    progress.vocabularyReviews[weather[0].id] = entry(at(25, 9));
+    progress.vocabularyReviews[weather[1].id] = entry(at(24, 9));
+
+    expect(ids(deckReview(progress, now).due)).toEqual([
+      ...unitWords,
+      weather[1].id,
+      weather[0].id,
+    ]);
+  });
+
+  it("keeps cards due after now as scheduled, with the earliest as the next review", () => {
+    const progress = emptyProgress();
+
+    progress.vocabularyReviews[weather[0].id] = entry(at(25, 11));
+    progress.vocabularyReviews[weather[1].id] = entry(at(28, 9));
+    progress.vocabularyReviews[weather[2].id] = entry(at(26, 9));
+
+    const review = deckReview(progress, now);
+
+    expect(ids(review.due)).toEqual([weather[0].id]);
+    expect(ids(review.scheduled)).toEqual([weather[1].id, weather[2].id]);
+    expect(review.nextAt).toBe(at(26, 9));
+  });
+
+  it("counts reviews made on now's local date as reviewed today", () => {
+    const progress = emptyProgress();
+
+    progress.vocabularyReviews[weather[0].id] = entry(at(26, 0), at(25, 0));
+    progress.vocabularyReviews[weather[1].id] = entry(at(26, 9), at(25, 9));
+    progress.vocabularyReviews[weather[2].id] = entry(at(25, 9), at(24, 23));
+
+    expect(deckReview(progress, now)).toMatchObject({
+      cards: weather.slice(0, 3),
+      reviewedToday: 2,
+    });
+  });
+
+  it("counts due cards never reviewed as new", () => {
+    const progress = emptyProgress();
+
+    Object.assign(progress.vocabularyReviews, addWords(weather, progress, at(25, 8)));
+    progress.vocabularyReviews[weather[0].id].reviewedAt = at(24, 8);
+    progress.vocabularyReviews[weather[1].id] = entry(at(26, 8), at(25, 8));
+
+    expect(deckReview(progress, now).newCount).toBe(3);
   });
 });

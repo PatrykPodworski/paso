@@ -5,8 +5,13 @@ import {
   policies,
   rubricEnd,
   rubricFrame,
+  TOPICS,
   type TaskSpec,
+  type Topic,
 } from "./base.ts";
+import { mockS1 } from "./mock-s1.ts";
+import { mockS2 } from "./mock-s2.ts";
+import { mockS3 } from "./mock-s3.ts";
 import { u1 } from "./u1.ts";
 import { u2 } from "./u2.ts";
 import { u3 } from "./u3.ts";
@@ -20,13 +25,36 @@ import { u10 } from "./u10.ts";
 import { u11 } from "./u11.ts";
 import { u12 } from "./u12.ts";
 
-const TASKS = new Map<string, TaskSpec>(
-  [u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11, u12].map((task) => [task.id, task]),
+// A task is one spec, or one spec per topic when the talk depends on the learner's pick.
+type Listed = TaskSpec | Record<Topic, TaskSpec>;
+
+const byTopic = (listed: Listed): listed is Record<Topic, TaskSpec> => !("id" in listed);
+
+const isTopic = (topic: unknown): topic is Topic =>
+  typeof topic === "string" && (TOPICS as readonly string[]).includes(topic);
+
+const TASKS = new Map<string, Listed>([
+  ...[u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11, u12, mockS1].map((task): [string, Listed] => [
+    task.id,
+    task,
+  ]),
+  ["mock-s2", mockS2],
+  ["mock-s3", mockS3],
+]);
+
+export const tasks = [...TASKS.values()].flatMap((listed) =>
+  byTopic(listed) ? Object.values(listed) : [listed],
 );
 
-export const tasks = [...TASKS.values()];
+export const taskOf = (id: unknown, topic?: unknown) => {
+  const listed = typeof id === "string" ? TASKS.get(id) : undefined;
 
-export const taskOf = (id: unknown) => (typeof id === "string" ? TASKS.get(id) : undefined);
+  if (!listed || !byTopic(listed)) {
+    return listed;
+  }
+
+  return isTopic(topic) ? listed[topic] : undefined;
+};
 
 const COUNTS = ["one", "two", "three", "four", "five", "six"];
 const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth"];
@@ -52,7 +80,7 @@ const monologue = (task: TaskSpec) => [
   "The learner speaks alone. Give them the task in these words, in this order, and then listen without interrupting:",
   ...numbered(task.asks),
   "Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.",
-  "Only if the learner is silent for more than ten seconds, encourage them with a short sentence, for example «Sigue, por favor».",
+  `Only if the learner is silent for more than ten seconds, encourage them once with a short question about a point they have not mentioned yet,${task.nudge ? ` for example «${task.nudge}»,` : ""} and then listen again.`,
   `When the learner finishes, ${farewell}`,
 ];
 

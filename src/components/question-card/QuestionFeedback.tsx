@@ -63,7 +63,7 @@ const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
         {q.answer}
       </p>
     </div>
-    {q.kind !== "speak" && <WritingNotes q={q} value={value} />}
+    <WritingNotes q={q} value={value} />
     <FieldNote className="mt-3">
       {checked}/{q.checklist?.length || 0} self-review points checked. Productive practice is saved
       without a numerical grade.

@@ -162,7 +162,7 @@ export const LessonSession = ({
             key={question.id}
             q={question}
             onSubmit={submit}
-            onEvaluated={(answer, correct, assisted, grade) => {
+            onEvaluated={(answer, correct, assisted, score) => {
               const q = lesson.questions[index];
 
               onAttempt({
@@ -172,7 +172,7 @@ export const LessonSession = ({
                 answer,
                 correct,
                 assisted,
-                ...(grade && { grade }),
+                ...(score && { grade: score.grade }),
                 at: new Date().toISOString(),
               });
             }}

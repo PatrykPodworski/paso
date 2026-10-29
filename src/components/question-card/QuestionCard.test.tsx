@@ -3,21 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
-import { formPractice, mockQuestions } from "../../data/mock";
-
-let recordingProps: {
-  onRecorded: (b: Blob) => void;
-  onStart: () => void;
-  onRecordingChange: (v: boolean) => void;
-};
-
-vi.mock("./Recorder", () => ({
-  Recorder: (props: typeof recordingProps) => {
-    recordingProps = props;
-
-    return null;
-  },
-}));
+import { formPractice } from "../../data/mock";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -33,10 +19,9 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const order = allQuestions.find((q) => q.kind === "order")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = mockQuestions.find((q) => q.kind === "speak")!;
 
 // All productive and objective save paths run against the actual component.
-for (const q of [type, writing, speaking, formPractice]) {
+for (const q of [type, writing, formPractice]) {
   it(`exam isolation: ${q.kind}`, () => {
     const submitted = vi.fn(),
       evaluated = vi.fn();
@@ -49,11 +34,6 @@ for (const q of [type, writing, speaking, formPractice]) {
           target: { value: f.example },
         });
       }
-    } else if (q.kind === "speak") {
-      act(() => {
-        recordingProps.onStart();
-        recordingProps.onRecorded(new Blob(["speech"]));
-      });
     } else {
       fireEvent.change(screen.getByRole("textbox"), { target: { value: q.answer } });
     }
@@ -76,7 +56,6 @@ it.each([
   [order, "Build a sentence"],
   [type, "A small step forward"],
   [writing, "Your turn"],
-  [speaking, "Your turn"],
   [formPractice, "Your turn"],
   // fallow-ignore-next-line complexity -- moved unchanged from src/test/question-rules.test.tsx (#190: move, don't rewrite)
 ])("renders only the appropriate controls for exercise case %#", (q, description) => {
@@ -101,7 +80,7 @@ it.each([
   expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(q.options?.length || 0);
 
   expect(screen.queryAllByText("Your self-review checklist")).toHaveLength(
-    ["write", "speak", "form"].includes(q.kind) ? 1 : 0,
+    ["write", "form"].includes(q.kind) ? 1 : 0,
   );
 
   expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();

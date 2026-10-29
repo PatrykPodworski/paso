@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import { mockSections } from "../../data/mock";
+import { mockSections, type MockTopic } from "../../data/mock";
+import type { LiveScore } from "../../data/types";
 
 const STAGES = ["intro", "run", "review", "prep", "done"] as const;
 
@@ -12,6 +13,10 @@ export interface Run {
   deadline: number;
   started: string;
   drafts: Record<string, string>;
+  // The topic picked for speaking Tasks 2 and 3.
+  topic?: MockTopic;
+  // Lucía's score for each finished talk, by question id.
+  talks: Record<string, LiveScore>;
 }
 
 export type SetRun = Dispatch<SetStateAction<Run>>;
@@ -25,6 +30,7 @@ export const fresh = (): Run => ({
   deadline: 0,
   started: "",
   drafts: {},
+  talks: {},
 });
 
 export const load = (): Run => {

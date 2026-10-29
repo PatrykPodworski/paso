@@ -19,7 +19,7 @@ import {
   vocabulary,
   visualQuestions,
 } from "./curriculum";
-import { formPractice, mockQuestions, mockSections } from "./mock";
+import { formPractice, mockQuestions, mockSections, mockTopics, topicTalks } from "./mock";
 import { countWords } from "./progress";
 import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
@@ -105,6 +105,36 @@ describe("original curriculum integrity", () => {
     }
   });
 
+  it("runs the mock exam's speaking as three live talks, two of them on the picked topic", () => {
+    const speaking = mockSections[3].questions;
+
+    expect(speaking.map((q) => q.kind)).toEqual(["live", "live", "live"]);
+    expect(speaking.map((q) => q.talk)).toEqual(["mock-s1", "mock-s2", "mock-s3"]);
+
+    expect(speaking.map((q) => q.task)).toEqual([
+      "Task 1 · Personal presentation · 1–2 min",
+      "Task 2 · A familiar topic · 2–3 min",
+      "Task 3 · Conversation · 3–4 min",
+    ]);
+
+    expect(taskOf("mock-s1")?.limitSeconds).toBe(150);
+    expect(topicTalks).toEqual(["mock-s2", "mock-s3"]);
+    expect(mockTopics.map((t) => t.id)).toEqual(["home", "studies", "freeTime"]);
+
+    for (const talk of topicTalks) {
+      expect(taskOf(talk), talk).toBeUndefined();
+
+      for (const topic of mockTopics) {
+        expect(taskOf(talk, topic.id)?.id, `${talk} ${topic.id}`).toBe(talk);
+      }
+    }
+
+    for (const q of speaking) {
+      expect(q.checklist, q.id).toBeUndefined();
+      expect(q.audio, q.id).toBeUndefined();
+    }
+  });
+
   it("has 96 different vocabulary entries", () => {
     expect(vocabulary).toHaveLength(96);
     expect(new Set(vocabulary.map((w) => w.es)).size).toBe(96);
@@ -145,10 +175,7 @@ describe("original curriculum integrity", () => {
     const phrases = [
       ...new Set(
         questions
-          .flatMap((q) => [
-            q.audio,
-            ...(["speak", "write", "order"].includes(q.kind) ? [q.answer] : []),
-          ])
+          .flatMap((q) => [q.audio, ...(["write", "order"].includes(q.kind) ? [q.answer] : [])])
           .filter((x): x is string => !!x)
           .concat(
             [...allQuestions, ...foundations, ...visualQuestions, formPractice]

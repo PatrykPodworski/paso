@@ -141,7 +141,7 @@ export const PathPage = ({
             ["spark", "Discover the words", "Connect Spanish words with meaning and sound."],
             ["layers", "Understand the pattern", "Learn the why behind each answer."],
             ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
-            ["mic", "Use your own voice", "Write, record and reflect on your progress."],
+            ["mic", "Use your own voice", "Write, talk to Lucía and reflect on your progress."],
           ].map(([icon, title, body]) => (
             <div key={title} className="flex gap-3 mb-6 max-lg:mb-0 text-sage-600">
               <Icon name={icon} size={20} />

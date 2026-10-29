@@ -21,7 +21,8 @@ it("lists every question of every unit and of the mock exam, grouped by unit", (
   const mock = within(screen.getByRole("region", { name: "Mock exam" }));
   const row = within(mock.getByRole("button", { name: /Task 1 · Personal presentation/ }));
 
-  expect(row.getAllByText("Speaking")).toHaveLength(2);
+  expect(row.getByText("Live talk")).toBeInTheDocument();
+  expect(row.getByText("Speaking")).toBeInTheDocument();
 });
 
 it("tells apart rows that share a title by their answer", () => {

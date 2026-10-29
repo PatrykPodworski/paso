@@ -71,7 +71,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       </label>
       <FieldNote className="mb-5">
         Progress and writing drafts stay in this browser. Export a backup before clearing browser
-        data. Microphone recordings stay only in the active tab unless downloaded.
+        data.
       </FieldNote>
       <ButtonRow className="justify-between">
         <Button

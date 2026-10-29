@@ -1,7 +1,8 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
 import { stopAudio } from "./audio/playback";
+import { audioSources } from "../data/audio-sources";
 import { allQuestions } from "../data/curriculum";
 import { emptyProgress } from "../data/progress";
 import type { Question } from "../data/types";
@@ -194,4 +195,81 @@ it("still restores longer writing drafts in a new practice session", () => {
   );
 
   expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
+});
+
+describe("a recording shared by consecutive listening questions", () => {
+  const [first, second] = ["u1-a0", "u1-a1"].map((id) => allQuestions.find((q) => q.id === id)!);
+  const word = allQuestions.find((q) => q.id === "u1-v1")!;
+  const plays = () => vi.mocked(HTMLMediaElement.prototype.play);
+  const pauses = () => vi.mocked(HTMLMediaElement.prototype.pause);
+
+  beforeEach(() => {
+    plays().mockImplementation(async function (this: HTMLMediaElement) {
+      Object.defineProperty(this, "paused", { value: false, configurable: true });
+    });
+
+    pauses().mockImplementation(function (this: HTMLMediaElement) {
+      Object.defineProperty(this, "paused", { value: true, configurable: true });
+    });
+  });
+
+  const start = (questions: Question[]) =>
+    render(
+      <LessonSession
+        lesson={{
+          id: "listening",
+          title: "Listening",
+          subtitle: "",
+          minutes: 4,
+          icon: "book",
+          questions,
+        }}
+        progress={emptyProgress()}
+        onClose={vi.fn()}
+        onComplete={vi.fn()}
+        onAttempt={vi.fn()}
+        onDraft={vi.fn()}
+      />,
+    );
+
+  const answerAndContinue = (q: Question) => {
+    click(q.answer);
+    click("Continue");
+  };
+
+  it("keeps playing on the next question and stops for a different recording", async () => {
+    expect(second.audio).toBe(first.audio);
+    start([first, second, word]);
+    await act(async () => {});
+    expect(plays()).toHaveBeenCalledOnce();
+    answerAndContinue(first);
+    expect(screen.getByRole("heading", { name: second.prompt })).toBeInTheDocument();
+    expect(plays()).toHaveBeenCalledOnce();
+    expect(pauses()).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+    answerAndContinue(second);
+    expect(pauses()).toHaveBeenCalledOnce();
+    expect(plays()).toHaveBeenCalledTimes(2);
+
+    expect((plays().mock.contexts[1] as HTMLAudioElement).src).toContain(
+      audioSources(word.audio!)[0],
+    );
+
+    click("Close lesson");
+    expect(pauses()).toHaveBeenCalledTimes(2);
+  });
+
+  it("keeps a paused recording at its position on the next question", async () => {
+    start([first, second]);
+    await act(async () => {});
+    click("Pause audio");
+    expect(pauses()).toHaveBeenCalledOnce();
+    answerAndContinue(first);
+    expect(screen.getByRole("heading", { name: second.prompt })).toBeInTheDocument();
+    expect(plays()).toHaveBeenCalledOnce();
+    click("Play Spanish audio");
+    await act(async () => {});
+    expect(plays()).toHaveBeenCalledTimes(2);
+    expect(plays().mock.contexts[1]).toBe(plays().mock.contexts[0]);
+  });
 });

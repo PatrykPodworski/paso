@@ -3,7 +3,7 @@ import { ButtonRow } from "../design-system/ButtonRow";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
-import type { Attempt, Lesson, Progress } from "../data/types";
+import type { Attempt, Lesson, Progress, Question } from "../data/types";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
@@ -12,6 +12,10 @@ import { QuestionView } from "./question-card/QuestionView";
 import { stopAudio } from "./audio/playback";
 import { FieldNote } from "../design-system/FieldNote";
 import { CompletionStats } from "./CompletionStats";
+
+// A recording keeps playing across the questions that share it.
+const sharesRecording = (q: Question, next: Question | undefined) =>
+  (!!q.passage && q.passage === next?.passage) || (!!q.audio && q.audio === next?.audio);
 
 type Props = {
   lesson: Lesson;
@@ -52,8 +56,7 @@ export const LessonSession = ({
   const submit = (answer: string, correct: boolean | null, help: boolean) => {
     void answer;
 
-    // A reading passage keeps playing across the questions that share it.
-    if (!question.passage || lesson.questions[index + 1]?.passage !== question.passage) {
+    if (!sharesRecording(question, lesson.questions[index + 1])) {
       stopAudio();
     }
 

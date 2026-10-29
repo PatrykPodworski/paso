@@ -61,7 +61,7 @@ it.each([
   expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
 });
 
-it("starts each listening question on entry and cancels the previous clip", async () => {
+it("starts each listening question on entry, cancels the previous clip and leaves the last one to the session", async () => {
   const first = allQuestions.find((q) => q.id === "u1-v1")!;
   const second = allQuestions.find((q) => q.id === "u1-v3")!;
 
@@ -80,5 +80,5 @@ it("starts each listening question on entry and cancels the previous clip", asyn
   expect((plays.mock.contexts[1] as HTMLAudioElement).src).toContain(audioSources("por favor")[0]);
 
   unmount();
-  expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledTimes(2);
+  expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledOnce();
 });

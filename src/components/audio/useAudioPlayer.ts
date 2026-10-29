@@ -33,9 +33,11 @@ export const useAudioPlayer = ({
   const ref = useRef<HTMLAudioElement | null>(null);
   const playbackRef = useRef<Playback | null>(null);
   const resumePlayback = useRef<(() => Promise<void>) | null>(null);
+  // A continuous clip pauses in place so the next player can pick it up there.
+  const resumable = minimal || continuous;
 
   useEffect(() => {
-    // Take over a clip that is still running for the same text, so a passage
+    // Take over a clip that is still running for the same text, so a recording
     // survives the move to the next question about it.
     const running = activePlayback;
 
@@ -53,7 +55,7 @@ export const useAudioPlayer = ({
   useEffect(
     () => () => {
       if (continuous) {
-        // The session stops shared playback once the passage changes.
+        // The session stops shared playback once the recording changes.
         return;
       }
 
@@ -73,7 +75,7 @@ export const useAudioPlayer = ({
   }, [speed]);
 
   const pause = () => {
-    if (minimal && resumePlayback.current) {
+    if (resumable && resumePlayback.current) {
       ref.current?.pause();
     } else {
       stopAudio();
@@ -101,7 +103,7 @@ export const useAudioPlayer = ({
       return;
     }
 
-    if (minimal && !restart && resumePlayback.current) {
+    if (resumable && !restart && resumePlayback.current) {
       await resume(resumePlayback.current);
 
       return;
@@ -176,7 +178,13 @@ export const useAudioPlayer = ({
   };
 
   useImperativeHandle(controlsRef, () => ({ play: () => void play(true), playing: () => playing }));
-  const startAutomatically = useEffectEvent(() => void play(true));
+
+  const startAutomatically = useEffectEvent(() => {
+    // An adopted clip keeps playing, or stays paused, where the last player left it.
+    if (!continuous || activePlayback?.text !== text) {
+      void play(true);
+    }
+  });
 
   useEffect(() => {
     if (autoPlay) {
@@ -184,5 +192,5 @@ export const useAudioPlayer = ({
     }
   }, [autoPlay, text]);
 
-  return { playing, speed, setSpeed, count, error, play };
+  return { playing, resumable, speed, setSpeed, count, error, play };
 };

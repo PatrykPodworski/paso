@@ -247,6 +247,48 @@ describe("audio cancellation and device fallback", () => {
     expect(clips[0].pause).toHaveBeenCalledOnce();
   });
 
+  it("lets the next autoplaying continuous player adopt the running clip without restarting it", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => {});
+    expect(clips).toHaveLength(1);
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    expect(clips[0].pause).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+
+  it("keeps a paused continuous clip paused for the next player and resumes it there", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => {});
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+
+  it("autoplays a fresh clip when the continuous player moves to a different recording", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Adiós." label="Listening" continuous autoPlay />);
+    await waitFor(() => expect(clips).toHaveLength(2));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    expect(clips[1].play).toHaveBeenCalledOnce();
+  });
+
   it("unmounting an old player does not stop the new active player", async () => {
     const { rerender } = render(
       <>

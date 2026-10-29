@@ -154,7 +154,7 @@ test("question: choice, immediate error and memory hint", async ({ page }) => {
   await page.getByRole("button", { name: lesson.questions[0].options![1], exact: true }).click();
   await shot(page, "question-error");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Stop audio" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
   await shot(page, "question-listening");
   await page.getByRole("button", { name: "Need a hand? Show transcript" }).click();
   await shot(page, "question-transcript");

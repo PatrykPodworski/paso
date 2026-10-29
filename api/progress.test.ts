@@ -520,13 +520,19 @@ describe("importing legacy progress", () => {
         { ...valid, id: "long", answer: "a".repeat(4001) },
         { ...valid, id: "bad-skill", skill: "dancing" },
         { ...valid, id: "bad-date", at: "yesterday" },
+        { ...valid, id: "nul", answer: "a\0b" },
+        { ...valid, id: "far", at: "2026-09-09T12:00:00+20:00" },
       ],
       mistakes: "u1-v0",
       mistakeReviews: { "u1-v0": { level: "high", nextAt: T } },
-      vocabularyReviews: { casa: { level: 9, nextAt: T }, perro: { level: 0, nextAt: T } },
+      vocabularyReviews: {
+        casa: { level: 9, nextAt: T },
+        "ga\0to": { level: 0, nextAt: T },
+        perro: { level: 0, nextAt: T },
+      },
       checks: [1, "passport"],
       mockResults: [{ at: T, reading: "many", listening: 20 }],
-      drafts: { "u1-w1": 5, "u1-w2": "Hola" },
+      drafts: { "u1-w1": 5, "u1-w2": "Hola", "u1-w3": "Hola \uD83D" },
     });
 
     expect(p).toEqual({
@@ -541,6 +547,49 @@ describe("importing legacy progress", () => {
       checks: ["passport"],
       drafts: { "u1-w2": "Hola" },
       recent: [valid],
+      days: ["2026-09-09"],
+    });
+  });
+
+  it("keeps the learner's own rows where the document overlaps them", async () => {
+    const me = learner();
+
+    await answer(me);
+    await snapshot(me, { action: "complete", lessonId: "u1-l1", score: 4, total: 5, at: T });
+    await snapshot(me, { action: "draft", questionId: "u1-w1", text: "Mine" });
+
+    const added = attempt({
+      id: "x2",
+      questionId: "u1-v1",
+      correct: false,
+      answer: "no",
+      at: "2026-09-09T11:00:00.000Z",
+    });
+
+    const p = await importing(me, {
+      completed: { "u1-l1": { score: 1, total: 5, at: "2026-09-08T12:00:00.000Z" } },
+      attempts: [attempt({ correct: false, answer: "otro" }), added],
+      drafts: { "u1-w1": "Theirs" },
+    });
+
+    expect(p).toEqual({
+      ...EMPTY,
+      xp: 30,
+      imported: true,
+      importedNow: true,
+      completed: { "u1-l1": { score: 4, total: 5, at: T } },
+      questions: {
+        "u1-v0": { skill: "reading", at: T, correct: true, answer: "hola", inMistakes: false },
+        "u1-v1": {
+          skill: "reading",
+          at: added.at,
+          correct: false,
+          answer: "no",
+          inMistakes: false,
+        },
+      },
+      drafts: { "u1-w1": "Mine" },
+      recent: [attempt(), added],
       days: ["2026-09-09"],
     });
   });
@@ -648,6 +697,42 @@ describe("requests", () => {
       me,
       { action: "settings", name: "", goal: 5, examDate: "2026-13-01" },
       "examDate",
+    ],
+    [
+      "an attempt answer with a NUL character",
+      me,
+      { action: "attempt", attempt: attempt({ answer: "a\0b" }) },
+      "attempt",
+    ],
+    [
+      "an attempt at an offset Postgres does not take",
+      me,
+      { action: "attempt", attempt: attempt({ at: "2026-09-09T12:00:00+16:00" }) },
+      "attempt",
+    ],
+    [
+      "a draft text with a NUL character",
+      me,
+      { action: "draft", questionId: "q", text: "\0" },
+      "text",
+    ],
+    [
+      "a draft text with a lone surrogate",
+      me,
+      { action: "draft", questionId: "q", text: "Hola \uD83D" },
+      "text",
+    ],
+    [
+      "a vocabulary word with a NUL character",
+      me,
+      { action: "vocabulary", reviews: { "ca\0sa": { level: 1, nextAt: T } } },
+      "reviews",
+    ],
+    [
+      "a check id with a lone surrogate",
+      me,
+      { action: "check", checkId: "\uDC00", done: true },
+      "checkId",
     ],
     ["a mock result without an id", me, { action: "mockResult", result: ok }, "result"],
     [

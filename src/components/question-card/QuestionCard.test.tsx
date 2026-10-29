@@ -101,7 +101,7 @@ it.each([
   expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(q.options?.length || 0);
 
   expect(screen.queryAllByText("Your self-review checklist")).toHaveLength(
-    ["write", "speak", "form"].includes(q.kind) ? 1 : 0,
+    q.kind === "speak" ? 1 : 0,
   );
 
   expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();

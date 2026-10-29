@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
+import { clipText } from "../../data/progress";
 import type { LiveGrade, LiveScore, TalkTurn } from "../../data/types";
 import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
@@ -54,7 +55,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
       const result = (await response.json()) as LiveScore;
 
       setScoring({ state: "done", turns, score: result });
-      onEvaluated?.(transcriptText(turns), result.grade !== "bad", false, result.grade);
+      onEvaluated?.(clipText(transcriptText(turns)), result.grade !== "bad", false, result.grade);
     } catch {
       setScoring({ state: "failed", turns, passcode });
     }
@@ -130,7 +131,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
           turns={talk.turns}
           onAgain={again}
           onContinue={() =>
-            onSubmit(transcriptText(scoring.turns), scoring.score.grade !== "bad", false)
+            onSubmit(clipText(transcriptText(scoring.turns)), scoring.score.grade !== "bad", false)
           }
         />
       )}

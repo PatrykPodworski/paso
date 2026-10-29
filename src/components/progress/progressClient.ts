@@ -47,11 +47,23 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
   let sending = false;
   const queue: Body[] = [];
   const drafts = new Map<string, { timer: ReturnType<typeof setTimeout>; text: string }>();
+  // Drafts sent but not yet answered. Responses to earlier writes still hold the older
+  // text, and a lesson opened now must not show it.
+  const sentDrafts = new Map<string, string>();
   // Without browser storage the passcode lasts for this visit.
   let typed = "";
 
   const update = (patch: Partial<ProgressState>) => {
-    state = { ...state, ...patch };
+    const { snapshot, ...rest } = { ...state, ...patch };
+
+    state = {
+      ...rest,
+      snapshot: snapshot && {
+        ...snapshot,
+        drafts: { ...snapshot.drafts, ...Object.fromEntries(sentDrafts) },
+      },
+    };
+
     onChange(state);
   };
 
@@ -93,17 +105,23 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     return failure;
   };
 
-  // Sends what this browser kept under `key` when the server lacks it, then keeps it as a
-  // backup that is never read.
+  // Sends what this browser kept under `key` when the server lacks it. Either way the key
+  // then moves to a backup that is never read, so a later reset does not import it again.
   const importKept = async (
     loaded: ProgressSnapshot | Problem,
     key: string,
     held: (snapshot: ProgressSnapshot) => boolean,
     body: (value: unknown) => Body,
   ) => {
-    const kept = typeof loaded === "string" || held(loaded) ? null : keptIn(key);
+    const kept = typeof loaded === "string" ? null : keptIn(key);
 
     if (!kept) {
+      return loaded;
+    }
+
+    if (held(loaded as ProgressSnapshot)) {
+      keepAsBackup(key, kept.raw);
+
       return loaded;
     }
 
@@ -164,7 +182,12 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
       return;
     }
 
-    queue.shift();
+    const body = queue.shift()!;
+
+    if (body.action === "draft" && sentDrafts.get(body.questionId as string) === body.text) {
+      sentDrafts.delete(body.questionId as string);
+    }
+
     update({ snapshot: result });
     void send();
   };
@@ -196,6 +219,8 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
 
     clearTimeout(draft.timer);
     drafts.delete(questionId);
+    sentDrafts.set(questionId, draft.text);
+    update({});
     write({ action: "draft", questionId, text: draft.text });
   };
 

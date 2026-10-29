@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Question } from "../../data/types";
-import { countWords, isCorrect } from "../../data/progress";
+import { countWords, isCorrect, MAX_TEXT } from "../../data/progress";
 
 const parseFields = (draft: string): Record<string, string> => {
   try {
@@ -75,15 +75,25 @@ export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) =
       : value;
 
   const setText = (text: string) => {
+    if (text.length > MAX_TEXT) {
+      return;
+    }
+
     setAnswer(text);
     onDraft?.(text);
   };
 
   const setField = (label: string, text: string) => {
     const next = { ...fieldValues, [label]: text };
+    const draft = JSON.stringify(next);
+
+    // The saved draft holds every field, so the limit applies to all of them together.
+    if (draft.length > MAX_TEXT) {
+      return;
+    }
 
     setFieldValues(next);
-    onDraft?.(JSON.stringify(next));
+    onDraft?.(draft);
   };
 
   const toggleCheck = (i: number) =>

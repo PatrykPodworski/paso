@@ -28,7 +28,8 @@ export const savePasscode = (passcode: string) => saveAccess({ ...readAccess(), 
 
 // `code` is null when the server created a session, which uses up the free talk. A
 // rejected passcode is forgotten, and `free_used` (the server already counted this
-// network's free talk) switches to the passcode. Any other outcome leaves access as it was.
+// network's free talk) switches to the passcode, keeping one progress already stored.
+// Any other outcome leaves access as it was.
 export const accessAfter = (
   code: string | null,
   access: LiveAccess,
@@ -43,7 +44,7 @@ export const accessAfter = (
   }
 
   if (code === "free_used") {
-    return { freeUsed: true, passcode: "" };
+    return { freeUsed: true, passcode: access.passcode };
   }
 
   return access;

@@ -63,6 +63,7 @@ test("progress kept in this browser is imported once", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
   await expect(page.locator(".xp-stat")).toHaveText("10 XP");
   expect((await saved(page)).recent).toHaveLength(2);
+  expect(await stored(page)).toBeNull();
 });
 
 test("the passcode is asked once and sent with every request", async ({ page }) => {

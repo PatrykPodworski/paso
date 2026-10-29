@@ -27,17 +27,25 @@ const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
 const GRADES: LiveGrade[] = ["perfect", "good", "bad"];
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
-const INSTANT = /^[12]\d{3}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,6})?)?(Z|[+-]\d{2}:\d{2})$/;
+
+// Postgres takes offsets up to ±15:59.
+const INSTANT =
+  /^[12]\d{3}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,6})?)?(Z|[+-](0\d|1[0-5]):[0-5]\d)$/;
+
+const LONE_SURROGATE = /\p{Cs}/u;
 const ZONE = /^[A-Za-z][A-Za-z0-9_+-]*(\/[A-Za-z0-9_+-]+)*$/;
 
 export const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-export const isId = (value: unknown): value is string =>
-  typeof value === "string" && value.length > 0 && value.length <= MAX_ID;
-
 export const isText = (value: unknown, max = MAX_TEXT): value is string =>
-  typeof value === "string" && value.length <= max;
+  typeof value === "string" &&
+  value.length <= max &&
+  // Postgres text cannot hold U+0000, and jsonb refuses a lone UTF-16 surrogate.
+  !value.includes("\0") &&
+  !LONE_SURROGATE.test(value);
+
+export const isId = (value: unknown): value is string => isText(value, MAX_ID) && value !== "";
 
 export const isCount = (value: unknown, min: number, max: number): value is number =>
   Number.isInteger(value) && (value as number) >= min && (value as number) <= max;

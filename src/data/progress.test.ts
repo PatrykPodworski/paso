@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  clipText,
   countWords,
   dailyAnswers,
   isCorrect,
@@ -228,4 +229,10 @@ it("handles flexible whitespace in age errors and accepts a genuinely zero allow
 
 it("does not accidentally accept an undeclared fallback answer", () => {
   expect(isCorrect({ answer: "hola" } as Question, "Stryker was here")).toBe(false);
+});
+
+it("clips text to the 4000 characters the server stores without splitting a character", () => {
+  expect(clipText("a".repeat(4001))).toBe("a".repeat(4000));
+  expect(clipText(`${"a".repeat(3999)}😀`)).toBe("a".repeat(3999));
+  expect(clipText("hola")).toBe("hola");
 });

@@ -36,6 +36,7 @@ const EMPTY: ProgressSnapshot = {
   drafts: {},
   recent: [],
   days: [],
+  mockRun: null,
 };
 
 const learner = () => crypto.randomUUID();
@@ -420,12 +421,126 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
         action: "mockResult",
         result: { id: "m1", at: T, reading: 1, listening: 2 },
       });
+
+      await snapshot(id, { action: "mockRun", run: { answers: { q1: "a" } } });
     }
 
     await importing(me, {});
 
     expect(await snapshot(me, { action: "reset" })).toEqual(EMPTY);
     expect((await snapshot(other)).xp).toBe(25);
+  });
+});
+
+describe("the mock exam run", () => {
+  const FRESH = {
+    section: 0,
+    index: 0,
+    stage: "intro",
+    answers: {},
+    deadline: 0,
+    started: "",
+    drafts: {},
+    scores: {},
+  };
+
+  const DEADLINE = Date.parse(T) + 45 * 60000;
+  const started = { stage: "run", started: T, deadline: DEADLINE };
+
+  const change = async (id: string, run: unknown, replace?: boolean) =>
+    (await snapshot(id, { action: "mockRun", run, replace })).mockRun;
+
+  it("starts a run from the defaults and merges answers, drafts and scores per key", async () => {
+    const me = learner();
+
+    expect(await change(me, started, true)).toEqual({ ...FRESH, ...started });
+    await change(me, { answers: { r1: "b" }, section: 0, index: 1 });
+    await change(me, { drafts: { w1: "Hola" }, scores: { writing: "12" } });
+    await change(me, { answers: { r2: "c" }, drafts: { prep: "" } });
+
+    expect(await change(me, { scores: { speaking: "14.5" }, section: 1, index: 0 })).toEqual({
+      ...FRESH,
+      ...started,
+      section: 1,
+      answers: { r1: "b", r2: "c" },
+      drafts: { w1: "Hola", prep: "" },
+      scores: { writing: "12", speaking: "14.5" },
+    });
+  });
+
+  it("keeps the answers another tab saved while this tab moves on", async () => {
+    const me = learner();
+
+    await change(me, started, true);
+    await change(me, { answers: { r1: "a" }, section: 0, index: 1 });
+
+    expect(await change(me, { answers: { r5: "c" }, section: 0, index: 5 })).toMatchObject({
+      index: 5,
+      answers: { r1: "a", r5: "c" },
+    });
+  });
+
+  it("starts from the defaults when a change arrives without a run", async () => {
+    expect(await change(learner(), { answers: { r1: "a" } })).toEqual({
+      ...FRESH,
+      answers: { r1: "a" },
+    });
+  });
+
+  it("replaces the run and its answers when a new one starts", async () => {
+    const me = learner();
+
+    await change(me, { ...started, answers: { r1: "a" }, scores: { writing: "3" } }, true);
+
+    expect(await change(me, {}, true)).toEqual(FRESH);
+  });
+
+  describe("kept in the browser", () => {
+    const kept = { section: 1, index: 2, stage: "run", answers: { r1: "a" }, deadline: DEADLINE };
+
+    const importing = async (id: string, run: unknown) =>
+      (await snapshot(id, { action: "importMockRun", run })).mockRun;
+
+    it("imports it once, filling the fields older saves lack", async () => {
+      const me = learner();
+
+      expect(await importing(me, kept)).toEqual({ ...FRESH, ...kept });
+      expect(await importing(me, { ...kept, section: 2, index: 0 })).toEqual({ ...FRESH, ...kept });
+    });
+
+    it("does not replace a run the server already has", async () => {
+      const me = learner();
+
+      await change(me, started, true);
+
+      expect(await importing(me, kept)).toEqual({ ...FRESH, ...started });
+    });
+
+    it("drops the malformed parts of a run", async () => {
+      expect(
+        await importing(learner(), {
+          ...kept,
+          answers: { r1: "a", r2: 5, ["x".repeat(65)]: "b" },
+          drafts: null,
+          deadline: "soon",
+          started: "today",
+          scores: { writing: "7", reading: "3" },
+          extra: true,
+        }),
+      ).toEqual({ ...FRESH, ...kept, deadline: 0, scores: { writing: "7" } });
+    });
+
+    it.each([
+      ["not a run", "saved mock"],
+      ["no run", null],
+      ["a section out of range", { ...kept, section: 4 }],
+      ["a question outside its section", { ...kept, section: 3, index: 3 }],
+      ["an index that is not whole", { ...kept, index: 0.5 }],
+      ["an unknown stage", { ...kept, stage: "unknown" }],
+      ["answers that are not a record", { ...kept, answers: null }],
+    ])("imports nothing from %s", async (_, run) => {
+      expect(await importing(learner(), run)).toBeNull();
+    });
   });
 });
 
@@ -491,6 +606,7 @@ describe("importing legacy progress", () => {
       drafts: { "u1-w1": "Hola" },
       recent: [legacy.attempts[2], legacy.attempts[1], legacy.attempts[0]],
       days: ["2026-09-09", "2026-09-08"],
+      mockRun: null,
     });
 
     const again = await importing(me, {
@@ -656,6 +772,33 @@ describe("requests", () => {
       { action: "mockResult", result: { ...ok, id: "m", reading: 26 } },
       "result",
     ],
+    ["a mock run that is not a record", me, { action: "mockRun", run: [] }, "run"],
+    ["a mock section without its index", me, { action: "mockRun", run: { section: 1 } }, "run"],
+    [
+      "a mock question outside its section",
+      me,
+      { action: "mockRun", run: { section: 3, index: 3 } },
+      "run",
+    ],
+    ["a mock section", me, { action: "mockRun", run: { section: 4, index: 0 } }, "run"],
+    ["a mock stage", me, { action: "mockRun", run: { stage: "paused" } }, "run"],
+    ["a mock deadline", me, { action: "mockRun", run: { deadline: -1 } }, "run"],
+    ["a mock start", me, { action: "mockRun", run: { started: "today" } }, "run"],
+    ["a mock answer", me, { action: "mockRun", run: { answers: { r1: 5 } } }, "run"],
+    [
+      "a long mock draft",
+      me,
+      { action: "mockRun", run: { drafts: { w1: "a".repeat(4001) } } },
+      "run",
+    ],
+    ["a mock score name", me, { action: "mockRun", run: { scores: { reading: "3" } } }, "run"],
+    [
+      "a long mock score",
+      me,
+      { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
+      "run",
+    ],
+    ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],
   ])("refuses %s", async (_, id, body, error) => {
     const response = await send(id, body);
 

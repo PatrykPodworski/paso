@@ -1,7 +1,14 @@
-import type { Attempt, NewMockResult, ProgressSnapshot, VocabularyReview } from "../../data/types";
+import type {
+  Attempt,
+  MockRunPatch,
+  NewMockResult,
+  ProgressSnapshot,
+  VocabularyReview,
+} from "../../data/types";
 import { readAccess, savePasscode } from "../live-talk/liveAccess";
 
 const LEGACY_KEY = "paso-progress-v1";
+const MOCK_KEY = "paso-mock-v1";
 const DRAFT_DELAY = 800;
 
 export type Problem = "load" | "save" | "passcode" | "wrongPasscode" | "passcodeTries";
@@ -12,21 +19,21 @@ type Body = { action: string } & Record<string, unknown>;
 
 const timeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-// The progress saved in this browser before progress moved to the server.
-const legacyProgress = () => {
+// What this browser saved under `key` before the server kept it.
+const keptIn = (key: string) => {
   try {
-    const raw = localStorage.getItem(LEGACY_KEY);
+    const raw = localStorage.getItem(key);
 
-    return raw === null ? null : { raw, progress: JSON.parse(raw) as unknown };
+    return raw === null ? null : { raw, value: JSON.parse(raw) as unknown };
   } catch {
     return null;
   }
 };
 
-const keepAsBackup = (raw: string) => {
+const keepAsBackup = (key: string, raw: string) => {
   try {
-    localStorage.setItem(`${LEGACY_KEY}-imported`, raw);
-    localStorage.removeItem(LEGACY_KEY);
+    localStorage.setItem(`${key}-imported`, raw);
+    localStorage.removeItem(key);
   } catch {
     // The server ignores a second import, so a key that stays only costs a request.
   }
@@ -86,26 +93,49 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     return failure;
   };
 
-  const loadOnce = async () => {
-    let result = await request(undefined, "load");
-    const legacy = typeof result === "string" || result.imported ? null : legacyProgress();
+  // Sends what this browser kept under `key` when the server lacks it, then keeps it as a
+  // backup that is never read.
+  const importKept = async (
+    loaded: ProgressSnapshot | Problem,
+    key: string,
+    held: (snapshot: ProgressSnapshot) => boolean,
+    body: (value: unknown) => Body,
+  ) => {
+    const kept = typeof loaded === "string" || held(loaded) ? null : keptIn(key);
 
-    if (legacy) {
-      result = await request(
-        { action: "import", progress: legacy.progress, timeZone: timeZone() },
-        "load",
-      );
-
-      if (typeof result !== "string") {
-        keepAsBackup(legacy.raw);
-
-        const { importedNow: _, ...snapshot } = result as ProgressSnapshot & {
-          importedNow: boolean;
-        };
-
-        result = snapshot;
-      }
+    if (!kept) {
+      return loaded;
     }
+
+    const result = await request(body(kept.value), "load");
+
+    if (typeof result === "string") {
+      return result;
+    }
+
+    keepAsBackup(key, kept.raw);
+
+    const { importedNow: _, ...snapshot } = result as ProgressSnapshot & {
+      importedNow?: boolean;
+    };
+
+    return snapshot;
+  };
+
+  const loadOnce = async () => {
+    const progress = await importKept(
+      await request(undefined, "load"),
+      LEGACY_KEY,
+      (snapshot) => snapshot.imported,
+      (value) => ({ action: "import", progress: value, timeZone: timeZone() }),
+    );
+
+    const result = await importKept(
+      progress,
+      MOCK_KEY,
+      (snapshot) => snapshot.mockRun !== null,
+      (value) => ({ action: "importMockRun", run: value }),
+    );
 
     update(typeof result === "string" ? { problem: result } : { snapshot: result });
   };
@@ -144,6 +174,23 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     void send();
   };
 
+  // The mock run's drafts wait together and go as one change.
+  let mockDrafts: { timer: ReturnType<typeof setTimeout>; drafts: Record<string, string> } | null =
+    null;
+
+  const saveMockDrafts = () => {
+    if (mockDrafts) {
+      clearTimeout(mockDrafts.timer);
+      write({ action: "mockRun", run: { drafts: mockDrafts.drafts } });
+      mockDrafts = null;
+    }
+  };
+
+  const dropMockDrafts = () => {
+    clearTimeout(mockDrafts?.timer);
+    mockDrafts = null;
+  };
+
   const saveDraft = (questionId: string) => {
     const draft = drafts.get(questionId)!;
 
@@ -174,7 +221,10 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
       clearTimeout(drafts.get(questionId)?.timer);
       drafts.set(questionId, { timer: setTimeout(() => saveDraft(questionId), DRAFT_DELAY), text });
     },
-    flushDrafts: () => [...drafts.keys()].forEach(saveDraft),
+    flushDrafts: () => {
+      [...drafts.keys()].forEach(saveDraft);
+      saveMockDrafts();
+    },
     vocabulary: (reviews: Record<string, VocabularyReview>) =>
       write({ action: "vocabulary", reviews }),
     check: (checkId: string, done: boolean) => write({ action: "check", checkId, done }),
@@ -182,9 +232,29 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     // The id makes a resent result a no-op on the server.
     mockResult: (result: NewMockResult) =>
       write({ action: "mockResult", result: { id: crypto.randomUUID(), ...result } }),
+    // Answers, drafts and scores merge per key on the server; drafts are sent debounced.
+    mockRun: ({ drafts: changed, ...change }: MockRunPatch) => {
+      if (changed) {
+        clearTimeout(mockDrafts?.timer);
+
+        mockDrafts = {
+          timer: setTimeout(saveMockDrafts, DRAFT_DELAY),
+          drafts: { ...mockDrafts?.drafts, ...changed },
+        };
+      }
+
+      if (Object.keys(change).length) {
+        write({ action: "mockRun", run: change });
+      }
+    },
+    newMockRun: (run: MockRunPatch) => {
+      dropMockDrafts();
+      write({ action: "mockRun", run, replace: true });
+    },
     reset: () => {
       drafts.forEach((d) => clearTimeout(d.timer));
       drafts.clear();
+      dropMockDrafts();
       write({ action: "reset" });
     },
   };

@@ -3,16 +3,17 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { mockSections } from "../../data/mock";
 import { Icon } from "../../design-system/Icon";
-import type { Run, SetRun } from "./useMockRun";
+import type { MockRun } from "../../data/types";
+import type { ChangeRun } from "./useMockRun";
 import { FIELD } from "../../design-system/field";
 
 type Props = {
-  run: Run;
-  setRun: SetRun;
+  run: MockRun;
+  change: ChangeRun;
   setNow: (now: number) => void;
 };
 
-export const OralPrep = ({ run, setRun, setNow }: Props) => (
+export const OralPrep = ({ run, change, setNow }: Props) => (
   <Panel className="p-8 max-md:p-6">
     <Eyebrow>10 MINUTES TO PREPARE</Eyebrow>
     <h2 className="font-serif text-2xl font-semibold tracking-tight leading-tight mt-2.5 mb-3.5 max-md:text-3xl">
@@ -34,7 +35,7 @@ export const OralPrep = ({ run, setRun, setNow }: Props) => (
         className={`${FIELD} leading-relaxed mt-2.5 mb-5`}
         rows={6}
         value={run.drafts.prep || ""}
-        onChange={(e) => setRun((r) => ({ ...r, drafts: { ...r.drafts, prep: e.target.value } }))}
+        onChange={(e) => change({ drafts: { prep: e.target.value } })}
         placeholder="Nombre · nacionalidad · edad…"
       />
     </label>
@@ -42,7 +43,7 @@ export const OralPrep = ({ run, setRun, setNow }: Props) => (
       variant="primary"
       onClick={() => {
         setNow(Date.now());
-        setRun((r) => ({ ...r, stage: "run", deadline: Date.now() + 600000 }));
+        change({ stage: "run", deadline: Date.now() + 600000 });
       }}
     >
       I’m ready · start speaking

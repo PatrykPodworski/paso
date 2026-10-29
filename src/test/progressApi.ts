@@ -25,7 +25,13 @@ export const setupProgressApi = () => {
     vi.stubGlobal(
       "fetch",
       vi.fn((url: string, init: RequestInit) => {
-        const response = serve(new Request(new URL(url, "http://localhost"), init));
+        const request = new Request(new URL(url, "http://localhost"), init);
+
+        if (new URL(request.url).pathname !== "/api/progress") {
+          throw new Error(`Unexpected request to ${url}`);
+        }
+
+        const response = serve(request);
 
         started++;
         running.add(response);

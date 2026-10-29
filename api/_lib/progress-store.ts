@@ -2,6 +2,8 @@ import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
   LiveGrade,
+  MockRun,
+  MockRunPatch,
   ProgressSnapshot,
   Skill,
   VocabularyReview,
@@ -13,6 +15,18 @@ import type { Completion, MockResult } from "./progress-fields.js";
 export type Settings = { name: string; goal: number; examDate: string };
 
 const RECENT = 20;
+
+const FRESH_MOCK_RUN: MockRun = {
+  section: 0,
+  index: 0,
+  stage: "intro",
+  answers: {},
+  deadline: 0,
+  started: "",
+  drafts: {},
+  scores: {},
+};
+
 const DAYS = 400;
 const QUESTION_XP = 5;
 const LESSON_XP = 20;
@@ -63,6 +77,7 @@ const reads = (learner: string) => [
      ) days ORDER BY days.day DESC`,
     learner,
   ),
+  q("SELECT run FROM mock_runs WHERE learner_id = $1", learner),
 ];
 
 type LearnerRow = { name: string; goal: number; exam_date: string; xp: number; imported: boolean };
@@ -121,7 +136,7 @@ const mockResultOf = ({ writing, speaking, ...m }: MockRow) => ({
 });
 
 const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
-  const [learners, completions, questions, reviews, checks, mocks, drafts, recent, days] =
+  const [learners, completions, questions, reviews, checks, mocks, drafts, recent, days, runs] =
     results as [
       LearnerRow[],
       CompletionRow[],
@@ -132,6 +147,7 @@ const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
       DraftRow[],
       AttemptRow[],
       DayRow[],
+      { run: MockRun }[],
     ];
 
   const learner = learners[0] ?? NEW_LEARNER;
@@ -152,6 +168,7 @@ const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
     drafts: Object.fromEntries(drafts.map((d) => [d.question_id, d.text])),
     recent: recent.map((r) => ({ id: r.id, questionId: r.question_id, ...answerOf(r) })),
     days: days.map((d) => d.day),
+    mockRun: runs[0]?.run ?? null,
   };
 };
 
@@ -347,6 +364,59 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
       ),
     ])
   ).snapshot;
+
+// A run that does not exist yet starts from the defaults.
+const INSERT_MOCK_RUN =
+  "INSERT INTO mock_runs AS r (learner_id, run) VALUES ($1, $2::jsonb || $3::jsonb)";
+
+const mockRunParams = (learner: string, patch: MockRunPatch) => [
+  learner,
+  JSON.stringify(FRESH_MOCK_RUN),
+  JSON.stringify(patch),
+];
+
+// Top-level fields replace; answers, drafts and scores merge per key, so a change from one
+// tab keeps what another tab saved. `replace` starts a new run from the defaults.
+export const saveMockRun = async (
+  db: Db,
+  learner: string,
+  patch: MockRunPatch,
+  replace: boolean,
+) => {
+  const merged = (map: string) =>
+    `'${map}', (r.run->'${map}') || COALESCE($3::jsonb->'${map}', '{}')`;
+
+  return (
+    await write(db, learner, [
+      ensureLearner(learner),
+      q(
+        `${INSERT_MOCK_RUN}
+         ON CONFLICT (learner_id) DO UPDATE SET
+           run = CASE WHEN $4::boolean THEN excluded.run ELSE
+             r.run || $3::jsonb ||
+             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")})
+           END,
+           updated_at = now()`,
+        ...mockRunParams(learner, patch),
+        replace,
+      ),
+    ])
+  ).snapshot;
+};
+
+// Keeps a run the server already has.
+export const importMockRun = async (db: Db, learner: string, kept: MockRunPatch | null) =>
+  kept
+    ? (
+        await write(db, learner, [
+          ensureLearner(learner),
+          q(
+            `${INSERT_MOCK_RUN} ON CONFLICT (learner_id) DO NOTHING`,
+            ...mockRunParams(learner, kept),
+          ),
+        ])
+      ).snapshot
+    : readProgress(db, learner);
 
 // Deleting the learner cascades to every table.
 export const resetProgress = async (db: Db, learner: string) =>

@@ -1,8 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, vi } from "vitest";
-import { MockExam } from "../components/mock-exam/MockExam";
-import { MOCK_STORAGE_KEY } from "../components/mock-exam/useMockRun";
-import { emptySnapshot } from "./progress";
+import { ProgressExam } from "./ProgressExam";
+import { savedProgress, settle, setupProgressApi } from "./progressApi";
 
 export const now = new Date("2026-09-09T10:00:00Z").getTime();
 
@@ -17,32 +16,43 @@ export const run = (patch: Record<string, unknown> = {}) => ({
   ...patch,
 });
 
+// A run kept in the browser, which the app imports on its first load.
 export const seed = (patch: Record<string, unknown> = {}) =>
-  localStorage.setItem(MOCK_STORAGE_KEY, JSON.stringify(run(patch)));
+  localStorage.setItem("paso-mock-v1", JSON.stringify(run(patch)));
 
-export const state = () => JSON.parse(localStorage.getItem(MOCK_STORAGE_KEY)!);
+// The run as the server keeps it.
+export const state = async () => {
+  await settle();
 
-export const mount = (progress = emptySnapshot()) => {
-  const onResult = vi.fn();
+  return (await savedProgress()).mockRun!;
+};
 
-  return { ...render(<MockExam progress={progress} onResult={onResult} />), onResult };
+export const mount = async () => {
+  const view = render(<ProgressExam />);
+
+  await settle();
+
+  return view;
+};
+
+// Leaves the exam page and opens it again, as a reload does.
+export const remount = async () => {
+  cleanup();
+  await settle();
+
+  return mount();
 };
 
 export const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 
 export const setupMockExam = () => {
+  setupProgressApi();
+
   beforeEach(() => {
     vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
     vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
     vi.useFakeTimers();
     vi.setSystemTime(now);
-
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(() => {
-        throw new Error("No AI in exam");
-      }),
-    );
   });
 
   afterEach(() => {

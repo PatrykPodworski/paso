@@ -19,7 +19,7 @@ it("exports objective scores with all responses and revokes the temporary URL", 
   const question = mockSections[0].questions[0];
 
   seed({ section: 3, stage: "done", answers: { [question.id]: question.answer } });
-  mount();
+  await mount();
   fireEvent.click(screen.getByRole("button", { name: "Export responses for review" }));
   expect(create.mock.calls[0][0].type).toBe("application/json");
   const exported = JSON.parse(await create.mock.calls[0][0].text());

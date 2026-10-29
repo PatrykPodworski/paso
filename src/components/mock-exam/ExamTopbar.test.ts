@@ -4,9 +4,9 @@ import { mount, now, seed, setupMockExam } from "../../test/mockExam";
 
 setupMockExam();
 
-it("marks finished sections and turns the timer urgent under two minutes", () => {
+it("marks finished sections and turns the timer urgent under two minutes", async () => {
   seed({ section: 2, deadline: now + 120000 });
-  mount();
+  await mount();
   const steps = within(screen.getByRole("list", { name: "Exam sections" }));
 
   expect(steps.getAllByRole("listitem").map((step) => step.textContent)).toEqual([

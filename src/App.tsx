@@ -8,7 +8,6 @@ import { Icon } from "./design-system/Icon";
 import { LessonSession } from "./components/LessonSession";
 import { mistakeQueue } from "./components/mistakeQueue";
 import { MockExam } from "./components/mock-exam/MockExam";
-import { clearMockRun } from "./components/mock-exam/useMockRun";
 import type { Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
@@ -110,7 +109,15 @@ const App = () => {
         practice={practice}
       />
     ),
-    exam: <MockExam progress={progress} onResult={actions.mockResult} />,
+    exam: (
+      <MockExam
+        progress={progress}
+        onResult={actions.mockResult}
+        onRunChange={actions.mockRun}
+        onNewRun={actions.newMockRun}
+        onLeave={actions.flushDrafts}
+      />
+    ),
     guide: (
       <Guide
         progress={progress}
@@ -196,7 +203,6 @@ const App = () => {
           onSave={actions.settings}
           onReset={() => {
             actions.reset();
-            clearMockRun();
 
             setSettings(false);
             setPage("today");

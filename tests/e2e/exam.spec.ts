@@ -1,4 +1,4 @@
-import { test, expect, answer, saved } from "../fixtures/app";
+import { test, expect, answer, resumeMockExam, saved, stored } from "../fixtures/app";
 import { mockSections } from "../../src/data/mock";
 
 test("complete all 55 exam questions with section reviews, oral prep, score calculation and export", async ({
@@ -18,6 +18,10 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
       await page
         .getByRole("textbox", { name: "Your preparation notes" })
         .fill("Ana · Polonia · veinte años");
+
+      await expect
+        .poll(async () => (await saved(page)).mockRun?.drafts.prep)
+        .toBe("Ana · Polonia · veinte años");
 
       await page.reload();
 
@@ -40,6 +44,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
       await answer(page, q, true);
 
       if (section === 0 && i === 0) {
+        await expect.poll(async () => (await saved(page)).mockRun?.answers[q.id]).toBe(q.answer);
         await page.reload();
         await page.getByRole("button", { name: "← Previous question" }).click();
 
@@ -133,6 +138,8 @@ test("timer expires during navigation and section confirmation can be cancelled"
 test("listening permits two plays and writing draft survives reload and clearing", async ({
   page,
 }) => {
+  const [form, open] = mockSections[2].questions;
+
   await page.goto("/#exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
@@ -155,6 +162,7 @@ test("listening permits two plays and writing draft survives reload and clearing
   await page.getByRole("button", { name: "Finish & review", exact: true }).click();
   await page.getByRole("button", { name: "Continue to writing" }).click();
   await page.getByRole("textbox", { name: "Nacionalidad" }).fill("polaca");
+  await expect.poll(async () => (await saved(page)).mockRun?.drafts[form.id]).toContain("polaca");
   await page.reload();
   await expect(page.getByRole("textbox", { name: "Nacionalidad" })).toHaveValue("polaca");
   await page.getByRole("button", { name: "Skip for now →" }).click();
@@ -164,6 +172,72 @@ test("listening permits two plays and writing draft survives reload and clearing
   await page.getByRole("button", { name: "Save answer" }).click();
   await page.getByRole("button", { name: "Keep working" }).click();
   await input.clear();
+  await expect.poll(async () => (await saved(page)).mockRun?.drafts[open.id]).toBe("");
   await page.reload();
   await expect(input).toHaveValue("");
+});
+
+test("a rehearsal resumes after a reload, and a reset clears it", async ({ page }) => {
+  const [first, second] = mockSections[0].questions;
+
+  await page.goto("/#exam");
+  await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await answer(page, first, true);
+  await expect(page.getByRole("heading", { name: second.prompt, exact: true })).toBeVisible();
+  await expect.poll(async () => (await saved(page)).mockRun?.answers[first.id]).toBe(first.answer);
+  await page.reload();
+  await expect(page.getByRole("heading", { name: second.prompt, exact: true })).toBeVisible();
+  await expect(page.getByText("2 / 25")).toBeVisible();
+  await page.getByRole("button", { name: "Open your learning preferences" }).click();
+  await page.getByText("Start over", { exact: true }).click();
+  await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
+  await page.getByRole("button", { name: "Clear my practice data" }).click();
+  await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
+  await page.goto("/#exam");
+  await expect(page.getByRole("button", { name: "Start exam rehearsal" })).toBeVisible();
+  expect((await saved(page)).mockRun).toBeNull();
+});
+
+test("typed writing and speaking scores are kept after a reload", async ({ page }) => {
+  await resumeMockExam(page, { section: 3, index: 0, stage: "done" });
+  await page.getByRole("spinbutton", { name: "Writing score /25" }).fill("18.5");
+  await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("14");
+  await expect(page.getByText(/At least one group is below/)).toBeVisible();
+
+  await expect
+    .poll(async () => (await saved(page)).mockRun?.scores)
+    .toEqual({ writing: "18.5", speaking: "14" });
+
+  await page.reload();
+  await expect(page.getByRole("spinbutton", { name: "Writing score /25" })).toHaveValue("18.5");
+  await expect(page.getByRole("spinbutton", { name: "Speaking score /25" })).toHaveValue("14");
+  await expect(page.getByText(/At least one group is below/)).toBeVisible();
+});
+
+test("a rehearsal kept in this browser is imported once", async ({ page }) => {
+  const kept = (index: number) => ({
+    section: 1,
+    index,
+    stage: "run",
+    answers: {},
+    deadline: new Date("2026-09-09T10:25:00+02:00").getTime(),
+    started: "2026-09-09T08:00:00Z",
+    drafts: {},
+  });
+
+  const keep = (index: number) =>
+    page.evaluate((run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)), kept(index));
+
+  await page.goto("/#exam");
+  await expect(page.getByRole("button", { name: "Start exam rehearsal" })).toBeVisible();
+  await keep(2);
+  await page.reload();
+  await expect(page.getByText("3 / 25")).toBeVisible();
+  expect(await stored(page, "paso-mock-v1")).toBeNull();
+  expect(await stored(page, "paso-mock-v1-imported")).toEqual(kept(2));
+
+  await keep(5);
+  await page.reload();
+  await expect(page.getByText("3 / 25")).toBeVisible();
+  expect((await saved(page)).mockRun?.index).toBe(2);
 });

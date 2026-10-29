@@ -401,6 +401,7 @@ describe("drafts", () => {
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
+    c.mockRun({ drafts: { prep: "notas" } });
     c.flushDrafts();
     expect(calls).toHaveLength(2);
     vi.advanceTimersByTime(800);
@@ -409,15 +410,20 @@ describe("drafts", () => {
 
     expect(sent.body).toEqual({ action: "draft", questionId: "u2-w1", text: "Me llamo" });
     sent.reply(ok(snapshot({ imported: true })));
+    const mock = await call(2);
+
+    expect(mock.body).toEqual({ action: "mockRun", run: { drafts: { prep: "notas" } } });
+    mock.reply(ok(snapshot({ imported: true })));
     await settle();
-    expect(calls).toHaveLength(2);
+    expect(calls).toHaveLength(3);
   });
 
-  it("drops a draft still waiting when progress is reset", async () => {
+  it("drops drafts still waiting when progress is reset", async () => {
     const c = await loaded();
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
+    c.mockRun({ drafts: { prep: "notas" } });
     c.reset();
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
@@ -425,5 +431,104 @@ describe("drafts", () => {
     await settle();
 
     expect(calls.map((c) => c.body?.action)).toEqual([undefined, "reset"]);
+  });
+});
+
+describe("mock run", () => {
+  const started = { stage: "run" as const, started: "2026-10-29T10:00:00.000Z", deadline: 1 };
+
+  it("sends a change at once and the drafts together 800 ms after the last one", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.mockRun({ drafts: { w1: "Ho" } });
+    vi.advanceTimersByTime(500);
+    c.mockRun({ drafts: { w1: "Hola" } });
+    c.mockRun({ drafts: { prep: "notas" }, answers: { r1: "a" }, section: 0, index: 1 });
+    vi.advanceTimersByTime(799);
+
+    expect(calls.map((call) => call.body)).toEqual([
+      undefined,
+      { action: "mockRun", run: { answers: { r1: "a" }, section: 0, index: 1 } },
+    ]);
+
+    vi.advanceTimersByTime(1);
+    vi.useRealTimers();
+    calls[1].reply(ok(snapshot({ imported: true })));
+
+    expect((await call(2)).body).toEqual({
+      action: "mockRun",
+      run: { drafts: { w1: "Hola", prep: "notas" } },
+    });
+  });
+
+  it("starts a new run in place of the old one and drops the old run's drafts", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.mockRun({ drafts: { w1: "Hola" } });
+    c.newMockRun(started);
+    vi.advanceTimersByTime(800);
+    vi.useRealTimers();
+    (await call(1)).reply(ok(snapshot({ imported: true })));
+    await settle();
+
+    expect(calls.map((call) => call.body)).toEqual([
+      undefined,
+      { action: "mockRun", run: started, replace: true },
+    ]);
+  });
+
+  describe("kept in this browser", () => {
+    const kept = '{"section":1,"index":2,"stage":"run","answers":{}}';
+    const run = { ...started, section: 1, index: 2, answers: {}, drafts: {}, scores: {} };
+
+    it("is posted once the server has no run, and kept under a backup key", async () => {
+      localStorage.setItem("paso-mock-v1", kept);
+      void client().load();
+      (await call(0)).reply(ok(snapshot({ imported: true })));
+      const post = await call(1);
+
+      expect(post.body).toEqual({ action: "importMockRun", run: JSON.parse(kept) });
+      expect(latest()).toBeUndefined();
+      post.reply(ok(snapshot({ imported: true, mockRun: run })));
+
+      await vi.waitFor(() =>
+        expect(latest()).toEqual({
+          snapshot: snapshot({ imported: true, mockRun: run }),
+          problem: null,
+        }),
+      );
+
+      expect(localStorage.getItem("paso-mock-v1")).toBeNull();
+      expect(localStorage.getItem("paso-mock-v1-imported")).toBe(kept);
+    });
+
+    it("is left alone when the server has a run", async () => {
+      localStorage.setItem("paso-mock-v1", kept);
+      await loaded({ imported: true, mockRun: run });
+      await settle();
+
+      expect(calls).toHaveLength(1);
+      expect(localStorage.getItem("paso-mock-v1")).toBe(kept);
+    });
+
+    it("is posted after the progress import", async () => {
+      localStorage.setItem("paso-progress-v1", '{"version":1}');
+      localStorage.setItem("paso-mock-v1", kept);
+      void client().load();
+      (await call(0)).reply(ok(snapshot()));
+      (await call(1)).reply(ok({ ...snapshot({ imported: true }), importedNow: true }));
+      (await call(2)).reply(ok(snapshot({ imported: true, mockRun: run })));
+      await vi.waitFor(() => expect(latest()?.snapshot?.mockRun).toEqual(run));
+
+      expect(calls.map((call) => call.body?.action)).toEqual([
+        undefined,
+        "import",
+        "importMockRun",
+      ]);
+
+      expect(latest()?.snapshot).toEqual(snapshot({ imported: true, mockRun: run }));
+    });
   });
 });

@@ -1,8 +1,12 @@
 import { createHash } from "node:crypto";
+import { mockSections } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
   LiveGrade,
+  MockRun,
+  MockRunPatch,
+  MockStage,
   ProgressSnapshot,
   Skill,
   VocabularyReview,
@@ -18,6 +22,8 @@ export const MAX_TOTAL = 1000;
 const MAX_ID = 64;
 const MAX_TEXT = 4000;
 const MAX_SECTION = 25;
+const MAX_SCORE_TEXT = 16;
+const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
 const GRADES: LiveGrade[] = ["perfect", "good", "bad"];
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
@@ -154,3 +160,86 @@ export const mockResultOf = (value: unknown): MockResult | null => {
     ...(value.speaking === undefined ? {} : { speaking: value.speaking as number }),
   };
 };
+
+type Check = (value: unknown) => boolean;
+
+const MOCK_FIELDS: [keyof MockRun, Check][] = [
+  ["stage", (value) => STAGES.includes(value as MockStage)],
+  ["deadline", (value) => Number.isSafeInteger(value) && (value as number) >= 0],
+  ["started", (value) => value === "" || isInstant(value)],
+];
+
+const MOCK_MAPS: [keyof MockRun, Check, Check][] = [
+  ["answers", isId, isText],
+  ["drafts", isId, isText],
+  [
+    "scores",
+    (key) => key === "writing" || key === "speaking",
+    (value) => isText(value, MAX_SCORE_TEXT),
+  ],
+];
+
+// A question index is only valid within its section, so the two always travel together.
+const isPosition = (section: unknown, index: unknown) =>
+  isCount(section, 0, mockSections.length - 1) &&
+  isCount(index, 0, mockSections[section].questions.length - 1);
+
+// The valid entries of a record, and whether every entry was valid.
+const entriesOf = (value: unknown, isKey: Check, isValue: Check) => {
+  const entries = isRecord(value) ? Object.entries(value) : [];
+  const valid = entries.filter(([key, item]) => isKey(key) && isValue(item));
+
+  return {
+    record: isRecord(value),
+    valid,
+    complete: isRecord(value) && valid.length === entries.length,
+  };
+};
+
+// Strict: any invalid part refuses the whole change. Otherwise invalid parts are dropped.
+const mockRunPartsOf = (value: Record<string, unknown>, strict: boolean): MockRunPatch | null => {
+  const patch: Record<string, unknown> = {};
+
+  if (Object.hasOwn(value, "section") || Object.hasOwn(value, "index")) {
+    if (!isPosition(value.section, value.index)) {
+      return null;
+    }
+
+    Object.assign(patch, { section: value.section, index: value.index });
+  }
+
+  for (const [name, check] of MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name))) {
+    if (check(value[name])) {
+      patch[name] = value[name];
+    } else if (strict) {
+      return null;
+    }
+  }
+
+  for (const [name, isKey, isValue] of MOCK_MAPS.filter(([name]) => Object.hasOwn(value, name))) {
+    const { record, valid, complete } = entriesOf(value[name], isKey, isValue);
+
+    if (strict && !complete) {
+      return null;
+    }
+
+    if (record) {
+      patch[name] = Object.fromEntries(valid);
+    }
+  }
+
+  return patch;
+};
+
+export const mockRunPatchOf = (value: unknown) =>
+  isRecord(value) ? mockRunPartsOf(value, true) : null;
+
+// A run the browser kept before the server held it. Its position, stage and answers must be
+// valid; other invalid parts are dropped.
+export const legacyMockRunOf = (value: unknown) =>
+  isRecord(value) &&
+  isPosition(value.section, value.index) &&
+  STAGES.includes(value.stage as MockStage) &&
+  isRecord(value.answers)
+    ? mockRunPartsOf(value, false)
+    : null;

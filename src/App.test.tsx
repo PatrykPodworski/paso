@@ -30,6 +30,16 @@ vi.mock("./components/LessonSession", () => ({
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 
+const keptRun = {
+  section: 0,
+  index: 0,
+  stage: "run",
+  answers: {},
+  deadline: Date.parse("2999-01-01T00:00:00Z"),
+  started: "2026-09-09T08:00:00Z",
+  drafts: {},
+};
+
 // The app imports the seeded progress on its first load.
 const mount = async (hash = "today", p?: LegacyProgress) => {
   if (p) {
@@ -277,6 +287,7 @@ describe("app business orchestration", () => {
   });
 
   it("saves trimmed preferences and resets only after confirmation", async () => {
+    localStorage.setItem("paso-mock-v1", JSON.stringify(keptRun));
     await mount();
     click("Open your learning preferences");
 
@@ -297,32 +308,30 @@ describe("app business orchestration", () => {
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Cancel");
-    expect((await saved()).name).toBe("Ana");
-    localStorage.setItem("paso-mock-v1", "saved mock");
+    expect(await saved()).toMatchObject({ name: "Ana", mockRun: { stage: "run" } });
     click("Reset my progress");
     click("Clear my practice data");
     await settle();
     expect(await saved()).toEqual(emptySnapshot());
-    expect(localStorage.getItem("paso-mock-v1")).toBeNull();
   });
 
-  it("finishes a reset when browser storage refuses to clear the mock run", async () => {
-    await mount();
-
-    vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
-      throw new Error("blocked");
-    });
-
+  it("opens the exam overview after a reset made during a rehearsal", async () => {
+    localStorage.setItem("paso-mock-v1", JSON.stringify(keptRun));
+    await mount("exam");
+    expect(screen.getByRole("timer")).toBeInTheDocument();
     click("Open your learning preferences");
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Clear my practice data");
     await settle();
-    expect(await saved()).toEqual(emptySnapshot());
 
-    expect(screen.getByRole("status")).toHaveTextContent(
-      "A fresh start. Your practice data has been cleared.",
-    );
+    act(() => {
+      window.location.hash = "exam";
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
+
+    expect(screen.getByRole("button", { name: "Start exam rehearsal" })).toBeInTheDocument();
+    expect((await saved()).mockRun).toBeNull();
   });
 
   it("says when browser storage is unavailable and keeps saving online", async () => {

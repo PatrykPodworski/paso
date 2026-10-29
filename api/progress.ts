@@ -11,20 +11,24 @@ import {
   isInstant,
   isRecord,
   isText,
+  legacyMockRunOf,
   MAX_NAME,
   MAX_TOTAL,
   mockResultOf,
+  mockRunPatchOf,
   reviewOf,
   timeZoneOf,
 } from "./_lib/progress-fields.js";
 import {
   completeLesson,
+  importMockRun,
   importProgress,
   readProgress,
   resetProgress,
   saveAttempt,
   saveDraft,
   saveMockResult,
+  saveMockRun,
   saveSettings,
   saveVocabulary,
   setCheck,
@@ -116,6 +120,24 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
     const m = mockResultOf(result);
 
     return m ? (db, learner) => saveMockResult(db, learner, m) : "result";
+  },
+  mockRun: ({ run, replace }) => {
+    const patch = mockRunPatchOf(run);
+
+    if (!patch) {
+      return "run";
+    }
+
+    if (!(replace === undefined || typeof replace === "boolean")) {
+      return "replace";
+    }
+
+    return (db, learner) => saveMockRun(db, learner, patch, replace === true);
+  },
+  importMockRun: ({ run }) => {
+    const kept = legacyMockRunOf(run);
+
+    return (db, learner) => importMockRun(db, learner, kept);
   },
   reset: () => resetProgress,
   import: ({ progress, timeZone }) => {

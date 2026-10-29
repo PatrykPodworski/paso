@@ -36,6 +36,8 @@ const App = () => {
   const completed = Object.keys(progress.completed).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const mistakeQuestions = mistakeQueue(progress, new Date());
+  const sessionIndex = session ? allLessons.findIndex((l) => l.id === session.id) : -1;
+  const lessonAfterSession = sessionIndex === -1 ? undefined : allLessons[sessionIndex + 1];
 
   const practice = (skill: Skill | "all" | "mistakes") => {
     const lesson = practiceLesson(skill, progress, mistakeQuestions);
@@ -184,6 +186,7 @@ const App = () => {
       </div>
       {session && (
         <LessonSession
+          key={session.id}
           lesson={session}
           progress={progress}
           onClose={() => setSession(null)}
@@ -192,6 +195,7 @@ const App = () => {
           onDraft={(id, text) =>
             setProgress((p) => ({ ...p, drafts: { ...p.drafts, [id]: text } }))
           }
+          onNext={lessonAfterSession && (() => setSession(lessonAfterSession))}
         />
       )}
       {settings && (

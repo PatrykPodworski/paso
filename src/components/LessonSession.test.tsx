@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
-import { emptyProgress } from "../data/progress";
+import { emptySnapshot } from "../test/progress";
 import type { Question } from "../data/types";
 
 beforeEach(() => {
@@ -39,7 +39,7 @@ it("records objective, assisted and creative answers without conflating their sc
         icon: "book",
         questions: qs,
       }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={close}
       onComplete={done}
       onAttempt={attempt}
@@ -93,7 +93,7 @@ it("closes an untouched lesson immediately", () => {
         icon: "book",
         questions: [type],
       }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={close}
       onComplete={vi.fn()}
       onAttempt={vi.fn()}
@@ -108,7 +108,7 @@ it("closes an untouched lesson immediately", () => {
 it.each([allQuestions[0], allQuestions.find((q) => q.id === "u1-o1")!])(
   "starts a fresh objective attempt without its previous answer: $id",
   (q) => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     progress.drafts[q.id] = q.answer;
     const saveDraft = vi.fn();
@@ -153,7 +153,7 @@ it("keeps an in-progress answer when cancelling the leave dialog", () => {
   render(
     <LessonSession
       lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={vi.fn()}
       onAttempt={vi.fn()}
       onComplete={vi.fn()}
@@ -171,7 +171,7 @@ it("keeps an in-progress answer when cancelling the leave dialog", () => {
 
 it("still restores longer writing drafts in a new practice session", () => {
   const q = allQuestions.find((q) => q.id === "u1-o2")!;
-  const progress = emptyProgress();
+  const progress = emptySnapshot();
 
   progress.drafts[q.id] = "Hola, me llamo Julia.";
 

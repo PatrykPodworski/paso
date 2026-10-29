@@ -1,4 +1,4 @@
-import { test, expect, stored } from "../fixtures/app";
+import { test, expect, saved, stored } from "../fixtures/app";
 
 test("preferences persist, export contains actual progress, reset requires confirmation", async ({
   page,
@@ -9,9 +9,10 @@ test("preferences persist, export contains actual progress, reset requires confi
   await page.getByRole("combobox", { name: "Your daily practice goal" }).selectOption("5");
   await page.getByLabel("Exam date").fill("2026-10-09");
   await page.getByRole("button", { name: "Save preferences" }).click();
+  await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
   await page.reload();
   await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
-  expect(await stored(page)).toMatchObject({ name: "Ana", goal: 5, examDate: "2026-10-09" });
+  expect(await saved(page)).toMatchObject({ name: "Ana", goal: 5, examDate: "2026-10-09" });
   await page.getByRole("button", { name: "Open your learning preferences" }).click();
   const next = page.waitForEvent("download");
 
@@ -30,11 +31,11 @@ test("preferences persist, export contains actual progress, reset requires confi
   await page.getByText("Start over", { exact: true }).click();
   await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
   await page.getByRole("button", { name: "Cancel", exact: true }).click();
-  expect((await stored(page)).name).toBe("Ana");
+  expect((await saved(page)).name).toBe("Ana");
   await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
   await page.getByRole("button", { name: "Clear my practice data" }).click();
   await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
-  expect((await stored(page)).name).toBe("");
+  await expect.poll(async () => (await saved(page)).name).toBe("");
   expect(await stored(page, "paso-mock-v1")).toBeNull();
 });
 
@@ -42,10 +43,12 @@ test("guide checklist persists and sliders require both passing groups", async (
   await page.goto("/#guide");
   const first = page.getByRole("checkbox").first();
 
-  await first.check();
+  await first.click();
+  await expect(first).toBeChecked();
   await page.reload();
   await expect(first).toBeChecked();
-  await first.uncheck();
+  await first.click();
+  await expect(first).not.toBeChecked();
   const sliders = page.getByRole("slider");
 
   await sliders.nth(0).fill("25");

@@ -3,11 +3,11 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { Notice } from "../../design-system/Notice";
 import { mockSections } from "../../data/mock";
-import type { Progress } from "../../data/types";
+import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
 
-type Props = { progress: Progress; onStart: () => void };
+type Props = { progress: ProgressSnapshot; onStart: () => void };
 
 export const MockIntro = ({ progress, onStart }: Props) => (
   <>

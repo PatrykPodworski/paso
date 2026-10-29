@@ -1,7 +1,7 @@
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
 import { allLessons } from "../../src/data/curriculum";
 import { mockSections } from "../../src/data/mock";
-import type { Question } from "../../src/data/types";
+import type { Attempt, ProgressSnapshot, Question } from "../../src/data/types";
 
 export const test = base.extend<{ blockExternal: void }>({
   blockExternal: [
@@ -162,3 +162,32 @@ export const resumeMockExam = async (
 
 export const stored = async (page: Page, key = "paso-progress-v1") =>
   page.evaluate((k) => JSON.parse(localStorage.getItem(k) || "null"), key);
+
+// The learner's progress as the dev server's API stores it.
+export const saved = async (page: Page): Promise<ProgressSnapshot> => {
+  const learner = await page.evaluate(() => localStorage.getItem("paso-learner-v1"));
+
+  const response = await page.request.get("/api/progress", {
+    headers: { "x-learner-id": learner! },
+  });
+
+  return response.json();
+};
+
+// The progress the browser kept before it moved to the server. The app imports it from
+// paso-progress-v1 on its first load.
+export const legacyProgress = () => ({
+  version: 1,
+  name: "",
+  goal: 10,
+  completed: {} as Record<string, { score: number; total: number; at: string }>,
+  attempts: [] as Attempt[],
+  mistakes: [] as string[],
+  reviewed: [] as string[],
+  mistakeReviews: {},
+  vocabularyReviews: {},
+  checks: [] as string[],
+  examDate: "",
+  mockResults: [],
+  drafts: {},
+});

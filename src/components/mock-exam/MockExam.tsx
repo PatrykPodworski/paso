@@ -3,7 +3,7 @@ import { Badge } from "../../design-system/Badge";
 import { PageHeading } from "../../design-system/PageHeading";
 import { Notice } from "../../design-system/Notice";
 import { useState } from "react";
-import type { Progress } from "../../data/types";
+import type { NewMockResult, ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { downloadResponses } from "./downloadResponses";
 import { ExamRunning } from "./ExamRunning";
@@ -16,8 +16,8 @@ import { useMockExam } from "./useMockExam";
 import { fresh } from "./useMockRun";
 
 type Props = {
-  progress: Progress;
-  onResult: (result: Progress["mockResults"][number]) => void;
+  progress: ProgressSnapshot;
+  onResult: (result: NewMockResult) => void;
 };
 
 export const MockExam = ({ progress, onResult }: Props) => {

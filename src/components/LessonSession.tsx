@@ -3,7 +3,7 @@ import { ButtonRow } from "../design-system/ButtonRow";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
-import type { Attempt, Lesson, Progress } from "../data/types";
+import type { Attempt, Lesson, ProgressSnapshot } from "../data/types";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
@@ -15,7 +15,7 @@ import { CompletionStats } from "./CompletionStats";
 
 type Props = {
   lesson: Lesson;
-  progress: Progress;
+  progress: ProgressSnapshot;
   onClose: () => void;
   onAttempt: (attempt: Attempt) => void;
   onComplete: (score: number, total: number) => void;

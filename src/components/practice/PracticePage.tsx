@@ -1,7 +1,7 @@
 import { Badge } from "../../design-system/Badge";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { PageHeading } from "../../design-system/PageHeading";
-import type { Lesson, Progress, Skill } from "../../data/types";
+import type { Lesson, ProgressSnapshot, Skill, VocabularyReview } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MistakesPanel } from "./MistakesPanel";
 import type { Page } from "../navigation";
@@ -11,8 +11,8 @@ import { SkillPractice } from "./SkillPractice";
 import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
-  progress: Progress;
-  setProgress: (update: (p: Progress) => Progress) => void;
+  progress: ProgressSnapshot;
+  onVocabulary: (reviews: Record<string, VocabularyReview>) => void;
   mistakeQuestions: Lesson["questions"];
   filter: Skill | "all" | "mistakes";
   setFilter: (filter: Skill | "all" | "mistakes") => void;
@@ -23,7 +23,7 @@ type Props = {
 
 export const PracticePage = ({
   progress,
-  setProgress,
+  onVocabulary,
   mistakeQuestions,
   filter,
   setFilter,
@@ -81,18 +81,8 @@ export const PracticePage = ({
     )}
     <PocketVocabulary
       progress={progress}
-      onReview={(word, review) =>
-        setProgress((p) => ({
-          ...p,
-          vocabularyReviews: { ...p.vocabularyReviews, [word]: review },
-        }))
-      }
-      onAddWords={(entries) =>
-        setProgress((p) => ({
-          ...p,
-          vocabularyReviews: { ...p.vocabularyReviews, ...entries },
-        }))
-      }
+      onReview={(word, review) => onVocabulary({ [word]: review })}
+      onAddWords={onVocabulary}
       onLearn={() => navigate("path")}
     />
   </>

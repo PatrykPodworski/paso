@@ -2,7 +2,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, vi } from "vitest";
 import { MockExam } from "../components/mock-exam/MockExam";
 import { MOCK_STORAGE_KEY } from "../components/mock-exam/useMockRun";
-import { emptyProgress } from "../data/progress";
+import { emptySnapshot } from "./progress";
 
 export const now = new Date("2026-09-09T10:00:00Z").getTime();
 
@@ -22,7 +22,7 @@ export const seed = (patch: Record<string, unknown> = {}) =>
 
 export const state = () => JSON.parse(localStorage.getItem(MOCK_STORAGE_KEY)!);
 
-export const mount = (progress = emptyProgress()) => {
+export const mount = (progress = emptySnapshot()) => {
   const onResult = vi.fn();
 
   return { ...render(<MockExam progress={progress} onResult={onResult} />), onResult };

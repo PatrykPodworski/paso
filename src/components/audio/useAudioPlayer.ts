@@ -30,9 +30,9 @@ export const useAudioPlayer = ({
   const [speed, setSpeed] = useState(1);
   const [count, setCount] = useState(0);
   const [error, setError] = useState("");
-  const ref = useRef<HTMLAudioElement | null>(null);
+  // Read the clip and its resume from here at use time: an adopted playback may
+  // start, or fall back to another source, after this player took it over.
   const playbackRef = useRef<Playback | null>(null);
-  const resumePlayback = useRef<(() => Promise<void>) | null>(null);
   // A continuous clip pauses in place so the next player can pick it up there.
   const resumable = minimal || continuous;
 
@@ -47,8 +47,6 @@ export const useAudioPlayer = ({
 
     playbackRef.current = running;
     running.setPlaying = setPlaying;
-    ref.current = running.audio;
-    resumePlayback.current = running.resume;
     setPlaying(!running.audio?.paused);
   }, [continuous, text]);
 
@@ -69,14 +67,14 @@ export const useAudioPlayer = ({
   );
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.playbackRate = speed;
+    if (playbackRef.current?.audio) {
+      playbackRef.current.audio.playbackRate = speed;
     }
   }, [speed]);
 
   const pause = () => {
-    if (resumable && resumePlayback.current) {
-      ref.current?.pause();
+    if (resumable && playbackRef.current?.resume) {
+      playbackRef.current.audio?.pause();
     } else {
       stopAudio();
     }
@@ -103,8 +101,8 @@ export const useAudioPlayer = ({
       return;
     }
 
-    if (resumable && !restart && resumePlayback.current) {
-      await resume(resumePlayback.current);
+    if (resumable && !restart && playbackRef.current?.resume) {
+      await resume(playbackRef.current.resume);
 
       return;
     }
@@ -118,11 +116,6 @@ export const useAudioPlayer = ({
     let cancelled = false;
     const isCancelled = () => cancelled;
 
-    const clearResume = () => {
-      playback.resume = null;
-      resumePlayback.current = null;
-    };
-
     const countPlay = () => {
       setCount((c) => c + 1);
       onPlayed?.();
@@ -135,7 +128,7 @@ export const useAudioPlayer = ({
       setPlaying,
       cancel: () => {
         cancelled = true;
-        clearResume();
+        playback.resume = null;
         playback.audio?.pause();
         playback.setPlaying(false);
       },
@@ -147,17 +140,11 @@ export const useAudioPlayer = ({
 
     const started = await playClips(text, speed, playback, {
       cancelled: isCancelled,
-      onClip: (audio) => {
-        ref.current = audio;
-      },
       onEnded: () => {
-        clearResume();
+        playback.resume = null;
         playback.setPlaying(false);
       },
-      onStarted: () => {
-        resumePlayback.current = playback.resume;
-        countPlay();
-      },
+      onStarted: countPlay,
       onBlocked: () => {
         setPlaying(false);
         setError(TAP_TO_PLAY);

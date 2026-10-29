@@ -82,3 +82,13 @@ it("starts each listening question on entry, cancels the previous clip and leave
   unmount();
   expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledOnce();
 });
+
+it("keeps the exam listening player a stop button whose clip ends with its card", () => {
+  const q = allQuestions.find((question) => question.id === "u1-a0")!;
+  const { unmount } = render(<QuestionCard q={q} exam onSubmit={vi.fn()} />);
+
+  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+  expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
+  unmount();
+  expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledOnce();
+});

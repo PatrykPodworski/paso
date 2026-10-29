@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
-import { AnswerOptions } from "./AnswerOptions";
+import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
-import { FormFields } from "./FormFields";
 import { playWord } from "../audio/playWord";
 import { stopAudio } from "../audio/playback";
 import type { AudioHandle } from "../audio/useAudioPlayer";
@@ -12,9 +11,7 @@ import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
-import { SentenceBuilder } from "./SentenceBuilder";
 import { useAnswer } from "./useAnswer";
-import { WritingArea } from "./WritingArea";
 
 type Props = {
   q: Question;
@@ -26,7 +23,6 @@ type Props = {
   active?: boolean;
 };
 
-// fallow-ignore-next-line complexity -- the active prop (#386) puts it one over 15; fallow counts each prop beyond four
 export const QuestionCard = ({
   q,
   onSubmit,
@@ -42,7 +38,7 @@ export const QuestionCard = ({
   const [feedback, setFeedback] = useState(false);
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
-  const { answer, setText, selected, productive, value, submission, correct, words, canSubmit } = a;
+  const { setText, selected, productive, value, submission, correct, canSubmit } = a;
 
   const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
@@ -142,47 +138,17 @@ export const QuestionCard = ({
         passageAudio={passageAudio}
         onTranscript={() => setAssisted(true)}
       />
-      {q.options && (
-        <AnswerOptions
-          options={q.options}
-          correctAnswer={q.answer}
-          answer={answer}
-          feedback={feedback}
-          correct={correct}
-          onChoose={(option) => {
-            setText(option);
-            submit(option);
-          }}
-        />
-      )}
-      {q.kind === "order" && (
-        <SentenceBuilder
-          tokens={q.tokens || []}
-          selected={selected}
-          feedback={feedback}
-          onRemove={(pos) => a.setSelected((v) => v.filter((_, i) => i !== pos))}
-          onPick={pickToken}
-        />
-      )}
-      {["type", "write"].includes(q.kind) && (
-        <WritingArea
-          q={q}
-          answer={answer}
-          feedback={feedback}
-          words={words}
-          setText={setText}
-          submit={() => submit()}
-        />
-      )}
-      {q.kind === "form" && (
-        <FormFields
-          q={q}
-          fieldValues={a.fieldValues}
-          feedback={feedback}
-          words={words}
-          onFieldChange={a.setField}
-        />
-      )}
+      <AnswerInput
+        q={q}
+        feedback={feedback}
+        answer={a}
+        onChoose={(option) => {
+          setText(option);
+          submit(option);
+        }}
+        onPick={pickToken}
+        onCheck={() => submit()}
+      />
       <PracticeChecks
         q={q}
         exam={exam}

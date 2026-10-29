@@ -18,6 +18,7 @@ type Props = {
   label: string;
   iconOnly: boolean;
   minimal: boolean;
+  resumable: boolean;
   round?: Round;
   playing: boolean;
   disabled: boolean;
@@ -41,12 +42,13 @@ export const PlayButton = ({
   label,
   iconOnly,
   minimal,
+  resumable,
   round,
   playing,
   disabled,
   onClick,
 }: Props) => {
-  const pauseLabel = minimal ? "Pause audio" : "Stop audio";
+  const pauseLabel = resumable ? "Pause audio" : "Stop audio";
   const name = playing ? pauseLabel : label;
   const Tag = iconOnly && !round ? IconButton : "button";
 

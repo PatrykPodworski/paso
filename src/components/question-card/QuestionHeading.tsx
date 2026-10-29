@@ -78,6 +78,7 @@ export const QuestionHeading = ({
               text={q.audio}
               label="Play Spanish audio"
               autoPlay={q.kind === "listen"}
+              continuous={!exam}
               limit={exam ? 2 : undefined}
             />
           ) : !exam && !isWritingTask(q) ? (

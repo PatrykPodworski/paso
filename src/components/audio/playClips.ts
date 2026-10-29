@@ -10,7 +10,6 @@ export const playClips = async (
   playback: Playback,
   events: {
     cancelled: () => boolean;
-    onClip: (audio: HTMLAudioElement) => void;
     onEnded: () => void;
     onStarted: () => void;
     onBlocked: () => void;
@@ -19,7 +18,6 @@ export const playClips = async (
   for (const src of audioSources(text)) {
     const audio = new Audio(src);
 
-    events.onClip(audio);
     playback.audio = audio;
     audio.playbackRate = speed;
     audio.preservesPitch = true;

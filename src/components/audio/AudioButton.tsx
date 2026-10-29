@@ -35,7 +35,7 @@ export const AudioButton = ({
   limit,
   onPlayed,
 }: Props) => {
-  const { playing, speed, setSpeed, count, error, play } = useAudioPlayer({
+  const { playing, resumable, speed, setSpeed, count, error, play } = useAudioPlayer({
     controlsRef,
     text,
     minimal,
@@ -55,6 +55,7 @@ export const AudioButton = ({
         label={label}
         iconOnly={iconOnly}
         minimal={minimal}
+        resumable={resumable}
         round={round}
         playing={playing}
         disabled={!!limit && count >= limit && !playing}

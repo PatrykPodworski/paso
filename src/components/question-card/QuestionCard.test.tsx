@@ -118,7 +118,7 @@ it("selecting a listening answer keeps the original playback running without res
   expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false);
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
   expect(HTMLMediaElement.prototype.pause).not.toHaveBeenCalled();
-  expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
 });
 
 it("saves an exam choice immediately without revealing or playing the answer", () => {

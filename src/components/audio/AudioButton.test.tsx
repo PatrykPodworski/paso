@@ -183,6 +183,24 @@ describe("course audio playback", () => {
     expect(clips[0].pause).toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "First" })).toBeInTheDocument();
   });
+
+  it("starts a fresh clip for a resumable player that another player stopped", async () => {
+    render(
+      <>
+        <AudioButton text="Uno." label="Play uno" minimal />
+        <AudioButton text="Dos." label="Play dos" minimal />
+      </>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Play uno" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Play dos" }));
+    await waitFor(() => expect(clips[1].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Play uno" }));
+    await waitFor(() => expect(clips).toHaveLength(3));
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    expect(clips[2].paused).toBe(false);
+  });
 });
 
 describe("audio cancellation and device fallback", () => {
@@ -245,6 +263,102 @@ describe("audio cancellation and device fallback", () => {
     fireEvent.click(screen.getByRole("button", { name: "Other passage" }));
     await waitFor(() => expect(clips).toHaveLength(2));
     expect(clips[0].pause).toHaveBeenCalledOnce();
+  });
+
+  it("lets the next autoplaying continuous player adopt the running clip without restarting it", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => {});
+    expect(clips).toHaveLength(1);
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    expect(clips[0].pause).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+
+  it("keeps a paused continuous clip paused for the next player and resumes it there", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => {});
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+
+  it("pauses and resumes in place a clip adopted while it was still loading", async () => {
+    let start!: () => void;
+
+    nextPlay = function (this: MockAudio) {
+      this.paused = false;
+
+      return new Promise<void>((resolve) => {
+        start = resolve;
+      });
+    };
+
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => start());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+  });
+
+  it("pauses and resumes the fallback clip that took over after adoption", async () => {
+    let fail!: () => void;
+
+    nextPlay = function (this: MockAudio) {
+      this.paused = false;
+
+      return new Promise<void>((_, reject) => {
+        fail = () => {
+          this.paused = true;
+          reject(new Error("Missing upgraded clip"));
+        };
+      });
+    };
+
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => fail());
+    expect(clips[1].play).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    expect(clips[1].paused).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[1].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(2);
+  });
+
+  it("autoplays a fresh clip when the continuous player moves to a different recording", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Adiós." label="Listening" continuous autoPlay />);
+    await waitFor(() => expect(clips).toHaveLength(2));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    expect(clips[1].play).toHaveBeenCalledOnce();
   });
 
   it("unmounting an old player does not stop the new active player", async () => {

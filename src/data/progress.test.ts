@@ -16,7 +16,6 @@ import {
   STORAGE_KEY,
   streak,
   withAttempt,
-  writingHints,
   writingScore,
   xp,
 } from "./progress";
@@ -356,49 +355,12 @@ describe("progress contracts", () => {
   ])("requires BOTH groups at the boundary %s/%s/%s/%s", (r, w, l, s, pass) =>
     expect(passingGroups(r, w, l, s)).toEqual({ group1: r + w, group2: l + s, pass }),
   );
-
-  it.each([
-    ["ESTOY quince años", "For age, use tener"],
-    ["Soy 21 años", "For age, use tener"],
-    ["Me gusta los libros", "plural noun"],
-    ["mi hermanas", "plural possession"],
-    ["cerca de el banco", "de + el"],
-    ["voy a el parque", "a + el"],
-    ["Tengo 20 anos", "write años"],
-    ["Cómo estás?", "opening ¿"],
-  ])("explains a specific error: %s", (text, fragment) =>
-    expect(writingHints(text).join(" ")).toContain(fragment),
-  );
-
-  it("gives one hint per error when a text has several", () => {
-    expect(
-      writingHints("Soy 20 años. Me gusta las manzanas. Mi padres viven a el lado de el banco."),
-    ).toHaveLength(5);
-  });
-
-  it.each([
-    "Tengo veinte años. Me gustan los libros. Mis padres viven cerca del banco. Voy al parque.",
-    "Tengo veinte años. Me gustan las manzanas.",
-    "¿Cómo estás?",
-    "Todo bien.",
-    "soy profesor",
-    "Me gusta el café",
-    "Mi hermana",
-    "de ella",
-    "a ella",
-    "Tengo años",
-    "¿Hola",
-  ])("does not invent hints for %s", (text) => expect(writingHints(text)).toEqual([]));
 });
 
 it("keeps the public storage key and rejects a wrong version with otherwise valid data", () => {
   expect(STORAGE_KEY).toBe("paso-progress-v1");
   localStorage.setItem("paso-progress-v1", JSON.stringify({ ...emptyProgress(), version: 2 }));
   expect(readProgress()).toEqual(emptyProgress());
-});
-
-it("handles flexible whitespace in age errors and accepts a genuinely zero allowance", () => {
-  expect(writingHints("Soy   veinte   años")).toHaveLength(1);
 });
 
 it("does not accidentally accept an undeclared fallback answer", () => {

@@ -24,6 +24,7 @@ type Props = {
   onAttempt: (attempt: Attempt) => void;
   onComplete: (score: number, total: number) => void;
   onDraft: (id: string, text: string) => void;
+  onNext?: () => void;
 };
 
 export const LessonSession = ({
@@ -33,6 +34,7 @@ export const LessonSession = ({
   onAttempt,
   onComplete,
   onDraft,
+  onNext,
 }: Props) => {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<(boolean | null)[]>([]);
@@ -154,10 +156,24 @@ export const LessonSession = ({
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}
           </p>
-          <Button variant="primary" className="mt-6" onClick={onClose}>
-            Back to my journey
-            <Icon name="arrow" />
-          </Button>
+          <ButtonRow className="justify-center mt-6">
+            {onNext ? (
+              <>
+                <Button variant="secondary" onClick={onClose}>
+                  Back to my journey
+                </Button>
+                <Button variant="primary" autoFocus onClick={onNext}>
+                  Next lesson
+                  <Icon name="arrow" />
+                </Button>
+              </>
+            ) : (
+              <Button variant="primary" autoFocus onClick={onClose}>
+                Back to my journey
+                <Icon name="arrow" />
+              </Button>
+            )}
+          </ButtonRow>
         </div>
       ) : (
         <div hidden={confirmExit}>

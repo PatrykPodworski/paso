@@ -50,8 +50,10 @@ export const load = (): Run => {
 export const clearMockRun = () => {
   try {
     localStorage.removeItem(MOCK_STORAGE_KEY);
+
+    return true;
   } catch {
-    /* The caller's state still resets for this visit. */
+    return false;
   }
 };
 

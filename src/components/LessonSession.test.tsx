@@ -197,6 +197,47 @@ it("still restores longer writing drafts in a new practice session", () => {
   expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
 });
 
+const finishOneQuestionLesson = (onNext?: () => void) => {
+  const close = vi.fn();
+  const q = allQuestions[0];
+
+  render(
+    <LessonSession
+      lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions: [q] }}
+      progress={emptyProgress()}
+      onClose={close}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+      onNext={onNext}
+    />,
+  );
+
+  click(q.answer);
+  click("Continue");
+
+  return close;
+};
+
+it("offers the next lesson focused, with the journey as the secondary way out", () => {
+  const next = vi.fn();
+  const close = finishOneQuestionLesson(next);
+
+  expect(screen.getByRole("button", { name: "Next lesson" })).toHaveFocus();
+  click("Next lesson");
+  expect(next).toHaveBeenCalledOnce();
+  expect(close).not.toHaveBeenCalled();
+  click("Back to my journey");
+  expect(close).toHaveBeenCalledOnce();
+});
+
+it("focuses the way back to the journey when no lesson follows", () => {
+  finishOneQuestionLesson();
+
+  expect(screen.queryByRole("button", { name: "Next lesson" })).not.toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Back to my journey" })).toHaveFocus();
+});
+
 describe("a recording shared by consecutive listening questions", () => {
   const [first, second] = ["u1-a0", "u1-a1"].map((id) => allQuestions.find((q) => q.id === id)!);
   const word = allQuestions.find((q) => q.id === "u1-v1")!;

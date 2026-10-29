@@ -11,7 +11,7 @@ import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
-import { useAnswer } from "./useAnswer";
+import { isWritingTask, useAnswer } from "./useAnswer";
 
 type Props = {
   q: Question;
@@ -63,8 +63,8 @@ export const QuestionCard = ({
     // Read the Spanish model even after a mistake, never the incorrect answer.
     // A tapped word is already speaking, so wait for it and read the sentence
     // after it rather than cutting it off. A passage the learner is listening
-    // to must not be cut off by the model at all.
-    if (q.kind !== "listen" && !passageAudio.current?.playing()) {
+    // to must not be cut off by the model at all. A writing task stays silent.
+    if (q.kind !== "listen" && !isWritingTask(q) && !passageAudio.current?.playing()) {
       const player = q.audio ? listeningAudio : answerAudio;
 
       if (after) {

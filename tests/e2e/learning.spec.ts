@@ -12,6 +12,7 @@ import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
+import { allLessons } from "../../src/data/curriculum";
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -200,6 +201,30 @@ test("complete a lesson, persist progress, continue the path, and recover a mist
   expect(Object.keys((await stored(page)).completed)).toEqual([lesson.id]);
 });
 
+test("Enter on a finished lesson starts the next lesson on the path", async ({ page }) => {
+  const lesson = await openLesson(page, 0);
+
+  for (const q of lesson.questions) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await expect(page.getByRole("button", { name: "Next lesson" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  const next = allLessons[1];
+
+  await expect(page.getByRole("dialog", { name: next.title })).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: next.questions[0].prompt, exact: true }),
+  ).toBeVisible();
+
+  expect((await stored(page)).completed[lesson.id]).toMatchObject({
+    score: lesson.questions.length,
+    total: lesson.questions.length,
+  });
+});
+
 test("sentence building supports removal and reads the sentence after checking", async ({
   page,
 }) => {
@@ -262,8 +287,23 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
   }
 
   await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
+
+  await page.evaluate(() => {
+    (window as any).__plays = [];
+    const original = HTMLMediaElement.prototype.play;
+
+    HTMLMediaElement.prototype.play = function () {
+      (window as any).__plays.push(this.src);
+
+      return original.call(this);
+    };
+  });
+
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  // A writing task never reads its model answer aloud.
+  await expect(page.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).__plays.length)).toBe(0);
   await page.getByRole("button", { name: "Revise my answer" }).click();
   await expect(input).toBeEnabled();
   await input.fill("Me llamo Ana. Tengo veinte años.");

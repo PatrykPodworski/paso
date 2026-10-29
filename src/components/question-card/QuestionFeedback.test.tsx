@@ -1,9 +1,9 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
-import type { Question } from "../../data/types";
+import { mockQuestions } from "../../data/mock";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -23,8 +23,6 @@ const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
 const write = (text: string) =>
   fireEvent.change(screen.getByRole("textbox"), { target: { value: text } });
-
-const words = (n: number) => Array(n).fill("hola").join(" ");
 
 it("shows the learner's wrong answer next to the correct one", () => {
   render(<QuestionCard q={choice} onSubmit={vi.fn()} />);
@@ -56,59 +54,9 @@ it("offers the transcript after a listening answer and notes transcript assistan
   expect(screen.getByText("Completed with transcript assistance.")).toBeInTheDocument();
 });
 
-it("flags a response above the word target", () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
-  write(words(45));
-  click("Review my practice");
-
-  expect(
-    screen.getByText("You wrote 45 words. Practise keeping the response within 30–40 words."),
-  ).toBeInTheDocument();
-});
-
-it("says when the pattern checks found nothing", () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
-  write(writing.answer);
-  click("Review my practice");
-
-  expect(screen.getByText(/No issue found by the small set of pattern checks/)).toBeInTheDocument();
-});
-
-it("reviews writing without word limits or a checklist", () => {
-  const open: Question = {
-    ...writing,
-    minWords: undefined,
-    maxWords: undefined,
-    checklist: undefined,
-  };
-
-  render(<QuestionCard q={open} onSubmit={vi.fn()} />);
-  write(words(80));
-  expect(screen.queryByText(/ words$/)).not.toBeInTheDocument();
-  click("Review my practice");
-
-  expect(
-    screen.getByText("Your word count (80) is within the practice target."),
-  ).toBeInTheDocument();
-
-  expect(screen.getByText(/^0\/0 self-review points checked/)).toBeInTheDocument();
-});
-
-it.each([
-  [29, "Your response is short"],
-  [30, "Your word count (30) is within the practice target."],
-  [40, "Your word count (40) is within the practice target."],
-  [41, "keeping"],
-])("explains the writing target boundary at %s words", (n, message) => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} draft={Array(n).fill("hola").join(" ")} />);
-  click("Review my practice");
-  expect(screen.getByText((text) => text.includes(message))).toBeInTheDocument();
-});
-
 it("returns to the editable state when revising an answer", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, Ana." />);
   click("Review my practice");
-  expect(screen.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeInTheDocument();
   click("Revise my answer");
   expect(screen.getByRole("textbox")).toBeEnabled();
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeInTheDocument();
@@ -134,18 +82,39 @@ it.each([
   expect(screen.getByRole("button", { name: "Continue" })).toHaveFocus();
 });
 
-it("keeps writing practice ungraded and supplies targeted corrections", () => {
+it("keeps writing practice ungraded", () => {
   const submit = vi.fn();
 
-  render(<QuestionCard q={allQuestions.find((q) => q.id === "u1-o2")!} onSubmit={submit} />);
-
-  fireEvent.change(screen.getByRole("textbox"), {
-    target: { value: "Hola, soy 20 años. Me gusta las manzanas." },
-  });
-
-  fireEvent.click(screen.getByRole("button", { name: "Review my practice" }));
-  expect(screen.getByText(/For age, use tener/)).toBeInTheDocument();
-  expect(screen.getByText(/Check gustar/)).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  render(<QuestionCard q={writing} onSubmit={submit} />);
+  write("Hola, soy 20 años. Me gusta las manzanas.");
+  click("Review my practice");
+  click("Continue");
   expect(submit.mock.calls[0][1]).toBeNull();
+});
+
+it("leaves the reflection out of writing feedback and keeps it for speaking", () => {
+  const speaking = mockQuestions.find((q) => q.kind === "speak")!;
+
+  render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, soy 20 años." />);
+  click("Review my practice");
+  expect(screen.queryByRole("heading", { level: 3 })).not.toBeInTheDocument();
+  expect(screen.queryByText(writing.explanation)).not.toBeInTheDocument();
+  expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
+  expect(screen.queryByText(/For age, use tener/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/self-review points checked/)).not.toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Check my writing" })).toBeInTheDocument();
+  cleanup();
+
+  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
+  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
+  click("Review my practice");
+  expect(screen.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeInTheDocument();
+  expect(screen.getByText(speaking.explanation)).toBeInTheDocument();
+  expect(screen.getByText("One possible answer").parentElement).toHaveTextContent(speaking.answer);
+
+  expect(
+    screen.getByText(`0/${speaking.checklist!.length} self-review points checked.`, {
+      exact: false,
+    }),
+  ).toBeInTheDocument();
 });

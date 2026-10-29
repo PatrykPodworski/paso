@@ -1,13 +1,12 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../../design-system/Button";
-import { countWords, writingHints } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
 import { WritingCheck } from "./WritingCheck";
 
-const NOTE = "text-sm leading-relaxed text-olive-700 mt-2";
+const PANEL = "rounded-lg border p-5 mbs-6 max-md:py-5 max-md:px-4";
 
 const TONE = {
   success: {
@@ -24,39 +23,9 @@ const TONE = {
   },
 };
 
-type WritingNotesProps = { q: Question; value: string };
+type PracticeReviewProps = { q: Question; checked: number };
 
-const WritingNotes = ({ q, value }: WritingNotesProps) => {
-  const words = countWords(value);
-  const hints = writingHints(value);
-
-  return (
-    <div className="mt-4">
-      <p className={NOTE}>
-        {words < (q.minWords || 0)
-          ? `Your response is short (${words} words). Aim for ${q.minWords}–${q.maxWords} words and develop the missing points.`
-          : words > (q.maxWords || Infinity)
-            ? `You wrote ${words} words. Practise keeping the response within ${q.minWords}–${q.maxWords} words.`
-            : `Your word count (${words}) is within the practice target.`}
-      </p>
-      {hints.map((h) => (
-        <p key={h} className={NOTE}>
-          <Icon name="info" size={16} className="inline align-middle" /> {h}
-        </p>
-      ))}
-      <FieldNote className="mt-2">
-        {hints.length
-          ? "These are targeted checks, not a complete correction."
-          : "No issue found by the small set of pattern checks. This does not mean every sentence is correct."}{" "}
-        A teacher can assess the full response.
-      </FieldNote>
-    </div>
-  );
-};
-
-type PracticeReviewProps = { q: Question; value: string; submission: string; checked: number };
-
-const PracticeReview = ({ q, value, submission, checked }: PracticeReviewProps) => (
+const PracticeReview = ({ q, checked }: PracticeReviewProps) => (
   <>
     <div className="rounded-lg border border-sage-200 bg-white py-4 px-5 mt-4 max-md:p-3.5">
       <Eyebrow>One possible answer</Eyebrow>
@@ -64,14 +33,34 @@ const PracticeReview = ({ q, value, submission, checked }: PracticeReviewProps) 
         {q.answer}
       </p>
     </div>
-    {q.kind !== "speak" && <WritingNotes q={q} value={value} />}
-    {q.kind !== "speak" && <WritingCheck q={q} answer={submission} />}
     <FieldNote className="mt-3">
       {checked}/{q.checklist?.length || 0} self-review points checked. Productive practice is saved
       without a numerical grade.
     </FieldNote>
   </>
 );
+
+type FeedbackHeadingProps = { correct: boolean | null; productive: boolean };
+
+const FeedbackHeading = ({ correct, productive }: FeedbackHeadingProps) => {
+  const needsWork = correct === false;
+  const tone = needsWork ? TONE.needsWork : TONE.success;
+
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className={`flex h-7 w-7 items-center justify-center rounded-full ${tone.icon}`}>
+        <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
+      </span>
+      <h3 className={`font-semibold tracking-tight text-base max-md:text-sm ${tone.heading}`}>
+        {productive
+          ? "Let’s reflect on your answer"
+          : correct
+            ? "¡Muy bien! You’ve got it."
+            : "A good moment to learn."}
+      </h3>
+    </div>
+  );
+};
 
 type FeedbackBottomProps = {
   correct: boolean | null;
@@ -147,27 +136,32 @@ export const QuestionFeedback = ({
   onRevise,
   onContinue,
 }: Props) => {
+  const bottom = (
+    <FeedbackBottom
+      correct={correct}
+      productive={productive}
+      assisted={assisted}
+      onRevise={onRevise}
+      onContinue={onContinue}
+    />
+  );
+
+  if (q.kind === "write" || q.kind === "form") {
+    return (
+      <div className={`${PANEL} ${TONE.success.box}`}>
+        <WritingCheck q={q} answer={submission} />
+        {bottom}
+      </div>
+    );
+  }
+
   const needsWork = correct === false;
   const tone = needsWork ? TONE.needsWork : TONE.success;
   const paragraph = `text-sm leading-relaxed mt-3 ${tone.paragraph}`;
 
   return (
-    <div
-      className={`feedback rounded-lg border p-5 mt-6 max-md:py-5 max-md:px-4 ${tone.box}`}
-      role="status"
-    >
-      <div className="flex items-center gap-2.5">
-        <span className={`flex h-7 w-7 items-center justify-center rounded-full ${tone.icon}`}>
-          <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
-        </span>
-        <h3 className={`font-semibold tracking-tight text-base max-md:text-sm ${tone.heading}`}>
-          {productive
-            ? "Let’s reflect on your answer"
-            : correct
-              ? "¡Muy bien! You’ve got it."
-              : "A good moment to learn."}
-        </h3>
-      </div>
+    <div className={`${PANEL} ${tone.box}`} role="status">
+      <FeedbackHeading correct={correct} productive={productive} />
       {needsWork && (
         <p className={paragraph}>
           Your answer: <strong lang="es">{value}</strong>
@@ -177,9 +171,7 @@ export const QuestionFeedback = ({
       )}
       <p className={paragraph}>{q.explanation}</p>
       <MemoryHint text={q.memoryHint} />
-      {productive && (
-        <PracticeReview q={q} value={value} submission={submission} checked={checked} />
-      )}
+      {productive && <PracticeReview q={q} checked={checked} />}
       {q.audio && (
         <details className="text-sm text-olive-500 mt-4">
           <summary className="cursor-pointer">Read the transcript</summary>
@@ -188,13 +180,7 @@ export const QuestionFeedback = ({
           </p>
         </details>
       )}
-      <FeedbackBottom
-        correct={correct}
-        productive={productive}
-        assisted={assisted}
-        onRevise={onRevise}
-        onContinue={onContinue}
-      />
+      {bottom}
     </div>
   );
 };

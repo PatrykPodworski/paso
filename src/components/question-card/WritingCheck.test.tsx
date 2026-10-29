@@ -72,6 +72,8 @@ it("asks for feedback only when the learner requests it, with the passcode", asy
   expect(screen.getByText(review.revised)).toHaveAttribute("lang", "es");
   expect(screen.queryByText(/out of 3/)).not.toBeInTheDocument();
   expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
+  expect(screen.queryByRole("button", { name: "Check my writing" })).not.toBeInTheDocument();
+  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
 });
 
 it("uses the stored passcode without asking again", async () => {
@@ -150,17 +152,36 @@ it.each([
   expect(screen.getByRole("textbox")).toHaveValue(answer);
 });
 
-it("disables the button while the feedback loads", async () => {
+it("shows only a loading status while the feedback loads", async () => {
   let reply = (_: Response) => {};
 
   api.mockImplementation(() => new Promise<Response>((resolve) => (reply = resolve)));
-  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
   submit();
+  fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
   click("Check my writing");
 
-  expect(screen.getByRole("button", { name: "Checking your writing…" })).toBeDisabled();
+  expect(screen.getByRole("status")).toHaveTextContent("Checking your writing…");
+  expect(screen.queryByRole("button", { name: /writing/ })).not.toBeInTheDocument();
+  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
+  expect(screen.queryByText(/goes to OpenRouter/)).not.toBeInTheDocument();
   await act(async () => reply(Response.json(review)));
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  expect(screen.getByText("Add a farewell.")).toBeInTheDocument();
+});
+
+it("returns to the request state after revising, with the passcode still stored", async () => {
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+  api.mockResolvedValue(Response.json(review));
+  submit();
+  click("Check my writing");
+  await screen.findByText("Add a farewell.");
+  click("Revise my answer");
+  click("Review my practice");
+
   expect(screen.getByRole("button", { name: "Check my writing" })).toBeEnabled();
+  expect(screen.queryByText("Add a farewell.")).not.toBeInTheDocument();
+  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
+  expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
 });
 
 it("offers the writing check for writing, not for speaking", () => {

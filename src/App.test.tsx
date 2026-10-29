@@ -4,7 +4,8 @@ import App from "./App";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
 import type { Attempt, Lesson } from "./data/types";
-import { emptySnapshot, type LegacyProgress, legacyProgress } from "./test/progress";
+import { type LegacyProgress, legacyProgress } from "../tests/fixtures/legacyProgress";
+import { emptySnapshot } from "./test/progress";
 import { savedProgress as saved, settle, setupProgressApi } from "./test/progressApi";
 
 let session: {

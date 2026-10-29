@@ -5,9 +5,9 @@ import {
   answer,
   stabilise,
   capture,
-  legacyProgress,
   resumeMockExam,
 } from "../fixtures/app";
+import { legacyProgress } from "../fixtures/legacyProgress";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import type { Page } from "@playwright/test";
 import { examiner, mockLiveTalk } from "../fixtures/live";

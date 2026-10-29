@@ -32,6 +32,16 @@ const keepAsBackup = (raw: string) => {
   }
 };
 
+const requestInit = (learner: string, body: Body | undefined, passcode: string): RequestInit => ({
+  method: body ? "POST" : "GET",
+  headers: {
+    "x-learner-id": learner,
+    ...(body ? { "content-type": "application/json" } : {}),
+    ...(passcode ? { "x-passcode": encodeURIComponent(passcode) } : {}),
+  },
+  body: body && JSON.stringify(body),
+});
+
 // Loads the learner's snapshot, then sends writes one at a time, in order. Each response
 // replaces the snapshot. A failed request stops the queue until retry() sends it again.
 export const createProgressClient = (learner: string, onChange: (state: ProgressState) => void) => {
@@ -60,6 +70,18 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     onChange(state);
   };
 
+  // The problem for a status that refuses the passcode, or null for any other status.
+  const refusal = (status: number, passcode: string): Problem | null => {
+    if (status === 401) {
+      typed = "";
+      savePasscode("");
+
+      return passcode ? "wrongPasscode" : "passcode";
+    }
+
+    return status === 429 ? "passcodeTries" : null;
+  };
+
   const request = async (
     body: Body | undefined,
     failure: Problem,
@@ -67,35 +89,17 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     const passcode = readAccess().passcode || typed;
 
     try {
-      const response = await fetch("/api/progress", {
-        method: body ? "POST" : "GET",
-        headers: {
-          "x-learner-id": learner,
-          ...(body ? { "content-type": "application/json" } : {}),
-          ...(passcode ? { "x-passcode": encodeURIComponent(passcode) } : {}),
-        },
-        body: body && JSON.stringify(body),
-      });
+      const response = await fetch("/api/progress", requestInit(learner, body, passcode));
 
       if (response.ok) {
         return (await response.json()) as ProgressSnapshot;
       }
 
-      if (response.status === 401) {
-        typed = "";
-        savePasscode("");
-
-        return passcode ? "wrongPasscode" : "passcode";
-      }
-
-      if (response.status === 429) {
-        return "passcodeTries";
-      }
+      return refusal(response.status, passcode) ?? failure;
     } catch {
       // A network error or a body that is not JSON is a failed request.
+      return failure;
     }
-
-    return failure;
   };
 
   const loadOnce = async () => {

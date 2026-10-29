@@ -5,6 +5,7 @@ import { TextLink } from "../../design-system/TextLink";
 import { mockSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
+import { finalizeDrafts } from "./finalizeDrafts";
 import type { Run, SetRun } from "./useMockRun";
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
+  const { answers } = finalizeDrafts(run);
 
   return (
     <Panel className="px-7 pt-5 pb-5 max-md:p-4">
@@ -85,8 +87,8 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
             Finish {section.title.toLowerCase()}?
           </h3>
           <p className="leading-relaxed my-3 text-sm">
-            {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
-            finishing, answers in this section cannot be changed.
+            {section.questions.filter((q) => !answers[q.id]).length} unanswered. After finishing,
+            answers in this section cannot be changed.
           </p>
           <ButtonRow>
             <Button variant="secondary" onClick={() => setConfirm(false)}>

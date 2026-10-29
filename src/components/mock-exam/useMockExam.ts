@@ -3,6 +3,7 @@ import { mockSections } from "../../data/mock";
 import type { Progress } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
+import { finalizeDrafts } from "./finalizeDrafts";
 import { fresh, useMockRun } from "./useMockRun";
 
 export const useMockExam = (onResult: (result: Progress["mockResults"][number]) => void) => {
@@ -28,7 +29,7 @@ export const useMockExam = (onResult: (result: Progress["mockResults"][number]) 
       setRun((r) =>
         r.stage === "prep"
           ? { ...r, stage: "run", deadline: Date.now() + 600000 }
-          : { ...r, stage: "review" },
+          : { ...finalizeDrafts(r), stage: "review" },
       );
 
       setConfirm(false);
@@ -49,7 +50,7 @@ export const useMockExam = (onResult: (result: Progress["mockResults"][number]) 
   const endSection = () => {
     stopAudio();
     setConfirm(false);
-    setRun((r) => ({ ...r, stage: "review" }));
+    setRun((r) => ({ ...finalizeDrafts(r), stage: "review" }));
   };
 
   const score = (index: number) =>

@@ -89,3 +89,47 @@ it("keeps the results page after the last deadline has passed", () => {
   expect(state().stage).toBe("done");
   expect(screen.getByRole("heading", { name: "You’ve met the exam." })).toBeInTheDocument();
 });
+
+it("keeps unsaved writing as the answers when the section deadline passes", () => {
+  seed({
+    section: 2,
+    deadline: now + 1000,
+    answers: { "mock-w2": "Hola." },
+    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Ana." },
+  });
+
+  mount();
+  act(() => vi.advanceTimersByTime(1000));
+
+  expect(state()).toMatchObject({
+    stage: "review",
+    answers: {
+      "mock-w1":
+        "Nombre y apellidos: \nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
+      "mock-w2": "Hola, Ana.",
+    },
+  });
+
+  expect(screen.getByText("Hola, Ana.")).toBeInTheDocument();
+});
+
+it("counts unsaved writing as answered and keeps it on Finish section", () => {
+  seed({
+    section: 2,
+    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Ana." },
+  });
+
+  mount();
+  click("Finish section");
+  expect(screen.getByRole("alert")).toHaveTextContent("0 unanswered.");
+  click("Finish & review");
+
+  expect(state()).toMatchObject({
+    stage: "review",
+    answers: {
+      "mock-w1":
+        "Nombre y apellidos: \nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
+      "mock-w2": "Hola, Ana.",
+    },
+  });
+});

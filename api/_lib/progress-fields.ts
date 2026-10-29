@@ -177,9 +177,13 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["started", (value) => value === "" || isInstant(value)],
 ];
 
+const MOCK_QUESTIONS = new Set(mockSections.flatMap((s) => s.questions.map((q) => q.id)));
+const isMockQuestion: Check = (key) => MOCK_QUESTIONS.has(key as string);
+
+// Drafts also hold the speaking preparation notes under "prep".
 const MOCK_MAPS: [keyof MockRun, Check, Check][] = [
-  ["answers", isId, isText],
-  ["drafts", isId, isText],
+  ["answers", isMockQuestion, isText],
+  ["drafts", (key) => key === "prep" || isMockQuestion(key), isText],
   [
     "scores",
     (key) => key === "writing" || key === "speaking",

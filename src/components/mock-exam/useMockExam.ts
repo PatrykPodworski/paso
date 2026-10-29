@@ -55,6 +55,8 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
     mockSections[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || "")).length;
 
   const nextSection = () => {
+    setConfirm(false);
+
     if (run.section === 3) {
       const result = { at: new Date().toISOString(), reading: score(0), listening: score(1) };
 
@@ -67,7 +69,6 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
     const next = run.section + 1;
 
     setNow(Date.now());
-    setConfirm(false);
 
     change({
       section: next,

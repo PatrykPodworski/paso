@@ -61,6 +61,18 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
   expect(screen.queryByRole("alert")).not.toBeInTheDocument();
 });
 
+it("dismisses a confirmation left open when the speaking time runs out", async () => {
+  seed({ section: 3, deadline: now + 2000 });
+  await mount();
+  click("Finish section");
+  act(() => vi.advanceTimersByTime(2000));
+  click("See my results");
+  click("Return to exam overview");
+  click("Start exam rehearsal");
+  expect(screen.getByRole("timer")).toHaveTextContent("45:00");
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+});
+
 it("honours an expired deadline when returning to the page", async () => {
   seed({ deadline: now - 1 });
   await mount();

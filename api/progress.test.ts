@@ -422,7 +422,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
         result: { id: "m1", at: T, reading: 1, listening: 2 },
       });
 
-      await snapshot(id, { action: "mockRun", run: { answers: { q1: "a" } } });
+      await snapshot(id, { action: "mockRun", run: { answers: { "mock-r1-0": "a" } } });
     }
 
     await importing(me, {});
@@ -454,16 +454,16 @@ describe("the mock exam run", () => {
     const me = learner();
 
     expect(await change(me, started, true)).toEqual({ ...FRESH, ...started });
-    await change(me, { answers: { r1: "b" }, section: 0, index: 1 });
-    await change(me, { drafts: { w1: "Hola" }, scores: { writing: "12" } });
-    await change(me, { answers: { r2: "c" }, drafts: { prep: "" } });
+    await change(me, { answers: { "mock-r1-0": "b" }, section: 0, index: 1 });
+    await change(me, { drafts: { "mock-w1": "Hola" }, scores: { writing: "12" } });
+    await change(me, { answers: { "mock-r1-1": "c" }, drafts: { prep: "" } });
 
     expect(await change(me, { scores: { speaking: "14.5" }, section: 1, index: 0 })).toEqual({
       ...FRESH,
       ...started,
       section: 1,
-      answers: { r1: "b", r2: "c" },
-      drafts: { w1: "Hola", prep: "" },
+      answers: { "mock-r1-0": "b", "mock-r1-1": "c" },
+      drafts: { "mock-w1": "Hola", prep: "" },
       scores: { writing: "12", speaking: "14.5" },
     });
   });
@@ -472,31 +472,39 @@ describe("the mock exam run", () => {
     const me = learner();
 
     await change(me, started, true);
-    await change(me, { answers: { r1: "a" }, section: 0, index: 1 });
+    await change(me, { answers: { "mock-r1-0": "a" }, section: 0, index: 1 });
 
-    expect(await change(me, { answers: { r5: "c" }, section: 0, index: 5 })).toMatchObject({
-      index: 5,
-      answers: { r1: "a", r5: "c" },
-    });
+    expect(await change(me, { answers: { "mock-r1-4": "c" }, section: 0, index: 5 })).toMatchObject(
+      {
+        index: 5,
+        answers: { "mock-r1-0": "a", "mock-r1-4": "c" },
+      },
+    );
   });
 
   it("starts from the defaults when a change arrives without a run", async () => {
-    expect(await change(learner(), { answers: { r1: "a" } })).toEqual({
+    expect(await change(learner(), { answers: { "mock-r1-0": "a" } })).toEqual({
       ...FRESH,
-      answers: { r1: "a" },
+      answers: { "mock-r1-0": "a" },
     });
   });
 
   it("replaces the run and its answers when a new one starts", async () => {
     const me = learner();
 
-    await change(me, { ...started, answers: { r1: "a" }, scores: { writing: "3" } }, true);
+    await change(me, { ...started, answers: { "mock-r1-0": "a" }, scores: { writing: "3" } }, true);
 
     expect(await change(me, {}, true)).toEqual(FRESH);
   });
 
   describe("kept in the browser", () => {
-    const kept = { section: 1, index: 2, stage: "run", answers: { r1: "a" }, deadline: DEADLINE };
+    const kept = {
+      section: 1,
+      index: 2,
+      stage: "run",
+      answers: { "mock-r1-0": "a" },
+      deadline: DEADLINE,
+    };
 
     const importing = async (id: string, run: unknown) =>
       (await snapshot(id, { action: "importMockRun", run })).mockRun;
@@ -520,7 +528,7 @@ describe("the mock exam run", () => {
       expect(
         await importing(learner(), {
           ...kept,
-          answers: { r1: "a", r2: 5, ["x".repeat(65)]: "b" },
+          answers: { "mock-r1-0": "a", "mock-r1-1": 5, "u1-v0": "b", prep: "c" },
           drafts: null,
           deadline: "soon",
           started: "today",
@@ -869,11 +877,29 @@ describe("requests", () => {
     ["a mock stage", me, { action: "mockRun", run: { stage: "paused" } }, "run"],
     ["a mock deadline", me, { action: "mockRun", run: { deadline: -1 } }, "run"],
     ["a mock start", me, { action: "mockRun", run: { started: "today" } }, "run"],
-    ["a mock answer", me, { action: "mockRun", run: { answers: { r1: 5 } } }, "run"],
+    ["a mock answer", me, { action: "mockRun", run: { answers: { "mock-r1-0": 5 } } }, "run"],
+    [
+      "a mock answer to no exam question",
+      me,
+      { action: "mockRun", run: { answers: { "u1-v0": "a" } } },
+      "run",
+    ],
+    [
+      "a mock answer to the notes",
+      me,
+      { action: "mockRun", run: { answers: { prep: "a" } } },
+      "run",
+    ],
+    [
+      "a mock draft for no exam question",
+      me,
+      { action: "mockRun", run: { drafts: { "u1-w1": "Hola" } } },
+      "run",
+    ],
     [
       "a long mock draft",
       me,
-      { action: "mockRun", run: { drafts: { w1: "a".repeat(4001) } } },
+      { action: "mockRun", run: { drafts: { "mock-w1": "a".repeat(4001) } } },
       "run",
     ],
     ["a mock score name", me, { action: "mockRun", run: { scores: { reading: "3" } } }, "run"],

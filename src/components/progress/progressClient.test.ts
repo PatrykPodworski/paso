@@ -67,7 +67,7 @@ const loaded = async (patch: Partial<ProgressSnapshot> = { imported: true }) => 
 
   void c.load();
   (await call(0)).reply(ok(snapshot(patch)));
-  await vi.waitFor(() => expect(latest()?.snapshot).not.toBeNull());
+  await vi.waitFor(() => expect(latest()?.snapshot ?? null).not.toBeNull());
 
   return c;
 };
@@ -249,13 +249,14 @@ describe("import", () => {
     expect(localStorage.getItem("paso-progress-v1-imported")).toBe(legacy);
   });
 
-  it("does not import for a learner already imported", async () => {
+  it("moves the stored progress to the backup key without importing for a learner already imported", async () => {
     localStorage.setItem("paso-progress-v1", legacy);
     await loaded({ imported: true });
     await settle();
 
     expect(calls).toHaveLength(1);
-    expect(localStorage.getItem("paso-progress-v1")).toBe(legacy);
+    expect(localStorage.getItem("paso-progress-v1")).toBeNull();
+    expect(localStorage.getItem("paso-progress-v1-imported")).toBe(legacy);
   });
 
   it.each([
@@ -411,6 +412,49 @@ describe("drafts", () => {
     sent.reply(ok(snapshot({ imported: true })));
     await settle();
     expect(calls).toHaveLength(2);
+  });
+
+  it("shows a sent draft until its own response arrives", async () => {
+    const c = await loaded({ imported: true, drafts: { "u2-w1": "Hola" } });
+
+    c.attempt(attempt);
+    c.draft("u2-w1", "Me llamo");
+    c.flushDrafts();
+    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
+
+    (await call(1)).reply(ok(snapshot({ imported: true, drafts: { "u2-w1": "Hola" } })));
+    const draft = await call(2);
+
+    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
+    expect(latest()?.snapshot?.recent).toEqual([]);
+
+    draft.reply(ok(snapshot({ imported: true, drafts: { "u2-w1": "Me llamo Ana" } })));
+    await settle();
+    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo Ana" });
+  });
+
+  it("keeps showing the newer draft when the response to an older one arrives", async () => {
+    const c = await loaded({ imported: true, drafts: { "u2-w1": "Hola" } });
+
+    c.draft("u2-w1", "Me");
+    c.flushDrafts();
+    c.draft("u2-w1", "Me llamo");
+    c.flushDrafts();
+    (await call(1)).reply(ok(snapshot({ imported: true, drafts: { "u2-w1": "Me" } })));
+    await call(2);
+
+    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
+  });
+
+  it("keeps showing a sent draft while its request waits for a retry", async () => {
+    const c = await loaded({ imported: true, drafts: { "u2-w1": "Hola" } });
+
+    c.draft("u2-w1", "Me llamo");
+    c.flushDrafts();
+    (await call(1)).fail();
+    await vi.waitFor(() => expect(latest()?.problem).toBe("save"));
+
+    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
   });
 
   it("drops a draft still waiting when progress is reset", async () => {

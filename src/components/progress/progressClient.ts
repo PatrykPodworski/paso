@@ -40,11 +40,23 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
   let sending = false;
   const queue: Body[] = [];
   const drafts = new Map<string, { timer: ReturnType<typeof setTimeout>; text: string }>();
+  // Drafts sent but not yet answered. Responses to earlier writes still hold the older
+  // text, and a lesson opened now must not show it.
+  const sentDrafts = new Map<string, string>();
   // Without browser storage the passcode lasts for this visit.
   let typed = "";
 
   const update = (patch: Partial<ProgressState>) => {
-    state = { ...state, ...patch };
+    const { snapshot, ...rest } = { ...state, ...patch };
+
+    state = {
+      ...rest,
+      snapshot: snapshot && {
+        ...snapshot,
+        drafts: { ...snapshot.drafts, ...Object.fromEntries(sentDrafts) },
+      },
+    };
+
     onChange(state);
   };
 
@@ -88,9 +100,11 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
 
   const loadOnce = async () => {
     let result = await request(undefined, "load");
-    const legacy = typeof result === "string" || result.imported ? null : legacyProgress();
+    const legacy = typeof result === "string" ? null : legacyProgress();
 
-    if (legacy) {
+    if (legacy && typeof result !== "string" && result.imported) {
+      keepAsBackup(legacy.raw);
+    } else if (legacy) {
       result = await request(
         { action: "import", progress: legacy.progress, timeZone: timeZone() },
         "load",
@@ -134,7 +148,12 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
       return;
     }
 
-    queue.shift();
+    const body = queue.shift()!;
+
+    if (body.action === "draft" && sentDrafts.get(body.questionId as string) === body.text) {
+      sentDrafts.delete(body.questionId as string);
+    }
+
     update({ snapshot: result });
     void send();
   };
@@ -149,6 +168,8 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
 
     clearTimeout(draft.timer);
     drafts.delete(questionId);
+    sentDrafts.set(questionId, draft.text);
+    update({});
     write({ action: "draft", questionId, text: draft.text });
   };
 

@@ -2,6 +2,16 @@ import type { ProgressSnapshot, Question, ReviewState, Skill } from "./types.ts"
 
 export const REVIEW_WINDOWS = [0, 1, 3, 7, 14, 30] as const;
 
+// The longest answer or draft api/progress stores.
+export const MAX_TEXT = 4000;
+
+// Cuts on a whole character: the server refuses a lone half of a surrogate pair.
+export const clipText = (text: string) => {
+  const clipped = text.slice(0, MAX_TEXT);
+
+  return /[\uD800-\uDBFF]$/.test(clipped) ? clipped.slice(0, -1) : clipped;
+};
+
 export const localDate = (date = new Date()) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 

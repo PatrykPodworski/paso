@@ -204,6 +204,65 @@ it("reviews all due cards once, finishes with a summary, and counts unique cards
   expect(saved().vocabularyReviews[words[0].es].level).toBe(1);
 });
 
+it("reviews due cards in the order they became due", () => {
+  const p = progressWithDue(2);
+
+  p.vocabularyReviews[words[0].es] = { level: 1, nextAt: "2026-09-09T11:00:00Z" };
+  p.vocabularyReviews[words[1].es] = { level: 1, nextAt: "2026-09-08T12:00:00Z" };
+  mount(p);
+  click("Review flashcards");
+  const dialog = screen.getByRole("dialog");
+
+  expect(within(dialog).getByRole("heading", { name: words[1].es })).toBeInTheDocument();
+  click("Reveal answer");
+  click(/Got it right/);
+  expect(within(dialog).getByRole("heading", { name: words[0].es })).toBeInTheDocument();
+});
+
+it("summarises a session as remembered and to revisit", () => {
+  mount(progressWithDue(3));
+  click("Review flashcards");
+
+  for (const rating of [/Got it wrong/, /Got it right/, /Got it right/]) {
+    click("Reveal answer");
+    click(rating);
+  }
+
+  count("reviewed", 3);
+  count("remembered", 2);
+  count("to revisit", 1);
+});
+
+it("saves one rating per card when a rating button is clicked twice in one tick", () => {
+  const onReview = vi.fn();
+
+  render(
+    <PocketVocabulary
+      progress={progressWithDue(3)}
+      onReview={onReview}
+      onAddWords={vi.fn()}
+      onLearn={vi.fn()}
+    />,
+  );
+
+  click("Review flashcards");
+  click("Reveal answer");
+  const right = screen.getByRole("button", { name: /Got it right/ });
+
+  act(() => {
+    right.click();
+    right.click();
+  });
+
+  expect(onReview.mock.calls).toEqual([
+    [words[0].es, { level: 1, reviewedAt: now, nextAt: tomorrow }],
+  ]);
+
+  expect(
+    within(screen.getByRole("dialog")).getByRole("heading", { name: words[1].es }),
+  ).toBeInTheDocument();
+});
+
 it("updates today's count and availability when returning to the tab on another day", () => {
   const p = progressWithDue(0);
 
@@ -242,6 +301,22 @@ it("counts added words with no review yet as new", () => {
   mount(p);
   count("To review", 1);
   expect(screen.getByText(/1 card is ready, including 1 new/)).toBeInTheDocument();
+});
+
+it("does not count a due card that was reviewed before as new", () => {
+  const p = progressWithDue(2);
+  const missedAt = "2026-09-08T12:00:00.000Z";
+  const dueAt = "2026-09-08T12:10:00.000Z";
+
+  p.vocabularyReviews[words[2].es] = { level: 0, reviewedAt: missedAt, nextAt: dueAt };
+  mount(p);
+  expect(screen.getByText(/3 cards are ready, including 2 new/)).toBeInTheDocument();
+  const missed = flashcard(words[2].es);
+
+  expect(missed).toHaveTextContent("Due now");
+  expect(missed).not.toHaveTextContent("New");
+  expect(within(missed).getByRole("time")).toHaveAttribute("datetime", dueAt);
+  expect(flashcard(words[0].es)).toHaveTextContent("New · ready now");
 });
 
 it("saves a split-sense card's rating under its own id", () => {

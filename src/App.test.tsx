@@ -416,7 +416,7 @@ it("routes help, footer, path links and the brand consistently", () => {
     fireEvent.click(screen.getByRole("link", { name: "Paso home" }));
   }
 
-  for (const name of ["View full path", "Home, cafés, adventures & 6 more chapters"]) {
+  for (const name of ["View full path", "Home, cafés, adventures & 9 more chapters"]) {
     click(name);
     expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
     click("My learning space");

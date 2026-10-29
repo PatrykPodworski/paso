@@ -200,7 +200,7 @@ it.each([writing, writingWithPassage, formPractice])(
     expect(audioButtons()).toHaveLength(0);
     fillWriting(q);
     click("Review my practice");
-    expect(screen.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+    expect(screen.getByRole("button", { name: "Revise my answer" })).toBeVisible();
     expect(audioButtons()).toHaveLength(0);
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   },

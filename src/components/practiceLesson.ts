@@ -9,7 +9,11 @@ export const practiceLesson = (
   let questions =
     skill === "mistakes"
       ? mistakeQuestions
-      : exerciseBank.filter((q) => q.kind !== "live" && (skill === "all" || q.skill === skill));
+      : exerciseBank.filter((q) =>
+          skill === "speaking"
+            ? q.kind === "live"
+            : q.kind !== "live" && (skill === "all" || q.skill === skill),
+        );
 
   if (!questions.length) {
     return null;
@@ -34,6 +38,7 @@ export const practiceLesson = (
     subtitle: "A little focused practice",
     minutes: 6,
     icon: "layers",
-    questions: questions.slice(0, skill === "writing" || skill === "speaking" ? 4 : 8),
+    // Each live talk spends the free talk or a passcode session, so speaking opens one.
+    questions: questions.slice(0, skill === "speaking" ? 1 : skill === "writing" ? 4 : 8),
   };
 };

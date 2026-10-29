@@ -351,11 +351,10 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
     click("Test close session");
   }
 
-  // Every speaking task is a live talk, and live talks stay out of skill practice.
   for (const name of [/Find your voice/, /^Speaking0 practised$/]) {
     fireEvent.click(screen.getByRole("button", { name }));
-    expect(screen.queryByRole("region", { name: "Active lesson" })).not.toBeInTheDocument();
-    expect(screen.getByRole("status")).toHaveTextContent("Nothing to review yet");
+    expect(session.lesson.questions.map((q) => q.kind)).toEqual(["live"]);
+    click("Test close session");
   }
 
   for (const name of ["Adjust your daily goal", "At your own pace", "Your Spanish journey"]) {

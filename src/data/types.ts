@@ -104,3 +104,42 @@ export interface Progress {
   }[];
   drafts: Record<string, string>;
 }
+
+// A learner's progress as the server stores it (api/progress.ts).
+export interface ProgressSnapshot {
+  name: string;
+  goal: number;
+  examDate: string;
+  xp: number;
+  imported: boolean;
+  completed: Record<string, { score: number; total: number; at: string }>;
+  // The previous attempt at each question, with its mistake and review state.
+  questions: Record<
+    string,
+    {
+      skill: Skill;
+      at: string;
+      correct: boolean | null;
+      answer: string;
+      assisted?: boolean;
+      grade?: LiveGrade;
+      inMistakes: boolean;
+      review?: ReviewState;
+    }
+  >;
+  vocabularyReviews: Record<string, VocabularyReview>;
+  checks: string[];
+  mockResults: {
+    id: string;
+    at: string;
+    reading: number;
+    listening: number;
+    writing?: number;
+    speaking?: number;
+  }[];
+  drafts: Record<string, string>;
+  // The last 20 attempts, newest first.
+  recent: Attempt[];
+  // Distinct local days with an attempt, newest first, at most 400.
+  days: string[];
+}

@@ -183,6 +183,24 @@ describe("course audio playback", () => {
     expect(clips[0].pause).toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "First" })).toBeInTheDocument();
   });
+
+  it("starts a fresh clip for a resumable player that another player stopped", async () => {
+    render(
+      <>
+        <AudioButton text="Uno." label="Play uno" minimal />
+        <AudioButton text="Dos." label="Play dos" minimal />
+      </>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Play uno" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Play dos" }));
+    await waitFor(() => expect(clips[1].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Play uno" }));
+    await waitFor(() => expect(clips).toHaveLength(3));
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    expect(clips[2].paused).toBe(false);
+  });
 });
 
 describe("audio cancellation and device fallback", () => {

@@ -208,39 +208,45 @@ const entriesOf = (value: unknown, isKey: Check, isValue: Check) => {
   };
 };
 
+// Each part returns the fields it read, or null when it is strict and one is invalid.
+const positionPart = (value: Record<string, unknown>) => {
+  if (!Object.hasOwn(value, "section") && !Object.hasOwn(value, "index")) {
+    return {};
+  }
+
+  return isPosition(value.section, value.index)
+    ? { section: value.section, index: value.index }
+    : null;
+};
+
+const fieldsPart = (value: Record<string, unknown>, strict: boolean) => {
+  const present = MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name));
+  const valid = present.filter(([name, check]) => check(value[name]));
+
+  return strict && valid.length < present.length
+    ? null
+    : Object.fromEntries(valid.map(([name]) => [name, value[name]]));
+};
+
+const mapsPart = (value: Record<string, unknown>, strict: boolean) => {
+  const present = MOCK_MAPS.filter(([name]) => Object.hasOwn(value, name)).map(
+    ([name, isKey, isValue]) => [name, entriesOf(value[name], isKey, isValue)] as const,
+  );
+
+  return strict && present.some(([, entries]) => !entries.complete)
+    ? null
+    : Object.fromEntries(
+        present
+          .filter(([, entries]) => entries.record)
+          .map(([name, entries]) => [name, Object.fromEntries(entries.valid)]),
+      );
+};
+
 // Strict: any invalid part refuses the whole change. Otherwise invalid parts are dropped.
-const mockRunPartsOf = (value: Record<string, unknown>, strict: boolean): MockRunPatch | null => {
-  const patch: Record<string, unknown> = {};
+const mockRunPartsOf = (value: Record<string, unknown>, strict: boolean) => {
+  const parts = [positionPart(value), fieldsPart(value, strict), mapsPart(value, strict)];
 
-  if (Object.hasOwn(value, "section") || Object.hasOwn(value, "index")) {
-    if (!isPosition(value.section, value.index)) {
-      return null;
-    }
-
-    Object.assign(patch, { section: value.section, index: value.index });
-  }
-
-  for (const [name, check] of MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name))) {
-    if (check(value[name])) {
-      patch[name] = value[name];
-    } else if (strict) {
-      return null;
-    }
-  }
-
-  for (const [name, isKey, isValue] of MOCK_MAPS.filter(([name]) => Object.hasOwn(value, name))) {
-    const { record, valid, complete } = entriesOf(value[name], isKey, isValue);
-
-    if (strict && !complete) {
-      return null;
-    }
-
-    if (record) {
-      patch[name] = Object.fromEntries(valid);
-    }
-  }
-
-  return patch;
+  return parts.includes(null) ? null : (Object.assign({}, ...parts) as MockRunPatch);
 };
 
 export const mockRunPatchOf = (value: unknown) =>

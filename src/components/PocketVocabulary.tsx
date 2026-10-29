@@ -3,7 +3,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
-import { reviewDue, vocabularyReview } from "../data/progress";
+import { RELEARN_MINUTES, reviewDue, vocabularyReview } from "../data/progress";
 import {
   type Card,
   WORDS_PER_ADD,
@@ -234,7 +234,9 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                   <Icon name="repeat" />
                   <span>
                     Got it wrong
-                    <small className="block mt-1 text-xs font-normal">Review in 10 min</small>
+                    <small className="block mt-1 text-xs font-normal">
+                      Review in {RELEARN_MINUTES} min
+                    </small>
                   </span>
                 </Button>
                 <Button

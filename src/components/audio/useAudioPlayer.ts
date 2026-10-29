@@ -35,6 +35,7 @@ export const useAudioPlayer = ({
   const playbackRef = useRef<Playback | null>(null);
   // A continuous clip pauses in place so the next player can pick it up there.
   const resumable = minimal || continuous;
+  const resumeClip = () => (resumable ? playbackRef.current?.resume : null);
 
   useEffect(() => {
     // Take over a clip that is still running for the same text, so a recording
@@ -73,8 +74,8 @@ export const useAudioPlayer = ({
   }, [speed]);
 
   const pause = () => {
-    if (resumable && playbackRef.current?.resume) {
-      playbackRef.current.audio?.pause();
+    if (resumeClip()) {
+      playbackRef.current?.audio?.pause();
     } else {
       stopAudio();
     }
@@ -101,8 +102,10 @@ export const useAudioPlayer = ({
       return;
     }
 
-    if (resumable && !restart && playbackRef.current?.resume) {
-      await resume(playbackRef.current.resume);
+    const paused = !restart && resumeClip();
+
+    if (paused) {
+      await resume(paused);
 
       return;
     }

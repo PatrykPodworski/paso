@@ -217,12 +217,11 @@ test("question: sentence, typed answer, writing and its feedback", async ({ page
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByRole("textbox").fill("Me llamo Ana. Soy veinte años.");
   await shot(page, "question-writing");
-  let pending: Route | undefined;
 
   // Held until the loading state is captured, then answered with a fixed review.
-  await page.route("**/api/review-writing", (route) => {
-    pending = route;
-  });
+  const held = Promise.withResolvers<Route>();
+
+  await page.route("**/api/review-writing", held.resolve);
 
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("button", { name: "Check my writing" })).toBeVisible();
@@ -232,7 +231,9 @@ test("question: sentence, typed answer, writing and its feedback", async ({ page
   await expect(page.getByText("Checking your writing…")).toBeVisible();
   await shot(page, "writing-feedback-loading");
 
-  await pending!.fulfill({
+  const route = await held.promise;
+
+  await route.fulfill({
     json: {
       wordCount: 6,
       coverage: l.questions[2].checklist!.map((point, i) => ({

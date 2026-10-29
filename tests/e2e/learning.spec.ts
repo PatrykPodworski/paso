@@ -264,12 +264,12 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
 
   await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Check my writing" })).toBeVisible();
   await page.getByRole("button", { name: "Revise my answer" }).click();
   await expect(input).toBeEnabled();
   await input.fill("Me llamo Ana. Tengo veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Check my writing" })).toBeVisible();
 
   expect(
     (await stored(page)).attempts
@@ -314,11 +314,17 @@ test("check a lesson's writing with the AI tutor and keep the answer", async ({ 
   await expect(page.getByText("Add a greeting and a farewell.")).toBeVisible();
   await expect(page.getByText("Tengo veinte años", { exact: true })).toBeVisible();
   await expect(page.getByText("Hola. Me llamo Ana. Tengo veinte años. Adiós.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Check my writing" })).toBeHidden();
   await page.getByRole("button", { name: "Revise my answer" }).click();
 
   await expect(page.getByRole("textbox", { name: "Your answer in Spanish" })).toHaveValue(
     "Me llamo Ana. Soy veinte años.",
   );
+
+  await page.getByRole("button", { name: "Review my practice" }).click();
+  await expect(page.getByRole("button", { name: "Check my writing" })).toBeEnabled();
+  await expect(page.getByText("Add a greeting and a farewell.")).toBeHidden();
+  await expect(page.getByLabel("Passcode")).toBeHidden();
 });
 
 // The mock exam holds the only recording tasks: every unit's speaking task is a live talk.
@@ -475,7 +481,7 @@ test("form requires every field, saves labels and gives productive feedback", as
   }
 
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Check my writing" })).toBeVisible();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByText("creative practices")).toBeVisible();
 });

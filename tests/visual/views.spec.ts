@@ -9,7 +9,8 @@ import {
 } from "../fixtures/app";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
-import type { Page } from "@playwright/test";
+import type { Page, Route } from "@playwright/test";
+import type { WritingReview } from "../../src/data/types";
 import { examiner, mockLiveTalk } from "../fixtures/live";
 
 const shot = async (page: Page, name: string) => {
@@ -198,7 +199,7 @@ test("lesson completion", async ({ page }) => {
   await shot(page, "lesson-complete");
 });
 
-test("question: sentence, typed answer, writing and reflection", async ({ page }) => {
+test("question: sentence, typed answer, writing and its feedback", async ({ page }) => {
   const l = await openLesson(page, 3);
 
   await shot(page, "question-order");
@@ -216,9 +217,38 @@ test("question: sentence, typed answer, writing and reflection", async ({ page }
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByRole("textbox").fill("Me llamo Ana. Soy veinte años.");
   await shot(page, "question-writing");
+  let pending: Route | undefined;
+
+  // Held until the loading state is captured, then answered with a fixed review.
+  await page.route("**/api/review-writing", (route) => {
+    pending = route;
+  });
+
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Check my writing" })).toBeVisible();
   await shot(page, "writing-feedback");
+  await page.getByLabel("Passcode").fill("olé");
+  await page.getByRole("button", { name: "Check my writing" }).click();
+  await expect(page.getByText("Checking your writing…")).toBeVisible();
+  await shot(page, "writing-feedback-loading");
+
+  await pending!.fulfill({
+    json: {
+      wordCount: 6,
+      coverage: l.questions[2].checklist!.map((point, i) => ({
+        point,
+        met: i > 0,
+        feedback: i > 0 ? "Covered." : "Add a greeting and a farewell.",
+      })),
+      corrections: [
+        { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
+      ],
+      revised: "Hola. Me llamo Ana. Tengo veinte años. Adiós.",
+    } satisfies WritingReview,
+  });
+
+  await expect(page.getByText("Revised version")).toBeVisible();
+  await shot(page, "writing-feedback-result");
 });
 
 test("question: form", async ({ page }) => {

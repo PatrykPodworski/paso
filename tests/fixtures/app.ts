@@ -96,6 +96,22 @@ export const openLesson = async (page: Page, index: number) => {
   return lesson;
 };
 
+const submitLabel = (q: Question, exam: boolean) =>
+  exam
+    ? "Save answer"
+    : ["write", "speak", "form"].includes(q.kind)
+      ? "Review my practice"
+      : "Check answer";
+
+// A lesson writing task asks for the passcode until one gets a review.
+const fillPasscode = async (page: Page, q: Question, exam: boolean) => {
+  const passcode = page.getByLabel("Passcode");
+
+  if (!exam && ["write", "form"].includes(q.kind) && (await passcode.isVisible())) {
+    await passcode.fill("olé");
+  }
+};
+
 export const answer = async (page: Page, q: Question, exam = false, wrong = false) => {
   if (q.options) {
     await page
@@ -127,23 +143,8 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
   }
 
-  const reviewed = !exam && (q.kind === "write" || q.kind === "form");
-
-  // A lesson writing task asks for the passcode until one gets a review.
-  if (reviewed && (await page.getByLabel("Passcode").isVisible())) {
-    await page.getByLabel("Passcode").fill("olé");
-  }
-
-  await page
-    .getByRole("button", {
-      name: exam
-        ? "Save answer"
-        : ["write", "speak", "form"].includes(q.kind)
-          ? "Review my practice"
-          : "Check answer",
-      exact: true,
-    })
-    .click();
+  await fillPasscode(page, q, exam);
+  await page.getByRole("button", { name: submitLabel(q, exam), exact: true }).click();
 };
 
 export const closeLesson = async (page: Page) => {

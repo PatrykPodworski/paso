@@ -16,11 +16,16 @@ type Sample = {
   rationale: string;
 };
 
-const RESULTS = { perfect: "passed", good: "partly", bad: "failed" };
+const RESULTS: Record<string, string> = { perfect: "passed", good: "partly", bad: "failed" };
 
 // The band of an exam review, or the result a practice review's grade came from.
-const resultOf = (review: WritingReview | null) =>
-  review?.mark?.band ?? (review?.grade ? RESULTS[review.grade] : undefined);
+const resultOf = (review: WritingReview | null) => {
+  if (!review) {
+    return undefined;
+  }
+
+  return review.mark ? review.mark.band : RESULTS[review.grade ?? ""];
+};
 
 const reasonOf = (review: WritingReview | null) => {
   if (!review) {

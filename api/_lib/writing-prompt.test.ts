@@ -32,7 +32,7 @@ describe("writing prompt", () => {
   });
 
   it("keeps the prompt-injection defences in every mode", () => {
-    for (const task of [letter, form, lesson]) {
+    for (const task of [letter, form, lesson, writingTaskOf("form-practice")!]) {
       const [system] = messagesOf(task, answer, 9);
 
       expect(system.content).toContain(
@@ -60,10 +60,26 @@ describe("writing prompt", () => {
     expect(formSystem.content).not.toContain("20–29 words");
   });
 
-  it("gives no score in a lesson", () => {
+  it("asks for a practice result instead of a band in a lesson", () => {
     const [system] = messagesOf(lesson, answer, 9);
 
-    expect(system.content).toContain("This is practice: give no score, mark or pass/fail verdict.");
+    expect(system.content).toContain(
+      "give one result, passed, partly or failed, instead of a mark",
+    );
+
+    expect(system.content).toContain(
+      "passed: the answer covers every requested point, or all but one,",
+    );
+
+    expect(system.content).toContain("partly: the answer is understandable");
+    expect(system.content).toContain("failed: the answer is blank, off-topic");
     expect(system.content).not.toContain("band");
+  });
+
+  it("lets a practice letter, not a practice form, miss one point and pass", () => {
+    const [system] = messagesOf(writingTaskOf("form-practice")!, answer, 9);
+
+    expect(system.content).toContain("passed: the answer covers every requested point in");
+    expect(system.content).not.toContain("all but one");
   });
 });

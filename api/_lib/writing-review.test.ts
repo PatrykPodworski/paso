@@ -6,6 +6,7 @@ import { writingTaskOf } from "./writing-tasks.ts";
 const letter = writingTaskOf("mock-w2")!;
 const form = writingTaskOf("mock-w1")!;
 const lesson = writingTaskOf("u1-o2")!;
+const practiceForm = writingTaskOf("form-practice")!;
 
 const coverage = (task = letter) =>
   task.points.map((_, i) => ({ point: `echo ${i}`, met: i > 0, feedback: `Point ${i}.` }));
@@ -22,10 +23,18 @@ const output = (patch: object = {}) =>
   });
 
 describe("writing review schema", () => {
-  it("asks for a mark only in the exam", () => {
+  it("asks for a mark in the exam and a result in practice", () => {
     expect(schemaOf(letter).required).toEqual(["coverage", "corrections", "revised", "mark"]);
-    expect(schemaOf(lesson).required).toEqual(["coverage", "corrections", "revised"]);
-    expect(schemaOf(letter).properties.mark?.properties.band.enum).toEqual([0, 1, 2, 3]);
+    expect(schemaOf(lesson).required).toEqual(["coverage", "corrections", "revised", "result"]);
+    expect(schemaOf(practiceForm).required).toContain("result");
+    expect(schemaOf(letter).properties).toHaveProperty("mark.properties.band.enum", [0, 1, 2, 3]);
+    expect(schemaOf(letter).properties).not.toHaveProperty("result");
+
+    expect(schemaOf(lesson).properties).toHaveProperty("result.enum", [
+      "passed",
+      "partly",
+      "failed",
+    ]);
   });
 });
 
@@ -47,11 +56,39 @@ describe("parsing the model's review", () => {
   });
 
   it("drops a mark the lesson schema did not ask for", () => {
-    expect(parseReview(lesson, 35, output({ coverage: coverage(lesson) }))?.mark).toBeUndefined();
+    const practice = output({ coverage: coverage(lesson), result: "passed" });
 
-    expect(parseReview(lesson, 35, output({ coverage: coverage(lesson) }))?.revised).toBe(
-      "Hola, Ana. Tengo veinte años.",
+    expect(parseReview(lesson, 35, practice)?.mark).toBeUndefined();
+    expect(parseReview(lesson, 35, practice)?.revised).toBe("Hola, Ana. Tengo veinte años.");
+  });
+
+  it.each([
+    ["passed", "perfect"],
+    ["partly", "good"],
+    ["failed", "bad"],
+  ])("grades a practice result of %s as %s", (result, grade) => {
+    expect(parseReview(lesson, 35, output({ coverage: coverage(lesson), result }))?.grade).toBe(
+      grade,
     );
+
+    expect(
+      parseReview(practiceForm, 12, output({ coverage: coverage(practiceForm), result }))?.grade,
+    ).toBe(grade);
+  });
+
+  it.each([
+    ["a missing result", undefined],
+    ["an unknown result", "excellent"],
+    ["a result in capitals", "Passed"],
+    ["a grade instead of a result", "perfect"],
+    ["a result inherited from Object", "toString"],
+    ["a result as a boolean", true],
+  ])("rejects a practice review with %s", (_, result) =>
+    expect(parseReview(lesson, 35, output({ coverage: coverage(lesson), result }))).toBeNull(),
+  );
+
+  it("gives an exam review no grade, even with a result", () => {
+    expect(parseReview(letter, 35, output({ result: "failed" }))?.grade).toBeUndefined();
   });
 
   it("accepts a revised version of 2000 characters", () => {
@@ -113,8 +150,14 @@ describe("reviews without the model", () => {
       mark: { band: 0, reason: "Blank answer." },
     });
 
+    expect(presetReview(letter, 0)?.grade).toBeUndefined();
     expect(presetReview(lesson, 0)?.mark).toBeUndefined();
     expect(presetReview(lesson, 0)?.coverage).toHaveLength(3);
+  });
+
+  it("grades a blank practice answer bad", () => {
+    expect(presetReview(lesson, 0)?.grade).toBe("bad");
+    expect(presetReview(practiceForm, 0)?.grade).toBe("bad");
   });
 
   it("does not mark a task-2 letter under 20 words", () => {

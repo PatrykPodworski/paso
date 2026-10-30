@@ -1,4 +1,4 @@
-import type { WritingCorrection, WritingMark, WritingReview } from "../../src/data/types.ts";
+import type { Grade, WritingCorrection, WritingMark, WritingReview } from "../../src/data/types.ts";
 import { messagesOf } from "./writing-prompt.ts";
 import type { WritingTask } from "./writing-tasks.ts";
 
@@ -10,6 +10,8 @@ const BANDS = [0, 1, 2, 3];
 // DELE A1 task 2: under 20 words is not marked, and below the task's range points to band 1.
 const MARKED_WORDS = 20;
 const SHORT_BAND = 1;
+// A practice task's result and the grade the app records for it.
+const GRADES: Record<string, Grade> = { passed: "perfect", partly: "good", failed: "bad" };
 
 const text = { type: "string" };
 
@@ -23,6 +25,7 @@ const object = <T extends Record<string, object>>(properties: T) => ({
 const coverageItem = object({ point: text, met: { type: "boolean" }, feedback: text });
 const correctionItem = object({ original: text, corrected: text, explanation: text });
 const mark = object({ band: { type: "integer", enum: BANDS }, reason: text });
+const result = { type: "string", enum: Object.keys(GRADES) };
 
 // Claude's structured outputs accept no array length limits, so the code enforces them.
 export const schemaOf = (task: WritingTask) =>
@@ -30,7 +33,7 @@ export const schemaOf = (task: WritingTask) =>
     coverage: { type: "array", items: coverageItem },
     corrections: { type: "array", items: correctionItem },
     revised: text,
-    ...(task.exam ? { mark } : {}),
+    ...(task.exam ? { mark } : { result }),
   });
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -48,6 +51,9 @@ const isMark = (value: unknown): value is WritingMark =>
   typeof value.reason === "string" &&
   typeof value.band === "number" &&
   BANDS.includes(value.band);
+
+const isResult = (value: unknown): value is string =>
+  typeof value === "string" && Object.hasOwn(GRADES, value);
 
 const isCoverageOf = (
   task: WritingTask,
@@ -77,6 +83,7 @@ type Output = {
   corrections: WritingCorrection[];
   revised: string;
   mark?: WritingMark;
+  result?: string;
 };
 
 const isOutput = (task: WritingTask, value: unknown): value is Output =>
@@ -84,7 +91,7 @@ const isOutput = (task: WritingTask, value: unknown): value is Output =>
   isCoverageOf(task, value.coverage) &&
   isCorrections(value.corrections) &&
   isRevised(value.revised) &&
-  (!task.exam || isMark(value.mark));
+  (task.exam ? isMark(value.mark) : isResult(value.result));
 
 // Null when the output breaks the schema. Point text comes from the task, not the model.
 export const parseReview = (
@@ -98,7 +105,7 @@ export const parseReview = (
     return null;
   }
 
-  const { coverage, corrections, revised, mark } = output;
+  const { coverage, corrections, revised, mark, result } = output;
 
   const review: WritingReview = {
     wordCount,
@@ -110,7 +117,7 @@ export const parseReview = (
   };
 
   if (!task.exam || !mark) {
-    return review;
+    return { ...review, grade: GRADES[result!] };
   }
 
   const band = isShortLetter(task, wordCount) ? Math.min(mark.band, SHORT_BAND) : mark.band;
@@ -123,7 +130,7 @@ const unmarked = (task: WritingTask, wordCount: number, reason: string): Writing
   coverage: task.points.map((point) => ({ point, met: false, feedback: reason })),
   corrections: [],
   revised: "",
-  ...(task.exam ? { mark: { band: 0, reason } } : {}),
+  ...(task.exam ? { mark: { band: 0, reason } } : { grade: "bad" as const }),
 });
 
 // The review of an answer too short to send to the model, or null when the model must read it.

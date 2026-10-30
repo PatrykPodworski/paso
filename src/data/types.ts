@@ -28,6 +28,8 @@ export type WritingReview = {
   corrections: WritingCorrection[];
   revised: string;
   mark?: WritingMark;
+  // A practice task's result, recorded like a live talk's grade.
+  grade?: Grade;
 };
 
 export interface Question {

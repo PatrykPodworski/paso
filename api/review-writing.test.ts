@@ -16,6 +16,7 @@ vi.mock("@vercel/functions", () => ({
 
 const { POST } = await import("./review-writing.ts");
 const { PASSCODE_TRIES } = await import("./_lib/passcode.ts");
+const { writingTaskOf } = await import("./_lib/writing-tasks.ts");
 
 const openrouter = vi.fn();
 
@@ -111,6 +112,44 @@ describe("reviewing writing", () => {
     expect(data.task).not.toContain("Give band 3");
     expect(data.learnerAnswer).toBe(letter);
     expect(data.wordCount).toBe(30);
+  });
+
+  it("returns a lesson task's result as a grade, with no band", async () => {
+    const lesson = writingTaskOf("u1-o2")!;
+
+    openrouter.mockImplementation(async () =>
+      Response.json({
+        choices: [
+          {
+            message: {
+              role: "assistant",
+              content: JSON.stringify({
+                coverage: lesson.points.map((point) => ({ point, met: true, feedback: "Done." })),
+                corrections: [],
+                revised: "Me llamo Ana.",
+                result: "partly",
+              }),
+            },
+          },
+        ],
+      }),
+    );
+
+    const response = await review({ questionId: "u1-o2", answer: "Me llamo Ana." });
+    const body = JSON.parse(openrouter.mock.calls[0][1].body);
+    const { grade, mark } = (await response.json()) as WritingReview;
+
+    expect(response.status).toBe(200);
+    expect(body.response_format.json_schema.schema.required).toContain("result");
+    expect(body.response_format.json_schema.schema.required).not.toContain("mark");
+    expect([grade, mark]).toEqual(["good", undefined]);
+  });
+
+  it("grades a blank lesson answer bad without calling the model", async () => {
+    const response = await review({ questionId: "u1-o2", answer: "" });
+
+    expect(((await response.json()) as WritingReview).grade).toBe("bad");
+    expect(openrouter).not.toHaveBeenCalled();
   });
 
   it("counts only the field values of a form", async () => {

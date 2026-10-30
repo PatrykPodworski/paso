@@ -79,7 +79,8 @@ const WritingRequest = ({ needsPasscode, passcode, onPasscode, error }: RequestP
   <div className={`${BOX} border-sage-200 bg-white`}>
     <FieldNote>
       Get feedback from an AI tutor on every requested point, with corrections and a revised
-      version. Your answer goes to OpenRouter for the feedback.
+      version. Your answer goes to OpenRouter for the feedback. The result is saved, and a task not
+      passed goes to your mistake review.
     </FieldNote>
     {needsPasscode && <PasscodeField passcode={passcode} onPasscode={onPasscode} />}
     {error && <Notice as="p">{problemOf(error)}</Notice>}

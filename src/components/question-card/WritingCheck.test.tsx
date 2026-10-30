@@ -59,7 +59,10 @@ it("asks for the passcode under the answer and enables the review once it is typ
   api.mockResolvedValue(Response.json(review()));
   mount();
 
-  expect(screen.getByText(/Your answer goes to OpenRouter/)).toBeInTheDocument();
+  expect(screen.getByText(/Your answer goes to OpenRouter/)).toHaveTextContent(
+    "The result is saved, and a task not passed goes to your mistake review.",
+  );
+
   expect(reviewButton()).toBeDisabled();
   fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
   expect(reviewButton()).toBeEnabled();

@@ -10,8 +10,18 @@ const BANDS = [0, 1, 2, 3];
 // DELE A1 task 2: under 20 words is not marked, and below the task's range points to band 1.
 const MARKED_WORDS = 20;
 const SHORT_BAND = 1;
+
 // A practice task's result and the grade the app records for it.
-const GRADES: Record<string, Grade> = { passed: "perfect", partly: "good", failed: "bad" };
+export const RESULT_GRADES = {
+  passed: "perfect",
+  partly: "good",
+  failed: "bad",
+} as const satisfies Record<string, Grade>;
+
+type Result = keyof typeof RESULT_GRADES;
+
+// Points a practice pass may miss in the model's own coverage.
+const MISSES_ALLOWED = { write: 1, form: 0 };
 
 const text = { type: "string" };
 
@@ -25,7 +35,7 @@ const object = <T extends Record<string, object>>(properties: T) => ({
 const coverageItem = object({ point: text, met: { type: "boolean" }, feedback: text });
 const correctionItem = object({ original: text, corrected: text, explanation: text });
 const mark = object({ band: { type: "integer", enum: BANDS }, reason: text });
-const result = { type: "string", enum: Object.keys(GRADES) };
+const result = { type: "string", enum: Object.keys(RESULT_GRADES) };
 
 // Claude's structured outputs accept no array length limits, so the code enforces them.
 export const schemaOf = (task: WritingTask) =>
@@ -52,8 +62,8 @@ const isMark = (value: unknown): value is WritingMark =>
   typeof value.band === "number" &&
   BANDS.includes(value.band);
 
-const isResult = (value: unknown): value is string =>
-  typeof value === "string" && Object.hasOwn(GRADES, value);
+const isResult = (value: unknown): value is Result =>
+  typeof value === "string" && Object.hasOwn(RESULT_GRADES, value);
 
 const isCoverageOf = (
   task: WritingTask,
@@ -70,6 +80,20 @@ const isRevised = (value: unknown): value is string =>
 const isShortLetter = (task: WritingTask, wordCount: number) =>
   task.exam && task.kind === "write" && wordCount < task.wordRange[0];
 
+// Mirrors the exam's short-letter cap: a pass needs the points the model itself found covered
+// and, for a letter, the minimum word count. It only ever lowers passed to partly.
+const cappedResult = (
+  task: WritingTask,
+  wordCount: number,
+  coverage: { met: boolean }[],
+  result: Result,
+): Result => {
+  const missed = coverage.filter((c) => !c.met).length > MISSES_ALLOWED[task.kind];
+  const short = task.kind === "write" && wordCount < task.wordRange[0];
+
+  return result === "passed" && (missed || short) ? "partly" : result;
+};
+
 const parseJson = (content: string): unknown => {
   try {
     return JSON.parse(content);
@@ -83,7 +107,7 @@ type Output = {
   corrections: WritingCorrection[];
   revised: string;
   mark?: WritingMark;
-  result?: string;
+  result?: Result;
 };
 
 const isOutput = (task: WritingTask, value: unknown): value is Output =>
@@ -117,7 +141,7 @@ export const parseReview = (
   };
 
   if (!task.exam || !mark) {
-    return { ...review, grade: GRADES[result!] };
+    return { ...review, grade: RESULT_GRADES[cappedResult(task, wordCount, coverage, result!)] };
   }
 
   const band = isShortLetter(task, wordCount) ? Math.min(mark.band, SHORT_BAND) : mark.band;

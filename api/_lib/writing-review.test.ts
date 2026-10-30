@@ -8,8 +8,11 @@ const form = writingTaskOf("mock-w1")!;
 const lesson = writingTaskOf("u1-o2")!;
 const practiceForm = writingTaskOf("form-practice")!;
 
-const coverage = (task = letter) =>
-  task.points.map((_, i) => ({ point: `echo ${i}`, met: i > 0, feedback: `Point ${i}.` }));
+const coverage = (task = letter, missed = 1) =>
+  task.points.map((_, i) => ({ point: `echo ${i}`, met: i >= missed, feedback: `Point ${i}.` }));
+
+const gradeOf = (task: typeof lesson, wordCount: number, missed: number, result: string) =>
+  parseReview(task, wordCount, output({ coverage: coverage(task, missed), result }))?.grade;
 
 const output = (patch: object = {}) =>
   JSON.stringify({
@@ -71,9 +74,30 @@ describe("parsing the model's review", () => {
       grade,
     );
 
-    expect(
-      parseReview(practiceForm, 12, output({ coverage: coverage(practiceForm), result }))?.grade,
-    ).toBe(grade);
+    expect(gradeOf(practiceForm, 12, 0, result)).toBe(grade);
+  });
+
+  it("caps a practice letter that misses more than one point at partly", () => {
+    expect(gradeOf(lesson, 35, 1, "passed")).toBe("perfect");
+    expect(gradeOf(lesson, 35, 2, "passed")).toBe("good");
+  });
+
+  it("caps a practice form that misses any field at partly", () => {
+    expect(gradeOf(practiceForm, 12, 0, "passed")).toBe("perfect");
+    expect(gradeOf(practiceForm, 12, 1, "passed")).toBe("good");
+  });
+
+  it("caps a practice letter under the minimum word count at partly, but not a long one", () => {
+    expect(gradeOf(lesson, 29, 0, "passed")).toBe("good");
+    expect(gradeOf(lesson, 30, 0, "passed")).toBe("perfect");
+    expect(gradeOf(lesson, 65, 0, "passed")).toBe("perfect");
+    expect(gradeOf(practiceForm, 3, 0, "passed")).toBe("perfect");
+  });
+
+  it("never raises a practice result", () => {
+    expect(gradeOf(lesson, 8, 3, "partly")).toBe("good");
+    expect(gradeOf(lesson, 35, 0, "failed")).toBe("bad");
+    expect(gradeOf(practiceForm, 20, 0, "partly")).toBe("good");
   });
 
   it.each([

@@ -12,6 +12,7 @@ let session: {
   onAttempt: (a: Attempt) => void;
   onClose: () => void;
   onDraft: (id: string, text: string) => void;
+  onNext?: () => void;
 };
 
 vi.mock("./components/LessonSession", () => ({
@@ -283,8 +284,10 @@ describe("app business orchestration", () => {
     expect(saved()).toEqual(emptyProgress());
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "A fresh start. Your practice data has been cleared.",
+      "Your progress was reset, but this browser kept your saved mock exam.",
     );
+
+    expect(screen.queryByText(/A fresh start/)).not.toBeInTheDocument();
   });
 
   it("reports persistence failures and keeps the current session usable", () => {
@@ -360,6 +363,36 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
     expect(screen.getByRole("dialog", { name: "Your learning preferences" })).toBeInTheDocument();
     click("Close preferences");
   }
+});
+
+it("moves from a finished lesson straight to the next one on the path", () => {
+  mount("path");
+  fireEvent.click(screen.getByRole("button", { name: new RegExp(allLessons[0].title) }));
+  act(() => session.onComplete(3, 4));
+  act(() => session.onNext!());
+  expect(screen.getByRole("heading", { name: allLessons[1].title })).toBeInTheDocument();
+  expect(saved().completed[allLessons[0].id]).toMatchObject({ score: 3, total: 4 });
+});
+
+it("offers no next lesson after the last lesson or a practice session", () => {
+  const p = emptyProgress();
+
+  for (const l of allLessons.slice(0, -1)) {
+    p.completed[l.id] = { score: 1, total: 1, at: "date" };
+  }
+
+  p.mistakes = [allQuestions[0].id];
+  mount("path", p);
+  click("Continue learning");
+  expect(session.lesson.id).toBe(allLessons.at(-1)!.id);
+  expect(session.onNext).toBeUndefined();
+  click("Test close session");
+  window.location.hash = "practice";
+  act(() => window.dispatchEvent(new HashChangeEvent("hashchange")));
+  click("My mistakes (1)");
+  click("Review my mistakes");
+  expect(session.lesson.title).toBe("A fresh look at your mistakes");
+  expect(session.onNext).toBeUndefined();
 });
 
 it("opens individual path lessons and toggles unit expansion", () => {

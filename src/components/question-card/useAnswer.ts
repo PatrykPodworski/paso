@@ -56,6 +56,9 @@ const ready = (
         ? selected.length === q.tokens?.length
         : !!answer.trim();
 
+// A writing task is judged on its text; its model answer is never read aloud.
+export const isWritingTask = (q: Question) => q.kind === "write" || q.kind === "form";
+
 // The learner's in-progress answer for one question, and everything derived from it.
 export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) => void) => {
   const [recording, setRecording] = useState(false);

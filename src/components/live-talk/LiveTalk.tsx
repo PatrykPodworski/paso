@@ -7,6 +7,7 @@ import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
 import { accessAfter, readAccess, saveAccess } from "../liveAccess";
 import { LiveStatus } from "./LiveStatus";
+import { clearPendingTalk, readPendingTalk, savePendingTalk } from "./pendingTalk";
 import { transcriptText } from "./transcript";
 import { useLiveTalk } from "./useLiveTalk";
 
@@ -25,20 +26,30 @@ type Scoring =
   | { state: "done"; turns: TalkTurn[]; score: LiveScore };
 
 type Props = {
+  // Keeps a finished talk that is not scored yet when the question closes.
+  questionId?: string;
   task: string;
   onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: LiveGrade) => void;
   onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
 };
 
-export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
+export const LiveTalk = ({ questionId, task, onEvaluated, onSubmit }: Props) => {
   const talk = useLiveTalk();
   const [access, setAccess] = useState(readAccess);
   const [passcode, setPasscode] = useState(access.passcode);
   const [problem, setProblem] = useState("");
-  const [scoring, setScoring] = useState<Scoring>({ state: "idle" });
+
+  const [scoring, setScoring] = useState<Scoring>(() => {
+    const turns = readPendingTalk(questionId);
+
+    return turns
+      ? { state: "failed", turns, passcode: access.passcode || undefined }
+      : { state: "idle" };
+  });
 
   const score = async (turns: TalkTurn[], passcode: string | undefined) => {
     setScoring({ state: "scoring", turns, passcode });
+    savePendingTalk(questionId, turns);
 
     try {
       const response = await fetch("/api/score-talk", {
@@ -55,6 +66,7 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
 
       setScoring({ state: "done", turns, score: result });
       onEvaluated?.(transcriptText(turns), result.grade !== "bad", false, result.grade);
+      clearPendingTalk(questionId);
     } catch {
       setScoring({ state: "failed", turns, passcode });
     }
@@ -75,7 +87,11 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
     const used = access.freeUsed ? passcode : undefined;
 
     return talk.start(task, used, {
-      onCreated: () => remember(null),
+      onCreated: () => {
+        remember(null);
+        clearPendingTalk(questionId);
+        setScoring({ state: "idle" });
+      },
       onEnded: (turns) => score(turns, used),
       onFail: (code) => {
         remember(code);
@@ -127,7 +143,10 @@ export const LiveTalk = ({ task, onEvaluated, onSubmit }: Props) => {
       {scoring.state === "done" && (
         <LiveResult
           score={scoring.score}
-          turns={talk.turns}
+          // A talk restored from storage has no timeline, so its turns are keyed by position.
+          turns={
+            talk.turns.length ? talk.turns : scoring.turns.map((turn, at) => ({ ...turn, at }))
+          }
           onAgain={again}
           onContinue={() =>
             onSubmit(transcriptText(scoring.turns), scoring.score.grade !== "bad", false)

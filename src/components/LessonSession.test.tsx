@@ -195,3 +195,75 @@ it("still restores longer writing drafts in a new practice session", () => {
 
   expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
 });
+
+it("ignores answer shortcuts while the leave confirmation is open", () => {
+  const choices = allQuestions.filter((q) => q.options);
+  const questions: Question[] = [choices[0], choices[1]];
+  const attempt = vi.fn();
+
+  render(
+    <LessonSession
+      lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions }}
+      progress={emptyProgress()}
+      onClose={vi.fn()}
+      onAttempt={attempt}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: questions[0].answer }));
+  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  fireEvent.click(screen.getByRole("button", { name: "Close lesson" }));
+  fireEvent.keyDown(window, { key: "2" });
+  expect(attempt).toHaveBeenCalledOnce();
+  fireEvent.click(screen.getByRole("button", { name: "Keep learning" }));
+  fireEvent.keyDown(window, { key: "2" });
+  expect(attempt).toHaveBeenCalledTimes(2);
+
+  expect(attempt.mock.calls[1][0]).toMatchObject({
+    questionId: questions[1].id,
+    answer: questions[1].options![1],
+  });
+});
+
+const finishOneQuestionLesson = (onNext?: () => void) => {
+  const close = vi.fn();
+  const q = allQuestions[0];
+
+  render(
+    <LessonSession
+      lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions: [q] }}
+      progress={emptyProgress()}
+      onClose={close}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+      onNext={onNext}
+    />,
+  );
+
+  click(q.answer);
+  click("Continue");
+
+  return close;
+};
+
+it("offers the next lesson focused, with the journey as the secondary way out", () => {
+  const next = vi.fn();
+  const close = finishOneQuestionLesson(next);
+
+  expect(screen.getByRole("button", { name: "Next lesson" })).toHaveFocus();
+  click("Next lesson");
+  expect(next).toHaveBeenCalledOnce();
+  expect(close).not.toHaveBeenCalled();
+  click("Back to my journey");
+  expect(close).toHaveBeenCalledOnce();
+});
+
+it("focuses the way back to the journey when no lesson follows", () => {
+  finishOneQuestionLesson();
+
+  expect(screen.queryByRole("button", { name: "Next lesson" })).not.toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Back to my journey" })).toHaveFocus();
+});

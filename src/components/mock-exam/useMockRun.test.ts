@@ -45,19 +45,19 @@ it("restores a valid saved run and fills fields older saves lack", () => {
   expect(load()).toEqual({ ...fresh(), section: 1, index: 2, stage: "run", answers: { a: "b" } });
 });
 
-it("clears a saved run", () => {
+it("clears a saved run and reports it removed", () => {
   seed();
-  clearMockRun();
+  expect(clearMockRun()).toBe(true);
   expect(localStorage.getItem("paso-mock-v1")).toBeNull();
 });
 
-it("leaves the saved run in place without throwing when storage refuses to clear it", () => {
+it("leaves the saved run in place and reports it kept when storage refuses to clear it", () => {
   seed();
 
   vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
     throw new Error("blocked");
   });
 
-  clearMockRun();
+  expect(clearMockRun()).toBe(false);
   expect(JSON.parse(localStorage.getItem("paso-mock-v1")!)).toEqual(run());
 });

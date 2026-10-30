@@ -4,6 +4,7 @@ import type { Ref } from "react";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
+import { isWritingTask } from "./useAnswer";
 
 const PASSAGE =
   "reading-passage relative rounded-lg border border-sand-200 bg-sand-50 py-6 px-7 mb-5 max-md:p-5";
@@ -39,7 +40,7 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
             className="absolute right-6 -top-1.5 h-6 w-2.5 rotate-15 rounded-md border-2 border-sage-300"
             aria-hidden="true"
           />
-          {!exam && (
+          {!exam && !isWritingTask(q) && (
             <AudioButton
               ref={passageAudio}
               continuous

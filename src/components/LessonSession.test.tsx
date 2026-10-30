@@ -20,7 +20,7 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
-it("records objective, assisted and creative answers without conflating their scores", () => {
+it("records objective, assisted and graded writing answers without conflating their scores", async () => {
   const choice = { ...allQuestions[0], audio: "Hola." };
   const qs: Question[] = [choice, { ...type, answer: "correcto" }, writing];
 
@@ -28,6 +28,8 @@ it("records objective, assisted and creative answers without conflating their sc
     attempt = vi.fn(),
     close = vi.fn(),
     draft = vi.fn();
+
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
 
   render(
     <LessonSession
@@ -71,9 +73,27 @@ it("records objective, assisted and creative answers without conflating their sc
   click("Continue");
   fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
   expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Ana.");
+
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () =>
+      Response.json({ wordCount: 2, coverage: [], corrections: [], revised: "", grade: "good" }),
+    ),
+  );
+
   click("Review my practice");
+  await screen.findByRole("heading", { name: "Partly passed" });
+
+  expect(attempt.mock.calls.at(-1)![0]).toMatchObject({
+    questionId: writing.id,
+    answer: "Hola, Ana.",
+    correct: true,
+    grade: "good",
+  });
+
   click("Continue");
-  expect(done).toHaveBeenCalledExactlyOnceWith(1, 2);
+  // A graded writing review counts like an objective answer, as a graded live talk does.
+  expect(done).toHaveBeenCalledExactlyOnceWith(2, 3);
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
   click("Back to my journey");

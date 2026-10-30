@@ -1,17 +1,16 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
-import { QuestionFeedback } from "./QuestionFeedback";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
-import { formPractice, mockQuestions } from "../../data/mock";
-import type { WritingReview } from "../../data/types";
+import { formPractice } from "../../data/mock";
+import type { Grade, WritingReview } from "../../data/types";
 
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 const answer = "Hola. Me llamo Ana y soy de Polonia. Vivo en Varsovia. ¿Cómo te llamas?";
 const api = vi.fn();
 
-const review: WritingReview = {
+const review = (grade: Grade = "good"): WritingReview => ({
   wordCount: 15,
   coverage: [
     { point: writing.checklist![0], met: false, feedback: "Add a farewell." },
@@ -27,7 +26,8 @@ const review: WritingReview = {
     },
   ],
   revised: "¡Hola! Me llamo Ana y soy de Polonia. Vivo en Varsovia. ¿Cómo te llamas? Adiós.",
-};
+  grade,
+});
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -38,26 +38,86 @@ beforeEach(() => {
 afterEach(() => act(stopAudio));
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
+const reviewButton = () => screen.getByRole("button", { name: "Review my practice" });
 
-const submit = () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
+const storePasscode = (passcode = "olé") =>
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode }));
+
+const mount = (props: Partial<Parameters<typeof QuestionCard>[0]> = {}) => {
+  const onSubmit = vi.fn();
+  const onEvaluated = vi.fn();
+
+  render(<QuestionCard q={writing} onSubmit={onSubmit} onEvaluated={onEvaluated} {...props} />);
   fireEvent.change(screen.getByRole("textbox"), { target: { value: answer } });
-  click("Review my practice");
+
+  return { onSubmit, onEvaluated };
 };
 
 const sent = () => JSON.parse(api.mock.calls[0][1].body);
 
-it("asks for feedback only when the learner requests it, with the passcode", async () => {
-  api.mockResolvedValue(Response.json(review));
-  submit();
-  expect(api).not.toHaveBeenCalled();
-  expect(screen.getByRole("button", { name: "Check my writing" })).toBeDisabled();
+it("asks for the passcode under the answer and enables the review once it is typed", async () => {
+  api.mockResolvedValue(Response.json(review()));
+  mount();
+
+  expect(screen.getByText(/Your answer goes to OpenRouter/)).toBeInTheDocument();
+  expect(reviewButton()).toBeDisabled();
   fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
-  click("Check my writing");
+  expect(reviewButton()).toBeEnabled();
+  expect(api).not.toHaveBeenCalled();
+  click("Review my practice");
 
   expect(await screen.findByText("15 words. Target: 30–40.")).toBeInTheDocument();
   expect(sent()).toEqual({ questionId: "u1-o2", answer, passcode: "olé" });
   expect(api.mock.calls[0][0]).toBe("/api/review-writing");
+  expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
+});
+
+it("uses the stored passcode without asking again", async () => {
+  storePasscode();
+  api.mockResolvedValue(Response.json(review()));
+  mount();
+
+  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
+  expect(reviewButton()).toBeEnabled();
+  click("Review my practice");
+
+  expect(await screen.findByText("Add a farewell.")).toBeInTheDocument();
+  expect(sent().passcode).toBe("olé");
+  expect(JSON.parse(localStorage.getItem("paso-live-v1")!).freeUsed).toBe(true);
+});
+
+it("keeps the review disabled until the answer can be submitted", () => {
+  storePasscode();
+  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
+
+  expect(reviewButton()).toBeDisabled();
+});
+
+it("shows only a loading status and locks the answer while the review loads", async () => {
+  let reply = (_: Response) => {};
+
+  storePasscode();
+  api.mockImplementation(() => new Promise<Response>((resolve) => (reply = resolve)));
+  mount();
+  click("Review my practice");
+
+  expect(screen.getByRole("status")).toHaveTextContent("Checking your writing…");
+  expect(screen.getByRole("textbox")).toBeDisabled();
+  expect(screen.queryByRole("button", { name: "Review my practice" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Continue" })).not.toBeInTheDocument();
+  expect(screen.queryByText(/goes to OpenRouter/)).not.toBeInTheDocument();
+  await act(async () => reply(Response.json(review())));
+  expect(screen.getByText("Add a farewell.")).toBeInTheDocument();
+  expect(api).toHaveBeenCalledOnce();
+});
+
+it("shows the result with the tutor's feedback and Continue, and keeps the answer locked", async () => {
+  storePasscode();
+  api.mockResolvedValue(Response.json(review()));
+  mount();
+  click("Review my practice");
+
+  expect(await screen.findByRole("heading", { name: "Partly passed" })).toBeInTheDocument();
 
   expect(screen.getByText("Add a farewell.").closest("li")).toHaveTextContent(
     `Missing: ${writing.checklist![0]}`,
@@ -69,28 +129,57 @@ it("asks for feedback only when the learner requests it, with the passcode", asy
 
   expect(screen.getByText("¡Hola!")).toHaveAttribute("lang", "es");
   expect(screen.getByText("Use exclamation marks for a greeting.")).toBeInTheDocument();
-  expect(screen.getByText(review.revised)).toHaveAttribute("lang", "es");
+  expect(screen.getByText(review().revised)).toHaveAttribute("lang", "es");
   expect(screen.queryByText(/out of 3/)).not.toBeInTheDocument();
-  expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
-  expect(screen.queryByRole("button", { name: "Check my writing" })).not.toBeInTheDocument();
+  expect(screen.getByText("Your practice is saved.")).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Continue" })).toHaveFocus();
+  expect(screen.getByRole("textbox")).toBeDisabled();
+
+  for (const name of ["Review my practice", "Check my writing", "Revise my answer"]) {
+    expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
+  }
+
   expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
 });
 
-it("uses the stored passcode without asking again", async () => {
-  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
-  api.mockResolvedValue(Response.json(review));
-  submit();
-  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
-  click("Check my writing");
+it("leaves the reflection out of the result", async () => {
+  storePasscode();
+  api.mockResolvedValue(Response.json(review()));
+  mount();
+  click("Review my practice");
+  await screen.findByRole("heading", { name: "Partly passed" });
 
-  expect(await screen.findByText("Add a farewell.")).toBeInTheDocument();
-  expect(sent().passcode).toBe("olé");
-  expect(JSON.parse(localStorage.getItem("paso-live-v1")!).freeUsed).toBe(true);
+  expect(screen.queryByText(writing.explanation)).not.toBeInTheDocument();
+  expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
+  expect(screen.queryByText(/self-review points checked/)).not.toBeInTheDocument();
 });
+
+it.each([
+  ["perfect", "Passed", true, "Your practice is saved."],
+  ["good", "Partly passed", true, "Your practice is saved."],
+  ["bad", "Not passed yet", false, "Added to your mistake review."],
+] as const)(
+  "records a %s review as soon as it arrives, and Continue moves on",
+  async (grade, heading, correct, note) => {
+    storePasscode();
+    api.mockResolvedValue(Response.json(review(grade)));
+    const { onSubmit, onEvaluated } = mount();
+
+    click("Review my practice");
+
+    expect(await screen.findByRole("heading", { name: heading })).toBeInTheDocument();
+    expect(screen.getByText(note)).toBeInTheDocument();
+    expect(onEvaluated.mock.calls).toEqual([[answer, correct, false, grade]]);
+    expect(onSubmit).not.toHaveBeenCalled();
+    click("Continue");
+    expect(onSubmit.mock.calls).toEqual([[answer, correct, false]]);
+    expect(onEvaluated).toHaveBeenCalledOnce();
+  },
+);
 
 it("sends a form as its labelled fields", async () => {
-  api.mockResolvedValue(Response.json({ ...review, coverage: [] }));
-  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
+  storePasscode();
+  api.mockResolvedValue(Response.json({ ...review(), coverage: [] }));
   render(<QuestionCard q={formPractice} onSubmit={vi.fn()} />);
 
   for (const f of formPractice.fields!) {
@@ -98,35 +187,37 @@ it("sends a form as its labelled fields", async () => {
   }
 
   click("Review my practice");
-  click("Check my writing");
   await screen.findByText("15 words. Target: 15–25.");
 
   expect(sent().answer).toBe(formPractice.fields!.map((f) => `${f.label}: Ana`).join("\n"));
 });
 
-it("forgets a wrong passcode and keeps the answer", async () => {
-  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "old" }));
+it("forgets a wrong passcode, records nothing and unlocks the answer", async () => {
+  storePasscode("old");
   api.mockResolvedValue(Response.json({ error: "passcode" }, { status: 401 }));
-  submit();
-  click("Check my writing");
+  const { onSubmit, onEvaluated } = mount();
+
+  click("Review my practice");
 
   expect(await screen.findByText("That passcode is not right.")).toBeInTheDocument();
   expect(screen.getByLabelText("Passcode")).toHaveValue("");
+  expect(reviewButton()).toBeDisabled();
+  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(screen.getByRole("textbox")).toHaveValue(answer);
+  expect(screen.queryByRole("button", { name: "Continue" })).not.toBeInTheDocument();
+  expect([onSubmit, onEvaluated].map((f) => f.mock.calls.length)).toEqual([0, 0]);
 
   expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
     freeUsed: true,
     passcode: "",
   });
-
-  click("Revise my answer");
-  expect(screen.getByRole("textbox")).toHaveValue(answer);
 });
 
 it("says when there were too many wrong passcodes", async () => {
   api.mockResolvedValue(Response.json({ error: "passcode_tries" }, { status: 429 }));
-  submit();
+  mount();
   fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "guess" } });
-  click("Check my writing");
+  click("Review my practice");
 
   expect(await screen.findByText("Too many wrong passcodes today.")).toBeInTheDocument();
 });
@@ -134,11 +225,12 @@ it("says when there were too many wrong passcodes", async () => {
 it.each([
   ["an upstream error", async () => Response.json({ error: "upstream" }, { status: 502 })],
   ["a network failure", async () => Promise.reject(new TypeError("fetch failed"))],
-])("explains %s and keeps the answer and the passcode", async (_, reply) => {
-  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
-  api.mockImplementation(reply);
-  submit();
-  click("Check my writing");
+])("explains %s, keeps the passcode and retries from the same place", async (_, reply) => {
+  storePasscode();
+  api.mockImplementationOnce(reply).mockResolvedValueOnce(Response.json(review("perfect")));
+  const { onEvaluated } = mount();
+
+  click("Review my practice");
 
   expect(
     await screen.findByText(
@@ -147,60 +239,12 @@ it.each([
   ).toBeInTheDocument();
 
   expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
-  expect(screen.getByRole("button", { name: "Check my writing" })).toBeEnabled();
-  click("Revise my answer");
-  expect(screen.getByRole("textbox")).toHaveValue(answer);
-});
-
-it("shows only a loading status while the feedback loads", async () => {
-  let reply = (_: Response) => {};
-
-  api.mockImplementation(() => new Promise<Response>((resolve) => (reply = resolve)));
-  submit();
-  fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
-  click("Check my writing");
-
-  expect(screen.getByRole("status")).toHaveTextContent("Checking your writing…");
-  expect(screen.queryByRole("button", { name: /writing/ })).not.toBeInTheDocument();
-  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
-  expect(screen.queryByText(/goes to OpenRouter/)).not.toBeInTheDocument();
-  await act(async () => reply(Response.json(review)));
-  expect(screen.queryByRole("status")).not.toBeInTheDocument();
-  expect(screen.getByText("Add a farewell.")).toBeInTheDocument();
-});
-
-it("returns to the request state after revising, with the passcode still stored", async () => {
-  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
-  api.mockResolvedValue(Response.json(review));
-  submit();
-  click("Check my writing");
-  await screen.findByText("Add a farewell.");
-  click("Revise my answer");
+  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(onEvaluated).not.toHaveBeenCalled();
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: `${answer} Adiós.` } });
   click("Review my practice");
 
-  expect(screen.getByRole("button", { name: "Check my writing" })).toBeEnabled();
-  expect(screen.queryByText("Add a farewell.")).not.toBeInTheDocument();
-  expect(screen.queryByLabelText("Passcode")).not.toBeInTheDocument();
-  expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
-});
-
-it("offers the writing check for writing, not for speaking", () => {
-  const speaking = mockQuestions.find((q) => q.kind === "speak")!;
-
-  const props = {
-    correct: null,
-    productive: true,
-    value: "",
-    submission: "",
-    checked: 0,
-    assisted: false,
-    onRevise: vi.fn(),
-    onContinue: vi.fn(),
-  };
-
-  const { rerender } = render(<QuestionFeedback q={speaking} {...props} />);
-
-  expect(screen.queryByRole("button", { name: "Check my writing" })).not.toBeInTheDocument();
-  rerender(<QuestionFeedback q={writing} {...props} />);
-  expect(screen.getByRole("button", { name: "Check my writing" })).toBeInTheDocument();
+  expect(await screen.findByRole("heading", { name: "Passed" })).toBeInTheDocument();
+  expect(JSON.parse(api.mock.calls[1][1].body).answer).toBe(`${answer} Adiós.`);
+  expect(onEvaluated.mock.calls).toEqual([[`${answer} Adiós.`, true, false, "perfect"]]);
 });

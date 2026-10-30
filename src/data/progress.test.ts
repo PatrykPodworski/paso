@@ -69,6 +69,18 @@ describe("DELE scoring and progress", () => {
     expect(p.reviewed).toEqual(["u1-o3"]);
   });
 
+  it("adds a writing task not passed to the mistakes and clears it once a review passes it", () => {
+    const writing = { questionId: "u1-o2", skill: "writing" as const };
+    let p = withAttempt(emptyProgress(), attempt({ ...writing, correct: false, grade: "bad" }));
+
+    expect(p.mistakes).toEqual(["u1-o2"]);
+    p = withAttempt(p, attempt({ ...writing, correct: true, grade: "perfect" }));
+
+    expect(p.mistakes).toEqual([]);
+    expect(p.mistakeReviews).toEqual({});
+    expect(p.reviewed).toEqual(["u1-o2"]);
+  });
+
   it("counts local study days without ISO UTC midnight shifts", () => {
     const d = new Date(2026, 8, 7, 0, 5);
 

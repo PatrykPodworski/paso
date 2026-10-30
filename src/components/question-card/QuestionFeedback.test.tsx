@@ -21,9 +21,6 @@ const wrong = choice.options!.find((o) => o !== choice.answer)!;
 const listen = allQuestions.find((q) => q.kind === "listen")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
-const write = (text: string) =>
-  fireEvent.change(screen.getByRole("textbox"), { target: { value: text } });
-
 it("shows the learner's wrong answer next to the correct one", () => {
   render(<QuestionCard q={choice} onSubmit={vi.fn()} />);
   click(wrong);
@@ -54,11 +51,18 @@ it("offers the transcript after a listening answer and notes transcript assistan
   expect(screen.getByText("Completed with transcript assistance.")).toBeInTheDocument();
 });
 
-it("returns to the editable state when revising an answer", () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, Ana." />);
+const speaking = mockQuestions.find((q) => q.kind === "speak")!;
+
+const practiseAloud = () => {
+  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
+  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
   click("Review my practice");
+};
+
+it("returns a speaking task to the editable state when revising it", () => {
+  practiseAloud();
   click("Revise my answer");
-  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(screen.getByRole("checkbox", { name: /I practised aloud/ })).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeInTheDocument();
 });
 
@@ -82,32 +86,22 @@ it.each([
   expect(screen.getByRole("button", { name: "Continue" })).toHaveFocus();
 });
 
-it("keeps writing practice ungraded", () => {
+it("keeps speaking practice ungraded", () => {
   const submit = vi.fn();
 
-  render(<QuestionCard q={writing} onSubmit={submit} />);
-  write("Hola, soy 20 años. Me gusta las manzanas.");
+  render(<QuestionCard q={speaking} onSubmit={submit} />);
+  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
   click("Review my practice");
   click("Continue");
   expect(submit.mock.calls[0][1]).toBeNull();
 });
 
-it("leaves the reflection out of writing feedback and keeps it for speaking", () => {
-  const speaking = mockQuestions.find((q) => q.kind === "speak")!;
-
+it("gives speaking the reflection and leaves writing to the AI review", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, soy 20 años." />);
-  click("Review my practice");
-  expect(screen.queryByRole("heading", { level: 3 })).not.toBeInTheDocument();
-  expect(screen.queryByText(writing.explanation)).not.toBeInTheDocument();
-  expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
-  expect(screen.queryByText(/For age, use tener/)).not.toBeInTheDocument();
-  expect(screen.queryByText(/self-review points checked/)).not.toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Check my writing" })).toBeInTheDocument();
+  expect(screen.getByText(/Your answer goes to OpenRouter/)).toBeInTheDocument();
   cleanup();
 
-  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
-  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
-  click("Review my practice");
+  practiseAloud();
   expect(screen.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeInTheDocument();
   expect(screen.getByText(speaking.explanation)).toBeInTheDocument();
   expect(screen.getByText("One possible answer").parentElement).toHaveTextContent(speaking.answer);

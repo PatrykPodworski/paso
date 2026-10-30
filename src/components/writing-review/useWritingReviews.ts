@@ -55,6 +55,8 @@ export const useWritingReviews = () => {
       }
 
       setResults(next);
+
+      return next;
     } finally {
       setLoading(false);
     }

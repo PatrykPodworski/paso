@@ -4,7 +4,6 @@ import { Button } from "../../design-system/Button";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
-import { WritingCheck } from "./WritingCheck";
 
 const PANEL = "rounded-lg border p-5 mbs-6 max-md:py-5 max-md:px-4";
 
@@ -117,8 +116,6 @@ type Props = {
   correct: boolean | null;
   productive: boolean;
   value: string;
-  // The answer as it is saved: a form's fields are "Label: value" lines.
-  submission: string;
   checked: number;
   assisted: boolean;
   onRevise: () => void;
@@ -130,7 +127,6 @@ export const QuestionFeedback = ({
   correct,
   productive,
   value,
-  submission,
   checked,
   assisted,
   onRevise,
@@ -145,15 +141,6 @@ export const QuestionFeedback = ({
       onContinue={onContinue}
     />
   );
-
-  if (q.kind === "write" || q.kind === "form") {
-    return (
-      <div className={`${PANEL} ${TONE.success.box}`}>
-        <WritingCheck q={q} answer={submission} />
-        {bottom}
-      </div>
-    );
-  }
 
   const needsWork = correct === false;
   const tone = needsWork ? TONE.needsWork : TONE.success;

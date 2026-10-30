@@ -114,7 +114,8 @@ export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
   if (attempt.correct === true && !attempt.assisted && trackedMistakeReview) {
     const nextLevel = nextReviewLevel(p.mistakeReviews[attempt.questionId]?.level ?? 0);
 
-    // A graded live talk costs a session, so passing it once clears it for good.
+    // A graded attempt, a live talk or a writing review, costs a model call, so passing it
+    // once clears it for good.
     if (attempt.grade) {
       delete mistakeReviews[attempt.questionId];
     } else {

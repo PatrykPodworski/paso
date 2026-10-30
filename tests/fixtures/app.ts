@@ -24,6 +24,14 @@ export const test = base.extend<{ blockExternal: void }>({
     const errors: string[] = [];
 
     page.on("pageerror", (error) => errors.push(error.message));
+
+    // A lesson writing task needs a review to move on; a test that cares registers its own.
+    await page.route("**/api/review-writing", (route) =>
+      route.fulfill({
+        json: { wordCount: 0, coverage: [], corrections: [], revised: "", grade: "perfect" },
+      }),
+    );
+
     await page.clock.setFixedTime(new Date("2026-09-09T10:00:00+02:00"));
     await provide(page);
     expect(errors, "Uncaught browser errors").toEqual([]);
@@ -117,6 +125,13 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
   } else {
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
+  }
+
+  const reviewed = !exam && (q.kind === "write" || q.kind === "form");
+
+  // A lesson writing task asks for the passcode until one gets a review.
+  if (reviewed && (await page.getByLabel("Passcode").isVisible())) {
+    await page.getByLabel("Passcode").fill("olé");
   }
 
   await page

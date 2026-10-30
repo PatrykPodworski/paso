@@ -10,8 +10,22 @@ import {
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
 import type { Page, Route } from "@playwright/test";
-import type { WritingReview } from "../../src/data/types";
+import type { Grade, WritingReview } from "../../src/data/types";
 import { examiner, mockLiveTalk } from "../fixtures/live";
+
+const writingReview = (checklist: string[], grade: Grade): WritingReview => ({
+  wordCount: 6,
+  coverage: checklist.map((point, i) => ({
+    point,
+    met: i > 0,
+    feedback: i > 0 ? "Covered." : "Add a greeting and a farewell.",
+  })),
+  corrections: [
+    { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
+  ],
+  revised: "Hola. Me llamo Ana. Tengo veinte años. Adiós.",
+  grade,
+});
 
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });
@@ -215,41 +229,52 @@ test("question: sentence, typed answer, writing and its feedback", async ({ page
   await shot(page, "question-type");
   await answer(page, l.questions[1]);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page.getByRole("textbox").fill("Me llamo Ana. Soy veinte años.");
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill("Me llamo Ana. Soy veinte años.");
+
+  // The request state: no passcode is stored, so the field shows under the answer.
   await shot(page, "question-writing");
 
   // Held until the loading state is captured, then answered with a fixed review.
   const held = Promise.withResolvers<Route>();
 
   await page.route("**/api/review-writing", held.resolve);
-
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("button", { name: "Check my writing" })).toBeVisible();
-  await shot(page, "writing-feedback");
   await page.getByLabel("Passcode").fill("olé");
-  await page.getByRole("button", { name: "Check my writing" }).click();
+  await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByText("Checking your writing…")).toBeVisible();
   await shot(page, "writing-feedback-loading");
-
   const route = await held.promise;
 
-  await route.fulfill({
-    json: {
-      wordCount: 6,
-      coverage: l.questions[2].checklist!.map((point, i) => ({
-        point,
-        met: i > 0,
-        feedback: i > 0 ? "Covered." : "Add a greeting and a farewell.",
-      })),
-      corrections: [
-        { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
-      ],
-      revised: "Hola. Me llamo Ana. Tengo veinte años. Adiós.",
-    } satisfies WritingReview,
-  });
-
-  await expect(page.getByText("Revised version")).toBeVisible();
+  await route.fulfill({ json: writingReview(l.questions[2].checklist!, "good") });
+  await expect(page.getByRole("heading", { name: "Partly passed" })).toBeVisible();
   await shot(page, "writing-feedback-result");
+});
+
+test("question: writing not passed", async ({ page }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" })),
+  );
+
+  const l = await openLesson(page, 3);
+
+  await page.route("**/api/review-writing", (route) =>
+    route.fulfill({ json: writingReview(l.questions[2].checklist!, "bad") }),
+  );
+
+  for (const q of l.questions.slice(0, 2)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill("Me llamo Ana. Soy veinte años.");
+
+  await page.getByRole("button", { name: "Review my practice" }).click();
+  await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
+  await shot(page, "writing-feedback-not-passed");
 });
 
 test("question: form", async ({ page }) => {

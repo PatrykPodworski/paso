@@ -23,11 +23,22 @@ const taskScale = {
     "This is task 2, a short letter or email of 30–40 words. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
 };
 
-// Follows the exam standard, so a passed practice answer would be at A1 level in the exam.
+// Follows the exam standard, which penalises a short letter but not a long one.
+// api/_lib/writing-review.ts enforces the points and the minimum in code as well.
+const passRules = {
+  write: [
+    "passed: the letter covers every requested point, or all but one, in understandable A1 Spanish, and has at least the requested minimum of words. Going over the word range does not stop a pass.",
+    "partly: the letter is understandable, but it misses more than one point, has fewer words than the requested minimum, or has not reached A1.",
+  ],
+  form: [
+    "passed: every field has an understandable answer in A1 Spanish.",
+    "partly: the form is understandable, but a field is empty or does not answer its label, or it has not reached A1.",
+  ],
+};
+
 const practiceOf = (task: WritingTask) => [
   "This is practice: give one result, passed, partly or failed, instead of a mark.",
-  `passed: the answer covers every requested point${task.kind === "write" ? ", or all but one," : ""} in understandable A1 Spanish, and the word count is in or near the requested range.`,
-  "partly: the answer is understandable, but it misses more points than that, is clearly under the word range, or has not reached A1.",
+  ...passRules[task.kind],
   "failed: the answer is blank, off-topic, not in Spanish or not understandable.",
 ];
 

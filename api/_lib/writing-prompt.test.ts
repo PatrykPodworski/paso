@@ -68,18 +68,30 @@ describe("writing prompt", () => {
     );
 
     expect(system.content).toContain(
-      "passed: the answer covers every requested point, or all but one,",
+      "passed: the letter covers every requested point, or all but one,",
     );
 
-    expect(system.content).toContain("partly: the answer is understandable");
+    expect(system.content).toContain("partly: the letter is understandable");
     expect(system.content).toContain("failed: the answer is blank, off-topic");
     expect(system.content).not.toContain("band");
   });
 
-  it("lets a practice letter, not a practice form, miss one point and pass", () => {
+  it("holds a practice letter to the minimum word count, not to the maximum", () => {
+    const [system] = messagesOf(lesson, answer, 9);
+
+    expect(system.content).toContain("has at least the requested minimum of words");
+    expect(system.content).toContain("has fewer words than the requested minimum");
+    expect(system.content).toContain("Going over the word range does not stop a pass.");
+  });
+
+  it("asks a practice form only for understandable answers in every field", () => {
     const [system] = messagesOf(writingTaskOf("form-practice")!, answer, 9);
 
-    expect(system.content).toContain("passed: the answer covers every requested point in");
+    expect(system.content).toContain(
+      "passed: every field has an understandable answer in A1 Spanish.",
+    );
+
     expect(system.content).not.toContain("all but one");
+    expect(system.content).not.toContain("minimum");
   });
 });

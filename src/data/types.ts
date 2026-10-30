@@ -11,10 +11,10 @@ export type QuestionKind =
   | "form"
   | "live";
 
-export type LiveGrade = "perfect" | "good" | "bad";
+export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
 export type LiveScoreItem = { id: string; label: string; level: LiveItem };
-export type LiveScore = { grade: LiveGrade; items: LiveScoreItem[] };
+export type LiveScore = { grade: Grade; items: LiveScoreItem[] };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
 
 export type WritingCoverage = { point: string; met: boolean; feedback: string };
@@ -86,7 +86,7 @@ export interface Attempt {
   answer: string;
   at: string;
   assisted?: boolean;
-  grade?: LiveGrade;
+  grade?: Grade;
 }
 
 export type ReviewState = {

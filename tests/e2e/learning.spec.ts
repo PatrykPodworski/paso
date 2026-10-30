@@ -579,7 +579,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await expect(pocket.locator(".vocabulary-list time")).toHaveCount(8);
 });
 
-test("form requires every field, saves labels and gives productive feedback", async ({ page }) => {
+test("form practice requires every field and counts its review as an answer", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
   await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
@@ -593,7 +593,10 @@ test("form requires every field, saves labels and gives productive feedback", as
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("heading", { name: "Passed" })).toBeVisible();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByText("creative practices")).toBeVisible();
+  const objective = page.locator("dl > div").filter({ hasText: "objective answers" });
+
+  await expect(objective.locator("dd")).toHaveText("1/1");
+  await expect(page.getByText("creative practices")).toHaveCount(0);
 });
 
 test("listening records transcript assistance and plays bundled audio", async ({ page }) => {

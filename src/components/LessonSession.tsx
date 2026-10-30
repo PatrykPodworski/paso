@@ -141,7 +141,6 @@ export const LessonSession = ({
                   </small>
                 </>,
               ],
-              ["creative practices", results.filter((r) => r === null).length],
               ["moments to review", results.filter((r) => r === false).length],
             ]}
           />

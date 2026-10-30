@@ -26,17 +26,18 @@ export const migrate = async (
 
   const sql = new Map(files.map((name) => [name, readFileSync(new URL(name, dir), "utf8")]));
 
-  await session.exec(`
-    BEGIN;
-    SELECT pg_advisory_xact_lock(${LOCK});
-    CREATE TABLE IF NOT EXISTS schema_migrations (
-      name text PRIMARY KEY,
-      checksum text NOT NULL,
-      applied_at timestamptz NOT NULL DEFAULT now()
-    );
-  `);
+  await session.exec("BEGIN");
 
   try {
+    await session.exec(`
+      SELECT pg_advisory_xact_lock(${LOCK});
+      CREATE TABLE IF NOT EXISTS schema_migrations (
+        name text PRIMARY KEY,
+        checksum text NOT NULL,
+        applied_at timestamptz NOT NULL DEFAULT now()
+      );
+    `);
+
     const applied = await session.rows<{ name: string; checksum: string }>(
       "SELECT name, checksum FROM schema_migrations",
     );
@@ -46,7 +47,8 @@ export const migrate = async (
 
       if (file === undefined || checksumOf(file) !== checksum) {
         throw new Error(
-          `Applied migration ${name} was ${file === undefined ? "removed" : "edited"}`,
+          `Applied migration ${name} was ${file === undefined ? "removed" : "edited"}: ` +
+            "restore it from git and put the schema change in a new numbered file",
         );
       }
     }

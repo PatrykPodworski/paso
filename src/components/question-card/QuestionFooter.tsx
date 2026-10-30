@@ -7,10 +7,18 @@ type Props = {
   productive: boolean;
   kind: Question["kind"];
   canSubmit: boolean | undefined;
+  autoFocus?: boolean;
   onCheck: () => void;
 };
 
-export const QuestionFooter = ({ exam, productive, kind, canSubmit, onCheck }: Props) => {
+export const QuestionFooter = ({
+  exam,
+  productive,
+  kind,
+  canSubmit,
+  autoFocus,
+  onCheck,
+}: Props) => {
   const singleChoice = kind === "choice" || kind === "listen";
 
   return (
@@ -29,6 +37,7 @@ export const QuestionFooter = ({ exam, productive, kind, canSubmit, onCheck }: P
           className="whitespace-nowrap max-md:w-full"
           onClick={onCheck}
           disabled={!canSubmit}
+          autoFocus={autoFocus}
         >
           {exam ? "Save answer" : productive ? "Review my practice" : "Check answer"}
           <Icon name="arrow" size={18} />

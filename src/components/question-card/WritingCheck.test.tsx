@@ -136,6 +136,11 @@ it("shows the result with the tutor's feedback and Continue, and keeps the answe
   expect(screen.queryByText(/out of 3/)).not.toBeInTheDocument();
   expect(screen.getByText("Your practice is saved.")).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Continue" })).toHaveFocus();
+
+  expect(screen.getByRole("button", { name: "Continue" })).toHaveAccessibleDescription(
+    "Partly passed",
+  );
+
   expect(screen.getByRole("textbox")).toBeDisabled();
 
   for (const name of ["Review my practice", "Check my writing", "Revise my answer"]) {
@@ -202,8 +207,9 @@ it("forgets a wrong passcode, records nothing and unlocks the answer", async () 
 
   click("Review my practice");
 
-  expect(await screen.findByText("That passcode is not right.")).toBeInTheDocument();
+  expect(await screen.findByRole("alert")).toHaveTextContent("That passcode is not right.");
   expect(screen.getByLabelText("Passcode")).toHaveValue("");
+  expect(screen.getByLabelText("Passcode")).toHaveFocus();
   expect(reviewButton()).toBeDisabled();
   expect(screen.getByRole("textbox")).toBeEnabled();
   expect(screen.getByRole("textbox")).toHaveValue(answer);
@@ -235,12 +241,11 @@ it.each([
 
   click("Review my practice");
 
-  expect(
-    await screen.findByText(
-      "Feedback is not available right now. Your answer is saved; try again later.",
-    ),
-  ).toBeInTheDocument();
+  expect(await screen.findByRole("alert")).toHaveTextContent(
+    "Feedback is not available right now. Your answer is saved; try again later.",
+  );
 
+  expect(reviewButton()).toHaveFocus();
   expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
   expect(screen.getByRole("textbox")).toBeEnabled();
   expect(onEvaluated).not.toHaveBeenCalled();

@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Icon } from "../../design-system/Icon";
@@ -37,10 +38,13 @@ type ResultProps = { q: Question; review: WritingReview; grade: Grade; onContinu
 
 const WritingResult = ({ q, review, grade, onContinue }: ResultProps) => {
   const flag = FLAGS[grade];
+  // Focus moves to Continue as the result appears, so the flag describes Continue.
+  const flagId = useId();
 
   return (
     <div className={`${BOX} bg-white ${flag.border}`}>
       <div
+        id={flagId}
         role="status"
         className={`flex items-center gap-2 self-start rounded-2xl px-3 py-1.5 ${flag.badge}`}
       >
@@ -58,6 +62,7 @@ const WritingResult = ({ q, review, grade, onContinue }: ResultProps) => {
           size="compact"
           className="max-md:ml-auto"
           autoFocus
+          aria-describedby={flagId}
           onClick={onContinue}
         >
           Continue
@@ -73,17 +78,31 @@ type RequestProps = {
   passcode: string;
   onPasscode: (passcode: string) => void;
   error?: string;
+  // After an error, focus goes to the passcode field when the review cannot be asked again yet.
+  focusPasscode: boolean;
 };
 
-const WritingRequest = ({ needsPasscode, passcode, onPasscode, error }: RequestProps) => (
+const WritingRequest = ({
+  needsPasscode,
+  passcode,
+  onPasscode,
+  error,
+  focusPasscode,
+}: RequestProps) => (
   <div className={`${BOX} border-sage-200 bg-white`}>
     <FieldNote>
       Get feedback from an AI tutor on every requested point, with corrections and a revised
       version. Your answer goes to OpenRouter for the feedback. The result is saved, and a task not
       passed goes to your mistake review.
     </FieldNote>
-    {needsPasscode && <PasscodeField passcode={passcode} onPasscode={onPasscode} />}
-    {error && <Notice as="p">{problemOf(error)}</Notice>}
+    {needsPasscode && (
+      <PasscodeField passcode={passcode} onPasscode={onPasscode} autoFocus={focusPasscode} />
+    )}
+    {error && (
+      <Notice as="p" role="alert">
+        {problemOf(error)}
+      </Notice>
+    )}
   </div>
 );
 
@@ -155,19 +174,24 @@ export const WritingCheck = ({
     );
   }
 
+  const error = errorOf(results[q.id]);
+  const ready = !!canSubmit && !!passcode.trim();
+
   return (
     <>
       <WritingRequest
         needsPasscode={needsPasscode}
         passcode={passcode}
         onPasscode={setPasscode}
-        error={errorOf(results[q.id])}
+        error={error}
+        focusPasscode={!!error && !ready}
       />
       <QuestionFooter
         exam={false}
         productive
         kind={q.kind}
-        canSubmit={canSubmit && !!passcode.trim()}
+        canSubmit={ready}
+        autoFocus={!!error && ready}
         onCheck={request}
       />
     </>

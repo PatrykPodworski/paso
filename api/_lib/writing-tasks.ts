@@ -5,7 +5,7 @@ import type { Question } from "../../src/data/types.ts";
 export type WritingTask = {
   id: string;
   kind: "form" | "write";
-  // Exam tasks get a DELE A1 band; lesson and practice tasks get feedback only.
+  // Exam tasks get a DELE A1 band; lesson and practice tasks get a passed, partly or failed result.
   exam: boolean;
   prompt: string;
   points: string[];

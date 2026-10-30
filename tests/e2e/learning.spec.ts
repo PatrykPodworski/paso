@@ -269,6 +269,25 @@ test("sentence building supports removal and reads the sentence after checking",
   await expect(page.getByRole("textbox")).toHaveValue("");
 });
 
+test("Enter checks a typed answer and a second Enter continues", async ({ page }) => {
+  const lesson = await openLesson(page, 3);
+  const [first, typed, next] = lesson.questions;
+
+  await answer(page, first);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  await input.fill(typed.answer);
+  await input.press("Enter");
+  await expect(page.getByRole("heading", { name: "¡Muy bien! You’ve got it." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeFocused();
+  await expect(page.getByRole("heading", { name: typed.prompt, exact: true })).toBeVisible();
+  await expect(input).toBeDisabled();
+  await expect(input).toHaveValue(typed.answer);
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { name: next.prompt, exact: true })).toBeVisible();
+});
+
 const writingReview = (q: Question, grade: Grade): WritingReview => ({
   wordCount: 6,
   coverage: q.checklist!.map((point, i) => ({

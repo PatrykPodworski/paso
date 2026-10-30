@@ -82,5 +82,40 @@
     "answer": "",
     "expected": 0,
     "rationale": "A blank answer is band 0; the code answers without the model."
+  },
+  {
+    "id": "lesson-letter-passed",
+    "questionId": "u1-o2",
+    "answer": "¡Hola! Me llamo Marta y soy de Polonia, de Cracovia. Ahora vivo en Madrid con mi familia y estudio español en una escuela del centro. ¿Cómo te llamas tú? ¡Hasta mañana! Un saludo, Marta.",
+    "expected": "passed",
+    "rationale": "Greeting, farewell, name, origin, home, language and the question for the classmate's name in correct A1 Spanish, 34 words."
+  },
+  {
+    "id": "lesson-letter-partly",
+    "questionId": "u1-o2",
+    "answer": "Hola. Me llamo Jan. Soy de Polonia. Vivo en Varsovia. Estudio español.",
+    "expected": "partly",
+    "rationale": "Understandable A1 Spanish, but no farewell, no question for the classmate's name and 12 words, clearly under 30."
+  },
+  {
+    "id": "lesson-letter-failed",
+    "questionId": "u1-o2",
+    "answer": "Hello! My name is Jan and I am from Poland. I live in Warsaw and I study Spanish at school. What is your name? See you soon!",
+    "expected": "failed",
+    "rationale": "Every point covered, but in English, not Spanish."
+  },
+  {
+    "id": "practice-form-passed",
+    "questionId": "form-practice",
+    "answer": "Nombre y apellidos: Marta Nowak\nNacionalidad: polaca\nCiudad: Cracovia\nProfesión: enfermera en un hospital\nLenguas: polaco, inglés y español\nAficiones: nadar, leer y viajar con amigos",
+    "expected": "passed",
+    "rationale": "Every field answered with correct A1 phrases, 18 words."
+  },
+  {
+    "id": "practice-form-failed",
+    "questionId": "form-practice",
+    "answer": "Nombre y apellidos: my name\nNacionalidad: I don't know\nCiudad: big city\nProfesión: work\nLenguas: English\nAficiones: games and movies",
+    "expected": "failed",
+    "rationale": "English words that do not answer the fields in Spanish."
   }
 ]

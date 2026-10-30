@@ -1,17 +1,35 @@
-// Marks each sample in writing-evals/samples.json the way api/review-writing.ts does and
-// compares the DELE band with the expected one. Exits 1 when any band differs.
+// Reviews each sample in writing-evals/samples.json the way api/review-writing.ts does and
+// compares the result with the expected one: the DELE band of an exam task, or passed, partly
+// or failed for a practice task. Exits 1 when any result differs.
 // Rerun it after changing the writing prompt, the schema or OPENROUTER_MODEL.
 import { readFileSync } from "node:fs";
 import { modelReview, openRouter, presetReview } from "../api/_lib/writing-review.ts";
 import { writingTaskOf } from "../api/_lib/writing-tasks.ts";
 import { answerWords } from "../src/data/progress.ts";
+import type { WritingReview } from "../src/data/types.ts";
 
 type Sample = {
   id: string;
   questionId: string;
   answer: string;
-  expected: number;
+  expected: number | "passed" | "partly" | "failed";
   rationale: string;
+};
+
+const RESULTS = { perfect: "passed", good: "partly", bad: "failed" };
+
+// The band of an exam review, or the result a practice review's grade came from.
+const resultOf = (review: WritingReview | null) =>
+  review?.mark?.band ?? (review?.grade ? RESULTS[review.grade] : undefined);
+
+const reasonOf = (review: WritingReview | null) => {
+  if (!review) {
+    return "No review: the request failed.";
+  }
+
+  const met = review.coverage.filter((c) => c.met).length;
+
+  return review.mark?.reason ?? `${met}/${review.coverage.length} points met.`;
 };
 
 const samples: Sample[] = JSON.parse(
@@ -42,11 +60,11 @@ const rows = await Promise.all(
     const review =
       presetReview(task, wordCount) ?? (await modelReview(provider, task, answer, wordCount));
 
-    return { sample, wordCount, mark: review?.mark };
+    return { sample, wordCount, got: resultOf(review), reason: reasonOf(review) };
   }),
 );
 
-const off = rows.filter(({ sample, mark }) => mark?.band !== sample.expected);
+const off = rows.filter(({ sample, got }) => got !== sample.expected);
 
 console.log(
   `${rows.length} samples on ${provider.model}: ${rows.length - off.length} as expected, ${off.length} off`,
@@ -54,15 +72,15 @@ console.log(
 
 console.log(["", "sample", "words", "expected", "got", "reason"].join("\t"));
 
-for (const { sample, wordCount, mark } of rows) {
+for (const { sample, wordCount, got, reason } of rows) {
   console.log(
     [
-      mark?.band === sample.expected ? "ok" : "OFF",
+      got === sample.expected ? "ok" : "OFF",
       sample.id,
       wordCount,
       sample.expected,
-      mark?.band ?? "-",
-      mark?.reason ?? "No review: the request failed.",
+      got ?? "-",
+      reason,
     ].join("\t"),
   );
 }

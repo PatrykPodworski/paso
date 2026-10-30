@@ -3,7 +3,12 @@
 // or failed for a practice task. Exits 1 when any result differs.
 // Rerun it after changing the writing prompt, the schema or OPENROUTER_MODEL.
 import { readFileSync } from "node:fs";
-import { modelReview, openRouter, presetReview } from "../api/_lib/writing-review.ts";
+import {
+  modelReview,
+  openRouter,
+  presetReview,
+  RESULT_GRADES,
+} from "../api/_lib/writing-review.ts";
 import { writingTaskOf } from "../api/_lib/writing-tasks.ts";
 import { answerWords } from "../src/data/progress.ts";
 import type { WritingReview } from "../src/data/types.ts";
@@ -12,11 +17,14 @@ type Sample = {
   id: string;
   questionId: string;
   answer: string;
-  expected: number | "passed" | "partly" | "failed";
+  expected: number | keyof typeof RESULT_GRADES;
   rationale: string;
 };
 
-const RESULTS: Record<string, string> = { perfect: "passed", good: "partly", bad: "failed" };
+// The practice result each grade came from.
+const RESULTS: Record<string, string> = Object.fromEntries(
+  Object.entries(RESULT_GRADES).map(([result, grade]) => [grade, result]),
+);
 
 // The band of an exam review, or the result a practice review's grade came from.
 const resultOf = (review: WritingReview | null) => {

@@ -105,6 +105,20 @@
     "rationale": "Every point covered, but in English, not Spanish."
   },
   {
+    "id": "lesson-letter-one-missed",
+    "questionId": "u1-o2",
+    "answer": "¡Hola! Me llamo Tomasz y soy de Polonia, pero ahora vivo en Sevilla con dos amigos. Estudio español en una academia por las tardes. ¿Y tú, cómo te llamas? ¿De dónde eres?",
+    "expected": "passed",
+    "rationale": "Greeting, name, origin, home, language and the question in correct A1 Spanish, 32 words; only the farewell is missing, and a letter may miss one point."
+  },
+  {
+    "id": "lesson-letter-over-range",
+    "questionId": "u1-o2",
+    "answer": "¡Hola, compañero! Me llamo Lucía y soy de Polonia, de una ciudad pequeña cerca de Gdansk. Ahora vivo en Valencia con mi hermana en un piso cerca de la playa. Estudio español en la universidad por las mañanas y también hablo inglés y un poco de alemán. Me gusta mucho la clase. ¿Cómo te llamas? ¿De dónde eres? ¡Hasta mañana! Un abrazo, Lucía.",
+    "expected": "passed",
+    "rationale": "Every point in correct A1 Spanish in 63 words; going over the 30–40 range does not stop a pass."
+  },
+  {
     "id": "practice-form-passed",
     "questionId": "form-practice",
     "answer": "Nombre y apellidos: Marta Nowak\nNacionalidad: polaca\nCiudad: Cracovia\nProfesión: enfermera en un hospital\nLenguas: polaco, inglés y español\nAficiones: nadar, leer y viajar con amigos",

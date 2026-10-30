@@ -20,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          submodules: true
           # `scope: changed` diffs against the PR base; a shallow clone can't reach it.
           fetch-depth: 0
       - uses: millionco/react-doctor@v2

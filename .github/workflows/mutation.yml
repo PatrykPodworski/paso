@@ -13,6 +13,8 @@ jobs:
       issues: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          submodules: true
       # The cache is keyed by commit and saved only after a passing run, so an exact hit
       # means main has not changed since the last nightly run and the job can stop here.
       - id: cache

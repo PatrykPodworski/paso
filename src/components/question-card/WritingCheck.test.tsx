@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
@@ -247,4 +247,18 @@ it.each([
   expect(await screen.findByRole("heading", { name: "Passed" })).toBeInTheDocument();
   expect(JSON.parse(api.mock.calls[1][1].body).answer).toBe(`${answer} Adiós.`);
   expect(onEvaluated.mock.calls).toEqual([[`${answer} Adiós.`, true, false, "perfect"]]);
+});
+
+it("drops a review that arrives after the card closed", async () => {
+  let reply = (_: Response) => {};
+
+  storePasscode();
+  api.mockImplementation(() => new Promise<Response>((resolve) => (reply = resolve)));
+  const { onSubmit, onEvaluated } = mount();
+
+  click("Review my practice");
+  cleanup();
+  await act(async () => reply(Response.json(review("bad"))));
+
+  expect([onSubmit, onEvaluated].map((f) => f.mock.calls.length)).toEqual([0, 0]);
 });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { readAccess, saveAccess } from "../liveAccess";
 import { requestReview, type ReviewResult } from "./requestReview";
 
@@ -37,11 +37,27 @@ export const useWritingReviews = () => {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<Record<string, ReviewResult>>({});
 
+  const mounted = useRef(true);
+
+  useEffect(() => {
+    mounted.current = true;
+
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  // Resolves to undefined when the view closed before the reviews came back: nobody saw them,
+  // so they are dropped.
   const check = async (answers: Record<string, string>) => {
     setLoading(true);
 
     try {
       const next = await reviewInTurn(Object.entries(answers), passcode);
+
+      if (!mounted.current) {
+        return undefined;
+      }
 
       const outcomes = Object.values(next);
 
@@ -58,7 +74,9 @@ export const useWritingReviews = () => {
 
       return next;
     } finally {
-      setLoading(false);
+      if (mounted.current) {
+        setLoading(false);
+      }
     }
   };
 

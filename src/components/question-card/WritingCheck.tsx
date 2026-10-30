@@ -121,7 +121,13 @@ export const WritingCheck = ({
 
   const request = async () => {
     onLock(true);
-    const next = gradedOf((await check({ [q.id]: answer }))[q.id]);
+    const reviewed = await check({ [q.id]: answer });
+
+    if (!reviewed) {
+      return;
+    }
+
+    const next = gradedOf(reviewed[q.id]);
 
     if (next) {
       onEvaluated?.(answer, next.grade !== "bad", assisted, next.grade);

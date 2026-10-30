@@ -8,12 +8,12 @@ import {
   stored,
 } from "../fixtures/app";
 import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
+import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
 import { allLessons } from "../../src/data/curriculum";
-import type { Grade, Question, WritingReview } from "../../src/data/types";
 import type { Route } from "@playwright/test";
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
@@ -288,20 +288,6 @@ test("Enter checks a typed answer and a second Enter continues", async ({ page }
   await expect(page.getByRole("heading", { name: next.prompt, exact: true })).toBeVisible();
 });
 
-const writingReview = (q: Question, grade: Grade): WritingReview => ({
-  wordCount: 6,
-  coverage: q.checklist!.map((point, i) => ({
-    point,
-    met: i > 0,
-    feedback: i > 0 ? "Covered." : "Add a greeting and a farewell.",
-  })),
-  corrections: [
-    { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
-  ],
-  revised: "Hola. Me llamo Ana. Tengo veinte años. Adiós.",
-  grade,
-});
-
 test("writing keeps its draft and is graded by the AI review from Review my practice", async ({
   page,
 }) => {
@@ -350,7 +336,7 @@ test("writing keeps its draft and is graded by the AI review from Review my prac
   await expect(loading).toBeVisible();
   await expect(review).toBeHidden();
   await expect(input).toBeDisabled();
-  await (await held.promise).fulfill({ json: writingReview(writing, "good") });
+  await (await held.promise).fulfill({ json: writingReview(writing.checklist!, "good") });
 
   await expect(page.getByRole("heading", { name: "Partly passed" })).toBeVisible();
   await expect(page.getByText("6 words. Target: 30–40.")).toBeVisible();
@@ -389,7 +375,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
 
   await page.route("**/api/review-writing", (route) =>
     calls++
-      ? route.fulfill({ json: writingReview(writing, "bad") })
+      ? route.fulfill({ json: writingReview(writing.checklist!, "bad") })
       : route.fulfill({ status: 502, json: { error: "upstream" } }),
   );
 

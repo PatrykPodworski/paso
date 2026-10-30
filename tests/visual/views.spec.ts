@@ -10,22 +10,8 @@ import {
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import { emptyProgress } from "../../src/data/progress";
 import type { Page, Route } from "@playwright/test";
-import type { Grade, WritingReview } from "../../src/data/types";
 import { examiner, mockLiveTalk } from "../fixtures/live";
-
-const writingReview = (checklist: string[], grade: Grade): WritingReview => ({
-  wordCount: 6,
-  coverage: checklist.map((point, i) => ({
-    point,
-    met: i > 0,
-    feedback: i > 0 ? "Covered." : "Add a greeting and a farewell.",
-  })),
-  corrections: [
-    { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
-  ],
-  revised: "Hola. Me llamo Ana. Tengo veinte años. Adiós.",
-  grade,
-});
+import { writingReview } from "../fixtures/writing";
 
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });

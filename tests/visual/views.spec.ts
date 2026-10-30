@@ -352,12 +352,21 @@ test("question: live talk with Lucía", async ({ page }) => {
   );
 
   const lesson = await openLesson(page, 3);
+  const next = page.getByRole("button", { name: "Continue", exact: true });
 
   for (const q of lesson.questions.slice(0, 3)) {
     await answer(page, q);
-    await page.getByRole("button", { name: "Continue", exact: true }).click();
+    await expect(next).toBeVisible();
+
+    // The writing review stores the passcode it used; this shot shows a learner without one.
+    await page.evaluate(() =>
+      localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "" })),
+    );
+
+    await next.click();
   }
 
+  await expect(page.getByLabel("Passcode")).toHaveValue("");
   await shot(page, "question-live-passcode");
   await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Start the talk" }).click();

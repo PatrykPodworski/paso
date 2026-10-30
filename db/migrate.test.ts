@@ -65,6 +65,21 @@ describe("migrations", () => {
     ).toEqual(["001_a.sql"]);
   });
 
+  it.each([
+    ["edited", { "001_a.sql": "CREATE TABLE a (id bigint);" }],
+    ["removed", { "002_b.sql": "CREATE TABLE b (id int);" }],
+  ])("refuses to run when an applied migration was %s", async (change, files) => {
+    const pg = new PGlite();
+
+    await migrate(pgliteSession(pg), migrationsIn({ "001_a.sql": "CREATE TABLE a (id int);" }));
+
+    await expect(migrate(pgliteSession(pg), migrationsIn(files))).rejects.toThrow(
+      `Applied migration 001_a.sql was ${change}`,
+    );
+
+    expect(await tables(pg)).toEqual(["a", "schema_migrations"]);
+  });
+
   it("creates every progress table from the repo's migrations", async () => {
     const pg = new PGlite();
 

@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
-import type { LiveGrade, LiveScore, TalkTurn } from "../../data/types";
+import type { Grade, LiveScore, TalkTurn } from "../../data/types";
 import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
-import { accessAfter, readAccess, saveAccess } from "./liveAccess";
+import { accessAfter, readAccess, saveAccess } from "../liveAccess";
 import { LiveStatus } from "./LiveStatus";
 import { clearPendingTalk, readPendingTalk, savePendingTalk } from "./pendingTalk";
 import { transcriptText } from "./transcript";
@@ -29,7 +29,7 @@ type Props = {
   // Keeps a finished talk that is not scored yet when the question closes.
   questionId?: string;
   task: string;
-  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: LiveGrade) => void;
+  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: Grade) => void;
   onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
 };
 

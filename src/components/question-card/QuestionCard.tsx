@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Question } from "../../data/types";
+import type { Grade, Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
@@ -12,11 +12,12 @@ import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { isWritingTask, useAnswer } from "./useAnswer";
+import { WritingCheck } from "./WritingCheck";
 
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
@@ -159,7 +160,17 @@ export const QuestionCard = ({
           setFeedback(false);
         }}
       />
-      {!feedback ? (
+      {!exam && isWritingTask(q) ? (
+        <WritingCheck
+          q={q}
+          answer={submission}
+          canSubmit={canSubmit}
+          assisted={assisted}
+          onLock={setFeedback}
+          onEvaluated={onEvaluated}
+          onSubmit={onSubmit}
+        />
+      ) : !feedback ? (
         <QuestionFooter
           exam={exam}
           productive={productive}

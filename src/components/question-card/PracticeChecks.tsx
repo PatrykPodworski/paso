@@ -40,7 +40,7 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
           )}
         </>
       )}
-      {practice.productive && !exam && (
+      {q.kind === "speak" && !exam && (
         <div className="self-checks mt-6 rounded-lg bg-sage-50 p-5 max-md:p-4">
           <Eyebrow variant="checklist" className="mb-3">
             Your self-review checklist
@@ -58,9 +58,9 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
           ))}
         </div>
       )}
-      {practice.productive && !exam && !feedback && (
+      {q.kind === "speak" && !exam && !feedback && (
         <p className="mt-5 text-xs leading-relaxed text-sage-800">
-          AI feedback on your writing and speaking is coming soon.
+          AI feedback on your speaking is coming soon.
         </p>
       )}
     </>

@@ -8,11 +8,13 @@ import {
   stored,
 } from "../fixtures/app";
 import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
+import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
 import { allLessons } from "../../src/data/curriculum";
+import type { Route } from "@playwright/test";
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -286,8 +288,11 @@ test("Enter checks a typed answer and a second Enter continues", async ({ page }
   await expect(page.getByRole("heading", { name: next.prompt, exact: true })).toBeVisible();
 });
 
-test("writing persists drafts, reviews and permits revision", async ({ page }) => {
+test("writing keeps its draft and is graded by the AI review from Review my practice", async ({
+  page,
+}) => {
   const lesson = await openLesson(page, 3);
+  const writing = lesson.questions[2];
 
   for (const q of lesson.questions.slice(0, 2)) {
     await answer(page, q);
@@ -318,22 +323,103 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
     };
   });
 
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  const review = page.getByRole("button", { name: "Review my practice" });
+  // Held until the loading state is checked.
+  const held = Promise.withResolvers<Route>();
+
+  await page.route("**/api/review-writing", held.resolve);
+  await expect(review).toBeDisabled();
+  await page.getByLabel("Passcode").fill("olé");
+  await review.click();
+  const loading = page.getByRole("status").filter({ hasText: "Checking your writing…" });
+
+  await expect(loading).toBeVisible();
+  await expect(review).toBeHidden();
+  await expect(input).toBeDisabled();
+  await (await held.promise).fulfill({ json: writingReview(writing.checklist!, "good") });
+
+  await expect(page.getByRole("heading", { name: "Partly passed" })).toBeVisible();
+  await expect(page.getByText("6 words. Target: 30–40.")).toBeVisible();
+  await expect(page.getByText("Add a greeting and a farewell.")).toBeVisible();
+  await expect(page.getByText("Tengo veinte años", { exact: true })).toBeVisible();
+  await expect(page.getByText("Hola. Me llamo Ana. Tengo veinte años. Adiós.")).toBeVisible();
+  await expect(page.getByText("Your practice is saved.")).toBeVisible();
+  await expect(input).toBeDisabled();
+  await expect(page.getByLabel("Passcode")).toBeHidden();
+
+  await expect(page.getByRole("button", { name: /Check my writing|Revise my answer/ })).toHaveCount(
+    0,
+  );
+
   // A writing task never reads its model answer aloud.
   await expect(page.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toHaveCount(0);
   expect(await page.evaluate(() => (window as any).__plays.length)).toBe(0);
-  await page.getByRole("button", { name: "Revise my answer" }).click();
+
+  expect((await stored(page)).attempts.at(-1)).toMatchObject({
+    questionId: writing.id,
+    answer: "Me llamo Ana. Soy veinte años.",
+    correct: true,
+    grade: "good",
+  });
+
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Start the talk" })).toBeVisible();
+});
+
+test("a failed writing review keeps the answer editable, and a red result goes to mistakes", async ({
+  page,
+}) => {
+  const lesson = allLessons[3];
+  const writing = lesson.questions[2];
+  let calls = 0;
+
+  await page.route("**/api/review-writing", (route) =>
+    calls++
+      ? route.fulfill({ json: writingReview(writing.checklist!, "bad") })
+      : route.fulfill({ status: 502, json: { error: "upstream" } }),
+  );
+
+  await page.addInitScript(() =>
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" })),
+  );
+
+  await openLesson(page, 3);
+
+  for (const q of lesson.questions.slice(0, 2)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  await input.fill("Me llamo Ana. Soy veinte años.");
+  await page.getByRole("button", { name: "Review my practice" }).click();
+
+  await expect(
+    page.getByText("Feedback is not available right now. Your answer is saved; try again later."),
+  ).toBeVisible();
+
   await expect(input).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeHidden();
+  expect((await stored(page)).attempts.some((a: any) => a.questionId === writing.id)).toBe(false);
   await input.fill("Me llamo Ana. Tengo veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
 
-  expect(
-    (await stored(page)).attempts
-      .filter((a: any) => a.questionId === lesson.questions[2].id)
-      .every((a: any) => a.correct === null),
-  ).toBe(true);
+  await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
+  await expect(page.getByText("Added to your mistake review.")).toBeVisible();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Start the talk" })).toBeVisible();
+
+  const progress = await stored(page);
+
+  expect(progress.attempts.at(-1)).toMatchObject({
+    questionId: writing.id,
+    answer: "Me llamo Ana. Tengo veinte años.",
+    correct: false,
+    grade: "bad",
+  });
+
+  expect(progress.mistakes).toContain(writing.id);
 });
 
 // The mock exam holds the only recording tasks: every unit's speaking task is a live talk.
@@ -479,7 +565,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await expect(pocket.locator(".vocabulary-list time")).toHaveCount(8);
 });
 
-test("form requires every field, saves labels and gives productive feedback", async ({ page }) => {
+test("form practice requires every field and counts its review as an answer", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
   await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
@@ -489,10 +575,14 @@ test("form requires every field, saves labels and gives productive feedback", as
     await fields.nth(i).fill(`Respuesta ${i}`);
   }
 
+  await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Passed" })).toBeVisible();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByText("creative practices")).toBeVisible();
+  const objective = page.locator("dl > div").filter({ hasText: "objective answers" });
+
+  await expect(objective.locator("dd")).toHaveText("1/1");
+  await expect(page.getByText("creative practices")).toHaveCount(0);
 });
 
 test("listening records transcript assistance and plays bundled audio", async ({ page }) => {
@@ -564,5 +654,6 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
     answer: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
   });
 
-  expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "" });
+  // The free talk keeps the passcode the lesson's writing review stored before it.
+  expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "olé" });
 });

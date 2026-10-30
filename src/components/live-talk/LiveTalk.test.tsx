@@ -382,6 +382,18 @@ describe("access", () => {
     });
   });
 
+  it("keeps a stored passcode when the free talk is used", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
+    replies(started(), { grade: "perfect", items: [] });
+    mount();
+    await talk();
+
+    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
+      freeUsed: true,
+      passcode: "olé",
+    });
+  });
+
   it("starts a talk with the passcode once the free talk is used", async () => {
     localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "" }));
     replies(started(), { grade: "perfect", items: [] });

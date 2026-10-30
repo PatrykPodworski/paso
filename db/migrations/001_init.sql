@@ -4,7 +4,6 @@ CREATE TABLE learners (
   goal int NOT NULL DEFAULT 10,
   exam_date text NOT NULL DEFAULT '',
   xp int NOT NULL DEFAULT 0,
-  imported_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 

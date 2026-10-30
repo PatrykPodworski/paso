@@ -68,7 +68,7 @@ describe("migrations", () => {
   it("creates every progress table from the repo's migrations", async () => {
     const pg = new PGlite();
 
-    expect(await migrate(pgliteSession(pg))).toEqual(["001_progress.sql"]);
+    expect(await migrate(pgliteSession(pg))).toEqual(["001_init.sql"]);
 
     expect(await tables(pg)).toEqual([
       "attempts",

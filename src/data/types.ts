@@ -111,7 +111,6 @@ export interface ProgressSnapshot {
   goal: number;
   examDate: string;
   xp: number;
-  imported: boolean;
   completed: Record<string, { score: number; total: number; at: string }>;
   // The previous attempt at each question, with its mistake and review state.
   questions: Record<

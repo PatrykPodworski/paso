@@ -32,7 +32,7 @@ export const PasscodeGate = ({ problem, onUnlock }: Props) => {
           onUnlock(passcode);
         }}
       >
-        <h2 className="font-serif font-semibold tracking-tight leading-tight text-2xl">
+        <h2 className="font-heading font-semibold tracking-tight leading-tight text-2xl">
           Enter the passcode.
         </h2>
         <FieldNote>

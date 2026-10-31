@@ -52,7 +52,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
       }
     }
 
-    await expect(page.getByRole("alert")).toContainText("0 unanswered");
+    await expect(page.getByRole("dialog")).toContainText("0 unanswered");
     await page.getByRole("button", { name: "Finish & review", exact: true }).click();
 
     if (section < 2) {

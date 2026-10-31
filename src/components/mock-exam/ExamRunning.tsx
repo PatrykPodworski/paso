@@ -1,7 +1,15 @@
-import { ButtonRow } from "../../design-system/ButtonRow";
 import { Panel } from "../../design-system/Panel";
-import { Button } from "../../design-system/Button";
 import { TextLink } from "../../design-system/TextLink";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 import { mockSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
@@ -70,34 +78,27 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
         >
           Skip for now →
         </TextLink>
-        <Button
-          variant="secondary"
-          size="small"
-          className="max-md:w-full"
-          onClick={() => setConfirm(true)}
-        >
+        <Button variant="outline" className="max-md:w-full" onClick={() => setConfirm(true)}>
           Finish section
         </Button>
       </div>
-      {confirm && (
-        <div className="mt-5 rounded-lg bg-sand-100 p-6" role="alert">
-          <h3 className="text-base font-semibold tracking-tight">
-            Finish {section.title.toLowerCase()}?
-          </h3>
-          <p className="leading-relaxed my-3 text-sm">
-            {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
-            finishing, answers in this section cannot be changed.
-          </p>
-          <ButtonRow>
-            <Button variant="secondary" onClick={() => setConfirm(false)}>
-              Keep working
-            </Button>
-            <Button variant="primary" onClick={onEnd}>
+      <Dialog open={confirm} onOpenChange={(open) => !open && setConfirm(false)}>
+        <DialogContent showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Finish {section.title.toLowerCase()}?</DialogTitle>
+            <DialogDescription>
+              {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
+              finishing, answers in this section cannot be changed.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose render={<Button variant="outline" size="lg" />}>Keep working</DialogClose>
+            <Button size="lg" onClick={onEnd}>
               Finish & review
             </Button>
-          </ButtonRow>
-        </div>
-      )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Panel>
   );
 };

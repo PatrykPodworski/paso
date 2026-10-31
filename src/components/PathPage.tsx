@@ -109,7 +109,7 @@ export const PathPage = ({
           <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-sage-100 text-olive-600">
             <Icon name="flag" size={28} />
             <div>
-              <h3 className="font-semibold tracking-tight font-serif text-xl">
+              <h3 className="font-semibold tracking-tight font-heading text-xl">
                 The next chapter is yours.
               </h3>
               <p className="leading-relaxed mt-1 text-xs">
@@ -132,7 +132,7 @@ export const PathPage = ({
           className="w-65 shrink-0 p-6 self-start sticky top-5 max-xl:w-57 max-lg:w-auto max-lg:self-stretch max-lg:static max-lg:grid max-lg:grid-cols-2 max-lg:gap-5 max-sm:grid-cols-1"
         >
           <Eyebrow className="max-lg:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
-          <h3 className="tracking-normal font-serif font-medium leading-tight text-2xl mt-3 mx-0 mb-6 max-lg:m-0 max-lg:col-span-full">
+          <h3 className="tracking-normal font-heading font-medium leading-tight text-2xl mt-3 mx-0 mb-6 max-lg:m-0 max-lg:col-span-full">
             Learn it. Try it.
             <br />
             Make it yours.

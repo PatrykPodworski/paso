@@ -7,7 +7,7 @@ export const CompletionStats = ({ stats }: Props) => (
     {stats.map(([label, value]) => (
       <div key={label} className="flex flex-col-reverse">
         <dt className="text-xs max-md:text-2xs mt-1.5 text-sage-400">{label}</dt>
-        <dd className="font-serif text-3xl text-olive-600 font-medium">{value}</dd>
+        <dd className="font-heading text-3xl text-olive-600 font-medium">{value}</dd>
       </div>
     ))}
   </dl>

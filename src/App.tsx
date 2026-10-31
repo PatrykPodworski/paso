@@ -178,7 +178,7 @@ const App = () => {
           {pages[page]}
           <footer className="flex max-md:flex-wrap items-center justify-between gap-3.5 mt-10 max-md:mt-8 pt-5 px-0 pb-6 max-md:py-5 max-md:px-0 border-t border-t-sage-200 text-2xs text-sage-400">
             <span className="max-lg:hidden">Made for the joy of getting there.</span>
-            <span className="font-serif text-sm italic text-sage-500">
+            <span className="font-heading text-sm italic text-sage-500">
               paso a paso <span className="text-sand-500 ml-1.5">✦</span>
             </span>
             <button

@@ -56,7 +56,7 @@ export const TodayPage = ({
               <i className="h-1 w-1 rounded-full bg-olive-500" />
               YOUR JOURNEY TO DELE A1
             </span>
-            <h2 className="font-serif text-5xl tracking-tight leading-none mt-5 mx-0 mb-3 text-green-900 font-medium max-xl:text-4xl max-xl:mt-4 max-lg:text-5xl max-md:text-4xl">
+            <h2 className="font-heading text-5xl tracking-tight leading-none mt-5 mx-0 mb-3 text-green-900 font-medium max-xl:text-4xl max-xl:mt-4 max-lg:text-5xl max-md:text-4xl">
               Small steps.
               <br />A world of <em className="font-medium text-coral-600">Spanish.</em>
             </h2>
@@ -138,7 +138,7 @@ export const TodayPage = ({
           </Eyebrow>
           <h3
             lang="es"
-            className="font-serif italic font-medium tracking-tight text-sand-700 text-3xl xl:text-4xl mt-5 max-lg:mt-3"
+            className="font-heading italic font-medium tracking-tight text-sand-700 text-3xl xl:text-4xl mt-5 max-lg:mt-3"
           >
             Poco a poco.
           </h3>

@@ -63,7 +63,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
     <Panel className="bg-sage-100! py-7 px-8 max-lg:p-7 max-md:p-6 max-sm:p-5 flex justify-between gap-5 overflow-hidden">
       <div className="max-w-130">
         <Eyebrow>A SMALL SESSION, CHOSEN FOR YOU</Eyebrow>
-        <h2 className="font-serif font-semibold tracking-tight leading-tight text-3xl max-sm:text-2xl my-3 mx-0">
+        <h2 className="font-heading font-semibold tracking-tight leading-tight text-3xl max-sm:text-2xl my-3 mx-0">
           {filter === "all"
             ? "A little bit of everything."
             : filter === "listening"
@@ -88,7 +88,7 @@ export const SkillPractice = ({ progress, filter, setSession, practice }: Props)
           size={64}
           className="max-lg:w-11 max-lg:h-11"
         />
-        <i className="font-serif text-xl max-lg:text-base bg-sand-50 py-1 px-3.5 rounded-md -rotate-10 mt-4 text-sand-600">
+        <i className="font-heading text-xl max-lg:text-base bg-sand-50 py-1 px-3.5 rounded-md -rotate-10 mt-4 text-sand-600">
           ¡Tú puedes!
         </i>
       </div>

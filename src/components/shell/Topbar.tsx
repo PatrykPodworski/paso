@@ -40,7 +40,7 @@ export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
         <b className={STAT_VALUE}>{progress.xp}</b> XP
       </span>
       <button
-        className={`${PRESSABLE} w-7 h-7 -ml-1.5 max-md:m-0 flex items-center justify-center rounded-full border-2 border-sage-50 ring ring-sage-200 bg-sand-300 text-sand-800 text-xs font-serif font-semibold`}
+        className={`${PRESSABLE} w-7 h-7 -ml-1.5 max-md:m-0 flex items-center justify-center rounded-full border-2 border-sage-50 ring ring-sage-200 bg-sand-300 text-sand-800 text-xs font-heading font-semibold`}
         onClick={() => openSettings()}
         aria-label="Open your learning preferences"
       >

@@ -18,7 +18,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
       </div>
       <div>
         <Eyebrow>YOUR FIRST FULL REHEARSAL</Eyebrow>
-        <h2 className="font-serif font-semibold tracking-tight leading-tight mt-3 mb-4 text-4xl max-xl:text-3xl max-lg:text-4xl max-md:text-3xl">
+        <h2 className="font-heading font-semibold tracking-tight leading-tight mt-3 mb-4 text-4xl max-xl:text-3xl max-lg:text-4xl max-md:text-3xl">
           One exam. Four ways
           <br />
           to make yourself understood.
@@ -56,7 +56,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           <p className="leading-relaxed min-h-7 text-xs text-sage-500 max-sm:text-2xs">
             {s.spanish}
           </p>
-          <strong className="mt-2.5 mb-2 block font-serif text-2xl font-medium">
+          <strong className="mt-2.5 mb-2 block font-heading text-2xl font-medium">
             {s.minutes} minutes
           </strong>
           <span className="text-xs text-sage-500 max-sm:text-2xs">

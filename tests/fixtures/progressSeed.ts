@@ -31,26 +31,30 @@ export const progressSeed = () => ({
 // The mock exam run is no part of paso-progress-v1; a seed may add one.
 export type ProgressSeed = ReturnType<typeof progressSeed> & { mockRun?: MockRunPatch | null };
 
+const settingsWrites = ({ name, goal, examDate }: ProgressSeed) =>
+  name || goal !== 10 || examDate ? [{ action: "settings", name, goal, examDate }] : [];
+
 // The api/progress writes that store a seed, in the order the app would send them.
-export const seedWrites = (seed: Partial<ProgressSeed>, timeZone: string) => {
-  const { name = "", goal = 10, examDate = "" } = seed;
-  const reviews = seed.vocabularyReviews ?? {};
+export const seedWrites = (partial: Partial<ProgressSeed>, timeZone: string) => {
+  const seed = { ...progressSeed(), ...partial };
 
   return [
-    ...(name || goal !== 10 || examDate ? [{ action: "settings", name, goal, examDate }] : []),
-    ...Object.entries(seed.completed ?? {}).map(([lessonId, c]) => ({
+    ...settingsWrites(seed),
+    ...Object.entries(seed.completed).map(([lessonId, c]) => ({
       action: "complete",
       lessonId,
       ...c,
     })),
-    ...(seed.attempts ?? []).map((attempt) => ({ action: "attempt", attempt, timeZone })),
-    ...(Object.keys(reviews).length ? [{ action: "vocabulary", reviews }] : []),
-    ...(seed.checks ?? []).map((checkId) => ({ action: "check", checkId, done: true })),
-    ...(seed.mockResults ?? []).map((result, i) => ({
+    ...seed.attempts.map((attempt) => ({ action: "attempt", attempt, timeZone })),
+    ...(Object.keys(seed.vocabularyReviews).length
+      ? [{ action: "vocabulary", reviews: seed.vocabularyReviews }]
+      : []),
+    ...seed.checks.map((checkId) => ({ action: "check", checkId, done: true })),
+    ...seed.mockResults.map((result, i) => ({
       action: "mockResult",
       result: { id: `seed-${i}`, ...result },
     })),
-    ...Object.entries(seed.drafts ?? {}).map(([questionId, text]) => ({
+    ...Object.entries(seed.drafts).map(([questionId, text]) => ({
       action: "draft",
       questionId,
       text,

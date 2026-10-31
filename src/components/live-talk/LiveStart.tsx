@@ -1,7 +1,7 @@
 import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Icon } from "../../design-system/Icon";
-import { FIELD } from "../../design-system/field";
+import { Input } from "../ui/input";
 
 type Props = {
   needsPasscode: boolean;
@@ -26,10 +26,10 @@ export const LiveStart = ({ needsPasscode, passcode, onPasscode, onStart }: Prop
     {needsPasscode && (
       <label className="flex flex-col gap-1.5 text-sm">
         Passcode
-        <input
+        <Input
           type="password"
           autoComplete="off"
-          className={`${FIELD} max-w-xs`}
+          className="max-w-xs"
           value={passcode}
           onChange={(e) => onPasscode(e.target.value)}
         />

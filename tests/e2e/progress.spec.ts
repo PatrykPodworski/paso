@@ -49,31 +49,32 @@ test("a failed write shows Retry, and Retry saves it", async ({ page }) => {
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
 });
 
-test("the passcode is asked once and sent with every request", async ({ page }) => {
-  const sent: (string | undefined)[] = [];
+test("a fresh browser finishes a lesson and keeps it without a passcode", async ({ page }) => {
+  const passcodes: string[] = [];
 
-  await page.route("**/api/progress", async (route) => {
-    const passcode = await route.request().headerValue("x-passcode");
+  page.on("request", (request) => {
+    const passcode = request.headers()["x-passcode"];
 
-    sent.push(passcode ?? undefined);
-
-    return passcode === "ol%C3%A9"
-      ? route.continue()
-      : route.fulfill({ status: 401, json: { error: "passcode" } });
+    if (request.url().endsWith("/api/progress") && passcode !== undefined) {
+      passcodes.push(passcode);
+    }
   });
 
-  await page.goto("/");
-  const gate = page.getByRole("dialog", { name: "Enter the passcode" });
+  const lesson = await openLesson(page, 0);
 
-  await gate.getByLabel("Passcode").fill("wrong");
-  await gate.getByRole("button", { name: "Continue" }).click();
-  await expect(gate.getByText("That passcode is not right.")).toBeVisible();
-  await gate.getByLabel("Passcode").fill("olé");
-  await gate.getByRole("button", { name: "Continue" }).click();
-  await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
+  for (const q of lesson.questions) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
+
+  await expect
+    .poll(async () => (await saved(page)).completed[lesson.id])
+    .toMatchObject({ score: lesson.questions.length, total: lesson.questions.length });
 
   await page.reload();
-  await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
-  await expect(gate).toBeHidden();
-  expect(sent).toEqual([undefined, "wrong", "ol%C3%A9", "ol%C3%A9"]);
+  await expect(page.locator(".xp-stat")).toHaveText(`${lesson.questions.length * 5 + 20} XP`);
+  await expect(page.getByRole("dialog")).toBeHidden();
+  expect(passcodes).toEqual([]);
 });

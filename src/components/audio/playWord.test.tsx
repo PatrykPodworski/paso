@@ -2,10 +2,11 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AudioButton } from "./AudioButton";
 import { playWord } from "./playWord";
+import { clearClips } from "./clipCache";
 import { stopAudio } from "./playback";
 
 vi.mock("../../data/audio-sources", () => ({
-  audioSources: () => ["/audio/elevenlabs/test.mp3", "/audio/original.m4a"],
+  audioSources: (text: string) => [`/audio/elevenlabs/${text}.mp3`, `/audio/${text}.m4a`],
 }));
 
 class MockAudio {
@@ -13,6 +14,9 @@ class MockAudio {
   playbackRate = 1;
   preservesPitch = false;
   paused = true;
+  preload = "";
+  currentTime = 0;
+  error = null;
   onended: (() => void) | null = null;
   onpause: (() => void) | null = null;
   onerror: (() => void) | null = null;
@@ -23,7 +27,15 @@ class MockAudio {
     this.paused = true;
     this.onpause?.();
   });
-  constructor(src: string) {
+  end = () => {
+    this.paused = true;
+    this.onended?.();
+  };
+  load = vi.fn();
+  removeAttribute = () => {
+    this.src = "";
+  };
+  constructor(src = "") {
     this.src = src;
   }
 }
@@ -37,7 +49,7 @@ beforeEach(() => {
   vi.stubGlobal(
     "Audio",
     class extends MockAudio {
-      constructor(src: string) {
+      constructor(src?: string) {
         super(src);
 
         if (nextPlay) {
@@ -53,6 +65,7 @@ beforeEach(() => {
 
 afterEach(() => {
   act(stopAudio);
+  clearClips();
   vi.unstubAllGlobals();
 });
 
@@ -69,6 +82,7 @@ describe("word playback", () => {
       await act(async () => {});
       expect(clips[0].play).toHaveBeenCalledOnce();
       expect(done).toBe(false);
+      clips[0].paused = true;
       clips[0][event]?.();
       await spoken;
       expect(done).toBe(true);
@@ -86,11 +100,11 @@ describe("word playback", () => {
     await waitFor(() => expect(clips).toHaveLength(2));
 
     expect(clips.map((clip) => clip.src)).toEqual([
-      "/audio/elevenlabs/test.mp3",
-      "/audio/original.m4a",
+      "/audio/elevenlabs/hola.mp3",
+      "/audio/hola.m4a",
     ]);
 
-    clips[1].onended?.();
+    clips[1].end();
     await expect(spoken).resolves.toBeUndefined();
   });
 
@@ -101,7 +115,7 @@ describe("word playback", () => {
         play = vi.fn(async () => {
           throw new Error("offline");
         });
-        constructor(src: string) {
+        constructor(src?: string) {
           super(src);
           clips.push(this);
         }
@@ -151,6 +165,42 @@ describe("word playback", () => {
     expect(clips).toHaveLength(1);
   });
 
+  it("replays a word from its loaded clip, from the start and at normal speed", async () => {
+    const first = playWord("hola");
+
+    await act(async () => {});
+    clips[0].end();
+    await first;
+    clips[0].currentTime = 0.4;
+    clips[0].playbackRate = 0.75;
+    const second = playWord("hola");
+
+    await act(async () => {});
+    expect(clips).toHaveLength(1);
+    expect(clips[0].play).toHaveBeenCalledTimes(2);
+    expect(clips[0].currentTime).toBe(0);
+    expect(clips[0].playbackRate).toBe(1);
+    clips[0].end();
+    await expect(second).resolves.toBeUndefined();
+  });
+
+  it("keeps waiting for a word when a pause or end from its previous play arrives", async () => {
+    let done = false;
+
+    const spoken = playWord("hola").then(() => {
+      done = true;
+    });
+
+    await act(async () => {});
+    clips[0].onpause?.();
+    clips[0].onended?.();
+    await act(async () => {});
+    expect(done).toBe(false);
+    clips[0].end();
+    await spoken;
+    expect(done).toBe(true);
+  });
+
   it("stops the previous word when the next one is tapped", async () => {
     const first = playWord("uno");
     const second = playWord("dos");
@@ -158,7 +208,7 @@ describe("word playback", () => {
     await expect(first).resolves.toBeUndefined();
     expect(clips[0].paused).toBe(true);
     expect(clips[1].pause).not.toHaveBeenCalled();
-    clips[1].onended?.();
+    clips[1].end();
     await expect(second).resolves.toBeUndefined();
   });
 

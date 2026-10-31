@@ -82,7 +82,7 @@ const attempt: Attempt = {
 };
 
 describe("load", () => {
-  it("reads the snapshot with the learner id and no passcode when none is stored", async () => {
+  it("reads the snapshot with the learner id only", async () => {
     const c = client();
 
     void c.load();
@@ -101,11 +101,11 @@ describe("load", () => {
     );
   });
 
-  it("sends the stored passcode URI-encoded", async () => {
+  it("sends no passcode when one is stored for the live talk", async () => {
     localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
     void client().load();
 
-    expect((await call(0)).headers["x-passcode"]).toBe("ol%C3%A9");
+    expect((await call(0)).headers).toEqual({ "x-learner-id": LEARNER });
   });
 
   it("starts one request when asked to load twice", async () => {
@@ -120,6 +120,7 @@ describe("load", () => {
 
   it.each([
     ["a server error", (c: Call) => c.reply(new Response("{}", { status: 500 }))],
+    ["a rate limit", (c: Call) => c.reply(Response.json({ error: "rate" }, { status: 429 }))],
     ["a network error", (c: Call) => c.fail()],
     ["a body that is not JSON", (c: Call) => c.reply(new Response("<html>"))],
   ])("reports a failed load on %s, and Retry loads again", async (_, answer) => {
@@ -133,86 +134,6 @@ describe("load", () => {
     expect(latest()).toEqual({ snapshot: null, problem: null });
     (await call(1)).reply(ok(snapshot({ xp: 5 })));
     await vi.waitFor(() => expect(latest()?.snapshot?.xp).toBe(5));
-  });
-});
-
-describe("passcode", () => {
-  it("asks for a passcode, stores it and loads with it", async () => {
-    const c = client();
-
-    void c.load();
-    (await call(0)).reply(Response.json({ error: "passcode" }, { status: 401 }));
-    await vi.waitFor(() => expect(latest()).toEqual({ snapshot: null, problem: "passcode" }));
-
-    void c.unlock("olé");
-
-    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
-      freeUsed: false,
-      passcode: "olé",
-    });
-
-    const retried = await call(1);
-
-    expect(retried.headers["x-passcode"]).toBe("ol%C3%A9");
-    retried.reply(ok(snapshot()));
-    await vi.waitFor(() => expect(latest()?.snapshot).toEqual(snapshot()));
-  });
-
-  it("keeps the passcode for this visit when browser storage is unavailable", async () => {
-    vi.spyOn(localStorage, "setItem").mockImplementation(() => {
-      throw new Error("QuotaExceededError");
-    });
-
-    const c = client();
-
-    void c.load();
-    (await call(0)).reply(Response.json({ error: "passcode" }, { status: 401 }));
-    await vi.waitFor(() => expect(latest()?.problem).toBe("passcode"));
-    void c.unlock("olé");
-
-    expect((await call(1)).headers["x-passcode"]).toBe("ol%C3%A9");
-  });
-
-  it("forgets a stored passcode the server rejects", async () => {
-    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "old" }));
-    void client().load();
-    (await call(0)).reply(Response.json({ error: "passcode" }, { status: 401 }));
-
-    await vi.waitFor(() => expect(latest()?.problem).toBe("wrongPasscode"));
-
-    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
-      freeUsed: true,
-      passcode: "",
-    });
-  });
-
-  it("reports too many wrong passcodes", async () => {
-    void client().load();
-    (await call(0)).reply(Response.json({ error: "passcode_tries" }, { status: 429 }));
-
-    await vi.waitFor(() => expect(latest()?.problem).toBe("passcodeTries"));
-  });
-
-  it("resends a write that needed the passcode", async () => {
-    const c = await loaded();
-
-    c.check("visa", true);
-    (await call(1)).reply(Response.json({ error: "passcode" }, { status: 401 }));
-    await vi.waitFor(() => expect(latest()?.problem).toBe("passcode"));
-
-    void c.unlock("olé");
-    const resent = await call(2);
-
-    expect(resent.body).toEqual({ action: "check", checkId: "visa", done: true });
-    expect(resent.headers["x-passcode"]).toBe("ol%C3%A9");
-    resent.reply(ok(snapshot({ checks: ["visa"] })));
-
-    await vi.waitFor(() =>
-      expect(latest()).toEqual({
-        snapshot: snapshot({ checks: ["visa"] }),
-        problem: null,
-      }),
-    );
   });
 });
 

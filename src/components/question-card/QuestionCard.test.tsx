@@ -1,7 +1,10 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
+import { clearClips } from "../audio/clipCache";
 import { stopAudio } from "../audio/playback";
+import { audioSources } from "../../data/audio-sources";
+import { spokenText } from "../../data/audio";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice, mockQuestions } from "../../data/mock";
 
@@ -34,6 +37,52 @@ const type = allQuestions.find((q) => q.kind === "type")!;
 const order = allQuestions.find((q) => q.kind === "order")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 const speaking = mockQuestions.find((q) => q.kind === "speak")!;
+
+// Records the clips the cache creates; jsdom never fetches them.
+const loadedClips = () => {
+  const RealAudio = window.Audio;
+  const created: HTMLAudioElement[] = [];
+
+  clearClips();
+
+  vi.stubGlobal(
+    "Audio",
+    class {
+      constructor() {
+        const audio = new RealAudio();
+
+        created.push(audio);
+
+        return audio;
+      }
+    },
+  );
+
+  return () => created.map((audio) => new URL(audio.src).pathname);
+};
+
+const firstSources = (texts: string[]) => texts.map((text) => audioSources(text)[0]);
+
+it("loads a question's clips as it appears, before any tap, and again for the next one", () => {
+  const loaded = loadedClips();
+  const next = allQuestions.find((q) => q.kind === "order" && q.id !== order.id)!;
+  const { rerender } = render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+
+  expect(loaded()).toEqual(firstSources([spokenText(order), ...order.tokens!]));
+  expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+  rerender(<QuestionCard q={next} onSubmit={vi.fn()} />);
+
+  expect(loaded()).toEqual(
+    expect.arrayContaining(firstSources([spokenText(next), ...next.tokens!])),
+  );
+});
+
+it("loads no clips for a question that is not active", () => {
+  const loaded = loadedClips();
+
+  render(<QuestionCard q={order} onSubmit={vi.fn()} active={false} />);
+  expect(loaded()).toEqual([]);
+});
 
 // All productive and objective save paths run against the actual component.
 for (const q of [type, writing, speaking, formPractice]) {

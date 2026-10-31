@@ -5,6 +5,7 @@ import { globSync } from "node:fs";
 export const sourceIncludes = [
   "src/**/*.{ts,tsx}",
   "api/**/*.ts",
+  "db/**/*.ts",
   "scripts/{audio-budget,audio-direction,elevenlabs,generate-elevenlabs}.mjs",
 ];
 

@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import { Guide } from "./Guide";
-import { emptyProgress } from "../data/progress";
+import { emptySnapshot } from "../test/progress";
 import { requirementGroups, sources } from "../data/research";
 
 it("changes only the selected skill and combines the correct score pairs", () => {
-  render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
+  render(<Guide progress={emptySnapshot()} onCheck={vi.fn()} />);
   const labels = ["Reading", "Writing", "Listening", "Speaking"];
   const sliders = labels.map((label) => screen.getByRole("slider", { name: new RegExp(label) }));
   const values = [25, 5, 24, 6];
@@ -31,7 +31,7 @@ it("changes only the selected skill and combines the correct score pairs", () =>
 });
 
 it("counts only recognized completed readiness checks against the full inventory", () => {
-  const progress = emptyProgress();
+  const progress = emptySnapshot();
 
   progress.checks = [
     requirementGroups[0].items[0][0],
@@ -48,12 +48,12 @@ it("counts only recognized completed readiness checks against the full inventory
     screen.getAllByRole("checkbox").filter((input) => (input as HTMLInputElement).checked),
   ).toHaveLength(2);
 
-  rerender(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
+  rerender(<Guide progress={emptySnapshot()} onCheck={vi.fn()} />);
   expect(screen.getByText(`0/${count} checked`)).toBeInTheDocument();
 });
 
 it("numbers the primary sources from 01", () => {
-  render(<Guide progress={emptyProgress()} onCheck={vi.fn()} />);
+  render(<Guide progress={emptySnapshot()} onCheck={vi.fn()} />);
 
   sources.forEach((source, index) => {
     expect(

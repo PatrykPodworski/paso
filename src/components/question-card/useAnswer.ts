@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Question } from "../../data/types";
-import { countWords, isCorrect } from "../../data/progress";
+import { countWords, isCorrect, MAX_TEXT } from "../../data/progress";
 import { formSubmission, parseFields } from "./formAnswer";
 
 const answerValue = (
@@ -42,6 +42,9 @@ const ready = (
         ? selected.length === q.tokens?.length
         : !!answer.trim();
 
+// A writing task is judged on its text; its model answer is never read aloud.
+export const isWritingTask = (q: Question) => q.kind === "write" || q.kind === "form";
+
 // The learner's in-progress answer for one question, and everything derived from it.
 export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) => void) => {
   const [recording, setRecording] = useState(false);
@@ -58,15 +61,25 @@ export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) =
   const submission = q.kind === "form" ? formSubmission(q, fieldValues) : value;
 
   const setText = (text: string) => {
+    if (text.length > MAX_TEXT) {
+      return;
+    }
+
     setAnswer(text);
     onDraft?.(text);
   };
 
   const setField = (label: string, text: string) => {
     const next = { ...fieldValues, [label]: text };
+    const draft = JSON.stringify(next);
+
+    // The saved draft holds every field, so the limit applies to all of them together.
+    if (draft.length > MAX_TEXT) {
+      return;
+    }
 
     setFieldValues(next);
-    onDraft?.(JSON.stringify(next));
+    onDraft?.(draft);
   };
 
   const toggleCheck = (i: number) =>

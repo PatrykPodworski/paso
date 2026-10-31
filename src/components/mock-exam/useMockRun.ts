@@ -1,23 +1,7 @@
-import { useEffect, useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
-import { mockSections } from "../../data/mock";
+import { useCallback, useEffect, useState } from "react";
+import type { MockRun, MockRunPatch } from "../../data/types";
 
-const STAGES = ["intro", "run", "review", "prep", "done"] as const;
-
-export interface Run {
-  section: number;
-  index: number;
-  stage: (typeof STAGES)[number];
-  answers: Record<string, string>;
-  deadline: number;
-  started: string;
-  drafts: Record<string, string>;
-}
-
-export type SetRun = Dispatch<SetStateAction<Run>>;
-export const MOCK_STORAGE_KEY = "paso-mock-v1";
-
-export const fresh = (): Run => ({
+const freshMockRun = (): MockRun => ({
   section: 0,
   index: 0,
   stage: "intro",
@@ -25,47 +9,47 @@ export const fresh = (): Run => ({
   deadline: 0,
   started: "",
   drafts: {},
+  scores: {},
 });
 
-export const load = (): Run => {
-  try {
-    const raw = JSON.parse(localStorage.getItem(MOCK_STORAGE_KEY) || "null");
+export type ChangeRun = (change: MockRunPatch) => void;
 
-    return raw &&
-      Number.isInteger(raw.section) &&
-      raw.section >= 0 &&
-      raw.section < 4 &&
-      Number.isInteger(raw.index) &&
-      raw.index >= 0 &&
-      raw.index < mockSections[raw.section].questions.length &&
-      STAGES.includes(raw.stage) &&
-      raw.answers
-      ? { ...fresh(), ...raw }
-      : fresh();
-  } catch {
-    return fresh();
-  }
+export type MockRunActions = {
+  onRunChange: ChangeRun;
+  onNewRun: (run: MockRunPatch) => void;
+  onLeave: () => void;
 };
 
-export const clearMockRun = () => {
-  try {
-    localStorage.removeItem(MOCK_STORAGE_KEY);
-  } catch {
-    /* The caller's state still resets for this visit. */
-  }
-};
+// The server keeps the run. This page shows each change at once and sends it on, and does not
+// take the server's copy back while it is open, so typing is never reset.
+export const useMockRun = (
+  saved: MockRun | null,
+  { onRunChange, onNewRun, onLeave }: MockRunActions,
+) => {
+  const [run, setRun] = useState(() => saved ?? freshMockRun());
 
-export const useMockRun = () => {
-  const [run, setRun] = useState<Run>(load);
-  const [storageError, setStorageError] = useState(false);
+  // Drafts still waiting to be sent go at once when the learner leaves the exam page.
+  useEffect(() => onLeave, [onLeave]);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(MOCK_STORAGE_KEY, JSON.stringify(run));
-    } catch {
-      setStorageError(true);
-    }
-  }, [run]);
+  const change = useCallback<ChangeRun>(
+    (patch) => {
+      setRun((r) => ({
+        ...r,
+        ...patch,
+        answers: { ...r.answers, ...patch.answers },
+        drafts: { ...r.drafts, ...patch.drafts },
+        scores: { ...r.scores, ...patch.scores },
+      }));
 
-  return { run, setRun, storageError };
+      onRunChange(patch);
+    },
+    [onRunChange],
+  );
+
+  const restart = (patch: MockRunPatch = {}) => {
+    setRun({ ...freshMockRun(), ...patch });
+    onNewRun(patch);
+  };
+
+  return { run, change, restart };
 };

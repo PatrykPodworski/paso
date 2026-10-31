@@ -3,8 +3,15 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { SectionHeading } from "../design-system/SectionHeading";
 import { Button } from "../design-system/Button";
 import { useEffect, useRef, useState } from "react";
-import { RELEARN_MINUTES, localDate, reviewDue, vocabularyReview } from "../data/progress";
-import { type Card, WORDS_PER_ADD, addWords, deckCards, topicCounts, topics } from "../data/topics";
+import { RELEARN_MINUTES, reviewDue, vocabularyReview } from "../data/progress";
+import {
+  type Card,
+  WORDS_PER_ADD,
+  addWords,
+  deckReview,
+  topicCounts,
+  topics,
+} from "../data/topics";
 import type { ProgressSnapshot, VocabularyReview } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { stopAudio } from "./audio/playback";
@@ -262,26 +269,15 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
   const [search, setSearch] = useState("");
   const [session, setSession] = useState<Card[] | null>(null);
   const [now, setNow] = useState(() => new Date());
-  const words = deckCards(progress);
 
-  const due = words
-    .filter((w) => reviewDue(progress.vocabularyReviews[w.id], now))
-    .sort((a, b) =>
-      (progress.vocabularyReviews[a.id]?.nextAt ?? "").localeCompare(
-        progress.vocabularyReviews[b.id]?.nextAt ?? "",
-      ),
-    );
-
-  const scheduled = words.filter((w) => !reviewDue(progress.vocabularyReviews[w.id], now));
-  const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.id].nextAt).sort()[0];
-
-  const reviewedToday = words.filter((w) => {
-    const at = progress.vocabularyReviews[w.id]?.reviewedAt;
-
-    return at && localDate(new Date(at)) === localDate(now);
-  }).length;
-
-  const newCount = due.filter((w) => !progress.vocabularyReviews[w.id]?.reviewedAt).length;
+  const {
+    cards: words,
+    due,
+    scheduled,
+    nextAt,
+    reviewedToday,
+    newCount,
+  } = deckReview(progress, now);
 
   const filtered = words.filter((w) =>
     `${w.es} ${w.en}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),

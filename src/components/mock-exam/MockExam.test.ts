@@ -1,25 +1,28 @@
 import { fireEvent, screen } from "@testing-library/react";
 import { expect, it } from "vitest";
 import { mockSections } from "../../data/mock";
-import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+import { click, mount, now, remount, seed, setupMockExam, state } from "../../test/mockExam";
+import { savedProgress, settle } from "../../test/progressApi";
 
 setupMockExam();
 
-it("stores only objective results once and requires both human scores before a verdict", () => {
+it("stores only objective results once and requires both human scores before a verdict", async () => {
   const answers = Object.fromEntries(
     [...mockSections[0].questions, ...mockSections[1].questions].map((q) => [q.id, q.answer]),
   );
 
-  seed({ section: 3, stage: "review", answers });
-  const { onResult } = mount();
+  const results = async () =>
+    (await savedProgress()).mockResults.map(({ id: _, ...result }) => result);
+
+  await seed({ section: 3, stage: "review", answers });
+  await mount();
 
   click("See my results");
+  await settle();
 
-  expect(onResult).toHaveBeenCalledExactlyOnceWith({
-    at: new Date(now).toISOString(),
-    reading: 25,
-    listening: 25,
-  });
+  expect(await results()).toEqual([
+    { at: new Date(now).toISOString(), reading: 25, listening: 25 },
+  ]);
 
   expect(screen.getAllByText("Human review")).toHaveLength(2);
   expect(screen.getByText(/A pass cannot be determined/)).toBeInTheDocument();
@@ -43,9 +46,27 @@ it("stores only objective results once and requires both human scores before a v
   fireEvent.change(writing, { target: { value: "26" } });
   expect(screen.getByText(/A pass cannot be determined/)).toBeInTheDocument();
   click("Return to exam overview");
-  expect(state().stage).toBe("intro");
-  expect(state().answers).toEqual({});
-  expect(onResult).toHaveBeenCalledOnce();
+  expect(await state()).toMatchObject({ stage: "intro", answers: {}, scores: {} });
+  expect(await results()).toHaveLength(1);
+});
+
+it("keeps the typed human scores after a reload", async () => {
+  await seed({ section: 3, stage: "done" });
+  await mount();
+
+  fireEvent.change(screen.getByRole("spinbutton", { name: "Writing score /25" }), {
+    target: { value: "18.5" },
+  });
+
+  fireEvent.change(screen.getByRole("spinbutton", { name: "Speaking score /25" }), {
+    target: { value: "26" },
+  });
+
+  expect((await state()).scores).toEqual({ writing: "18.5", speaking: "26" });
+  await remount();
+  expect(screen.getByRole("spinbutton", { name: "Writing score /25" })).toHaveValue(18.5);
+  expect(screen.getByRole("spinbutton", { name: "Speaking score /25" })).toHaveValue(26);
+  expect(screen.getByText(/A pass cannot be determined/)).toBeInTheDocument();
 });
 
 it.each([
@@ -53,9 +74,9 @@ it.each([
   [0, 25],
   [25, 0],
   [25, 25],
-])("accepts inclusive human score limits %s and %s", (writing, speaking) => {
-  seed({ section: 3, stage: "done" });
-  mount();
+])("accepts inclusive human score limits %s and %s", async (writing, speaking) => {
+  await seed({ section: 3, stage: "done" });
+  await mount();
 
   fireEvent.change(screen.getByRole("spinbutton", { name: "Writing score /25" }), {
     target: { value: String(writing) },
@@ -69,9 +90,9 @@ it.each([
   expect(screen.getByText(/At least one group is below/)).toBeInTheDocument();
 });
 
-it("rejects negative and excessive writing scores independently", () => {
-  seed({ section: 3, stage: "done" });
-  mount();
+it("rejects negative and excessive writing scores independently", async () => {
+  await seed({ section: 3, stage: "done" });
+  await mount();
 
   fireEvent.change(screen.getByRole("spinbutton", { name: "Speaking score /25" }), {
     target: { value: "25" },
@@ -86,8 +107,8 @@ it("rejects negative and excessive writing scores independently", () => {
   }
 });
 
-it("shows Lucía's grades for the three talks next to the speaking score", () => {
-  seed({
+it("shows Lucía's grades for the three talks next to the speaking score", async () => {
+  await seed({
     section: 3,
     stage: "done",
     talks: {
@@ -96,7 +117,7 @@ it("shows Lucía's grades for the three talks next to the speaking score", () =>
     },
   });
 
-  mount();
+  await mount();
 
   expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
     "Task 1GoodTask 2PerfectTask 3Not done",
@@ -105,13 +126,13 @@ it("shows Lucía's grades for the three talks next to the speaking score", () =>
   expect(screen.getByText(/not DELE points/)).toBeInTheDocument();
 });
 
-it("shows the objective scores on the results page", () => {
+it("shows the objective scores on the results page", async () => {
   const answers = Object.fromEntries(
     mockSections[0].questions.slice(0, 3).map((q) => [q.id, q.answer]),
   );
 
-  seed({ section: 3, stage: "done", answers });
-  mount();
+  await seed({ section: 3, stage: "done", answers });
+  await mount();
   expect(screen.getByText("Reading").parentElement).toHaveTextContent("Reading3/25");
   expect(screen.getByText("Listening").parentElement).toHaveTextContent("Listening0/25");
   expect(screen.queryByRole("timer")).not.toBeInTheDocument();

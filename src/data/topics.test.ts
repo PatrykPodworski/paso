@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { vocabulary } from "./curriculum";
-import { emptyProgress } from "./progress";
+import { emptySnapshot } from "../test/progress";
 import { addWords, cardStatus, deckCards, topicCounts, topics } from "./topics";
 
 const cards = topics.flatMap((t) => t.cards);
@@ -44,7 +44,7 @@ describe("card status and topic counts", () => {
   const review = (level: number) => ({ level, nextAt: "2026-09-25T00:00:00.000Z" });
 
   it("counts every word of a topic as new on empty progress", () => {
-    expect(topicCounts(family, emptyProgress())).toEqual({
+    expect(topicCounts(family, emptySnapshot())).toEqual({
       total: family.length,
       new: family.length,
       learning: 0,
@@ -53,7 +53,7 @@ describe("card status and topic counts", () => {
   });
 
   it("treats a completed unit's words as learning before their first review", () => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
     const unit = card("la madre").unit!;
 
     progress.completed[`u${unit}-words`] = { score: 1, total: 1, at: "2026-09-25" };
@@ -62,7 +62,7 @@ describe("card status and topic counts", () => {
   });
 
   it("marks a word known from review level 4", () => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     progress.vocabularyReviews["el suegro"] = review(3);
     progress.vocabularyReviews["la suegra"] = review(4);
@@ -72,7 +72,7 @@ describe("card status and topic counts", () => {
   });
 
   it("tracks each meaning of a word separately", () => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     progress.vocabularyReviews["el mono"] = review(0);
     expect(cardStatus(card("el mono"), progress)).toBe("learning");
@@ -85,7 +85,7 @@ describe("adding words from a topic", () => {
   const weather = topics.find((t) => t.topic === "Weather")!.cards;
 
   it("adds the next five new words in list order, due at once", () => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     progress.vocabularyReviews[weather[1].id] = { level: 2, nextAt: at };
     const added = addWords(weather, progress, at);
@@ -95,7 +95,7 @@ describe("adding words from a topic", () => {
   });
 
   it("adds only what is left, and nothing once the topic is exhausted", () => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     for (const c of weather.slice(0, -3)) {
       progress.vocabularyReviews[c.id] = { level: 1, nextAt: at };
@@ -109,11 +109,11 @@ describe("adding words from a topic", () => {
 
 describe("the learner's deck", () => {
   it("is empty on new progress", () => {
-    expect(deckCards(emptyProgress())).toEqual([]);
+    expect(deckCards(emptySnapshot())).toEqual([]);
   });
 
   it("holds added topic words and completed unit words once each", () => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
     const unit = card("hola").unit!;
 
     progress.completed[`u${unit}-words`] = { score: 1, total: 1, at: "2026-09-25" };

@@ -7,9 +7,9 @@ a rehearsal of the exam under its official time limits. The course content was
 written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
-It runs in the browser and keeps your progress there. There is no account and no
-database. The one exception is the live talk with Lucía in unit 1: your
-voice goes to OpenAI for that talk, and its transcript is sent back for scoring.
+It runs in the browser and saves your progress online, under a learner id this
+browser keeps. There is no account yet. The live talk with Lucía in unit 1 sends
+your voice to OpenAI for that talk, and its transcript is sent back for scoring.
 
 Try it: **https://paso.podwor.ski**
 
@@ -54,9 +54,9 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
   answers, section reviews, and an export you can hand to a teacher.
 - **An A1 guide** with a readiness checklist, the official resources, exam
   logistics and a calculator for the two-group pass rule.
-- **Progress stays in your browser.** Lessons, history, goals, streaks, XP,
-  preferences, drafts and self-assessments persist locally and can be exported
-  from preferences.
+- **Progress is saved online.** Lessons, history, goals, streaks, XP,
+  preferences, drafts and self-assessments are saved as you go and can be
+  exported from preferences.
 
 The interface is built for long sessions: large default type and controls,
 keyboard navigation, modal focus containment, reduced-motion support and
@@ -64,8 +64,8 @@ original SVG illustrations.
 
 ## How it is built
 
-Vite, React and TypeScript, with pnpm. The only backend is two Vercel functions in
-`api/` for the live examiner. The course is data
+Vite, React and TypeScript, with pnpm. The backend is Vercel functions in `api/`:
+the live examiner, and progress in Postgres. The course is data
 rather than components, so the units, lessons and exercises live under
 `src/data/` and are edited without touching the UI.
 
@@ -74,11 +74,12 @@ rather than components, so the units, lessons and exercises live under
 | `src/App.tsx`            | Dashboard, learning path, studio, prefs   |
 | `src/data/curriculum.ts` | The course itself: units, lessons, drills |
 | `src/data/mock.ts`       | Exam rehearsal and personal form          |
-| `src/data/progress.ts`   | Scoring, persistence, writing checks      |
+| `src/data/progress.ts`   | Scoring, review windows, writing checks   |
 | `src/data/research.ts`   | The source-linked readiness map           |
 | `src/components/`        | Question types, exam, audio, live talk    |
 | `public/audio/`          | Generated speech and its manifest         |
-| `api/`                   | Live examiner session and talk scoring    |
+| `api/`                   | Live examiner, progress API               |
+| `db/`                    | Progress migrations and their runner      |
 
 Styling is the hand-written `src/styles.css`. Tailwind utilities are available
 alongside it and new styling should use them; Tailwind's preflight is
@@ -119,6 +120,14 @@ on the server; `api/score-talk.ts` grades the transcript afterwards.
 The first talk is free for each network; later talks need the passcode. The
 functions read `OPENAI_API_KEY` and `PASSCODE`. `pnpm dev` does not run them, so
 use `vercel dev` to try a real talk locally.
+
+## Progress
+
+`api/progress.ts` reads and writes a learner's progress in Neon Postgres
+(`DATABASE_URL`) and needs the same passcode as the live talk. The app asks for
+it once and keeps it in this browser. `pnpm dev` serves the same API from an
+in-memory Postgres that starts empty, without a passcode. Progress saved in this
+browser before the move is not read.
 
 ## Tests
 

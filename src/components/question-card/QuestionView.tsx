@@ -15,7 +15,12 @@ type Props = Omit<ComponentProps<typeof QuestionCard>, "onEvaluated"> & {
 // A live talk replaces the whole answer area, so it is a separate view.
 export const QuestionView = (props: Props) =>
   props.q.kind === "live" ? (
-    <LiveQuestion q={props.q} onEvaluated={props.onEvaluated} onSubmit={props.onSubmit} />
+    <LiveQuestion
+      q={props.q}
+      onEvaluated={props.onEvaluated}
+      onSubmit={props.onSubmit}
+      previous={props.previous}
+    />
   ) : (
     <QuestionCard {...props} />
   );

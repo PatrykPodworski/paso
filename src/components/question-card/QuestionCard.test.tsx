@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
-import { formPractice } from "../../data/mock";
+import { formPractice, mockQuestions } from "../../data/mock";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -150,4 +150,46 @@ it("adds the numbered word to the tray and ignores a repeat of the same digit", 
 
   expect(within(tray).getAllByRole("button")).toHaveLength(1);
   expect(tray).toHaveTextContent(q.tokens![1]);
+});
+
+const writingWithPassage = mockQuestions.find((q) => q.kind === "write" && q.passage)!;
+
+const fillWriting = (q: typeof writing) => {
+  if (q.kind === "form") {
+    for (const f of q.fields!) {
+      fireEvent.change(screen.getByRole("textbox", { name: f.label }), {
+        target: { value: f.example },
+      });
+    }
+  } else {
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: q.answer } });
+  }
+};
+
+const audioButtons = () => [
+  ...screen.queryAllByRole("button", { name: "Play Spanish audio" }),
+  ...screen.queryAllByRole("button", { name: "Play the reading passage" }),
+];
+
+it.each([writing, writingWithPassage, formPractice])(
+  "a lesson writing task plays no audio before or after review: $id",
+  (q) => {
+    render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+
+    expect(audioButtons()).toHaveLength(0);
+    fillWriting(q);
+    click("Review my practice");
+    expect(screen.getByRole("button", { name: "Revise my answer" })).toBeVisible();
+    expect(audioButtons()).toHaveLength(0);
+    expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+  },
+);
+
+it("a typed answer still reads the Spanish model after checking", () => {
+  render(<QuestionCard q={type} onSubmit={vi.fn()} />);
+
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: type.answer } });
+  click("Check answer");
+  expect(screen.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toBeVisible();
+  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
 });

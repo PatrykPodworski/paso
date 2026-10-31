@@ -5,14 +5,14 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { Icon } from "../../design-system/Icon";
 import { ScoreCalculator } from "./ScoreCalculator";
-import type { Run } from "./useMockRun";
+import type { MockRun } from "../../data/types";
 
 type Props = {
   reading: number;
   listening: number;
   writing: string;
   speaking: string;
-  talks: Run["talks"];
+  talks: MockRun["talks"];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
   onDownload: () => void;

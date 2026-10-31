@@ -6,14 +6,18 @@ import {
   stabilise,
   capture,
   resumeMockExam,
+  seedProgress,
 } from "../fixtures/app";
+import { progressSeed } from "../fixtures/progressSeed";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
-import { emptyProgress } from "../../src/data/progress";
 import type { Page } from "@playwright/test";
 import { examiner, mockLiveTalk } from "../fixtures/live";
 
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });
+
+  // Views render once progress has loaded, and a clip may start only then.
+  await expect(page.getByText("Loading your progress…")).toBeHidden();
 
   if (await stop.isVisible()) {
     await stop.click();
@@ -60,26 +64,34 @@ test("mistakes: empty and populated", async ({ page }) => {
   await page.getByRole("button", { name: "My mistakes (0)" }).click();
   await shot(page, "mistakes-empty");
 
-  await page.evaluate((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), {
-    ...emptyProgress(),
+  // A mistake comes from a wrong answer.
+  await seedProgress(page, {
+    ...progressSeed(),
     mistakes: [allQuestions[0].id],
+    attempts: [
+      {
+        id: "wrong",
+        questionId: allQuestions[0].id,
+        skill: allQuestions[0].skill,
+        answer: "",
+        correct: false,
+        at: "2026-09-09T08:00:00Z",
+      },
+    ],
   });
 
   await page.reload();
   await page.getByRole("button", { name: "My mistakes (1)" }).click();
-  await page.getByText(allQuestions[0].prompt, { exact: true }).click();
+  await page.locator("summary").filter({ hasText: allQuestions[0].prompt }).click();
   await shot(page, "mistakes-with-explanation");
 });
 
 test("vocabulary: overview, review, feedback and no results", async ({ page }) => {
-  const p = emptyProgress();
+  const p = progressSeed();
 
   p.completed["u6-words"] = { at: "2026-01-01T00:00:00Z", score: 8, total: 8 };
 
-  await page.addInitScript(
-    (state) => localStorage.setItem("paso-progress-v1", JSON.stringify(state)),
-    p,
-  );
+  await seedProgress(page, p);
 
   // Each card autoplays its word and revealing autoplays the example. Waiting for the clip
   // lets shot() stop it instead of racing it.
@@ -118,7 +130,7 @@ test("mobile navigation drawer", async ({ page }, info) => {
 });
 
 test("personalized dashboard with completed lessons and activity", async ({ page }) => {
-  const p = emptyProgress();
+  const p = progressSeed();
 
   p.name = "Ana";
   p.goal = 5;
@@ -135,14 +147,17 @@ test("personalized dashboard with completed lessons and activity", async ({ page
   }));
 
   p.mistakes = [allLessons[0].questions[0].id];
-  await page.addInitScript((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), p);
+  await seedProgress(page, p);
   await page.goto("/");
   await shot(page, "dashboard-progress");
 });
 
 test("guide failing score groups and checklist", async ({ page }) => {
   await page.goto("/#guide");
-  await page.getByRole("checkbox").first().check();
+  const first = page.getByRole("checkbox").first();
+
+  await first.click();
+  await expect(first).toBeChecked();
   await page.getByRole("slider").nth(2).fill("0");
   await shot(page, "guide-below-threshold");
 });
@@ -185,6 +200,34 @@ test("question: completed grammar sentence and apellidos field pronunciation", a
 
   await answer(page, reading.questions[0]);
   await shot(page, "question-apellidos-reading-feedback");
+});
+
+test("recent answers and the previous attempt", async ({ page }) => {
+  const [first, second] = allLessons[0].questions;
+  const writing = allQuestions.find((q) => q.kind === "write")!;
+
+  const answers = [
+    [first, first.options!.find((o) => o !== first.answer)!, false],
+    [second, second.answer, true],
+    [writing, "Me llamo Ana y vivo en Madrid.", null],
+  ] as const;
+
+  await seedProgress(page, {
+    ...progressSeed(),
+    attempts: answers.map(([q, answer, correct], i) => ({
+      id: `seed-${i}`,
+      questionId: q.id,
+      skill: q.skill,
+      answer,
+      correct,
+      at: `2026-09-0${8 - i}T10:00:00Z`,
+    })),
+  });
+
+  await page.goto("/#practice");
+  await shot(page, "practice-recent-answers");
+  await openLesson(page, 0);
+  await shot(page, "question-last-time");
 });
 
 test("lesson completion", async ({ page }) => {
@@ -252,6 +295,12 @@ const examCases = [
 for (const [name, section, index, stage] of examCases) {
   test(`exam state: ${name}`, async ({ page }) => {
     await resumeMockExam(page, { section, index, stage });
+
+    if (name === "listening") {
+      // The clip starts itself, or the browser blocks it; either way the view then holds still.
+      await expect(page.getByText(/^1\/2 plays$|^Tap the play button/)).toBeVisible();
+    }
+
     await shot(page, `exam-${name}`);
 
     if (name === "reading") {

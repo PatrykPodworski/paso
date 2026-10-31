@@ -1,6 +1,6 @@
 import { TONE } from "./tone";
 import { Eyebrow } from "../design-system/Eyebrow";
-import type { Lesson, Progress, Unit } from "../data/types";
+import type { Lesson, ProgressSnapshot, Unit } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { Icon } from "../design-system/Icon";
 import { PRESSABLE } from "../design-system/pressable";
@@ -9,7 +9,7 @@ type Props = {
   unit: Unit;
   onPath?: boolean;
   index: number;
-  progress: Progress;
+  progress: ProgressSnapshot;
   start: (l: Lesson) => void;
   expanded: boolean;
   onExpand: () => void;

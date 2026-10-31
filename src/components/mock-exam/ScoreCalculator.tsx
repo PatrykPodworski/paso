@@ -3,7 +3,7 @@ import { Notice } from "../../design-system/Notice";
 import { mockSections } from "../../data/mock";
 import { passingGroups } from "../../data/progress";
 import { FIELD } from "../../design-system/field";
-import type { Run } from "./useMockRun";
+import type { MockRun } from "../../data/types";
 
 const GRADES = { perfect: "Perfect", good: "Good", bad: "Not everything" };
 
@@ -12,7 +12,7 @@ type Props = {
   listening: number;
   writing: string;
   speaking: string;
-  talks: Run["talks"];
+  talks: MockRun["talks"];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
 };

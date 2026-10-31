@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { mockSections } from "../../data/mock";
-import type { Progress } from "../../data/types";
+import type { MockRun, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
-import { fresh, useMockRun } from "./useMockRun";
+import { type MockRunActions, useMockRun } from "./useMockRun";
 
-export const useMockExam = (onResult: (result: Progress["mockResults"][number]) => void) => {
-  const { run, setRun, storageError } = useMockRun();
+export type MockExamActions = MockRunActions & { onResult: (result: NewMockResult) => void };
+
+export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: MockExamActions) => {
+  const { run, change, restart } = useMockRun(saved, actions);
   const [now, setNow] = useState(Date.now());
   const [confirm, setConfirm] = useState(false);
   const left = Math.max(0, Math.ceil((run.deadline - now) / 1000));
@@ -33,21 +35,18 @@ export const useMockExam = (onResult: (result: Progress["mockResults"][number]) 
     ) {
       stopAudio();
 
-      setRun((r) =>
-        r.stage === "prep"
-          ? { ...r, stage: "run", deadline: Date.now() + 600000 }
-          : { ...r, stage: "review" },
+      change(
+        run.stage === "prep"
+          ? { stage: "run", deadline: Date.now() + 600000 }
+          : { stage: "review" },
       );
-
-      setConfirm(false);
     }
-  }, [now, run.deadline, run.stage, speaking, setRun]);
+  }, [now, run.deadline, run.stage, speaking, change]);
 
   const start = () => {
     setNow(Date.now());
 
-    setRun({
-      ...fresh(),
+    restart({
       stage: "run",
       started: new Date().toISOString(),
       deadline: Date.now() + 45 * 60000,
@@ -57,18 +56,20 @@ export const useMockExam = (onResult: (result: Progress["mockResults"][number]) 
   const endSection = () => {
     stopAudio();
     setConfirm(false);
-    setRun((r) => ({ ...r, stage: "review" }));
+    change({ stage: "review" });
   };
 
   const score = (index: number) =>
     mockSections[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || "")).length;
 
   const nextSection = () => {
+    setConfirm(false);
+
     if (run.section === 3) {
       const result = { at: new Date().toISOString(), reading: score(0), listening: score(1) };
 
       onResult(result);
-      setRun((r) => ({ ...r, stage: "done" }));
+      change({ stage: "done" });
 
       return;
     }
@@ -77,19 +78,18 @@ export const useMockExam = (onResult: (result: Progress["mockResults"][number]) 
 
     setNow(Date.now());
 
-    setRun((r) => ({
-      ...r,
-      index: 0,
+    change({
       section: next,
+      index: 0,
       stage: next === 3 ? "prep" : "run",
       deadline: Date.now() + (next === 3 ? 10 : mockSections[next].minutes) * 60000,
-    }));
+    });
   };
 
   return {
     run,
-    setRun,
-    storageError,
+    change,
+    restart,
     setNow,
     left,
     confirm,

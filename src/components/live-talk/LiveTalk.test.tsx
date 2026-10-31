@@ -116,7 +116,15 @@ const mount = (props: Partial<ComponentProps<typeof LiveTalk>> = {}) => {
   const onEvaluated = vi.fn();
   const onSubmit = vi.fn();
 
-  render(<LiveTalk task="u1" onEvaluated={onEvaluated} onSubmit={onSubmit} {...props} />);
+  render(
+    <LiveTalk
+      questionId="u1-o3"
+      task="u1"
+      onEvaluated={onEvaluated}
+      onSubmit={onSubmit}
+      {...props}
+    />,
+  );
 
   return { onEvaluated, onSubmit };
 };
@@ -344,6 +352,109 @@ describe("a live talk", () => {
     await click("Score again");
     expect(await screen.findByRole("heading", { name: "Perfect. You passed." })).toBeVisible();
   });
+
+  it("offers to score a failed talk again after the question is opened again", async () => {
+    let scores = 0;
+
+    api.mockImplementation(async (url: string) =>
+      url === "/api/live-session"
+        ? started()
+        : ++scores === 1
+          ? new Response("{}", { status: 502 })
+          : Response.json({ grade: "good", items: graded("correct", "understandable", "correct") }),
+    );
+
+    mount();
+    await talk();
+    await finish();
+    expect(await screen.findByText(/could not be scored/)).toBeVisible();
+    cleanup();
+
+    const { onEvaluated } = mount();
+
+    await click("Score again");
+    expect(await screen.findByRole("heading", { name: "Good. You passed." })).toBeVisible();
+    expect(await openTranscript()).toHaveTextContent("Lucía¿Cómo te llamas?YouMe llamo Ana.");
+
+    expect(body("/api/score-talk")).toEqual({
+      task: "u1",
+      turns: [
+        { role: "examiner", text: "¿Cómo te llamas?" },
+        { role: "student", text: "Me llamo Ana." },
+      ],
+    });
+
+    expect(onEvaluated).toHaveBeenCalledWith(
+      "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+      true,
+      false,
+      expect.objectContaining({ grade: "good" }),
+    );
+
+    cleanup();
+    mount();
+    expect(screen.queryByText(/could not be scored/)).toBeNull();
+  });
+
+  it("scores a reopened talk with the saved passcode", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+
+    api.mockImplementation(async (url: string) =>
+      url === "/api/live-session" ? started() : new Response("{}", { status: 502 }),
+    );
+
+    mount();
+    await talk();
+    await finish();
+    expect(await screen.findByText(/could not be scored/)).toBeVisible();
+    cleanup();
+    mount();
+    await click("Score again");
+
+    const passcodes = api.mock.calls
+      .filter((c) => c[0] === "/api/score-talk")
+      .map((c) => JSON.parse(c[1].body).passcode);
+
+    expect(passcodes).toEqual(["olé", "olé"]);
+  });
+
+  it("forgets a failed talk once the learner starts a new one", async () => {
+    api.mockImplementation(async (url: string) =>
+      url === "/api/live-session" ? started() : new Response("{}", { status: 502 }),
+    );
+
+    mount();
+    await talk();
+    await finish();
+    expect(await screen.findByText(/could not be scored/)).toBeVisible();
+    cleanup();
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+    mount();
+    expect(screen.getByText(/could not be scored/)).toBeVisible();
+    await talk();
+
+    expect(screen.queryByText(/could not be scored/)).toBeNull();
+
+    cleanup();
+    mount();
+
+    expect(screen.queryByText(/could not be scored/)).toBeNull();
+  });
+});
+
+it("clips a long transcript to the 4000 characters progress stores", async () => {
+  replies(started(), { grade: "good", items: [] });
+  const { onEvaluated } = mount();
+
+  await talk();
+  say("student", "a".repeat(4000), 2500);
+  await finish();
+  await screen.findByRole("heading", { name: "Good. You passed." });
+
+  const [answer] = onEvaluated.mock.calls[0];
+
+  expect(answer).toHaveLength(4000);
+  expect(answer.startsWith("Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.")).toBe(true);
 });
 
 describe("access", () => {
@@ -355,6 +466,18 @@ describe("access", () => {
     expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
       freeUsed: true,
       passcode: "",
+    });
+  });
+
+  it("keeps the passcode progress stored when the free talk is used", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
+    replies(started(), { grade: "perfect", items: [] });
+    mount();
+    await talk();
+
+    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
+      freeUsed: true,
+      passcode: "olé",
     });
   });
 
@@ -414,6 +537,20 @@ describe("access", () => {
 
     expect(screen.getByText("This network has already used its free live talk.")).toBeVisible();
     expect(screen.getByLabelText("Passcode")).toBeVisible();
+  });
+
+  it("keeps the passcode progress stored when the server says the free talk is used", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
+    replies(Response.json({ error: "free_used" }, { status: 403 }));
+    mount();
+    await click("Start the talk");
+
+    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
+      freeUsed: true,
+      passcode: "olé",
+    });
+
+    expect(screen.getByLabelText("Passcode")).toHaveValue("olé");
   });
 
   it("explains the limit on wrong passcodes", async () => {

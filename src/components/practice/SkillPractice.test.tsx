@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import { foundations, visualQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
-import { emptyProgress } from "../../data/progress";
+import { emptySnapshot } from "../../test/progress";
 import type { Lesson } from "../../data/types";
 import { SkillPractice } from "./SkillPractice";
 
@@ -11,7 +11,7 @@ it("launches each focused practice bank", () => {
 
   render(
     <SkillPractice
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       filter="all"
       setSession={(l) => (lesson = l)}
       practice={vi.fn()}
@@ -36,7 +36,7 @@ it.each([
 
   render(
     <SkillPractice
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       filter="all"
       setSession={(l) => (lesson = l)}
       practice={vi.fn()}

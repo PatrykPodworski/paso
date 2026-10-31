@@ -47,6 +47,17 @@ it("requires non-whitespace typed text and Enter checks exactly once", () => {
   expect(input).toBeDisabled();
 });
 
+it("Enter that checks a typed answer cancels its default action", () => {
+  const evaluated = vi.fn();
+
+  render(<QuestionCard q={type} onSubmit={vi.fn()} onEvaluated={evaluated} />);
+  const input = screen.getByRole("textbox");
+
+  fireEvent.change(input, { target: { value: type.answer } });
+  expect(fireEvent.keyDown(input, { key: "Enter" })).toBe(false);
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(type.answer, true, false);
+});
+
 it("inserts accents at the selected text and restores cursor focus", async () => {
   render(<QuestionCard q={type} onSubmit={vi.fn()} />);
   const input = screen.getByRole("textbox") as HTMLInputElement;

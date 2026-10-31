@@ -1,6 +1,5 @@
 import { type Db, neonDb } from "./_lib/db.js";
-import { json } from "./_lib/limits.js";
-import { passcodeRefusal } from "./_lib/passcode.js";
+import { clientIp, DAY_SECONDS, json, take, today } from "./_lib/limits.js";
 import {
   attemptOf,
   GOALS,
@@ -134,14 +133,38 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
   reset: () => resetProgress,
 };
 
-// Browsers send header values as Latin-1, so clients URI-encode the passcode.
-const passcodeOf = (request: Request) => {
-  const sent = request.headers.get("x-passcode") ?? "";
+// Requests per address. A lesson sends about one write per answer, so a learner stays far
+// below both; the limits stop a script from flooding the store with new learner ids.
+export const PER_MINUTE = 120;
+export const PER_DAY = 5000;
+
+// The largest body a write needs is a vocabulary batch or a mock run with its drafts, both
+// well under this. Vercel already refuses bodies over 4.5 MB, so reading one is bounded.
+export const MAX_BODY = 256 * 1024;
+
+// Returns the refusal once the address has used up a limit, or null.
+export const progressLimit = async (request: Request) => {
+  const ip = clientIp(request);
+  const minute = Math.floor(Date.now() / 60_000);
+
+  const allowed =
+    (await take(`progress:minute:${ip}:${minute}`, PER_MINUTE, 60)) &&
+    (await take(`progress:day:${ip}:${today()}`, PER_DAY, DAY_SECONDS));
+
+  return allowed ? null : json({ error: "rate" }, 429);
+};
+
+const bodyOf = async (request: Request) => {
+  const raw = await request.arrayBuffer();
+
+  if (raw.byteLength > MAX_BODY) {
+    return "too_large";
+  }
 
   try {
-    return decodeURIComponent(sent);
+    return JSON.parse(new TextDecoder().decode(raw)) as unknown;
   } catch {
-    return sent;
+    return null;
   }
 };
 
@@ -149,8 +172,14 @@ const passcodeOf = (request: Request) => {
 export const handleProgress = async (
   request: Request,
   db: Db,
-  refusal: (request: Request, passcode: string) => Promise<Response | null>,
+  limit: (request: Request) => Promise<Response | null>,
 ) => {
+  const refused = await limit(request);
+
+  if (refused) {
+    return refused;
+  }
+
   const learner = request.headers.get("x-learner-id") ?? "";
   let write: Write = readProgress;
 
@@ -159,7 +188,11 @@ export const handleProgress = async (
   }
 
   if (request.method === "POST") {
-    const body: unknown = await request.json().catch(() => null);
+    const body = await bodyOf(request);
+
+    if (body === "too_large") {
+      return json({ error: "too_large" }, 413);
+    }
 
     if (!isRecord(body)) {
       return json({ error: "body" }, 400);
@@ -179,12 +212,6 @@ export const handleProgress = async (
     return json({ error: "method" }, 405);
   }
 
-  const refused = await refusal(request, passcodeOf(request));
-
-  if (refused) {
-    return refused;
-  }
-
   return json(await write(db, learner.toLowerCase()), 200);
 };
 
@@ -197,7 +224,7 @@ const handle = (request: Request) => {
     return json({ error: "unavailable" }, 503);
   }
 
-  return handleProgress(request, neonDb(url), passcodeRefusal);
+  return handleProgress(request, neonDb(url), progressLimit);
 };
 
 export const GET = handle;

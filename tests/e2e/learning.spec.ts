@@ -73,12 +73,12 @@ test("a choice reads el nombre immediately and the next listening question start
     .toBe(expectedAudio("el apellido"));
 
   expect(await page.evaluate(() => (window as any).__clips[0].paused)).toBe(true);
-  await expect(page.getByRole("button", { name: "Stop audio" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
   const clipsBeforeAnswer = await page.evaluate(() => (window as any).__clips.length);
 
   await page.getByRole("button", { name: "surname", exact: true }).click();
   expect(await page.evaluate(() => (window as any).__clips.length)).toBe(clipsBeforeAnswer);
-  await page.getByRole("button", { name: "Stop audio" }).click();
+  await page.getByRole("button", { name: "Pause audio" }).click();
   await page.getByRole("button", { name: "Play Spanish audio" }).click();
 
   await expect
@@ -86,7 +86,7 @@ test("a choice reads el nombre immediately and the next listening question start
     .toBe(clipsBeforeAnswer + 1);
 
   await expect(
-    page.locator(".question-heading").getByRole("button", { name: "Stop audio" }),
+    page.locator(".question-heading").getByRole("button", { name: "Pause audio" }),
   ).toBeVisible();
 });
 
@@ -508,7 +508,7 @@ test("listening records transcript assistance and plays bundled audio", async ({
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   const q = lesson.questions[1];
 
-  await expect(page.getByRole("button", { name: "Stop audio" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
   await page.getByRole("button", { name: "Need a hand? Show transcript" }).click();
   await page.getByRole("button", { name: "Hide transcript" }).click();
   await answer(page, q);

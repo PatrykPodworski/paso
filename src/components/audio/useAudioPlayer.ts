@@ -30,12 +30,15 @@ export const useAudioPlayer = ({
   const [speed, setSpeed] = useState(1);
   const [count, setCount] = useState(0);
   const [error, setError] = useState("");
-  const ref = useRef<HTMLAudioElement | null>(null);
+  // Read the clip and its resume from here at use time: an adopted playback may
+  // start, or fall back to another source, after this player took it over.
   const playbackRef = useRef<Playback | null>(null);
-  const resumePlayback = useRef<(() => Promise<void>) | null>(null);
+  // A continuous clip pauses in place so the next player can pick it up there.
+  const resumable = minimal || continuous;
+  const resumeClip = () => (resumable ? playbackRef.current?.resume : null);
 
   useEffect(() => {
-    // Take over a clip that is still running for the same text, so a passage
+    // Take over a clip that is still running for the same text, so a recording
     // survives the move to the next question about it.
     const running = activePlayback;
 
@@ -45,15 +48,13 @@ export const useAudioPlayer = ({
 
     playbackRef.current = running;
     running.setPlaying = setPlaying;
-    ref.current = running.audio;
-    resumePlayback.current = running.resume;
     setPlaying(!running.audio?.paused);
   }, [continuous, text]);
 
   useEffect(
     () => () => {
       if (continuous) {
-        // The session stops shared playback once the passage changes.
+        // The session stops shared playback once the recording changes.
         return;
       }
 
@@ -67,14 +68,14 @@ export const useAudioPlayer = ({
   );
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.playbackRate = speed;
+    if (playbackRef.current?.audio) {
+      playbackRef.current.audio.playbackRate = speed;
     }
   }, [speed]);
 
   const pause = () => {
-    if (minimal && resumePlayback.current) {
-      ref.current?.pause();
+    if (resumeClip()) {
+      playbackRef.current?.audio?.pause();
     } else {
       stopAudio();
     }
@@ -101,8 +102,10 @@ export const useAudioPlayer = ({
       return;
     }
 
-    if (minimal && !restart && resumePlayback.current) {
-      await resume(resumePlayback.current);
+    const paused = !restart && resumeClip();
+
+    if (paused) {
+      await resume(paused);
 
       return;
     }
@@ -115,11 +118,6 @@ export const useAudioPlayer = ({
     setError("");
     let cancelled = false;
     const isCancelled = () => cancelled;
-
-    const clearResume = () => {
-      playback.resume = null;
-      resumePlayback.current = null;
-    };
 
     const countPlay = () => {
       setCount((c) => c + 1);
@@ -137,7 +135,7 @@ export const useAudioPlayer = ({
         const running = !cancelled;
 
         cancelled = true;
-        clearResume();
+        playback.resume = null;
 
         if (running) {
           playback.audio?.pause();
@@ -153,17 +151,11 @@ export const useAudioPlayer = ({
 
     const started = await playClips(text, speed, playback, {
       cancelled: isCancelled,
-      onClip: (audio) => {
-        ref.current = audio;
-      },
       onEnded: () => {
-        clearResume();
+        playback.resume = null;
         playback.setPlaying(false);
       },
-      onStarted: () => {
-        resumePlayback.current = playback.resume;
-        countPlay();
-      },
+      onStarted: countPlay,
       onBlocked: () => {
         setPlaying(false);
         setError(TAP_TO_PLAY);
@@ -184,7 +176,13 @@ export const useAudioPlayer = ({
   };
 
   useImperativeHandle(controlsRef, () => ({ play: () => void play(true), playing: () => playing }));
-  const startAutomatically = useEffectEvent(() => void play(true));
+
+  const startAutomatically = useEffectEvent(() => {
+    // An adopted clip keeps playing, or stays paused, where the last player left it.
+    if (!continuous || activePlayback?.text !== text) {
+      void play(true);
+    }
+  });
 
   useEffect(() => {
     if (autoPlay) {
@@ -192,5 +190,5 @@ export const useAudioPlayer = ({
     }
   }, [autoPlay, text]);
 
-  return { playing, speed, setSpeed, count, error, play };
+  return { playing, resumable, speed, setSpeed, count, error, play };
 };

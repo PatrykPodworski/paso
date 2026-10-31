@@ -14,6 +14,7 @@ import { mockSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
 import type { MockRun } from "../../data/types";
+import { draftAnswers } from "./draftAnswers";
 import type { ChangeRun } from "./useMockRun";
 
 type Props = {
@@ -27,6 +28,7 @@ type Props = {
 export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
+  const answers = { ...run.answers, ...draftAnswers(run) };
 
   return (
     <Panel className="px-7 pt-5 pb-5 max-md:p-4">
@@ -88,8 +90,8 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           <DialogHeader>
             <DialogTitle>Finish {section.title.toLowerCase()}?</DialogTitle>
             <DialogDescription>
-              {section.questions.filter((q) => !run.answers[q.id]).length} unanswered. After
-              finishing, answers in this section cannot be changed.
+              {section.questions.filter((q) => !answers[q.id]).length} unanswered. After finishing,
+              answers in this section cannot be changed.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

@@ -8,86 +8,7 @@
 @theme {
   --font-*: initial;
   --color-*: initial;
-  --color-white: #fff;
   --color-black: #000;
-  --color-green-50: #eefbf1;
-  --color-green-100: #e4f1e7;
-  --color-green-200: #d9e5db;
-  --color-green-300: #c3d3c6;
-  --color-green-400: #a3bca9;
-  --color-green-500: #88a890;
-  --color-green-600: #6b9275;
-  --color-green-700: #5b8066;
-  --color-green-800: #4a6d55;
-  --color-green-900: #284f40;
-  --color-green-950: #293c34;
-  --color-sage-50: #f8f9f5;
-  --color-sage-100: #ecf0e3;
-  --color-sage-200: #dde4d2;
-  --color-sage-300: #bec9ae;
-  --color-sage-400: #a2ad91;
-  --color-sage-500: #939f83;
-  --color-sage-600: #859076;
-  --color-sage-700: #75816b;
-  --color-sage-800: #59675d;
-  --color-sage-900: #405a3d;
-  --color-sage-950: #273825;
-  --color-olive-50: #f4f9ec;
-  --color-olive-100: #eaefe2;
-  --color-olive-200: #dde5d2;
-  --color-olive-300: #c7d3b4;
-  --color-olive-400: #b3c49a;
-  --color-olive-500: #90a474;
-  --color-olive-600: #7e9465;
-  --color-olive-700: #647c4e;
-  --color-olive-800: #526a44;
-  --color-olive-900: #34582b;
-  --color-olive-950: #213a1a;
-  --color-coral-50: #fff0e8;
-  --color-coral-100: #f5e9e3;
-  --color-coral-200: #f0ddd5;
-  --color-coral-300: #e7c9bc;
-  --color-coral-400: #d8a991;
-  --color-coral-500: #cb8d6b;
-  --color-coral-600: #b97652;
-  --color-coral-700: #ad614d;
-  --color-coral-800: #954f38;
-  --color-coral-900: #683525;
-  --color-coral-950: #4e2619;
-  --color-sand-50: #fdf7eb;
-  --color-sand-100: #f3ebdb;
-  --color-sand-200: #ebdec8;
-  --color-sand-300: #e1ccae;
-  --color-sand-400: #d2af7a;
-  --color-sand-500: #ba976b;
-  --color-sand-600: #a1815a;
-  --color-sand-700: #8c6a44;
-  --color-sand-800: #695d43;
-  --color-sand-900: #514c3d;
-  --color-sand-950: #363328;
-  --color-lavender-50: #f4f1f7;
-  --color-lavender-100: #edeaf2;
-  --color-lavender-200: #e4deec;
-  --color-lavender-300: #d2c8dc;
-  --color-lavender-400: #baacc8;
-  --color-lavender-500: #a597b4;
-  --color-lavender-600: #9687a6;
-  --color-lavender-700: #7c698e;
-  --color-lavender-800: #665675;
-  --color-lavender-900: #4b3f57;
-  --color-lavender-950: #382e41;
-  --color-blue-50: #f4f7f9;
-  --color-blue-100: #e6edf0;
-  --color-blue-200: #d7e2e6;
-  --color-blue-300: #bfcfd5;
-  --color-blue-400: #9fb5bf;
-  --color-blue-500: #83a0ac;
-  --color-blue-600: #748e99;
-  --color-blue-700: #627982;
-  --color-blue-800: #4e6169;
-  --color-blue-900: #39484e;
-  --color-blue-950: #29353a;
-  --color-yellow-300: #f5d37a;
   --text-2xs: 0.6875rem;
   --text-2xs--line-height: calc(1 / 0.6875);
   --radius-arch: 6rem;
@@ -101,14 +22,14 @@
   }
   @keyframes ring-pulse {
     50% {
-      box-shadow: 0 0 0 5px --alpha(var(--color-coral-700) / 14%);
+      box-shadow: 0 0 0 5px --alpha(var(--destructive) / 14%);
     }
   }
 }
 @layer base {
   body {
-    color: var(--color-green-950);
-    background: var(--color-sage-50);
+    color: var(--foreground);
+    background: var(--background);
     line-height: normal;
     font-synthesis: none;
   }
@@ -118,13 +39,13 @@
   button:focus-visible,
   a:focus-visible,
   summary:focus-visible {
-    outline: 3px solid var(--color-coral-500);
+    outline: 3px solid var(--ring);
     outline-offset: 4px;
   }
   input:focus,
   textarea:focus,
   select:focus {
-    outline: 2px solid var(--color-green-600);
+    outline: 2px solid var(--ring);
     outline-offset: 1px;
   }
   button:not(:disabled),
@@ -250,4 +171,29 @@
   --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.56 0.021 213.5);
+}
+
+/* Local tokens for what the design-system theme does not cover yet
+   (design-system#13). Remove each one when the theme ships its own. */
+:root {
+  --success: #647c4e;
+  --success-foreground: #fff;
+  --skill-reading: #7e9465;
+  --skill-listening: #9687a6;
+  --skill-writing: #a1815a;
+  --skill-speaking: #b97652;
+}
+
+.dark {
+  --success: #b3c49a;
+  --success-foreground: #213a1a;
+}
+
+@theme inline {
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-skill-reading: var(--skill-reading);
+  --color-skill-listening: var(--skill-listening);
+  --color-skill-writing: var(--skill-writing);
+  --color-skill-speaking: var(--skill-speaking);
 }

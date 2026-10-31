@@ -34,7 +34,7 @@ export const PageHeading = ({
       >
         {title}
       </h1>
-      <p className="leading-relaxed mt-2 text-sm text-sage-700">{description}</p>
+      <p className="leading-relaxed mt-2 text-sm text-muted-foreground">{description}</p>
     </div>
     {children}
   </div>

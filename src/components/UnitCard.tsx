@@ -1,4 +1,4 @@
-import { TONE } from "./tone";
+import { TINT } from "./tone";
 import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, ProgressSnapshot, Unit } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
@@ -17,44 +17,45 @@ type Props = {
 
 // Each pair is what the old `.x` / `.path-stop .x` media cascades resolved to per breakpoint.
 const SUMMARY =
-  "flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-3.5 max-xl:gap-3 max-lg:gap-3.5 p-5 max-xl:p-4 max-lg:p-5";
+  "flex items-center w-full text-left border-0 bg-transparent hover:bg-muted gap-3.5 max-xl:gap-3 max-lg:gap-3.5 p-5 max-xl:p-4 max-lg:p-5";
 
 const ICON =
   "flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11";
 
 const TITLE = "mt-1.5 leading-tight text-lg max-xl:text-base";
 
-const SUBTITLE = "mt-1 text-sage-700 text-xs max-xl:text-2xs max-lg:text-xs max-md:text-2xs";
+const SUBTITLE =
+  "mt-1 text-muted-foreground text-xs max-xl:text-2xs max-lg:text-xs max-md:text-2xs";
 
-const STATUS = "flex items-center text-2xs text-sage-500 gap-3.5 max-xl:gap-2";
+const STATUS = "flex items-center text-2xs text-muted-foreground gap-3.5 max-xl:gap-2";
 
 const EXPANDED =
-  "border-t border-t-sage-100 pt-0 px-5 pb-3 max-xl:pt-2 max-xl:px-3.5 max-xl:pb-3 max-lg:pt-0 max-lg:px-5 max-lg:pb-3";
+  "border-t border-t-border pt-0 px-5 pb-3 max-xl:pt-2 max-xl:px-3.5 max-xl:pb-3 max-lg:pt-0 max-lg:px-5 max-lg:pb-3";
 
 const GOALS =
   "flex max-xl:hidden max-lg:flex flex-wrap gap-y-1.5 gap-x-3.5 xl:gap-y-2 xl:gap-x-3.5 py-3.5 xl:py-4";
 
 const LESSON_LIST =
-  "relative before:absolute before:top-5 before:bottom-6 before:border-l before:border-dashed before:border-sage-200 before:left-4 max-xl:before:left-3";
+  "relative before:absolute before:top-5 before:bottom-6 before:border-l before:border-dashed before:border-border before:left-4 max-xl:before:left-3";
 
 const ROW =
-  "relative flex items-center w-full text-left border-0 bg-transparent hover:bg-sage-50 gap-3 max-xl:gap-2 py-3 px-0 max-xl:py-2 max-xl:px-0 max-lg:py-2.5 max-lg:px-0 max-md:py-3 max-md:px-0";
+  "relative flex items-center w-full text-left border-0 bg-transparent hover:bg-muted gap-3 max-xl:gap-2 py-3 px-0 max-xl:py-2 max-xl:px-0 max-lg:py-2.5 max-lg:px-0 max-md:py-3 max-md:px-0";
 
 const NODE =
   "relative z-1 flex items-center justify-center shrink-0 rounded-full border w-9 h-9 max-xl:w-7 max-xl:h-7";
 
 const NODE_STATE = {
-  current: "bg-sand-200 border-sand-300 text-sand-500",
-  completed: "bg-sage-200 border-sage-200 text-olive-700",
-  upcoming: "bg-sage-50 border-sage-200 text-sage-500",
+  current: "bg-primary border-primary text-primary-foreground",
+  completed: "bg-success/10 border-transparent text-success",
+  upcoming: "bg-background border-border text-muted-foreground",
 };
 
 const ROW_TITLE =
-  "block font-semibold text-sage-800 text-sm max-xl:text-xs max-lg:text-sm max-md:text-xs";
+  "block font-semibold text-foreground text-sm max-xl:text-xs max-lg:text-sm max-md:text-xs";
 
-const ROW_SUBTITLE = "block mt-0.5 text-sage-700 text-2xs xl:leading-normal max-lg:text-xs";
+const ROW_SUBTITLE = "block mt-0.5 text-muted-foreground text-2xs xl:leading-normal max-lg:text-xs";
 
-const LENGTH = "flex items-center text-sage-700 gap-3 text-2xs max-lg:text-xs";
+const LENGTH = "flex items-center text-muted-foreground gap-3 text-2xs max-lg:text-xs";
 
 // Phone and tablet tails that differ between the Today list and a path stop.
 const PLACE = {
@@ -114,7 +115,7 @@ export const UnitCard = ({
 
   return (
     <article
-      className={`unit-card border rounded-lg bg-white overflow-hidden ${expanded ? "border-sage-200 shadow-md shadow-olive-700/2" : "border-sage-200"} ${at.card}`}
+      className={`unit-card border rounded-lg bg-card overflow-hidden ${expanded ? "border-border shadow-md " : "border-border"} ${at.card}`}
     >
       <button
         type="button"
@@ -122,7 +123,7 @@ export const UnitCard = ({
         onClick={onExpand}
         aria-expanded={expanded}
       >
-        <div className={`${ICON} ${at.icon} ${TONE[unit.color]}`}>
+        <div className={`${ICON} ${at.icon} ${TINT}`}>
           <Icon name={unit.icon} size={25} className={at.iconSvg} />
         </div>
         <div className="flex-1 min-w-0">
@@ -153,8 +154,11 @@ export const UnitCard = ({
         <div className={`${EXPANDED} ${at.expanded}`}>
           <div className={`${GOALS} ${at.goals}`}>
             {unit.goals.map((g) => (
-              <span key={g} className="inline-flex items-center gap-1 text-sage-700 text-2xs">
-                <Icon name="check" size={13} className="w-2.5 text-sage-500" />
+              <span
+                key={g}
+                className="inline-flex items-center gap-1 text-muted-foreground text-2xs"
+              >
+                <Icon name="check" size={13} className="w-2.5 text-muted-foreground" />
                 {g}
               </span>
             ))}
@@ -190,12 +194,12 @@ export const UnitCard = ({
               );
             })}
           </div>
-          <details className="mt-2.5 xl:mt-3.5 border-t border-t-sage-100 pt-2.5 xl:pt-3.5 text-sage-700">
+          <details className="mt-2.5 xl:mt-3.5 border-t border-t-border pt-2.5 xl:pt-3.5 text-muted-foreground">
             <summary className="flex items-center gap-1.5 cursor-pointer list-none text-2xs max-lg:text-xs max-sm:text-2xs">
               <Icon name="spark" size={15} />A little pattern to remember
             </summary>
-            <p className="leading-relaxed text-xs my-2 text-sage-700">{unit.tip}</p>
-            <div lang="es" className="flex items-center justify-between text-sm text-sage-800">
+            <p className="leading-relaxed text-xs my-2 text-muted-foreground">{unit.tip}</p>
+            <div lang="es" className="flex items-center justify-between text-sm text-foreground">
               {unit.example}
               <AudioButton compact text={unit.example} label="Listen to the unit example" />
             </div>

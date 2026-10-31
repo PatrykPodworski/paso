@@ -29,17 +29,17 @@ export const TodayHeading = ({ progress, openSettings }: Props) => {
             : new Date().getHours() < 20
               ? "BUENAS TARDES"
               : "BUENAS NOCHES"}{" "}
-          <span className="text-base text-sand-500 ml-1 relative top-px">✦</span>
+          <span className="text-base text-muted-foreground ml-1 relative top-px">✦</span>
         </Eyebrow>
       }
       title={progress.name ? `Hola, ${progress.name}.` : "A good day to learn Spanish."}
       description="Your next chapter starts with a small step."
     >
       <button
-        className={`${PRESSABLE} flex items-center gap-2 text-xs text-sage-600 border border-sage-200 rounded-md py-2 px-2.5 bg-white max-lg:hidden`}
+        className={`${PRESSABLE} flex items-center gap-2 text-xs text-muted-foreground border border-border rounded-md py-2 px-2.5 bg-card max-lg:hidden`}
         onClick={() => openSettings()}
       >
-        <Icon name="sun" size={17} className="text-sand-500" />
+        <Icon name="sun" size={17} className="text-muted-foreground" />
         {daysToExam === null
           ? "At your own pace"
           : daysToExam > 0

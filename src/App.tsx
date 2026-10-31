@@ -139,7 +139,7 @@ const App = () => {
     <div className="min-h-screen">
       <a
         href="#main-content"
-        className="underline fixed left-2.5 -top-25 z-200 p-3 bg-white text-green-900 focus:top-2.5"
+        className="underline fixed left-2.5 -top-25 z-200 p-3 bg-card text-foreground focus:top-2.5"
         onClick={(e) => {
           e.preventDefault();
           document.getElementById("main-content")?.focus();
@@ -176,13 +176,13 @@ const App = () => {
             </Notice>
           )}
           {pages[page]}
-          <footer className="flex max-md:flex-wrap items-center justify-between gap-3.5 mt-10 max-md:mt-8 pt-5 px-0 pb-6 max-md:py-5 max-md:px-0 border-t border-t-sage-200 text-2xs text-sage-400">
+          <footer className="flex max-md:flex-wrap items-center justify-between gap-3.5 mt-10 max-md:mt-8 pt-5 px-0 pb-6 max-md:py-5 max-md:px-0 border-t border-t-border text-2xs text-muted-foreground">
             <span className="max-lg:hidden">Made for the joy of getting there.</span>
-            <span className="font-heading text-sm italic text-sage-500">
-              paso a paso <span className="text-sand-500 ml-1.5">✦</span>
+            <span className="font-heading text-sm italic text-muted-foreground">
+              paso a paso <span className="text-muted-foreground ml-1.5">✦</span>
             </span>
             <button
-              className={`${PRESSABLE} flex items-center gap-1 border-0 bg-transparent py-px px-1.5 text-2xs text-sage-400`}
+              className={`${PRESSABLE} flex items-center gap-1 border-0 bg-transparent py-px px-1.5 text-2xs text-muted-foreground`}
               onClick={() => navigate("guide")}
             >
               Independent practice · Official sources inside
@@ -225,7 +225,7 @@ const App = () => {
       {problemDialog}
       {toast && (
         <div
-          className="fixed bottom-6 inset-x-4 mx-auto w-fit z-100 flex items-center gap-2.5 py-3.5 px-5 rounded-lg bg-green-900 text-sage-50 text-sm shadow-xl shadow-green-950/13"
+          className="fixed bottom-6 inset-x-4 mx-auto w-fit z-100 flex items-center gap-2.5 py-3.5 px-5 rounded-lg bg-foreground text-background text-sm shadow-xl"
           role="status"
         >
           <Icon name="check" size={17} />

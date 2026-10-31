@@ -1,25 +1,30 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  clipText,
   countWords,
   dailyAnswers,
-  emptyProgress,
   isCorrect,
   localDate,
   nextReviewAt,
   nextReviewLevel,
   normalize,
   passingGroups,
-  readProgress,
   REVIEW_WINDOWS,
   skillStats,
-  STORAGE_KEY,
   streak,
-  withAttempt,
   writingHints,
-  xp,
 } from "./progress";
 import { allQuestions } from "./curriculum";
 import type { Attempt, Question } from "./types";
+import { emptySnapshot, questionState } from "../test/progress";
+
+// The snapshot's latest answer per question, from attempts in time order.
+const answered = (attempts: Attempt[]) => ({
+  ...emptySnapshot(),
+  questions: Object.fromEntries(
+    attempts.map(({ id: _, questionId, ...answer }) => [questionId, questionState(answer)]),
+  ),
+});
 
 const attempt = (patch: Partial<Attempt> = {}): Attempt => ({
   id: "a1",
@@ -32,50 +37,17 @@ const attempt = (patch: Partial<Attempt> = {}): Attempt => ({
 });
 
 describe("DELE scoring and progress", () => {
-  it("schedules a legacy mistake that has no review metadata after a correct answer", () => {
-    const p = emptyProgress();
-
-    p.mistakes = ["u1-v0"];
-    const saved = withAttempt(p, attempt({ at: "2026-09-09T12:00:00.000Z" }));
-
-    expect(saved.mistakes).toEqual([]);
-
-    expect(saved.mistakeReviews["u1-v0"]).toEqual({
-      level: 1,
-      nextAt: "2026-09-10T12:00:00.000Z",
-    });
-  });
-
   it("does not turn writing and speaking self-review into an exam score", () => {
-    const p = withAttempt(
-      emptyProgress(),
-      attempt({ skill: "speaking", correct: null, questionId: "u1-o3" }),
-    );
+    const p = answered([attempt({ skill: "speaking", correct: null, questionId: "u1-o3" })]);
 
-    expect(p.mistakes).toEqual([]);
     expect(skillStats(p, "speaking")).toEqual({ practised: 1, graded: 0, accuracy: null });
-  });
-
-  it("clears a failed live talk on its first pass without spaced returns", () => {
-    const talk = { questionId: "u1-o3", skill: "speaking" as const };
-    let p = withAttempt(emptyProgress(), attempt({ ...talk, correct: false, grade: "bad" }));
-
-    expect(p.mistakes).toEqual(["u1-o3"]);
-    p = withAttempt(p, attempt({ ...talk, correct: true, grade: "good" }));
-
-    expect(p.mistakes).toEqual([]);
-    expect(p.mistakeReviews).toEqual({});
-    expect(p.reviewed).toEqual(["u1-o3"]);
   });
 
   it("counts local study days without ISO UTC midnight shifts", () => {
     const d = new Date(2026, 8, 7, 0, 5);
 
     expect(localDate(d)).toBe("2026-09-07");
-    const p = emptyProgress();
-
-    p.attempts = [attempt({ at: d.toISOString() })];
-    expect(dailyAnswers(p, "2026-09-07")).toBe(1);
+    expect(dailyAnswers(answered([attempt({ at: d.toISOString() })]), "2026-09-07")).toBe(1);
   });
 
   it("makes an invalid saved review date immediately reviewable", () => {
@@ -92,19 +64,6 @@ describe("DELE scoring and progress", () => {
     expect(nextReviewAt("2026-09-09T12:00:00.000Z", 1)).toBe("2026-09-10T12:00:00.000Z");
     expect(nextReviewAt("2026-09-09T12:00:00.000Z", 99)).toBe("2026-10-09T12:00:00.000Z");
   });
-
-  it("schedules only the questions actually missed and keeps other cards untouched", () => {
-    const other = { level: 3, nextAt: "2026-09-20T12:00:00.000Z" };
-    const p = { ...emptyProgress(), mistakeReviews: { "u1-o1": other } };
-    const missed = withAttempt(p, attempt({ correct: false, at: "2026-09-09T12:00:00.000Z" }));
-
-    expect(missed.mistakeReviews).toEqual({
-      "u1-o1": other,
-      "u1-v0": { level: 0, nextAt: "2026-09-09T12:00:00.000Z" },
-    });
-
-    expect(withAttempt(p, attempt()).mistakeReviews).toEqual({ "u1-o1": other });
-  });
 });
 
 const a = (patch: Partial<Attempt> = {}): Attempt => ({
@@ -120,77 +79,6 @@ const a = (patch: Partial<Attempt> = {}): Attempt => ({
 afterEach(() => vi.useRealTimers());
 
 describe("progress contracts", () => {
-  it("returns independent empty collections and exact initial preferences", () => {
-    const p = emptyProgress();
-
-    p.mistakes.push("x");
-    p.completed.x = { score: 1, total: 1, at: "today" };
-
-    expect(emptyProgress()).toEqual({
-      version: 1,
-      name: "",
-      goal: 10,
-      completed: {},
-      attempts: [],
-      mistakes: [],
-      reviewed: [],
-      mistakeReviews: {},
-      vocabularyReviews: {},
-      checks: [],
-      examDate: "",
-      mockResults: [],
-      drafts: {},
-    });
-  });
-
-  it.each([
-    null,
-    {},
-    { version: 2 },
-    { version: 1, attempts: {}, completed: {}, mistakes: [] },
-    { version: 1, attempts: [], completed: null, mistakes: [] },
-    { version: 1, attempts: [], completed: {}, mistakes: {} },
-  ])("rejects invalid saved envelope %j", (raw) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
-    expect(readProgress()).toEqual(emptyProgress());
-  });
-
-  it("recovers from saved progress that is not JSON", () => {
-    localStorage.setItem(STORAGE_KEY, "{broken");
-    expect(readProgress()).toEqual(emptyProgress());
-  });
-
-  it("restores older valid progress with defaults for newly added fields", () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        version: 1,
-        attempts: [a()],
-        completed: { lesson: { score: 2, total: 3, at: "day" } },
-        mistakes: ["one"],
-        name: "Ana",
-        goal: 20,
-      }),
-    );
-
-    expect(readProgress()).toEqual({
-      ...emptyProgress(),
-      attempts: [a()],
-      completed: { lesson: { score: 2, total: 3, at: "day" } },
-      mistakes: ["one"],
-      name: "Ana",
-      goal: 20,
-    });
-  });
-
-  it("recovers when storage access itself is denied", () => {
-    vi.spyOn(localStorage, "getItem").mockImplementation(() => {
-      throw new Error("Denied");
-    });
-
-    expect(readProgress()).toEqual(emptyProgress());
-  });
-
   it.each([
     ["¿¡HÓLA!,.;:…?", "hóla"],
     ["  ¿DÓNDE   está? ", "dónde está"],
@@ -229,56 +117,16 @@ describe("progress contracts", () => {
     ["Ana María López, treinta años.", 5],
   ])("counts words in %s", (input, n) => expect(countWords(input)).toBe(n));
 
-  it("caps attempt history at the newest 6000 without changing its input", () => {
-    const p = emptyProgress();
-
-    p.attempts = Array.from({ length: 6000 }, (_, i) => a({ id: String(i) }));
-    const next = withAttempt(p, a({ id: "new", correct: false }));
-
-    expect(next.attempts).toHaveLength(6000);
-    expect(next.attempts[0].id).toBe("1");
-    expect(next.attempts.at(-1)?.id).toBe("new");
-    expect(p.attempts[0].id).toBe("0");
-    expect(p.mistakes).toEqual([]);
-  });
-
-  it("deduplicates mistakes and only records an unassisted recovery", () => {
-    let p = withAttempt(emptyProgress(), a({ correct: false }));
-
-    p = withAttempt(p, a({ correct: false }));
-    expect(p.mistakes).toEqual(["one"]);
-
-    for (const patch of [
-      { correct: null },
-      { correct: true, assisted: true },
-    ] as Partial<Attempt>[]) {
-      p = withAttempt(p, a(patch));
-      expect(p.mistakes).toEqual(["one"]);
-      expect(p.reviewed).toEqual([]);
-    }
-
-    p = withAttempt(p, a());
-    expect(p.mistakes).toEqual([]);
-    expect(p.reviewed).toEqual(["one"]);
-    p = withAttempt(withAttempt(p, a({ correct: false })), a());
-    expect(p.reviewed).toEqual(["one"]);
-    expect(withAttempt(emptyProgress(), a()).reviewed).toEqual([]);
-  });
-
-  it("counts unique questions on the requested local day and awards lesson XP separately", () => {
-    const p = emptyProgress();
-
-    p.attempts = [
+  it("counts the questions last answered on the requested local day", () => {
+    const p = answered([
       a(),
-      a({ id: "again", correct: false }),
       a({ questionId: "two", correct: null }),
       a({ questionId: "yesterday", at: new Date(2026, 8, 8, 12).toISOString() }),
-    ];
+    ]);
 
-    p.completed.lesson = { score: 0, total: 2, at: "date" };
     expect(dailyAnswers(p, "2026-09-09")).toBe(2);
+    expect(dailyAnswers(p, "2026-09-08")).toBe(1);
     expect(dailyAnswers(p, "2026-09-07")).toBe(0);
-    expect(xp(p)).toBe(35);
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 8, 9, 12));
     expect(dailyAnswers(p)).toBe(2);
@@ -290,22 +138,17 @@ describe("progress contracts", () => {
     [[8, 7], 2],
     [[9, 7], 1],
     [[7, 6], 0],
-    [[9, 9, 8, 6], 2],
+    [[9, 8, 6], 2],
     [[], 0],
   ])("counts consecutive calendar days %j", (days, n) => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 8, 9, 12));
-    const p = emptyProgress();
 
-    p.attempts = days.map((d) => a({ at: new Date(2026, 8, d, 12).toISOString() }));
-    expect(streak(p)).toBe(n);
+    expect(streak({ ...emptySnapshot(), days: days.map((d) => `2026-09-0${d}`) })).toBe(n);
   });
 
-  it("uses latest answer per question, excludes help and productive work, and rounds accuracy", () => {
-    const p = emptyProgress();
-
-    p.attempts = [
-      a({ correct: false }),
+  it("uses the latest answer per question, excludes help and productive work, and rounds accuracy", () => {
+    const attempts = [
       a(),
       a({ questionId: "two", correct: false }),
       a({ questionId: "three" }),
@@ -314,10 +157,23 @@ describe("progress contracts", () => {
       a({ questionId: "foreign", skill: "listening" }),
     ];
 
-    expect(skillStats(p, "reading")).toEqual({ practised: 5, graded: 3, accuracy: 67 });
-    expect(skillStats(p, "writing")).toEqual({ practised: 0, graded: 0, accuracy: null });
-    p.attempts.push(a({ assisted: true }));
-    expect(skillStats(p, "reading")).toEqual({ practised: 5, graded: 2, accuracy: 50 });
+    expect(skillStats(answered(attempts), "reading")).toEqual({
+      practised: 5,
+      graded: 3,
+      accuracy: 67,
+    });
+
+    expect(skillStats(answered(attempts), "writing")).toEqual({
+      practised: 0,
+      graded: 0,
+      accuracy: null,
+    });
+
+    expect(skillStats(answered([...attempts, a({ assisted: true })]), "reading")).toEqual({
+      practised: 5,
+      graded: 2,
+      accuracy: 50,
+    });
   });
 
   it.each([
@@ -367,16 +223,16 @@ describe("progress contracts", () => {
   ])("does not invent hints for %s", (text) => expect(writingHints(text)).toEqual([]));
 });
 
-it("keeps the public storage key and rejects a wrong version with otherwise valid data", () => {
-  expect(STORAGE_KEY).toBe("paso-progress-v1");
-  localStorage.setItem("paso-progress-v1", JSON.stringify({ ...emptyProgress(), version: 2 }));
-  expect(readProgress()).toEqual(emptyProgress());
-});
-
 it("handles flexible whitespace in age errors and accepts a genuinely zero allowance", () => {
   expect(writingHints("Soy   veinte   años")).toHaveLength(1);
 });
 
 it("does not accidentally accept an undeclared fallback answer", () => {
   expect(isCorrect({ answer: "hola" } as Question, "Stryker was here")).toBe(false);
+});
+
+it("clips text to the 4000 characters the server stores without splitting a character", () => {
+  expect(clipText("a".repeat(4001))).toBe("a".repeat(4000));
+  expect(clipText(`${"a".repeat(3999)}😀`)).toBe("a".repeat(3999));
+  expect(clipText("hola")).toBe("hola");
 });

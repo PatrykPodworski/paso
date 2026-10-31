@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Blob as NodeBlob } from "node:buffer";
 import { afterEach, expect, it, vi } from "vitest";
-import { emptyProgress } from "../../data/progress";
+import { emptySnapshot } from "../../test/progress";
 import { Settings } from "./Settings";
 
 afterEach(() => {
@@ -12,7 +12,7 @@ it("exports real progress and revokes the temporary URL", async () => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date("2026-09-09T12:00:00Z"));
   vi.stubGlobal("Blob", NodeBlob);
-  const p = emptyProgress();
+  const p = emptySnapshot();
 
   p.name = "Ana";
   const create = vi.fn((_blob: Blob) => "blob:export");

@@ -5,7 +5,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { PageHeading } from "../design-system/PageHeading";
 import { Panel } from "../design-system/Panel";
 import { allLessons, allQuestions, units } from "../data/curriculum";
-import type { Lesson, Progress } from "../data/types";
+import type { Lesson, ProgressSnapshot } from "../data/types";
 import { Stamp } from "./Art";
 import { Icon } from "../design-system/Icon";
 import type { Page } from "./navigation";
@@ -16,7 +16,7 @@ const PATH_NUMBER =
   "flex items-center justify-center shrink-0 rounded-full border border-sage-200 mt-6 w-8 h-8 text-xs max-md:w-7 max-md:h-7 max-md:text-2xs";
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   nextLesson: Lesson;
   completed: number;
   progressPercent: number;

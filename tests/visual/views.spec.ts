@@ -82,7 +82,7 @@ test("mistakes: empty and populated", async ({ page }) => {
 
   await page.reload();
   await page.getByRole("button", { name: "My mistakes (1)" }).click();
-  await page.getByText(allQuestions[0].prompt, { exact: true }).click();
+  await page.locator("summary").filter({ hasText: allQuestions[0].prompt }).click();
   await shot(page, "mistakes-with-explanation");
 });
 
@@ -200,6 +200,34 @@ test("question: completed grammar sentence and apellidos field pronunciation", a
 
   await answer(page, reading.questions[0]);
   await shot(page, "question-apellidos-reading-feedback");
+});
+
+test("recent answers and the previous attempt", async ({ page }) => {
+  const [first, second] = allLessons[0].questions;
+  const writing = allQuestions.find((q) => q.kind === "write")!;
+
+  const answers = [
+    [first, first.options!.find((o) => o !== first.answer)!, false],
+    [second, second.answer, true],
+    [writing, "Me llamo Ana y vivo en Madrid.", null],
+  ] as const;
+
+  await seedProgress(page, {
+    ...progressSeed(),
+    attempts: answers.map(([q, answer, correct], i) => ({
+      id: `seed-${i}`,
+      questionId: q.id,
+      skill: q.skill,
+      answer,
+      correct,
+      at: `2026-09-0${8 - i}T10:00:00Z`,
+    })),
+  });
+
+  await page.goto("/#practice");
+  await shot(page, "practice-recent-answers");
+  await openLesson(page, 0);
+  await shot(page, "question-last-time");
 });
 
 test("lesson completion", async ({ page }) => {

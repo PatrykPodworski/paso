@@ -8,6 +8,7 @@ import type { Page } from "../navigation";
 import { PocketVocabulary } from "../PocketVocabulary";
 import { exerciseBank, skills, type Practice, type Session } from "../practice";
 import { SkillPractice } from "./SkillPractice";
+import { RecentAnswers } from "../history/RecentAnswers";
 import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
@@ -79,6 +80,7 @@ export const PracticePage = ({
         practice={practice}
       />
     )}
+    <RecentAnswers recent={progress.recent} />
     <PocketVocabulary
       progress={progress}
       onReview={(word, review) => onVocabulary({ [word]: review })}

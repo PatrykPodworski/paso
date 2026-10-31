@@ -394,15 +394,18 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await page.evaluate(() => {
     (window as any).__vocabularyClips = [];
     const play = HTMLMediaElement.prototype.play;
+    const counted = new WeakSet<HTMLMediaElement>();
 
+    // Clips are reused, and a play() interrupted before it starts leaves a
+    // listener behind, so each clip gets one listener that counts every start.
     HTMLMediaElement.prototype.play = function () {
-      this.addEventListener(
-        "playing",
-        () => {
+      if (!counted.has(this)) {
+        counted.add(this);
+
+        this.addEventListener("playing", () => {
           (window as any).__vocabularyClips.push(this);
-        },
-        { once: true },
-      );
+        });
+      }
 
       return play.call(this);
     };

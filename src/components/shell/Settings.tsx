@@ -7,14 +7,15 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { TextLink } from "../../design-system/TextLink";
 import { localDate } from "../../data/progress";
 import { downloadJson } from "../downloadJson";
-import type { Progress } from "../../data/types";
+import type { ProgressSnapshot } from "../../data/types";
+import type { Preferences } from "../progress/progressClient";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
 import { FIELD } from "../../design-system/field";
 
 type Props = {
-  progress: Progress;
-  onSave: (p: Partial<Progress>) => void;
+  progress: ProgressSnapshot;
+  onSave: (preferences: Preferences) => void;
   onClose: () => void;
   onReset: () => void;
 };
@@ -70,8 +71,9 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         />
       </label>
       <FieldNote className="mb-5">
-        Progress and writing drafts stay in this browser. Export a backup before clearing browser
-        data. Microphone recordings stay only in the active tab unless downloaded.
+        Progress and writing drafts are saved online and linked to this browser. Export a copy
+        before clearing browser data. Microphone recordings stay only in the active tab unless
+        downloaded.
       </FieldNote>
       <ButtonRow className="justify-between">
         <Button

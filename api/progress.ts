@@ -13,6 +13,7 @@ import {
   MAX_NAME,
   MAX_TOTAL,
   mockResultOf,
+  mockRunPatchOf,
   reviewOf,
   timeZoneOf,
 } from "./_lib/progress-fields.js";
@@ -23,6 +24,7 @@ import {
   saveAttempt,
   saveDraft,
   saveMockResult,
+  saveMockRun,
   saveSettings,
   saveVocabulary,
   setCheck,
@@ -115,6 +117,20 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
 
     return m ? (db, learner) => saveMockResult(db, learner, m) : "result";
   },
+  mockRun: ({ run, replace }) => {
+    const patch = mockRunPatchOf(run);
+
+    if (!patch) {
+      return "run";
+    }
+
+    if (!(replace === undefined || typeof replace === "boolean")) {
+      return "replace";
+    }
+
+    return (db, learner) => saveMockRun(db, learner, patch, replace === true);
+  },
+
   reset: () => resetProgress,
 };
 

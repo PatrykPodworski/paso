@@ -1,5 +1,5 @@
-import { streak, xp } from "../../data/progress";
-import type { Progress } from "../../data/types";
+import { streak } from "../../data/progress";
+import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
 import { navigation, type Page } from "../navigation";
@@ -7,7 +7,7 @@ import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
   page: Page;
-  progress: Progress;
+  progress: ProgressSnapshot;
   openNav: () => void;
   openSettings: () => void;
 };
@@ -37,7 +37,7 @@ export const Topbar = ({ page, progress, openNav, openSettings }: Props) => (
       </span>
       <span className={`xp-stat ${STAT} max-md:hidden`}>
         <Icon name="spark" size={17} className="text-olive-500" />
-        <b className={STAT_VALUE}>{xp(progress)}</b> XP
+        <b className={STAT_VALUE}>{progress.xp}</b> XP
       </span>
       <button
         className={`${PRESSABLE} w-7 h-7 -ml-1.5 max-md:m-0 flex items-center justify-center rounded-full border-2 border-sage-50 ring ring-sage-200 bg-sand-300 text-sand-800 text-xs font-heading font-semibold`}

@@ -1,10 +1,12 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
-import { emptyProgress, STORAGE_KEY, streak, xp } from "./data/progress";
-import type { Attempt, Lesson, Progress } from "./data/types";
+import type { Attempt, Lesson } from "./data/types";
+import { type ProgressSeed, progressSeed } from "../tests/fixtures/progressSeed";
+import { emptySnapshot } from "./test/progress";
+import { savedProgress as saved, seedProgress, settle, setupProgressApi } from "./test/progressApi";
 
 let session: {
   lesson: Lesson;
@@ -28,15 +30,44 @@ vi.mock("./components/LessonSession", () => ({
   },
 }));
 
-const saved = (): Progress => JSON.parse(localStorage.getItem(STORAGE_KEY)!);
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 
-const mount = (hash = "today", p = emptyProgress()) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
-  window.location.hash = hash;
+const mount = async (hash = "today", p?: ProgressSeed) => {
+  if (p) {
+    await seedProgress(p);
+  }
 
-  return render(<App />);
+  window.location.hash = hash;
+  const view = render(<App />);
+
+  await settle();
+
+  return view;
 };
+
+// The server keeps a question's mistake and review state only with an answer to it.
+const withAnswers = (p: ProgressSeed, ids: string[], correct: boolean) => {
+  ids.forEach((questionId) => {
+    p.attempts.push({
+      id: `answer-${p.attempts.length}`,
+      questionId,
+      skill: "reading",
+      answer: "",
+      correct,
+      at: new Date(Date.parse("2026-09-01T08:00:00Z") + p.attempts.length * 60_000).toISOString(),
+    });
+  });
+
+  return p;
+};
+
+const withMistakes = (p: ProgressSeed, ids: string[]) => {
+  p.mistakes.push(...ids);
+
+  return withAnswers(p, ids, false);
+};
+
+setupProgressApi();
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
@@ -50,27 +81,25 @@ afterEach(() => {
 });
 
 describe("app business orchestration", () => {
-  it("reviews eight mistakes in queue order without shuffling them by practice recency", () => {
-    const p = emptyProgress();
-
-    p.mistakes = allQuestions
+  it("reviews eight mistakes in queue order without shuffling them by practice recency", async () => {
+    const mistakes = allQuestions
       .slice(0, 10)
       .map((q) => q.id)
       .reverse();
 
-    mount("practice", p);
+    await mount("practice", withMistakes(progressSeed(), mistakes));
     click("My mistakes (10)");
     click("Review my mistakes");
-    expect(session.lesson.questions.map((q) => q.id)).toEqual(p.mistakes.slice(0, 8));
+    expect(session.lesson.questions.map((q) => q.id)).toEqual(mistakes.slice(0, 8));
     expect(session.lesson.title).toBe("A fresh look at your mistakes");
   });
 
-  it("appends exam results without erasing an earlier rehearsal", () => {
+  it("appends exam results without erasing an earlier rehearsal", async () => {
     vi.useFakeTimers();
     const now = new Date("2026-09-09T12:00:00Z");
 
     vi.setSystemTime(now);
-    const p = emptyProgress();
+    const p = progressSeed();
 
     p.mockResults = [{ at: "2026-09-08T12:00:00Z", reading: 10, listening: 12 }];
 
@@ -87,20 +116,22 @@ describe("app business orchestration", () => {
       }),
     );
 
-    mount("exam", p);
+    await mount("exam", p);
     click("See my results");
+    await settle();
 
-    expect(saved().mockResults).toEqual([
-      ...p.mockResults,
-      { at: now.toISOString(), reading: 0, listening: 0 },
+    expect((await saved()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
+      { at: "2026-09-08T12:00:00.000Z", reading: 10, listening: 12 },
+      { at: "2026-09-09T12:00:00.000Z", reading: 0, listening: 0 },
     ]);
 
     click("Return to exam overview");
-    expect(saved().mockResults).toHaveLength(2);
+    await settle();
+    expect((await saved()).mockResults).toHaveLength(2);
   });
 
-  it("falls back from unknown links and handles external hash changes", () => {
-    mount("unknown");
+  it("falls back from unknown links and handles external hash changes", async () => {
+    await mount("unknown");
 
     expect(
       screen.getByRole("heading", { name: "A good day to learn Spanish." }),
@@ -114,8 +145,8 @@ describe("app business orchestration", () => {
     expect(screen.getByRole("heading", { name: "Your guide to DELE A1." })).toBeInTheDocument();
   });
 
-  it("opens and closes mobile navigation via both overlay and links", () => {
-    mount();
+  it("opens and closes mobile navigation via both overlay and links", async () => {
+    await mount();
     click("Open navigation");
     expect(screen.getByRole("button", { name: "Close navigation" })).toBeInTheDocument();
     click("Close navigation");
@@ -126,11 +157,11 @@ describe("app business orchestration", () => {
     expect(screen.queryByRole("button", { name: "Close navigation" })).not.toBeInTheDocument();
   });
 
-  it("chooses the first unfinished lesson, records attempts/drafts, and persists completion", () => {
-    const p = emptyProgress();
+  it("chooses the first unfinished lesson, records attempts/drafts, and persists completion", async () => {
+    const p = progressSeed();
 
-    p.completed[allLessons[0].id] = { score: 8, total: 8, at: "date" };
-    mount("today", p);
+    p.completed[allLessons[0].id] = { score: 8, total: 8, at: "2026-09-08T12:00:00Z" };
+    await mount("today", p);
 
     fireEvent.click(
       screen.getByRole("button", {
@@ -140,7 +171,6 @@ describe("app business orchestration", () => {
 
     expect(session.lesson.id).toBe(allLessons[1].id);
     act(() => session.onDraft("write", "Hola"));
-    expect(saved().drafts.write).toBe("Hola");
 
     act(() =>
       session.onAttempt({
@@ -153,21 +183,26 @@ describe("app business orchestration", () => {
       }),
     );
 
-    expect(saved().mistakes).toEqual(["u1-v0"]);
+    await settle();
+    expect((await saved()).questions["u1-v0"]).toMatchObject({ correct: false, inMistakes: true });
     act(() => session.onComplete(2, 3));
-    expect(saved().completed[allLessons[1].id]).toMatchObject({ score: 2, total: 3 });
+    await settle();
+    expect((await saved()).completed[allLessons[1].id]).toMatchObject({ score: 2, total: 3 });
+    expect((await saved()).drafts).toEqual({});
     click("Test close session");
     expect(screen.queryByRole("region", { name: "Active lesson" })).not.toBeInTheDocument();
+    await settle();
+    expect((await saved()).drafts.write).toBe("Hola");
   });
 
-  it("allows reopening completed units and reaches exam after the entire path", () => {
-    const p = emptyProgress();
+  it("allows reopening completed units and reaches exam after the entire path", async () => {
+    const p = progressSeed();
 
     for (const l of allLessons) {
-      p.completed[l.id] = { score: 1, total: 1, at: "date" };
+      p.completed[l.id] = { score: 1, total: 1, at: "2026-09-08T12:00:00Z" };
     }
 
-    mount("path", p);
+    await mount("path", p);
     expect(screen.getByRole("heading", { name: "The next chapter is yours." })).toBeInTheDocument();
     expect(screen.getAllByText("Complete")).toHaveLength(12);
     click("Meet the exam");
@@ -176,8 +211,8 @@ describe("app business orchestration", () => {
 
   it.each(["reading", "listening", "writing"] as const)(
     "selects %s questions with unpractised first and the correct session length",
-    (skill) => {
-      const p = emptyProgress();
+    async (skill) => {
+      const p = progressSeed();
 
       const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
         (q) => q.skill === skill && q.kind !== "live",
@@ -194,7 +229,7 @@ describe("app business orchestration", () => {
         },
       ];
 
-      mount("practice", p);
+      await mount("practice", p);
       click(skill[0].toUpperCase() + skill.slice(1));
       click(`Start ${skill} practice`);
 
@@ -203,12 +238,12 @@ describe("app business orchestration", () => {
       expect(session.lesson.questions.every((q) => q.skill === skill)).toBe(true);
       expect(session.lesson.questions[0].id).toBe(bank[1].id);
       act(() => session.onComplete(4, 4));
-      expect(saved().completed).toEqual({});
+      expect((await saved()).completed).toEqual({});
     },
   );
 
-  it("revisits the least recently practised questions after all have been seen", () => {
-    const p = emptyProgress();
+  it("revisits the least recently practised questions after all have been seen", async () => {
+    const p = progressSeed();
 
     const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
       (q) => q.skill === "reading",
@@ -223,14 +258,14 @@ describe("app business orchestration", () => {
       at: i === 3 ? "2026-09-01T00:00:00Z" : "2026-09-08T00:00:00Z",
     }));
 
-    mount("practice", p);
+    await mount("practice", p);
     click("Reading");
     click("Start reading practice");
     expect(session.lesson.questions[0].id).toBe(bank[3].id);
   });
 
-  it("offers daily practice when the mistake queue is empty", () => {
-    mount("practice");
+  it("offers daily practice when the mistake queue is empty", async () => {
+    await mount("practice");
     click("My mistakes (0)");
 
     expect(
@@ -242,8 +277,8 @@ describe("app business orchestration", () => {
     expect(session.lesson.title).toBe("Your daily mix");
   });
 
-  it("saves trimmed preferences and resets only after confirmation", () => {
-    mount();
+  it("saves trimmed preferences and resets only after confirmation", async () => {
+    await mount();
     click("Open your learning preferences");
 
     fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
@@ -256,22 +291,24 @@ describe("app business orchestration", () => {
 
     fireEvent.change(screen.getByLabelText(/Exam date/), { target: { value: "2026-10-09" } });
     click("Save preferences");
-    expect(saved()).toMatchObject({ name: "Ana", goal: 20, examDate: "2026-10-09" });
+    await settle();
+    expect(await saved()).toMatchObject({ name: "Ana", goal: 20, examDate: "2026-10-09" });
     expect(screen.getByRole("heading", { name: "Hola, Ana." })).toBeInTheDocument();
     click("Open your learning preferences");
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Cancel");
-    expect(saved().name).toBe("Ana");
+    expect((await saved()).name).toBe("Ana");
     localStorage.setItem("paso-mock-v1", "saved mock");
     click("Reset my progress");
     click("Clear my practice data");
-    expect(saved()).toEqual(emptyProgress());
+    await settle();
+    expect(await saved()).toEqual(emptySnapshot());
     expect(localStorage.getItem("paso-mock-v1")).toBeNull();
   });
 
-  it("finishes a reset when browser storage refuses to clear the mock run", () => {
-    mount();
+  it("finishes a reset when browser storage refuses to clear the mock run", async () => {
+    await mount();
 
     vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
       throw new Error("blocked");
@@ -281,7 +318,8 @@ describe("app business orchestration", () => {
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Clear my practice data");
-    expect(saved()).toEqual(emptyProgress());
+    await settle();
+    expect(await saved()).toEqual(emptySnapshot());
 
     expect(screen.getByRole("status")).toHaveTextContent(
       "Your progress was reset, but this browser kept your saved mock exam.",
@@ -290,13 +328,13 @@ describe("app business orchestration", () => {
     expect(screen.queryByText(/A fresh start/)).not.toBeInTheDocument();
   });
 
-  it("reports persistence failures and keeps the current session usable", () => {
-    mount();
-
+  it("says when browser storage is unavailable and keeps saving online", async () => {
     vi.spyOn(localStorage, "setItem").mockImplementation(() => {
       throw new Error("full");
     });
 
+    await mount();
+    expect(screen.getByText(/Browser storage is unavailable/)).toBeInTheDocument();
     click("Open your learning preferences");
 
     fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
@@ -304,17 +342,20 @@ describe("app business orchestration", () => {
     });
 
     click("Save preferences");
-    expect(screen.getByText(/Browser storage is unavailable/)).toBeInTheDocument();
+    await settle();
+    expect(screen.getByRole("heading", { name: "Hola, Ana." })).toBeInTheDocument();
   });
 
-  it("persists guide checks, toggles them off, and updates all four passing scores", () => {
-    mount("guide");
+  it("persists guide checks, toggles them off, and updates all four passing scores", async () => {
+    await mount("guide");
     const first = screen.getAllByRole("checkbox")[0];
 
     fireEvent.click(first);
-    expect(saved().checks).toHaveLength(1);
+    await settle();
+    expect((await saved()).checks).toHaveLength(1);
     fireEvent.click(first);
-    expect(saved().checks).toEqual([]);
+    await settle();
+    expect((await saved()).checks).toEqual([]);
     const sliders = screen.getAllByRole("slider");
 
     [25, 25, 0, 0].forEach((score, i) =>
@@ -333,8 +374,8 @@ describe("app business orchestration", () => {
   });
 });
 
-it("dashboard shortcuts select the promised skills and open preferences", () => {
-  mount();
+it("dashboard shortcuts select the promised skills and open preferences", async () => {
+  await mount();
 
   for (const [name, skill] of [
     ["Tune your ear", "listening"],
@@ -365,24 +406,24 @@ it("dashboard shortcuts select the promised skills and open preferences", () => 
   }
 });
 
-it("moves from a finished lesson straight to the next one on the path", () => {
-  mount("path");
+it("moves from a finished lesson straight to the next one on the path", async () => {
+  await mount("path");
   fireEvent.click(screen.getByRole("button", { name: new RegExp(allLessons[0].title) }));
   act(() => session.onComplete(3, 4));
   act(() => session.onNext!());
+  await settle();
   expect(screen.getByRole("heading", { name: allLessons[1].title })).toBeInTheDocument();
-  expect(saved().completed[allLessons[0].id]).toMatchObject({ score: 3, total: 4 });
+  expect((await saved()).completed[allLessons[0].id]).toMatchObject({ score: 3, total: 4 });
 });
 
-it("offers no next lesson after the last lesson or a practice session", () => {
-  const p = emptyProgress();
+it("offers no next lesson after the last lesson or a practice session", async () => {
+  const p = withMistakes(progressSeed(), [allQuestions[0].id]);
 
   for (const l of allLessons.slice(0, -1)) {
-    p.completed[l.id] = { score: 1, total: 1, at: "date" };
+    p.completed[l.id] = { score: 1, total: 1, at: "2026-09-01T08:00:00Z" };
   }
 
-  p.mistakes = [allQuestions[0].id];
-  mount("path", p);
+  await mount("path", p);
   click("Continue learning");
   expect(session.lesson.id).toBe(allLessons.at(-1)!.id);
   expect(session.onNext).toBeUndefined();
@@ -395,8 +436,8 @@ it("offers no next lesson after the last lesson or a practice session", () => {
   expect(session.onNext).toBeUndefined();
 });
 
-it("opens individual path lessons and toggles unit expansion", () => {
-  mount("path");
+it("opens individual path lessons and toggles unit expansion", async () => {
+  await mount("path");
   const first = screen.getByRole("button", { name: new RegExp(allLessons[0].title) });
 
   fireEvent.click(first);
@@ -413,12 +454,12 @@ it("opens individual path lessons and toggles unit expansion", () => {
   expect(summary).toHaveAttribute("aria-expanded", "true");
 });
 
-it("keeps old unknown mistake references safe and dismisses the notice", () => {
+it("keeps old unknown mistake references safe and dismisses the notice", async () => {
   vi.useFakeTimers();
-  const p = emptyProgress();
+  const p = progressSeed();
 
   p.mistakes = ["deleted-question"];
-  mount("practice", p);
+  await mount("practice", p);
   fireEvent.click(screen.getByRole("button", { name: "My mistakes (0)" }));
   expect(screen.getByRole("heading", { name: "A fresh page. A fresh start." })).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: /Try a daily mix/ }));
@@ -426,8 +467,8 @@ it("keeps old unknown mistake references safe and dismisses the notice", () => {
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
 });
 
-it("shows the first three units on Today", () => {
-  mount();
+it("shows the first three units on Today", async () => {
+  await mount();
 
   for (const title of ["¡Hola, mundo!", "This is me", "My favorite people"]) {
     expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
@@ -436,8 +477,8 @@ it("shows the first three units on Today", () => {
   expect(screen.queryByRole("heading", { name: "A place called home" })).not.toBeInTheDocument();
 });
 
-it("routes help, footer, path links and the brand consistently", () => {
-  mount();
+it("routes help, footer, path links and the brand consistently", async () => {
+  await mount();
 
   for (const name of [
     "How the exam works",
@@ -462,16 +503,16 @@ it.each([
   ["practice", "Your practice studio."],
   ["exam", "Meet the exam."],
   ["guide", "Your guide to DELE A1."],
-])("shows exactly one main view for #%s", (page, title) => {
-  const { container } = mount(page);
+])("shows exactly one main view for #%s", async (page, title) => {
+  const { container } = await mount(page);
 
   expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(title);
   expect(container.querySelectorAll('nav [aria-current="page"]')).toHaveLength(1);
 });
 
-it("switches pages without retaining a previous main view", () => {
-  mount();
+it("switches pages without retaining a previous main view", async () => {
+  await mount();
 
   const steps = [
     ["Learning path", "Every step has a story."],
@@ -488,32 +529,37 @@ it("switches pages without retaining a previous main view", () => {
   }
 });
 
-it("keeps other readiness points when one is unchecked", () => {
-  mount("guide");
+it("keeps other readiness points when one is unchecked", async () => {
+  await mount("guide");
   const boxes = screen.getAllByRole("checkbox");
 
   fireEvent.click(boxes[0]);
+  await settle();
+  const [firstId] = (await saved()).checks;
+
   fireEvent.click(boxes[1]);
-  const secondId = saved().checks[1];
+  await settle();
+  const [secondId] = (await saved()).checks.filter((id) => id !== firstId);
 
   fireEvent.click(boxes[0]);
-  expect(saved().checks).toEqual([secondId]);
+  await settle();
+  expect((await saved()).checks).toEqual([secondId]);
   expect(boxes[1]).toBeChecked();
 });
 
-it("only unlocks flashcards after completing their vocabulary lesson", () => {
-  const p = emptyProgress();
+it("only unlocks flashcards after completing their vocabulary lesson", async () => {
+  const p = progressSeed();
 
   p.completed["u1-grammar"] = { score: 1, total: 1, at: "2026-01-01T00:00:00Z" };
-  mount("practice", p);
+  await mount("practice", p);
   expect(screen.getByText("Your collection starts with a lesson.")).toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "Review flashcards" })).not.toBeInTheDocument();
   click("Explore lessons");
   expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
 });
 
-it("preferences start closed and close after either Save or Close", () => {
-  mount();
+it("preferences start closed and close after either Save or Close", async () => {
+  await mount();
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "Close navigation" })).not.toBeInTheDocument();
   click("Open your learning preferences");
@@ -524,8 +570,8 @@ it("preferences start closed and close after either Save or Close", () => {
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-it("dashboard units expand independently and can collapse again", () => {
-  mount();
+it("dashboard units expand independently and can collapse again", async () => {
+  await mount();
   const second = screen.getByRole("button", { name: /UNIT 02/ });
 
   expect(second).toHaveAttribute("aria-expanded", "false");
@@ -535,41 +581,40 @@ it("dashboard units expand independently and can collapse again", () => {
   expect(second).toHaveAttribute("aria-expanded", "false");
 });
 
-it("counts partial unit completion and path percentage separately", () => {
-  const p = emptyProgress();
+it("counts partial unit completion and path percentage separately", async () => {
+  const p = progressSeed();
 
-  p.completed[allLessons[0].id] = { score: 4, total: 8, at: "date" };
-  mount("path", p);
+  p.completed[allLessons[0].id] = { score: 4, total: 8, at: "2026-09-08T12:00:00Z" };
+  await mount("path", p);
   expect(screen.getByText("1/4 lessons")).toBeInTheDocument();
   expect(screen.getByText("1/48 complete · 2% of your path")).toBeInTheDocument();
 });
 
 describe("app shell behavior kept through the component split", () => {
-  it("queues due spaced reviews with open mistakes, earliest due first", () => {
+  it("queues due spaced reviews with open mistakes, earliest due first", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-09-09T12:00:00Z"));
     const [a, b, c, d, e, f] = allQuestions.slice(0, 6).map((q) => q.id);
-    const p = emptyProgress();
-
-    p.mistakes = [a, b, f];
+    const p = withAnswers(withMistakes(progressSeed(), [a, b, f]), [c, d, e], true);
 
     p.mistakeReviews = {
+      [a]: { level: 0, nextAt: "2026-09-09T12:00:00Z" },
       [b]: { level: 2, nextAt: "2026-09-06T12:00:00Z" },
       [c]: { level: 1, nextAt: "2026-09-07T12:00:00Z" },
       [d]: { level: 1, nextAt: "2026-09-10T12:00:00Z" },
-      [e]: { level: 0, nextAt: "" },
+      [e]: { level: 0, nextAt: "2026-09-09T12:00:00Z" },
       [f]: { level: 1, nextAt: "2026-09-10T12:00:00Z" },
       "deleted-question": { level: 1, nextAt: "2026-09-01T12:00:00Z" },
     };
 
-    mount("today", p);
+    await mount("today", withAnswers(p, ["deleted-question"], false));
     fireEvent.click(screen.getByRole("button", { name: /5 mistakes to revisit/ }));
     expect(session.lesson.id).toBe("practice-mistakes");
     expect(session.lesson.questions.map((q) => q.id)).toEqual([b, c, a, e, f]);
   });
 
-  it("starts a skill session from its practice studio card", () => {
-    mount("practice");
+  it("starts a skill session from its practice studio card", async () => {
+    await mount("practice");
 
     for (const [skill, count] of [
       ["Listening", 8],
@@ -586,9 +631,9 @@ describe("app shell behavior kept through the component split", () => {
     }
   });
 
-  it("confirms a reset on the dashboard with a notice that clears itself after four seconds", () => {
+  it("confirms a reset on the dashboard with a notice that clears itself after four seconds", async () => {
     vi.useFakeTimers();
-    mount("path");
+    await mount("path");
     click("Open your learning preferences");
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
@@ -609,36 +654,11 @@ describe("app shell behavior kept through the component split", () => {
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
-  it("hides the storage notice once saving works again", () => {
-    mount();
-
-    const setItem = vi.spyOn(localStorage, "setItem").mockImplementation(() => {
-      throw new Error("full");
-    });
-
-    const rename = (name: string) => {
-      click("Open your learning preferences");
-
-      fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
-        target: { value: name },
-      });
-
-      click("Save preferences");
-    };
-
-    rename("Ana");
-    expect(screen.getByText(/Browser storage is unavailable/)).toBeInTheDocument();
-    setItem.mockRestore();
-    rename("Eva");
-    expect(screen.queryByText(/Browser storage is unavailable/)).not.toBeInTheDocument();
-    expect(saved().name).toBe("Eva");
-  });
-
-  it("moves focus to the main content from the skip link without changing the page", () => {
+  it("moves focus to the main content from the skip link without changing the page", async () => {
     const scrollIntoView = vi.fn();
 
     HTMLElement.prototype.scrollIntoView = scrollIntoView;
-    mount("practice");
+    await mount("practice");
     fireEvent.click(screen.getByRole("link", { name: "Skip to content" }));
     expect(screen.getByRole("main")).toHaveFocus();
     expect(scrollIntoView).toHaveBeenCalledOnce();
@@ -646,32 +666,27 @@ describe("app shell behavior kept through the component split", () => {
     delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
   });
 
-  it("shows the current page, progress stats, name and mistake count in the top bar and sidebar", () => {
-    const p = emptyProgress();
+  it("shows the current page, progress stats, name and mistake count in the top bar and sidebar", async () => {
+    const p = withMistakes(progressSeed(), [allQuestions[0].id, allQuestions[1].id]);
 
     p.name = "ana";
-    p.mistakes = [allQuestions[0].id, allQuestions[1].id];
 
-    p.attempts = [
-      {
-        id: "1",
-        questionId: allQuestions[2].id,
-        skill: allQuestions[2].skill,
-        answer: allQuestions[2].answer,
-        correct: true,
-        at: new Date().toISOString(),
-      },
-    ];
+    p.attempts.push({
+      id: "1",
+      questionId: allQuestions[2].id,
+      skill: allQuestions[2].skill,
+      answer: allQuestions[2].answer,
+      correct: true,
+      at: new Date().toISOString(),
+    });
 
-    const { container } = mount("practice", p);
+    const { container } = await mount("practice", p);
 
     expect(container.querySelector(".breadcrumb strong")).toHaveTextContent("Practice studio");
 
-    expect(screen.getByTitle("Consecutive practice days")).toHaveTextContent(
-      `${streak(p)}day streak`,
-    );
+    expect(screen.getByTitle("Consecutive practice days")).toHaveTextContent("1day streak");
 
-    expect(container.querySelector(".xp-stat")).toHaveTextContent(`${xp(p)} XP`);
+    expect(container.querySelector(".xp-stat")).toHaveTextContent("15 XP");
 
     expect(
       screen.getByRole("button", { name: "Open your learning preferences" }),
@@ -688,9 +703,8 @@ describe("app shell behavior kept through the component split", () => {
   });
 });
 
-it("renders a truthful fresh dashboard and the full learning path", () => {
-  window.location.hash = "today";
-  render(<App />);
+it("renders a truthful fresh dashboard and the full learning path", async () => {
+  await mount("today");
 
   expect(screen.getByRole("heading", { name: "A good day to learn Spanish." })).toBeInTheDocument();
 
@@ -701,4 +715,87 @@ it("renders a truthful fresh dashboard and the full learning path", () => {
   ).toBeInTheDocument();
 
   expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();
+});
+
+describe("progress on the server", () => {
+  const refuse = (response: () => Promise<Response>) =>
+    vi.mocked(fetch).mockImplementationOnce(response);
+
+  it("shows a quiet loading screen, then a load error with Retry", async () => {
+    refuse(() => Promise.reject(new TypeError("Failed to fetch")));
+    window.location.hash = "today";
+    render(<App />);
+    expect(screen.getByRole("status")).toHaveTextContent("Loading your progress…");
+    await settle();
+
+    expect(
+      screen.getByRole("heading", { name: "Your progress could not be loaded." }),
+    ).toBeInTheDocument();
+
+    click("Retry");
+    await settle();
+    expect(screen.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
+  });
+
+  it("asks for the passcode once and sends it with every request", async () => {
+    refuse(async () => Response.json({ error: "passcode" }, { status: 401 }));
+    await mount();
+
+    const gate = screen.getByRole("dialog", { name: "Enter the passcode" });
+
+    expect(within(gate).getByRole("button", { name: "Continue" })).toBeDisabled();
+
+    fireEvent.change(within(gate).getByLabelText("Passcode"), { target: { value: "olé" } });
+    click("Continue");
+    await settle();
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
+
+    expect(vi.mocked(fetch).mock.calls.at(-1)?.[1]?.headers).toMatchObject({
+      "x-passcode": "ol%C3%A9",
+    });
+  });
+
+  it.each([
+    [401, "passcode", "That passcode is not right."],
+    [429, "passcode_tries", "Too many wrong passcodes. Try again tomorrow."],
+  ])("explains a %s from the passcode check", async (status, error, message) => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "old" }));
+    refuse(async () => Response.json({ error }, { status }));
+    await mount();
+
+    expect(
+      within(screen.getByRole("dialog", { name: "Enter the passcode" })).getByText(message),
+    ).toBeInTheDocument();
+  });
+
+  it("holds answers behind a failed write until Retry saves them in order", async () => {
+    await mount("path");
+    click("Continue learning");
+    refuse(async () => new Response("{}", { status: 503 }));
+
+    act(() =>
+      session.onAttempt({
+        id: "first",
+        questionId: "u1-v0",
+        skill: "reading",
+        answer: "wrong",
+        correct: false,
+        at: "2026-09-09T10:00:00.000Z",
+      }),
+    );
+
+    await settle();
+    expect(screen.getByRole("dialog", { name: "Progress not saved" })).toBeInTheDocument();
+    act(() => session.onComplete(0, 1));
+    await settle();
+    expect((await saved()).completed).toEqual({});
+
+    click("Retry");
+    await settle();
+    expect(screen.queryByRole("dialog", { name: "Progress not saved" })).not.toBeInTheDocument();
+    expect((await saved()).recent.map((a) => a.id)).toEqual(["first"]);
+    expect(Object.keys((await saved()).completed)).toEqual([allLessons[0].id]);
+  });
 });

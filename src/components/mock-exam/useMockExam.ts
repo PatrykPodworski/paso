@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { mockSections } from "../../data/mock";
-import type { Progress } from "../../data/types";
+import type { NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
 import { fresh, useMockRun } from "./useMockRun";
 
-export const useMockExam = (onResult: (result: Progress["mockResults"][number]) => void) => {
+export const useMockExam = (onResult: (result: NewMockResult) => void) => {
   const { run, setRun, storageError } = useMockRun();
   const [now, setNow] = useState(Date.now());
   const [confirm, setConfirm] = useState(false);

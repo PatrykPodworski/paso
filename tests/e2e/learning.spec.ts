@@ -5,12 +5,13 @@ import {
   answer,
   closeLesson,
   resumeMockExam,
+  saved,
+  seedProgress,
   stored,
 } from "../fixtures/app";
 import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
-import { emptyProgress } from "../../src/data/progress";
 import { mockSections } from "../../src/data/mock";
 import { allLessons } from "../../src/data/curriculum";
 
@@ -64,7 +65,7 @@ test("a choice reads el nombre immediately and the next listening question start
     });
 
   expect(await page.evaluate(() => (window as any).__heard[0].duration)).toBeGreaterThan(0);
-  expect((await stored(page)).attempts).toHaveLength(1);
+  await expect.poll(async () => (await saved(page)).recent).toHaveLength(1);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
 
   await expect
@@ -174,7 +175,10 @@ test("complete a lesson, persist progress, continue the path, and recover a mist
 
     if (i === 0) {
       await expect(page.getByText(lesson.questions[i].memoryHint!, { exact: true })).toBeVisible();
-      expect((await stored(page)).mistakes).toContain(lesson.questions[i].id);
+
+      await expect
+        .poll(async () => (await saved(page)).questions[lesson.questions[i].id]?.inMistakes)
+        .toBe(true);
     }
 
     await page.getByRole("button", { name: "Continue", exact: true }).click();
@@ -182,23 +186,28 @@ test("complete a lesson, persist progress, continue the path, and recover a mist
 
   await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
 
-  expect((await stored(page)).completed[lesson.id]).toMatchObject({
-    score: lesson.questions.length - 1,
-    total: lesson.questions.length,
-  });
+  await expect
+    .poll(async () => (await saved(page)).completed[lesson.id])
+    .toMatchObject({ score: lesson.questions.length - 1, total: lesson.questions.length });
 
+  const xp = lesson.questions.length * 5 + 20;
+
+  await expect(page.locator(".xp-stat")).toHaveText(`${xp} XP`);
   await page.getByRole("button", { name: "Back to my journey" }).click();
   await page.reload();
-  expect((await stored(page)).completed[lesson.id]).toBeTruthy();
+  await expect(page.locator(".xp-stat")).toHaveText(`${xp} XP`);
   await page.goto("/#practice");
   await page.getByRole("button", { name: "My mistakes (1)", exact: true }).click();
   await page.getByRole("button", { name: "Review my mistakes" }).click();
   await answer(page, lesson.questions[0]);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByRole("button", { name: "Back to my journey" }).click();
-  expect((await stored(page)).mistakes).toEqual([]);
-  expect((await stored(page)).reviewed).toEqual([lesson.questions[0].id]);
-  expect(Object.keys((await stored(page)).completed)).toEqual([lesson.id]);
+
+  await expect
+    .poll(async () => (await saved(page)).questions[lesson.questions[0].id].inMistakes)
+    .toBe(false);
+
+  expect(Object.keys((await saved(page)).completed)).toEqual([lesson.id]);
 });
 
 test("Enter on a finished lesson starts the next lesson on the path", async ({ page }) => {
@@ -219,10 +228,9 @@ test("Enter on a finished lesson starts the next lesson on the path", async ({ p
     page.getByRole("heading", { name: next.questions[0].prompt, exact: true }),
   ).toBeVisible();
 
-  expect((await stored(page)).completed[lesson.id]).toMatchObject({
-    score: lesson.questions.length,
-    total: lesson.questions.length,
-  });
+  await expect
+    .poll(async () => (await saved(page)).completed[lesson.id])
+    .toMatchObject({ score: lesson.questions.length, total: lesson.questions.length });
 });
 
 test("sentence building supports removal and reads the sentence after checking", async ({
@@ -329,11 +337,9 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
 
-  expect(
-    (await stored(page)).attempts
-      .filter((a: any) => a.questionId === lesson.questions[2].id)
-      .every((a: any) => a.correct === null),
-  ).toBe(true);
+  await expect
+    .poll(async () => (await saved(page)).questions[lesson.questions[2].id]?.correct)
+    .toBeNull();
 });
 
 // The mock exam holds the only recording tasks: every unit's speaking task is a live talk.
@@ -379,17 +385,11 @@ test("speaking supports microphone denial and the practised-aloud fallback", asy
 });
 
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {
-  const progress = emptyProgress();
+  await seedProgress(page, {
+    completed: { "u6-words": { score: 8, total: 8, at: "2026-01-01T00:00:00Z" } },
+  });
 
-  progress.completed["u6-words"] = { score: 8, total: 8, at: "2026-01-01T00:00:00Z" };
   await page.goto("/#practice");
-
-  await page.evaluate(
-    (state) => localStorage.setItem("paso-progress-v1", JSON.stringify(state)),
-    progress,
-  );
-
-  await page.reload();
 
   await page.evaluate(() => {
     (window as any).__vocabularyClips = [];
@@ -449,7 +449,10 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
       await page.evaluate(() => new URL((window as any).__vocabularyClips.at(-1).src).pathname),
     ).toBe(expectedAudio(example));
 
-    expect(Object.keys((await stored(page)).vocabularyReviews)).toHaveLength(i);
+    await expect
+      .poll(async () => Object.keys((await saved(page)).vocabularyReviews))
+      .toHaveLength(i);
+
     await page.getByRole("button", { name: i === 0 ? /Got it wrong/ : /Got it right/ }).click();
     await expect(dialog.getByRole("status")).toContainText(i === 0 ? "in 10 min" : "in 1 day");
 
@@ -506,7 +509,10 @@ test("listening records transcript assistance and plays bundled audio", async ({
   await page.getByRole("button", { name: "Need a hand? Show transcript" }).click();
   await page.getByRole("button", { name: "Hide transcript" }).click();
   await answer(page, q);
-  expect((await stored(page)).attempts.at(-1)).toMatchObject({ correct: true, assisted: true });
+
+  await expect
+    .poll(async () => (await saved(page)).questions[q.id])
+    .toMatchObject({ correct: true, assisted: true });
 });
 
 test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page }) => {
@@ -555,14 +561,13 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
 
-  const progress = await stored(page);
-
-  expect(progress.attempts.at(-1)).toMatchObject({
-    questionId: lesson.questions[3].id,
-    correct: true,
-    grade: "good",
-    answer: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
-  });
+  await expect
+    .poll(async () => (await saved(page)).questions[lesson.questions[3].id])
+    .toMatchObject({
+      correct: true,
+      grade: "good",
+      answer: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+    });
 
   expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "" });
 });

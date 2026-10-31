@@ -327,6 +327,7 @@ describe("drafts", () => {
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
+    c.mockRun({ drafts: { prep: "notas" } });
     c.flushDrafts();
     expect(calls).toHaveLength(2);
     vi.advanceTimersByTime(800);
@@ -335,8 +336,12 @@ describe("drafts", () => {
 
     expect(sent.body).toEqual({ action: "draft", questionId: "u2-w1", text: "Me llamo" });
     sent.reply(ok(snapshot()));
+    const mock = await call(2);
+
+    expect(mock.body).toEqual({ action: "mockRun", run: { drafts: { prep: "notas" } } });
+    mock.reply(ok(snapshot()));
     await settle();
-    expect(calls).toHaveLength(2);
+    expect(calls).toHaveLength(3);
   });
 
   it("shows a sent draft until its own response arrives", async () => {
@@ -382,11 +387,12 @@ describe("drafts", () => {
     expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
   });
 
-  it("drops a draft still waiting when progress is reset", async () => {
+  it("drops drafts still waiting when progress is reset", async () => {
     const c = await loaded();
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
+    c.mockRun({ drafts: { prep: "notas" } });
     c.reset();
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
@@ -394,5 +400,51 @@ describe("drafts", () => {
     await settle();
 
     expect(calls.map((c) => c.body?.action)).toEqual([undefined, "reset"]);
+  });
+});
+
+describe("mock run", () => {
+  const started = { stage: "run" as const, started: "2026-10-29T10:00:00.000Z", deadline: 1 };
+
+  it("sends a change at once and the drafts together 800 ms after the last one", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.mockRun({ drafts: { w1: "Ho" } });
+    vi.advanceTimersByTime(500);
+    c.mockRun({ drafts: { w1: "Hola" } });
+    c.mockRun({ drafts: { prep: "notas" }, answers: { r1: "a" }, section: 0, index: 1 });
+    vi.advanceTimersByTime(799);
+
+    expect(calls.map((call) => call.body)).toEqual([
+      undefined,
+      { action: "mockRun", run: { answers: { r1: "a" }, section: 0, index: 1 } },
+    ]);
+
+    vi.advanceTimersByTime(1);
+    vi.useRealTimers();
+    calls[1].reply(ok(snapshot()));
+
+    expect((await call(2)).body).toEqual({
+      action: "mockRun",
+      run: { drafts: { w1: "Hola", prep: "notas" } },
+    });
+  });
+
+  it("starts a new run in place of the old one and drops the old run's drafts", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.mockRun({ drafts: { w1: "Hola" } });
+    c.newMockRun(started);
+    vi.advanceTimersByTime(800);
+    vi.useRealTimers();
+    (await call(1)).reply(ok(snapshot()));
+    await settle();
+
+    expect(calls.map((call) => call.body)).toEqual([
+      undefined,
+      { action: "mockRun", run: started, replace: true },
+    ]);
   });
 });

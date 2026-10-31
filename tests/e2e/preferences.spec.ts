@@ -1,4 +1,4 @@
-import { test, expect, saved, stored } from "../fixtures/app";
+import { test, expect, saved } from "../fixtures/app";
 
 test("preferences persist, export contains actual progress, reset requires confirmation", async ({
   page,
@@ -36,7 +36,6 @@ test("preferences persist, export contains actual progress, reset requires confi
   await page.getByRole("button", { name: "Clear my practice data" }).click();
   await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
   await expect.poll(async () => (await saved(page)).name).toBe("");
-  expect(await stored(page, "paso-mock-v1")).toBeNull();
 });
 
 test("guide checklist persists and sliders require both passing groups", async ({ page }) => {

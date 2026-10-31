@@ -1,4 +1,10 @@
-import type { Attempt, NewMockResult, ProgressSnapshot, VocabularyReview } from "../../data/types";
+import type {
+  Attempt,
+  MockRunPatch,
+  NewMockResult,
+  ProgressSnapshot,
+  VocabularyReview,
+} from "../../data/types";
 import { readAccess, savePasscode } from "../live-talk/liveAccess";
 
 const DRAFT_DELAY = 800;
@@ -126,6 +132,23 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     void send();
   };
 
+  // The mock run's drafts wait together and go as one change.
+  let mockDrafts: { timer: ReturnType<typeof setTimeout>; drafts: Record<string, string> } | null =
+    null;
+
+  const saveMockDrafts = () => {
+    if (mockDrafts) {
+      clearTimeout(mockDrafts.timer);
+      write({ action: "mockRun", run: { drafts: mockDrafts.drafts } });
+      mockDrafts = null;
+    }
+  };
+
+  const dropMockDrafts = () => {
+    clearTimeout(mockDrafts?.timer);
+    mockDrafts = null;
+  };
+
   const saveDraft = (questionId: string) => {
     const draft = drafts.get(questionId)!;
 
@@ -158,7 +181,10 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
       clearTimeout(drafts.get(questionId)?.timer);
       drafts.set(questionId, { timer: setTimeout(() => saveDraft(questionId), DRAFT_DELAY), text });
     },
-    flushDrafts: () => [...drafts.keys()].forEach(saveDraft),
+    flushDrafts: () => {
+      [...drafts.keys()].forEach(saveDraft);
+      saveMockDrafts();
+    },
     vocabulary: (reviews: Record<string, VocabularyReview>) =>
       write({ action: "vocabulary", reviews }),
     check: (checkId: string, done: boolean) => write({ action: "check", checkId, done }),
@@ -166,9 +192,29 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     // The id makes a resent result a no-op on the server.
     mockResult: (result: NewMockResult) =>
       write({ action: "mockResult", result: { id: crypto.randomUUID(), ...result } }),
+    // Answers, drafts and scores merge per key on the server; drafts are sent debounced.
+    mockRun: ({ drafts: changed, ...change }: MockRunPatch) => {
+      if (changed) {
+        clearTimeout(mockDrafts?.timer);
+
+        mockDrafts = {
+          timer: setTimeout(saveMockDrafts, DRAFT_DELAY),
+          drafts: { ...mockDrafts?.drafts, ...changed },
+        };
+      }
+
+      if (Object.keys(change).length) {
+        write({ action: "mockRun", run: change });
+      }
+    },
+    newMockRun: (run: MockRunPatch) => {
+      dropMockDrafts();
+      write({ action: "mockRun", run, replace: true });
+    },
     reset: () => {
       drafts.forEach((d) => clearTimeout(d.timer));
       drafts.clear();
+      dropMockDrafts();
       write({ action: "reset" });
     },
   };

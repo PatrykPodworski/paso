@@ -1,7 +1,11 @@
+import { mockSections } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
   LiveGrade,
+  MockRun,
+  MockRunPatch,
+  MockStage,
   ProgressSnapshot,
   Skill,
   VocabularyReview,
@@ -17,6 +21,8 @@ export const MAX_TOTAL = 1000;
 const MAX_ID = 64;
 const MAX_TEXT = 4000;
 const MAX_SECTION = 25;
+const MAX_SCORE_TEXT = 16;
+const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
 const GRADES: LiveGrade[] = ["perfect", "good", "bad"];
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
@@ -148,4 +154,57 @@ export const mockResultOf = (value: unknown): MockResult | null => {
     ...(value.writing === undefined ? {} : { writing: value.writing as number }),
     ...(value.speaking === undefined ? {} : { speaking: value.speaking as number }),
   };
+};
+
+type Check = (value: unknown) => boolean;
+
+const MOCK_QUESTIONS = new Set(mockSections.flatMap((s) => s.questions.map((q) => q.id)));
+const isMockQuestion: Check = (key) => MOCK_QUESTIONS.has(key as string);
+
+const mapOf =
+  (isKey: Check, isValue: Check): Check =>
+  (value) =>
+    isRecord(value) && Object.entries(value).every(([key, item]) => isKey(key) && isValue(item));
+
+const MOCK_FIELDS: [keyof MockRun, Check][] = [
+  ["stage", (value) => STAGES.includes(value as MockStage)],
+  ["deadline", (value) => Number.isSafeInteger(value) && (value as number) >= 0],
+  ["started", (value) => value === "" || isInstant(value)],
+  ["answers", mapOf(isMockQuestion, isText)],
+  // Drafts also hold the speaking preparation notes under "prep".
+  ["drafts", mapOf((key) => key === "prep" || isMockQuestion(key), isText)],
+  [
+    "scores",
+    mapOf(
+      (key) => key === "writing" || key === "speaking",
+      (value) => isText(value, MAX_SCORE_TEXT),
+    ),
+  ],
+];
+
+// A question index is only valid within its section, so the two always travel together.
+const isPosition = (section: unknown, index: unknown) =>
+  isCount(section, 0, mockSections.length - 1) &&
+  isCount(index, 0, mockSections[section].questions.length - 1);
+
+// The fields a change to the mock run sets, or null when one of them is invalid.
+export const mockRunPatchOf = (value: unknown): MockRunPatch | null => {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  const moves = Object.hasOwn(value, "section") || Object.hasOwn(value, "index");
+  const present = MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name));
+
+  if (
+    (moves && !isPosition(value.section, value.index)) ||
+    !present.every(([name, check]) => check(value[name]))
+  ) {
+    return null;
+  }
+
+  return Object.fromEntries([
+    ...(moves ? ["section", "index"] : []).map((name) => [name, value[name]]),
+    ...present.map(([name]) => [name, value[name]]),
+  ]) as MockRunPatch;
 };

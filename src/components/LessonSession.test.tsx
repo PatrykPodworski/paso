@@ -3,8 +3,8 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
-import { emptySnapshot } from "../test/progress";
-import type { Question } from "../data/types";
+import { emptySnapshot, questionState } from "../test/progress";
+import type { ProgressSnapshot, Question } from "../data/types";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -266,4 +266,47 @@ it("focuses the way back to the journey when no lesson follows", () => {
 
   expect(screen.queryByRole("button", { name: "Next lesson" })).not.toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Back to my journey" })).toHaveFocus();
+});
+
+it("shows how a question went last time, as it stood when the lesson opened", () => {
+  const [seen, fresh] = allQuestions.filter((q) => q.options);
+  const at = "2026-09-01T08:00:00.000Z";
+  const before = emptySnapshot();
+
+  before.questions[seen.id] = questionState({ correct: false, at });
+
+  const lesson = (progress: ProgressSnapshot) => (
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [seen, fresh],
+      }}
+      progress={progress}
+      onClose={vi.fn()}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />
+  );
+
+  const { rerender } = render(lesson(before));
+  const lastTime = `Last time: Wrong · ${new Date(at).toLocaleDateString()}`;
+
+  expect(screen.getByText(/^Last time:/)).toHaveTextContent(lastTime);
+  click(seen.answer);
+
+  rerender(
+    lesson({
+      ...before,
+      questions: { [seen.id]: questionState({ correct: true, at: new Date().toISOString() }) },
+    }),
+  );
+
+  expect(screen.getByText(/^Last time:/)).toHaveTextContent(lastTime);
+  click("Continue");
+  expect(screen.queryByText(/^Last time:/)).not.toBeInTheDocument();
 });

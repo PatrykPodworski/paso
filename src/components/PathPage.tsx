@@ -84,28 +84,28 @@ export const PathPage = ({
       </Panel>
       <div className="flex gap-7 max-xl:gap-5 max-lg:flex-col">
         <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-sage-200">
-          {units.map((u, i) => (
-            <div className="relative flex items-start gap-4 max-md:gap-2.5 mb-4" key={u.id}>
-              <span
-                className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-olive-600 text-white" : "bg-sage-50 text-sage-500"}`}
-              >
-                {u.lessons.every((l) => progress.completed[l.id]) ? (
-                  <Icon name="check" size={16} />
-                ) : (
-                  String(i + 1).padStart(2, "0")
-                )}
-              </span>
-              <UnitCard
-                onPath
-                unit={u}
-                index={i}
-                progress={progress}
-                start={setSession}
-                expanded={expanded === u.id}
-                onExpand={() => toggleExpanded(u.id)}
-              />
-            </div>
-          ))}
+          {units.map((u, i) => {
+            const done = u.lessons.every((l) => progress.completed[l.id]);
+
+            return (
+              <div className="relative flex items-start gap-4 max-md:gap-2.5 mb-4" key={u.id}>
+                <span
+                  className={`${PATH_NUMBER} ${done ? "bg-olive-600 text-white" : "bg-sage-50 text-sage-500"}`}
+                >
+                  {done ? <Icon name="check" size={16} /> : String(i + 1).padStart(2, "0")}
+                </span>
+                <UnitCard
+                  onPath
+                  unit={u}
+                  index={i}
+                  progress={progress}
+                  start={setSession}
+                  expanded={expanded === u.id}
+                  onExpand={() => toggleExpanded(u.id)}
+                />
+              </div>
+            );
+          })}
           <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-sage-100 text-olive-600">
             <Icon name="flag" size={28} />
             <div>

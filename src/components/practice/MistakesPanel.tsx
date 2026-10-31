@@ -24,7 +24,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
     </h2>
     <p className="leading-relaxed max-w-142 text-sm text-muted-foreground">
       {mistakeQuestions.length
-        ? `${mistakeQuestions.length} questions are ready for another look. A correct answer without transcript assistance clears a question from this queue.`
+        ? `${mistakeQuestions.length} ${mistakeQuestions.length === 1 ? "question is" : "questions are"} ready for another look. A correct answer without transcript assistance clears a question from this queue.`
         : "No mistakes waiting here yet. As you practise, tricky questions will collect here with their explanations."}
     </p>
     <Button

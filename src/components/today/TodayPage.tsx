@@ -26,7 +26,7 @@ type Props = {
   progressPercent: number;
   mistakeCount: number;
   expanded: string;
-  setExpanded: (id: string) => void;
+  toggleExpanded: (id: string) => void;
   setSession: Session;
   openSettings: () => void;
   navigate: (target: Page) => void;
@@ -40,7 +40,7 @@ export const TodayPage = ({
   progressPercent,
   mistakeCount,
   expanded,
-  setExpanded,
+  toggleExpanded,
   setSession,
   openSettings,
   navigate,
@@ -113,7 +113,7 @@ export const TodayPage = ({
               progress={progress}
               start={setSession}
               expanded={expanded === u.id}
-              onExpand={() => setExpanded(expanded === u.id ? "" : u.id)}
+              onExpand={() => toggleExpanded(u.id)}
             />
           ))}
         </div>

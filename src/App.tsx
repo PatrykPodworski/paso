@@ -13,7 +13,7 @@ import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
 import { PracticePage } from "./components/practice/PracticePage";
 import { ProgressLoading } from "./components/progress/ProgressLoading";
-import { ProgressProblem } from "./components/progress/ProgressProblem";
+import { SaveFailed } from "./components/progress/SaveFailed";
 import { useProgress } from "./components/progress/useProgress";
 import { Settings } from "./components/shell/Settings";
 import { Sidebar } from "./components/shell/Sidebar";
@@ -40,9 +40,7 @@ const App = () => {
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [toast, setToast] = useToast();
 
-  const problemDialog = (
-    <ProgressProblem problem={problem} onRetry={actions.retry} onUnlock={actions.unlock} />
-  );
+  const problemDialog = problem === "save" && <SaveFailed onRetry={actions.retry} />;
 
   if (!progress) {
     return (
@@ -71,6 +69,8 @@ const App = () => {
     setSession(lesson);
   };
 
+  const toggleExpanded = (id: string) => setExpanded((open) => (open === id ? "" : id));
+
   const complete = (score: number, total: number) => {
     if (session && allLessons.some((l) => l.id === session.id)) {
       actions.complete(session.id, score, total);
@@ -86,7 +86,7 @@ const App = () => {
         progressPercent={progressPercent}
         mistakeCount={mistakeQuestions.length}
         expanded={expanded}
-        setExpanded={setExpanded}
+        toggleExpanded={toggleExpanded}
         setSession={setSession}
         openSettings={() => setSettings(true)}
         navigate={navigate}
@@ -100,7 +100,7 @@ const App = () => {
         completed={completed}
         progressPercent={progressPercent}
         expanded={expanded}
-        setExpanded={setExpanded}
+        toggleExpanded={toggleExpanded}
         setSession={setSession}
         navigate={navigate}
       />

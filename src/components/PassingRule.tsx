@@ -15,7 +15,7 @@ export const PassingRule = () => {
   return (
     <Panel className="p-7 max-xl:p-6">
       <Eyebrow>TRY THE PASSING RULE</Eyebrow>
-      <h3 className="tracking-normal font-serif text-2xl font-medium mt-2 mx-0 mb-3">
+      <h3 className="tracking-normal font-heading text-2xl font-medium mt-2 mx-0 mb-3">
         Does this score pass?
       </h3>
       <p className="leading-relaxed text-sm text-sage-700 mb-6">

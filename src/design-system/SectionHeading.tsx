@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 // One variant per context the old `.path-heading`, `.word-heading` and `.vocabulary-collection` rules styled.
 const TITLE =
-  "font-serif text-2xl max-xl:text-xl max-md:text-2xl font-semibold tracking-tight leading-tight";
+  "font-heading text-2xl max-xl:text-xl max-md:text-2xl font-semibold tracking-tight leading-tight";
 
 const TEXT = "mt-1 text-sm leading-relaxed text-sage-700";
 

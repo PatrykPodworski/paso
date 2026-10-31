@@ -19,7 +19,7 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
   return (
     <Panel className="p-8 max-md:p-6">
       <Eyebrow>{section.title.toUpperCase()} · SECTION REVIEW</Eyebrow>
-      <h2 className="font-serif font-semibold tracking-tight leading-tight mt-2.5 mb-3.5 text-3xl">
+      <h2 className="font-heading font-semibold tracking-tight leading-tight mt-2.5 mb-3.5 text-3xl">
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
       </h2>
       <p className="leading-relaxed mb-5 text-sm text-sage-500">

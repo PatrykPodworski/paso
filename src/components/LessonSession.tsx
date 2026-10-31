@@ -103,7 +103,7 @@ export const LessonSession = ({
       {confirmExit && (
         <div className="py-12 px-7 text-center">
           <Icon name="book" size={40} className="mx-auto text-olive-500 mb-5" />
-          <h2 className="font-serif font-semibold tracking-tight leading-tight text-3xl">
+          <h2 className="font-heading font-semibold tracking-tight leading-tight text-3xl">
             Leave this lesson?
           </h2>
           <p className="leading-relaxed text-sm text-sage-500 max-w-112 mt-3.5 mx-auto mb-6">
@@ -124,7 +124,7 @@ export const LessonSession = ({
         <div className="py-12 px-7 text-center max-md:py-9 max-md:px-5">
           <CompletionArt icon="flag" sparkles />
           <Eyebrow>ONE STEP CLOSER</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-tight leading-tight text-4xl my-3 mx-0">
+          <h2 className="font-heading font-semibold tracking-tight leading-tight text-4xl my-3 mx-0">
             Look at you go.
           </h2>
           <p className="leading-relaxed text-sm text-sage-500 mt-3">

@@ -51,7 +51,7 @@ export const Sidebar = ({
         }}
         aria-label="Paso home"
       >
-        <span className="relative font-serif bg-green-900 text-sand-50 w-8 h-9 leading-7 text-center rounded-lg rounded-bl-xs text-4xl tracking-tighter pr-0.5">
+        <span className="relative font-heading bg-green-900 text-sand-50 w-8 h-9 leading-7 text-center rounded-lg rounded-bl-xs text-4xl tracking-tighter pr-0.5">
           p<span className="absolute text-sand-400 text-xl left-3 -top-px">•</span>
         </span>
         <span>
@@ -100,7 +100,7 @@ export const Sidebar = ({
       </nav>
       <div className="pt-9 max-md:pt-6 px-4 pb-7 mt-5">
         <span className="block text-3xl text-sand-500 leading-none">✺</span>
-        <p className="leading-relaxed font-serif text-lg italic text-sage-700 mt-2.5 mx-0 mb-1">
+        <p className="leading-relaxed font-heading text-lg italic text-sage-700 mt-2.5 mx-0 mb-1">
           Un poquito cada día.
         </p>
         <span className="text-sage-600 text-sm xl:text-xs leading-relaxed">
@@ -123,7 +123,7 @@ export const Sidebar = ({
           className={`${PRESSABLE} flex items-center gap-2.5 w-full text-left border-0 border-t border-t-sage-200 pt-5 px-0 pb-0 bg-transparent`}
           onClick={() => openSettings()}
         >
-          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-sand-300 text-sand-800 text-sm font-serif font-semibold">
+          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-sand-300 text-sand-800 text-sm font-heading font-semibold">
             {name ? name[0].toUpperCase() : "P"}
           </span>
           <span>

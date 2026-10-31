@@ -34,7 +34,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       <header className="flex justify-between gap-2.5 mb-7">
         <div>
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-tight leading-tight mt-2 text-2xl">
+          <h2 className="font-heading font-semibold tracking-tight leading-tight mt-2 text-2xl">
             Your little preferences.
           </h2>
         </div>

@@ -21,7 +21,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
     >
       <Icon name="repeat" size={28} />
     </span>
-    <h2 className="font-serif text-2xl font-semibold tracking-tight leading-tight mt-4 mx-0 mb-3">
+    <h2 className="font-heading text-2xl font-semibold tracking-tight leading-tight mt-4 mx-0 mb-3">
       {mistakeQuestions.length ? "Mistakes are little signposts." : "A fresh page. A fresh start."}
     </h2>
     <p className="leading-relaxed max-w-142 text-sm text-sage-500">

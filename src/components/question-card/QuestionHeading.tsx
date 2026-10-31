@@ -61,7 +61,7 @@ export const QuestionHeading = ({
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`font-serif tracking-tight col-start-1 row-start-1 mt-3.5 mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mt-3.5 max-md:mx-0 max-md:mb-5`}
+          className={`font-heading tracking-tight col-start-1 row-start-1 mt-3.5 mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mt-3.5 max-md:mx-0 max-md:mb-5`}
         >
           {q.prompt}
         </h2>

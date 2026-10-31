@@ -47,7 +47,7 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
             size={21}
             className="mb-1.5 text-sage-400"
           />
-          <strong className="font-serif text-4xl leading-none text-sage-900 font-medium">
+          <strong className="font-heading text-4xl leading-none text-sage-900 font-medium">
             {today}
             <span className="font-sans text-sm tracking-wider text-sage-400 pl-0.5">
               /{progress.goal}

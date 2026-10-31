@@ -126,7 +126,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
       {finished ? (
         <div className="py-12 px-7 text-center max-md:py-9 max-md:px-5">
           <Icon name="check" size={44} />
-          <h2 className="font-serif font-semibold tracking-tight leading-tight text-4xl my-3 mx-0">
+          <h2 className="font-heading font-semibold tracking-tight leading-tight text-4xl my-3 mx-0">
             Your review is complete.
           </h2>
           <p className="leading-relaxed text-sm text-sage-500 mt-3">
@@ -155,7 +155,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
             </p>
             <h2
               lang="es"
-              className="font-semibold tracking-tighter leading-tight font-serif text-3xl sm:text-4xl md:text-5xl my-4 mx-0 wrap-anywhere"
+              className="font-semibold tracking-tighter leading-tight font-heading text-3xl sm:text-4xl md:text-5xl my-4 mx-0 wrap-anywhere"
             >
               {word.es}
             </h2>
@@ -172,7 +172,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
           {revealed && (
             <div className="mt-5 p-5 rounded-xl bg-sage-100">
               <Eyebrow>THE MEANING</Eyebrow>
-              <h3 lang="en" className="font-semibold tracking-normal font-serif text-2xl mt-2">
+              <h3 lang="en" className="font-semibold tracking-normal font-heading text-2xl mt-2">
                 {word.en}
               </h3>
               {word.example && (
@@ -333,7 +333,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
               className={`flex flex-col-reverse gap-1.5 p-6 max-sm:p-5 border-sage-200 ${i > 0 ? "border-l" : ""} ${i === 2 ? "max-sm:border-l-0" : ""} ${i >= 2 ? "max-sm:border-t" : ""} ${label === "To review" ? "bg-sage-100" : ""}`}
             >
               <dt className="text-xs text-sage-800">{label}</dt>
-              <dd className="m-0 font-serif text-4xl leading-none text-green-900">{count}</dd>
+              <dd className="m-0 font-heading text-4xl leading-none text-green-900">{count}</dd>
             </div>
           ))}
         </dl>
@@ -463,7 +463,7 @@ export const PocketVocabulary = ({ progress, onReview, onAddWords, onLearn }: Pr
                     className="flex items-center gap-5 py-4 px-5 border-sage-200 not-first:border-t max-sm:grid max-sm:grid-cols-2 max-sm:p-4 max-sm:gap-y-2 max-sm:gap-x-3"
                   >
                     <span className="flex flex-1 min-w-0 flex-col gap-1">
-                      <strong lang="es" className="font-serif text-lg wrap-anywhere">
+                      <strong lang="es" className="font-heading text-lg wrap-anywhere">
                         {w.es}
                       </strong>
                       <span lang="en" className="text-xs text-sage-800">

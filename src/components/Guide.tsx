@@ -93,7 +93,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
       <Panel className="p-8 max-xl:p-7 max-md:p-6 max-sm:p-5 flex max-lg:block justify-between items-center gap-9 max-xl:gap-5 bg-sage-100!">
         <div className="max-w-170">
           <Eyebrow>A1 · THE EVERYDAY ESSENTIALS</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-tight leading-tight text-3xl max-sm:text-2xl mt-2.5 mx-0 mb-3.5">
+          <h2 className="font-heading font-semibold tracking-tight leading-tight text-3xl max-sm:text-2xl mt-2.5 mx-0 mb-3.5">
             You don’t need perfect Spanish.
             <br />
             You need to connect.
@@ -108,7 +108,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
             <Icon name="external" size={15} />
           </TextLink>
         </div>
-        <div className="w-36 h-40 max-xl:w-29 max-xl:h-35 shrink-0 border border-sage-300 bg-sage-100 rounded-t-arch rounded-b-2xl text-7xl max-xl:text-6xl font-serif font-medium flex max-lg:hidden flex-col items-center justify-center text-olive-500 leading-none">
+        <div className="w-36 h-40 max-xl:w-29 max-xl:h-35 shrink-0 border border-sage-300 bg-sage-100 rounded-t-arch rounded-b-2xl text-7xl max-xl:text-6xl font-heading font-medium flex max-lg:hidden flex-col items-center justify-center text-olive-500 leading-none">
           A1
           <span className="font-sans text-2xs tracking-widest mt-4">UN PEQUEÑO GRAN PASO</span>
         </div>
@@ -154,7 +154,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
         <PassingRule />
         <Panel className="p-7 max-xl:p-6">
           <Eyebrow>WHAT THE EXAMINER LOOKS FOR</Eyebrow>
-          <h3 className="tracking-normal font-serif text-2xl font-medium mt-2 mx-0 mb-3">
+          <h3 className="tracking-normal font-heading text-2xl font-medium mt-2 mx-0 mb-3">
             Be clear. Cover the task.
           </h3>
           {CRITERIA.map(([icon, title, text]) => (
@@ -240,7 +240,7 @@ export const Guide = ({ progress, onCheck }: Props) => {
       <Panel className="grid grid-cols-3 max-lg:grid-cols-1 p-7 gap-7 max-lg:gap-5">
         {STEPS.map(([title, text], i) => (
           <div key={title} className="max-lg:relative max-lg:pl-11">
-            <span className="font-serif text-3xl text-sage-300 max-lg:absolute max-lg:left-0 max-lg:top-0.5">
+            <span className="font-heading text-3xl text-sage-300 max-lg:absolute max-lg:left-0 max-lg:top-0.5">
               {String(i + 1).padStart(2, "0")}
             </span>
             <h3 className="text-base my-2.5 mx-0 font-semibold tracking-tight">{title}</h3>

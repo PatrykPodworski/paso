@@ -9,6 +9,7 @@ export default defineConfig({
     include: [
       "src/**/*.test.{ts,tsx}",
       "api/**/*.test.ts",
+      "db/**/*.test.ts",
       "scripts/**/*.test.mjs",
       "lint-plugins/**/*.test.mjs",
     ],

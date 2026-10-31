@@ -1,52 +1,26 @@
 import { reviewDue } from "../data/progress";
-import type { Progress, Question } from "../data/types";
+import type { ProgressSnapshot } from "../data/types";
 import { exerciseBank } from "./practice";
 
 const exerciseMap = new Map(exerciseBank.map((q) => [q.id, q]));
 
-export const mistakeQueue = (progress: Progress, now: Date) => {
-  const mistakeEntries = new Map<string, { id: string; q: Question; insertion: number }>();
-
-  for (const [i, id] of progress.mistakes.entries()) {
+// Open mistakes and due reviews, earliest due first. At the same due time open mistakes
+// come first, in the order they were answered.
+export const mistakeQueue = (progress: ProgressSnapshot, now: Date) => {
+  const entries = Object.entries(progress.questions).flatMap(([id, state]) => {
     const q = exerciseMap.get(id);
 
-    if (!q) {
-      continue;
-    }
+    return q && (state.inMistakes || (state.review && reviewDue(state.review, now)))
+      ? [{ q, state, due: state.review ? new Date(state.review.nextAt).getTime() : now.getTime() }]
+      : [];
+  });
 
-    mistakeEntries.set(id, { id, q, insertion: i });
-  }
-
-  for (const [id, review] of Object.entries(progress.mistakeReviews)) {
-    const q = exerciseMap.get(id);
-
-    if (mistakeEntries.has(id) || !q) {
-      continue;
-    }
-
-    const insertion = progress.mistakes.length;
-
-    if (reviewDue(review, now)) {
-      mistakeEntries.set(id, { id, q, insertion });
-    }
-  }
-
-  const dueTime = (id: string) => {
-    const nextAt = progress.mistakeReviews[id]?.nextAt;
-
-    return nextAt ? new Date(nextAt).getTime() : now.getTime();
-  };
-
-  return [...mistakeEntries.values()]
-    .sort((a, b) => {
-      const aDue = dueTime(a.id);
-      const bDue = dueTime(b.id);
-
-      if (aDue !== bDue) {
-        return aDue - bDue;
-      }
-
-      return a.insertion - b.insertion;
-    })
+  return entries
+    .sort(
+      (a, b) =>
+        a.due - b.due ||
+        Number(b.state.inMistakes) - Number(a.state.inMistakes) ||
+        a.state.at.localeCompare(b.state.at),
+    )
     .map(({ q }) => q);
 };

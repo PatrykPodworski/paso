@@ -1,4 +1,4 @@
-import { test, expect, answer, stored } from "../fixtures/app";
+import { test, expect, answer, saved } from "../fixtures/app";
 import { allQuestions, foundations, visualQuestions } from "../../src/data/curriculum";
 import { formPractice } from "../../src/data/mock";
 
@@ -27,11 +27,11 @@ for (const skill of ["reading", "listening", "writing"] as const) {
     }
 
     await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
-    const progress = await stored(page);
+    await expect.poll(async () => (await saved(page)).recent).toHaveLength(questions.length);
+    const progress = await saved(page);
 
     expect(Object.keys(progress.completed)).toEqual([]);
-    expect(progress.attempts).toHaveLength(questions.length);
-    expect(progress.attempts.every((a: { skill: string }) => a.skill === skill)).toBe(true);
+    expect(progress.recent.every((a) => a.skill === skill)).toBe(true);
   });
 }
 

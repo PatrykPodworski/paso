@@ -1,6 +1,7 @@
 import { FieldNote } from "../../design-system/FieldNote";
 import type { Question } from "../../data/types";
 import { FIELD } from "../../design-system/field";
+import { MAX_TEXT } from "../../data/progress";
 
 type Props = {
   q: Question;
@@ -22,6 +23,7 @@ export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: P
           className={FIELD}
           lang="es"
           value={fieldValues[f.label] || ""}
+          maxLength={MAX_TEXT}
           onChange={(e) => onFieldChange(f.label, e.target.value)}
           disabled={feedback}
           placeholder={f.example}

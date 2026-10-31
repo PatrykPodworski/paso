@@ -128,7 +128,7 @@ use `vercel dev` to try a real talk locally.
 (`DATABASE_URL`) and needs the same passcode as the live talk. The app asks for
 it once and keeps it in this browser. `pnpm dev` serves the same API from an
 in-memory Postgres that starts empty, without a passcode. Progress saved in this
-browser before the move is imported once on the first load.
+browser before the move is not read.
 
 ## Tests
 

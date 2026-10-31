@@ -1,4 +1,4 @@
-import { Button } from "../../design-system/Button";
+import { Button } from "../ui/button";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 
@@ -25,13 +25,13 @@ export const QuestionFooter = ({ exam, productive, kind, canSubmit, onCheck }: P
       {!singleChoice && (
         <Button
           type="button"
-          variant="primary"
-          className="whitespace-nowrap max-md:w-full"
+          size="lg"
+          className="max-md:w-full"
           onClick={onCheck}
           disabled={!canSubmit}
         >
           {exam ? "Save answer" : productive ? "Review my practice" : "Check answer"}
-          <Icon name="arrow" size={18} />
+          <Icon name="arrow" />
         </Button>
       )}
     </div>

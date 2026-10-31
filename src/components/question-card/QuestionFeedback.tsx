@@ -1,6 +1,6 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
-import { Button } from "../../design-system/Button";
+import { Button } from "../ui/button";
 import { countWords, writingHints } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
@@ -99,24 +99,17 @@ const FeedbackBottom = ({
     {productive && (
       <Button
         type="button"
-        variant="secondary"
-        size="compact"
+        variant="outline"
+        size="lg"
         className="max-md:ml-auto"
         onClick={onRevise}
       >
         Revise my answer
       </Button>
     )}
-    <Button
-      type="button"
-      variant="primary"
-      size="compact"
-      className="max-md:ml-auto"
-      autoFocus
-      onClick={onContinue}
-    >
+    <Button type="button" size="lg" className="max-md:ml-auto" autoFocus onClick={onContinue}>
       Continue
-      <Icon name="arrow" size={18} />
+      <Icon name="arrow" />
     </Button>
   </div>
 );

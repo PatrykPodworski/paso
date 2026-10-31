@@ -54,11 +54,11 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
   expect((await state()).stage).toBe("run");
   act(() => vi.advanceTimersByTime(1000));
   expect((await state()).stage).toBe("review");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "0 out of 25." })).toBeInTheDocument();
   click("Continue to listening");
   expect(screen.getByRole("timer")).toHaveTextContent("25:00");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
 it("dismisses a confirmation left open when the speaking time runs out", async () => {
@@ -70,7 +70,7 @@ it("dismisses a confirmation left open when the speaking time runs out", async (
   click("Return to exam overview");
   click("Start exam rehearsal");
   expect(screen.getByRole("timer")).toHaveTextContent("45:00");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
 it("honours an expired deadline when returning to the page", async () => {
@@ -144,7 +144,7 @@ it("counts unsaved writing as answered and keeps it on Finish section", async ()
 
   await mount();
   click("Finish section");
-  expect(screen.getByRole("alert")).toHaveTextContent("0 unanswered.");
+  expect(screen.getByRole("dialog")).toHaveTextContent("0 unanswered.");
   click("Finish & review");
 
   expect(await state()).toMatchObject({

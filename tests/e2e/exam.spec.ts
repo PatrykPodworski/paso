@@ -57,7 +57,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
       }
     }
 
-    await expect(page.getByRole("alert")).toContainText("0 unanswered");
+    await expect(page.getByRole("dialog")).toContainText("0 unanswered");
     await page.getByRole("button", { name: "Finish & review", exact: true }).click();
 
     if (section < 2) {
@@ -127,7 +127,7 @@ test("timer expires during navigation and section confirmation can be cancelled"
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Keep working" }).click();
-  await expect(page.getByRole("alert")).toHaveCount(0);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.goto("/#today");
   await page.clock.fastForward(45 * 60000);
   await page.goto("/#exam");

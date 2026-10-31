@@ -46,7 +46,7 @@ export const RecentAnswers = ({ recent }: Props) => {
               <div className="flex-1 min-w-0">
                 <p className="text-sm leading-relaxed">{q.prompt}</p>
                 {a.answer && (
-                  <p className="mt-1 text-xs leading-relaxed text-sage-600 line-clamp-2 break-words">
+                  <p className="mt-1 text-xs leading-relaxed text-sage-600 line-clamp-2 break-words whitespace-pre-line">
                     {a.answer}
                   </p>
                 )}

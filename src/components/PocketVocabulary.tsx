@@ -12,7 +12,7 @@ import {
   topicCounts,
   topics,
 } from "../data/topics";
-import type { Progress, VocabularyReview } from "../data/types";
+import type { ProgressSnapshot, VocabularyReview } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { stopAudio } from "./audio/playback";
 import { Dialog } from "../design-system/Dialog";
@@ -24,9 +24,9 @@ import { TextLink } from "../design-system/TextLink";
 import { FIELD } from "../design-system/field";
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   onReview: (word: string, review: VocabularyReview) => void;
-  onAddWords: (entries: Progress["vocabularyReviews"]) => void;
+  onAddWords: (entries: ProgressSnapshot["vocabularyReviews"]) => void;
   onLearn: () => void;
 };
 

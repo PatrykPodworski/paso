@@ -2,7 +2,7 @@ import words from "./words.json";
 import examples from "./examples.json";
 import { vocabularyHints } from "./vocabulary-hints";
 import { localDate, reviewDue } from "./progress";
-import type { Progress } from "./types";
+import type { ProgressSnapshot } from "./types";
 
 // Level 4 reviews come back after 14 days or more.
 const KNOWN_LEVEL = 4;
@@ -43,19 +43,19 @@ export const topics = words.map(({ topic, optional, words }) => ({
 }));
 
 // A card is in the deck once it has a review entry or its unit's word lesson is done.
-const inDeck = (card: Card, progress: Progress) =>
+const inDeck = (card: Card, progress: ProgressSnapshot) =>
   Boolean(
     progress.vocabularyReviews[card.id] || (card.unit && progress.completed[`u${card.unit}-words`]),
   );
 
-export const cardStatus = (card: Card, progress: Progress) =>
+export const cardStatus = (card: Card, progress: ProgressSnapshot) =>
   !inDeck(card, progress)
     ? "new"
     : (progress.vocabularyReviews[card.id]?.level ?? 0) >= KNOWN_LEVEL
       ? "known"
       : "learning";
 
-export const topicCounts = (cards: Card[], progress: Progress) => {
+export const topicCounts = (cards: Card[], progress: ProgressSnapshot) => {
   const counts = { total: cards.length, new: 0, learning: 0, known: 0 };
 
   for (const card of cards) {
@@ -66,7 +66,11 @@ export const topicCounts = (cards: Card[], progress: Progress) => {
 };
 
 // Review entries for the topic's next new cards, in list order, due immediately.
-export const addWords = (cards: Card[], progress: Progress, at = new Date().toISOString()) =>
+export const addWords = (
+  cards: Card[],
+  progress: ProgressSnapshot,
+  at = new Date().toISOString(),
+) =>
   Object.fromEntries(
     cards
       .filter((card) => cardStatus(card, progress) === "new")
@@ -75,11 +79,11 @@ export const addWords = (cards: Card[], progress: Progress, at = new Date().toIS
   );
 
 // Every card the learner is studying, from topics or completed unit lessons.
-export const deckCards = (progress: Progress) =>
+export const deckCards = (progress: ProgressSnapshot) =>
   topics.flatMap((t) => t.cards).filter((card) => inDeck(card, progress));
 
 // Which deck cards are due (first-due first) or scheduled, and today's review counts.
-export const deckReview = (progress: Progress, now: Date) => {
+export const deckReview = (progress: ProgressSnapshot, now: Date) => {
   const cards = deckCards(progress);
 
   const due = cards

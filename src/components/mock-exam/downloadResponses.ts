@@ -1,8 +1,8 @@
 import { mockSections } from "../../data/mock";
 import { downloadJson } from "../downloadJson";
-import type { Run } from "./useMockRun";
+import type { MockRun } from "../../data/types";
 
-export const downloadResponses = (run: Run, score: (index: number) => number) => {
+export const downloadResponses = (run: MockRun, score: (index: number) => number) => {
   const body = {
     date: run.started,
     reading: score(0),

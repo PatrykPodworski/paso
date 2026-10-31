@@ -1,26 +1,18 @@
-import type { Attempt, Progress, Question, ReviewState, Skill } from "./types.ts";
+import type { ProgressSnapshot, Question, ReviewState, Skill } from "./types.ts";
 
 export const REVIEW_WINDOWS = [0, 1, 3, 7, 14, 30] as const;
 
 export const RELEARN_MINUTES = 10;
 
-export const STORAGE_KEY = "paso-progress-v1";
+// The longest answer or draft api/progress stores.
+export const MAX_TEXT = 4000;
 
-export const emptyProgress = (): Progress => ({
-  version: 1,
-  name: "",
-  goal: 10,
-  completed: {},
-  attempts: [],
-  mistakes: [],
-  reviewed: [],
-  mistakeReviews: {},
-  vocabularyReviews: {},
-  checks: [],
-  examDate: "",
-  mockResults: [],
-  drafts: {},
-});
+// Cuts on a whole character: the server refuses a lone half of a surrogate pair.
+export const clipText = (text: string) => {
+  const clipped = text.slice(0, MAX_TEXT);
+
+  return /[\uD800-\uDBFF]$/.test(clipped) ? clipped.slice(0, -1) : clipped;
+};
 
 export const localDate = (date = new Date()) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -60,28 +52,6 @@ export const vocabularyReview = (
   };
 };
 
-export const readProgress = (): Progress => {
-  try {
-    // Stryker disable next-line StringLiteral: equivalent mutant. Any other placeholder
-    // either parses to a falsy value or throws, and both routes return emptyProgress().
-    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-
-    if (
-      !raw ||
-      raw.version !== 1 ||
-      !Array.isArray(raw.attempts) ||
-      !raw.completed ||
-      !Array.isArray(raw.mistakes)
-    ) {
-      return emptyProgress();
-    }
-
-    return { ...emptyProgress(), ...raw };
-  } catch {
-    return emptyProgress();
-  }
-};
-
 export const normalize = (s: string) =>
   s
     .normalize("NFC")
@@ -96,53 +66,12 @@ export const isCorrect = (q: Question, answer: string) =>
 export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
 
-export const withAttempt = (p: Progress, attempt: Attempt): Progress => {
-  const mistakes = new Set(p.mistakes);
+// A question answered on the day has its latest answer on that day.
+export const dailyAnswers = (p: ProgressSnapshot, date = localDate()) =>
+  Object.values(p.questions).filter((q) => localDate(new Date(q.at)) === date).length;
 
-  const trackedMistakeReview =
-    p.mistakes.includes(attempt.questionId) || p.mistakeReviews[attempt.questionId];
-
-  const mistakeReviews = { ...p.mistakeReviews };
-
-  if (attempt.correct === false) {
-    mistakes.add(attempt.questionId);
-    mistakeReviews[attempt.questionId] = { level: 0, nextAt: attempt.at };
-  }
-
-  if (attempt.correct === true && !attempt.assisted && trackedMistakeReview) {
-    const nextLevel = nextReviewLevel(p.mistakeReviews[attempt.questionId]?.level ?? 0);
-
-    // A graded live talk costs a session, so passing it once clears it for good.
-    if (attempt.grade) {
-      delete mistakeReviews[attempt.questionId];
-    } else {
-      mistakeReviews[attempt.questionId] = {
-        level: nextLevel,
-        nextAt: nextReviewAt(attempt.at, nextLevel),
-      };
-    }
-
-    mistakes.delete(attempt.questionId);
-  }
-
-  return {
-    ...p,
-    attempts: [...p.attempts, attempt].slice(-6000),
-    mistakes: [...mistakes],
-    mistakeReviews,
-    reviewed:
-      attempt.correct === true && p.mistakes.includes(attempt.questionId) && !attempt.assisted
-        ? [...new Set([...p.reviewed, attempt.questionId])]
-        : p.reviewed,
-  };
-};
-
-export const dailyAnswers = (p: Progress, date = localDate()) =>
-  new Set(p.attempts.filter((a) => localDate(new Date(a.at)) === date).map((a) => a.questionId))
-    .size;
-
-export const streak = (p: Progress) => {
-  const days = new Set(p.attempts.map((a) => localDate(new Date(a.at))));
+export const streak = (p: ProgressSnapshot) => {
+  const days = new Set(p.days);
   const date = new Date();
   let count = 0;
 
@@ -158,21 +87,15 @@ export const streak = (p: Progress) => {
   return count;
 };
 
-export const xp = (p: Progress) =>
-  new Set(p.attempts.map((a) => a.questionId)).size * 5 + Object.keys(p.completed).length * 20;
-
-export const skillStats = (p: Progress, skill: Skill) => {
-  const latest = new Map<string, Attempt>();
-
-  p.attempts.filter((a) => a.skill === skill).forEach((a) => latest.set(a.questionId, a));
-  const attempts = [...latest.values()];
-  const graded = attempts.filter((a) => a.correct !== null && !a.assisted);
+export const skillStats = (p: ProgressSnapshot, skill: Skill) => {
+  const answers = Object.values(p.questions).filter((q) => q.skill === skill);
+  const graded = answers.filter((q) => q.correct !== null && !q.assisted);
 
   return {
-    practised: attempts.length,
+    practised: answers.length,
     graded: graded.length,
     accuracy: graded.length
-      ? Math.round((graded.filter((a) => a.correct).length / graded.length) * 100)
+      ? Math.round((graded.filter((q) => q.correct).length / graded.length) * 100)
       : null,
   };
 };

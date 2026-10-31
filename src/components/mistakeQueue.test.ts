@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
-import { emptyProgress } from "../data/progress";
+import type { ReviewState } from "../data/types";
+import { emptySnapshot, questionState } from "../test/progress";
 import { mistakeQueue } from "./mistakeQueue";
 
 const now = new Date("2026-10-16T12:00:00Z");
@@ -7,10 +8,24 @@ const earlier = "2026-10-16T08:00:00Z";
 const earliest = "2026-10-15T08:00:00Z";
 const later = "2026-10-17T08:00:00Z";
 
-const queue = (
-  mistakes: string[],
-  mistakeReviews: Record<string, { level: number; nextAt: string }> = {},
-) => mistakeQueue({ ...emptyProgress(), mistakes, mistakeReviews }, now).map((q) => q.id);
+// Open mistakes are answered one minute apart, in the order given.
+const queue = (mistakes: string[], reviews: Record<string, ReviewState> = {}) => {
+  const answer = (id: string, minute: number) =>
+    questionState({
+      at: new Date(Date.parse("2026-10-14T08:00:00Z") + minute * 60_000).toISOString(),
+      correct: false,
+      inMistakes: mistakes.includes(id),
+      ...(reviews[id] && { review: reviews[id] }),
+    });
+
+  const ids = [...new Set([...mistakes, ...Object.keys(reviews)])];
+
+  const questions = Object.fromEntries(
+    ids.map((id) => [id, answer(id, mistakes.includes(id) ? mistakes.indexOf(id) : 0)]),
+  );
+
+  return mistakeQueue({ ...emptySnapshot(), questions }, now).map((q) => q.id);
+};
 
 it("keeps open mistakes in the order they were made", () => {
   expect(queue(["u1-v2", "u1-v0", "u1-v1"])).toEqual(["u1-v2", "u1-v0", "u1-v1"]);

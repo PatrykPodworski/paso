@@ -5,12 +5,12 @@ import { Panel } from "../../design-system/Panel";
 import { foundations, visualQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
 import { skillStats } from "../../data/progress";
-import type { Progress, Skill } from "../../data/types";
+import type { ProgressSnapshot, Skill } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, type Practice, type Session } from "../practice";
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   filter: Skill | "all";
   setSession: Session;
   practice: Practice;

@@ -31,14 +31,14 @@ export const ScoreCalculator = ({
   const groups = passingGroups(reading, +writing, listening, +speaking);
 
   return (
-    <div className="mb-6 rounded-lg border border-sage-200 p-6 text-left max-md:p-5">
+    <div className="mb-6 rounded-lg border border-border p-6 text-left max-md:p-5">
       <h3 className="text-base font-semibold tracking-tight">Check the two passing groups</h3>
-      <p className="leading-relaxed my-3 text-sm text-sage-500">
+      <p className="leading-relaxed my-3 text-sm text-muted-foreground">
         Enter scores from a qualified reviewer, or explore hypothetical scores. These inputs do not
         assess your writing or pronunciation.
       </p>
       <div className="mt-5 flex gap-4 max-md:flex-col">
-        <label className="text-sm flex flex-1 flex-col gap-2 text-olive-600">
+        <label className="text-sm flex flex-1 flex-col gap-2 text-foreground">
           Writing score /25
           <input
             className={FIELD}
@@ -51,7 +51,7 @@ export const ScoreCalculator = ({
             placeholder="Not yet graded"
           />
         </label>
-        <label className="text-sm flex flex-1 flex-col gap-2 text-olive-600">
+        <label className="text-sm flex flex-1 flex-col gap-2 text-foreground">
           Speaking score /25
           <input
             className={FIELD}
@@ -67,7 +67,7 @@ export const ScoreCalculator = ({
       </div>
       {entered ? (
         <Notice positive={groups.pass}>
-          <p className="leading-relaxed my-3 text-sage-500">
+          <p className="leading-relaxed my-3 text-muted-foreground">
             Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
             <br />
             Listening + speaking: <strong>{groups.group2.toFixed(2)}/50</strong>

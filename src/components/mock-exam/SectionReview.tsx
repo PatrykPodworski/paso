@@ -22,7 +22,7 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
       <h2 className="font-heading font-semibold tracking-tight leading-tight mt-2.5 mb-3.5 text-3xl">
         {run.section < 2 ? `${score(run.section)} out of 25.` : "Your practice is ready to review."}
       </h2>
-      <p className="leading-relaxed mb-5 text-sm text-sage-500">
+      <p className="leading-relaxed mb-5 text-sm text-muted-foreground">
         {run.section < 2
           ? "Correct answers earn one point. Wrong or unanswered questions earn zero, with no penalty."
           : "Open responses require human judgment. Compare your response with the model and cover every requested point."}

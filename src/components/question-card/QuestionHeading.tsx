@@ -11,7 +11,7 @@ import { type LastAttempt, LastTime } from "../history/LastTime";
 type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
 
 const QuestionKind = ({ q, productive, previous }: QuestionKindProps) => (
-  <div className="question-kind flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-sage-600 max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
+  <div className="question-kind flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
     <SkillDot skill={q.skill} />
     {q.skill} <span className="px-1 opacity-50"> / </span>
     {q.kind === "listen"

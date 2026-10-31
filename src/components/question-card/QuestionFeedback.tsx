@@ -6,20 +6,20 @@ import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
 
-const NOTE = "text-sm leading-relaxed text-olive-700 mt-2";
+const NOTE = "text-sm leading-relaxed text-foreground mt-2";
 
 const TONE = {
   success: {
-    box: "border-sage-200 bg-sage-100",
-    icon: "bg-sage-200 text-olive-500",
-    heading: "text-olive-600",
-    paragraph: "text-olive-700",
+    box: "border-success/20 bg-success/10",
+    icon: "bg-success/15 text-success",
+    heading: "text-success",
+    paragraph: "text-foreground",
   },
   needsWork: {
-    box: "border-sand-200 bg-sand-50",
-    icon: "bg-sand-200 text-sand-500",
-    heading: "text-sand-600",
-    paragraph: "text-sand-700",
+    box: "border-destructive/20 bg-destructive/5",
+    icon: "bg-destructive/10 text-destructive",
+    heading: "text-destructive",
+    paragraph: "text-foreground",
   },
 };
 
@@ -57,9 +57,9 @@ type PracticeReviewProps = { q: Question; value: string; checked: number };
 
 const PracticeReview = ({ q, value, checked }: PracticeReviewProps) => (
   <>
-    <div className="rounded-lg border border-sage-200 bg-white py-4 px-5 mt-4 max-md:p-3.5">
+    <div className="rounded-lg border border-border bg-card py-4 px-5 mt-4 max-md:p-3.5">
       <Eyebrow>One possible answer</Eyebrow>
-      <p lang="es" className="mt-2.5 mx-0 mb-4 text-sm leading-loose text-olive-700">
+      <p lang="es" className="mt-2.5 mx-0 mb-4 text-sm leading-loose text-foreground">
         {q.answer}
       </p>
     </div>
@@ -87,7 +87,7 @@ const FeedbackBottom = ({
   onContinue,
 }: FeedbackBottomProps) => (
   <div className="flex items-center justify-between gap-5 mt-5 max-md:flex-wrap max-md:gap-3.5">
-    <small className="text-xs leading-relaxed text-sage-500">
+    <small className="text-xs leading-relaxed text-muted-foreground">
       {correct === false
         ? "Added to your mistake review."
         : productive
@@ -167,7 +167,7 @@ export const QuestionFeedback = ({
       <MemoryHint text={q.memoryHint} />
       {productive && <PracticeReview q={q} value={value} checked={checked} />}
       {q.audio && (
-        <details className="text-sm text-olive-500 mt-4">
+        <details className="text-sm text-muted-foreground mt-4">
           <summary className="cursor-pointer">Read the transcript</summary>
           <p lang="es" className="leading-relaxed mt-2.5">
             {q.audio}

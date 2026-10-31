@@ -93,7 +93,7 @@ export const LessonSession = ({
           </Eyebrow>
           <h3 className="font-semibold tracking-tight text-sm">{lesson.title}</h3>
         </div>
-        <span className="text-sm text-sage-400 max-md:text-xs">
+        <span className="text-sm text-muted-foreground max-md:text-xs">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
@@ -104,11 +104,11 @@ export const LessonSession = ({
       />
       {confirmExit && (
         <div className="py-12 px-7 text-center">
-          <Icon name="book" size={40} className="mx-auto text-olive-500 mb-5" />
+          <Icon name="book" size={40} className="mx-auto text-muted-foreground mb-5" />
           <h2 className="font-heading font-semibold tracking-tight leading-tight text-3xl">
             Leave this lesson?
           </h2>
-          <p className="leading-relaxed text-sm text-sage-500 max-w-112 mt-3.5 mx-auto mb-6">
+          <p className="leading-relaxed text-sm text-muted-foreground max-w-112 mt-3.5 mx-auto mb-6">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
@@ -129,7 +129,7 @@ export const LessonSession = ({
           <h2 className="font-heading font-semibold tracking-tight leading-tight text-4xl my-3 mx-0">
             Look at you go.
           </h2>
-          <p className="leading-relaxed text-sm text-sage-500 mt-3">
+          <p className="leading-relaxed text-sm text-muted-foreground mt-3">
             Another little piece of Spanish, yours to keep.
           </p>
           <CompletionStats
@@ -138,7 +138,7 @@ export const LessonSession = ({
                 "objective answers",
                 <>
                   {results.filter((r) => r).length}
-                  <small className="text-base text-sage-400">
+                  <small className="text-base text-muted-foreground">
                     /{results.filter((r) => r !== null).length}
                   </small>
                 </>,
@@ -150,7 +150,7 @@ export const LessonSession = ({
           {assisted > 0 && (
             <FieldNote className="mt-3">{assisted} answers used transcript assistance.</FieldNote>
           )}
-          <p className="leading-relaxed text-sm text-sage-500 mt-3">
+          <p className="leading-relaxed text-sm text-muted-foreground mt-3">
             {results.some((r) => r === false)
               ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
               : "A little practice every day goes a long way."}

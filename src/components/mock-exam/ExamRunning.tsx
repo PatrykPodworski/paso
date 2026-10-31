@@ -30,7 +30,7 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
 
   return (
     <Panel className="px-7 pt-5 pb-5 max-md:p-4">
-      <div className="flex justify-between gap-2.5 border-b border-sage-200 pb-3.5 text-xs text-sage-400">
+      <div className="flex justify-between gap-2.5 border-b border-border pb-3.5 text-xs text-muted-foreground">
         <span>{q.task}</span>
         <strong>
           {run.index + 1} / {section.questions.length}
@@ -56,7 +56,7 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           }
         }}
       />
-      <div className="mt-5 flex items-center justify-between gap-3.5 border-t border-sage-200 pt-4 max-md:flex-wrap max-md:gap-4">
+      <div className="mt-5 flex items-center justify-between gap-3.5 border-t border-border pt-4 max-md:flex-wrap max-md:gap-4">
         <TextLink
           disabled={run.index === 0}
           onClick={() => {

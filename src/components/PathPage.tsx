@@ -1,4 +1,4 @@
-import { TONE } from "./tone";
+import { TINT } from "./tone";
 import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
@@ -13,7 +13,7 @@ import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
 
 const PATH_NUMBER =
-  "flex items-center justify-center shrink-0 rounded-full border border-sage-200 mt-6 w-8 h-8 text-xs max-md:w-7 max-md:h-7 max-md:text-2xs";
+  "flex items-center justify-center shrink-0 rounded-full border border-border mt-6 w-8 h-8 text-xs max-md:w-7 max-md:h-7 max-md:text-2xs";
 
 type Props = {
   progress: ProgressSnapshot;
@@ -58,7 +58,7 @@ export const PathPage = ({
       </PageHeading>
       <Panel className="flex items-center gap-4 max-md:gap-3 mb-7 p-6 max-md:p-5 max-lg:flex-wrap">
         <span
-          className={`flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11 max-md:w-11 max-sm:w-8 max-sm:h-9 ${TONE[nextUnit.color]}`}
+          className={`flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11 max-md:w-11 max-sm:w-8 max-sm:h-9 ${TINT}`}
         >
           <Icon name={nextUnit.icon} size={28} />
         </span>
@@ -69,7 +69,7 @@ export const PathPage = ({
           <h3 className="font-semibold tracking-tight text-base max-xl:text-sm">
             {nextUnit.title} · {nextLesson.title}
           </h3>
-          <p className="leading-relaxed mt-1.5 text-sm text-sage-500">
+          <p className="leading-relaxed mt-1.5 text-sm text-muted-foreground">
             {completed}/{allLessons.length} complete · {progressPercent}% of your path
           </p>
         </div>
@@ -83,11 +83,11 @@ export const PathPage = ({
         </Button>
       </Panel>
       <div className="flex gap-7 max-xl:gap-5 max-lg:flex-col">
-        <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-sage-200">
+        <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-border">
           {units.map((u, i) => (
             <div className="relative flex items-start gap-4 max-md:gap-2.5 mb-4" key={u.id}>
               <span
-                className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-olive-600 text-white" : "bg-sage-50 text-sage-500"}`}
+                className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-success text-success-foreground" : "bg-background text-muted-foreground"}`}
               >
                 {u.lessons.every((l) => progress.completed[l.id]) ? (
                   <Icon name="check" size={16} />
@@ -106,7 +106,7 @@ export const PathPage = ({
               />
             </div>
           ))}
-          <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-sage-100 text-olive-600">
+          <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-muted text-foreground">
             <Icon name="flag" size={28} />
             <div>
               <h3 className="font-semibold tracking-tight font-heading text-xl">
@@ -143,10 +143,10 @@ export const PathPage = ({
             ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
             ["mic", "Use your own voice", "Write, record and reflect on your progress."],
           ].map(([icon, title, body]) => (
-            <div key={title} className="flex gap-3 mb-6 max-lg:mb-0 text-sage-600">
+            <div key={title} className="flex gap-3 mb-6 max-lg:mb-0 text-muted-foreground">
               <Icon name={icon} size={20} />
               <section>
-                <h4 className="font-semibold text-sm text-sage-800">{title}</h4>
+                <h4 className="font-semibold text-sm text-foreground">{title}</h4>
                 <p className="leading-relaxed mt-1.5 text-sm">{body}</p>
               </section>
             </div>

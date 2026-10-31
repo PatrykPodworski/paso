@@ -27,8 +27,8 @@ export const LiveStatus = ({ status, seconds, scoring, onEnd, onCancel }: Props)
 
   return (
     <>
-      <div className="flex items-center gap-2.5 text-sm text-sage-800">
-        {live && <span className="size-2 rounded-full bg-coral-500" aria-hidden />}
+      <div className="flex items-center gap-2.5 text-sm text-foreground">
+        {live && <span className="size-2 rounded-full bg-destructive" aria-hidden />}
         <p role="status">
           {LABELS[status]}
           {scoring && "Scoring your answers…"}

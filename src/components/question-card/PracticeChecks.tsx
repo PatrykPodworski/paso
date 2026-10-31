@@ -5,7 +5,7 @@ import type { Answer } from "./useAnswer";
 import { CHECKBOX } from "../../design-system/field";
 
 const CHECK_ROW =
-  "flex items-start gap-2.5 my-2.5 mx-0 text-xs leading-relaxed text-sage-700 max-md:text-sm";
+  "flex items-start gap-2.5 my-2.5 mx-0 text-xs leading-relaxed text-muted-foreground max-md:text-sm";
 
 type Props = {
   q: Question;
@@ -41,7 +41,7 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
         </>
       )}
       {practice.productive && !exam && (
-        <div className="self-checks mt-6 rounded-lg bg-sage-50 p-5 max-md:p-4">
+        <div className="self-checks mt-6 rounded-lg bg-muted p-5 max-md:p-4">
           <Eyebrow variant="checklist" className="mb-3">
             Your self-review checklist
           </Eyebrow>
@@ -59,7 +59,7 @@ export const PracticeChecks = ({ q, exam, feedback, practice, onStart }: Props) 
         </div>
       )}
       {practice.productive && !exam && !feedback && (
-        <p className="mt-5 text-xs leading-relaxed text-sage-800">
+        <p className="mt-5 text-xs leading-relaxed text-foreground">
           AI feedback on your writing and speaking is coming soon.
         </p>
       )}

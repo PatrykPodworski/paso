@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 const TITLE =
   "font-heading text-2xl max-xl:text-xl max-md:text-2xl font-semibold tracking-tight leading-tight";
 
-const TEXT = "mt-1 text-sm leading-relaxed text-sage-700";
+const TEXT = "mt-1 text-sm leading-relaxed text-muted-foreground";
 
 const VARIANT = {
   default: {
@@ -25,7 +25,7 @@ const VARIANT = {
   collection: {
     box: "mt-7 max-md:mt-6 gap-4 max-sm:flex-col max-sm:items-stretch",
     title: "text-base font-semibold tracking-tight",
-    text: "mt-1.5 text-xs leading-relaxed text-sage-800",
+    text: "mt-1.5 text-xs leading-relaxed text-foreground",
   },
 };
 

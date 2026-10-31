@@ -142,17 +142,17 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
   };
 
   return (
-    <div className="recorder mt-5 p-5 bg-sand-100 border border-sand-200 rounded-lg max-md:p-4">
+    <div className="recorder mt-5 p-5 bg-muted border border-border rounded-lg max-md:p-4">
       <div className="record-main flex items-center justify-between gap-3.5 max-sm:flex-col max-sm:items-stretch">
         <button
           type="button"
-          className={`${PRESSABLE} record-button flex items-center gap-2.5 py-3.5 px-5 border-0 rounded-lg text-sm text-sand-50 max-md:p-3 max-sm:justify-center ${recording ? "bg-coral-700 animate-ring-pulse motion-reduce:animate-none" : "bg-coral-500"}`}
+          className={`${PRESSABLE} record-button flex items-center gap-2.5 py-3.5 px-5 border-0 rounded-lg text-sm max-md:p-3 max-sm:justify-center ${recording ? "bg-destructive/10 text-destructive animate-ring-pulse motion-reduce:animate-none" : "bg-primary text-primary-foreground"}`}
           onClick={toggle}
         >
           <Icon name={recording ? "pause" : "mic"} size={24} />
           {recording ? "Stop recording" : url ? "Record again" : "Record your answer"}
         </button>
-        <span className="mono font-sans tabular-nums text-xl text-sand-500 max-md:text-base max-sm:text-center">
+        <span className="mono font-sans tabular-nums text-xl text-muted-foreground max-md:text-base max-sm:text-center">
           {String(Math.floor(seconds / 60)).padStart(2, "0")}:
           {String(seconds % 60).padStart(2, "0")}
         </span>
@@ -166,7 +166,7 @@ export const Recorder = ({ onRecorded, onStart, onRecordingChange }: Props) => {
           <TextLink
             href={url}
             download={`paso-speaking.${recorder.current?.mimeType.includes("mp4") ? "m4a" : "webm"}`}
-            className="text-xs! text-sand-500!"
+            className="text-xs!"
           >
             <Icon name="download" size={16} /> Save recording
           </TextLink>

@@ -10,7 +10,7 @@ type Props = {
 
 export const Panel = ({ as: Tag = "div", className = "", ...rest }: Props) => (
   <Tag
-    className={`${Tag === "button" ? PRESSABLE : ""} bg-white border border-sage-200 rounded-xl ${className}`}
+    className={`${Tag === "button" ? PRESSABLE : ""} bg-card border border-border rounded-xl ${className}`}
     {...rest}
   />
 );
@@ -22,7 +22,7 @@ type PanelHeadingProps = { title: ReactNode; icon?: string; children?: ReactNode
 export const PanelHeading = ({ title, icon, children }: PanelHeadingProps) => (
   <div className="flex items-center justify-between gap-2.5">
     <h3 className="tracking-tight text-sm font-semibold">{title}</h3>
-    {icon && <Icon name={icon} size={17} className="text-sage-400" />}
+    {icon && <Icon name={icon} size={17} className="text-muted-foreground" />}
     {children}
   </div>
 );

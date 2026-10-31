@@ -9,7 +9,7 @@ export const ExamTopbar = ({ run, left }: Props) =>
     <div className="my-6 flex items-center justify-between gap-5">
       <ol
         aria-label="Exam sections"
-        className="flex gap-6 text-xs text-sage-400 max-lg:gap-3 max-lg:text-2xs max-md:gap-2 max-sm:gap-1.5"
+        className="flex gap-6 text-xs text-muted-foreground max-lg:gap-3 max-lg:text-2xs max-md:gap-2 max-sm:gap-1.5"
       >
         {mockSections.map((s, i) => {
           const active = i === run.section;
@@ -19,10 +19,10 @@ export const ExamTopbar = ({ run, left }: Props) =>
             <li
               key={s.title}
               aria-current={active ? "step" : undefined}
-              className={`flex items-center gap-1.5 max-sm:gap-1 ${active ? "active text-olive-800 max-md:text-xs max-sm:text-2xs" : done ? "done text-olive-600" : ""}`}
+              className={`flex items-center gap-1.5 max-sm:gap-1 ${active ? "active text-foreground max-md:text-xs max-sm:text-2xs" : done ? "done text-success" : ""}`}
             >
               <b
-                className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium max-lg:h-5 max-lg:w-5 max-md:h-7 max-md:w-7 max-md:text-xs max-sm:h-6 max-sm:w-6 ${active ? "bg-olive-900 text-white" : "bg-sage-100"}`}
+                className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium max-lg:h-5 max-lg:w-5 max-md:h-7 max-md:w-7 max-md:text-xs max-sm:h-6 max-sm:w-6 ${active ? "bg-primary text-primary-foreground" : "bg-muted"}`}
               >
                 {done ? "✓" : i + 1}
               </b>
@@ -35,7 +35,7 @@ export const ExamTopbar = ({ run, left }: Props) =>
         <span
           role="timer"
           aria-label="Time remaining"
-          className={`flex items-center gap-2 rounded-md px-4 py-2.5 text-lg font-medium font-sans tabular-nums max-lg:p-2 max-lg:text-base max-md:text-base max-sm:gap-1 max-sm:px-2 max-sm:py-2 max-sm:text-sm ${left < 120 ? "urgent bg-sand-100 text-coral-600" : "bg-sage-100 text-olive-600"}`}
+          className={`flex items-center gap-2 rounded-md px-4 py-2.5 text-lg font-medium font-sans tabular-nums max-lg:p-2 max-lg:text-base max-md:text-base max-sm:gap-1 max-sm:px-2 max-sm:py-2 max-sm:text-sm ${left < 120 ? "urgent bg-destructive/10 text-destructive" : "bg-muted text-foreground"}`}
         >
           <Icon name="clock" className="max-sm:w-3.5" />
           {String(Math.floor(left / 60)).padStart(2, "0")}:{String(left % 60).padStart(2, "0")}

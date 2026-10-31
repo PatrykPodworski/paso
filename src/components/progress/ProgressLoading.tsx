@@ -16,7 +16,7 @@ export const ProgressLoading = ({ failed, onRetry }: Props) => (
         </Button>
       </div>
     ) : (
-      <p role="status" className="text-sm text-sage-500">
+      <p role="status" className="text-sm text-muted-foreground">
         Loading your progress…
       </p>
     )}

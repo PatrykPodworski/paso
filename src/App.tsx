@@ -71,6 +71,8 @@ const App = () => {
     setSession(lesson);
   };
 
+  const toggleExpanded = (id: string) => setExpanded((open) => (open === id ? "" : id));
+
   const complete = (score: number, total: number) => {
     if (session && allLessons.some((l) => l.id === session.id)) {
       actions.complete(session.id, score, total);
@@ -86,7 +88,7 @@ const App = () => {
         progressPercent={progressPercent}
         mistakeCount={mistakeQuestions.length}
         expanded={expanded}
-        setExpanded={setExpanded}
+        toggleExpanded={toggleExpanded}
         setSession={setSession}
         openSettings={() => setSettings(true)}
         navigate={navigate}
@@ -100,7 +102,7 @@ const App = () => {
         completed={completed}
         progressPercent={progressPercent}
         expanded={expanded}
-        setExpanded={setExpanded}
+        toggleExpanded={toggleExpanded}
         setSession={setSession}
         navigate={navigate}
       />

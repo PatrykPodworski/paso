@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
 import { allQuestions } from "../../data/curriculum";
-import { emptyProgress } from "../../data/progress";
+import { emptySnapshot, questionState } from "../../test/progress";
 import { DailyGoal } from "./DailyGoal";
 
 afterEach(() => {
@@ -14,18 +14,15 @@ it.each([
   [5, 5, 5, "Daily goal reached. ¡Muy bien!"],
   [6, 5, 5, "Daily goal reached. ¡Muy bien!"],
 ])("renders the bounded daily goal for %s of %s answers", (count, goal, value, message) => {
-  const p = emptyProgress();
-
-  p.goal = goal as number;
-
-  p.attempts = allQuestions.slice(0, count as number).map((q, i) => ({
-    id: String(i),
-    questionId: q.id,
-    skill: q.skill,
-    answer: q.answer,
-    correct: true,
-    at: new Date().toISOString(),
-  }));
+  const p = {
+    ...emptySnapshot(),
+    goal: goal as number,
+    questions: Object.fromEntries(
+      allQuestions
+        .slice(0, count as number)
+        .map((q) => [q.id, questionState({ skill: q.skill, at: new Date().toISOString() })]),
+    ),
+  };
 
   render(<DailyGoal progress={p} openSettings={vi.fn()} />);
 
@@ -36,38 +33,47 @@ it.each([
   expect(ring).toHaveAttribute("aria-valuemax", String(goal));
 });
 
-it("renders the week from Monday through Sunday with per-day unique answers", () => {
+it("renders the week from Monday through Sunday with the practised days", () => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date(2026, 8, 9, 12));
-  const p = emptyProgress();
 
-  p.attempts = [
-    {
-      id: "one",
-      questionId: "one",
-      skill: "reading",
-      answer: "hola",
-      correct: true,
-      at: new Date(2026, 8, 7, 12).toISOString(),
-    },
-    {
-      id: "again",
-      questionId: "one",
-      skill: "reading",
-      answer: "hola",
-      correct: true,
-      at: new Date(2026, 8, 7, 13).toISOString(),
-    },
-  ];
+  const answer = (day: number) => questionState({ at: new Date(2026, 8, day, 12).toISOString() });
+
+  const p = {
+    ...emptySnapshot(),
+    questions: { one: answer(9), two: answer(9), three: answer(7) },
+    days: ["2026-09-09", "2026-09-08", "2026-09-07"],
+  };
+
+  render(<DailyGoal progress={p} openSettings={vi.fn()} />);
+  const days = within(screen.getByRole("list", { name: "This week" })).getAllByRole("listitem");
+  const labels = days.map((day) => within(day).getByRole("img").getAttribute("aria-label"));
+
+  expect(days.map((day) => day.textContent)).toEqual(["M", "T", "W", "T", "F", "S", "S"]);
+
+  expect(labels.map((label) => label?.replace(/^.*: /, ""))).toEqual([
+    "practised",
+    "practised",
+    "2 exercises",
+    "no practice",
+    "no practice",
+    "no practice",
+    "no practice",
+  ]);
+});
+
+it("counts a single exercise today in the singular", () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2026, 8, 9, 12));
+
+  const p = {
+    ...emptySnapshot(),
+    questions: { one: questionState({ at: new Date(2026, 8, 9, 12).toISOString() }) },
+    days: ["2026-09-09"],
+  };
 
   render(<DailyGoal progress={p} openSettings={vi.fn()} />);
   const days = within(screen.getByRole("list", { name: "This week" })).getAllByRole("listitem");
 
-  expect(days.map((day) => day.textContent)).toEqual(["M", "T", "W", "T", "F", "S", "S"]);
-
-  expect(within(days[0]).getByRole("img")).toHaveAccessibleName(/: 1 exercise$/);
-
-  days.slice(1).forEach((day) => {
-    expect(within(day).getByRole("img")).toHaveAccessibleName(/: 0 exercises$/);
-  });
+  expect(within(days[2]).getByRole("img")).toHaveAccessibleName(/: 1 exercise$/);
 });

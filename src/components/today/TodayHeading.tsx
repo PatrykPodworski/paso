@@ -1,12 +1,12 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { PageHeading } from "../../design-system/PageHeading";
 import { localDate } from "../../data/progress";
-import type { Progress } from "../../data/types";
+import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { PRESSABLE } from "../../design-system/pressable";
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   openSettings: () => void;
 };
 

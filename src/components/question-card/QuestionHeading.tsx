@@ -5,11 +5,13 @@ import { spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
+import { isWritingTask } from "./useAnswer";
+import { type LastAttempt, LastTime } from "../history/LastTime";
 
-type QuestionKindProps = { q: Question; productive: boolean };
+type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
 
-const QuestionKind = ({ q, productive }: QuestionKindProps) => (
-  <div className="question-kind flex items-center gap-2 text-xs uppercase tracking-widest text-sage-600 max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
+const QuestionKind = ({ q, productive, previous }: QuestionKindProps) => (
+  <div className="question-kind flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-sage-600 max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
     <SkillDot skill={q.skill} />
     {q.skill} <span className="px-1 opacity-50"> / </span>
     {q.kind === "listen"
@@ -19,6 +21,7 @@ const QuestionKind = ({ q, productive }: QuestionKindProps) => (
         : productive
           ? "Your turn"
           : "A small step forward"}
+    {previous && <LastTime previous={previous} />}
   </div>
 );
 
@@ -29,6 +32,8 @@ type Props = {
   productive: boolean;
   listeningAudio: Ref<AudioHandle>;
   answerAudio: Ref<AudioHandle>;
+  // The learner's previous answer to this question, shown in a lesson.
+  previous?: LastAttempt;
 };
 
 export const QuestionHeading = ({
@@ -38,6 +43,7 @@ export const QuestionHeading = ({
   productive,
   listeningAudio,
   answerAudio,
+  previous,
 }: Props) => {
   const heading = useRef<HTMLHeadingElement>(null);
 
@@ -51,11 +57,11 @@ export const QuestionHeading = ({
   }, [q.id]);
 
   const pronunciation = spokenText(q);
-  const hidePronunciation = !q.audio && !feedback;
+  const hidePronunciation = !q.audio && (!feedback || isWritingTask(q));
 
   return (
     <>
-      <QuestionKind q={q} productive={productive} />
+      <QuestionKind q={q} productive={productive} previous={previous} />
       <div className="question-heading grid grid-cols-1 gap-x-3">
         <h2
           ref={heading}
@@ -79,7 +85,7 @@ export const QuestionHeading = ({
               autoPlay={q.kind === "listen"}
               limit={exam ? 2 : undefined}
             />
-          ) : !exam ? (
+          ) : !exam && !isWritingTask(q) ? (
             <AudioButton
               ref={answerAudio}
               round="pronunciation"

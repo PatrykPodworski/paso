@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import { emptyProgress } from "../../data/progress";
+import { emptySnapshot } from "../../test/progress";
 import { TodayHeading } from "./TodayHeading";
 
 afterEach(() => {
@@ -15,7 +15,7 @@ it.each([
 ])("calculates the local exam countdown for %s", (date, label) => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date(2026, 8, 9, 12));
-  const p = emptyProgress();
+  const p = emptySnapshot();
 
   p.examDate = date;
   render(<TodayHeading progress={p} openSettings={vi.fn()} />);
@@ -30,6 +30,6 @@ it.each([
 ])("uses the appropriate local greeting at %s", (hour, label) => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date(2026, 8, 9, hour as number));
-  render(<TodayHeading progress={emptyProgress()} openSettings={vi.fn()} />);
+  render(<TodayHeading progress={emptySnapshot()} openSettings={vi.fn()} />);
   expect(screen.getByText(new RegExp(label as string))).toBeInTheDocument();
 });

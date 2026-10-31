@@ -1,12 +1,12 @@
 import type { CSSProperties } from "react";
 import { Panel, PanelHeading } from "../../design-system/Panel";
 import { dailyAnswers, localDate } from "../../data/progress";
-import type { Progress } from "../../data/types";
+import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { IconButton } from "../../design-system/IconButton";
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   openSettings: () => void;
 };
 
@@ -71,9 +71,15 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           const d = new Date();
 
           d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + i);
-          const n = dailyAnswers(progress, localDate(d));
           const isToday = localDate(d) === localDate();
-          const label = `${d.toLocaleDateString()}: ${n} ${n === 1 ? "exercise" : "exercises"}`;
+          const practised = progress.days.includes(localDate(d));
+
+          // The snapshot holds only the latest answer per question, so a count is exact for today alone.
+          const summary = isToday
+            ? `${today} ${today === 1 ? "exercise" : "exercises"}`
+            : practised
+              ? "practised"
+              : "no practice";
 
           return (
             <li key={i} className="flex flex-col items-center gap-2">
@@ -84,11 +90,11 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
               </span>
               <i
                 role="img"
-                aria-label={label}
-                className={`${DOT} ${n ? "bg-olive-500 border-olive-500 text-white" : isToday ? "bg-sage-100 border-olive-400" : "border-sage-100"}`}
-                title={label}
+                aria-label={`${d.toLocaleDateString()}: ${summary}`}
+                className={`${DOT} ${practised ? "bg-olive-500 border-olive-500 text-white" : isToday ? "bg-sage-100 border-olive-400" : "border-sage-100"}`}
+                title={`${d.toLocaleDateString()}: ${summary}`}
               >
-                {n ? (
+                {practised ? (
                   <Icon name="check" size={12} />
                 ) : isToday ? (
                   <b className="w-1 h-1 rounded-full bg-olive-500" />

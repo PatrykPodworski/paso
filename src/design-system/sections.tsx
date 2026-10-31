@@ -95,7 +95,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     name: "FieldNote",
     render: () => (
       <div className="flex flex-col gap-4">
-        <FieldNote>Progress and writing drafts stay in this browser.</FieldNote>
+        <FieldNote>Progress and writing drafts are saved online.</FieldNote>
         <FieldNote>
           A note with a link inside.{" "}
           <a className="underline" href="#design-system">
@@ -156,7 +156,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
     render: () => (
       <div>
         <Notice as="p" role="status">
-          Browser storage is unavailable. Progress is kept for this visit.
+          Browser storage is unavailable. Progress is saved for this visit only.
         </Notice>
         <Notice icon="info">
           <p className="leading-relaxed">

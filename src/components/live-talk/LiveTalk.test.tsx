@@ -370,6 +370,21 @@ describe("a live talk", () => {
   });
 });
 
+it("clips a long transcript to the 4000 characters progress stores", async () => {
+  replies(started(), { grade: "good", items: [] });
+  const { onEvaluated } = mount();
+
+  await talk();
+  say("student", "a".repeat(4000), 2500);
+  await finish();
+  await screen.findByRole("heading", { name: "Good. You passed." });
+
+  const [answer] = onEvaluated.mock.calls[0];
+
+  expect(answer).toHaveLength(4000);
+  expect(answer.startsWith("Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.")).toBe(true);
+});
+
 describe("access", () => {
   it("uses the free talk once and then asks for the passcode", async () => {
     replies(started(), { grade: "perfect", items: [] });
@@ -450,6 +465,20 @@ describe("access", () => {
 
     expect(screen.getByText("This network has already used its free live talk.")).toBeVisible();
     expect(screen.getByLabelText("Passcode")).toBeVisible();
+  });
+
+  it("keeps the passcode progress stored when the server says the free talk is used", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
+    replies(Response.json({ error: "free_used" }, { status: 403 }));
+    mount();
+    await click("Start the talk");
+
+    expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
+      freeUsed: true,
+      passcode: "olé",
+    });
+
+    expect(screen.getByLabelText("Passcode")).toHaveValue("olé");
   });
 
   it("explains the limit on wrong passcodes", async () => {

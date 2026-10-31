@@ -1,7 +1,8 @@
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
 import { allLessons } from "../../src/data/curriculum";
 import { mockSections } from "../../src/data/mock";
-import type { Question } from "../../src/data/types";
+import type { ProgressSnapshot, Question } from "../../src/data/types";
+import { type ProgressSeed, seedWrites } from "./progressSeed";
 
 export const test = base.extend<{ blockExternal: void }>({
   blockExternal: [
@@ -171,10 +172,50 @@ export const resumeMockExam = async (
     drafts: {},
   };
 
-  await page.addInitScript((run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)), run);
+  await seedProgress(page, { mockRun: run });
 
   await page.goto("/#exam");
 };
 
-export const stored = async (page: Page, key = "paso-progress-v1") =>
+export const stored = async (page: Page, key: string) =>
   page.evaluate((k) => JSON.parse(localStorage.getItem(k) || "null"), key);
+
+// The learner's progress as the dev server's API stores it.
+export const saved = async (page: Page): Promise<ProgressSnapshot> => {
+  const learner = await page.evaluate(() => localStorage.getItem("paso-learner-v1"));
+
+  const response = await page.request.get("/api/progress", {
+    headers: { "x-learner-id": learner! },
+  });
+
+  return response.json();
+};
+
+// Stores a seed on the dev server for a new learner, and makes every page load of this
+// test use that learner. The base app in the visual compare may still read progress from
+// paso-progress-v1 and its mock run from paso-mock-v1, so the seed is kept there too.
+export const seedProgress = async (page: Page, seed: Partial<ProgressSeed>) => {
+  const learner = crypto.randomUUID();
+  const timeZone = await page.evaluate(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+  for (const data of seedWrites(seed, timeZone)) {
+    const response = await page.request.post("/api/progress", {
+      headers: { "x-learner-id": learner },
+      data,
+    });
+
+    expect(response.ok(), `seed ${data.action}: ${await response.text()}`).toBe(true);
+  }
+
+  await page.addInitScript(
+    ({ learner, seed: { mockRun, ...progress } }) => {
+      localStorage.setItem("paso-learner-v1", learner);
+      localStorage.setItem("paso-progress-v1", JSON.stringify(progress));
+
+      if (mockRun) {
+        localStorage.setItem("paso-mock-v1", JSON.stringify(mockRun));
+      }
+    },
+    { learner, seed },
+  );
+};

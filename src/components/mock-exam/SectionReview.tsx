@@ -5,11 +5,11 @@ import { Panel } from "../../design-system/Panel";
 import { mockSections } from "../../data/mock";
 import { AnswerReview } from "./AnswerReview";
 import { Icon } from "../../design-system/Icon";
-import type { Run } from "./useMockRun";
+import type { MockRun } from "../../data/types";
 import { WritingMarks } from "./WritingMarks";
 
 type Props = {
-  run: Run;
+  run: MockRun;
   score: (index: number) => number;
   onNext: () => void;
 };

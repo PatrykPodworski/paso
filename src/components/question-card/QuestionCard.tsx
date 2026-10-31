@@ -13,6 +13,7 @@ import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { isWritingTask, useAnswer } from "./useAnswer";
 import { WritingCheck } from "./WritingCheck";
+import type { LastAttempt } from "../history/LastTime";
 
 type Props = {
   q: Question;
@@ -22,6 +23,7 @@ type Props = {
   draft?: string;
   onDraft?: (text: string) => void;
   active?: boolean;
+  previous?: LastAttempt;
 };
 
 export const QuestionCard = ({
@@ -32,6 +34,7 @@ export const QuestionCard = ({
   draft = "",
   onDraft,
   active = true,
+  previous,
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
@@ -132,6 +135,7 @@ export const QuestionCard = ({
         productive={productive}
         listeningAudio={listeningAudio}
         answerAudio={answerAudio}
+        previous={previous}
       />
       <QuestionMaterials
         q={q}

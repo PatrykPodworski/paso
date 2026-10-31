@@ -98,19 +98,31 @@ export type ReviewState = {
 
 export type VocabularyReview = ReviewState & { reviewedAt?: string };
 
-export interface Progress {
-  version: 1;
+// A learner's progress as the server stores it (api/progress.ts).
+export interface ProgressSnapshot {
   name: string;
   goal: number;
+  examDate: string;
+  xp: number;
   completed: Record<string, { score: number; total: number; at: string }>;
-  attempts: Attempt[];
-  mistakes: string[];
-  reviewed: string[];
-  mistakeReviews: Record<string, ReviewState>;
+  // The previous attempt at each question, with its mistake and review state.
+  questions: Record<
+    string,
+    {
+      skill: Skill;
+      at: string;
+      correct: boolean | null;
+      answer: string;
+      assisted?: boolean;
+      grade?: Grade;
+      inMistakes: boolean;
+      review?: ReviewState;
+    }
+  >;
   vocabularyReviews: Record<string, VocabularyReview>;
   checks: string[];
-  examDate: string;
   mockResults: {
+    id: string;
     at: string;
     reading: number;
     listening: number;
@@ -118,4 +130,30 @@ export interface Progress {
     speaking?: number;
   }[];
   drafts: Record<string, string>;
+  // The last 20 attempts, newest first.
+  recent: Attempt[];
+  // Distinct local days with an attempt, newest first, at most 400.
+  days: string[];
+  mockRun: MockRun | null;
 }
+
+export type MockStage = "intro" | "run" | "review" | "prep" | "done";
+
+// The mock exam in progress. `deadline` is in epoch milliseconds, 0 when no timer runs.
+export interface MockRun {
+  section: number;
+  index: number;
+  stage: MockStage;
+  answers: Record<string, string>;
+  deadline: number;
+  started: string;
+  drafts: Record<string, string>;
+  // The writing and speaking scores as typed into the score calculator.
+  scores: { writing?: string; speaking?: string };
+}
+
+// A change to the mock run: top-level fields replace, answers, drafts and scores merge per key.
+export type MockRunPatch = Partial<MockRun>;
+
+// A rehearsal result before the server stores it under an id.
+export type NewMockResult = Omit<ProgressSnapshot["mockResults"][number], "id">;

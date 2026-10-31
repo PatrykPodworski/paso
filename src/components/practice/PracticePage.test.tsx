@@ -3,12 +3,12 @@ import { useState } from "react";
 import { expect, it, vi } from "vitest";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
-import { emptyProgress } from "../../data/progress";
-import type { Lesson, Progress, Skill } from "../../data/types";
+import { emptySnapshot, questionState } from "../../test/progress";
+import type { Lesson, ProgressSnapshot, Skill } from "../../data/types";
 import { mistakeQueue } from "../mistakeQueue";
 import { PracticePage } from "./PracticePage";
 
-type Props = { progress: Progress; setSession: (lesson: Lesson) => void };
+type Props = { progress: ProgressSnapshot; setSession: (lesson: Lesson) => void };
 
 const Practice = ({ progress, setSession }: Props) => {
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
@@ -16,7 +16,7 @@ const Practice = ({ progress, setSession }: Props) => {
   return (
     <PracticePage
       progress={progress}
-      setProgress={vi.fn()}
+      onVocabulary={vi.fn()}
       mistakeQuestions={mistakeQueue(progress, new Date())}
       filter={filter}
       setFilter={setFilter}
@@ -29,9 +29,13 @@ const Practice = ({ progress, setSession }: Props) => {
 
 it("resolves mistake IDs safely, explains each one and opens an individual retry", () => {
   let lesson: Lesson | undefined;
-  const p = emptyProgress();
+  const p = emptySnapshot();
 
-  p.mistakes = ["not-in-course", allQuestions[0].id];
+  p.questions = {
+    "not-in-course": questionState({ correct: false, inMistakes: true }),
+    [allQuestions[0].id]: questionState({ correct: false, inMistakes: true }),
+  };
+
   render(<Practice progress={p} setSession={(l) => (lesson = l)} />);
   fireEvent.click(screen.getByRole("button", { name: "My mistakes (1)" }));
   expect(screen.getByText(/1 questions are ready/)).toBeInTheDocument();
@@ -43,9 +47,15 @@ it("resolves mistake IDs safely, explains each one and opens an individual retry
 
 it("shows a writing mistake's model as one possible answer, not the correct one", () => {
   const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-  const p = emptyProgress();
+  const p = emptySnapshot();
 
-  p.mistakes = [allQuestions[0].id, writing.id, formPractice.id];
+  p.questions = Object.fromEntries(
+    [allQuestions[0], writing, formPractice].map((q) => [
+      q.id,
+      questionState({ correct: false, inMistakes: true }),
+    ]),
+  );
+
   render(<Practice progress={p} setSession={vi.fn()} />);
   fireEvent.click(screen.getByRole("button", { name: "My mistakes (3)" }));
 

@@ -6,18 +6,18 @@ import { click, mount, now, seed, setupMockExam, state } from "../../test/mockEx
 
 setupMockExam();
 
-it("reviews listening with transcripts and continues to a 25-minute writing section", () => {
+it("reviews listening with transcripts and continues to a 25-minute writing section", async () => {
   const q = mockSections[1].questions[0];
 
-  seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
-  mount();
+  await seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
+  await mount();
   expect(screen.getByRole("heading", { name: "1 out of 25." })).toBeInTheDocument();
   expect(screen.getAllByText(/^Transcript: /)).toHaveLength(25);
   expect(screen.getAllByText(/^Correct answer:/)).toHaveLength(25);
   expect(screen.getAllByText("Not answered")).toHaveLength(24);
   click("Continue to writing");
 
-  expect(state()).toMatchObject({
+  expect(await state()).toMatchObject({
     section: 2,
     index: 0,
     stage: "run",
@@ -27,10 +27,10 @@ it("reviews listening with transcripts and continues to a 25-minute writing sect
   expect(screen.getByRole("timer")).toHaveTextContent("25:00");
 });
 
-it("reviews writing against model responses, word targets and self-checks", () => {
+it("reviews writing against model responses, word targets and self-checks", async () => {
   const [form, letter] = mockSections[2].questions;
 
-  seed({
+  await seed({
     section: 2,
     stage: "review",
     answers: {
@@ -39,7 +39,7 @@ it("reviews writing against model responses, word targets and self-checks", () =
     },
   });
 
-  mount();
+  await mount();
 
   expect(
     screen.getByRole("heading", { name: "Your practice is ready to review." }),
@@ -71,12 +71,17 @@ const reviewOf = (q: typeof form, band: number, reason: string): WritingReview =
   mark: { band, reason },
 });
 
+// Answers the writing review; progress requests still reach the test's progress API.
 const reviewWriting = (replies: Record<string, () => Promise<Response>>) => {
+  const progress = globalThis.fetch;
+
   const api = vi.fn((_: string, init: RequestInit) =>
     replies[JSON.parse(String(init.body)).questionId](),
   );
 
-  vi.stubGlobal("fetch", api);
+  vi.stubGlobal("fetch", (url: string, init: RequestInit) =>
+    url === "/api/review-writing" ? api(url, init) : progress(url, init),
+  );
 
   return api;
 };
@@ -85,7 +90,7 @@ const seedWriting = () => {
   vi.useRealTimers();
   localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
 
-  seed({
+  return seed({
     section: 2,
     stage: "review",
     answers: { [form.id]: "Nombre y apellidos: Ana Ruiz", [letter.id]: "Hola Ana, nos vemos" },
@@ -93,14 +98,14 @@ const seedWriting = () => {
 };
 
 it("marks both writing tasks on request and scales them to the writing score", async () => {
-  seedWriting();
+  await seedWriting();
 
   const api = reviewWriting({
     [form.id]: async () => Response.json(reviewOf(form, 2, "Every field at A1 level.")),
     [letter.id]: async () => Response.json(reviewOf(letter, 2, "One missed point.")),
   });
 
-  mount();
+  await mount();
   expect(api).not.toHaveBeenCalled();
   click("Get feedback on my writing");
 
@@ -116,16 +121,16 @@ it("marks both writing tasks on request and scales them to the writing score", a
 });
 
 it("keeps one task's mark when the other cannot be reviewed, and sends a blank task", async () => {
-  seedWriting();
+  await seedWriting();
 
-  seed({ section: 2, stage: "review", answers: { [letter.id]: "Hola Ana, nos vemos" } });
+  await seed({ section: 2, stage: "review", answers: { [letter.id]: "Hola Ana, nos vemos" } });
 
   const api = reviewWriting({
     [form.id]: async () => Response.json({ error: "upstream" }, { status: 502 }),
     [letter.id]: async () => Response.json(reviewOf(letter, 3, "Clear and complete.")),
   });
 
-  mount();
+  await mount();
   click("Get feedback on my writing");
 
   expect(await screen.findByText("Clear and complete.")).toBeInTheDocument();
@@ -138,18 +143,18 @@ it("keeps one task's mark when the other cannot be reviewed, and sends a blank t
   expect(JSON.parse(String(api.mock.calls[0][1].body)).answer).toBe("");
 });
 
-it("asks for the passcode before marking the writing", () => {
+it("asks for the passcode before marking the writing", async () => {
   vi.useRealTimers();
-  seed({ section: 2, stage: "review", answers: {} });
-  mount();
+  await seed({ section: 2, stage: "review", answers: {} });
+  await mount();
 
   expect(screen.getByRole("button", { name: "Get feedback on my writing" })).toBeDisabled();
   expect(screen.getByLabelText("Passcode")).toHaveValue("");
 });
 
-it("offers no writing feedback outside the writing section", () => {
-  seed({ section: 3, stage: "review", answers: {} });
-  mount();
+it("offers no writing feedback outside the writing section", async () => {
+  await seed({ section: 3, stage: "review", answers: {} });
+  await mount();
   expect(screen.getByText(/Open responses require human judgment/)).toBeInTheDocument();
 
   expect(
@@ -158,14 +163,14 @@ it("offers no writing feedback outside the writing section", () => {
 });
 
 it("stops after a wrong passcode, so one click uses one passcode try", async () => {
-  seedWriting();
+  await seedWriting();
 
   const api = reviewWriting({
     [form.id]: async () => Response.json({ error: "passcode" }, { status: 401 }),
     [letter.id]: async () => Response.json(reviewOf(letter, 3, "Clear and complete.")),
   });
 
-  mount();
+  await mount();
   click("Get feedback on my writing");
 
   expect(await screen.findAllByText("That passcode is not right.")).toHaveLength(2);
@@ -174,7 +179,7 @@ it("stops after a wrong passcode, so one click uses one passcode try", async () 
 });
 
 it("sends the second task only after the first one's answer arrives", async () => {
-  seedWriting();
+  await seedWriting();
   let answerForm = (_: Response) => {};
 
   const api = reviewWriting({
@@ -182,7 +187,7 @@ it("sends the second task only after the first one's answer arrives", async () =
     [letter.id]: async () => Response.json(reviewOf(letter, 2, "One missed point.")),
   });
 
-  mount();
+  await mount();
   click("Get feedback on my writing");
   await Promise.resolve();
   expect(api).toHaveBeenCalledTimes(1);

@@ -1,7 +1,8 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
+import { allQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
 
 beforeEach(() => {
@@ -50,4 +51,31 @@ it("restores a saved form draft without losing field labels", () => {
   render(<QuestionCard q={formPractice} draft={draft} onSubmit={vi.fn()} />);
   expect(screen.getByRole("textbox", { name: "Nacionalidad" })).toHaveValue("Una respuesta");
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();
+});
+
+it("keeps a written answer within the 4000 characters the server stores", () => {
+  const write = allQuestions.find((q) => q.kind === "write")!;
+  const onDraft = vi.fn();
+
+  render(<QuestionCard q={write} draft={"a".repeat(4000)} onDraft={onDraft} onSubmit={vi.fn()} />);
+  const area = screen.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  expect(area).toHaveAttribute("maxlength", "4000");
+  fireEvent.click(screen.getByRole("button", { name: "Insert ñ" }));
+  expect((area as HTMLTextAreaElement).value).toHaveLength(4000);
+  expect(onDraft).not.toHaveBeenCalled();
+});
+
+it("refuses a form change that would make the saved form longer than 4000 characters", () => {
+  const onDraft = vi.fn();
+
+  render(<QuestionCard q={formPractice} draft="" onDraft={onDraft} onSubmit={vi.fn()} />);
+  const [name, city] = screen.getAllByRole("textbox") as HTMLInputElement[];
+
+  fireEvent.change(name, { target: { value: "a".repeat(3900) } });
+  fireEvent.change(city, { target: { value: "Varsovia".repeat(20) } });
+
+  expect(name.value).toHaveLength(3900);
+  expect(city.value).toBe("");
+  expect(onDraft.mock.calls.map(([text]) => text.length)).toEqual([3925]);
 });

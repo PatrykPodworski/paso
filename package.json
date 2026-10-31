@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
+    "vercel-build": "node scripts/migrate.ts && pnpm build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "audio:plan": "node scripts/generate-elevenlabs.mjs --plan-missing",
@@ -39,6 +40,7 @@
     "test:browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium"
   },
   "dependencies": {
+    "@neondatabase/serverless": "1.2.0",
     "@tanstack/react-router": "^1.170.18",
     "@vercel/functions": "^3.9.11",
     "react": "^19.2.8",
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^8.0.4",
+    "@electric-sql/pglite": "0.5.10",
     "@playwright/test": "^1.62.1",
     "@stryker-mutator/core": "^10.0.0",
     "@stryker-mutator/vitest-runner": "^10.0.0",

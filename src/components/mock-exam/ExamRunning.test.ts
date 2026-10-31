@@ -6,7 +6,7 @@ import { click, mount, now, seed, setupMockExam, state } from "../../test/mockEx
 setupMockExam();
 
 it("saves an answer, permits previous/skip navigation and hides corrections until review", async () => {
-  seed();
+  await seed();
   await mount();
   const first = mockSections[0].questions[0];
 
@@ -35,7 +35,7 @@ it.each([0, 1])(
   async (mode) => {
     const questions = mockSections[0].questions;
 
-    seed({ index: questions.length - 1 });
+    await seed({ index: questions.length - 1 });
     await mount();
 
     if (mode === 0) {
@@ -50,7 +50,7 @@ it.each([0, 1])(
 );
 
 it("saves form drafts as JSON and submits labelled content without model grading", async () => {
-  seed({ section: 2, deadline: now + 25 * 60000 });
+  await seed({ section: 2, deadline: now + 25 * 60000 });
   await mount();
   const q = mockSections[2].questions[0];
 
@@ -74,7 +74,7 @@ it("saves form drafts as JSON and submits labelled content without model grading
 it("keeps a cleared writing draft empty when revisiting an already submitted response", async () => {
   const q = mockSections[2].questions[1];
 
-  seed({ section: 2, index: 1, answers: { [q.id]: "Old answer" }, drafts: { [q.id]: "" } });
+  await seed({ section: 2, index: 1, answers: { [q.id]: "Old answer" }, drafts: { [q.id]: "" } });
   await mount();
   expect(screen.getByRole("textbox")).toHaveValue("");
 });
@@ -82,7 +82,7 @@ it("keeps a cleared writing draft empty when revisiting an already submitted res
 it("shows the task and position within the section", async () => {
   const q = mockSections[0].questions[3];
 
-  seed({ index: 3 });
+  await seed({ index: 3 });
   await mount();
   expect(screen.getByText("4 / 25")).toBeInTheDocument();
   expect(screen.getAllByText(q.task!).length).toBeGreaterThan(0);

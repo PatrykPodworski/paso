@@ -40,6 +40,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         disabled={feedback}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
+            e.preventDefault();
             submit();
           }
         }}

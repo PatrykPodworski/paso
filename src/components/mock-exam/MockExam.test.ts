@@ -14,7 +14,7 @@ it("stores only objective results once and requires both human scores before a v
   const results = async () =>
     (await savedProgress()).mockResults.map(({ id: _, ...result }) => result);
 
-  seed({ section: 3, stage: "review", answers });
+  await seed({ section: 3, stage: "review", answers });
   await mount();
 
   click("See my results");
@@ -51,7 +51,7 @@ it("stores only objective results once and requires both human scores before a v
 });
 
 it("keeps the typed human scores after a reload", async () => {
-  seed({ section: 3, stage: "done" });
+  await seed({ section: 3, stage: "done" });
   await mount();
 
   fireEvent.change(screen.getByRole("spinbutton", { name: "Writing score /25" }), {
@@ -75,7 +75,7 @@ it.each([
   [25, 0],
   [25, 25],
 ])("accepts inclusive human score limits %s and %s", async (writing, speaking) => {
-  seed({ section: 3, stage: "done" });
+  await seed({ section: 3, stage: "done" });
   await mount();
 
   fireEvent.change(screen.getByRole("spinbutton", { name: "Writing score /25" }), {
@@ -91,7 +91,7 @@ it.each([
 });
 
 it("rejects negative and excessive writing scores independently", async () => {
-  seed({ section: 3, stage: "done" });
+  await seed({ section: 3, stage: "done" });
   await mount();
 
   fireEvent.change(screen.getByRole("spinbutton", { name: "Speaking score /25" }), {
@@ -112,7 +112,7 @@ it("shows the objective scores on the results page", async () => {
     mockSections[0].questions.slice(0, 3).map((q) => [q.id, q.answer]),
   );
 
-  seed({ section: 3, stage: "done", answers });
+  await seed({ section: 3, stage: "done", answers });
   await mount();
   expect(screen.getByText("Reading").parentElement).toHaveTextContent("Reading3/25");
   expect(screen.getByText("Listening").parentElement).toHaveTextContent("Listening0/25");

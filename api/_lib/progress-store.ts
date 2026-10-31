@@ -9,7 +9,6 @@ import type {
   VocabularyReview,
 } from "../../src/data/types.ts";
 import type { Db, Query } from "./db.js";
-import type { LegacyProgress } from "./legacy-progress.js";
 import type { Completion, MockResult } from "./progress-fields.js";
 
 export type Settings = { name: string; goal: number; examDate: string };
@@ -39,10 +38,7 @@ const iso = (column: string) =>
   `to_char(${column} AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')`;
 
 const reads = (learner: string) => [
-  q(
-    "SELECT name, goal, exam_date, xp, imported_at IS NOT NULL AS imported FROM learners WHERE id = $1",
-    learner,
-  ),
+  q("SELECT name, goal, exam_date, xp FROM learners WHERE id = $1", learner),
   q(
     `SELECT lesson_id, score, total, ${iso("at")} AS at FROM lesson_completions WHERE learner_id = $1`,
     learner,
@@ -80,7 +76,7 @@ const reads = (learner: string) => [
   q("SELECT run FROM mock_runs WHERE learner_id = $1", learner),
 ];
 
-type LearnerRow = { name: string; goal: number; exam_date: string; xp: number; imported: boolean };
+type LearnerRow = { name: string; goal: number; exam_date: string; xp: number };
 type CompletionRow = { lesson_id: string; score: number; total: number; at: string };
 type ReviewRow = { word: string; level: number; next_at: string; reviewed_at: string | null };
 type MockRow = MockResult & { writing: number | null; speaking: number | null };
@@ -104,7 +100,7 @@ type QuestionRow = Omit<AttemptRow, "id"> & {
   review_next_at: string | null;
 };
 
-const NEW_LEARNER: LearnerRow = { name: "", goal: 10, exam_date: "", xp: 0, imported: false };
+const NEW_LEARNER: LearnerRow = { name: "", goal: 10, exam_date: "", xp: 0 };
 
 const answerOf = (r: Omit<AttemptRow, "id">) => ({
   skill: r.skill,
@@ -157,7 +153,6 @@ const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
     goal: learner.goal,
     examDate: learner.exam_date,
     xp: learner.xp,
-    imported: learner.imported,
     completed: Object.fromEntries(
       completions.map((c) => [c.lesson_id, { score: c.score, total: c.total, at: c.at }]),
     ),
@@ -365,16 +360,6 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
     ])
   ).snapshot;
 
-// A run that does not exist yet starts from the defaults.
-const INSERT_MOCK_RUN =
-  "INSERT INTO mock_runs AS r (learner_id, run) VALUES ($1, $2::jsonb || $3::jsonb)";
-
-const mockRunParams = (learner: string, patch: MockRunPatch) => [
-  learner,
-  JSON.stringify(FRESH_MOCK_RUN),
-  JSON.stringify(patch),
-];
-
 // Top-level fields replace; answers, drafts and scores merge per key, so a change from one
 // tab keeps what another tab saved. `replace` starts a new run from the defaults.
 export const saveMockRun = async (
@@ -390,163 +375,23 @@ export const saveMockRun = async (
     await write(db, learner, [
       ensureLearner(learner),
       q(
-        `${INSERT_MOCK_RUN}
+        // A run that does not exist yet starts from the defaults.
+        `INSERT INTO mock_runs AS r (learner_id, run) VALUES ($1, $2::jsonb || $3::jsonb)
          ON CONFLICT (learner_id) DO UPDATE SET
            run = CASE WHEN $4::boolean THEN excluded.run ELSE
              r.run || $3::jsonb ||
              jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")})
            END,
            updated_at = now()`,
-        ...mockRunParams(learner, patch),
+        learner,
+        JSON.stringify(FRESH_MOCK_RUN),
+        JSON.stringify(patch),
         replace,
       ),
     ])
   ).snapshot;
 };
 
-// Keeps a run the server already has.
-export const importMockRun = async (db: Db, learner: string, kept: MockRunPatch | null) =>
-  kept
-    ? (
-        await write(db, learner, [
-          ensureLearner(learner),
-          q(
-            `${INSERT_MOCK_RUN} ON CONFLICT (learner_id) DO NOTHING`,
-            ...mockRunParams(learner, kept),
-          ),
-        ])
-      ).snapshot
-    : readProgress(db, learner);
-
 // Deleting the learner cascades to every table.
 export const resetProgress = async (db: Db, learner: string) =>
   (await write(db, learner, [q("DELETE FROM learners WHERE id = $1", learner)])).snapshot;
-
-// now() is fixed for a transaction, so it marks the rows of the import that claimed the
-// learner; a later or concurrent import finds another imported_at and inserts nothing.
-const FRESH_IMPORT = "EXISTS (SELECT 1 FROM learners WHERE id = $1 AND imported_at = now())";
-
-// Question states come from the latest attempt at each question and the legacy mistakes.
-const legacyStates = (p: LegacyProgress) => {
-  const latest = new Map<string, Attempt>();
-
-  for (const a of p.attempts) {
-    const seen = latest.get(a.questionId);
-
-    if (!seen || Date.parse(a.at) >= Date.parse(seen.at)) {
-      latest.set(a.questionId, a);
-    }
-  }
-
-  return [...latest.values()].map((a) => ({
-    ...a,
-    assisted: a.assisted ?? false,
-    inMistakes: p.mistakes.includes(a.questionId),
-    reviewLevel: p.mistakeReviews[a.questionId]?.level ?? null,
-    reviewNextAt: p.mistakeReviews[a.questionId]?.nextAt ?? null,
-  }));
-};
-
-// Runs at most once per learner. Existing rows win over imported ones, and XP is
-// recomputed from what is stored.
-export const importProgress = async (
-  db: Db,
-  learner: string,
-  p: LegacyProgress,
-  timeZone: string,
-) => {
-  const { results, snapshot } = await write(db, learner, [
-    ensureLearner(learner),
-    q(
-      "UPDATE learners SET imported_at = now() WHERE id = $1 AND imported_at IS NULL RETURNING id",
-      learner,
-    ),
-    q(
-      "UPDATE learners SET name = $2, goal = $3, exam_date = $4 WHERE id = $1 AND imported_at = now()",
-      learner,
-      p.name,
-      p.goal,
-      p.examDate,
-    ),
-    q(
-      `INSERT INTO attempts
-         (learner_id, id, question_id, skill, correct, answer, at, local_day, assisted, grade)
-       SELECT $1, id, "questionId", skill, correct, answer, at,
-         (at AT TIME ZONE $3::text)::date, COALESCE(assisted, false), grade
-       FROM jsonb_to_recordset($2::jsonb) AS a(id text, "questionId" text, skill text,
-         correct boolean, answer text, at timestamptz, assisted boolean, grade text)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT (learner_id, id) DO NOTHING`,
-      learner,
-      JSON.stringify(p.attempts),
-      timeZone,
-    ),
-    q(
-      `INSERT INTO question_states (learner_id, question_id, skill, last_attempt_id, last_at,
-         correct, answer, assisted, grade, in_mistakes, review_level, review_next_at)
-       SELECT $1, "questionId", skill, id, at, correct, answer, assisted, grade,
-         "inMistakes", "reviewLevel", "reviewNextAt"
-       FROM jsonb_to_recordset($2::jsonb) AS s(id text, "questionId" text, skill text,
-         correct boolean, answer text, at timestamptz, assisted boolean, grade text,
-         "inMistakes" boolean, "reviewLevel" int, "reviewNextAt" timestamptz)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT (learner_id, question_id) DO NOTHING`,
-      learner,
-      JSON.stringify(legacyStates(p)),
-    ),
-    q(
-      `INSERT INTO lesson_completions (learner_id, lesson_id, score, total, at)
-       SELECT $1, key, (value->>'score')::int, (value->>'total')::int, (value->>'at')::timestamptz
-       FROM jsonb_each($2::jsonb)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT (learner_id, lesson_id) DO NOTHING`,
-      learner,
-      JSON.stringify(p.completed),
-    ),
-    q(
-      `INSERT INTO vocabulary_reviews (learner_id, word, level, reviewed_at, next_at)
-       SELECT $1, key, (value->>'level')::int, (value->>'reviewedAt')::timestamptz,
-         (value->>'nextAt')::timestamptz
-       FROM jsonb_each($2::jsonb)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT (learner_id, word) DO NOTHING`,
-      learner,
-      JSON.stringify(p.vocabularyReviews),
-    ),
-    q(
-      `INSERT INTO guide_checks (learner_id, check_id)
-       SELECT $1, value FROM jsonb_array_elements_text($2::jsonb)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT DO NOTHING`,
-      learner,
-      JSON.stringify(p.checks),
-    ),
-    q(
-      `INSERT INTO mock_results (learner_id, id, at, reading, listening, writing, speaking)
-       SELECT $1, id, at, reading, listening, writing, speaking
-       FROM jsonb_to_recordset($2::jsonb)
-         AS m(id text, at timestamptz, reading int, listening int, writing real, speaking real)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT (learner_id, id) DO NOTHING`,
-      learner,
-      JSON.stringify(p.mockResults),
-    ),
-    q(
-      `INSERT INTO drafts (learner_id, question_id, text)
-       SELECT $1, key, value FROM jsonb_each_text($2::jsonb)
-       WHERE ${FRESH_IMPORT}
-       ON CONFLICT DO NOTHING`,
-      learner,
-      JSON.stringify(p.drafts),
-    ),
-    q(
-      `UPDATE learners SET xp =
-         (SELECT count(*) FROM question_states WHERE learner_id = $1)::int * ${QUESTION_XP} +
-         (SELECT count(*) FROM lesson_completions WHERE learner_id = $1)::int * ${LESSON_XP}
-       WHERE id = $1 AND imported_at = now()`,
-      learner,
-    ),
-  ]);
-
-  return { ...snapshot, importedNow: results[1].length > 0 };
-};

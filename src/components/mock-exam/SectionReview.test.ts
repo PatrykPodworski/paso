@@ -8,7 +8,7 @@ setupMockExam();
 it("reviews listening with transcripts and continues to a 25-minute writing section", async () => {
   const q = mockSections[1].questions[0];
 
-  seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
+  await seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
   await mount();
   expect(screen.getByRole("heading", { name: "1 out of 25." })).toBeInTheDocument();
   expect(screen.getAllByText(/^Transcript: /)).toHaveLength(25);
@@ -29,7 +29,7 @@ it("reviews listening with transcripts and continues to a 25-minute writing sect
 it("reviews writing against model responses, word targets and self-checks", async () => {
   const [form, letter] = mockSections[2].questions;
 
-  seed({
+  await seed({
     section: 2,
     stage: "review",
     answers: {

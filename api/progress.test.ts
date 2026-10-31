@@ -27,7 +27,6 @@ const EMPTY: ProgressSnapshot = {
   goal: 10,
   examDate: "",
   xp: 0,
-  imported: false,
   completed: {},
   questions: {},
   vocabularyReviews: {},
@@ -62,7 +61,7 @@ const snapshot = async (id: string, body?: unknown) => {
 
   expect(response.status).toBe(200);
 
-  return (await response.json()) as ProgressSnapshot & { importedNow?: boolean };
+  return (await response.json()) as ProgressSnapshot;
 };
 
 const attempt = (patch: Partial<Attempt> = {}): Attempt => ({
@@ -77,9 +76,6 @@ const attempt = (patch: Partial<Attempt> = {}): Attempt => ({
 
 const answer = (id: string, patch: Partial<Attempt> = {}, timeZone = "Europe/Warsaw") =>
   snapshot(id, { action: "attempt", attempt: attempt(patch), timeZone });
-
-const importing = (id: string, progress: unknown, timeZone = "Europe/Warsaw") =>
-  snapshot(id, { action: "import", progress, timeZone });
 
 beforeEach(() => {
   store.clear();
@@ -164,22 +160,6 @@ describe("the mistake and review rules", () => {
     expect(p.questions["u1-v0"]).toMatchObject({
       inMistakes: true,
       review: { level: 0, nextAt: T },
-    });
-  });
-
-  it("schedules a legacy mistake that has no review metadata after a correct answer", async () => {
-    const me = learner();
-
-    await importing(me, {
-      attempts: [attempt({ id: "old", correct: false, at: "2026-09-08T12:00:00.000Z" })],
-      mistakes: ["u1-v0"],
-    });
-
-    const p = await answer(me);
-
-    expect(p.questions["u1-v0"]).toMatchObject({
-      inMistakes: false,
-      review: { level: 1, nextAt: "2026-09-10T12:00:00.000Z" },
     });
   });
 
@@ -311,11 +291,20 @@ describe("recent attempts and study days", () => {
   });
 
   it("returns at most the newest 400 study days", async () => {
-    const attempts = Array.from({ length: 401 }, (_, i) =>
-      attempt({ id: `a${i}`, at: new Date(Date.UTC(2025, 0, 1 + i, 12)).toISOString() }),
-    );
+    const me = learner();
 
-    const { days } = await importing(learner(), { attempts }, "UTC");
+    // 400 days of attempts straight into the table, then the 401st day through the API.
+    await db.transaction([
+      { text: "INSERT INTO learners (id) VALUES ($1)", params: [me] },
+      {
+        text: `INSERT INTO attempts (learner_id, id, question_id, skill, correct, answer, at, local_day)
+               SELECT $1, 'a' || i, 'u1-v0', 'reading', true, 'hola', day + time '12:00', day
+               FROM generate_series(0, 399) AS i, LATERAL (SELECT date '2025-01-01' + i AS day) d`,
+        params: [me],
+      },
+    ]);
+
+    const { days } = await answer(me, { id: "a400", at: "2026-02-05T12:00:00.000Z" }, "UTC");
 
     expect(days).toHaveLength(400);
     expect([days[0], days[399]]).toEqual(["2026-02-05", "2025-01-02"]);
@@ -425,8 +414,6 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
       await snapshot(id, { action: "mockRun", run: { answers: { "mock-r1-0": "a" } } });
     }
 
-    await importing(me, {});
-
     expect(await snapshot(me, { action: "reset" })).toEqual(EMPTY);
     expect((await snapshot(other)).xp).toBe(25);
   });
@@ -495,253 +482,6 @@ describe("the mock exam run", () => {
     await change(me, { ...started, answers: { "mock-r1-0": "a" }, scores: { writing: "3" } }, true);
 
     expect(await change(me, {}, true)).toEqual(FRESH);
-  });
-
-  describe("kept in the browser", () => {
-    const kept = {
-      section: 1,
-      index: 2,
-      stage: "run",
-      answers: { "mock-r1-0": "a" },
-      deadline: DEADLINE,
-    };
-
-    const importing = async (id: string, run: unknown) =>
-      (await snapshot(id, { action: "importMockRun", run })).mockRun;
-
-    it("imports it once, filling the fields older saves lack", async () => {
-      const me = learner();
-
-      expect(await importing(me, kept)).toEqual({ ...FRESH, ...kept });
-      expect(await importing(me, { ...kept, section: 2, index: 0 })).toEqual({ ...FRESH, ...kept });
-    });
-
-    it("does not replace a run the server already has", async () => {
-      const me = learner();
-
-      await change(me, started, true);
-
-      expect(await importing(me, kept)).toEqual({ ...FRESH, ...started });
-    });
-
-    it("drops the malformed parts of a run", async () => {
-      expect(
-        await importing(learner(), {
-          ...kept,
-          answers: { "mock-r1-0": "a", "mock-r1-1": 5, "u1-v0": "b", prep: "c" },
-          drafts: null,
-          deadline: "soon",
-          started: "today",
-          scores: { writing: "7", reading: "3" },
-          extra: true,
-        }),
-      ).toEqual({ ...FRESH, ...kept, deadline: 0, scores: { writing: "7" } });
-    });
-
-    it.each([
-      ["not a run", "saved mock"],
-      ["no run", null],
-      ["a section out of range", { ...kept, section: 4 }],
-      ["a question outside its section", { ...kept, section: 3, index: 3 }],
-      ["an index that is not whole", { ...kept, index: 0.5 }],
-      ["an unknown stage", { ...kept, stage: "unknown" }],
-      ["answers that are not a record", { ...kept, answers: null }],
-    ])("imports nothing from %s", async (_, run) => {
-      expect(await importing(learner(), run)).toBeNull();
-    });
-  });
-});
-
-describe("importing legacy progress", () => {
-  const legacy = {
-    version: 1,
-    name: "Ana",
-    goal: 20,
-    examDate: "2026-11-20",
-    completed: { "u1-l1": { score: 4, total: 5, at: T } },
-    attempts: [
-      attempt({ id: "x1", questionId: "q1", correct: true, at: "2026-09-08T12:00:00.000Z" }),
-      attempt({ id: "x2", questionId: "q1", correct: false, answer: "adiós" }),
-      attempt({ id: "x3", questionId: "q2", skill: "writing", correct: null, answer: "Me llamo" }),
-    ],
-    mistakes: ["q1"],
-    reviewed: ["q2"],
-    mistakeReviews: {
-      q1: { level: 0, nextAt: T },
-      q2: { level: 2, nextAt: "2026-09-12T12:00:00.000Z" },
-    },
-    vocabularyReviews: { casa: { level: 1, nextAt: T, reviewedAt: T } },
-    checks: ["passport"],
-    mockResults: [{ at: T, reading: 18, listening: 20 }],
-    drafts: { "u1-w1": "Hola" },
-  };
-
-  it("imports the document once and recomputes XP", async () => {
-    const me = learner();
-    const p = await importing(me, legacy);
-
-    expect(p).toEqual({
-      name: "Ana",
-      goal: 20,
-      examDate: "2026-11-20",
-      xp: 30,
-      imported: true,
-      importedNow: true,
-      completed: legacy.completed,
-      questions: {
-        q1: {
-          skill: "reading",
-          at: T,
-          correct: false,
-          answer: "adiós",
-          inMistakes: true,
-          review: { level: 0, nextAt: T },
-        },
-        q2: {
-          skill: "writing",
-          at: T,
-          correct: null,
-          answer: "Me llamo",
-          inMistakes: false,
-          review: { level: 2, nextAt: "2026-09-12T12:00:00.000Z" },
-        },
-      },
-      vocabularyReviews: legacy.vocabularyReviews,
-      checks: ["passport"],
-      mockResults: [
-        { id: expect.stringMatching(/^legacy-[0-9a-f]{32}$/), ...legacy.mockResults[0] },
-      ],
-      drafts: { "u1-w1": "Hola" },
-      recent: [legacy.attempts[2], legacy.attempts[1], legacy.attempts[0]],
-      days: ["2026-09-09", "2026-09-08"],
-      mockRun: null,
-    });
-
-    const again = await importing(me, {
-      ...legacy,
-      name: "Eva",
-      attempts: [attempt({ id: "x4" })],
-    });
-
-    const { importedNow, ...rest } = p;
-
-    expect(importedNow).toBe(true);
-    expect(again).toEqual({ ...rest, importedNow: false });
-  });
-
-  it("drops only the malformed fields and attempts of a document", async () => {
-    const valid = attempt({ id: "ok" });
-
-    const p = await importing(learner(), {
-      name: 42,
-      goal: 7,
-      examDate: "soon",
-      completed: "all of them",
-      attempts: [
-        valid,
-        null,
-        { ...valid, id: "no-question", questionId: 5 },
-        { ...valid, id: "long", answer: "a".repeat(4001) },
-        { ...valid, id: "bad-skill", skill: "dancing" },
-        { ...valid, id: "bad-date", at: "yesterday" },
-        { ...valid, id: "nul", answer: "a\0b" },
-        { ...valid, id: "far", at: "2026-09-09T12:00:00+20:00" },
-      ],
-      mistakes: "u1-v0",
-      mistakeReviews: { "u1-v0": { level: "high", nextAt: T } },
-      vocabularyReviews: {
-        casa: { level: 9, nextAt: T },
-        "ga\0to": { level: 0, nextAt: T },
-        perro: { level: 0, nextAt: T },
-      },
-      checks: [1, "passport"],
-      mockResults: [{ at: T, reading: "many", listening: 20 }],
-      drafts: { "u1-w1": 5, "u1-w2": "Hola", "u1-w3": "Hola \uD83D" },
-    });
-
-    expect(p).toEqual({
-      ...EMPTY,
-      xp: 5,
-      imported: true,
-      importedNow: true,
-      questions: {
-        "u1-v0": { skill: "reading", at: T, correct: true, answer: "hola", inMistakes: false },
-      },
-      vocabularyReviews: { perro: { level: 0, nextAt: T } },
-      checks: ["passport"],
-      drafts: { "u1-w2": "Hola" },
-      recent: [valid],
-      days: ["2026-09-09"],
-    });
-  });
-
-  it("keeps the learner's own rows where the document overlaps them", async () => {
-    const me = learner();
-
-    await answer(me);
-    await snapshot(me, { action: "complete", lessonId: "u1-l1", score: 4, total: 5, at: T });
-    await snapshot(me, { action: "draft", questionId: "u1-w1", text: "Mine" });
-
-    const added = attempt({
-      id: "x2",
-      questionId: "u1-v1",
-      correct: false,
-      answer: "no",
-      at: "2026-09-09T11:00:00.000Z",
-    });
-
-    const p = await importing(me, {
-      completed: { "u1-l1": { score: 1, total: 5, at: "2026-09-08T12:00:00.000Z" } },
-      attempts: [attempt({ correct: false, answer: "otro" }), added],
-      drafts: { "u1-w1": "Theirs" },
-    });
-
-    expect(p).toEqual({
-      ...EMPTY,
-      xp: 30,
-      imported: true,
-      importedNow: true,
-      completed: { "u1-l1": { score: 4, total: 5, at: T } },
-      questions: {
-        "u1-v0": { skill: "reading", at: T, correct: true, answer: "hola", inMistakes: false },
-        "u1-v1": {
-          skill: "reading",
-          at: added.at,
-          correct: false,
-          answer: "no",
-          inMistakes: false,
-        },
-      },
-      drafts: { "u1-w1": "Mine" },
-      recent: [attempt(), added],
-      days: ["2026-09-09"],
-    });
-  });
-
-  it.each([["not progress"], [null], [[1, 2]]])(
-    "imports %j as empty progress and still marks the import done",
-    async (progress) => {
-      expect(await importing(learner(), progress)).toEqual({
-        ...EMPTY,
-        imported: true,
-        importedNow: true,
-      });
-    },
-  );
-
-  it("gives an attempt without an id the same id on every import", async () => {
-    const { id: _, ...noId } = attempt();
-    const doc = { attempts: [noId, { ...noId, at: "2026-09-10T12:00:00.000Z" }] };
-    const ids = async () => (await importing(learner(), doc)).recent.map((a) => a.id);
-    const first = await ids();
-
-    expect(first).toEqual([
-      expect.stringMatching(/^legacy-[0-9a-f]{32}$/),
-      expect.stringMatching(/^legacy-[0-9a-f]{32}$/),
-    ]);
-
-    expect(new Set(first).size).toBe(2);
-    expect(await ids()).toEqual(first);
   });
 });
 
@@ -878,6 +618,12 @@ describe("requests", () => {
     ["a mock deadline", me, { action: "mockRun", run: { deadline: -1 } }, "run"],
     ["a mock start", me, { action: "mockRun", run: { started: "today" } }, "run"],
     ["a mock answer", me, { action: "mockRun", run: { answers: { "mock-r1-0": 5 } } }, "run"],
+    [
+      "mock answers that are not a record",
+      me,
+      { action: "mockRun", run: { answers: null } },
+      "run",
+    ],
     [
       "a mock answer to no exam question",
       me,

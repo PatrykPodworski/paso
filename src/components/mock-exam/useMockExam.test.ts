@@ -25,7 +25,7 @@ it("starts a new 45-minute reading section and persists its deadline", async () 
 it("counts correct answers only, reveals models after locking, and starts listening at 25 minutes", async () => {
   const [a, b] = mockSections[0].questions;
 
-  seed({ answers: { [a.id]: a.answer, [b.id]: "wrong" } });
+  await seed({ answers: { [a.id]: a.answer, [b.id]: "wrong" } });
   await mount();
   click("Finish section");
   click("Finish & review");
@@ -46,7 +46,7 @@ it("counts correct answers only, reveals models after locking, and starts listen
 });
 
 it("automatically ends a section exactly at its deadline and dismisses confirmation", async () => {
-  seed({ deadline: now + 2000 });
+  await seed({ deadline: now + 2000 });
   await mount();
   expect(screen.getByRole("timer")).toHaveTextContent("00:02");
   click("Finish section");
@@ -62,7 +62,7 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
 });
 
 it("dismisses a confirmation left open when the speaking time runs out", async () => {
-  seed({ section: 3, deadline: now + 2000 });
+  await seed({ section: 3, deadline: now + 2000 });
   await mount();
   click("Finish section");
   act(() => vi.advanceTimersByTime(2000));
@@ -74,13 +74,13 @@ it("dismisses a confirmation left open when the speaking time runs out", async (
 });
 
 it("honours an expired deadline when returning to the page", async () => {
-  seed({ deadline: now - 1 });
+  await seed({ deadline: now - 1 });
   await mount();
   expect((await state()).stage).toBe("review");
 });
 
 it("starts oral preparation, persists notes, then gives a separate ten minutes to speak", async () => {
-  seed({ section: 2, stage: "review" });
+  await seed({ section: 2, stage: "review" });
   await mount();
   click("Continue to speaking preparation");
 
@@ -106,7 +106,7 @@ it("starts oral preparation, persists notes, then gives a separate ten minutes t
 });
 
 it("keeps the results page after the last deadline has passed", async () => {
-  seed({ section: 3, stage: "done", deadline: now - 1 });
+  await seed({ section: 3, stage: "done", deadline: now - 1 });
   await mount();
   act(() => vi.advanceTimersByTime(3000));
   expect((await state()).stage).toBe("done");

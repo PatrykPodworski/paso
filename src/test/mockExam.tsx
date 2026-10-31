@@ -1,7 +1,8 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, vi } from "vitest";
 import { ProgressExam } from "./ProgressExam";
-import { savedProgress, settle, setupProgressApi } from "./progressApi";
+import type { MockRunPatch } from "../data/types";
+import { savedProgress, seedProgress, settle, setupProgressApi } from "./progressApi";
 
 export const now = new Date("2026-09-09T10:00:00Z").getTime();
 
@@ -16,9 +17,9 @@ export const run = (patch: Record<string, unknown> = {}) => ({
   ...patch,
 });
 
-// A run kept in the browser, which the app imports on its first load.
+// A run the server keeps for a new learner.
 export const seed = (patch: Record<string, unknown> = {}) =>
-  localStorage.setItem("paso-mock-v1", JSON.stringify(run(patch)));
+  seedProgress({ mockRun: run(patch) as MockRunPatch });
 
 // The run as the server keeps it.
 export const state = async () => {

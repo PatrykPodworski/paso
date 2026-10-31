@@ -1,20 +1,7 @@
 import { allLessons } from "../../src/data/curriculum";
-import { test, expect, answer, openLesson, saved, stored } from "../fixtures/app";
+import { test, expect, answer, openLesson, saved } from "../fixtures/app";
 
-const [first, second] = allLessons[0].questions;
-
-const legacy = {
-  version: 1,
-  name: "Ana",
-  attempts: [first, second].map((q, i) => ({
-    id: `legacy-${i}`,
-    questionId: q.id,
-    skill: q.skill,
-    answer: q.answer,
-    correct: true,
-    at: "2026-09-08T10:00:00+02:00",
-  })),
-};
+const [first] = allLessons[0].questions;
 
 test("an answer is saved online and kept after a reload", async ({ page }) => {
   await openLesson(page, 0);
@@ -45,25 +32,6 @@ test("a failed write shows Retry, and Retry saves it", async ({ page }) => {
   await expect(dialog).toBeHidden();
   await expect.poll(async () => (await saved(page)).recent).toHaveLength(1);
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
-});
-
-test("progress kept in this browser is imported once", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator(".xp-stat")).toHaveText("0 XP");
-  await page.evaluate((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), legacy);
-  await page.reload();
-
-  await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
-  await expect(page.locator(".xp-stat")).toHaveText("10 XP");
-  expect(await stored(page)).toBeNull();
-  expect(await stored(page, "paso-progress-v1-imported")).toEqual(legacy);
-
-  await page.evaluate((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), legacy);
-  await page.reload();
-  await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
-  await expect(page.locator(".xp-stat")).toHaveText("10 XP");
-  expect((await saved(page)).recent).toHaveLength(2);
-  expect(await stored(page)).toBeNull();
 });
 
 test("the passcode is asked once and sent with every request", async ({ page }) => {

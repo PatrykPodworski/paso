@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { mockSections } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
@@ -90,10 +89,6 @@ export const timeZoneOf = (value: unknown) => {
   }
 };
 
-// An id for legacy records saved without one, the same on every import.
-export const stableId = (...parts: unknown[]) =>
-  `legacy-${createHash("sha256").update(JSON.stringify(parts)).digest("hex").slice(0, 32)}`;
-
 export const attemptOf = (value: unknown): Attempt | null => {
   if (
     !isRecord(value) ||
@@ -138,14 +133,6 @@ export const reviewOf = (value: unknown): VocabularyReview | null => {
   };
 };
 
-export const completionOf = (value: unknown): Completion | null =>
-  isRecord(value) &&
-  isCount(value.total, 1, MAX_TOTAL) &&
-  isCount(value.score, 0, value.total) &&
-  isInstant(value.at)
-    ? { score: value.score, total: value.total, at: value.at }
-    : null;
-
 export const mockResultOf = (value: unknown): MockResult | null => {
   if (
     !isRecord(value) ||
@@ -171,23 +158,27 @@ export const mockResultOf = (value: unknown): MockResult | null => {
 
 type Check = (value: unknown) => boolean;
 
+const MOCK_QUESTIONS = new Set(mockSections.flatMap((s) => s.questions.map((q) => q.id)));
+const isMockQuestion: Check = (key) => MOCK_QUESTIONS.has(key as string);
+
+const mapOf =
+  (isKey: Check, isValue: Check): Check =>
+  (value) =>
+    isRecord(value) && Object.entries(value).every(([key, item]) => isKey(key) && isValue(item));
+
 const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["stage", (value) => STAGES.includes(value as MockStage)],
   ["deadline", (value) => Number.isSafeInteger(value) && (value as number) >= 0],
   ["started", (value) => value === "" || isInstant(value)],
-];
-
-const MOCK_QUESTIONS = new Set(mockSections.flatMap((s) => s.questions.map((q) => q.id)));
-const isMockQuestion: Check = (key) => MOCK_QUESTIONS.has(key as string);
-
-// Drafts also hold the speaking preparation notes under "prep".
-const MOCK_MAPS: [keyof MockRun, Check, Check][] = [
-  ["answers", isMockQuestion, isText],
-  ["drafts", (key) => key === "prep" || isMockQuestion(key), isText],
+  ["answers", mapOf(isMockQuestion, isText)],
+  // Drafts also hold the speaking preparation notes under "prep".
+  ["drafts", mapOf((key) => key === "prep" || isMockQuestion(key), isText)],
   [
     "scores",
-    (key) => key === "writing" || key === "speaking",
-    (value) => isText(value, MAX_SCORE_TEXT),
+    mapOf(
+      (key) => key === "writing" || key === "speaking",
+      (value) => isText(value, MAX_SCORE_TEXT),
+    ),
   ],
 ];
 
@@ -196,68 +187,24 @@ const isPosition = (section: unknown, index: unknown) =>
   isCount(section, 0, mockSections.length - 1) &&
   isCount(index, 0, mockSections[section].questions.length - 1);
 
-// The valid entries of a record, and whether every entry was valid.
-const entriesOf = (value: unknown, isKey: Check, isValue: Check) => {
-  const entries = isRecord(value) ? Object.entries(value) : [];
-  const valid = entries.filter(([key, item]) => isKey(key) && isValue(item));
-
-  return {
-    record: isRecord(value),
-    valid,
-    complete: isRecord(value) && valid.length === entries.length,
-  };
-};
-
-// Each part returns the fields it read, or null when it is strict and one is invalid.
-const positionPart = (value: Record<string, unknown>) => {
-  if (!Object.hasOwn(value, "section") && !Object.hasOwn(value, "index")) {
-    return {};
+// The fields a change to the mock run sets, or null when one of them is invalid.
+export const mockRunPatchOf = (value: unknown): MockRunPatch | null => {
+  if (!isRecord(value)) {
+    return null;
   }
 
-  return isPosition(value.section, value.index)
-    ? { section: value.section, index: value.index }
-    : null;
-};
-
-const fieldsPart = (value: Record<string, unknown>, strict: boolean) => {
+  const moves = Object.hasOwn(value, "section") || Object.hasOwn(value, "index");
   const present = MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name));
-  const valid = present.filter(([name, check]) => check(value[name]));
 
-  return strict && valid.length < present.length
-    ? null
-    : Object.fromEntries(valid.map(([name]) => [name, value[name]]));
+  if (
+    (moves && !isPosition(value.section, value.index)) ||
+    !present.every(([name, check]) => check(value[name]))
+  ) {
+    return null;
+  }
+
+  return Object.fromEntries([
+    ...(moves ? ["section", "index"] : []).map((name) => [name, value[name]]),
+    ...present.map(([name]) => [name, value[name]]),
+  ]) as MockRunPatch;
 };
-
-const mapsPart = (value: Record<string, unknown>, strict: boolean) => {
-  const present = MOCK_MAPS.filter(([name]) => Object.hasOwn(value, name)).map(
-    ([name, isKey, isValue]) => [name, entriesOf(value[name], isKey, isValue)] as const,
-  );
-
-  return strict && present.some(([, entries]) => !entries.complete)
-    ? null
-    : Object.fromEntries(
-        present
-          .filter(([, entries]) => entries.record)
-          .map(([name, entries]) => [name, Object.fromEntries(entries.valid)]),
-      );
-};
-
-// Strict: any invalid part refuses the whole change. Otherwise invalid parts are dropped.
-const mockRunPartsOf = (value: Record<string, unknown>, strict: boolean) => {
-  const parts = [positionPart(value), fieldsPart(value, strict), mapsPart(value, strict)];
-
-  return parts.includes(null) ? null : (Object.assign({}, ...parts) as MockRunPatch);
-};
-
-export const mockRunPatchOf = (value: unknown) =>
-  isRecord(value) ? mockRunPartsOf(value, true) : null;
-
-// A run the browser kept before the server held it. Its position, stage and answers must be
-// valid; other invalid parts are dropped.
-export const legacyMockRunOf = (value: unknown) =>
-  isRecord(value) &&
-  isPosition(value.section, value.index) &&
-  STAGES.includes(value.stage as MockStage) &&
-  isRecord(value.answers)
-    ? mockRunPartsOf(value, false)
-    : null;

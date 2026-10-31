@@ -7,8 +7,6 @@ import type {
 } from "../../data/types";
 import { readAccess, savePasscode } from "../live-talk/liveAccess";
 
-const LEGACY_KEY = "paso-progress-v1";
-const MOCK_KEY = "paso-mock-v1";
 const DRAFT_DELAY = 800;
 
 export type Problem = "load" | "save" | "passcode" | "wrongPasscode" | "passcodeTries";
@@ -19,25 +17,15 @@ type Body = { action: string } & Record<string, unknown>;
 
 const timeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-// What this browser saved under `key` before the server kept it.
-const keptIn = (key: string) => {
-  try {
-    const raw = localStorage.getItem(key);
-
-    return raw === null ? null : { raw, value: JSON.parse(raw) as unknown };
-  } catch {
-    return null;
-  }
-};
-
-const keepAsBackup = (key: string, raw: string) => {
-  try {
-    localStorage.setItem(`${key}-imported`, raw);
-    localStorage.removeItem(key);
-  } catch {
-    // The server ignores a second import, so a key that stays only costs a request.
-  }
-};
+const requestInit = (learner: string, body: Body | undefined, passcode: string): RequestInit => ({
+  method: body ? "POST" : "GET",
+  headers: {
+    "x-learner-id": learner,
+    ...(body ? { "content-type": "application/json" } : {}),
+    ...(passcode ? { "x-passcode": encodeURIComponent(passcode) } : {}),
+  },
+  body: body && JSON.stringify(body),
+});
 
 // Loads the learner's snapshot, then sends writes one at a time, in order. Each response
 // replaces the snapshot. A failed request stops the queue until retry() sends it again.
@@ -67,6 +55,18 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     onChange(state);
   };
 
+  // The problem for a status that refuses the passcode, or null for any other status.
+  const refusal = (status: number, passcode: string): Problem | null => {
+    if (status === 401) {
+      typed = "";
+      savePasscode("");
+
+      return passcode ? "wrongPasscode" : "passcode";
+    }
+
+    return status === 429 ? "passcodeTries" : null;
+  };
+
   const request = async (
     body: Body | undefined,
     failure: Problem,
@@ -74,86 +74,21 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     const passcode = readAccess().passcode || typed;
 
     try {
-      const response = await fetch("/api/progress", {
-        method: body ? "POST" : "GET",
-        headers: {
-          "x-learner-id": learner,
-          ...(body ? { "content-type": "application/json" } : {}),
-          ...(passcode ? { "x-passcode": encodeURIComponent(passcode) } : {}),
-        },
-        body: body && JSON.stringify(body),
-      });
+      const response = await fetch("/api/progress", requestInit(learner, body, passcode));
 
       if (response.ok) {
         return (await response.json()) as ProgressSnapshot;
       }
 
-      if (response.status === 401) {
-        typed = "";
-        savePasscode("");
-
-        return passcode ? "wrongPasscode" : "passcode";
-      }
-
-      if (response.status === 429) {
-        return "passcodeTries";
-      }
+      return refusal(response.status, passcode) ?? failure;
     } catch {
       // A network error or a body that is not JSON is a failed request.
+      return failure;
     }
-
-    return failure;
-  };
-
-  // Sends what this browser kept under `key` when the server lacks it. Either way the key
-  // then moves to a backup that is never read, so a later reset does not import it again.
-  const importKept = async (
-    loaded: ProgressSnapshot | Problem,
-    key: string,
-    held: (snapshot: ProgressSnapshot) => boolean,
-    body: (value: unknown) => Body,
-  ) => {
-    const kept = typeof loaded === "string" ? null : keptIn(key);
-
-    if (!kept) {
-      return loaded;
-    }
-
-    if (held(loaded as ProgressSnapshot)) {
-      keepAsBackup(key, kept.raw);
-
-      return loaded;
-    }
-
-    const result = await request(body(kept.value), "load");
-
-    if (typeof result === "string") {
-      return result;
-    }
-
-    keepAsBackup(key, kept.raw);
-
-    const { importedNow: _, ...snapshot } = result as ProgressSnapshot & {
-      importedNow?: boolean;
-    };
-
-    return snapshot;
   };
 
   const loadOnce = async () => {
-    const progress = await importKept(
-      await request(undefined, "load"),
-      LEGACY_KEY,
-      (snapshot) => snapshot.imported,
-      (value) => ({ action: "import", progress: value, timeZone: timeZone() }),
-    );
-
-    const result = await importKept(
-      progress,
-      MOCK_KEY,
-      (snapshot) => snapshot.mockRun !== null,
-      (value) => ({ action: "importMockRun", run: value }),
-    );
+    const result = await request(undefined, "load");
 
     update(typeof result === "string" ? { problem: result } : { snapshot: result });
   };

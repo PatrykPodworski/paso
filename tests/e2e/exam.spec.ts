@@ -1,4 +1,4 @@
-import { test, expect, answer, resumeMockExam, saved, stored } from "../fixtures/app";
+import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
 import { mockSections } from "../../src/data/mock";
 
 test("complete all 55 exam questions with section reviews, oral prep, score calculation and export", async ({
@@ -212,32 +212,4 @@ test("typed writing and speaking scores are kept after a reload", async ({ page 
   await expect(page.getByRole("spinbutton", { name: "Writing score /25" })).toHaveValue("18.5");
   await expect(page.getByRole("spinbutton", { name: "Speaking score /25" })).toHaveValue("14");
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
-});
-
-test("a rehearsal kept in this browser is imported once", async ({ page }) => {
-  const kept = (index: number) => ({
-    section: 1,
-    index,
-    stage: "run",
-    answers: {},
-    deadline: new Date("2026-09-09T10:25:00+02:00").getTime(),
-    started: "2026-09-09T08:00:00Z",
-    drafts: {},
-  });
-
-  const keep = (index: number) =>
-    page.evaluate((run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)), kept(index));
-
-  await page.goto("/#exam");
-  await expect(page.getByRole("button", { name: "Start exam rehearsal" })).toBeVisible();
-  await keep(2);
-  await page.reload();
-  await expect(page.getByText("3 / 25")).toBeVisible();
-  expect(await stored(page, "paso-mock-v1")).toBeNull();
-  expect(await stored(page, "paso-mock-v1-imported")).toEqual(kept(2));
-
-  await keep(5);
-  await page.reload();
-  await expect(page.getByText("3 / 25")).toBeVisible();
-  expect((await saved(page)).mockRun?.index).toBe(2);
 });

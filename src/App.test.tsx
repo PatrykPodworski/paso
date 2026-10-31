@@ -3,9 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
-import type { Attempt, Lesson } from "./data/types";
-import { emptySnapshot, type LegacyProgress, legacyProgress } from "./test/progress";
-import { savedProgress as saved, settle, setupProgressApi } from "./test/progressApi";
+import type { Attempt, Lesson, MockRunPatch } from "./data/types";
+import { type ProgressSeed, progressSeed } from "../tests/fixtures/progressSeed";
+import { emptySnapshot } from "./test/progress";
+import { savedProgress as saved, seedProgress, settle, setupProgressApi } from "./test/progressApi";
 
 let session: {
   lesson: Lesson;
@@ -13,6 +14,7 @@ let session: {
   onAttempt: (a: Attempt) => void;
   onClose: () => void;
   onDraft: (id: string, text: string) => void;
+  onNext?: () => void;
 };
 
 vi.mock("./components/LessonSession", () => ({
@@ -30,7 +32,7 @@ vi.mock("./components/LessonSession", () => ({
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 
-const keptRun = {
+const keptRun: MockRunPatch = {
   section: 0,
   index: 0,
   stage: "run",
@@ -40,10 +42,9 @@ const keptRun = {
   drafts: {},
 };
 
-// The app imports the seeded progress on its first load.
-const mount = async (hash = "today", p?: LegacyProgress) => {
+const mount = async (hash = "today", p?: Partial<ProgressSeed>) => {
   if (p) {
-    localStorage.setItem("paso-progress-v1", JSON.stringify(p));
+    await seedProgress(p);
   }
 
   window.location.hash = hash;
@@ -54,8 +55,8 @@ const mount = async (hash = "today", p?: LegacyProgress) => {
   return view;
 };
 
-// The import keeps a question's mistake and review state only with an answer to it.
-const withAnswers = (p: LegacyProgress, ids: string[], correct: boolean) => {
+// The server keeps a question's mistake and review state only with an answer to it.
+const withAnswers = (p: ProgressSeed, ids: string[], correct: boolean) => {
   ids.forEach((questionId) => {
     p.attempts.push({
       id: `answer-${p.attempts.length}`,
@@ -70,7 +71,7 @@ const withAnswers = (p: LegacyProgress, ids: string[], correct: boolean) => {
   return p;
 };
 
-const withMistakes = (p: LegacyProgress, ids: string[]) => {
+const withMistakes = (p: ProgressSeed, ids: string[]) => {
   p.mistakes.push(...ids);
 
   return withAnswers(p, ids, false);
@@ -96,7 +97,7 @@ describe("app business orchestration", () => {
       .map((q) => q.id)
       .reverse();
 
-    await mount("practice", withMistakes(legacyProgress(), mistakes));
+    await mount("practice", withMistakes(progressSeed(), mistakes));
     click("My mistakes (10)");
     click("Review my mistakes");
     expect(session.lesson.questions.map((q) => q.id)).toEqual(mistakes.slice(0, 8));
@@ -108,22 +109,19 @@ describe("app business orchestration", () => {
     const now = new Date("2026-09-09T12:00:00Z");
 
     vi.setSystemTime(now);
-    const p = legacyProgress();
+    const p: ProgressSeed = progressSeed();
 
     p.mockResults = [{ at: "2026-09-08T12:00:00Z", reading: 10, listening: 12 }];
 
-    localStorage.setItem(
-      "paso-mock-v1",
-      JSON.stringify({
-        section: 3,
-        index: 0,
-        stage: "review",
-        answers: {},
-        drafts: {},
-        deadline: 0,
-        started: now.toISOString(),
-      }),
-    );
+    p.mockRun = {
+      section: 3,
+      index: 0,
+      stage: "review",
+      answers: {},
+      drafts: {},
+      deadline: 0,
+      started: now.toISOString(),
+    };
 
     await mount("exam", p);
     click("See my results");
@@ -167,7 +165,7 @@ describe("app business orchestration", () => {
   });
 
   it("chooses the first unfinished lesson, records attempts/drafts, and persists completion", async () => {
-    const p = legacyProgress();
+    const p = progressSeed();
 
     p.completed[allLessons[0].id] = { score: 8, total: 8, at: "2026-09-08T12:00:00Z" };
     await mount("today", p);
@@ -205,7 +203,7 @@ describe("app business orchestration", () => {
   });
 
   it("allows reopening completed units and reaches exam after the entire path", async () => {
-    const p = legacyProgress();
+    const p = progressSeed();
 
     for (const l of allLessons) {
       p.completed[l.id] = { score: 1, total: 1, at: "2026-09-08T12:00:00Z" };
@@ -221,7 +219,7 @@ describe("app business orchestration", () => {
   it.each(["reading", "listening", "writing"] as const)(
     "selects %s questions with unpractised first and the correct session length",
     async (skill) => {
-      const p = legacyProgress();
+      const p = progressSeed();
 
       const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
         (q) => q.skill === skill && q.kind !== "live",
@@ -252,7 +250,7 @@ describe("app business orchestration", () => {
   );
 
   it("revisits the least recently practised questions after all have been seen", async () => {
-    const p = legacyProgress();
+    const p = progressSeed();
 
     const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
       (q) => q.skill === "reading",
@@ -287,8 +285,7 @@ describe("app business orchestration", () => {
   });
 
   it("saves trimmed preferences and resets only after confirmation", async () => {
-    localStorage.setItem("paso-mock-v1", JSON.stringify(keptRun));
-    await mount();
+    await mount("today", { mockRun: keptRun });
     click("Open your learning preferences");
 
     fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
@@ -316,8 +313,7 @@ describe("app business orchestration", () => {
   });
 
   it("opens the exam overview after a reset made during a rehearsal", async () => {
-    localStorage.setItem("paso-mock-v1", JSON.stringify(keptRun));
-    await mount("exam");
+    await mount("exam", { mockRun: keptRun });
     expect(screen.getByRole("timer")).toBeInTheDocument();
     click("Open your learning preferences");
     fireEvent.click(screen.getByText("Start over"));
@@ -412,6 +408,36 @@ it("dashboard shortcuts select the promised skills and open preferences", async 
   }
 });
 
+it("moves from a finished lesson straight to the next one on the path", async () => {
+  await mount("path");
+  fireEvent.click(screen.getByRole("button", { name: new RegExp(allLessons[0].title) }));
+  act(() => session.onComplete(3, 4));
+  act(() => session.onNext!());
+  await settle();
+  expect(screen.getByRole("heading", { name: allLessons[1].title })).toBeInTheDocument();
+  expect((await saved()).completed[allLessons[0].id]).toMatchObject({ score: 3, total: 4 });
+});
+
+it("offers no next lesson after the last lesson or a practice session", async () => {
+  const p = withMistakes(progressSeed(), [allQuestions[0].id]);
+
+  for (const l of allLessons.slice(0, -1)) {
+    p.completed[l.id] = { score: 1, total: 1, at: "2026-09-01T08:00:00Z" };
+  }
+
+  await mount("path", p);
+  click("Continue learning");
+  expect(session.lesson.id).toBe(allLessons.at(-1)!.id);
+  expect(session.onNext).toBeUndefined();
+  click("Test close session");
+  window.location.hash = "practice";
+  act(() => window.dispatchEvent(new HashChangeEvent("hashchange")));
+  click("My mistakes (1)");
+  click("Review my mistakes");
+  expect(session.lesson.title).toBe("A fresh look at your mistakes");
+  expect(session.onNext).toBeUndefined();
+});
+
 it("opens individual path lessons and toggles unit expansion", async () => {
   await mount("path");
   const first = screen.getByRole("button", { name: new RegExp(allLessons[0].title) });
@@ -432,7 +458,7 @@ it("opens individual path lessons and toggles unit expansion", async () => {
 
 it("keeps old unknown mistake references safe and dismisses the notice", async () => {
   vi.useFakeTimers();
-  const p = legacyProgress();
+  const p = progressSeed();
 
   p.mistakes = ["deleted-question"];
   await mount("practice", p);
@@ -524,7 +550,7 @@ it("keeps other readiness points when one is unchecked", async () => {
 });
 
 it("only unlocks flashcards after completing their vocabulary lesson", async () => {
-  const p = legacyProgress();
+  const p = progressSeed();
 
   p.completed["u1-grammar"] = { score: 1, total: 1, at: "2026-01-01T00:00:00Z" };
   await mount("practice", p);
@@ -558,7 +584,7 @@ it("dashboard units expand independently and can collapse again", async () => {
 });
 
 it("counts partial unit completion and path percentage separately", async () => {
-  const p = legacyProgress();
+  const p = progressSeed();
 
   p.completed[allLessons[0].id] = { score: 4, total: 8, at: "2026-09-08T12:00:00Z" };
   await mount("path", p);
@@ -571,9 +597,10 @@ describe("app shell behavior kept through the component split", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-09-09T12:00:00Z"));
     const [a, b, c, d, e, f] = allQuestions.slice(0, 6).map((q) => q.id);
-    const p = withAnswers(withMistakes(legacyProgress(), [a, b, f]), [c, d, e], true);
+    const p = withAnswers(withMistakes(progressSeed(), [a, b, f]), [c, d, e], true);
 
     p.mistakeReviews = {
+      [a]: { level: 0, nextAt: "2026-09-09T12:00:00Z" },
       [b]: { level: 2, nextAt: "2026-09-06T12:00:00Z" },
       [c]: { level: 1, nextAt: "2026-09-07T12:00:00Z" },
       [d]: { level: 1, nextAt: "2026-09-10T12:00:00Z" },
@@ -642,7 +669,7 @@ describe("app shell behavior kept through the component split", () => {
   });
 
   it("shows the current page, progress stats, name and mistake count in the top bar and sidebar", async () => {
-    const p = withMistakes(legacyProgress(), [allQuestions[0].id, allQuestions[1].id]);
+    const p = withMistakes(progressSeed(), [allQuestions[0].id, allQuestions[1].id]);
 
     p.name = "ana";
 

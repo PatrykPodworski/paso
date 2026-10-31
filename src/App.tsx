@@ -13,7 +13,7 @@ import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
 import { PracticePage } from "./components/practice/PracticePage";
 import { ProgressLoading } from "./components/progress/ProgressLoading";
-import { ProgressProblem } from "./components/progress/ProgressProblem";
+import { SaveFailed } from "./components/progress/SaveFailed";
 import { useProgress } from "./components/progress/useProgress";
 import { Settings } from "./components/shell/Settings";
 import { Sidebar } from "./components/shell/Sidebar";
@@ -40,9 +40,7 @@ const App = () => {
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [toast, setToast] = useToast();
 
-  const problemDialog = (
-    <ProgressProblem problem={problem} onRetry={actions.retry} onUnlock={actions.unlock} />
-  );
+  const problemDialog = problem === "save" && <SaveFailed onRetry={actions.retry} />;
 
   if (!progress) {
     return (

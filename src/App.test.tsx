@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
@@ -738,37 +738,25 @@ describe("progress on the server", () => {
     expect(screen.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
   });
 
-  it("asks for the passcode once and sends it with every request", async () => {
-    refuse(async () => Response.json({ error: "passcode" }, { status: 401 }));
+  it("opens without a passcode and sends none, even when the live talk stored one", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
     await mount();
 
-    const gate = screen.getByRole("dialog", { name: "Enter the passcode" });
-
-    expect(within(gate).getByRole("button", { name: "Continue" })).toBeDisabled();
-
-    fireEvent.change(within(gate).getByLabelText("Passcode"), { target: { value: "olé" } });
-    click("Continue");
-    await settle();
-
+    expect(screen.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
 
-    expect(vi.mocked(fetch).mock.calls.at(-1)?.[1]?.headers).toMatchObject({
-      "x-passcode": "ol%C3%A9",
-    });
+    expect(vi.mocked(fetch).mock.calls.at(-1)?.[1]?.headers).not.toHaveProperty("x-passcode");
   });
 
-  it.each([
-    [401, "passcode", "That passcode is not right."],
-    [429, "passcode_tries", "Too many wrong passcodes. Try again tomorrow."],
-  ])("explains a %s from the passcode check", async (status, error, message) => {
-    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "old" }));
-    refuse(async () => Response.json({ error }, { status }));
+  it("shows a rate-limited load as a load error with Retry", async () => {
+    refuse(async () => Response.json({ error: "rate" }, { status: 429 }));
     await mount();
 
     expect(
-      within(screen.getByRole("dialog", { name: "Enter the passcode" })).getByText(message),
+      screen.getByRole("heading", { name: "Your progress could not be loaded." }),
     ).toBeInTheDocument();
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("holds answers behind a failed write until Retry saves them in order", async () => {

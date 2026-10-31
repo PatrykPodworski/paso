@@ -6,7 +6,7 @@ import { savedProgress, seedProgress, settle, setupProgressApi } from "./progres
 
 export const now = new Date("2026-09-09T10:00:00Z").getTime();
 
-export const run = (patch: Record<string, unknown> = {}) => ({
+const run = (patch: Record<string, unknown> = {}) => ({
   section: 0,
   index: 0,
   stage: "run",

@@ -4,7 +4,7 @@ import { SectionHeading } from "../../design-system/SectionHeading";
 import { TextLink } from "../../design-system/TextLink";
 import { ProgressTrack } from "../../design-system/ProgressTrack";
 import { allLessons, units } from "../../data/curriculum";
-import type { Lesson, Progress } from "../../data/types";
+import type { Lesson, ProgressSnapshot } from "../../data/types";
 import { JourneyArt } from "../Art";
 import { AudioButton } from "../audio/AudioButton";
 import { DailyGoal } from "./DailyGoal";
@@ -20,7 +20,7 @@ import { PRESSABLE } from "../../design-system/pressable";
 const TODAY_UNITS = 3;
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   nextLesson: Lesson;
   completed: number;
   progressPercent: number;

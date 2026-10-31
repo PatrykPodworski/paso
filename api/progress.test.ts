@@ -35,6 +35,7 @@ const EMPTY: ProgressSnapshot = {
   drafts: {},
   recent: [],
   days: [],
+  mockRun: null,
 };
 
 const learner = () => crypto.randomUUID();
@@ -409,10 +410,78 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
         action: "mockResult",
         result: { id: "m1", at: T, reading: 1, listening: 2 },
       });
+
+      await snapshot(id, { action: "mockRun", run: { answers: { "mock-r1-0": "a" } } });
     }
 
     expect(await snapshot(me, { action: "reset" })).toEqual(EMPTY);
     expect((await snapshot(other)).xp).toBe(25);
+  });
+});
+
+describe("the mock exam run", () => {
+  const FRESH = {
+    section: 0,
+    index: 0,
+    stage: "intro",
+    answers: {},
+    deadline: 0,
+    started: "",
+    drafts: {},
+    scores: {},
+  };
+
+  const DEADLINE = Date.parse(T) + 45 * 60000;
+  const started = { stage: "run", started: T, deadline: DEADLINE };
+
+  const change = async (id: string, run: unknown, replace?: boolean) =>
+    (await snapshot(id, { action: "mockRun", run, replace })).mockRun;
+
+  it("starts a run from the defaults and merges answers, drafts and scores per key", async () => {
+    const me = learner();
+
+    expect(await change(me, started, true)).toEqual({ ...FRESH, ...started });
+    await change(me, { answers: { "mock-r1-0": "b" }, section: 0, index: 1 });
+    await change(me, { drafts: { "mock-w1": "Hola" }, scores: { writing: "12" } });
+    await change(me, { answers: { "mock-r1-1": "c" }, drafts: { prep: "" } });
+
+    expect(await change(me, { scores: { speaking: "14.5" }, section: 1, index: 0 })).toEqual({
+      ...FRESH,
+      ...started,
+      section: 1,
+      answers: { "mock-r1-0": "b", "mock-r1-1": "c" },
+      drafts: { "mock-w1": "Hola", prep: "" },
+      scores: { writing: "12", speaking: "14.5" },
+    });
+  });
+
+  it("keeps the answers another tab saved while this tab moves on", async () => {
+    const me = learner();
+
+    await change(me, started, true);
+    await change(me, { answers: { "mock-r1-0": "a" }, section: 0, index: 1 });
+
+    expect(await change(me, { answers: { "mock-r1-4": "c" }, section: 0, index: 5 })).toMatchObject(
+      {
+        index: 5,
+        answers: { "mock-r1-0": "a", "mock-r1-4": "c" },
+      },
+    );
+  });
+
+  it("starts from the defaults when a change arrives without a run", async () => {
+    expect(await change(learner(), { answers: { "mock-r1-0": "a" } })).toEqual({
+      ...FRESH,
+      answers: { "mock-r1-0": "a" },
+    });
+  });
+
+  it("replaces the run and its answers when a new one starts", async () => {
+    const me = learner();
+
+    await change(me, { ...started, answers: { "mock-r1-0": "a" }, scores: { writing: "3" } }, true);
+
+    expect(await change(me, {}, true)).toEqual(FRESH);
   });
 });
 
@@ -536,6 +605,57 @@ describe("requests", () => {
       { action: "mockResult", result: { ...ok, id: "m", reading: 26 } },
       "result",
     ],
+    ["a mock run that is not a record", me, { action: "mockRun", run: [] }, "run"],
+    ["a mock section without its index", me, { action: "mockRun", run: { section: 1 } }, "run"],
+    [
+      "a mock question outside its section",
+      me,
+      { action: "mockRun", run: { section: 3, index: 3 } },
+      "run",
+    ],
+    ["a mock section", me, { action: "mockRun", run: { section: 4, index: 0 } }, "run"],
+    ["a mock stage", me, { action: "mockRun", run: { stage: "paused" } }, "run"],
+    ["a mock deadline", me, { action: "mockRun", run: { deadline: -1 } }, "run"],
+    ["a mock start", me, { action: "mockRun", run: { started: "today" } }, "run"],
+    ["a mock answer", me, { action: "mockRun", run: { answers: { "mock-r1-0": 5 } } }, "run"],
+    [
+      "mock answers that are not a record",
+      me,
+      { action: "mockRun", run: { answers: null } },
+      "run",
+    ],
+    [
+      "a mock answer to no exam question",
+      me,
+      { action: "mockRun", run: { answers: { "u1-v0": "a" } } },
+      "run",
+    ],
+    [
+      "a mock answer to the notes",
+      me,
+      { action: "mockRun", run: { answers: { prep: "a" } } },
+      "run",
+    ],
+    [
+      "a mock draft for no exam question",
+      me,
+      { action: "mockRun", run: { drafts: { "u1-w1": "Hola" } } },
+      "run",
+    ],
+    [
+      "a long mock draft",
+      me,
+      { action: "mockRun", run: { drafts: { "mock-w1": "a".repeat(4001) } } },
+      "run",
+    ],
+    ["a mock score name", me, { action: "mockRun", run: { scores: { reading: "3" } } }, "run"],
+    [
+      "a long mock score",
+      me,
+      { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
+      "run",
+    ],
+    ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],
   ])("refuses %s", async (_, id, body, error) => {
     const response = await send(id, body);
 

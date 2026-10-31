@@ -5,17 +5,18 @@ import { TextLink } from "../../design-system/TextLink";
 import { mockSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
-import type { Run, SetRun } from "./useMockRun";
+import type { MockRun } from "../../data/types";
+import type { ChangeRun } from "./useMockRun";
 
 type Props = {
-  run: Run;
-  setRun: SetRun;
+  run: MockRun;
+  change: ChangeRun;
   confirm: boolean;
   setConfirm: (confirm: boolean) => void;
   onEnd: () => void;
 };
 
-export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) => {
+export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
 
@@ -32,15 +33,15 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
         q={q}
         exam
         draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
-        onDraft={(text) => setRun((r) => ({ ...r, drafts: { ...r.drafts, [q.id]: text } }))}
+        onDraft={(text) => change({ drafts: { [q.id]: text } })}
         onSubmit={(answer) => {
           stopAudio();
 
-          setRun((r) => ({
-            ...r,
-            answers: { ...r.answers, [q.id]: answer },
-            index: Math.min(r.index + 1, section.questions.length - 1),
-          }));
+          change({
+            answers: { [q.id]: answer },
+            section: run.section,
+            index: Math.min(run.index + 1, section.questions.length - 1),
+          });
 
           if (run.index === section.questions.length - 1) {
             setConfirm(true);
@@ -52,7 +53,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
           disabled={run.index === 0}
           onClick={() => {
             stopAudio();
-            setRun((r) => ({ ...r, index: r.index - 1 }));
+            change({ section: run.section, index: run.index - 1 });
           }}
         >
           ← Previous question
@@ -64,7 +65,7 @@ export const ExamRunning = ({ run, setRun, confirm, setConfirm, onEnd }: Props) 
             if (run.index === section.questions.length - 1) {
               setConfirm(true);
             } else {
-              setRun((r) => ({ ...r, index: r.index + 1 }));
+              change({ section: run.section, index: run.index + 1 });
             }
           }}
         >

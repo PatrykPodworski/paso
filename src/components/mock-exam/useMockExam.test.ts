@@ -54,7 +54,7 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
   expect(state().stage).toBe("run");
   act(() => vi.advanceTimersByTime(1000));
   expect(state().stage).toBe("review");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "0 out of 25." })).toBeInTheDocument();
 });
 

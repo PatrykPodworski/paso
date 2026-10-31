@@ -1,4 +1,5 @@
 import { audioSources } from "../../data/audio-sources";
+import { clipFor } from "./clipCache";
 import { setActivePlayback, stopAudio } from "./playback";
 
 // A word tap has nowhere to show a status line, so this player stays silent on
@@ -25,19 +26,25 @@ export const playWord = async (text: string) => {
   });
 
   for (const src of audioSources(text)) {
-    clip = new Audio(src);
+    const audio = clipFor(src);
 
+    clip = audio;
+    // A player may have left the shared clip at a slower speed.
+    audio.playbackRate = 1;
+
+    // A pause or end left over from the clip's previous play arrives while it
+    // is playing again, and must not cut the word short.
     const spoken = new Promise<void>((resolve) => {
-      clip!.onended = () => resolve();
-      clip!.onpause = () => resolve();
-      clip!.onerror = () => resolve();
+      audio.onended = () => audio.paused && resolve();
+      audio.onpause = () => audio.paused && resolve();
+      audio.onerror = () => resolve();
     });
 
     try {
-      await clip.play();
+      await audio.play();
 
       if (cancelled) {
-        clip.pause();
+        audio.pause();
 
         return;
       }

@@ -5,11 +5,10 @@ import type {
   ProgressSnapshot,
   VocabularyReview,
 } from "../../data/types";
-import { readAccess, savePasscode } from "../live-talk/liveAccess";
 
 const DRAFT_DELAY = 800;
 
-export type Problem = "load" | "save" | "passcode" | "wrongPasscode" | "passcodeTries";
+export type Problem = "load" | "save";
 export type ProgressState = { snapshot: ProgressSnapshot | null; problem: Problem | null };
 export type Preferences = { name: string; goal: number; examDate: string };
 
@@ -17,13 +16,9 @@ type Body = { action: string } & Record<string, unknown>;
 
 const timeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-const requestInit = (learner: string, body: Body | undefined, passcode: string): RequestInit => ({
+const requestInit = (learner: string, body: Body | undefined): RequestInit => ({
   method: body ? "POST" : "GET",
-  headers: {
-    "x-learner-id": learner,
-    ...(body ? { "content-type": "application/json" } : {}),
-    ...(passcode ? { "x-passcode": encodeURIComponent(passcode) } : {}),
-  },
+  headers: { "x-learner-id": learner, ...(body ? { "content-type": "application/json" } : {}) },
   body: body && JSON.stringify(body),
 });
 
@@ -38,8 +33,6 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
   // Drafts sent but not yet answered. Responses to earlier writes still hold the older
   // text, and a lesson opened now must not show it.
   const sentDrafts = new Map<string, string>();
-  // Without browser storage the passcode lasts for this visit.
-  let typed = "";
 
   const update = (patch: Partial<ProgressState>) => {
     const { snapshot, ...rest } = { ...state, ...patch };
@@ -55,32 +48,18 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     onChange(state);
   };
 
-  // The problem for a status that refuses the passcode, or null for any other status.
-  const refusal = (status: number, passcode: string): Problem | null => {
-    if (status === 401) {
-      typed = "";
-      savePasscode("");
-
-      return passcode ? "wrongPasscode" : "passcode";
-    }
-
-    return status === 429 ? "passcodeTries" : null;
-  };
-
   const request = async (
     body: Body | undefined,
     failure: Problem,
   ): Promise<ProgressSnapshot | Problem> => {
-    const passcode = readAccess().passcode || typed;
-
     try {
-      const response = await fetch("/api/progress", requestInit(learner, body, passcode));
+      const response = await fetch("/api/progress", requestInit(learner, body));
 
       if (response.ok) {
         return (await response.json()) as ProgressSnapshot;
       }
 
-      return refusal(response.status, passcode) ?? failure;
+      return failure;
     } catch {
       // A network error or a body that is not JSON is a failed request.
       return failure;
@@ -168,12 +147,6 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
   return {
     load,
     retry,
-    unlock: (passcode: string) => {
-      typed = passcode;
-      savePasscode(passcode);
-
-      return retry();
-    },
     attempt: (attempt: Attempt) => write({ action: "attempt", attempt, timeZone: timeZone() }),
     complete: (lessonId: string, score: number, total: number) =>
       write({ action: "complete", lessonId, score, total, at: new Date().toISOString() }),

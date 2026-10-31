@@ -1,4 +1,5 @@
 import { audioSources } from "../../data/audio-sources";
+import { clipFor } from "./clipCache";
 import type { Playback } from "./playback";
 
 // Resolves true once a clip started, was cancelled or was blocked by the
@@ -16,20 +17,23 @@ export const playClips = async (
   },
 ) => {
   for (const src of audioSources(text)) {
-    const audio = new Audio(src);
+    const audio = clipFor(src);
 
     playback.audio = audio;
     audio.playbackRate = speed;
     audio.preservesPitch = true;
 
+    // Media events arrive later, so a shared clip can still deliver a pause
+    // or end from its previous play after it started again. A clip that is
+    // playing ignores them.
     audio.onended = () => {
-      if (!events.cancelled()) {
+      if (audio.paused && !events.cancelled()) {
         events.onEnded();
       }
     };
 
     audio.onpause = () => {
-      if (!events.cancelled()) {
+      if (audio.paused && !events.cancelled()) {
         playback.setPlaying(false);
       }
     };

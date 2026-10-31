@@ -6,7 +6,8 @@ import { passingGroups } from "../data/progress";
 import { sources } from "../data/research";
 import { Icon } from "../design-system/Icon";
 
-const tone = (ok: boolean) => (ok ? "bg-sage-100 text-olive-700" : "bg-sand-100 text-coral-600");
+const tone = (ok: boolean) =>
+  ok ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive";
 
 export const PassingRule = () => {
   const [scores, setScores] = useState([15, 15, 15, 15]);
@@ -15,20 +16,20 @@ export const PassingRule = () => {
   return (
     <Panel className="p-7 max-xl:p-6">
       <Eyebrow>TRY THE PASSING RULE</Eyebrow>
-      <h3 className="tracking-normal font-serif text-2xl font-medium mt-2 mx-0 mb-3">
+      <h3 className="tracking-normal font-heading text-2xl font-medium mt-2 mx-0 mb-3">
         Does this score pass?
       </h3>
-      <p className="leading-relaxed text-sm text-sage-700 mb-6">
+      <p className="leading-relaxed text-sm text-muted-foreground mb-6">
         Move the sliders. Both groups must reach 30/50, even if your total is 60 or more.
       </p>
       {["Reading", "Writing", "Listening", "Speaking"].map((s, i) => (
         <label key={s} className="text-sm block mb-4">
-          <span className="flex justify-between text-sage-600 text-sm">
+          <span className="flex justify-between text-muted-foreground text-sm">
             {s}
             <b className="font-medium">{scores[i]}/25</b>
           </span>
           <input
-            className="h-1.5 mt-3 w-full cursor-pointer accent-green-900"
+            className="h-1.5 mt-3 w-full cursor-pointer accent-primary"
             type="range"
             min="0"
             max="25"

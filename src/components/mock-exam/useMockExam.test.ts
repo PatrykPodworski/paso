@@ -54,11 +54,11 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
   expect((await state()).stage).toBe("run");
   act(() => vi.advanceTimersByTime(1000));
   expect((await state()).stage).toBe("review");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "0 out of 25." })).toBeInTheDocument();
   click("Continue to listening");
   expect(screen.getByRole("timer")).toHaveTextContent("25:00");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
 it("dismisses a confirmation left open when the speaking time runs out", async () => {
@@ -70,7 +70,7 @@ it("dismisses a confirmation left open when the speaking time runs out", async (
   click("Return to exam overview");
   click("Start exam rehearsal");
   expect(screen.getByRole("timer")).toHaveTextContent("45:00");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
 it("honours an expired deadline when returning to the page", async () => {
@@ -111,4 +111,48 @@ it("keeps the results page after the last deadline has passed", async () => {
   act(() => vi.advanceTimersByTime(3000));
   expect((await state()).stage).toBe("done");
   expect(screen.getByRole("heading", { name: "You’ve met the exam." })).toBeInTheDocument();
+});
+
+it("keeps unsaved writing as the answers when the section deadline passes", async () => {
+  await seed({
+    section: 2,
+    deadline: now + 1000,
+    answers: { "mock-w2": "Hola." },
+    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Ana." },
+  });
+
+  await mount();
+  act(() => vi.advanceTimersByTime(1000));
+
+  expect(await state()).toMatchObject({
+    stage: "review",
+    answers: {
+      "mock-w1":
+        "Nombre y apellidos: \nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
+      "mock-w2": "Hola, Ana.",
+    },
+  });
+
+  expect(screen.getByText("Hola, Ana.")).toBeInTheDocument();
+});
+
+it("counts unsaved writing as answered and keeps it on Finish section", async () => {
+  await seed({
+    section: 2,
+    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Ana." },
+  });
+
+  await mount();
+  click("Finish section");
+  expect(screen.getByRole("dialog")).toHaveTextContent("0 unanswered.");
+  click("Finish & review");
+
+  expect(await state()).toMatchObject({
+    stage: "review",
+    answers: {
+      "mock-w1":
+        "Nombre y apellidos: \nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
+      "mock-w2": "Hola, Ana.",
+    },
+  });
 });

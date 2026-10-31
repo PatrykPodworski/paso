@@ -23,7 +23,7 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
     className="py-6 px-5 max-xl:py-4 max-xl:px-3.5 max-md:py-5 max-md:px-3.5 max-sm:p-6"
   >
     <PanelHeading title="A little of every skill" icon="layers" />
-    <p className="leading-relaxed mt-1.5 mb-5 text-sage-700 text-xs max-md:text-2xs">
+    <p className="leading-relaxed mt-1.5 mb-5 text-muted-foreground text-xs max-md:text-2xs">
       Four ways to grow your Spanish.
     </p>
     {skills.map((s) => {
@@ -36,20 +36,20 @@ export const SkillsPanel = ({ progress, navigate, practice }: Props) => (
             <Icon name={s.icon} size={17} />
           </span>
           <span className="flex-1">
-            <strong className="flex justify-between font-medium text-sage-700 text-xs max-xl:text-2xs max-lg:text-sm max-md:text-xs">
+            <strong className="flex justify-between font-medium text-muted-foreground text-xs max-xl:text-2xs max-lg:text-sm max-md:text-xs">
               {s.name}
-              <small className="font-normal text-sage-600 text-2xs">
+              <small className="font-normal text-muted-foreground text-2xs">
                 {stats.practised} practised
               </small>
             </strong>
             <ProgressTrack value={stats.practised} max={total} className="mt-1.5" />
           </span>
-          <Icon name="chevron" size={13} className="text-sage-400 max-xl:hidden" />
+          <Icon name="chevron" size={13} className="text-muted-foreground max-xl:hidden" />
         </button>
       );
     })}
     <TextLink
-      className="w-full justify-between border-t border-t-sage-100 pt-3.5 text-xs! font-normal! text-sage-600! max-lg:text-xs! xl:text-xs!"
+      className="w-full justify-between border-t border-t-border pt-3.5 text-xs! font-normal! text-muted-foreground! max-lg:text-xs! xl:text-xs!"
       onClick={() => navigate("guide")}
     >
       How the exam works

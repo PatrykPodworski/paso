@@ -130,9 +130,17 @@ export const useAudioPlayer = ({
       resume: null,
       setPlaying,
       cancel: () => {
+        // Clips are shared, so a playback cancelled earlier must not pause its
+        // clip again: another player may be using it now.
+        const running = !cancelled;
+
         cancelled = true;
         playback.resume = null;
-        playback.audio?.pause();
+
+        if (running) {
+          playback.audio?.pause();
+        }
+
         playback.setPlaying(false);
       },
     };

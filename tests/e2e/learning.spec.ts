@@ -6,12 +6,14 @@ import {
   closeLesson,
   resumeMockExam,
   saved,
+  seedProgress,
   stored,
 } from "../fixtures/app";
 import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
 import { mockSections } from "../../src/data/mock";
+import { allLessons } from "../../src/data/curriculum";
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -208,6 +210,29 @@ test("complete a lesson, persist progress, continue the path, and recover a mist
   expect(Object.keys((await saved(page)).completed)).toEqual([lesson.id]);
 });
 
+test("Enter on a finished lesson starts the next lesson on the path", async ({ page }) => {
+  const lesson = await openLesson(page, 0);
+
+  for (const q of lesson.questions) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await expect(page.getByRole("button", { name: "Next lesson" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  const next = allLessons[1];
+
+  await expect(page.getByRole("dialog", { name: next.title })).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: next.questions[0].prompt, exact: true }),
+  ).toBeVisible();
+
+  await expect
+    .poll(async () => (await saved(page)).completed[lesson.id])
+    .toMatchObject({ score: lesson.questions.length, total: lesson.questions.length });
+});
+
 test("sentence building supports removal and reads the sentence after checking", async ({
   page,
 }) => {
@@ -250,6 +275,25 @@ test("sentence building supports removal and reads the sentence after checking",
   await expect(page.getByRole("textbox")).toHaveValue("");
 });
 
+test("Enter checks a typed answer and a second Enter continues", async ({ page }) => {
+  const lesson = await openLesson(page, 3);
+  const [first, typed, next] = lesson.questions;
+
+  await answer(page, first);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  await input.fill(typed.answer);
+  await input.press("Enter");
+  await expect(page.getByRole("heading", { name: "¡Muy bien! You’ve got it." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeFocused();
+  await expect(page.getByRole("heading", { name: typed.prompt, exact: true })).toBeVisible();
+  await expect(input).toBeDisabled();
+  await expect(input).toHaveValue(typed.answer);
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { name: next.prompt, exact: true })).toBeVisible();
+});
+
 test("writing persists drafts, reviews and permits revision", async ({ page }) => {
   const lesson = await openLesson(page, 3);
 
@@ -270,8 +314,23 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
   }
 
   await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
+
+  await page.evaluate(() => {
+    (window as any).__plays = [];
+    const original = HTMLMediaElement.prototype.play;
+
+    HTMLMediaElement.prototype.play = function () {
+      (window as any).__plays.push(this.src);
+
+      return original.call(this);
+    };
+  });
+
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  // A writing task never reads its model answer aloud.
+  await expect(page.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).__plays.length)).toBe(0);
   await page.getByRole("button", { name: "Revise my answer" }).click();
   await expect(input).toBeEnabled();
   await input.fill("Me llamo Ana. Tengo veinte años.");
@@ -326,19 +385,11 @@ test("speaking supports microphone denial and the practised-aloud fallback", asy
 });
 
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {
-  const progress = {
-    version: 1,
+  await seedProgress(page, {
     completed: { "u6-words": { score: 8, total: 8, at: "2026-01-01T00:00:00Z" } },
-  };
+  });
 
   await page.goto("/#practice");
-
-  await page.evaluate(
-    (state) => localStorage.setItem("paso-progress-v1", JSON.stringify(state)),
-    progress,
-  );
-
-  await page.reload();
 
   await page.evaluate(() => {
     (window as any).__vocabularyClips = [];

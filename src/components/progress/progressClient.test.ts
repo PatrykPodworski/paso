@@ -62,7 +62,7 @@ const call = async (n: number) => {
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 0));
 
-const loaded = async (patch: Partial<ProgressSnapshot> = { imported: true }) => {
+const loaded = async (patch: Partial<ProgressSnapshot> = {}) => {
   const c = client();
 
   void c.load();
@@ -91,11 +91,11 @@ describe("load", () => {
     expect(get.method).toBe("GET");
     expect(get.headers).toEqual({ "x-learner-id": LEARNER });
     expect(latest()).toBeUndefined();
-    get.reply(ok(snapshot({ name: "Ana", imported: true })));
+    get.reply(ok(snapshot({ name: "Ana" })));
 
     await vi.waitFor(() =>
       expect(latest()).toEqual({
-        snapshot: snapshot({ name: "Ana", imported: true }),
+        snapshot: snapshot({ name: "Ana" }),
         problem: null,
       }),
     );
@@ -113,8 +113,8 @@ describe("load", () => {
 
     void c.load();
     void c.load();
-    (await call(0)).reply(ok(snapshot({ imported: true })));
-    await vi.waitFor(() => expect(latest()?.snapshot?.imported).toBe(true));
+    (await call(0)).reply(ok(snapshot({ xp: 5 })));
+    await vi.waitFor(() => expect(latest()?.snapshot?.xp).toBe(5));
     expect(calls).toHaveLength(1);
   });
 
@@ -131,7 +131,7 @@ describe("load", () => {
 
     void c.retry();
     expect(latest()).toEqual({ snapshot: null, problem: null });
-    (await call(1)).reply(ok(snapshot({ xp: 5, imported: true })));
+    (await call(1)).reply(ok(snapshot({ xp: 5 })));
     await vi.waitFor(() => expect(latest()?.snapshot?.xp).toBe(5));
   });
 });
@@ -154,8 +154,8 @@ describe("passcode", () => {
     const retried = await call(1);
 
     expect(retried.headers["x-passcode"]).toBe("ol%C3%A9");
-    retried.reply(ok(snapshot({ imported: true })));
-    await vi.waitFor(() => expect(latest()?.snapshot).toEqual(snapshot({ imported: true })));
+    retried.reply(ok(snapshot()));
+    await vi.waitFor(() => expect(latest()?.snapshot).toEqual(snapshot()));
   });
 
   it("keeps the passcode for this visit when browser storage is unavailable", async () => {
@@ -205,89 +205,14 @@ describe("passcode", () => {
 
     expect(resent.body).toEqual({ action: "check", checkId: "visa", done: true });
     expect(resent.headers["x-passcode"]).toBe("ol%C3%A9");
-    resent.reply(ok(snapshot({ imported: true, checks: ["visa"] })));
+    resent.reply(ok(snapshot({ checks: ["visa"] })));
 
     await vi.waitFor(() =>
       expect(latest()).toEqual({
-        snapshot: snapshot({ imported: true, checks: ["visa"] }),
+        snapshot: snapshot({ checks: ["visa"] }),
         problem: null,
       }),
     );
-  });
-});
-
-describe("import", () => {
-  const legacy = '{"version":1,"name":"Ana","attempts":[]}';
-
-  it("posts stored progress once and keeps it under a backup key", async () => {
-    localStorage.setItem("paso-progress-v1", legacy);
-    void client().load();
-    (await call(0)).reply(ok(snapshot()));
-
-    const post = await call(1);
-
-    expect(post.method).toBe("POST");
-    expect(post.headers).toEqual({ "x-learner-id": LEARNER, "content-type": "application/json" });
-
-    expect(post.body).toEqual({
-      action: "import",
-      progress: { version: 1, name: "Ana", attempts: [] },
-      timeZone: "Europe/Madrid",
-    });
-
-    expect(latest()).toBeUndefined();
-    post.reply(ok({ ...snapshot({ name: "Ana", imported: true }), importedNow: true }));
-
-    await vi.waitFor(() =>
-      expect(latest()).toEqual({
-        snapshot: snapshot({ name: "Ana", imported: true }),
-        problem: null,
-      }),
-    );
-
-    expect(localStorage.getItem("paso-progress-v1")).toBeNull();
-    expect(localStorage.getItem("paso-progress-v1-imported")).toBe(legacy);
-  });
-
-  it("moves the stored progress to the backup key without importing for a learner already imported", async () => {
-    localStorage.setItem("paso-progress-v1", legacy);
-    await loaded({ imported: true });
-    await settle();
-
-    expect(calls).toHaveLength(1);
-    expect(localStorage.getItem("paso-progress-v1")).toBeNull();
-    expect(localStorage.getItem("paso-progress-v1-imported")).toBe(legacy);
-  });
-
-  it.each([
-    ["nothing is stored", null],
-    ["the stored text is not JSON", "{oops"],
-  ])("does not import when %s", async (_, stored) => {
-    if (stored) {
-      localStorage.setItem("paso-progress-v1", stored);
-    }
-
-    await loaded({ imported: false });
-    await settle();
-
-    expect(calls).toHaveLength(1);
-    expect(localStorage.getItem("paso-progress-v1")).toBe(stored);
-    expect(localStorage.getItem("paso-progress-v1-imported")).toBeNull();
-  });
-
-  it("keeps the stored progress when the import fails, and Retry imports it", async () => {
-    localStorage.setItem("paso-progress-v1", legacy);
-    const c = client();
-
-    void c.load();
-    (await call(0)).reply(ok(snapshot()));
-    (await call(1)).reply(new Response("{}", { status: 500 }));
-    await vi.waitFor(() => expect(latest()).toEqual({ snapshot: null, problem: "load" }));
-    expect(localStorage.getItem("paso-progress-v1")).toBe(legacy);
-
-    void c.retry();
-    (await call(2)).reply(ok(snapshot()));
-    expect((await call(3)).body?.action).toBe("import");
   });
 });
 
@@ -306,7 +231,7 @@ describe("writes", () => {
     await settle();
     expect(calls).toHaveLength(2);
 
-    first.reply(ok(snapshot({ imported: true, xp: 5 })));
+    first.reply(ok(snapshot({ xp: 5 })));
     const second = await call(2);
 
     expect(latest()?.snapshot?.xp).toBe(5);
@@ -319,7 +244,7 @@ describe("writes", () => {
       at: "2026-10-29T11:00:00.000Z",
     });
 
-    second.reply(ok(snapshot({ imported: true, xp: 25 })));
+    second.reply(ok(snapshot({ xp: 25 })));
     await vi.waitFor(() => expect(latest()?.snapshot?.xp).toBe(25));
   });
 
@@ -332,13 +257,13 @@ describe("writes", () => {
     await vi.waitFor(() => expect(latest()?.problem).toBe("save"));
     await settle();
     expect(calls).toHaveLength(2);
-    expect(latest()?.snapshot).toEqual(snapshot({ imported: true }));
+    expect(latest()?.snapshot).toEqual(snapshot());
 
     void c.retry();
     const resent = await call(2);
 
     expect(resent.body).toEqual({ action: "attempt", attempt, timeZone: "Europe/Madrid" });
-    resent.reply(ok(snapshot({ imported: true, xp: 5 })));
+    resent.reply(ok(snapshot({ xp: 5 })));
     expect((await call(3)).body).toEqual({ action: "check", checkId: "visa", done: true });
   });
 
@@ -360,7 +285,7 @@ describe("writes", () => {
       const next = await call(n);
 
       bodies.push(next.body);
-      next.reply(ok(snapshot({ imported: true })));
+      next.reply(ok(snapshot()));
     }
 
     expect(bodies).toEqual([
@@ -393,7 +318,7 @@ describe("drafts", () => {
     const first = await call(1);
 
     expect(first.body).toEqual({ action: "draft", questionId: "u2-w1", text: "Me llamo" });
-    first.reply(ok(snapshot({ imported: true })));
+    first.reply(ok(snapshot()));
     expect((await call(2)).body).toEqual({ action: "draft", questionId: "u3-w1", text: "Vivo" });
   });
 
@@ -409,45 +334,45 @@ describe("drafts", () => {
     const sent = await call(1);
 
     expect(sent.body).toEqual({ action: "draft", questionId: "u2-w1", text: "Me llamo" });
-    sent.reply(ok(snapshot({ imported: true })));
+    sent.reply(ok(snapshot()));
     await settle();
     expect(calls).toHaveLength(2);
   });
 
   it("shows a sent draft until its own response arrives", async () => {
-    const c = await loaded({ imported: true, drafts: { "u2-w1": "Hola" } });
+    const c = await loaded({ drafts: { "u2-w1": "Hola" } });
 
     c.attempt(attempt);
     c.draft("u2-w1", "Me llamo");
     c.flushDrafts();
     expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
 
-    (await call(1)).reply(ok(snapshot({ imported: true, drafts: { "u2-w1": "Hola" } })));
+    (await call(1)).reply(ok(snapshot({ drafts: { "u2-w1": "Hola" } })));
     const draft = await call(2);
 
     expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
     expect(latest()?.snapshot?.recent).toEqual([]);
 
-    draft.reply(ok(snapshot({ imported: true, drafts: { "u2-w1": "Me llamo Ana" } })));
+    draft.reply(ok(snapshot({ drafts: { "u2-w1": "Me llamo Ana" } })));
     await settle();
     expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo Ana" });
   });
 
   it("keeps showing the newer draft when the response to an older one arrives", async () => {
-    const c = await loaded({ imported: true, drafts: { "u2-w1": "Hola" } });
+    const c = await loaded({ drafts: { "u2-w1": "Hola" } });
 
     c.draft("u2-w1", "Me");
     c.flushDrafts();
     c.draft("u2-w1", "Me llamo");
     c.flushDrafts();
-    (await call(1)).reply(ok(snapshot({ imported: true, drafts: { "u2-w1": "Me" } })));
+    (await call(1)).reply(ok(snapshot({ drafts: { "u2-w1": "Me" } })));
     await call(2);
 
     expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
   });
 
   it("keeps showing a sent draft while its request waits for a retry", async () => {
-    const c = await loaded({ imported: true, drafts: { "u2-w1": "Hola" } });
+    const c = await loaded({ drafts: { "u2-w1": "Hola" } });
 
     c.draft("u2-w1", "Me llamo");
     c.flushDrafts();
@@ -465,7 +390,7 @@ describe("drafts", () => {
     c.reset();
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
-    (await call(1)).reply(ok(snapshot({ imported: true })));
+    (await call(1)).reply(ok(snapshot()));
     await settle();
 
     expect(calls.map((c) => c.body?.action)).toEqual([undefined, "reset"]);

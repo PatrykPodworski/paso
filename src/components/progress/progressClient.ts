@@ -1,7 +1,6 @@
 import type { Attempt, NewMockResult, ProgressSnapshot, VocabularyReview } from "../../data/types";
 import { readAccess, savePasscode } from "../live-talk/liveAccess";
 
-const LEGACY_KEY = "paso-progress-v1";
 const DRAFT_DELAY = 800;
 
 export type Problem = "load" | "save" | "passcode" | "wrongPasscode" | "passcodeTries";
@@ -11,26 +10,6 @@ export type Preferences = { name: string; goal: number; examDate: string };
 type Body = { action: string } & Record<string, unknown>;
 
 const timeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-// The progress saved in this browser before progress moved to the server.
-const legacyProgress = () => {
-  try {
-    const raw = localStorage.getItem(LEGACY_KEY);
-
-    return raw === null ? null : { raw, progress: JSON.parse(raw) as unknown };
-  } catch {
-    return null;
-  }
-};
-
-const keepAsBackup = (raw: string) => {
-  try {
-    localStorage.setItem(`${LEGACY_KEY}-imported`, raw);
-    localStorage.removeItem(LEGACY_KEY);
-  } catch {
-    // The server ignores a second import, so a key that stays only costs a request.
-  }
-};
 
 const requestInit = (learner: string, body: Body | undefined, passcode: string): RequestInit => ({
   method: body ? "POST" : "GET",
@@ -103,27 +82,7 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
   };
 
   const loadOnce = async () => {
-    let result = await request(undefined, "load");
-    const legacy = typeof result === "string" ? null : legacyProgress();
-
-    if (legacy && typeof result !== "string" && result.imported) {
-      keepAsBackup(legacy.raw);
-    } else if (legacy) {
-      result = await request(
-        { action: "import", progress: legacy.progress, timeZone: timeZone() },
-        "load",
-      );
-
-      if (typeof result !== "string") {
-        keepAsBackup(legacy.raw);
-
-        const { importedNow: _, ...snapshot } = result as ProgressSnapshot & {
-          importedNow: boolean;
-        };
-
-        result = snapshot;
-      }
-    }
+    const result = await request(undefined, "load");
 
     update(typeof result === "string" ? { problem: result } : { snapshot: result });
   };

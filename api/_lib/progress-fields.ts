@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
@@ -84,10 +83,6 @@ export const timeZoneOf = (value: unknown) => {
   }
 };
 
-// An id for legacy records saved without one, the same on every import.
-export const stableId = (...parts: unknown[]) =>
-  `legacy-${createHash("sha256").update(JSON.stringify(parts)).digest("hex").slice(0, 32)}`;
-
 export const attemptOf = (value: unknown): Attempt | null => {
   if (
     !isRecord(value) ||
@@ -131,14 +126,6 @@ export const reviewOf = (value: unknown): VocabularyReview | null => {
     ...(value.reviewedAt ? { reviewedAt: value.reviewedAt } : {}),
   };
 };
-
-export const completionOf = (value: unknown): Completion | null =>
-  isRecord(value) &&
-  isCount(value.total, 1, MAX_TOTAL) &&
-  isCount(value.score, 0, value.total) &&
-  isInstant(value.at)
-    ? { score: value.score, total: value.total, at: value.at }
-    : null;
 
 export const mockResultOf = (value: unknown): MockResult | null => {
   if (

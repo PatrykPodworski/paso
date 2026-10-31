@@ -6,7 +6,13 @@ import { vocabulary } from "../data/curriculum";
 import { vocabularyReview } from "../data/progress";
 import { deckCards, topics } from "../data/topics";
 import { emptySnapshot } from "../test/progress";
-import { savedProgress as saved, settle, setupProgressApi } from "../test/progressApi";
+import {
+  savedProgress as saved,
+  seedProgress,
+  settle,
+  setupProgressApi,
+} from "../test/progressApi";
+import { type ProgressSeed, progressSeed } from "../../tests/fixtures/progressSeed";
 import { PocketVocabulary } from "./PocketVocabulary";
 
 // One split-sense card without an example, for the no-sentence case.
@@ -54,11 +60,10 @@ const topicRow = (topic: string) =>
     .getAllByRole("listitem")
     .find((row) => within(row).queryByText(topic, { exact: true }))!;
 
-// The app imports the seeded progress on its first load; without a seed it loads what the
-// server already has for this learner.
-const mount = async (p: object | null = progressWithDue()) => {
+// Without a seed the app loads what the server already has for this learner.
+const mount = async (p: Partial<ProgressSeed> | null = progressWithDue()) => {
   if (p) {
-    localStorage.setItem("paso-progress-v1", JSON.stringify(p));
+    await seedProgress(p);
   }
 
   window.location.hash = "#practice";
@@ -353,7 +358,7 @@ it("saves a split-sense card's rating under its own id", async () => {
 });
 
 it("lists every topic in file order, even with an empty deck", async () => {
-  await mount(emptySnapshot());
+  await mount(progressSeed());
   const rows = within(screen.getByRole("region", { name: "Topics" })).getAllByRole("listitem");
 
   expect(rows).toHaveLength(51);
@@ -387,7 +392,7 @@ it("adds five words from a topic to the deck as new cards", async () => {
 });
 
 it("adds only the words a topic has left, then shows it as all added", async () => {
-  const p = emptySnapshot();
+  const p = progressSeed();
   const [first] = topics.find((t) => t.topic === "Appearance (adjectives)")!.cards;
 
   p.vocabularyReviews[first.id] = { level: 1, nextAt: tomorrow };
@@ -418,7 +423,7 @@ it("counts a completed unit's words as learning in their topic", async () => {
 });
 
 it("marks optional topics", async () => {
-  await mount(emptySnapshot());
+  await mount(progressSeed());
   expect(within(topicRow("Art")).getByText("Optional")).toBeInTheDocument();
   expect(within(topicRow("Family")).queryByText("Optional")).not.toBeInTheDocument();
 });

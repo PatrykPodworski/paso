@@ -5,6 +5,7 @@ import type { Db } from "../../api/_lib/db";
 import { handleProgress } from "../../api/progress";
 import { pgliteDb } from "../../db/pglite";
 import type { ProgressSnapshot } from "../data/types";
+import { type ProgressSeed, seedWrites } from "../../tests/fixtures/progressSeed";
 
 let db: Db;
 let started = 0;
@@ -58,4 +59,33 @@ export const savedProgress = async (): Promise<ProgressSnapshot> => {
   );
 
   return response.json();
+};
+
+// Stores a seed for a new learner, whose id the app then reads from this browser.
+export const seedProgress = async (seed: Partial<ProgressSeed>) => {
+  const learner = crypto.randomUUID();
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  localStorage.setItem("paso-learner-v1", learner);
+
+  for (const body of seedWrites(seed, timeZone)) {
+    const response = await serve(
+      new Request("http://localhost/api/progress", {
+        method: "POST",
+        headers: { "x-learner-id": learner, "content-type": "application/json" },
+        body: JSON.stringify(body),
+      }),
+    );
+
+    expect(response.status, `seed ${body.action}: ${await response.text()}`).toBe(200);
+  }
+
+  // No write sets a review window, so the seed sets it on the question's stored state.
+  await db.transaction(
+    Object.entries(seed.mistakeReviews ?? {}).map(([questionId, r]) => ({
+      text: `UPDATE question_states SET review_level = $3, review_next_at = $4
+             WHERE learner_id = $1 AND question_id = $2`,
+      params: [learner, questionId, r.level, r.nextAt],
+    })),
+  );
 };

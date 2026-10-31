@@ -5,7 +5,6 @@ export const emptySnapshot = (): ProgressSnapshot => ({
   goal: 10,
   examDate: "",
   xp: 0,
-  imported: false,
   completed: {},
   questions: {},
   vocabularyReviews: {},

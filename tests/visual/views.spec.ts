@@ -6,8 +6,9 @@ import {
   stabilise,
   capture,
   resumeMockExam,
+  seedProgress,
 } from "../fixtures/app";
-import { legacyProgress } from "../fixtures/legacyProgress";
+import { progressSeed } from "../fixtures/progressSeed";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import type { Page } from "@playwright/test";
 import { examiner, mockLiveTalk } from "../fixtures/live";
@@ -63,9 +64,9 @@ test("mistakes: empty and populated", async ({ page }) => {
   await page.getByRole("button", { name: "My mistakes (0)" }).click();
   await shot(page, "mistakes-empty");
 
-  // A mistake is imported together with the answer that made it.
-  await page.evaluate((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), {
-    ...legacyProgress(),
+  // A mistake comes from a wrong answer.
+  await seedProgress(page, {
+    ...progressSeed(),
     mistakes: [allQuestions[0].id],
     attempts: [
       {
@@ -86,14 +87,11 @@ test("mistakes: empty and populated", async ({ page }) => {
 });
 
 test("vocabulary: overview, review, feedback and no results", async ({ page }) => {
-  const p = legacyProgress();
+  const p = progressSeed();
 
   p.completed["u6-words"] = { at: "2026-01-01T00:00:00Z", score: 8, total: 8 };
 
-  await page.addInitScript(
-    (state) => localStorage.setItem("paso-progress-v1", JSON.stringify(state)),
-    p,
-  );
+  await seedProgress(page, p);
 
   // Each card autoplays its word and revealing autoplays the example. Waiting for the clip
   // lets shot() stop it instead of racing it.
@@ -132,7 +130,7 @@ test("mobile navigation drawer", async ({ page }, info) => {
 });
 
 test("personalized dashboard with completed lessons and activity", async ({ page }) => {
-  const p = legacyProgress();
+  const p = progressSeed();
 
   p.name = "Ana";
   p.goal = 5;
@@ -149,7 +147,7 @@ test("personalized dashboard with completed lessons and activity", async ({ page
   }));
 
   p.mistakes = [allLessons[0].questions[0].id];
-  await page.addInitScript((p) => localStorage.setItem("paso-progress-v1", JSON.stringify(p)), p);
+  await seedProgress(page, p);
   await page.goto("/");
   await shot(page, "dashboard-progress");
 });

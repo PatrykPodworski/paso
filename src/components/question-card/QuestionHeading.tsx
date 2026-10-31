@@ -5,6 +5,7 @@ import { spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
+import { isWritingTask } from "./useAnswer";
 
 type QuestionKindProps = { q: Question; productive: boolean };
 
@@ -51,7 +52,7 @@ export const QuestionHeading = ({
   }, [q.id]);
 
   const pronunciation = spokenText(q);
-  const hidePronunciation = !q.audio && !feedback;
+  const hidePronunciation = !q.audio && (!feedback || isWritingTask(q));
 
   return (
     <>
@@ -79,7 +80,7 @@ export const QuestionHeading = ({
               autoPlay={q.kind === "listen"}
               limit={exam ? 2 : undefined}
             />
-          ) : !exam ? (
+          ) : !exam && !isWritingTask(q) ? (
             <AudioButton
               ref={answerAudio}
               round="pronunciation"

@@ -1,4 +1,4 @@
-import { test, expect, answer, stored } from "../fixtures/app";
+import { test, expect, answer, saved } from "../fixtures/app";
 import { mockSections } from "../../src/data/mock";
 
 test("complete all 55 exam questions with section reviews, oral prep, score calculation and export", async ({
@@ -85,7 +85,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByText(/Both groups meet 30/)).toBeVisible();
   await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("4.99");
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
-  expect((await stored(page)).mockResults).toHaveLength(1);
+  await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
   const downloaded = page.waitForEvent("download");
 
   await page.getByRole("button", { name: "Export responses for review" }).click();

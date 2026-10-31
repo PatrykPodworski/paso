@@ -1,8 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
-import { emptyProgress, withAttempt } from "./data/progress";
-import type { Attempt, Lesson, Skill } from "./data/types";
+import type { Lesson, Skill } from "./data/types";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
 import { Guide } from "./components/Guide";
 import { Icon } from "./design-system/Icon";
@@ -14,30 +13,52 @@ import type { Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
 import { PracticePage } from "./components/practice/PracticePage";
+import { ProgressLoading } from "./components/progress/ProgressLoading";
+import { ProgressProblem } from "./components/progress/ProgressProblem";
+import { useProgress } from "./components/progress/useProgress";
 import { Settings } from "./components/shell/Settings";
 import { Sidebar } from "./components/shell/Sidebar";
 import { TodayPage } from "./components/today/TodayPage";
 import { Topbar } from "./components/shell/Topbar";
 import { useNavigation } from "./components/shell/useNavigation";
-import { usePersistedProgress } from "./components/shell/usePersistedProgress";
 import { useToast } from "./components/shell/useToast";
 import { Notice } from "./design-system/Notice";
 import { PRESSABLE } from "./design-system/pressable";
 
+// The next lesson on the path, or undefined after the last one or a practice session.
+const lessonAfter = (lesson: Lesson | null) => {
+  const index = allLessons.findIndex((l) => l.id === lesson?.id);
+
+  return index === -1 ? undefined : allLessons[index + 1];
+};
+
 const App = () => {
-  const [progress, setProgress, storageError] = usePersistedProgress();
+  const { snapshot: progress, problem, storageError, actions } = useProgress();
   const { page, setPage, navigate, mobileNav, setMobileNav } = useNavigation();
   const [session, setSession] = useState<Lesson | null>(null);
   const [settings, setSettings] = useState(false);
   const [expanded, setExpanded] = useState("u1");
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [toast, setToast] = useToast();
+
+  const problemDialog = (
+    <ProgressProblem problem={problem} onRetry={actions.retry} onUnlock={actions.unlock} />
+  );
+
+  if (!progress) {
+    return (
+      <>
+        <ProgressLoading failed={problem === "load"} onRetry={actions.retry} />
+        {problemDialog}
+      </>
+    );
+  }
+
   const nextLesson = allLessons.find((l) => !progress.completed[l.id]) || allLessons[0];
   const completed = Object.keys(progress.completed).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const mistakeQuestions = mistakeQueue(progress, new Date());
-  const sessionIndex = session ? allLessons.findIndex((l) => l.id === session.id) : -1;
-  const lessonAfterSession = sessionIndex === -1 ? undefined : allLessons[sessionIndex + 1];
+  const lessonAfterSession = lessonAfter(session);
 
   const practice = (skill: Skill | "all" | "mistakes") => {
     const lesson = practiceLesson(skill, progress, mistakeQuestions);
@@ -51,18 +72,9 @@ const App = () => {
     setSession(lesson);
   };
 
-  const saveAttempt = (a: Attempt) => setProgress((p) => withAttempt(p, a));
-
   const complete = (score: number, total: number) => {
-    if (!session) {
-      return;
-    }
-
-    if (allLessons.some((l) => l.id === session.id)) {
-      setProgress((p) => ({
-        ...p,
-        completed: { ...p.completed, [session.id]: { score, total, at: new Date().toISOString() } },
-      }));
+    if (session && allLessons.some((l) => l.id === session.id)) {
+      actions.complete(session.id, score, total);
     }
   };
 
@@ -97,7 +109,7 @@ const App = () => {
     practice: (
       <PracticePage
         progress={progress}
-        setProgress={setProgress}
+        onVocabulary={actions.vocabulary}
         mistakeQuestions={mistakeQuestions}
         filter={filter}
         setFilter={setFilter}
@@ -106,23 +118,11 @@ const App = () => {
         practice={practice}
       />
     ),
-    exam: (
-      <MockExam
-        progress={progress}
-        onResult={(result) =>
-          setProgress((p) => ({ ...p, mockResults: [...p.mockResults, result] }))
-        }
-      />
-    ),
+    exam: <MockExam progress={progress} onResult={actions.mockResult} />,
     guide: (
       <Guide
         progress={progress}
-        onCheck={(id) =>
-          setProgress((p) => ({
-            ...p,
-            checks: p.checks.includes(id) ? p.checks.filter((c) => c !== id) : [...p.checks, id],
-          }))
-        }
+        onCheck={(id) => actions.check(id, !progress.checks.includes(id))}
       />
     ),
     backoffice: <BackofficePage setSession={setSession} />,
@@ -164,8 +164,8 @@ const App = () => {
         >
           {storageError && (
             <Notice as="p" role="status">
-              Browser storage is unavailable. Progress is kept for this visit; use Export progress
-              in preferences to save a copy.
+              Browser storage is unavailable. Progress is saved online for this visit only; use
+              Export progress in preferences to keep a copy.
             </Notice>
           )}
           {pages[page]}
@@ -189,12 +189,13 @@ const App = () => {
           key={session.id}
           lesson={session}
           progress={progress}
-          onClose={() => setSession(null)}
-          onAttempt={saveAttempt}
+          onClose={() => {
+            actions.flushDrafts();
+            setSession(null);
+          }}
+          onAttempt={actions.attempt}
           onComplete={complete}
-          onDraft={(id, text) =>
-            setProgress((p) => ({ ...p, drafts: { ...p.drafts, [id]: text } }))
-          }
+          onDraft={actions.draft}
           onNext={lessonAfterSession && (() => setSession(lessonAfterSession))}
         />
       )}
@@ -202,9 +203,9 @@ const App = () => {
         <Settings
           progress={progress}
           onClose={() => setSettings(false)}
-          onSave={(patch) => setProgress((p) => ({ ...p, ...patch }))}
+          onSave={actions.settings}
           onReset={() => {
-            setProgress(emptyProgress());
+            actions.reset();
             const mockRunCleared = clearMockRun();
 
             setSettings(false);
@@ -219,6 +220,7 @@ const App = () => {
           }}
         />
       )}
+      {problemDialog}
       {toast && (
         <div
           className="fixed bottom-6 inset-x-4 mx-auto w-fit z-100 flex items-center gap-2.5 py-3.5 px-5 rounded-lg bg-green-900 text-sage-50 text-sm shadow-xl shadow-green-950/13"

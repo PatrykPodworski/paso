@@ -83,28 +83,6 @@ export type ReviewState = {
 
 export type VocabularyReview = ReviewState & { reviewedAt?: string };
 
-export interface Progress {
-  version: 1;
-  name: string;
-  goal: number;
-  completed: Record<string, { score: number; total: number; at: string }>;
-  attempts: Attempt[];
-  mistakes: string[];
-  reviewed: string[];
-  mistakeReviews: Record<string, ReviewState>;
-  vocabularyReviews: Record<string, VocabularyReview>;
-  checks: string[];
-  examDate: string;
-  mockResults: {
-    at: string;
-    reading: number;
-    listening: number;
-    writing?: number;
-    speaking?: number;
-  }[];
-  drafts: Record<string, string>;
-}
-
 // A learner's progress as the server stores it (api/progress.ts).
 export interface ProgressSnapshot {
   name: string;
@@ -142,3 +120,6 @@ export interface ProgressSnapshot {
   // Distinct local days with an attempt, newest first, at most 400.
   days: string[];
 }
+
+// A rehearsal result before the server stores it under an id.
+export type NewMockResult = Omit<ProgressSnapshot["mockResults"][number], "id">;

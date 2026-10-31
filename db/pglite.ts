@@ -8,12 +8,12 @@ export const pgliteSession = (pg: PGlite): Session => ({
 });
 
 // An in-memory Postgres with the repo's migrations, for tests and the dev server.
-export const pgliteDb = async (): Promise<Db> => {
+export const pgliteDb = async (migrations?: URL): Promise<Db> => {
   const pg = new PGlite();
 
   // PGlite takes the host's zone; Neon runs in UTC.
   await pg.exec("SET TIME ZONE 'UTC'");
-  await migrate(pgliteSession(pg));
+  await migrate(pgliteSession(pg), migrations);
 
   return {
     transaction: (queries) =>

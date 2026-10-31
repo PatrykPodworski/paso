@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { emptyProgress } from "../../data/progress";
+import { emptySnapshot } from "../../test/progress";
 import { MockIntro } from "./MockIntro";
 
-const mount = (progress = emptyProgress()) =>
+const mount = (progress = emptySnapshot()) =>
   render(<MockIntro progress={progress} onStart={vi.fn()} />);
 
 it("introduces every section and lists previous rehearsals newest first", () => {
   mount({
-    ...emptyProgress(),
+    ...emptySnapshot(),
     mockResults: [
-      { at: "2026-01-05T10:00:00Z", reading: 10, listening: 12 },
-      { at: "2026-02-05T10:00:00Z", reading: 20, listening: 22 },
+      { id: "first", at: "2026-01-05T10:00:00Z", reading: 10, listening: 12 },
+      { id: "second", at: "2026-02-05T10:00:00Z", reading: 20, listening: 22 },
     ],
   });
 

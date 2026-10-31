@@ -5,18 +5,18 @@ import { click, mount, now, seed, setupMockExam, state } from "../../test/mockEx
 
 setupMockExam();
 
-it("reviews listening with transcripts and continues to a 25-minute writing section", () => {
+it("reviews listening with transcripts and continues to a 25-minute writing section", async () => {
   const q = mockSections[1].questions[0];
 
-  seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
-  mount();
+  await seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
+  await mount();
   expect(screen.getByRole("heading", { name: "1 out of 25." })).toBeInTheDocument();
   expect(screen.getAllByText(/^Transcript: /)).toHaveLength(25);
   expect(screen.getAllByText(/^Correct answer:/)).toHaveLength(25);
   expect(screen.getAllByText("Not answered")).toHaveLength(24);
   click("Continue to writing");
 
-  expect(state()).toMatchObject({
+  expect(await state()).toMatchObject({
     section: 2,
     index: 0,
     stage: "run",
@@ -26,10 +26,10 @@ it("reviews listening with transcripts and continues to a 25-minute writing sect
   expect(screen.getByRole("timer")).toHaveTextContent("25:00");
 });
 
-it("reviews writing against model responses, word targets and self-checks", () => {
+it("reviews writing against model responses, word targets and self-checks", async () => {
   const [form, letter] = mockSections[2].questions;
 
-  seed({
+  await seed({
     section: 2,
     stage: "review",
     answers: {
@@ -38,7 +38,7 @@ it("reviews writing against model responses, word targets and self-checks", () =
     },
   });
 
-  mount();
+  await mount();
 
   expect(
     screen.getByRole("heading", { name: "Your practice is ready to review." }),

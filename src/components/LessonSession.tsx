@@ -3,7 +3,7 @@ import { ButtonRow } from "../design-system/ButtonRow";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
-import type { Attempt, Lesson, Progress, Question } from "../data/types";
+import type { Attempt, Lesson, ProgressSnapshot, Question } from "../data/types";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
@@ -19,7 +19,7 @@ const sharesRecording = (q: Question, next: Question | undefined) =>
 
 type Props = {
   lesson: Lesson;
-  progress: Progress;
+  progress: ProgressSnapshot;
   onClose: () => void;
   onAttempt: (attempt: Attempt) => void;
   onComplete: (score: number, total: number) => void;
@@ -41,6 +41,8 @@ export const LessonSession = ({
   const [finished, setFinished] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
   const [assisted, setAssisted] = useState(0);
+  // Each question's answer from before this lesson; answers given now must not replace it.
+  const [before] = useState(() => progress.questions);
   const question = lesson.questions[index];
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
@@ -180,6 +182,7 @@ export const LessonSession = ({
           <QuestionView
             key={question.id}
             q={question}
+            active={!confirmExit}
             onSubmit={submit}
             onEvaluated={(answer, correct, assisted, grade) => {
               const q = lesson.questions[index];
@@ -197,6 +200,7 @@ export const LessonSession = ({
             }}
             draft={keepDraft ? progress.drafts[question.id] || "" : ""}
             onDraft={keepDraft ? (text) => onDraft(question.id, text) : undefined}
+            previous={before[question.id]}
           />
         </div>
       )}

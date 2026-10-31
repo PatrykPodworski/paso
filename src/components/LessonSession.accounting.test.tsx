@@ -7,7 +7,7 @@ import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
 import { formPractice, mockQuestions } from "../data/mock";
-import { emptyProgress } from "../data/progress";
+import { emptySnapshot } from "../test/progress";
 import type { Question } from "../data/types";
 
 // Test session accounting independently of the question widget. The real
@@ -34,7 +34,7 @@ vi.mock("./live-talk/LiveQuestion", () => ({
 
 vi.mock("./audio/playback", () => ({ stopAudio: vi.fn() }));
 
-const mount = (questions: Question[], progress = emptyProgress()) => {
+const mount = (questions: Question[], progress = emptySnapshot()) => {
   const callbacks = { onClose: vi.fn(), onComplete: vi.fn(), onAttempt: vi.fn(), onDraft: vi.fn() };
 
   const view = render(
@@ -120,7 +120,7 @@ it.each(["write", "form", "choice", "type", "speak"] as const)(
         ? formPractice
         : [...allQuestions, ...mockQuestions].find((q) => q.kind === kind)!;
 
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     progress.drafts[q.id] = "Saved learner draft";
     const { onDraft } = mount([q], progress);

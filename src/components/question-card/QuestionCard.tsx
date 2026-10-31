@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
-import { AnswerOptions } from "./AnswerOptions";
+import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
-import { FormFields } from "./FormFields";
 import { playWord } from "../audio/playWord";
 import { stopAudio } from "../audio/playback";
 import type { AudioHandle } from "../audio/useAudioPlayer";
@@ -12,9 +11,8 @@ import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
-import { SentenceBuilder } from "./SentenceBuilder";
 import { isWritingTask, useAnswer } from "./useAnswer";
-import { WritingArea } from "./WritingArea";
+import type { LastAttempt } from "../history/LastTime";
 
 type Props = {
   q: Question;
@@ -23,6 +21,8 @@ type Props = {
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
+  active?: boolean;
+  previous?: LastAttempt;
 };
 
 export const QuestionCard = ({
@@ -32,6 +32,8 @@ export const QuestionCard = ({
   exam = false,
   draft = "",
   onDraft,
+  active = true,
+  previous,
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
@@ -39,7 +41,7 @@ export const QuestionCard = ({
   const [feedback, setFeedback] = useState(false);
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
-  const { answer, setText, selected, productive, value, submission, correct, words, canSubmit } = a;
+  const { setText, selected, productive, value, submission, correct, canSubmit } = a;
 
   const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
@@ -91,6 +93,10 @@ export const QuestionCard = ({
   // Number keys answer the question, mirroring the badges on each button.
   // ponytail: re-subscribed every render so the handler reads current state.
   useEffect(() => {
+    if (!active) {
+      return;
+    }
+
     const handle = (e: KeyboardEvent) => {
       const typing = document.activeElement?.closest("input, textarea");
 
@@ -128,6 +134,7 @@ export const QuestionCard = ({
         productive={productive}
         listeningAudio={listeningAudio}
         answerAudio={answerAudio}
+        previous={previous}
       />
       <QuestionMaterials
         q={q}
@@ -135,47 +142,17 @@ export const QuestionCard = ({
         passageAudio={passageAudio}
         onTranscript={() => setAssisted(true)}
       />
-      {q.options && (
-        <AnswerOptions
-          options={q.options}
-          correctAnswer={q.answer}
-          answer={answer}
-          feedback={feedback}
-          correct={correct}
-          onChoose={(option) => {
-            setText(option);
-            submit(option);
-          }}
-        />
-      )}
-      {q.kind === "order" && (
-        <SentenceBuilder
-          tokens={q.tokens || []}
-          selected={selected}
-          feedback={feedback}
-          onRemove={(pos) => a.setSelected((v) => v.filter((_, i) => i !== pos))}
-          onPick={pickToken}
-        />
-      )}
-      {["type", "write"].includes(q.kind) && (
-        <WritingArea
-          q={q}
-          answer={answer}
-          feedback={feedback}
-          words={words}
-          setText={setText}
-          submit={() => submit()}
-        />
-      )}
-      {q.kind === "form" && (
-        <FormFields
-          q={q}
-          fieldValues={a.fieldValues}
-          feedback={feedback}
-          words={words}
-          onFieldChange={a.setField}
-        />
-      )}
+      <AnswerInput
+        q={q}
+        feedback={feedback}
+        answer={a}
+        onChoose={(option) => {
+          setText(option);
+          submit(option);
+        }}
+        onPick={pickToken}
+        onCheck={() => submit()}
+      />
       <PracticeChecks
         q={q}
         exam={exam}

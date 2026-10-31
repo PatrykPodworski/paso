@@ -1,6 +1,7 @@
 import type { Question } from "../../data/types";
 import { PRESSABLE } from "../../design-system/pressable";
 import { FIELD } from "../../design-system/field";
+import { MAX_TEXT } from "../../data/progress";
 
 type Props = {
   q: Question;
@@ -22,6 +23,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         id="written-answer"
         lang="es"
         value={answer}
+        maxLength={MAX_TEXT}
         onChange={(e) => setText(e.target.value)}
         disabled={feedback}
         placeholder="Hola…"
@@ -33,10 +35,12 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         id="written-answer"
         lang="es"
         value={answer}
+        maxLength={MAX_TEXT}
         onChange={(e) => setText(e.target.value)}
         disabled={feedback}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
+            e.preventDefault();
             submit();
           }
         }}

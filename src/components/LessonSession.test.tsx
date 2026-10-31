@@ -4,8 +4,8 @@ import { LessonSession } from "./LessonSession";
 import { stopAudio } from "./audio/playback";
 import { audioSources } from "../data/audio-sources";
 import { allQuestions } from "../data/curriculum";
-import { emptyProgress } from "../data/progress";
-import type { Question } from "../data/types";
+import { emptySnapshot, questionState } from "../test/progress";
+import type { ProgressSnapshot, Question } from "../data/types";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -40,7 +40,7 @@ it("records objective, assisted and creative answers without conflating their sc
         icon: "book",
         questions: qs,
       }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={close}
       onComplete={done}
       onAttempt={attempt}
@@ -94,7 +94,7 @@ it("closes an untouched lesson immediately", () => {
         icon: "book",
         questions: [type],
       }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={close}
       onComplete={vi.fn()}
       onAttempt={vi.fn()}
@@ -109,7 +109,7 @@ it("closes an untouched lesson immediately", () => {
 it.each([allQuestions[0], allQuestions.find((q) => q.id === "u1-o1")!])(
   "starts a fresh objective attempt without its previous answer: $id",
   (q) => {
-    const progress = emptyProgress();
+    const progress = emptySnapshot();
 
     progress.drafts[q.id] = q.answer;
     const saveDraft = vi.fn();
@@ -154,7 +154,7 @@ it("keeps an in-progress answer when cancelling the leave dialog", () => {
   render(
     <LessonSession
       lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={vi.fn()}
       onAttempt={vi.fn()}
       onComplete={vi.fn()}
@@ -172,7 +172,7 @@ it("keeps an in-progress answer when cancelling the leave dialog", () => {
 
 it("still restores longer writing drafts in a new practice session", () => {
   const q = allQuestions.find((q) => q.id === "u1-o2")!;
-  const progress = emptyProgress();
+  const progress = emptySnapshot();
 
   progress.drafts[q.id] = "Hola, me llamo Julia.";
 
@@ -197,6 +197,37 @@ it("still restores longer writing drafts in a new practice session", () => {
   expect(screen.getByRole("textbox")).toHaveValue(progress.drafts[q.id]);
 });
 
+it("ignores answer shortcuts while the leave confirmation is open", () => {
+  const choices = allQuestions.filter((q) => q.options);
+  const questions: Question[] = [choices[0], choices[1]];
+  const attempt = vi.fn();
+
+  render(
+    <LessonSession
+      lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions }}
+      progress={emptySnapshot()}
+      onClose={vi.fn()}
+      onAttempt={attempt}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: questions[0].answer }));
+  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  fireEvent.click(screen.getByRole("button", { name: "Close lesson" }));
+  fireEvent.keyDown(window, { key: "2" });
+  expect(attempt).toHaveBeenCalledOnce();
+  fireEvent.click(screen.getByRole("button", { name: "Keep learning" }));
+  fireEvent.keyDown(window, { key: "2" });
+  expect(attempt).toHaveBeenCalledTimes(2);
+
+  expect(attempt.mock.calls[1][0]).toMatchObject({
+    questionId: questions[1].id,
+    answer: questions[1].options![1],
+  });
+});
+
 const finishOneQuestionLesson = (onNext?: () => void) => {
   const close = vi.fn();
   const q = allQuestions[0];
@@ -204,7 +235,7 @@ const finishOneQuestionLesson = (onNext?: () => void) => {
   render(
     <LessonSession
       lesson={{ id: "test", title: "Test", subtitle: "", icon: "book", minutes: 2, questions: [q] }}
-      progress={emptyProgress()}
+      progress={emptySnapshot()}
       onClose={close}
       onAttempt={vi.fn()}
       onComplete={vi.fn()}
@@ -265,7 +296,7 @@ describe("a recording shared by consecutive listening questions", () => {
           icon: "book",
           questions,
         }}
-        progress={emptyProgress()}
+        progress={emptySnapshot()}
         onClose={vi.fn()}
         onComplete={vi.fn()}
         onAttempt={vi.fn()}
@@ -313,4 +344,47 @@ describe("a recording shared by consecutive listening questions", () => {
     expect(plays()).toHaveBeenCalledTimes(2);
     expect(plays().mock.contexts[1]).toBe(plays().mock.contexts[0]);
   });
+});
+
+it("shows how a question went last time, as it stood when the lesson opened", () => {
+  const [seen, fresh] = allQuestions.filter((q) => q.options);
+  const at = "2026-09-01T08:00:00.000Z";
+  const before = emptySnapshot();
+
+  before.questions[seen.id] = questionState({ correct: false, at });
+
+  const lesson = (progress: ProgressSnapshot) => (
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [seen, fresh],
+      }}
+      progress={progress}
+      onClose={vi.fn()}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />
+  );
+
+  const { rerender } = render(lesson(before));
+  const lastTime = `Last time: Wrong · ${new Date(at).toLocaleDateString()}`;
+
+  expect(screen.getByText(/^Last time:/)).toHaveTextContent(lastTime);
+  click(seen.answer);
+
+  rerender(
+    lesson({
+      ...before,
+      questions: { [seen.id]: questionState({ correct: true, at: new Date().toISOString() }) },
+    }),
+  );
+
+  expect(screen.getByText(/^Last time:/)).toHaveTextContent(lastTime);
+  click("Continue");
+  expect(screen.queryByText(/^Last time:/)).not.toBeInTheDocument();
 });

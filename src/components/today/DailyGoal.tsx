@@ -75,7 +75,11 @@ export const DailyGoal = ({ progress, openSettings }: Props) => {
           const practised = progress.days.includes(localDate(d));
 
           // The snapshot holds only the latest answer per question, so a count is exact for today alone.
-          const summary = isToday ? `${today} exercises` : practised ? "practised" : "no practice";
+          const summary = isToday
+            ? `${today} ${today === 1 ? "exercise" : "exercises"}`
+            : practised
+              ? "practised"
+              : "no practice";
 
           return (
             <li key={i} className="flex flex-col items-center gap-2">

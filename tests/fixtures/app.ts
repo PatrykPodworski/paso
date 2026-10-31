@@ -156,7 +156,7 @@ export const resumeMockExam = async (
     drafts: {},
   };
 
-  await page.addInitScript((run) => localStorage.setItem("paso-mock-v1", JSON.stringify(run)), run);
+  await seedProgress(page, { mockRun: run });
 
   await page.goto("/#exam");
 };
@@ -177,7 +177,7 @@ export const saved = async (page: Page): Promise<ProgressSnapshot> => {
 
 // Stores a seed on the dev server for a new learner, and makes every page load of this
 // test use that learner. The base app in the visual compare may still read progress from
-// paso-progress-v1, so the seed is kept there too.
+// paso-progress-v1 and its mock run from paso-mock-v1, so the seed is kept there too.
 export const seedProgress = async (page: Page, seed: Partial<ProgressSeed>) => {
   const learner = crypto.randomUUID();
   const timeZone = await page.evaluate(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -192,9 +192,13 @@ export const seedProgress = async (page: Page, seed: Partial<ProgressSeed>) => {
   }
 
   await page.addInitScript(
-    ({ learner, seed }) => {
+    ({ learner, seed: { mockRun, ...progress } }) => {
       localStorage.setItem("paso-learner-v1", learner);
-      localStorage.setItem("paso-progress-v1", JSON.stringify(seed));
+      localStorage.setItem("paso-progress-v1", JSON.stringify(progress));
+
+      if (mockRun) {
+        localStorage.setItem("paso-mock-v1", JSON.stringify(mockRun));
+      }
     },
     { learner, seed },
   );

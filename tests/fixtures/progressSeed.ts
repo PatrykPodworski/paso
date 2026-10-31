@@ -1,4 +1,10 @@
-import type { Attempt, NewMockResult, ReviewState, VocabularyReview } from "../../src/data/types";
+import type {
+  Attempt,
+  MockRunPatch,
+  NewMockResult,
+  ReviewState,
+  VocabularyReview,
+} from "../../src/data/types";
 
 // Progress a test starts from. It has the shape the app kept in paso-progress-v1 before
 // progress moved to the server, because the visual compare drives the base commit's app,
@@ -22,7 +28,8 @@ export const progressSeed = () => ({
   drafts: {} as Record<string, string>,
 });
 
-export type ProgressSeed = ReturnType<typeof progressSeed>;
+// The mock exam run is no part of paso-progress-v1; a seed may add one.
+export type ProgressSeed = ReturnType<typeof progressSeed> & { mockRun?: MockRunPatch | null };
 
 const settingsWrites = ({ name, goal, examDate }: ProgressSeed) =>
   name || goal !== 10 || examDate ? [{ action: "settings", name, goal, examDate }] : [];
@@ -52,5 +59,6 @@ export const seedWrites = (partial: Partial<ProgressSeed>, timeZone: string) => 
       questionId,
       text,
     })),
+    ...(seed.mockRun ? [{ action: "mockRun", run: seed.mockRun, replace: true }] : []),
   ];
 };

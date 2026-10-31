@@ -13,6 +13,7 @@ export const emptySnapshot = (): ProgressSnapshot => ({
   drafts: {},
   recent: [],
   days: [],
+  mockRun: null,
 });
 
 type QuestionState = ProgressSnapshot["questions"][string];

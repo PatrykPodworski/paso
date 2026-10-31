@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
-import type { Attempt, Lesson } from "./data/types";
+import type { Attempt, Lesson, MockRunPatch } from "./data/types";
 import { type ProgressSeed, progressSeed } from "../tests/fixtures/progressSeed";
 import { emptySnapshot } from "./test/progress";
 import { savedProgress as saved, seedProgress, settle, setupProgressApi } from "./test/progressApi";
@@ -32,7 +32,17 @@ vi.mock("./components/LessonSession", () => ({
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 
-const mount = async (hash = "today", p?: ProgressSeed) => {
+const keptRun: MockRunPatch = {
+  section: 0,
+  index: 0,
+  stage: "run",
+  answers: {},
+  deadline: Date.parse("2999-01-01T00:00:00Z"),
+  started: "2026-09-09T08:00:00Z",
+  drafts: {},
+};
+
+const mount = async (hash = "today", p?: Partial<ProgressSeed>) => {
   if (p) {
     await seedProgress(p);
   }
@@ -99,22 +109,19 @@ describe("app business orchestration", () => {
     const now = new Date("2026-09-09T12:00:00Z");
 
     vi.setSystemTime(now);
-    const p = progressSeed();
+    const p: ProgressSeed = progressSeed();
 
     p.mockResults = [{ at: "2026-09-08T12:00:00Z", reading: 10, listening: 12 }];
 
-    localStorage.setItem(
-      "paso-mock-v1",
-      JSON.stringify({
-        section: 3,
-        index: 0,
-        stage: "review",
-        answers: {},
-        drafts: {},
-        deadline: 0,
-        started: now.toISOString(),
-      }),
-    );
+    p.mockRun = {
+      section: 3,
+      index: 0,
+      stage: "review",
+      answers: {},
+      drafts: {},
+      deadline: 0,
+      started: now.toISOString(),
+    };
 
     await mount("exam", p);
     click("See my results");
@@ -278,7 +285,7 @@ describe("app business orchestration", () => {
   });
 
   it("saves trimmed preferences and resets only after confirmation", async () => {
-    await mount();
+    await mount("today", { mockRun: keptRun });
     click("Open your learning preferences");
 
     fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
@@ -298,34 +305,29 @@ describe("app business orchestration", () => {
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Cancel");
-    expect((await saved()).name).toBe("Ana");
-    localStorage.setItem("paso-mock-v1", "saved mock");
+    expect(await saved()).toMatchObject({ name: "Ana", mockRun: { stage: "run" } });
     click("Reset my progress");
     click("Clear my practice data");
     await settle();
     expect(await saved()).toEqual(emptySnapshot());
-    expect(localStorage.getItem("paso-mock-v1")).toBeNull();
   });
 
-  it("finishes a reset when browser storage refuses to clear the mock run", async () => {
-    await mount();
-
-    vi.spyOn(localStorage, "removeItem").mockImplementation(() => {
-      throw new Error("blocked");
-    });
-
+  it("opens the exam overview after a reset made during a rehearsal", async () => {
+    await mount("exam", { mockRun: keptRun });
+    expect(screen.getByRole("timer")).toBeInTheDocument();
     click("Open your learning preferences");
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Clear my practice data");
     await settle();
-    expect(await saved()).toEqual(emptySnapshot());
 
-    expect(screen.getByRole("status")).toHaveTextContent(
-      "Your progress was reset, but this browser kept your saved mock exam.",
-    );
+    act(() => {
+      window.location.hash = "exam";
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
 
-    expect(screen.queryByText(/A fresh start/)).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Start exam rehearsal" })).toBeInTheDocument();
+    expect((await saved()).mockRun).toBeNull();
   });
 
   it("says when browser storage is unavailable and keeps saving online", async () => {

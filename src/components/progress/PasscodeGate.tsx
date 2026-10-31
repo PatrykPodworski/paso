@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button } from "../../design-system/Button";
 import { Dialog } from "../../design-system/Dialog";
 import { FieldNote } from "../../design-system/FieldNote";
-import { FIELD } from "../../design-system/field";
 import { Notice } from "../../design-system/Notice";
+import { Input } from "../ui/input";
 import type { Problem } from "./progressClient";
 
 type PasscodeProblem = Extract<Problem, "passcode" | "wrongPasscode" | "passcodeTries">;
@@ -40,10 +40,9 @@ export const PasscodeGate = ({ problem, onUnlock }: Props) => {
         </FieldNote>
         <label className="flex flex-col gap-1.5 text-sm">
           Passcode
-          <input
+          <Input
             type="password"
             autoComplete="off"
-            className={FIELD}
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
           />

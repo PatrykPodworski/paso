@@ -25,6 +25,13 @@ import { useToast } from "./components/shell/useToast";
 import { Notice } from "./design-system/Notice";
 import { PRESSABLE } from "./design-system/pressable";
 
+// The next lesson on the path, or undefined after the last one or a practice session.
+const lessonAfter = (lesson: Lesson | null) => {
+  const index = allLessons.findIndex((l) => l.id === lesson?.id);
+
+  return index === -1 ? undefined : allLessons[index + 1];
+};
+
 const App = () => {
   const { snapshot: progress, problem, storageError, actions } = useProgress();
   const { page, setPage, navigate, mobileNav, setMobileNav } = useNavigation();
@@ -51,8 +58,7 @@ const App = () => {
   const completed = Object.keys(progress.completed).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const mistakeQuestions = mistakeQueue(progress, new Date());
-  const sessionIndex = session ? allLessons.findIndex((l) => l.id === session.id) : -1;
-  const lessonAfterSession = sessionIndex === -1 ? undefined : allLessons[sessionIndex + 1];
+  const lessonAfterSession = lessonAfter(session);
 
   const practice = (skill: Skill | "all" | "mistakes") => {
     const lesson = practiceLesson(skill, progress, mistakeQuestions);

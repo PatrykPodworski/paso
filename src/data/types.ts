@@ -83,28 +83,6 @@ export type ReviewState = {
 
 export type VocabularyReview = ReviewState & { reviewedAt?: string };
 
-export interface Progress {
-  version: 1;
-  name: string;
-  goal: number;
-  completed: Record<string, { score: number; total: number; at: string }>;
-  attempts: Attempt[];
-  mistakes: string[];
-  reviewed: string[];
-  mistakeReviews: Record<string, ReviewState>;
-  vocabularyReviews: Record<string, VocabularyReview>;
-  checks: string[];
-  examDate: string;
-  mockResults: {
-    at: string;
-    reading: number;
-    listening: number;
-    writing?: number;
-    speaking?: number;
-  }[];
-  drafts: Record<string, string>;
-}
-
 // A learner's progress as the server stores it (api/progress.ts).
 export interface ProgressSnapshot {
   name: string;
@@ -141,4 +119,26 @@ export interface ProgressSnapshot {
   recent: Attempt[];
   // Distinct local days with an attempt, newest first, at most 400.
   days: string[];
+  mockRun: MockRun | null;
 }
+
+export type MockStage = "intro" | "run" | "review" | "prep" | "done";
+
+// The mock exam in progress. `deadline` is in epoch milliseconds, 0 when no timer runs.
+export interface MockRun {
+  section: number;
+  index: number;
+  stage: MockStage;
+  answers: Record<string, string>;
+  deadline: number;
+  started: string;
+  drafts: Record<string, string>;
+  // The writing and speaking scores as typed into the score calculator.
+  scores: { writing?: string; speaking?: string };
+}
+
+// A change to the mock run: top-level fields replace, answers, drafts and scores merge per key.
+export type MockRunPatch = Partial<MockRun>;
+
+// A rehearsal result before the server stores it under an id.
+export type NewMockResult = Omit<ProgressSnapshot["mockResults"][number], "id">;

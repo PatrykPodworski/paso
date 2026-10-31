@@ -3,7 +3,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import { Badge } from "../design-system/Badge";
 import { SectionHeading } from "../design-system/SectionHeading";
 import { PageHeading } from "../design-system/PageHeading";
-import type { Progress } from "../data/types";
+import type { ProgressSnapshot } from "../data/types";
 import { requirementGroups, sources } from "../data/research";
 import { Icon } from "../design-system/Icon";
 import { PassingRule } from "./PassingRule";
@@ -70,7 +70,7 @@ const STEPS: [string, ReactNode][] = [
 ];
 
 type Props = {
-  progress: Progress;
+  progress: ProgressSnapshot;
   onCheck: (id: string) => void;
 };
 

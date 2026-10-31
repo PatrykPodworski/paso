@@ -3,9 +3,16 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import App from "../App";
 import { audioSources } from "../data/audio-sources";
 import { vocabulary } from "../data/curriculum";
-import { emptyProgress, STORAGE_KEY, vocabularyReview } from "../data/progress";
+import { vocabularyReview } from "../data/progress";
 import { deckCards, topics } from "../data/topics";
-import type { Progress } from "../data/types";
+import { emptySnapshot } from "../test/progress";
+import {
+  savedProgress as saved,
+  seedProgress,
+  settle,
+  setupProgressApi,
+} from "../test/progressApi";
+import { type ProgressSeed, progressSeed } from "../../tests/fixtures/progressSeed";
 import { PocketVocabulary } from "./PocketVocabulary";
 
 // One split-sense card without an example, for the no-sentence case.
@@ -21,7 +28,6 @@ const now = "2026-09-09T12:00:00.000Z";
 const tomorrow = "2026-09-10T12:00:00.000Z";
 const words = vocabulary.filter((w) => w.unit === 1);
 const click = (name: string | RegExp) => fireEvent.click(screen.getByRole("button", { name }));
-const saved = (): Progress => JSON.parse(localStorage.getItem(STORAGE_KEY)!);
 
 const count = (label: string, value: number) => {
   expect(
@@ -38,7 +44,7 @@ const flashcard = (es: string) =>
   flashcards().find((row) => within(row).queryByText(es, { exact: true }))!;
 
 const progressWithDue = (due = words.length) => {
-  const p = emptyProgress();
+  const p = emptySnapshot();
 
   p.completed["u1-words"] = { score: 8, total: 8, at: "2026-09-08T12:00:00Z" };
 
@@ -54,12 +60,21 @@ const topicRow = (topic: string) =>
     .getAllByRole("listitem")
     .find((row) => within(row).queryByText(topic, { exact: true }))!;
 
-const mount = (p = progressWithDue()) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
-  window.location.hash = "#practice";
+// Without a seed the app loads what the server already has for this learner.
+const mount = async (p: Partial<ProgressSeed> | null = progressWithDue()) => {
+  if (p) {
+    await seedProgress(p);
+  }
 
-  return render(<App />);
+  window.location.hash = "#practice";
+  const view = render(<App />);
+
+  await settle();
+
+  return view;
 };
+
+setupProgressApi();
 
 let playing: string[] = [];
 const clip = (text: string) => new URL(audioSources(text)[0], window.location.href).href;
@@ -89,8 +104,8 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-it("includes every unlocked word and never grades revealing or leaving a card", () => {
-  mount();
+it("includes every unlocked word and never grades revealing or leaving a card", async () => {
+  await mount();
   count("To review", words.length);
   count("Total flashcards", words.length);
   count("Reviewed today", 0);
@@ -105,23 +120,24 @@ it("includes every unlocked word and never grades revealing or leaving a card", 
   click("Reveal answer");
   expect(within(dialog).getByText(words[0].en, { exact: true })).toBeInTheDocument();
   expect(within(dialog).getByText(words[0].memoryHint)).toBeInTheDocument();
-  expect(saved().vocabularyReviews).toEqual({});
+  expect((await saved()).vocabularyReviews).toEqual({});
   click("Close vocabulary review");
   count("To review", words.length);
   count("Reviewed today", 0);
 });
 
-it("persists explicit right and wrong ratings with next dates and resumes only due cards", () => {
+it("persists explicit right and wrong ratings with next dates and resumes only due cards", async () => {
   const p = progressWithDue(2);
 
   p.vocabularyReviews[words[0].es] = { level: 2, nextAt: "2026-09-08T12:00:00Z" };
   p.vocabularyReviews[words[1].es] = { level: 4, nextAt: "2026-09-08T13:00:00Z" };
-  mount(p);
+  await mount(p);
   click("Review flashcards");
   click("Reveal answer");
   click(/Got it right/);
+  await settle();
 
-  expect(saved().vocabularyReviews[words[0].es]).toEqual({
+  expect((await saved()).vocabularyReviews[words[0].es]).toEqual({
     level: 3,
     reviewedAt: now,
     nextAt: "2026-09-16T12:00:00.000Z",
@@ -142,8 +158,9 @@ it("persists explicit right and wrong ratings with next dates and resumes only d
 
   click("Reveal answer");
   click(/Got it wrong/);
+  await settle();
 
-  expect(saved().vocabularyReviews[words[1].es]).toEqual({
+  expect((await saved()).vocabularyReviews[words[1].es]).toEqual({
     level: 0,
     reviewedAt: now,
     nextAt: "2026-09-09T12:10:00.000Z",
@@ -153,10 +170,8 @@ it("persists explicit right and wrong ratings with next dates and resumes only d
   click("Close vocabulary review");
   count("Reviewed today", 2);
   count("To review", 0);
-  const persisted = saved();
-
   cleanup();
-  mount(persisted);
+  await mount(null);
   expect(screen.getByRole("button", { name: "Review flashcards" })).toBeDisabled();
   count("Scheduled", words.length);
 
@@ -172,10 +187,10 @@ it("persists explicit right and wrong ratings with next dates and resumes only d
   ).toBeInTheDocument();
 });
 
-it("reviews all due cards once, finishes with a summary, and counts unique cards reviewed today", () => {
+it("reviews all due cards once, finishes with a summary, and counts unique cards reviewed today", async () => {
   const due = 3;
 
-  mount(progressWithDue(due));
+  await mount(progressWithDue(due));
   click("Review flashcards");
 
   for (let index = 0; index < due; index++) {
@@ -184,6 +199,7 @@ it("reviews all due cards once, finishes with a summary, and counts unique cards
     expect(within(dialog).getByRole("heading", { name: words[index].es })).toBeInTheDocument();
     click("Reveal answer");
     click(index === 0 ? /Got it wrong/ : /Got it right/);
+    await settle();
   }
 
   expect(screen.getByRole("heading", { name: "Your review is complete." })).toBeInTheDocument();
@@ -199,33 +215,36 @@ it("reviews all due cards once, finishes with a summary, and counts unique cards
   click("Review flashcards");
   click("Reveal answer");
   click(/Got it right/);
+  await settle();
   click("Close vocabulary review");
   count("Reviewed today", due);
-  expect(saved().vocabularyReviews[words[0].es].level).toBe(1);
+  expect((await saved()).vocabularyReviews[words[0].es].level).toBe(1);
 });
 
-it("reviews due cards in the order they became due", () => {
+it("reviews due cards in the order they became due", async () => {
   const p = progressWithDue(2);
 
   p.vocabularyReviews[words[0].es] = { level: 1, nextAt: "2026-09-09T11:00:00Z" };
   p.vocabularyReviews[words[1].es] = { level: 1, nextAt: "2026-09-08T12:00:00Z" };
-  mount(p);
+  await mount(p);
   click("Review flashcards");
   const dialog = screen.getByRole("dialog");
 
   expect(within(dialog).getByRole("heading", { name: words[1].es })).toBeInTheDocument();
   click("Reveal answer");
   click(/Got it right/);
+  await settle();
   expect(within(dialog).getByRole("heading", { name: words[0].es })).toBeInTheDocument();
 });
 
-it("summarises a session as remembered and to revisit", () => {
-  mount(progressWithDue(3));
+it("summarises a session as remembered and to revisit", async () => {
+  await mount(progressWithDue(3));
   click("Review flashcards");
 
   for (const rating of [/Got it wrong/, /Got it right/, /Got it right/]) {
     click("Reveal answer");
     click(rating);
+    await settle();
   }
 
   count("reviewed", 3);
@@ -263,11 +282,11 @@ it("saves one rating per card when a rating button is clicked twice in one tick"
   ).toBeInTheDocument();
 });
 
-it("updates today's count and availability when returning to the tab on another day", () => {
+it("updates today's count and availability when returning to the tab on another day", async () => {
   const p = progressWithDue(0);
 
   p.vocabularyReviews[words[0].es].reviewedAt = now;
-  mount(p);
+  await mount(p);
   count("Reviewed today", 1);
   vi.setSystemTime(new Date(tomorrow));
 
@@ -279,8 +298,8 @@ it("updates today's count and availability when returning to the tab on another 
   count("To review", words.length);
 });
 
-it("labels a completed unit's words with their topic", () => {
-  mount();
+it("labels a completed unit's words with their topic", async () => {
+  await mount();
   const card = deckCards(progressWithDue()).find((c) => c.id === words[0].es)!;
   const row = flashcard(words[0].es);
 
@@ -294,22 +313,22 @@ it("labels a completed unit's words with their topic", () => {
   ).toBeInTheDocument();
 });
 
-it("counts added words with no review yet as new", () => {
+it("counts added words with no review yet as new", async () => {
   const p = progressWithDue(0);
 
   p.vocabularyReviews["el mono (monkey)"] = { level: 0, nextAt: now };
-  mount(p);
+  await mount(p);
   count("To review", 1);
   expect(screen.getByText(/1 card is ready, including 1 new/)).toBeInTheDocument();
 });
 
-it("does not count a due card that was reviewed before as new", () => {
+it("does not count a due card that was reviewed before as new", async () => {
   const p = progressWithDue(2);
   const missedAt = "2026-09-08T12:00:00.000Z";
   const dueAt = "2026-09-08T12:10:00.000Z";
 
   p.vocabularyReviews[words[2].es] = { level: 0, reviewedAt: missedAt, nextAt: dueAt };
-  mount(p);
+  await mount(p);
   expect(screen.getByText(/3 cards are ready, including 2 new/)).toBeInTheDocument();
   const missed = flashcard(words[2].es);
 
@@ -319,26 +338,27 @@ it("does not count a due card that was reviewed before as new", () => {
   expect(flashcard(words[0].es)).toHaveTextContent("New · ready now");
 });
 
-it("saves a split-sense card's rating under its own id", () => {
+it("saves a split-sense card's rating under its own id", async () => {
   const p = progressWithDue(0);
 
   p.vocabularyReviews["el mono (monkey)"] = { level: 0, nextAt: now };
-  mount(p);
+  await mount(p);
   click("Review flashcards");
   click("Reveal answer");
   click(/Got it right/);
+  await settle();
 
-  expect(saved().vocabularyReviews["el mono (monkey)"]).toEqual({
+  expect((await saved()).vocabularyReviews["el mono (monkey)"]).toEqual({
     level: 1,
     reviewedAt: now,
     nextAt: tomorrow,
   });
 
-  expect(saved().vocabularyReviews["el mono"]).toBeUndefined();
+  expect((await saved()).vocabularyReviews["el mono"]).toBeUndefined();
 });
 
-it("lists every topic in file order, even with an empty deck", () => {
-  mount(emptyProgress());
+it("lists every topic in file order, even with an empty deck", async () => {
+  await mount(progressSeed());
   const rows = within(screen.getByRole("region", { name: "Topics" })).getAllByRole("listitem");
 
   expect(rows).toHaveLength(51);
@@ -354,15 +374,16 @@ it("lists every topic in file order, even with an empty deck", () => {
   ).toBeInTheDocument();
 });
 
-it("adds five words from a topic to the deck as new cards", () => {
-  mount(progressWithDue(2));
+it("adds five words from a topic to the deck as new cards", async () => {
+  await mount(progressWithDue(2));
   const row = topicRow("Weather");
 
   expect(row).toHaveTextContent("0 learning");
   fireEvent.click(within(row).getByRole("button", { name: "Add 5 words" }));
+  await settle();
   count("To review", 2 + 5);
   expect(row).toHaveTextContent("5 learning");
-  expect(Object.keys(saved().vocabularyReviews)).toHaveLength(words.length - 2 + 5);
+  expect(Object.keys((await saved()).vocabularyReviews)).toHaveLength(words.length - 2 + 5);
   const added = topics.find((t) => t.topic === "Weather")!.cards[0];
   const card = flashcard(added.es);
 
@@ -370,24 +391,25 @@ it("adds five words from a topic to the deck as new cards", () => {
   expect(within(card).queryByRole("time")).toBeNull();
 });
 
-it("adds only the words a topic has left, then shows it as all added", () => {
-  const p = emptyProgress();
+it("adds only the words a topic has left, then shows it as all added", async () => {
+  const p = progressSeed();
   const [first] = topics.find((t) => t.topic === "Appearance (adjectives)")!.cards;
 
   p.vocabularyReviews[first.id] = { level: 1, nextAt: tomorrow };
-  mount(p);
+  await mount(p);
   const row = topicRow("Appearance (adjectives)");
   const add = within(row).getByRole("button", { name: "Add 1 word" });
 
   add.focus();
   fireEvent.click(add);
+  await settle();
   expect(within(row).getByRole("button", { name: "All added" })).toBeDisabled();
   expect(row).toHaveFocus();
   expect(row).toHaveTextContent("0 new");
 });
 
-it("counts a completed unit's words as learning in their topic", () => {
-  mount();
+it("counts a completed unit's words as learning in their topic", async () => {
+  await mount();
   const { topic, cards } = topics.find((t) => t.cards.some((c) => c.id === words[0].es))!;
   const unitWords = cards.filter((c) => c.unit === 1).length;
 
@@ -400,14 +422,14 @@ it("counts a completed unit's words as learning in their topic", () => {
   expect(row).toHaveTextContent("0 known");
 });
 
-it("marks optional topics", () => {
-  mount(emptyProgress());
+it("marks optional topics", async () => {
+  await mount(progressSeed());
   expect(within(topicRow("Art")).getByText("Optional")).toBeInTheDocument();
   expect(within(topicRow("Family")).queryByText("Optional")).not.toBeInTheDocument();
 });
 
 it("shows and plays the example sentence only after reveal, and stops it on rating", async () => {
-  mount();
+  await mount();
   const card = deckCards(progressWithDue()).find((c) => c.id === words[0].es)!;
   const example = card.example!;
 
@@ -424,15 +446,16 @@ it("shows and plays the example sentence only after reveal, and stops it on rati
   expect(within(dialog).getByText(example.en)).toHaveAttribute("lang", "en");
   expect(playing).toEqual([clip(example.es)]);
   click(/Got it right/);
+  await settle();
   await act(async () => {});
   expect(playing).not.toContain(clip(example.es));
 });
 
-it("shows no sentence block for a card without an example", () => {
+it("shows no sentence block for a card without an example", async () => {
   const p = progressWithDue(0);
 
   p.vocabularyReviews["el mono (monkey)"] = { level: 0, nextAt: now };
-  mount(p);
+  await mount(p);
   click("Review flashcards");
   click("Reveal answer");
   expect(screen.queryByRole("button", { name: "Play example sentence" })).toBeNull();
@@ -453,7 +476,7 @@ it("spaces successful recall over 1, 3, 7, 14 and 30 days, caps the interval and
 });
 
 it("searches unlocked vocabulary in either language and clears an empty result", () => {
-  const p = emptyProgress();
+  const p = emptySnapshot();
   const onReview = vi.fn();
   const onAddWords = vi.fn();
 

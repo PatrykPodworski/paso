@@ -47,11 +47,17 @@ apps update to the new release tag. An update overwrites local edits.
 
 ## Typography
 
-- One font family: Inter (`font-sans`, installed by the theme). Headings use
-  `font-heading`, which is Inter as well.
+- Two fonts, both installed by the theme:
+  - Inter (`font-sans`) is the default for everything: body text, labels, controls and
+    headings (`font-heading` is Inter as well).
+  - Cutive (`font-serif`) is for display text only: a page title, a hero line, a large
+    number or quote. Use it at `text-2xl` and larger, never for body text, labels,
+    buttons or form controls.
+- Cutive has one weight (400). Do not combine `font-serif` with `font-medium`,
+  `font-semibold` or `font-bold`: the browser would fake a bold.
 - Use Tailwind's type scale (`text-xs` … `text-4xl`). Body text is `text-sm` or
   `text-base`.
-- Weights: 400 for body, 500 for labels and controls, 600 for headings.
+- Inter weights: 400 for body, 500 for labels and controls, 600 for headings.
 - Sentence case for headings, buttons and labels.
 
 ## Spacing and layout

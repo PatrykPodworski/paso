@@ -1,14 +1,17 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
 it("saves an answer, permits previous/skip navigation and hides corrections until review", async () => {
   await seed();
   await mount();
-  const first = mockSections[0].questions[0];
+  const first = sections[0].questions[0];
 
   click(first.answer);
   expect((await state()).answers[first.id]).toBe(first.answer);
@@ -33,7 +36,7 @@ it("saves an answer, permits previous/skip navigation and hides corrections unti
 it.each([0, 1])(
   "last-question save or skip opens confirmation without going out of bounds: %s",
   async (mode) => {
-    const questions = mockSections[0].questions;
+    const questions = sections[0].questions;
 
     await seed({ index: questions.length - 1 });
     await mount();
@@ -52,7 +55,7 @@ it.each([0, 1])(
 it("saves form drafts as JSON and submits labelled content without model grading", async () => {
   await seed({ section: 2, deadline: now + 25 * 60000 });
   await mount();
-  const q = mockSections[2].questions[0];
+  const q = sections[2].questions[0];
 
   for (const f of q.fields!) {
     fireEvent.change(screen.getByRole("textbox", { name: f.label }), {
@@ -72,7 +75,7 @@ it("saves form drafts as JSON and submits labelled content without model grading
 });
 
 it("keeps a cleared writing draft empty when revisiting an already submitted response", async () => {
-  const q = mockSections[2].questions[1];
+  const q = sections[2].questions[1];
 
   await seed({ section: 2, index: 1, answers: { [q.id]: "Old answer" }, drafts: { [q.id]: "" } });
   await mount();
@@ -80,7 +83,7 @@ it("keeps a cleared writing draft empty when revisiting an already submitted res
 });
 
 it("shows the task and position within the section", async () => {
-  const q = mockSections[0].questions[3];
+  const q = sections[0].questions[3];
 
   await seed({ index: 3 });
   await mount();

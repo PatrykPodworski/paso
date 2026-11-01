@@ -1,7 +1,7 @@
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
-import { mockSections } from "../../data/mock";
+import { examSections } from "../../data/mock";
 import { Icon } from "../../design-system/Icon";
 import type { MockRun } from "../../data/types";
 import type { ChangeRun } from "./useMockRun";
@@ -23,12 +23,14 @@ export const OralPrep = ({ run, change, setNow }: Props) => (
       Prepare tasks 1 and 2. You may make brief notes; practise speaking from ideas rather than
       reading a script.
     </p>
-    {mockSections[3].questions.slice(0, 2).map((q) => (
-      <div key={q.id} className="my-6 rounded-lg bg-muted p-5">
-        <h3 className="text-base font-semibold tracking-tight">{q.task}</h3>
-        <p className="leading-relaxed mt-2 text-sm text-muted-foreground">{q.prompt}</p>
-      </div>
-    ))}
+    {examSections(run.variants)[3]
+      .questions.slice(0, 2)
+      .map((q) => (
+        <div key={q.id} className="my-6 rounded-lg bg-muted p-5">
+          <h3 className="text-base font-semibold tracking-tight">{q.task}</h3>
+          <p className="leading-relaxed mt-2 text-sm text-muted-foreground">{q.prompt}</p>
+        </div>
+      ))}
     <label className="text-sm block text-muted-foreground">
       Your preparation notes
       <textarea

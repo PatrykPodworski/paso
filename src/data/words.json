@@ -8,56 +8,64 @@
         "en": "hello",
         "unit": 1,
         "unitOrder": 1,
-        "visual": "👋"
+        "visual": "👋",
+        "picture": "hola"
       },
       {
         "es": "adiós",
         "en": "goodbye",
         "unit": 1,
         "unitOrder": 2,
-        "visual": "👋"
+        "visual": "👋",
+        "picture": "adios"
       },
       {
         "es": "gracias",
         "en": "thank you",
         "unit": 1,
         "unitOrder": 3,
-        "visual": "💛"
+        "visual": "💛",
+        "picture": "gracias"
       },
       {
         "es": "por favor",
         "en": "please",
         "unit": 1,
         "unitOrder": 4,
-        "visual": "🙏"
+        "visual": "🙏",
+        "picture": "por-favor"
       },
       {
         "es": "buenos días",
         "en": "good morning",
         "unit": 1,
         "unitOrder": 5,
-        "visual": "🌤️"
+        "visual": "🌤️",
+        "picture": "buenos-dias"
       },
       {
         "es": "buenas noches",
         "en": "good evening / good night",
         "unit": 1,
         "unitOrder": 6,
-        "visual": "🌙"
+        "visual": "🌙",
+        "picture": "buenas-noches"
       },
       {
         "es": "hasta luego",
         "en": "see you later",
         "unit": 1,
         "unitOrder": 7,
-        "visual": "🕊️"
+        "visual": "🕊️",
+        "picture": "hasta-luego"
       },
       {
         "es": "perdón",
         "en": "sorry / excuse me",
         "unit": 1,
         "unitOrder": 8,
-        "visual": "💬"
+        "visual": "💬",
+        "picture": "perdon"
       },
       {
         "es": "el nombre",
@@ -120,28 +128,32 @@
         "en": "morning",
         "unit": 5,
         "unitOrder": 1,
-        "visual": "🌅"
+        "visual": "🌅",
+        "picture": "la-manana"
       },
       {
         "es": "la tarde",
         "en": "afternoon",
         "unit": 5,
         "unitOrder": 2,
-        "visual": "🌇"
+        "visual": "🌇",
+        "picture": "la-tarde"
       },
       {
         "es": "la noche",
         "en": "night",
         "unit": 5,
         "unitOrder": 3,
-        "visual": "🌃"
+        "visual": "🌃",
+        "picture": "la-noche"
       },
       {
         "es": "desayunar",
         "en": "to have breakfast",
         "unit": 5,
         "unitOrder": 6,
-        "visual": "🥐"
+        "visual": "🥐",
+        "picture": "desayunar"
       },
       {
         "es": "la calle",
@@ -281,7 +293,8 @@
         "en": "to work",
         "unit": 5,
         "unitOrder": 7,
-        "visual": "💼"
+        "visual": "💼",
+        "picture": "trabajar"
       },
       {
         "es": "estudiar",
@@ -292,7 +305,8 @@
         "en": "to sleep",
         "unit": 5,
         "unitOrder": 8,
-        "visual": "💤"
+        "visual": "💤",
+        "picture": "dormir"
       },
       {
         "es": "correr",
@@ -2269,7 +2283,8 @@
         "en": "Monday",
         "unit": 5,
         "unitOrder": 4,
-        "visual": "📅"
+        "visual": "📅",
+        "picture": "el-lunes"
       },
       {
         "es": "el martes",
@@ -2288,7 +2303,8 @@
         "en": "Friday",
         "unit": 5,
         "unitOrder": 5,
-        "visual": "📅"
+        "visual": "📅",
+        "picture": "el-viernes"
       },
       {
         "es": "el sábado",

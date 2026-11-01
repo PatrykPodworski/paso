@@ -1,13 +1,16 @@
 import { screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import type { WritingReview } from "../../data/types";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
 it("reviews listening with transcripts and continues to a 25-minute writing section", async () => {
-  const q = mockSections[1].questions[0];
+  const q = sections[1].questions[0];
 
   await seed({ section: 1, stage: "review", answers: { [q.id]: q.answer } });
   await mount();
@@ -28,7 +31,7 @@ it("reviews listening with transcripts and continues to a 25-minute writing sect
 });
 
 it("reviews writing against model responses, word targets and self-checks", async () => {
-  const [form, letter] = mockSections[2].questions;
+  const [form, letter] = sections[2].questions;
 
   await seed({
     section: 2,
@@ -57,7 +60,7 @@ it("reviews writing against model responses, word targets and self-checks", asyn
   expect(screen.queryByText(/^Transcript: /)).not.toBeInTheDocument();
 });
 
-const [form, letter] = mockSections[2].questions;
+const [form, letter] = sections[2].questions;
 
 const reviewOf = (q: typeof form, band: number, reason: string): WritingReview => ({
   wordCount: 20,

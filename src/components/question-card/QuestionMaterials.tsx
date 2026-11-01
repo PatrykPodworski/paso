@@ -1,5 +1,6 @@
 import { TextLink } from "../../design-system/TextLink";
 import { useState } from "react";
+import { pictureSrc } from "../pictureSrc";
 import type { Question } from "../../data/types";
 
 const PASSAGE =
@@ -66,13 +67,23 @@ export const QuestionMaterials = ({ q, exam, onTranscript }: Props) => {
           )}
         </>
       )}
-      {q.visual && (
+      {(q.picture || q.visual) && (
         <div
           className="bg-radial from-muted to-transparent to-60% p-3.5 text-center text-7xl mt-3 mx-0 mb-6"
           role="img"
           aria-label="Vocabulary illustration"
         >
-          {q.visual}
+          {q.picture ? (
+            <img
+              className="mx-auto size-28 max-sm:size-24"
+              src={pictureSrc(q.picture)}
+              width={512}
+              height={512}
+              alt=""
+            />
+          ) : (
+            q.visual
+          )}
         </div>
       )}
     </>

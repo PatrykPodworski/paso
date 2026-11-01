@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { firstVariants } from "../src/data/mock.ts";
 import type { Attempt, ProgressSnapshot } from "../src/data/types.ts";
 
 const store = vi.hoisted(() => new Map<string, unknown>());
@@ -443,6 +444,8 @@ describe("the mock exam run", () => {
     drafts: {},
     scores: {},
     talks: {},
+    seed: 0,
+    variants: firstVariants,
   };
 
   const DEADLINE = Date.parse(T) + 45 * 60000;
@@ -516,6 +519,23 @@ describe("the mock exam run", () => {
     await change(me, { ...started, answers: { "mock-r1-0": "a" }, scores: { writing: "3" } }, true);
 
     expect(await change(me, {}, true)).toEqual(FRESH);
+  });
+
+  it("keeps the seed and the variants a new run starts with", async () => {
+    const me = learner();
+    const variants = { ...firstVariants };
+
+    expect(await change(me, { ...started, seed: 4_294_967_295, variants }, true)).toEqual({
+      ...FRESH,
+      ...started,
+      seed: 4_294_967_295,
+      variants,
+    });
+
+    expect(await change(me, { answers: { "mock-r1-0": "a" } })).toMatchObject({
+      seed: 4_294_967_295,
+      variants,
+    });
   });
 });
 
@@ -687,6 +707,39 @@ describe("requests", () => {
       "a long mock score",
       me,
       { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
+      "run",
+    ],
+    ["a negative mock seed", me, { action: "mockRun", run: { seed: -1 } }, "run"],
+    ["a mock seed over 32 bits", me, { action: "mockRun", run: { seed: 2 ** 32 } }, "run"],
+    ["a fractional mock seed", me, { action: "mockRun", run: { seed: 1.5 } }, "run"],
+    [
+      "mock variants that are not a record",
+      me,
+      { action: "mockRun", run: { variants: [] } },
+      "run",
+    ],
+    [
+      "mock variants without every task",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, s2: undefined } } },
+      "run",
+    ],
+    [
+      "a mock variant from another task",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, r1: "r2-v1" } } },
+      "run",
+    ],
+    [
+      "a mock variant no task has",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, r1: "r1-v99" } } },
+      "run",
+    ],
+    [
+      "mock variants for a task the exam does not have",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, r5: "r5-v1" } } },
       "run",
     ],
     ["a mock topic", me, { action: "mockRun", run: { topic: "sport" } }, "run"],

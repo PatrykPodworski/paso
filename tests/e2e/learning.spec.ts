@@ -13,9 +13,12 @@ import { examiner, mockLiveTalk, sentEvents, talkToLucia } from "../fixtures/liv
 import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
-import { mockSections } from "../../src/data/mock";
+import { examSections, firstVariants } from "../../src/data/mock";
 import { allLessons } from "../../src/data/curriculum";
 import type { Route } from "@playwright/test";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -429,7 +432,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
     });
 });
 
-const [, task2, task3] = mockSections[3].questions;
+const [, task2, task3] = sections[3].questions;
 
 test("the mock exam's Task 2 talks to Lucía on the picked topic and keeps the result across a reload", async ({
   page,
@@ -681,4 +684,20 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
 
   // The free talk keeps the passcode the lesson's writing review stored before it.
   expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "olé" });
+});
+
+test("the lesson header names the unit and lesson, and a practice session as practice", async ({
+  page,
+}) => {
+  const lesson = await openLesson(page, 13);
+  const header = page.getByRole("dialog").locator("header");
+
+  await expect(header.getByText("UNIT 4 · LESSON 2", { exact: true })).toBeVisible();
+  await expect(header.getByRole("heading", { name: lesson.title, exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Close lesson" }).click();
+
+  await page.goto("/#practice");
+  await page.getByRole("button", { name: "Start my daily mix" }).click();
+  await expect(header.getByText("PRACTICE", { exact: true })).toBeVisible();
+  await expect(header.getByRole("heading", { name: "Your daily mix", exact: true })).toBeVisible();
 });

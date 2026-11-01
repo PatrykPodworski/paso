@@ -1,4 +1,4 @@
-import { mockSections } from "../../data/mock";
+import { mockExam } from "../../data/mock";
 import { Icon } from "../../design-system/Icon";
 import type { MockRun } from "../../data/types";
 
@@ -11,7 +11,7 @@ export const ExamTopbar = ({ run, left }: Props) =>
         aria-label="Exam sections"
         className="flex gap-6 text-xs text-muted-foreground max-lg:gap-3 max-lg:text-2xs max-md:gap-2 max-sm:gap-1.5"
       >
-        {mockSections.map((s, i) => {
+        {mockExam.map((s, i) => {
           const active = i === run.section;
           const done = i < run.section;
 

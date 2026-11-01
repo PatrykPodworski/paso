@@ -5,8 +5,9 @@ between the generator and the ElevenLabs account.
 
 ## Playback
 
-The app plays pre-generated local files from `public/audio/elevenlabs/`.
-`src/data/audio-sources.json` selects which recording answers which phrase. Both
+The app plays pre-generated local files from `public/audio/elevenlabs/` and
+`public/audio/voxcpm/`. `src/data/audio-sources.json` selects which recording
+answers which phrase. Both
 are written atomically and belong with the app. Audio is MP3 at 44.1 kHz /
 128 kbps, served locally during practice. Replaying a clip makes no API request
 and consumes no credits.
@@ -46,6 +47,24 @@ Compact card forms are read in full (_bueno/a_ is read as "bueno, buena") while
 the displayed text and lookup key stay unchanged. For a few phrases, v3 returns
 an empty clip with the default tags; `retagged` in `scripts/audio-direction.mjs`
 gives those phrases different tags.
+
+### Local voice
+
+The units below play recordings made locally with VoxCPM2
+(`mlx-community/VoxCPM2-8bit`, 30 steps, seed 0) cloning the male teacher voice
+in `audio/spanish/voices/es-male-teacher.wav` of the ai repo (#482). They sit in
+`public/audio/voxcpm/` with `voiceId` `es-male-teacher` and a `settings` field
+instead of an ElevenLabs `request`. The MP3s are trimmed to 50 ms of silence at
+each edge and brought to about −17 LUFS with a −2 dBFS peak limiter. The
+generator never contacts ElevenLabs for these phrases while their files exist.
+
+- Unit 1 (_Primeros pasos_): 22 texts.
+- Unit 2 (_Así soy yo_): 23 texts.
+- Unit 3 (_Mi gente_): 24 texts.
+- Unit 4 (_La casa_): 36 texts. Lookup is per text, so units 3, 7 and 10 also
+  play the unit 4 recordings of the tiles _del_, _La_, _está_ and _al_.
+- Unit 9 (_Tiempo libre_): 21 texts.
+- Unit 12 (_¡Tú puedes!_): 22 texts.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

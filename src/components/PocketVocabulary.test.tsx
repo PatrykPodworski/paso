@@ -66,8 +66,7 @@ const mount = async (p: Partial<ProgressSeed> | null = progressWithDue()) => {
     await seedProgress(p);
   }
 
-  window.location.hash = "#practice";
-  const view = await renderApp();
+  const view = await renderApp("/practice");
 
   await settle();
 

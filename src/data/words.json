@@ -1262,7 +1262,8 @@
         "en": "house",
         "unit": 4,
         "unitOrder": 1,
-        "visual": "🏠"
+        "visual": "🏠",
+        "picture": "la-casa"
       },
       {
         "es": "el piso",

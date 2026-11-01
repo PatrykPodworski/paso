@@ -150,6 +150,12 @@ bodies up to 256 KB. `pnpm dev` serves the same API from an in-memory Postgres
 that starts empty, without the rate limits. Progress saved in this browser
 before the move is not read.
 
+Each Vercel preview gets a Neon branch named `preview/<git branch>`. When a pull
+request closes, the Neon cleanup workflow (`.github/workflows/neon-cleanup.yml`)
+deletes that branch, because the free plan allows only 10 branches. It needs the
+repository secret `NEON_API_KEY` and skips with a notice when the secret is
+missing.
+
 ## Tests
 
 ```sh

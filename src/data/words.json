@@ -686,7 +686,8 @@
         "en": "bread",
         "unit": 6,
         "unitOrder": 1,
-        "visual": "🥖"
+        "visual": "🥖",
+        "picture": "el-pan"
       },
       {
         "es": "la leche",

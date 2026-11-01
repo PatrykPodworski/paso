@@ -22,6 +22,7 @@ import { ProgressTrack } from "../design-system/ProgressTrack";
 import { MemoryHint } from "./MemoryHint";
 import { TextLink } from "../design-system/TextLink";
 import { FIELD } from "../design-system/field";
+import { OPTION_KEY } from "./question-card/AnswerOptions";
 
 type Props = {
   progress: ProgressSnapshot;
@@ -96,6 +97,31 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
     setIndex((i) => i + 1);
     setRevealed(false);
   };
+
+  // Arrow keys rate the revealed card, mirroring the arrow badges on the buttons.
+  // ponytail: re-subscribed every render so the handler reads current state.
+  useEffect(() => {
+    if (!revealed) {
+      return;
+    }
+
+    const handle = (e: KeyboardEvent) => {
+      const typing = document.activeElement?.closest("input, textarea");
+
+      if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey || typing) {
+        return;
+      }
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+        rate(e.key === "ArrowRight");
+      }
+    };
+
+    window.addEventListener("keydown", handle);
+
+    return () => window.removeEventListener("keydown", handle);
+  });
 
   return (
     <Dialog
@@ -229,8 +255,12 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                   variant="secondary"
                   size="small"
                   className="whitespace-normal"
+                  aria-keyshortcuts="ArrowLeft"
                   onClick={() => rate(false)}
                 >
+                  <span className={`${OPTION_KEY} w-6 h-6`} aria-hidden="true">
+                    <Icon name="arrow-left" size={14} />
+                  </span>
                   <Icon name="repeat" />
                   <span>
                     Got it wrong
@@ -243,6 +273,7 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                   variant="primary"
                   size="small"
                   className="whitespace-normal"
+                  aria-keyshortcuts="ArrowRight"
                   onClick={() => rate(true)}
                 >
                   <Icon name="check" />
@@ -251,6 +282,9 @@ const VocabularySession = ({ words, progress, onReview, onClose }: VocabularySes
                     <small className="block mt-1 text-xs font-normal">
                       Review {reviewWait(nextRight.nextAt, now)}
                     </small>
+                  </span>
+                  <span className={`${OPTION_KEY} w-6 h-6`} aria-hidden="true">
+                    <Icon name="arrow" size={14} />
                   </span>
                 </Button>
               </div>

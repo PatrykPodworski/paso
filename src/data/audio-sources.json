@@ -305,29 +305,64 @@
     }
   },
   "1pbh3t2": {
-    "src": "/audio/elevenlabs/657c005ffa2de5a716bfda98.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/89b4e352432de79fec2ec94e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la tarde",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "hyquwz": {
-    "src": "/audio/elevenlabs/2547a0b83493d1feeef2f072.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/88e0ac9b032090abd7c632a4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el lunes",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1sh5ach": {
-    "src": "/audio/elevenlabs/d9f8313cab9abf9559298cfb.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/28487985876a631cacabbd1b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "desayunar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1m8r5i2": {
-    "src": "/audio/elevenlabs/fee0ca7f6eb0117015c2d0d6.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/2c7cf580e5a2a0d400024611.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "dormir",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1o1euaj": {
-    "src": "/audio/elevenlabs/f2bcdb52d5430ff0526ea384.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/108347b15aad619911efc02e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Me llamo Diego. Me levanto a las siete y cuarto. Desayuno a las ocho y voy al trabajo en autobús. Por la noche leo un libro. Me acuesto a las once.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "4igewq": {
     "src": "/audio/voxcpm/d58e82c44974f360944d94cb.mp3",
@@ -895,24 +930,52 @@
     }
   },
   "kwk6db": {
-    "src": "/audio/elevenlabs/ba955a9fb41f1bd5b097c04b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/9edcc9a8357c2c226819015f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la mañana",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "qjfzl1": {
-    "src": "/audio/elevenlabs/46d0214d24fa1895137989d6.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/045699ba13937a5da3d9e193.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la noche",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1kc4oz0": {
-    "src": "/audio/elevenlabs/a96154c1583330a80f4d52d3.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/06d72f935f1d0501b70268ec.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el viernes",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1koqjr4": {
-    "src": "/audio/elevenlabs/97540ce75642b6955b55ca96.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/181b6ac4407e837fa65445ad.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "trabajar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "4ejfcj": {
     "src": "/audio/voxcpm/d70d129a84b6e30f065cbfac.mp3",
@@ -1187,9 +1250,16 @@
     }
   },
   "1dds0mg": {
-    "src": "/audio/elevenlabs/68b14dc631b5e0458068054f.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/33a0b97be6ac678a94fa498c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Me levanto a las siete y desayuno a las ocho.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1f1mxx6": {
     "src": "/audio/voxcpm/ec38c11812cf1be7b3761bca.mp3",
@@ -1297,9 +1367,16 @@
     }
   },
   "15aax92": {
-    "src": "/audio/elevenlabs/ddc39ce58639541aa08babb7.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/b14236cb3a866530e4f9a434.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Luis. Me levanto a las siete y desayuno en casa. Trabajo de nueve a cinco y como con mis compañeros. Por la noche estudio español y leo un libro. Me acuesto a las once. Saludos.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1bmofb4": {
     "src": "/audio/voxcpm/12397f90ebbc4b9c9600b4dc.mp3",
@@ -1898,138 +1975,112 @@
     }
   },
   "6dja2i": {
-    "src": "/audio/elevenlabs/a9839dd7274060a92a97e91a.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/b91b0d9b0b2e7ad28882fae0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Son las tres y media.",
-    "request": {
-      "text": "[calm] [slowly] Son las tres y media.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1yuayrz": {
-    "src": "/audio/elevenlabs/c80a61943daab05436d8db56.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/0aa0f3f4e78d7df3991d02b6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Yo me levanto a las siete.",
-    "request": {
-      "text": "[calm] [slowly] Yo me levanto a las siete.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "qpd8ip": {
-    "src": "/audio/elevenlabs/76777ed088a81db56171389e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/75aa64d20161784f4eede6bd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Nosotros estudiamos español.",
-    "request": {
-      "text": "[calm] [slowly] Nosotros estudiamos español.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1571i0v": {
-    "src": "/audio/elevenlabs/0382f5eadfcdd2bdc29a0444.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6107a99d2878f47e1ab05749.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La clase empieza a las nueve.",
-    "request": {
-      "text": "[calm] [slowly] La clase empieza a las nueve.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "6ryxes": {
-    "src": "/audio/elevenlabs/f976590a0ab6a4cfd913911e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/491594a94d6148d88518967b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Es la una.",
-    "request": {
-      "text": "[calm] [slowly] Es la una.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "3bs3x5": {
-    "src": "/audio/elevenlabs/d84318003054b33230022fb3.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/298176b2516992caa2e0301e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hoy es lunes. Mañana es martes.",
-    "request": {
-      "text": "[calm] [slowly] Hoy es lunes. Mañana es martes.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "62o9oz": {
-    "src": "/audio/elevenlabs/352bdf1eb8a0dfe455af815f.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/b555319c6741eaebb552d535.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "HORARIO DE ANA\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
-    "request": {
-      "text": "[calm] [slowly] HORARIO DE ANA\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "spokenText": "Horario de Ana. De lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1kmh7uw": {
-    "src": "/audio/elevenlabs/c304bcdc74969e4fb8c714af.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/43b39ed93ed344d2b241f35b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me levanto a las siete de la mañana",
-    "request": {
-      "text": "[calm] [slowly] Me levanto a las siete de la mañana",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "15nsuy6": {
-    "src": "/audio/elevenlabs/21cefb7d92327c99df96c6f2.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/70f64a3445f9bc2e0c9582c2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Estudiamos español.",
-    "request": {
-      "text": "[calm] [slowly] Estudiamos español.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "lv0ils": {
@@ -3556,18 +3607,15 @@
     }
   },
   "9kfnwn": {
-    "src": "/audio/elevenlabs/d3b743beb349abec91bfca3a.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/58e85a551146b32295afddbc.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "siete",
-    "request": {
-      "text": "[calm] [slowly] siete",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "pk33xe": {
@@ -3586,18 +3634,15 @@
     }
   },
   "k14p9a": {
-    "src": "/audio/elevenlabs/c38b883b8c0cd6e7ca10e626.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/67c329cd15daa828599fccc6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "la",
-    "request": {
-      "text": "[calm] [slowly] la",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "stkvyf": {
@@ -3616,18 +3661,15 @@
     }
   },
   "1lqe5j2": {
-    "src": "/audio/elevenlabs/750c7de7c677d486118ed333.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/0d6a22c33757f1dda0c66599.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "levanto",
-    "request": {
-      "text": "[calm] [slowly] levanto",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1r9wi7g": {

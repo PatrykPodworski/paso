@@ -1,6 +1,7 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Icon } from "../../design-system/Icon";
 import type { WritingReview } from "../../data/types";
+import { CorrectionList } from "../CorrectionList";
 
 const TEXT = "text-sm leading-relaxed text-foreground";
 
@@ -33,17 +34,7 @@ export const WritingFeedback = ({ review, minWords, maxWords }: Props) => (
     {review.corrections.length > 0 && (
       <div>
         <Eyebrow>Corrections</Eyebrow>
-        <ul className="mbs-2 flex flex-col gap-2">
-          {review.corrections.map((c) => (
-            <li key={`${c.original}→${c.corrected}`} className={TEXT}>
-              <span lang="es" className="line-through decoration-destructive">
-                {c.original}
-              </span>{" "}
-              → <strong lang="es">{c.corrected}</strong>{" "}
-              <span className="text-muted-foreground">{c.explanation}</span>
-            </li>
-          ))}
-        </ul>
+        <CorrectionList corrections={review.corrections} />
       </div>
     )}
     {review.revised && (

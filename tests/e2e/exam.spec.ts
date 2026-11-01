@@ -24,7 +24,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
     ],
   });
 
-  await page.goto("/#exam");
+  await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await expect(page.getByRole("timer")).toHaveText("45:00");
   await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
@@ -151,14 +151,14 @@ test("timer expires during navigation and section confirmation can be cancelled"
   page,
 }) => {
   await page.clock.install({ time: new Date("2026-09-09T10:00:00+02:00") });
-  await page.goto("/#exam");
+  await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Keep working" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
-  await page.goto("/#today");
+  await page.goto("/today");
   await page.clock.fastForward(45 * 60000);
-  await page.goto("/#exam");
+  await page.goto("/exam");
   await expect(page.getByRole("heading", { name: "0 out of 25." })).toBeVisible();
   await expect(page.getByRole("timer")).toHaveCount(0);
 });
@@ -168,7 +168,7 @@ test("listening permits two plays and writing draft survives reload and clearing
 }) => {
   const [form, open] = sections[2].questions;
 
-  await page.goto("/#exam");
+  await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Finish & review", exact: true }).click();
@@ -246,7 +246,7 @@ test("mark both writing tasks at the section review and scale them to 25", async
 test("a rehearsal resumes after a reload, and a reset clears it", async ({ page }) => {
   const [first, second] = sections[0].questions;
 
-  await page.goto("/#exam");
+  await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await answer(page, first, true);
   await expect(page.getByRole("heading", { name: second.prompt, exact: true })).toBeVisible();
@@ -259,7 +259,7 @@ test("a rehearsal resumes after a reload, and a reset clears it", async ({ page 
   await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
   await page.getByRole("button", { name: "Clear my practice data" }).click();
   await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
-  await page.goto("/#exam");
+  await page.goto("/exam");
   await expect(page.getByRole("button", { name: "Start exam rehearsal" })).toBeVisible();
   expect((await saved(page)).mockRun).toBeNull();
 });

@@ -1,4 +1,3 @@
-import { createBrowserHistory, parseHref } from "@tanstack/history";
 import { createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
 import App from "./App";
 import type { Page } from "./components/navigation";
@@ -30,7 +29,7 @@ const routeTree = rootRoute.addChildren([
     pageRoute("exam"),
     pageRoute("guide"),
     pageRoute("backoffice"),
-    // No hash and unknown hashes both show the today page.
+    // The root path and unknown paths both show the today page.
     createRoute({ getParentRoute: () => appRoute, path: "/", staticData: { page: "today" } }),
     createRoute({ getParentRoute: () => appRoute, path: "$", staticData: { page: "today" } }),
   ]),
@@ -38,18 +37,9 @@ const routeTree = rootRoute.addChildren([
   createRoute({ getParentRoute: () => rootRoute, path: "design-system", component: Gallery }),
 ]);
 
-// Keeps the URLs the app has always had, /#practice. createHashHistory reads and writes
-// /#/practice, so it would break existing links and every test's page.goto.
-const hashHistory = () =>
-  createBrowserHistory({
-    parseLocation: () => parseHref(`/${window.location.hash.slice(1)}`, window.history.state),
-    createHref: (path) => `${window.location.pathname}${window.location.search}#${path.slice(1)}`,
-  });
-
 export const createAppRouter = () =>
   createRouter({
     routeTree,
-    history: hashHistory(),
     // The router scrolls to the top after each navigation; smooth matches the old navigate().
     scrollRestorationBehavior: "smooth",
   });

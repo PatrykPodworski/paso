@@ -48,13 +48,17 @@ export const QuestionHeading = ({
   const heading = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    heading.current?.focus({ preventScroll: true });
+    // A typed answer focuses its own field, so the learner can type at once.
+    if (!["type", "write"].includes(q.kind)) {
+      heading.current?.focus({ preventScroll: true });
+    }
+
     const dialog = heading.current?.closest("dialog");
 
     if (dialog) {
       dialog.scrollTop = 0;
     }
-  }, [q.id]);
+  }, [q.id, q.kind]);
 
   const pronunciation = spokenText(q);
   const hidePronunciation = !q.audio && (!feedback || isWritingTask(q));

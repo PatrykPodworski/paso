@@ -296,6 +296,24 @@ test("Enter checks a typed answer and a second Enter continues", async ({ page }
   await expect(page.getByRole("heading", { name: next.prompt, exact: true })).toBeVisible();
 });
 
+test("a writing answer takes typing as soon as the next question appears", async ({ page }) => {
+  const lesson = await openLesson(page, 3);
+  const [first, typed, written] = lesson.questions;
+  const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  await answer(page, first);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("heading", { name: typed.prompt, exact: true })).toBeVisible();
+  await page.keyboard.type(typed.answer);
+  await expect(input).toHaveValue(typed.answer);
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { name: written.prompt, exact: true })).toBeVisible();
+  await page.keyboard.type("Hola");
+  await expect(input).toHaveValue("Hola");
+});
+
 test("writing keeps its draft and is graded by the AI review from Review my practice", async ({
   page,
 }) => {

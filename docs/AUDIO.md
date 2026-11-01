@@ -66,10 +66,16 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 5 (_Mi día a día_): 23 texts.
 - Unit 6 (_¡Buen provecho!_): 24 texts.
 - Unit 7 (_Por el barrio_): 23 texts.
+- Unit 8 (_De compras_): 22 texts.
 - Unit 9 (_Tiempo libre_): 21 texts.
 - Unit 10 (_¡Buen viaje!_): 24 texts.
+- Unit 11 (_¿Qué tal estás?_): 24 texts.
 - Unit 12 (_¡Tú puedes!_): 22 texts.
 - Topic flashcards (Everyday basics to Fruit, 7 topics): 280 texts.
+- Texts spoken only in the mock exam (listening audio, writing models) or the
+  foundations and picture practice: 49 texts.
+- Texts that several units speak, mostly sentence-builder tiles such as _es_,
+  _de_ and _Me_: 15 texts.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

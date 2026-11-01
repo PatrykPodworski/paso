@@ -1,5 +1,7 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import type { ComponentProps } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { LiveItem } from "../../data/types";
 import { LiveTalk } from "./LiveTalk";
 
 class FakeChannel {
@@ -104,17 +106,25 @@ const replies = (session: Response, score?: object) =>
 const started = (limitSeconds = 120) =>
   Response.json({ sdp: "answer-sdp", greeting: "Saluda.", limitSeconds }, { status: 201 });
 
-const graded = (name: string, age: string, country: string) => [
+const graded = (name: LiveItem, age: LiveItem, country: LiveItem) => [
   { id: "name", label: "Name", level: name },
   { id: "age", label: "Age", level: age },
   { id: "country", label: "Country", level: country },
 ];
 
-const mount = () => {
+const mount = (props: Partial<ComponentProps<typeof LiveTalk>> = {}) => {
   const onEvaluated = vi.fn();
   const onSubmit = vi.fn();
 
-  render(<LiveTalk questionId="u1-o3" task="u1" onEvaluated={onEvaluated} onSubmit={onSubmit} />);
+  render(
+    <LiveTalk
+      questionId="u1-o3"
+      task="u1"
+      onEvaluated={onEvaluated}
+      onSubmit={onSubmit}
+      {...props}
+    />,
+  );
 
   return { onEvaluated, onSubmit };
 };
@@ -240,6 +250,14 @@ describe("a live talk", () => {
       true,
       false,
       "good",
+      {
+        grade: "good",
+        items: [
+          { id: "name", label: "Name", level: "correct" },
+          { id: "age", label: "Age", level: "understandable" },
+          { id: "home", label: "Home town", level: "correct" },
+        ],
+      },
     );
 
     await click("Continue");
@@ -265,7 +283,13 @@ describe("a live talk", () => {
 
     expect(screen.getByText(/Lucía did not get everything she asked for\./)).toBeVisible();
 
-    expect(onEvaluated.mock.calls[0].slice(1)).toEqual([false, false, "bad"]);
+    expect(onEvaluated.mock.calls[0].slice(1)).toEqual([
+      false,
+      false,
+      "bad",
+      { grade: "bad", items: graded("correct", "missing", "missing") },
+    ]);
+
     expect(screen.getByRole("button", { name: "Talk again" })).toBeEnabled();
   });
 
@@ -323,6 +347,56 @@ describe("a live talk", () => {
     expect(screen.queryByText("No errors found.")).toBeNull();
   });
 
+  it("sends the picked topic with the session and with the transcript", async () => {
+    replies(started(), { grade: "perfect", items: [] });
+    mount({ task: "mock-s2", topic: "home" });
+    await talk();
+    await finish();
+
+    expect(body("/api/live-session")).toEqual({
+      sdp: "offer-sdp",
+      task: "mock-s2",
+      topic: "home",
+    });
+
+    expect(body("/api/score-talk")).toMatchObject({ task: "mock-s2", topic: "home" });
+  });
+
+  it("keeps the grade without a second talk in the exam", async () => {
+    replies(started(), { grade: "bad", items: graded("correct", "missing", "missing") });
+    const { onSubmit } = mount({ exam: true });
+
+    await talk();
+    await finish();
+
+    expect(await screen.findByRole("heading", { name: "Not everything." })).toBeVisible();
+    expect(screen.getByText("Lucía did not get everything she asked for.")).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Talk again" })).toBeNull();
+    expect(screen.queryByText(/My mistakes/)).toBeNull();
+    await click("Continue");
+    expect(onSubmit).toHaveBeenCalledWith(expect.any(String), false, false);
+  });
+
+  it("shows a result kept from an earlier session instead of a new talk", async () => {
+    const { onSubmit } = mount({
+      exam: true,
+      result: { grade: "good", items: graded("correct", "understandable", "correct") },
+    });
+
+    expect(screen.getByRole("heading", { name: "Good." })).toBeVisible();
+    expect(screen.getByText("Lucía understood you, with some mistakes.")).toBeVisible();
+
+    expect(screen.getByRole("list", { name: "Your answers" })).toHaveTextContent(
+      "NameCorrectAgeUnderstandable, with mistakesCountryCorrect",
+    );
+
+    expect(screen.queryByRole("button", { name: "Start the talk" })).toBeNull();
+    expect(screen.queryByText("Transcript")).toBeNull();
+    expect(api).not.toHaveBeenCalled();
+    await click("Continue");
+    expect(onSubmit).toHaveBeenCalledWith("", true, false);
+  });
+
   it("offers to score again when scoring fails", async () => {
     replies(started(), { grade: "perfect", items: [] });
     api.mockImplementationOnce(async () => started());
@@ -371,6 +445,7 @@ describe("a live talk", () => {
       true,
       false,
       "good",
+      expect.objectContaining({ grade: "good" }),
     );
 
     cleanup();

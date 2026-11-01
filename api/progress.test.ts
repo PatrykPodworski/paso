@@ -442,6 +442,7 @@ describe("the mock exam run", () => {
     started: "",
     drafts: {},
     scores: {},
+    talks: {},
   };
 
   const DEADLINE = Date.parse(T) + 45 * 60000;
@@ -465,6 +466,19 @@ describe("the mock exam run", () => {
       answers: { "mock-r1-0": "b", "mock-r1-1": "c" },
       drafts: { "mock-w1": "Hola", prep: "" },
       scores: { writing: "12", speaking: "14.5" },
+    });
+  });
+
+  it("keeps the picked topic and merges Lucía's scores per talk", async () => {
+    const me = learner();
+    const good = { grade: "good", items: [{ id: "name", label: "Name", level: "correct" }] };
+    const bad = { grade: "bad", items: [] };
+
+    await change(me, { ...started, topic: "home", talks: { "mock-s1": good } }, true);
+
+    expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
+      topic: "studies",
+      talks: { "mock-s1": good, "mock-s2": bad },
     });
   });
 
@@ -666,6 +680,30 @@ describe("requests", () => {
       "a long mock score",
       me,
       { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
+      "run",
+    ],
+    ["a mock topic", me, { action: "mockRun", run: { topic: "sport" } }, "run"],
+    [
+      "a mock talk outside the exam",
+      me,
+      { action: "mockRun", run: { talks: { "u1-o3": { grade: "good", items: [] } } } },
+      "run",
+    ],
+    [
+      "a mock talk grade",
+      me,
+      { action: "mockRun", run: { talks: { "mock-s1": { grade: "A", items: [] } } } },
+      "run",
+    ],
+    [
+      "a mock talk item level",
+      me,
+      {
+        action: "mockRun",
+        run: {
+          talks: { "mock-s1": { grade: "good", items: [{ id: "a", label: "A", level: "ok" }] } },
+        },
+      },
       "run",
     ],
     ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],

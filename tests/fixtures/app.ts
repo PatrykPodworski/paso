@@ -2,6 +2,7 @@ import { test as base, expect, type Locator, type Page } from "@playwright/test"
 import { allLessons } from "../../src/data/curriculum";
 import { mockSections } from "../../src/data/mock";
 import type { ProgressSnapshot, Question } from "../../src/data/types";
+import { answerTalk } from "./live";
 import { type ProgressSeed, seedWrites } from "./progressSeed";
 
 export const test = base.extend<{ blockExternal: void }>({
@@ -98,11 +99,7 @@ export const openLesson = async (page: Page, index: number) => {
 };
 
 const submitLabel = (q: Question, exam: boolean) =>
-  exam
-    ? "Save answer"
-    : ["write", "speak", "form"].includes(q.kind)
-      ? "Review my practice"
-      : "Check answer";
+  exam ? "Save answer" : ["write", "form"].includes(q.kind) ? "Review my practice" : "Check answer";
 
 // A lesson writing task asks for the passcode until one gets a review.
 const fillPasscode = async (page: Page, q: Question, exam: boolean) => {
@@ -138,8 +135,10 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     for (const f of q.fields!) {
       await page.getByRole("textbox", { name: f.label, exact: true }).fill(f.example);
     }
-  } else if (q.kind === "speak") {
-    await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
+  } else if (q.kind === "live") {
+    await answerTalk(page);
+
+    return;
   } else {
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
   }

@@ -17,6 +17,9 @@ export type TaskSpec = {
   scenario?: string;
   // What Lucía asks (questions) or asks for (points to cover), in order.
   asks: string[];
+  // In a monologue, the short question Lucía may ask after a long silence, about one of
+  // the task's points.
+  nudge?: string;
   items: TaskItem[];
   // What the examiner asked for, as the rubric states it.
   asked: string;
@@ -24,6 +27,11 @@ export type TaskSpec = {
   flawed: string;
   limitSeconds: number;
 };
+
+// The mock exam's Tasks 2 and 3 run on the topic the learner picked before Task 2.
+export const TOPICS = ["home", "studies", "freeTime"] as const;
+
+export type Topic = (typeof TOPICS)[number];
 
 // Vercel Hobby stops a function after 300 s, and confirming the close takes about 15 s.
 export const MAX_LIMIT_SECONDS = 270;

@@ -10,7 +10,6 @@ import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
-import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
 import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
@@ -179,16 +178,6 @@ export const QuestionCard = ({
         }}
         onPick={pickToken}
         onCheck={() => submit()}
-      />
-      <PracticeChecks
-        q={q}
-        exam={exam}
-        feedback={feedback}
-        practice={a}
-        onStart={() => {
-          a.setSpoken(false);
-          setFeedback(false);
-        }}
       />
       {!exam && isWritingTask(q) ? (
         <WritingCheck

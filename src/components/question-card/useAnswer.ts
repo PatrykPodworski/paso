@@ -3,44 +3,26 @@ import type { Question } from "../../data/types";
 import { countWords, isCorrect, MAX_TEXT } from "../../data/progress";
 import { formSubmission, parseFields } from "./formAnswer";
 
-const answerValue = (
-  q: Question,
-  built: string,
-  formText: string,
-  spoken: boolean,
-  answer: string,
-) =>
-  q.kind === "order"
-    ? built
-    : q.kind === "form"
-      ? formText
-      : q.kind === "speak" && spoken
-        ? "Practised aloud. Audio must be reviewed from the downloaded recording."
-        : answer;
+const answerValue = (q: Question, built: string, formText: string, answer: string) =>
+  q.kind === "order" ? built : q.kind === "form" ? formText : answer;
 
 const ready = (
   q: Question,
   {
-    recording,
-    spoken,
     fieldValues,
     selected,
     answer,
   }: {
-    recording: boolean;
-    spoken: boolean;
     fieldValues: Record<string, string>;
     selected: number[];
     answer: string;
   },
 ) =>
-  q.kind === "speak"
-    ? !recording && spoken
-    : q.kind === "form"
-      ? q.fields?.every((f) => fieldValues[f.label]?.trim())
-      : q.kind === "order"
-        ? selected.length === q.tokens?.length
-        : !!answer.trim();
+  q.kind === "form"
+    ? q.fields?.every((f) => fieldValues[f.label]?.trim())
+    : q.kind === "order"
+      ? selected.length === q.tokens?.length
+      : !!answer.trim();
 
 export const isWritingTask = (q: Question) => q.kind === "write" || q.kind === "form";
 
@@ -50,16 +32,14 @@ export const isSilentTask = (q: Question) => isWritingTask(q) || q.passage !== u
 
 // The learner's in-progress answer for one question, and everything derived from it.
 export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) => void) => {
-  const [recording, setRecording] = useState(false);
   const [answer, setAnswer] = useState(draft);
   const [selected, setSelected] = useState<number[]>([]);
   const [checks, setChecks] = useState<number[]>([]);
-  const [spoken, setSpoken] = useState(false);
   const [fieldValues, setFieldValues] = useState(() => parseFields(draft));
-  const productive = ["write", "speak", "form"].includes(q.kind);
+  const productive = ["write", "form"].includes(q.kind);
   const built = selected.map((i) => q.tokens![i]).join(" ");
   const formText = (q.fields || []).map((f) => fieldValues[f.label] || "").join(" ");
-  const value = answerValue(q, built, formText, spoken, answer);
+  const value = answerValue(q, built, formText, answer);
 
   const submission = q.kind === "form" ? formSubmission(q, fieldValues) : value;
 
@@ -95,18 +75,14 @@ export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) =
     setSelected,
     fieldValues,
     setField,
-    spoken,
-    setSpoken,
     checks,
     toggleCheck,
-    recording,
-    setRecording,
     productive,
     value,
     submission,
     correct: productive ? null : isCorrect(q, value),
     words: countWords(value),
-    canSubmit: ready(q, { recording, spoken, fieldValues, selected, answer }),
+    canSubmit: ready(q, { fieldValues, selected, answer }),
   };
 };
 

@@ -20,11 +20,7 @@ type Seed = {
   writing: string;
   model: string;
   checks: string[];
-  speaking: string;
-  speech: string;
-  speechChecks: string[];
-  // Set when the unit's speaking task is a live talk with Lucía instead of a recording.
-  live?: { task: string; prompt: string; answer: string; explanation: string };
+  live: { task: string; prompt: string; answer: string; explanation: string };
 };
 
 const seeds: Seed[] = [
@@ -131,15 +127,6 @@ const seeds: Seed[] = [
       "I included a greeting and a farewell.",
       "I gave my name, origin, home and language.",
       "I asked my classmate’s name.",
-    ],
-    speaking:
-      "Introduce yourself. Give your name, nationality, age, home, occupation, languages and one personality trait. Speak for 1–2 minutes, expanding each point with a simple detail.",
-    speech:
-      "Me llamo Ana. Soy polaca y tengo treinta años. Vivo en Varsovia. Soy profesora. Hablo polaco e inglés y estudio español. Soy una persona tranquila. Me gusta leer.",
-    speechChecks: [
-      "I covered all seven personal details.",
-      "My words were understandable when I replayed them.",
-      "I used short sentences and added simple details.",
     ],
     live: {
       task: "u1",
@@ -253,15 +240,6 @@ const seeds: Seed[] = [
       "I provided the requested personal details.",
       "I used tener for age and ser for nationality.",
       "I greeted, asked a question and signed off.",
-    ],
-    speaking:
-      "Practise exchanging personal details. Say and spell your name, give your age and city, then say a fictional nine-digit phone number slowly. Ask your partner two personal questions.",
-    speech:
-      "Me llamo Elena: e, ele, e, ene, a. Tengo veintiséis años. Vivo en Bilbao. Mi teléfono es seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho. ¿Cómo te llamas? ¿Dónde vives?",
-    speechChecks: [
-      "I said my personal details clearly.",
-      "I spelled the name and spoke the digits separately.",
-      "I asked two understandable questions.",
     ],
     live: {
       task: "u2",
@@ -377,15 +355,6 @@ const seeds: Seed[] = [
       "My adjectives agree in gender and number.",
       "I included a shared activity, greeting and farewell.",
     ],
-    speaking:
-      "Talk about your family for 2–3 minutes. Say who they are, describe one person and explain what you do together. Ask the interviewer two questions about their family.",
-    speech:
-      "Mi familia es pequeña. Vivo con mi madre y mi hermano. Mi madre es profesora y es muy simpática. Los domingos vamos al parque. ¿Tienes hermanos? ¿Dónde vive tu familia?",
-    speechChecks: [
-      "I covered people, description and shared activities.",
-      "I added simple details instead of a list of names.",
-      "I asked two questions about family.",
-    ],
     live: {
       task: "u3",
       prompt:
@@ -498,15 +467,6 @@ const seeds: Seed[] = [
       "I included location, rooms and a place to sleep.",
       "I used hay for existence and estar for location.",
       "I included a greeting and farewell.",
-    ],
-    speaking:
-      "Describe your home for 2–3 minutes: its location, rooms and your favorite room. Describe where three objects are. Ask the interviewer two questions about their home.",
-    speech:
-      "Vivo en un piso en el centro. Tiene dos habitaciones y una cocina. Me gusta el salón porque es grande. Hay una mesa junto a la ventana. ¿Dónde vives? ¿Cómo es tu casa?",
-    speechChecks: [
-      "I covered location, rooms and a favorite room.",
-      "I located objects using estar and position words.",
-      "I asked two questions.",
     ],
     live: {
       task: "u4",
@@ -622,15 +582,6 @@ const seeds: Seed[] = [
       "I used conjugated present-tense verbs.",
       "I expressed times with a la / a las.",
     ],
-    speaking:
-      "Talk about a typical day for 2–3 minutes. Include your morning, work or studies, and evening. Say several times clearly. Ask two questions about the interviewer’s routine.",
-    speech:
-      "Me levanto a las siete. Desayuno café con pan. Trabajo en una oficina de nueve a cinco. Por la tarde estudio español. Me acuesto a las once. ¿A qué hora te levantas? ¿Trabajas por la tarde?",
-    speechChecks: [
-      "I described the three parts of my day.",
-      "I gave clear times and used reflexive verbs.",
-      "I asked two routine questions.",
-    ],
     live: {
       task: "u5",
       prompt:
@@ -744,15 +695,6 @@ const seeds: Seed[] = [
       "I gave a meeting place, day and time.",
       "I mentioned food and used gusta / gustan correctly.",
       "I included an invitation and farewell.",
-    ],
-    speaking:
-      "Practise a café conversation: greet the waiter, order food and a drink, ask the price, request the bill and say thank you. Then explain what you like to eat.",
-    speech:
-      "Buenos días. Quiero un café con leche y una tostada, por favor. ¿Cuánto cuesta? Me gusta el pan con tomate. La cuenta, por favor. Muchas gracias. Hasta luego.",
-    speechChecks: [
-      "I ordered both food and a drink.",
-      "I asked for the price and bill politely.",
-      "I expressed a preference clearly.",
     ],
     live: {
       task: "u6",
@@ -869,15 +811,6 @@ const seeds: Seed[] = [
       "I gave a simple route using direction words.",
       "I used location phrases and a greeting / farewell.",
     ],
-    speaking:
-      "Describe your neighborhood: where it is, which places it has and what you like about it. Ask where the bank is and how far it is from the station.",
-    speech:
-      "Mi barrio está en el centro. Hay un parque y dos supermercados. Me gusta porque es tranquilo. La farmacia está al lado del banco. ¿Dónde está el banco? ¿Está lejos de la estación?",
-    speechChecks: [
-      "I described the location and places.",
-      "I used hay and estar appropriately.",
-      "I asked two practical questions.",
-    ],
     live: {
       task: "u7",
       prompt:
@@ -992,15 +925,6 @@ const seeds: Seed[] = [
       "I included hours and suggested a day.",
       "I checked agreement of clothing and color words.",
     ],
-    speaking:
-      "Role-play buying clothes. Ask for a garment, color and size. Ask the price and whether you can pay by card. Explain which colors you like.",
-    speech:
-      "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo. Muchas gracias.",
-    speechChecks: [
-      "I requested an item, color and size.",
-      "I asked two shopping questions.",
-      "I expressed a preference politely.",
-    ],
     live: {
       task: "u8",
       prompt:
@@ -1113,15 +1037,6 @@ const seeds: Seed[] = [
       "I thanked my friend and answered the invitation.",
       "I used porque to give a reason.",
       "I included a meeting time, place and farewell.",
-    ],
-    speaking:
-      "Talk about your free time for 2–3 minutes: favorite activities, when and with whom you do them. Invite the interviewer to an activity and ask about their hobbies.",
-    speech:
-      "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Qué te gusta hacer? ¿Quieres ir al cine el domingo?",
-    speechChecks: [
-      "I described activities, times and companions.",
-      "I expressed likes using infinitives or nouns.",
-      "I made an invitation and asked a question.",
     ],
     live: {
       task: "u9",
@@ -1238,15 +1153,6 @@ const seeds: Seed[] = [
       "I asked the price with a clear question.",
       "I used an appropriate greeting and farewell.",
     ],
-    speaking:
-      "Role-play a station and hotel visit. Buy a ticket, ask departure time and price, then request a room for two people for three nights.",
-    speech:
-      "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Tengo una reserva en el hotel. Quiero una habitación doble para tres noches. Gracias.",
-    speechChecks: [
-      "I gave the destination and asked two travel questions.",
-      "I requested the type of room and number of nights.",
-      "My numbers and time expressions were clear.",
-    ],
     live: {
       task: "u10",
       prompt:
@@ -1359,15 +1265,6 @@ const seeds: Seed[] = [
       "I described the weather and how I feel.",
       "I suggested an activity and meeting time.",
       "I used weather and state expressions appropriately.",
-    ],
-    speaking:
-      "Describe today’s weather and your favorite season. Say how you feel and what you need. Ask the interviewer about their favorite season and today’s weather in their city.",
-    speech:
-      "Hoy hace sol y tengo calor. Quiero un vaso de agua. Me gusta el verano porque puedo nadar. Estoy contento. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
-    speechChecks: [
-      "I described weather, a feeling and a need.",
-      "I explained my favorite season simply.",
-      "I asked two questions.",
     ],
     live: {
       task: "u11",
@@ -1482,15 +1379,6 @@ const seeds: Seed[] = [
       "I answered every requested point.",
       "I used clear basic sentences and checked accents.",
       "I included a greeting, place, time and farewell.",
-    ],
-    speaking:
-      "Rehearse the exam: introduce yourself (1–2 minutes); describe your studies, work or home (2–3 minutes); answer follow-up questions and ask two questions about the same topic (3–4 minutes).",
-    speech:
-      "Me llamo Pablo. Soy polaco y vivo en Madrid. Trabajo en una tienda. Estudio español los lunes. Mi clase es pequeña y mi profesora es simpática. ¿Dónde trabajas? ¿Qué lenguas hablas?",
-    speechChecks: [
-      "I practised all three tasks and covered the prompts.",
-      "I could answer questions and ask two of my own.",
-      "I stayed understandable and requested repetition if needed.",
     ],
     live: {
       task: "u12",
@@ -1634,26 +1522,15 @@ export const units: Unit[] = seeds.map((s, ui) => {
       minWords: 30,
       maxWords: 40,
     },
-    s.live
-      ? {
-          id: `${uid}-o3`,
-          kind: "live",
-          skill: "speaking",
-          prompt: s.live.prompt,
-          answer: s.live.answer,
-          explanation: s.live.explanation,
-          talk: s.live.task,
-        }
-      : {
-          id: `${uid}-o3`,
-          kind: "speak",
-          skill: "speaking",
-          prompt: s.speaking,
-          answer: s.speech,
-          explanation:
-            "Replay your recording and review the checklist. The model is a short starting example, not a full timed response. Add your own details. Pronunciation and communication need human judgment; no automatic score is assigned.",
-          checklist: s.speechChecks,
-        },
+    {
+      id: `${uid}-o3`,
+      kind: "live",
+      skill: "speaking",
+      prompt: s.live.prompt,
+      answer: s.live.answer,
+      explanation: s.live.explanation,
+      talk: s.live.task,
+    },
   ];
 
   return {

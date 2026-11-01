@@ -125,7 +125,7 @@ export const createExaminerConnection = ({
   };
 
   // Resolves to an error code, or null once the session is connecting.
-  const connect = async (task: string, passcode: string | undefined) => {
+  const connect = async (task: string, passcode: string | undefined, topic?: string) => {
     try {
       await peer.setLocalDescription(await peer.createOffer());
       await gathered(peer);
@@ -138,7 +138,7 @@ export const createExaminerConnection = ({
       const response = await fetch("/api/live-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sdp: peer.localDescription?.sdp, task, passcode }),
+        body: JSON.stringify({ sdp: peer.localDescription?.sdp, task, topic, passcode }),
       });
 
       if (!response.ok) {

@@ -11,6 +11,7 @@ const writing = (patch: Partial<MockRun>): MockRun => ({
   started: "",
   drafts: {},
   scores: {},
+  talks: {},
   ...patch,
 });
 

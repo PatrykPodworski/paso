@@ -10,6 +10,7 @@ const freshMockRun = (): MockRun => ({
   started: "",
   drafts: {},
   scores: {},
+  talks: {},
 });
 
 export type ChangeRun = (change: MockRunPatch) => void;
@@ -39,6 +40,7 @@ export const useMockRun = (
         answers: { ...r.answers, ...patch.answers },
         drafts: { ...r.drafts, ...patch.drafts },
         scores: { ...r.scores, ...patch.scores },
+        talks: { ...r.talks, ...patch.talks },
       }));
 
       onRunChange(patch);

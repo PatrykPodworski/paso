@@ -1,8 +1,9 @@
-import { mockSections } from "../../src/data/mock.ts";
+import { mockSections, mockTopics } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
   Grade,
+  LiveItem,
   MockRun,
   MockRunPatch,
   MockStage,
@@ -25,6 +26,9 @@ const MAX_SCORE_TEXT = 16;
 const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
 const GRADES: Grade[] = ["perfect", "good", "bad"];
+const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
+const MAX_TALK_ITEMS = 20;
+const MAX_LABEL = 200;
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
 
 // Postgres takes offsets up to ±15:59.
@@ -166,6 +170,21 @@ const mapOf =
   (value) =>
     isRecord(value) && Object.entries(value).every(([key, item]) => isKey(key) && isValue(item));
 
+// Lucía's score of a mock exam talk, as api/score-talk returned it.
+const isLiveScore: Check = (value) =>
+  isRecord(value) &&
+  GRADES.includes(value.grade as Grade) &&
+  Array.isArray(value.items) &&
+  value.items.length <= MAX_TALK_ITEMS &&
+  value.items.every(
+    (item: unknown) =>
+      isRecord(item) &&
+      isId(item.id) &&
+      isText(item.label, MAX_LABEL) &&
+      LEVELS.includes(item.level as LiveItem),
+  ) &&
+  Object.keys(value).length === 2;
+
 const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["stage", (value) => STAGES.includes(value as MockStage)],
   ["deadline", (value) => Number.isSafeInteger(value) && (value as number) >= 0],
@@ -180,6 +199,8 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
       (value) => isText(value, MAX_SCORE_TEXT),
     ),
   ],
+  ["topic", (value) => mockTopics.some((topic) => topic.id === value)],
+  ["talks", mapOf(isMockQuestion, isLiveScore)],
 ];
 
 // A question index is only valid within its section, so the two always travel together.

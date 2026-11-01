@@ -42,12 +42,48 @@ describe("the exam builder", () => {
     expect(new Set(exams.map((e) => e.c))).toEqual(new Set(["c1", "c2", "c3", "c4"]));
   });
 
-  it("takes variant 1 of every task while each pool holds only variant 1", () => {
-    expect(buildExam({ seed: 42 })).toEqual(firstVariants);
+  // Listening variant 1 repeats Pablo across its own tasks, so only reading is checked against
+  // the rest of the exam.
+  it("builds real exams with the official sizes and no reading theme or name repeated", () => {
+    const variants = new Map(mockTasks.flatMap((t) => t.variants.map((v) => [v.id, v] as const)));
 
-    expect(examSections(buildExam({ seed: 42 })).map((s) => s.questions.length)).toEqual([
-      25, 25, 2, 3,
-    ]);
+    const tagsOf = (id: string) => {
+      const { theme, names } = variants.get(id)!;
+
+      return [theme, ...names].map((tag) => tag.toLowerCase());
+    };
+
+    for (const seed of SEEDS) {
+      const exam = buildExam({ seed });
+
+      expect(examSections(exam).map((s) => s.questions.length)).toEqual([25, 25, 2, 3]);
+
+      const reading = Object.entries(exam).filter(([task]) => task.startsWith("r"));
+      const others = Object.entries(exam).filter(([task]) => !task.startsWith("r"));
+      const readingTags = reading.flatMap(([, id]) => tagsOf(id));
+      const otherTags = new Set(others.flatMap(([, id]) => tagsOf(id)));
+
+      expect(new Set(readingTags).size, String(seed)).toBe(readingTags.length);
+
+      expect(
+        readingTags.filter((tag) => otherTags.has(tag)),
+        String(seed),
+      ).toEqual([]);
+    }
+  });
+
+  it("reaches every variant of every real task", () => {
+    const exams = SEEDS.map((seed) => buildExam({ seed }));
+
+    for (const t of mockTasks) {
+      expect(new Set(exams.map((e) => e[t.id])), t.id).toEqual(
+        new Set(t.variants.map((v) => v.id)),
+      );
+    }
+  });
+
+  it("starts a fresh run on variant 1 of every task", () => {
+    expect(Object.values(firstVariants)).toEqual(mockTasks.map((t) => `${t.id}-v1`));
   });
 
   it("never picks two variants with the same theme", () => {
@@ -140,12 +176,13 @@ describe("the exam builder", () => {
   it("picks for the tasks of one section only", () => {
     const reading = mockTasks.filter((t) => t.id.startsWith("r"));
 
-    expect(buildExam({ seed: 3, tasks: reading })).toEqual({
-      r1: "r1-v1",
-      r2: "r2-v1",
-      r3: "r3-v1",
-      r4: "r4-v1",
-    });
+    const exam = buildExam({ seed: 3, tasks: reading });
+
+    expect(Object.keys(exam)).toEqual(["r1", "r2", "r3", "r4"]);
+
+    for (const t of reading) {
+      expect(t.variants.map((v) => v.id)).toContain(exam[t.id]);
+    }
   });
 
   it("refuses a chosen variant the task does not have", () => {

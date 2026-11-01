@@ -237,10 +237,13 @@ test("mark both writing tasks at the section review and scale them to 25", async
 });
 
 test("a rehearsal resumes after a reload, and a reset clears it", async ({ page }) => {
-  const [first, second] = sections[0].questions;
-
   await page.goto("/#exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  // The variants the exam builder chose for this run.
+  const [first, second] = examSections((await saved(page)).mockRun!.variants)[0].questions;
+
   await answer(page, first, true);
   await expect(page.getByRole("heading", { name: second.prompt, exact: true })).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockRun?.answers[first.id]).toBe(first.answer);

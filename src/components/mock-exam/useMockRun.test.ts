@@ -1,18 +1,17 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { examSections, firstVariants } from "../../data/mock";
+import { examSections } from "../../data/mock";
 import { click, mount, remount, seed, setupMockExam, state } from "../../test/mockExam";
-
-// The exam as variant 1 of each task.
-const sections = examSections(firstVariants);
 
 setupMockExam();
 
 it("resumes the run at the same question after a reload", async () => {
-  const [first, second] = sections[0].questions;
-
   await mount();
   click("Start exam rehearsal");
+
+  // The variants the exam builder chose for this run.
+  const [first, second] = examSections((await state()).variants)[0].questions;
+
   click(first.answer);
   await remount();
 

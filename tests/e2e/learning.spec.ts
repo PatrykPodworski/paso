@@ -666,3 +666,19 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
   // The free talk keeps the passcode the lesson's writing review stored before it.
   expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "olé" });
 });
+
+test("the lesson header names the unit and lesson, and a practice session as practice", async ({
+  page,
+}) => {
+  const lesson = await openLesson(page, 13);
+  const header = page.getByRole("dialog").locator("header");
+
+  await expect(header.getByText("UNIT 4 · LESSON 2", { exact: true })).toBeVisible();
+  await expect(header.getByRole("heading", { name: lesson.title, exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Close lesson" }).click();
+
+  await page.goto("/#practice");
+  await page.getByRole("button", { name: "Start my daily mix" }).click();
+  await expect(header.getByText("PRACTICE", { exact: true })).toBeVisible();
+  await expect(header.getByRole("heading", { name: "Your daily mix", exact: true })).toBeVisible();
+});

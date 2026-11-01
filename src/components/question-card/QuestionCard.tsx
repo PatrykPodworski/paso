@@ -13,7 +13,7 @@ import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
-import { isWritingTask, useAnswer } from "./useAnswer";
+import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
 import { WritingCheck } from "./WritingCheck";
 import type { LastAttempt } from "../history/LastTime";
 
@@ -40,7 +40,6 @@ export const QuestionCard = ({
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
-  const passageAudio = useRef<AudioHandle>(null);
   const [feedback, setFeedback] = useState(false);
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
@@ -75,9 +74,8 @@ export const QuestionCard = ({
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
     // A tapped word is already speaking, so wait for it and read the sentence
-    // after it rather than cutting it off. A passage the learner is listening
-    // to must not be cut off by the model at all. A writing task stays silent.
-    if (q.kind !== "listen" && !isWritingTask(q) && !passageAudio.current?.playing()) {
+    // after it rather than cutting it off. Writing and reading tasks stay silent.
+    if (q.kind !== "listen" && !isSilentTask(q)) {
       const player = q.audio ? listeningAudio : answerAudio;
 
       if (after) {
@@ -170,12 +168,7 @@ export const QuestionCard = ({
         answerAudio={answerAudio}
         previous={previous}
       />
-      <QuestionMaterials
-        q={q}
-        exam={exam}
-        passageAudio={passageAudio}
-        onTranscript={() => setAssisted(true)}
-      />
+      <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
       <AnswerInput
         q={q}
         feedback={feedback}

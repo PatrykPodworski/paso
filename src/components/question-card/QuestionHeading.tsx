@@ -5,7 +5,7 @@ import { spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
-import { isWritingTask } from "./useAnswer";
+import { isSilentTask } from "./useAnswer";
 import { type LastAttempt, LastTime } from "../history/LastTime";
 
 type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
@@ -61,7 +61,7 @@ export const QuestionHeading = ({
   }, [q.id, q.kind]);
 
   const pronunciation = spokenText(q);
-  const hidePronunciation = !q.audio && (!feedback || isWritingTask(q));
+  const hidePronunciation = !q.audio && (!feedback || isSilentTask(q));
 
   return (
     <>
@@ -90,7 +90,7 @@ export const QuestionHeading = ({
               continuous={!exam}
               limit={exam ? 2 : undefined}
             />
-          ) : !exam && !isWritingTask(q) ? (
+          ) : !exam && !isSilentTask(q) ? (
             <AudioButton
               ref={answerAudio}
               round="pronunciation"

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Question } from "../../data/types";
+import type { Grade, Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
@@ -13,13 +13,14 @@ import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
-import { isSilentTask, useAnswer } from "./useAnswer";
+import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
+import { WritingCheck } from "./WritingCheck";
 import type { LastAttempt } from "../history/LastTime";
 
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
@@ -132,6 +133,30 @@ export const QuestionCard = ({
     return () => window.removeEventListener("keydown", handle);
   });
 
+  const checkOrFeedback = feedback ? (
+    <QuestionFeedback
+      q={q}
+      correct={correct}
+      productive={productive}
+      value={value}
+      checked={a.checks.length}
+      assisted={assisted}
+      onRevise={() => {
+        stopAudio();
+        setFeedback(false);
+      }}
+      onContinue={() => onSubmit(submission, correct, assisted)}
+    />
+  ) : (
+    <QuestionFooter
+      exam={exam}
+      productive={productive}
+      kind={q.kind}
+      canSubmit={canSubmit}
+      onCheck={() => submit()}
+    />
+  );
+
   return (
     <div className={cardPadding(exam)}>
       <QuestionHeading
@@ -165,28 +190,18 @@ export const QuestionCard = ({
           setFeedback(false);
         }}
       />
-      {!feedback ? (
-        <QuestionFooter
-          exam={exam}
-          productive={productive}
-          kind={q.kind}
+      {!exam && isWritingTask(q) ? (
+        <WritingCheck
+          q={q}
+          answer={submission}
           canSubmit={canSubmit}
-          onCheck={() => submit()}
+          assisted={assisted}
+          onLock={setFeedback}
+          onEvaluated={onEvaluated}
+          onSubmit={onSubmit}
         />
       ) : (
-        <QuestionFeedback
-          q={q}
-          correct={correct}
-          productive={productive}
-          value={value}
-          checked={a.checks.length}
-          assisted={assisted}
-          onRevise={() => {
-            stopAudio();
-            setFeedback(false);
-          }}
-          onContinue={() => onSubmit(submission, correct, assisted)}
-        />
+        checkOrFeedback
       )}
     </div>
   );

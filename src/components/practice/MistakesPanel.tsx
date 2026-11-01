@@ -6,6 +6,7 @@ import { TextLink } from "../../design-system/TextLink";
 import type { Lesson } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
+import { isWritingTask } from "../question-card/useAnswer";
 import type { Practice, Session } from "../practice";
 
 type Props = {
@@ -42,7 +43,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
           {q.prompt}
         </summary>
         <p className="leading-relaxed my-3 text-sm text-muted-foreground">
-          Correct answer: <strong>{q.answer}</strong>
+          {isWritingTask(q) ? "One possible answer" : "Correct answer"}: <strong>{q.answer}</strong>
         </p>
         <p className="leading-relaxed my-3 text-sm text-muted-foreground">{q.explanation}</p>
         <MemoryHint text={q.memoryHint} variant="mistake" />

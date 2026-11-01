@@ -397,7 +397,7 @@ describe("access", () => {
     });
   });
 
-  it("keeps the passcode progress stored when the free talk is used", async () => {
+  it("keeps a stored passcode when the free talk is used", async () => {
     localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
     replies(started(), { grade: "perfect", items: [] });
     mount();

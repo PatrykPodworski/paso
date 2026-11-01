@@ -66,6 +66,10 @@ export const isCorrect = (q: Question, answer: string) =>
 export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
 
+// A form answer is one "Label: value" line per field; only the values are the learner's words.
+export const answerWords = (q: Pick<Question, "kind">, answer: string) =>
+  countWords(q.kind === "form" ? answer.replace(/^.*?:[^\S\n]*/gm, "") : answer);
+
 // A question answered on the day has its latest answer on that day.
 export const dailyAnswers = (p: ProgressSnapshot, date = localDate()) =>
   Object.values(p.questions).filter((q) => localDate(new Date(q.at)) === date).length;
@@ -111,40 +115,6 @@ export const passingGroups = (
   pass: reading + writing >= 30 && listening + speaking >= 30,
 });
 
-export const writingHints = (text: string) => {
-  const hints: string[] = [];
-
-  if (
-    /\b(soy|estoy)\s+(\d+|veinte|treinta|cuarenta|quince|dieciséis|veinticinco)\s+a[nñ]os\b/i.test(
-      text,
-    )
-  ) {
-    hints.push("For age, use tener: tengo veinte años, not soy / estoy veinte años.");
-  }
-
-  if (/\bme gusta (los|las)\b/i.test(text)) {
-    hints.push("Check gustar: a plural noun needs gustan, as in me gustan las manzanas.");
-  }
-
-  if (/\bmi (padres|hermanos|amigos|hermanas)\b/i.test(text)) {
-    hints.push("A plural possession needs mis: mis padres, mis hermanos.");
-  }
-
-  if (/\bde el\b/i.test(text)) {
-    hints.push("Usually contract de + el to del: enfrente del banco.");
-  }
-
-  if (/\ba el\b/i.test(text)) {
-    hints.push("Usually contract a + el to al: voy al parque.");
-  }
-
-  if (/\b\d+ anos\b/i.test(text)) {
-    hints.push("For years, write años with ñ. Ano is a different word.");
-  }
-
-  if (text.includes("?") && !text.includes("¿")) {
-    hints.push("Written Spanish questions also need an opening ¿.");
-  }
-
-  return hints;
-};
+// DELE A1 marks each writing task 0–3; the two tasks weigh equally in a 25-point section.
+export const writingScore = ([first, second]: readonly [number, number]) =>
+  Math.round(((first + second) / 2) * (25 / 3) * 100) / 100;

@@ -1,5 +1,5 @@
 import type { Question } from "../../data/types";
-import { countWords, isCorrect } from "../../data/progress";
+import { answerWords, isCorrect } from "../../data/progress";
 import { Icon } from "../../design-system/Icon";
 
 type Props = {
@@ -56,9 +56,8 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
         )}
         {q.minWords && (
           <p className={LINE}>
-            Response length:{" "}
-            {countWords(q.kind === "form" ? (answer || "").replace(/^.*?: /gm, "") : answer || "")}{" "}
-            words. Target: {q.minWords}–{q.maxWords}.
+            Response length: {answerWords(q, answer || "")} words. Target: {q.minWords}–{q.maxWords}
+            .
           </p>
         )}
         {q.checklist?.map((c) => (

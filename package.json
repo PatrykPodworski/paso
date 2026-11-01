@@ -36,6 +36,7 @@
     "test:mutation:full": "stryker run stryker.audit.config.mjs",
     "test:refactor": "pnpm test:ids && pnpm build && pnpm lint && pnpm test:coverage && pnpm test:browser && pnpm test:mutation",
     "test:ids": "node scripts/check-test-ids.mjs",
+    "eval:writing": "node --env-file-if-exists=.env.local scripts/eval-writing.ts",
     "test:browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium"
   },
   "dependencies": {

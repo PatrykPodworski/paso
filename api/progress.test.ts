@@ -187,6 +187,20 @@ describe("the mistake and review rules", () => {
     expect(p.questions["u1-o3"].grade).toBe("good");
   });
 
+  it("adds a writing task not passed to the mistakes and clears it once a review passes it", async () => {
+    const me = learner();
+    const writing = { questionId: "u1-o2", skill: "writing" as const };
+
+    expect(
+      (await answer(me, { ...writing, id: "a1", correct: false, grade: "bad" })).questions["u1-o2"],
+    ).toMatchObject({ inMistakes: true });
+
+    const p = await answer(me, { ...writing, id: "a2", correct: true, grade: "perfect" });
+
+    expect(p.questions["u1-o2"]).toMatchObject({ inMistakes: false, grade: "perfect" });
+    expect(p.questions["u1-o2"].review).toBeUndefined();
+  });
+
   it("schedules only the question actually missed and keeps other cards untouched", async () => {
     const me = learner();
 

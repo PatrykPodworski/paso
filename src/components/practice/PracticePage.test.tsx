@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import { expect, it, vi } from "vitest";
 import { allQuestions } from "../../data/curriculum";
+import { formPractice } from "../../data/mock";
 import { emptySnapshot, questionState } from "../../test/progress";
 import type { Lesson, ProgressSnapshot, Skill } from "../../data/types";
 import { mistakeQueue } from "../mistakeQueue";
@@ -42,6 +43,33 @@ it("resolves mistake IDs safely, explains each one and opens an individual retry
   expect(screen.getByText(allQuestions[0].explanation)).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Try again" }));
   expect(lesson?.questions).toEqual([allQuestions[0]]);
+});
+
+it("shows a writing mistake's model as one possible answer, not the correct one", () => {
+  const writing = allQuestions.find((q) => q.id === "u1-o2")!;
+  const p = emptySnapshot();
+
+  p.questions = Object.fromEntries(
+    [allQuestions[0], writing, formPractice].map((q) => [
+      q.id,
+      questionState({ correct: false, inMistakes: true }),
+    ]),
+  );
+
+  render(<Practice progress={p} setSession={vi.fn()} />);
+  fireEvent.click(screen.getByRole("button", { name: "My mistakes (3)" }));
+
+  for (const q of [allQuestions[0], writing, formPractice]) {
+    fireEvent.click(screen.getByText(q.prompt));
+  }
+
+  expect(screen.getByText(allQuestions[0].answer).parentElement).toHaveTextContent(
+    /^Correct answer:/,
+  );
+
+  for (const q of [writing, formPractice]) {
+    expect(screen.getByText(q.answer).parentElement).toHaveTextContent(/^One possible answer:/);
+  }
 });
 
 it("counts several mistakes in the plural", () => {

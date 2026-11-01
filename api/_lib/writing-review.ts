@@ -1,8 +1,8 @@
-import type { Grade, WritingCorrection, WritingMark, WritingReview } from "../../src/data/types.ts";
+import type { Correction, Grade, WritingMark, WritingReview } from "../../src/data/types.ts";
+import { correctionsSchema, isCorrections, keptCorrections } from "./corrections.ts";
 import { messagesOf } from "./writing-prompt.ts";
 import type { WritingTask } from "./writing-tasks.ts";
 
-const MAX_CORRECTIONS = 8;
 // Mirrors the 2000-character limit on the answer, so the revision cannot grow into free text.
 const MAX_REVISED = 2000;
 const MAX_TOKENS = 4000;
@@ -33,7 +33,6 @@ const object = <T extends Record<string, object>>(properties: T) => ({
 });
 
 const coverageItem = object({ point: text, met: { type: "boolean" }, feedback: text });
-const correctionItem = object({ original: text, corrected: text, explanation: text });
 const mark = object({ band: { type: "integer", enum: BANDS }, reason: text });
 const result = { type: "string", enum: Object.keys(RESULT_GRADES) };
 
@@ -41,7 +40,7 @@ const result = { type: "string", enum: Object.keys(RESULT_GRADES) };
 export const schemaOf = (task: WritingTask) =>
   object({
     coverage: { type: "array", items: coverageItem },
-    corrections: { type: "array", items: correctionItem },
+    corrections: correctionsSchema,
     revised: text,
     ...(task.exam ? { mark } : { result }),
   });
@@ -51,10 +50,6 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const isCoverage = (value: unknown): value is { met: boolean; feedback: string } =>
   isRecord(value) && typeof value.met === "boolean" && typeof value.feedback === "string";
-
-const isCorrection = (value: unknown): value is WritingCorrection =>
-  isRecord(value) &&
-  ["original", "corrected", "explanation"].every((key) => typeof value[key] === "string");
 
 const isMark = (value: unknown): value is WritingMark =>
   isRecord(value) &&
@@ -70,9 +65,6 @@ const isCoverageOf = (
   value: unknown,
 ): value is { met: boolean; feedback: string }[] =>
   Array.isArray(value) && value.length === task.points.length && value.every(isCoverage);
-
-const isCorrections = (value: unknown): value is WritingCorrection[] =>
-  Array.isArray(value) && value.every(isCorrection);
 
 const isRevised = (value: unknown): value is string =>
   typeof value === "string" && value.length <= MAX_REVISED;
@@ -104,7 +96,7 @@ const parseJson = (content: string): unknown => {
 
 type Output = {
   coverage: { met: boolean; feedback: string }[];
-  corrections: WritingCorrection[];
+  corrections: Correction[];
   revised: string;
   mark?: WritingMark;
   result?: Result;
@@ -134,9 +126,7 @@ export const parseReview = (
   const review: WritingReview = {
     wordCount,
     coverage: coverage.map(({ met, feedback }, i) => ({ point: task.points[i], met, feedback })),
-    corrections: corrections
-      .slice(0, MAX_CORRECTIONS)
-      .map(({ original, corrected, explanation }) => ({ original, corrected, explanation })),
+    corrections: keptCorrections(corrections),
     revised,
   };
 

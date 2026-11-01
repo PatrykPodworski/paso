@@ -107,10 +107,29 @@ Generating new clips, the voice assignments and the credit guards are in
 
 ## Writing and speaking
 
-Free writing, the personal form and speaking tasks end in a reflection panel:
-a model answer, word-count guidance, a few targeted pattern checks and a
-self-review checklist. Speaking tasks record in the browser with playback and
-download; nothing is uploaded. AI feedback on your writing is coming soon.
+Speaking tasks end in a reflection panel: a model answer and a self-review
+checklist. They record in the browser with playback and download; nothing is
+uploaded.
+
+In a lesson or practice writing task, "Review my practice" asks an AI tutor for
+feedback: a result (passed, partly passed or not passed yet), each requested
+point covered or missing, corrections, the word count and a revised version. The
+result is recorded like a live talk's grade, so a task not passed goes to the
+mistake review. At the mock exam's writing review, one button marks both tasks
+with a DELE band from 0 to 3 and scales them to the 25-point writing score.
+Nothing is sent until the learner asks, and the server stores nothing.
+
+`api/review-writing.ts` looks the task up on the server, so the client sends
+only the task id, the answer and the passcode. It calls OpenRouter with
+`OPENROUTER_API_KEY` on the model that `OPENROUTER_MODEL` names, and checks the
+same `PASSCODE` as the live talks. Both OpenRouter variables are required: without
+either one the function logs which is missing and answers 503. Use `vercel dev`
+to try it locally.
+
+`pnpm eval:writing` reviews the sample answers in `scripts/writing-evals/samples.json`
+and fails when any band (exam tasks) or result (practice tasks) differs from the
+expected one. It reads the key and the model
+from the environment or `.env.local`; rerun it after changing the prompt or the model.
 
 ## Live examiner
 

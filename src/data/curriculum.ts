@@ -1629,7 +1629,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       prompt: s.writing,
       answer: s.model,
       explanation:
-        "Compare your text with the model and review each requested point. Different answers can be valid. The checklist and word count are practice feedback, not an examiner grade.",
+        "Cover every requested point in simple, understandable Spanish and write at least 30 words. The model is one possible answer; different wording and details can be just as good.",
       checklist: s.checks,
       minWords: 30,
       maxWords: 40,

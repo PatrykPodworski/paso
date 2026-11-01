@@ -37,19 +37,19 @@ const write = (text: string) =>
   fireEvent.change(screen.getByRole("textbox"), { target: { value: text } });
 
 it("counts ticked self-review points and hides the coming-soon note after review", () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
-  const note = "AI feedback on your writing and speaking is coming soon.";
+  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
+  const note = "AI feedback on your speaking is coming soon.";
 
   expect(screen.getByText(note)).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("checkbox", { name: writing.checklist![0] }));
-  fireEvent.click(screen.getByRole("checkbox", { name: writing.checklist![1] }));
-  fireEvent.click(screen.getByRole("checkbox", { name: writing.checklist![1] }));
-  fireEvent.click(screen.getByRole("checkbox", { name: writing.checklist![2] }));
-  write(writing.answer);
+  fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![0] }));
+  fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![1] }));
+  fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![1] }));
+  fireEvent.click(screen.getByRole("checkbox", { name: speaking.checklist![2] }));
+  fireEvent.click(screen.getByRole("checkbox", { name: /I practised aloud/ }));
   click("Review my practice");
 
   expect(
-    screen.getByText(`2/${writing.checklist!.length} self-review points checked.`, {
+    screen.getByText(`2/${speaking.checklist!.length} self-review points checked.`, {
       exact: false,
     }),
   ).toBeInTheDocument();
@@ -59,9 +59,9 @@ it("counts ticked self-review points and hides the coming-soon note after review
 });
 
 it("shows which self-review points are ticked", () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
+  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
 
-  const [first, second, third] = writing.checklist!.map((name) =>
+  const [first, second, third] = speaking.checklist!.map((name) =>
     screen.getByRole("checkbox", { name }),
   );
 
@@ -71,6 +71,16 @@ it("shows which self-review points are ticked", () => {
   expect(first).toBeChecked();
   expect(second).not.toBeChecked();
   expect(third).not.toBeChecked();
+});
+
+it("gives writing no self-review checklist and no coming-soon note", () => {
+  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
+  write(writing.answer);
+  expect(screen.queryByText("Your self-review checklist")).not.toBeInTheDocument();
+  expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+  expect(screen.queryByText(/coming soon/)).not.toBeInTheDocument();
+  click("Review my practice");
+  expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
 });
 
 it("hides the self-review checklist in the exam", () => {
@@ -131,14 +141,14 @@ it("stores a placeholder answer for a practised-aloud submission", () => {
 });
 
 it("unchecking one self-review point retains the others", () => {
-  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
-  const boxes = screen.getAllByRole("checkbox");
+  render(<QuestionCard q={speaking} onSubmit={vi.fn()} />);
+  const [first, second] = speaking.checklist!.map((name) => screen.getByRole("checkbox", { name }));
 
-  fireEvent.click(boxes[0]);
-  fireEvent.click(boxes[1]);
-  fireEvent.click(boxes[0]);
-  expect(boxes[0]).not.toBeChecked();
-  expect(boxes[1]).toBeChecked();
+  fireEvent.click(first);
+  fireEvent.click(second);
+  fireEvent.click(first);
+  expect(first).not.toBeChecked();
+  expect(second).toBeChecked();
 });
 
 it("a new recording clears the practised flag and blocks review", () => {

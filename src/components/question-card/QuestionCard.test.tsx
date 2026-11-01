@@ -150,7 +150,7 @@ it.each([
   expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(q.options?.length || 0);
 
   expect(screen.queryAllByText("Your self-review checklist")).toHaveLength(
-    ["write", "speak", "form"].includes(q.kind) ? 1 : 0,
+    q.kind === "speak" ? 1 : 0,
   );
 
   expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
@@ -243,13 +243,22 @@ const audioButtons = () => [
 
 it.each([writing, writingWithPassage, formPractice])(
   "a lesson writing task plays no audio before or after review: $id",
-  (q) => {
+  async (q) => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Response.json({ wordCount: 5, coverage: [], corrections: [], revised: "", grade: "good" }),
+      ),
+    );
+
     render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 
     expect(audioButtons()).toHaveLength(0);
     fillWriting(q);
     click("Review my practice");
-    expect(screen.getByRole("button", { name: "Revise my answer" })).toBeVisible();
+    expect(await screen.findByRole("button", { name: "Continue" })).toBeVisible();
     expect(audioButtons()).toHaveLength(0);
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   },

@@ -66,6 +66,8 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 5 (_Mi día a día_): 23 texts.
 - Unit 9 (_Tiempo libre_): 21 texts.
 - Unit 12 (_¡Tú puedes!_): 22 texts.
+- Texts spoken only in the mock exam (listening audio, writing models) or the
+  foundations and picture practice: 49 texts.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

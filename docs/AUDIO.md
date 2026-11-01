@@ -59,6 +59,7 @@ each edge and brought to about −17 LUFS with a −2 dBFS peak limiter. The
 generator never contacts ElevenLabs for these phrases while their files exist.
 
 - Unit 1 (_Primeros pasos_): 22 texts.
+- Unit 3 (_Mi gente_): 24 texts.
 - Unit 4 (_La casa_): 36 texts. Lookup is per text, so units 3, 7 and 10 also
   play the unit 4 recordings of the tiles _del_, _La_, _está_ and _al_.
 

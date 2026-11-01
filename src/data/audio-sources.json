@@ -150,29 +150,64 @@
     "modelId": "eleven_multilingual_v2"
   },
   "7odzis": {
-    "src": "/audio/elevenlabs/2af37db281eb492fe91c57d8.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/12b19928f148f8976c8c4f52.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el padre",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1divsum": {
-    "src": "/audio/elevenlabs/c31d7477a53dbda85d54add4.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/7a5d2a78f23a93d63cbb6f44.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el hermano",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1b2za80": {
-    "src": "/audio/elevenlabs/3631ee54138f1c5ca1d61653.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/331c2d64d0c02f7d2ffdc633.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el hijo",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1ag692l": {
-    "src": "/audio/elevenlabs/f4a20ac961efd2e281e3c3d2.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/a0f8b93550593d41574e7f3f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la familia",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1jh65b8": {
-    "src": "/audio/elevenlabs/26364061e4d16041723bdb0d.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/d91228e48ded778268f5e4f7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Esta es mi amiga Isabel. Es baja y tiene el pelo rubio. Tiene un hermano pequeño que se llama Luis. Isabel trabaja en una tienda y su hermano es estudiante.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "v6yukl": {
     "src": "/audio/voxcpm/401bff33039f205fe74afd37.mp3",
@@ -596,24 +631,52 @@
     "modelId": "eleven_multilingual_v2"
   },
   "67aevl": {
-    "src": "/audio/elevenlabs/78a6d99f853a5f0e193e26cd.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/035901711658a4c2eb1aa69f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la madre",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1a550ee": {
-    "src": "/audio/elevenlabs/51d9a5726b606510daef16ac.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/8d5b417e3522f428dcaac4a8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la hermana",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "4r5nl0": {
-    "src": "/audio/elevenlabs/de34511cdca9fab717fa4366.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1de76e540fd0e6e69ac8e102.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la abuela",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "19l8a2r": {
-    "src": "/audio/elevenlabs/cb2e7744d83b7ed416656d7a.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/a315fdeb755ca8a07e21125d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la amiga",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1s6nv8y": {
     "src": "/audio/voxcpm/957f263ff4ca1d976de0f9e7.mp3",
@@ -841,9 +904,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "p12af7": {
-    "src": "/audio/elevenlabs/8d38c5dc7432a456602b3424.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/c3c744d38a4c797669f6fd03.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Mis hermanas son altas y simpáticas.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1wd1g0h": {
     "src": "/audio/voxcpm/526957b536ea3a99a50408b0.mp3",
@@ -915,9 +985,17 @@
     "modelId": "eleven_multilingual_v2"
   },
   "1bhgjx6": {
-    "src": "/audio/elevenlabs/910ff22bea4d73191fa2bd12.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/9b77cbc05e0233887dff81f9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
+    "spokenText": "Hola Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "sxumn5": {
     "src": "/audio/voxcpm/e3782c6c5aeb816fff9264b8.mp3",
@@ -1349,138 +1427,111 @@
     }
   },
   "x9arpc": {
-    "src": "/audio/elevenlabs/106434111ab38c721a4b1c66.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/85ec5a2695df4375043e8eeb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mis padres viven en Sevilla.",
-    "request": {
-      "text": "[calm] [slowly] Mis padres viven en Sevilla.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1ylvcvt": {
-    "src": "/audio/elevenlabs/893ba4ee140aea6d6aded754.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ec45ab09191110aa5e0d014c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi hermana es alta.",
-    "request": {
-      "text": "[calm] [slowly] Mi hermana es alta.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "nf2iks": {
-    "src": "/audio/elevenlabs/2df6210ef89fccd8e9a85d17.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/805d57658e1863b30fab2e09.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "El padre de mi madre es mi abuelo.",
-    "request": {
-      "text": "[calm] [slowly] El padre de mi madre es mi abuelo.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "s3nkyz": {
-    "src": "/audio/elevenlabs/ccfa80cfa2a1228d7da837d5.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1f845333d2533b5cfa87bad2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tenemos dos hijas. Son nuestras hijas.",
-    "request": {
-      "text": "[calm] [slowly] Tenemos dos hijas. Son nuestras hijas.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1lfe9vt": {
-    "src": "/audio/elevenlabs/495f12c9340482ad61d6f454.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/102b12c4ad7c3a375deeb651.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Una mujer. Dos mujeres.",
-    "request": {
-      "text": "[calm] [slowly] Una mujer. Dos mujeres.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1eggyoo": {
-    "src": "/audio/elevenlabs/2d265495cf1283c57f294491.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/3e9278d75495716f0e2a7b52.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La profesora es simpática.",
-    "request": {
-      "text": "[calm] [slowly] La profesora es simpática.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "12qor38": {
-    "src": "/audio/elevenlabs/3f51ea126097d24b5ecee828.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/fa2ae12d49ec6c91d9f53774.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
-    "request": {
-      "text": "[calm] [slowly] Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1ynil3z": {
-    "src": "/audio/elevenlabs/a7fbff5ab2809afb3e179d93.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/3aef8286ba21db7428aced56.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi hermana es muy simpática",
-    "request": {
-      "text": "[calm] [slowly] Mi hermana es muy simpática",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "pyzq2v": {
-    "src": "/audio/elevenlabs/702c38b8cfbd9a1419cfd3d3.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f7f482708035297e4976033a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tengo dos hermanos.",
-    "request": {
-      "text": "[calm] [slowly] Tengo dos hermanos.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "13paqtp": {
@@ -3187,63 +3238,51 @@
     }
   },
   "1pqogsq": {
-    "src": "/audio/elevenlabs/f28cb1afd1354248bf80d197.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f8a5ae11f5b9ba3340f74851.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "muy",
-    "request": {
-      "text": "[calm] [slowly] muy",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "egxdlk": {
-    "src": "/audio/elevenlabs/5e202ada1517ec279fd1065b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/80ef8fdbf719a0df20206112.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "simpática",
-    "request": {
-      "text": "[calm] [slowly] simpática",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "phpnmr": {
-    "src": "/audio/elevenlabs/3306eb0edfa458990168e601.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/115c6aa01957aac1090a39f3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi",
-    "request": {
-      "text": "[calm] [slowly] Mi",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "cm363v": {
-    "src": "/audio/elevenlabs/26e5f9d03147157064265f9d.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1019a47da94b1540ecda39d9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "hermana",
-    "request": {
-      "text": "[calm] [slowly] hermana",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "jg8p61": {

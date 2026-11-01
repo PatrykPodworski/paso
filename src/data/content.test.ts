@@ -203,6 +203,22 @@ describe("original curriculum integrity", () => {
     }
   });
 
+  it("places reading answers so that their position gives nothing away", () => {
+    for (const t of mockExam[0].tasks.filter((t) => ["r1", "r4"].includes(t.id))) {
+      const patterns = t.variants.map((v) =>
+        v.questions.map((q) => q.options!.indexOf(q.answer)).join(""),
+      );
+
+      expect(new Set(patterns).size, t.id).toBe(patterns.length);
+
+      for (const position of ["0", "1", "2"]) {
+        expect(patterns.join("").split(position).length - 1, t.id).toBeGreaterThan(
+          patterns.join("").length / 5,
+        );
+      }
+    }
+  });
+
   it("matches each reading situation to a different one of nine texts", () => {
     for (const t of mockExam[0].tasks.filter((t) => ["r2", "r3"].includes(t.id))) {
       for (const v of t.variants) {

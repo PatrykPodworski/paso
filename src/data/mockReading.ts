@@ -8,10 +8,26 @@ type MatchItem = [string, string, string];
 
 const LETTERS = "ABCDEFGHI".split("");
 
-const rotate = (items: string[], i: number) => [
-  ...items.slice(i % items.length),
-  ...items.slice(0, i % items.length),
-];
+// FNV-1a: a fixed number for a string, the same on every device.
+const hash = (text: string) => {
+  let h = 0x811c9dc5;
+
+  for (const char of text) {
+    h = Math.imul(h ^ char.codePointAt(0)!, 0x01000193);
+  }
+
+  return h >>> 0;
+};
+
+// Puts the answer at a position fixed by the item's key, so the position differs between items
+// and between variants and never gives the answer away.
+const placeAnswer = (answer: string, wrong: string[], key: string) => {
+  const options = [...wrong];
+
+  options.splice(hash(key) % (wrong.length + 1), 0, answer);
+
+  return options;
+};
 
 // Variant 1 keeps the question ids it had before variants, so saved answers still point at them.
 const questionId = (task: string, variant: number, item: number) =>
@@ -42,7 +58,7 @@ const textTask =
           task: title,
           prompt,
           answer,
-          options: rotate([answer, a, b], i),
+          options: placeAnswer(answer, [a, b], questionId(task, variant, i)),
           explanation,
           passage: text,
         }),
@@ -79,7 +95,7 @@ const r1: MockVariant[] = [
     1,
     "a new classmate",
     ["Laura", "Silvia", "Carmen"],
-    "Hola, Silvia:\nMe llamo Laura y soy tu nueva compañera de español. Tengo veintiséis años y soy italiana, pero ahora vivo en Salamanca con mi hermana. Nuestro piso está en una calle tranquila, cerca de la universidad. Mi hermana trabaja en una farmacia y yo soy profesora de música en una escuela pequeña. Trabajo por la mañana, de nueve a dos, y por la tarde estudio español.\nLa clase empieza el martes a las seis. Nuestra profesora se llama Carmen y es muy simpática. Hay diez estudiantes en el grupo. Después de clase quiero tomar un café contigo en el bar de la plaza. El café está al lado de la biblioteca.\nLos fines de semana me gusta pasear por el parque y leer en casa. No me gusta mucho el fútbol, pero a mi hermana sí. También me gusta cocinar pasta para mis amigos. ¿Qué te gusta hacer a ti? ¿Quieres venir a mi casa el domingo para comer?\nUn abrazo,\nLaura",
+    "Hola, Silvia:\nMe llamo Laura y soy tu nueva compañera de español. Tengo veintiséis años y soy italiana, pero ahora vivo en Salamanca con mi hermana. Nuestro piso está en una calle tranquila, cerca de la universidad. Mi hermana trabaja en una farmacia y yo soy profesora de música en una escuela pequeña. Trabajo por la mañana, de nueve a dos, y por la tarde estudio español.\nLa clase empieza el martes a las seis. Nuestra profesora se llama Carmen y es muy simpática. Hay diez estudiantes en el grupo. Después de clase quiero tomar un café contigo en el bar de la plaza. El bar está al lado de la biblioteca.\nLos fines de semana me gusta pasear por el parque y leer en casa. No me gusta mucho el fútbol, pero a mi hermana sí. También me gusta cocinar pasta para mis amigos. ¿Qué te gusta hacer a ti? ¿Quieres venir a mi casa el domingo para comer?\nUn abrazo,\nLaura",
     [
       [
         "¿De dónde es Laura?",
@@ -175,11 +191,11 @@ const r1: MockVariant[] = [
         "Mi marido, Ramón, va a esperarte: Nuria’s husband meets Hugo.",
       ],
       [
-        "¿A qué hora espera Ramón a Hugo?",
+        "¿A qué hora tiene que estar Hugo en el aeropuerto?",
         "A las cuatro.",
         "A las ocho.",
         "A las nueve.",
-        "Ramón waits at four in the afternoon. Eight and nine are breakfast and dinner times.",
+        "Ramón waits for Hugo at the airport at four in the afternoon. Eight and nine are breakfast and dinner times.",
       ],
       [
         "¿Qué hay en la habitación de Hugo?",
@@ -293,8 +309,8 @@ const r1: MockVariant[] = [
   email(
     6,
     "a favour for a neighbour",
-    ["Clara", "Andrés"],
-    "Hola, Andrés:\nSoy Clara, tu vecina del tercero B. Te escribo porque la próxima semana voy a Lisboa por trabajo. Salgo el lunes temprano y vuelvo el jueves por la noche. ¿Puedes ayudarme con mi perro, Bruno?\nBruno es grande y negro, pero es muy bueno. Come dos veces al día, a las ocho de la mañana y a las siete de la tarde. Su comida está en la cocina, debajo de la ventana. Por la tarde necesita salir a pasear media hora. Le gusta mucho el parque de enfrente.\nEl domingo por la tarde te dejo las llaves de mi piso en tu buzón. Mi hermana viene el miércoles para dar agua a las plantas.\nMuchas gracias. El viernes te invito a cenar en el restaurante portugués de la esquina.\nUn saludo,\nClara",
+    ["Clara", "Andrés", "Bruno"],
+    "Hola, Andrés:\nSoy Clara, tu vecina del tercero B. Te escribo porque la próxima semana voy a Lisboa por trabajo. Salgo el lunes temprano y vuelvo el jueves por la noche. ¿Puedes ayudarme con mi perro, Bruno?\nBruno es grande y negro, pero es muy bueno. Come dos veces al día, a las ocho de la mañana y a las siete de la tarde. Su comida está en la cocina, debajo de la ventana. Por la tarde necesita salir a pasear media hora. Le gusta mucho el parque de enfrente.\nEl domingo por la tarde te dejo las llaves de mi piso en tu buzón. Mi hermana viene el miércoles para regar las plantas.\nMuchas gracias. El viernes te invito a cenar en el restaurante portugués de la esquina.\nUn saludo,\nClara",
     [
       [
         "¿Por qué va Clara a Lisboa?",
@@ -326,7 +342,7 @@ const r1: MockVariant[] = [
       ],
       [
         "¿Qué hace la hermana de Clara el miércoles?",
-        "Da agua a las plantas.",
+        "Riega las plantas.",
         "Pasea al perro.",
         "Deja las llaves.",
         "Her sister comes on Wednesday to water the plants; Andrés walks the dog.",
@@ -340,7 +356,7 @@ const r2: MockVariant[] = [
     1,
     "notices in town",
     [
-      "BIBLIOTECA: Para llevar libros a casa necesita una tarjeta de lector. Puede pedirla aquí con su documento de identidad. La tarjeta es gratuita.",
+      "BIBLIOTECA: Hoy, a las cinco, hay un club de lectura en la sala 2. Hablamos de una novela española. Puede participar sin pagar.",
       "PISCINA: Abierta de martes a domingo, de diez a ocho. Los lunes está cerrada. Los niños pequeños tienen que entrar con una persona adulta.",
       "CAFETERÍA: Desayuno con café, zumo y tostada por cinco euros. Esta oferta está disponible de ocho a once de la mañana, de lunes a viernes.",
       "MUSEO: Los domingos la entrada es gratuita para todos los visitantes. El resto de la semana cuesta seis euros. Cerramos todos los días a las seis.",
@@ -351,9 +367,13 @@ const r2: MockVariant[] = [
       "PARQUE: No se puede entrar con bicicletas. Los perros deben ir con su dueño. El parque abre a las ocho y cierra a las nueve.",
     ],
     [
-      ["Necesita desayunar por cinco euros.", "C", "The café advertises breakfast for five euros."],
       [
-        "Quiere visitar un museo sin pagar.",
+        "Quiere desayunar barato antes de ir a trabajar.",
+        "C",
+        "The café has a five-euro breakfast on weekday mornings.",
+      ],
+      [
+        "Quiere ver cuadros el domingo, pero no tiene dinero.",
         "D",
         "The museum notice says entrance is free on Sundays; the six-euro price applies on other days.",
       ],
@@ -363,9 +383,9 @@ const r2: MockVariant[] = [
         "The health centre asks patients to wait until their name is called.",
       ],
       [
-        "Quiere llevar libros a su casa.",
+        "Quiere hablar de libros con otras personas.",
         "A",
-        "A reader card is needed to borrow books from the library.",
+        "The library has a free reading club today, where people talk about a novel.",
       ],
       [
         "Quiere comprar un billete sin ir a una oficina.",
@@ -400,12 +420,12 @@ const r2: MockVariant[] = [
         "The exchange notice offers conversation in German and Spanish.",
       ],
       [
-        "Ayer olvidó un libro en el aula.",
+        "No encuentra su libro de español.",
         "H",
         "Lost property is kept at reception, and it includes books.",
       ],
       [
-        "Quiere comer su comida caliente en la escuela.",
+        "Trae comida de casa y quiere calentarla en la escuela.",
         "G",
         "The kitchen has a microwave that students can use.",
       ],
@@ -438,7 +458,7 @@ const r2: MockVariant[] = [
       "PAQUETES: Si no está en casa, el portero guarda sus paquetes. Puede recogerlos de lunes a viernes, de nueve a dos.",
       "GARAJE: Las bicicletas tienen que estar en el garaje, al lado de la puerta. No se pueden dejar en la escalera.",
       "LIMPIEZA: Mañana limpiamos la escalera. Por favor, no usen la escalera de diez a doce.",
-      "GATO PERDIDO: Busco a mi gato. Es blanco y tiene un collar rojo. Si lo ve, llame a la puerta del piso segundo C.",
+      "GATO PERDIDO: Busco a mi gato. Es blanco y tiene un collar rojo. Si lo ve, llame al segundo C.",
     ],
     [
       [
@@ -453,7 +473,7 @@ const r2: MockVariant[] = [
         "The building’s pool opens in June and is only for residents.",
       ],
       [
-        "Espera un paquete, pero trabaja todo el día.",
+        "No está en casa cuando llega su paquete.",
         "F",
         "The porter keeps parcels for residents who are not at home.",
       ],
@@ -592,9 +612,9 @@ const r2: MockVariant[] = [
         "The salsa class says you do not need a partner.",
       ],
       [
-        "Quiere usar el centro deportivo todos los meses.",
+        "Quiere una tarjeta del centro y no sabe qué documentos necesita.",
         "I",
-        "Membership is paid monthly and needs a photo and an ID.",
+        "To become a member you bring a photo and an ID document.",
       ],
     ],
   ),
@@ -674,7 +694,7 @@ const r3: MockVariant[] = [
         "The ski school offers beginners’ classes in January and February.",
       ],
       [
-        "Soy estudiante y quiero conocer la capital de Francia.",
+        "Soy estudiante y quiero pasar unos días en París.",
         "C",
         "The Paris trip is cheaper with a student card.",
       ],
@@ -736,7 +756,7 @@ const r3: MockVariant[] = [
         "The beach restaurant hires for July and August.",
       ],
       [
-        "Me gusta trabajar fuera de casa, con flores y plantas.",
+        "Me gusta trabajar al aire libre, con flores y plantas.",
         "F",
         "The gardener works outdoors in private gardens.",
       ],
@@ -800,7 +820,7 @@ const r3: MockVariant[] = [
       "HOTEL PARA PERROS Y GATOS. Cuidamos a su animal cuando usted está de viaje.",
       "REPARAMOS ORDENADORES y teléfonos móviles. Precios bajos. Tienda en la calle Mayor.",
       "PINTOR. Pintamos pisos y casas. Trabajo limpio y rápido.",
-      "ARREGLOS DE ROPA. Hacemos más cortos o más pequeños sus pantalones, faldas y vestidos.",
+      "ARREGLOS DE ROPA. Hacemos más corta o más pequeña su ropa: pantalones, camisas, chaquetas y vestidos.",
       "PUERTAS Y LLAVES. ¿No puede abrir la puerta de su casa? Le ayudamos las veinticuatro horas.",
     ],
     [
@@ -877,7 +897,7 @@ const r3: MockVariant[] = [
         "The photography course teaches phone photography.",
       ],
       [
-        "Quiero comprar discos de música viejos y baratos.",
+        "Quiero comprar música antigua y no quiero pagar mucho.",
         "B",
         "The flea market sells old records cheaply.",
       ],
@@ -890,7 +910,7 @@ const r4: MockVariant[] = [
     1,
     "a cultural centre",
     [],
-    "CENTRO CULTURAL LA LUNA\nEl centro cultural La Luna está en la calle Mayor, número catorce, al lado del mercado municipal. Es un lugar para estudiar, leer y conocer gente del barrio. Abrimos de lunes a viernes de nueve de la mañana a ocho de la tarde. Los sábados abrimos a las diez y cerramos a las dos. Los domingos no abrimos.\nEn la primera planta hay una biblioteca con libros en español, inglés y francés. Para llevar libros a casa es necesario tener una tarjeta del centro. La tarjeta es gratuita y puede pedirla en la recepción con su documento de identidad.\nEn la segunda planta hay tres aulas. Ofrecemos clases de español los martes y jueves, de seis a siete de la tarde. El curso cuesta treinta euros al mes. Las clases de dibujo son los miércoles a las cinco y cuestan veinte euros al mes.\nTambién tenemos un café en la planta baja. Allí puede tomar café, zumo y bocadillos. No se puede comer en las aulas. Para más información, puede llamar al centro por la mañana o escribir un correo electrónico.",
+    "CENTRO CULTURAL LA LUNA\nEl centro cultural La Luna está en la calle Mayor, número catorce, al lado del mercado municipal. Es un lugar para estudiar, leer y conocer gente del barrio. Abrimos de lunes a viernes de nueve de la mañana a ocho de la tarde. Los sábados abrimos a las diez y cerramos a las dos. Los domingos no abrimos.\nEn la primera planta hay una biblioteca con libros en español, inglés y francés. Para llevar libros a casa es necesario tener una tarjeta del centro. La tarjeta es gratuita y puede pedirla en la recepción con su documento de identidad.\nEn la segunda planta hay tres aulas. Ofrecemos clases de español los martes y jueves, de seis a siete de la tarde. El curso cuesta treinta euros al mes. Las clases de dibujo son los miércoles a las cinco y cuestan veinte euros al mes.\nTambién tenemos un café en la planta baja. Allí puede tomar café, zumo y bocadillos. No se puede comer en las aulas ni en la biblioteca. Para más información, puede llamar al centro por la mañana o escribir un correo electrónico.",
     [
       [
         "¿Dónde está el centro?",
@@ -946,7 +966,7 @@ const r4: MockVariant[] = [
         "En el café.",
         "En las aulas.",
         "En la biblioteca.",
-        "The café sells food. The text explicitly prohibits eating in classrooms.",
+        "The café sells food. The text forbids eating in the classrooms and the library.",
       ],
     ],
   ),
@@ -1018,7 +1038,7 @@ const r4: MockVariant[] = [
     3,
     "a summer Spanish course",
     [],
-    "CURSO DE VERANO DE ESPAÑOL · UNIVERSIDAD DE CÁDIZ\nLa Universidad de Cádiz tiene un curso de español para extranjeros en julio. El curso empieza el lunes 3 de julio y termina el viernes 28. Hay cuatro niveles, de A1 a B2. El primer día todos los estudiantes hacen un examen corto para saber su nivel.\nLas clases son de lunes a viernes, de nueve a una. En cada grupo hay doce estudiantes como máximo. Por la tarde hay actividades: clases de baile, cine español y visitas a la ciudad. Las actividades de la tarde son gratis.\nEl curso cuesta seiscientos euros. Los estudiantes pueden vivir con una familia española o en una residencia. Una habitación con una familia cuesta ochocientos euros al mes, con desayuno y cena. La residencia es más barata, quinientos euros al mes, pero no tiene comida.\nLos sábados hay excursiones a pueblos y playas de la región. Cada excursión cuesta veinticinco euros.\nPara hacer el curso, complete el formulario de nuestra página web antes del 15 de mayo. Al final del curso todos los estudiantes reciben un diploma.",
+    "CURSO DE VERANO DE ESPAÑOL · UNIVERSIDAD DEL SUR\nLa Universidad del Sur, en Cádiz, tiene un curso de español para extranjeros en julio. El curso empieza el lunes 3 de julio y termina el viernes 28. Hay cuatro niveles, de A1 a B2. El primer día todos los estudiantes hacen un examen corto para saber su nivel.\nLas clases son de lunes a viernes, de nueve a una. En cada grupo hay doce estudiantes como máximo. Por la tarde hay actividades: clases de baile, cine español y visitas a la ciudad. Las actividades de la tarde son gratis.\nEl curso cuesta seiscientos euros. Los estudiantes pueden vivir con una familia española o en una residencia. Una habitación con una familia cuesta ochocientos euros al mes, con desayuno y cena. La residencia es más barata, quinientos euros al mes, pero no tiene comida.\nLos sábados hay excursiones a pueblos y playas de la región. Cada excursión cuesta veinticinco euros.\nPara hacer el curso, complete el formulario de nuestra página web antes del 15 de mayo. Al final del curso todos los estudiantes reciben un diploma.",
     [
       [
         "¿Cuándo termina el curso?",
@@ -1031,7 +1051,7 @@ const r4: MockVariant[] = [
         "¿Qué hacen los estudiantes el primer día?",
         "Un examen.",
         "Una excursión.",
-        "Una visita a la ciudad.",
+        "Una fiesta.",
         "On the first day everyone takes a short test to find their level.",
       ],
       [
@@ -1152,8 +1172,8 @@ const r4: MockVariant[] = [
         "¿Dónde está el jardín?",
         "Enfrente del hospital.",
         "Dentro del hospital.",
-        "Junto al metro.",
-        "Está… enfrente del hospital: opposite the hospital, not in it. The metro is one way to get there.",
+        "Detrás del hospital.",
+        "Está… enfrente del hospital: opposite the hospital, not in it or behind it.",
       ],
       [
         "¿A qué hora cierra el jardín en enero?",
@@ -1210,7 +1230,7 @@ const r4: MockVariant[] = [
     6,
     "a public bicycle service",
     [],
-    "BICI CIUDAD · EL SERVICIO DE BICICLETAS PÚBLICAS\nCon Bici Ciudad puede ir en bicicleta por toda la ciudad de una forma fácil y barata. Hay ciento veinte estaciones de bicicletas en las calles. Puede tomar una bicicleta en una estación y dejarla en otra.\nPara usar el servicio necesita una tarjeta. Puede pedirla en la oficina de la plaza de España o en la aplicación del teléfono móvil. Es necesario tener dieciséis años o más.\nLa tarjeta para un año cuesta cuarenta euros. Con esta tarjeta, la primera media hora de cada viaje es gratis. Después, cada media hora cuesta cincuenta céntimos. También hay una tarjeta de un día para turistas, que cuesta seis euros.\nEl servicio funciona todos los días, de seis de la mañana a doce de la noche. Los viernes y los sábados funciona toda la noche.\nHay bicicletas normales y bicicletas eléctricas. Las normales son blancas y las eléctricas son azules y cada viaje cuesta un euro más.\nSi tiene un problema con una bicicleta, llame al 900 300 400. La llamada es gratis. Recuerde: no se puede ir en bicicleta dentro de los parques.",
+    "BICI CIUDAD · EL SERVICIO DE BICICLETAS PÚBLICAS\nCon Bici Ciudad puede ir en bicicleta por toda la ciudad de una forma fácil y barata. Hay ciento veinte estaciones de bicicletas en las calles. Puede tomar una bicicleta en una estación y dejarla en otra.\nPara usar el servicio necesita una tarjeta. Puede pedirla en la oficina de la plaza de España o en la aplicación del teléfono móvil. Es necesario tener dieciséis años o más.\nLa tarjeta para un año cuesta cuarenta euros. Con esta tarjeta, la primera media hora de cada viaje es gratis. Después, cada media hora cuesta cincuenta céntimos. También hay una tarjeta de un día para turistas, que cuesta seis euros.\nEl servicio funciona todos los días, de seis de la mañana a doce de la noche. Los viernes y los sábados funciona toda la noche.\nHay bicicletas normales y bicicletas eléctricas. Las normales son blancas. Las eléctricas son azules y cuestan un euro más por viaje.\nSi tiene un problema con una bicicleta, llame al 900 300 400. La llamada es gratis. Recuerde: no se puede ir en bicicleta dentro de los parques.",
     [
       [
         "¿Dónde se puede dejar la bicicleta?",
@@ -1241,10 +1261,10 @@ const r4: MockVariant[] = [
         "The yearly card is forty euros; six euros is the one-day tourist card.",
       ],
       [
-        "¿Cuánto cuesta la primera media hora de un viaje?",
+        "¿Cuánto cuesta la primera media hora con una bicicleta normal?",
         "Nada.",
         "Cincuenta céntimos.",
-        "Un euro.",
+        "Dos euros.",
         "The first half hour is free. Fifty cents is each half hour after it.",
       ],
       [

@@ -6,9 +6,9 @@ const BASE =
 
 const VARIANT = {
   primary:
-    "bg-green-900 border-transparent text-sand-50 shadow-sm shadow-green-950/6 enabled:hover:bg-green-950 enabled:hover:shadow-md enabled:hover:shadow-green-950/13",
-  secondary: "bg-white border-sage-200 enabled:hover:bg-sage-100",
-  danger: "text-coral-800 bg-coral-50 border-coral-300",
+    "bg-primary border-transparent text-primary-foreground shadow-sm enabled:hover:bg-primary/80 enabled:hover:shadow-md",
+  secondary: "bg-card border-border enabled:hover:bg-muted",
+  danger: "text-destructive bg-destructive/10 border-destructive/30",
 };
 
 const SIZE = {

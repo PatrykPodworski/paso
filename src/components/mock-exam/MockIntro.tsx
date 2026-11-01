@@ -11,23 +11,23 @@ type Props = { progress: ProgressSnapshot; onStart: () => void };
 
 export const MockIntro = ({ progress, onStart }: Props) => (
   <>
-    <div className="flex items-center gap-11 rounded-xl border border-sage-200 bg-sage-100 p-10 max-xl:gap-6 max-xl:p-7 max-md:p-6">
-      <div className="flex h-55 w-47 shrink-0 flex-col items-center justify-center gap-6 rounded-t-arch rounded-b-2xl border border-sage-200 bg-sage-200 text-olive-500 max-xl:h-47 max-xl:w-37 max-lg:hidden">
+    <div className="flex items-center gap-11 rounded-xl border border-border bg-muted p-10 max-xl:gap-6 max-xl:p-7 max-md:p-6">
+      <div className="flex h-55 w-47 shrink-0 flex-col items-center justify-center gap-6 rounded-t-arch rounded-b-2xl border border-border bg-muted text-foreground max-xl:h-47 max-xl:w-37 max-lg:hidden">
         <Icon name="flag" size={70} />
         <span className="text-base tracking-widest">DELE A1</span>
       </div>
       <div>
         <Eyebrow>YOUR FIRST FULL REHEARSAL</Eyebrow>
-        <h2 className="font-serif font-semibold tracking-tight leading-tight mt-3 mb-4 text-4xl max-xl:text-3xl max-lg:text-4xl max-md:text-3xl">
+        <h2 className="font-heading font-semibold tracking-tight leading-tight mt-3 mb-4 text-4xl max-xl:text-3xl max-lg:text-4xl max-md:text-3xl">
           One exam. Four ways
           <br />
           to make yourself understood.
         </h2>
-        <p className="leading-relaxed max-w-137 text-sm text-sage-500">
+        <p className="leading-relaxed max-w-137 text-sm text-muted-foreground">
           Try 55 original tasks and questions. Reading and listening are scored automatically.
           Writing and speaking are saved for self-review or a teacher’s assessment.
         </p>
-        <div className="my-5 flex flex-wrap gap-5 text-xs text-sage-600 max-xl:gap-3">
+        <div className="my-5 flex flex-wrap gap-5 text-xs text-muted-foreground max-xl:gap-3">
           <span className="flex items-center gap-1.5">
             <Icon name="clock" className="w-4" />
             105 min + 10 min oral prep
@@ -53,13 +53,13 @@ export const MockIntro = ({ progress, onStart }: Props) => (
             <Icon name={["book", "headphones", "pen", "mic"][i]} />
           </div>
           <h3 className="text-base font-semibold tracking-tight mt-4 mb-2">{s.title}</h3>
-          <p className="leading-relaxed min-h-7 text-xs text-sage-500 max-sm:text-2xs">
+          <p className="leading-relaxed min-h-7 text-xs text-muted-foreground max-sm:text-2xs">
             {s.spanish}
           </p>
-          <strong className="mt-2.5 mb-2 block font-serif text-2xl font-medium">
+          <strong className="mt-2.5 mb-2 block font-heading text-2xl font-medium">
             {s.minutes} minutes
           </strong>
-          <span className="text-xs text-sage-500 max-sm:text-2xs">
+          <span className="text-xs text-muted-foreground max-sm:text-2xs">
             {s.questions.length} {i < 2 ? "questions · 4 tasks" : "tasks"}
           </span>
         </Panel>
@@ -89,13 +89,15 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           .reverse()
           .map((r) => (
             <div
-              className="mt-3 flex items-center gap-5 border-t border-sage-200 py-3.5 text-sm text-sage-600 max-lg:flex-wrap max-lg:gap-3"
+              className="mt-3 flex items-center gap-5 border-t border-border py-3.5 text-sm text-muted-foreground max-lg:flex-wrap max-lg:gap-3"
               key={r.at}
             >
               <span>{new Date(r.at).toLocaleDateString()}</span>
               <strong className="font-medium">Reading {r.reading}/25</strong>
               <strong className="font-medium">Listening {r.listening}/25</strong>
-              <small className="ml-auto text-xs text-sage-400">Productive skills ungraded</small>
+              <small className="ml-auto text-xs text-muted-foreground">
+                Productive skills ungraded
+              </small>
             </div>
           ))}
       </Panel>

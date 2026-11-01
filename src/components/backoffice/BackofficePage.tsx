@@ -38,7 +38,7 @@ const groups: Group[] = [
 ];
 
 const ROW =
-  "flex flex-wrap items-baseline gap-x-4 gap-y-1 w-full text-start border-0 bg-transparent px-5 py-3 max-sm:px-4 hover:bg-sage-50";
+  "flex flex-wrap items-baseline gap-x-4 gap-y-1 w-full text-start border-0 bg-transparent px-5 py-3 max-sm:px-4 hover:bg-muted";
 
 type Props = { setSession: Session };
 
@@ -57,7 +57,7 @@ export const BackofficePage = ({ setSession }: Props) => (
       <section key={g.id} aria-labelledby={`backoffice-${g.id}`}>
         <SectionHeading title={g.title} titleId={`backoffice-${g.id}`} />
         <Panel className="overflow-clip">
-          <ul className="divide-y divide-sage-100">
+          <ul className="divide-y divide-border">
             {g.rows.map(({ question, context }) => (
               <li key={question.id}>
                 <button
@@ -74,15 +74,15 @@ export const BackofficePage = ({ setSession }: Props) => (
                     })
                   }
                 >
-                  <span className="flex items-center gap-2 basis-36 shrink-0 text-2xs uppercase tracking-widest text-sage-600">
+                  <span className="flex items-center gap-2 basis-36 shrink-0 text-2xs uppercase tracking-widest text-muted-foreground">
                     <SkillDot skill={question.skill} />
                     {KIND[question.kind]}
                   </span>
                   <span className="flex-1 basis-60 min-w-0">
-                    <strong className="font-semibold text-sage-800 text-sm line-clamp-2">
+                    <strong className="font-semibold text-foreground text-sm line-clamp-2">
                       {question.task || question.prompt}
                     </strong>
-                    <small className="text-sage-600 text-xs line-clamp-1">
+                    <small className="text-muted-foreground text-xs line-clamp-1">
                       <span>{context}</span> · <span>{question.answer}</span>
                     </small>
                   </span>

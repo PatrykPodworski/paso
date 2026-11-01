@@ -3,6 +3,7 @@ import type { Grade, Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
+import { preloadClips } from "../audio/clipCache";
 import { playWord } from "../audio/playWord";
 import { stopAudio } from "../audio/playback";
 import type { AudioHandle } from "../audio/useAudioPlayer";
@@ -11,6 +12,7 @@ import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
 import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
+import { questionClips } from "./questionClips";
 import { isWritingTask, useAnswer } from "./useAnswer";
 import { WritingCheck } from "./WritingCheck";
 import type { LastAttempt } from "../history/LastTime";
@@ -43,6 +45,13 @@ export const QuestionCard = ({
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
   const { setText, selected, productive, value, submission, correct, canSubmit } = a;
+
+  // Clips fetched on click start late, so the question's clips load as it appears.
+  useEffect(() => {
+    if (active) {
+      preloadClips(questionClips(q, exam));
+    }
+  }, [q, exam, active]);
 
   const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);

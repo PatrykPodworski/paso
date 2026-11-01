@@ -14,12 +14,12 @@ vi.mock("@vercel/functions", () => ({
   ipAddress: (request: Request) => request.headers.get("x-real-ip") ?? undefined,
 }));
 
-const { GET, POST, handleProgress } = await import("./progress.ts");
-const { passcodeRefusal } = await import("./_lib/passcode.ts");
+const { GET, POST, handleProgress, MAX_BODY, PER_DAY, PER_MINUTE, progressLimit } =
+  await import("./progress.ts");
+
 const { pgliteDb } = await import("../db/pglite.ts");
 
 const db = await pgliteDb();
-const PASSCODE = "ole-2026";
 const T = "2026-09-09T12:00:00.000Z";
 
 const EMPTY: ProgressSnapshot = {
@@ -46,7 +46,6 @@ const request = (id: string, body?: unknown, headers: Record<string, string> = {
     headers: {
       "content-type": "application/json",
       "x-learner-id": id,
-      "x-passcode": PASSCODE,
       "x-real-ip": "203.0.113.7",
       ...headers,
     },
@@ -54,7 +53,7 @@ const request = (id: string, body?: unknown, headers: Record<string, string> = {
   });
 
 const send = (id: string, body?: unknown, headers?: Record<string, string>) =>
-  handleProgress(request(id, body, headers), db, passcodeRefusal);
+  handleProgress(request(id, body, headers), db, progressLimit);
 
 const snapshot = async (id: string, body?: unknown) => {
   const response = await send(id, body);
@@ -79,11 +78,11 @@ const answer = (id: string, patch: Partial<Attempt> = {}, timeZone = "Europe/War
 
 beforeEach(() => {
   store.clear();
-  vi.stubEnv("PASSCODE", PASSCODE);
 });
 
 afterEach(() => {
   vi.unstubAllEnvs();
+  vi.useRealTimers();
 });
 
 describe("reading progress", () => {
@@ -681,52 +680,45 @@ describe("requests", () => {
     const response = await handleProgress(
       new Request("https://paso.podwor.ski/api/progress", {
         method: "POST",
-        headers: { "x-learner-id": me, "x-passcode": PASSCODE },
+        headers: { "x-learner-id": me },
         body: "{",
       }),
       db,
-      passcodeRefusal,
+      progressLimit,
     );
 
     expect([response.status, await response.json()]).toEqual([400, { error: "body" }]);
   });
 
-  it("refuses a wrong or missing passcode and writes nothing", async () => {
+  it("refuses a body over the size cap and writes nothing", async () => {
     const id = learner();
+    const text = "a".repeat(MAX_BODY);
+    const response = await send(id, { action: "draft", questionId: "u1-w1", text });
 
-    const wrong = await send(
-      id,
-      { action: "attempt", attempt: attempt() },
-      { "x-passcode": "nope" },
-    );
-
-    const missing = await send(id, undefined, { "x-passcode": "" });
-
-    expect([wrong.status, await wrong.json()]).toEqual([401, { error: "passcode" }]);
-    expect([missing.status, await missing.json()]).toEqual([401, { error: "passcode" }]);
+    expect([response.status, await response.json()]).toEqual([413, { error: "too_large" }]);
     expect(await snapshot(id)).toEqual(EMPTY);
   });
 
-  it("reads a URI-encoded passcode, and one that is not valid URI encoding as sent", async () => {
-    vi.stubEnv("PASSCODE", "olé-2026");
+  it("serves a learner without a passcode, and ignores one that is sent", async () => {
+    const id = learner();
 
-    const encoded = await send(learner(), undefined, { "x-passcode": "ol%C3%A9-2026" });
+    await answer(id);
 
-    vi.stubEnv("PASSCODE", "100%-ole");
+    expect((await snapshot(id)).xp).toBe(5);
 
-    const raw = await send(learner(), undefined, { "x-passcode": "100%-ole" });
+    const sent = await send(id, undefined, { "x-passcode": "nope" });
 
-    expect([encoded.status, raw.status]).toEqual([200, 200]);
+    expect(sent.status).toBe(200);
   });
 
   it("refuses other methods", async () => {
     const response = await handleProgress(
       new Request("https://paso.podwor.ski/api/progress", {
         method: "PUT",
-        headers: { "x-learner-id": me, "x-passcode": PASSCODE },
+        headers: { "x-learner-id": me },
       }),
       db,
-      passcodeRefusal,
+      progressLimit,
     );
 
     expect(response.status).toBe(405);
@@ -743,5 +735,42 @@ describe("requests", () => {
     }
 
     expect(log).toHaveBeenLastCalledWith("Progress is not configured: set DATABASE_URL");
+  });
+});
+
+describe("rate limits", () => {
+  const from = (ip: string) => send("not-a-uuid", undefined, { "x-real-ip": ip });
+
+  it(`refuses an address after ${PER_MINUTE} requests in a minute, and lets it in the next`, async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-09-09T12:00:10.000Z"));
+
+    for (let i = 0; i < PER_MINUTE; i++) {
+      expect((await from("198.51.100.1")).status).toBe(400);
+    }
+
+    const refused = await from("198.51.100.1");
+
+    expect([refused.status, await refused.json()]).toEqual([429, { error: "rate" }]);
+    expect((await from("198.51.100.2")).status).toBe(400);
+
+    vi.setSystemTime(new Date("2026-09-09T12:01:00.000Z"));
+
+    expect((await from("198.51.100.1")).status).toBe(400);
+  });
+
+  it(`refuses an address after ${PER_DAY} requests in a day`, async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+
+    for (let i = 0; i < PER_DAY; i++) {
+      vi.setSystemTime(Date.parse("2026-09-09T00:00:00.000Z") + Math.floor(i / 100) * 60_000);
+      await from("198.51.100.1");
+    }
+
+    expect((await from("198.51.100.1")).status).toBe(429);
+
+    vi.setSystemTime(new Date("2026-09-10T00:00:00.000Z"));
+
+    expect((await from("198.51.100.1")).status).toBe(400);
   });
 });

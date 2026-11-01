@@ -19,6 +19,8 @@ export const sourceExcludes = [
   // A visual-test harness with no logic; the screenshots are its coverage.
   // Presentational only; the gallery screenshots are their coverage.
   "src/design-system/**",
+  // Installed from the design-system registry and never edited here.
+  "src/components/ui/**",
 ];
 
 export const productionFiles = () =>

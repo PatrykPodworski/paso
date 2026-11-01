@@ -11,7 +11,7 @@ import { type LastAttempt, LastTime } from "../history/LastTime";
 type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
 
 const QuestionKind = ({ q, productive, previous }: QuestionKindProps) => (
-  <div className="question-kind flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-sage-600 max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
+  <div className="question-kind flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground max-md:gap-1.5 max-md:text-2xs max-sm:tracking-wider">
     <SkillDot skill={q.skill} />
     {q.skill} <span className="px-1 opacity-50"> / </span>
     {q.kind === "listen"
@@ -66,7 +66,7 @@ export const QuestionHeading = ({
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`font-serif tracking-tight col-start-1 row-start-1 mt-3.5 mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mt-3.5 max-md:mx-0 max-md:mb-5`}
+          className={`font-heading tracking-tight col-start-1 row-start-1 mt-3.5 mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mt-3.5 max-md:mx-0 max-md:mb-5`}
         >
           {q.prompt}
         </h2>
@@ -83,6 +83,7 @@ export const QuestionHeading = ({
               text={q.audio}
               label="Play Spanish audio"
               autoPlay={q.kind === "listen"}
+              continuous={!exam}
               limit={exam ? 2 : undefined}
             />
           ) : !exam && !isWritingTask(q) ? (

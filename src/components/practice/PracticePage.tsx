@@ -48,14 +48,14 @@ export const PracticePage = ({
       </Badge>
     </PageHeading>
     <div
-      className="flex flex-wrap gap-1.5 max-md:gap-1 border-b border-b-sage-200 pb-5 max-md:pb-3.5 mb-6"
+      className="flex flex-wrap gap-1.5 max-md:gap-1 border-b border-b-border pb-5 max-md:pb-3.5 mb-6"
       role="group"
       aria-label="Filter practice by skill"
     >
       {(["all", ...skills.map((s) => s.id), "mistakes"] as const).map((s) => (
         <button
           key={s}
-          className={`${PRESSABLE} border border-transparent rounded-2xl py-2 px-3.5 max-md:py-2 max-md:px-3 text-sm max-md:text-xs ${filter === s ? "bg-green-900 text-white" : "bg-transparent text-sage-600 hover:bg-sage-100"}`}
+          className={`${PRESSABLE} border border-transparent rounded-2xl py-2 px-3.5 max-md:py-2 max-md:px-3 text-sm max-md:text-xs ${filter === s ? "bg-primary text-primary-foreground" : "bg-transparent text-muted-foreground hover:bg-muted"}`}
           onClick={() => setFilter(s)}
         >
           {s === "all"

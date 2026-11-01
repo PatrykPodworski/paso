@@ -38,7 +38,7 @@ it("resolves mistake IDs safely, explains each one and opens an individual retry
 
   render(<Practice progress={p} setSession={(l) => (lesson = l)} />);
   fireEvent.click(screen.getByRole("button", { name: "My mistakes (1)" }));
-  expect(screen.getByText(/1 questions are ready/)).toBeInTheDocument();
+  expect(screen.getByText(/1 question is ready/)).toBeInTheDocument();
   fireEvent.click(screen.getByText(allQuestions[0].prompt));
   expect(screen.getByText(allQuestions[0].explanation)).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Try again" }));
@@ -70,4 +70,17 @@ it("shows a writing mistake's model as one possible answer, not the correct one"
   for (const q of [writing, formPractice]) {
     expect(screen.getByText(q.answer).parentElement).toHaveTextContent(/^One possible answer:/);
   }
+});
+
+it("counts several mistakes in the plural", () => {
+  const p = emptySnapshot();
+
+  p.questions = {
+    [allQuestions[0].id]: questionState({ correct: false, inMistakes: true }),
+    [allQuestions[1].id]: questionState({ correct: false, inMistakes: true }),
+  };
+
+  render(<Practice progress={p} setSession={vi.fn()} />);
+  fireEvent.click(screen.getByRole("button", { name: "My mistakes (2)" }));
+  expect(screen.getByText(/2 questions are ready/)).toBeInTheDocument();
 });

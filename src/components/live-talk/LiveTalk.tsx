@@ -108,7 +108,7 @@ export const LiveTalk = ({ questionId, task, onEvaluated, onSubmit }: Props) => 
   };
 
   return (
-    <div className="mbs-1 rounded-lg border border-sand-200 bg-sand-100 p-5 max-md:p-4">
+    <div className="mbs-1 rounded-lg border border-border bg-muted p-5 max-md:p-4">
       <FieldNote className="mbe-4">
         Lucía talks with you in Spanish. Your voice goes to OpenAI for the talk; the transcript is
         scored.

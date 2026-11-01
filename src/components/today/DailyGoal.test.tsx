@@ -61,3 +61,19 @@ it("renders the week from Monday through Sunday with the practised days", () => 
     "no practice",
   ]);
 });
+
+it("counts a single exercise today in the singular", () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2026, 8, 9, 12));
+
+  const p = {
+    ...emptySnapshot(),
+    questions: { one: questionState({ at: new Date(2026, 8, 9, 12).toISOString() }) },
+    days: ["2026-09-09"],
+  };
+
+  render(<DailyGoal progress={p} openSettings={vi.fn()} />);
+  const days = within(screen.getByRole("list", { name: "This week" })).getAllByRole("listitem");
+
+  expect(within(days[2]).getByRole("img")).toHaveAccessibleName(/: 1 exercise$/);
+});

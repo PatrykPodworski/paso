@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
 const BASE =
-  "m-auto border border-sage-200 rounded-2xl p-0 text-green-950 bg-white shadow-2xl shadow-green-950/21 overscroll-contain max-md:rounded-xl backdrop:bg-green-950/69 backdrop:backdrop-blur-xs";
+  "m-auto border border-border rounded-2xl p-0 text-popover-foreground bg-popover shadow-2xl overscroll-contain max-md:rounded-xl backdrop:bg-black/80 backdrop:backdrop-blur-xs";
 
 type Props = {
   children: ReactNode;

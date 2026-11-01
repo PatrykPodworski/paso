@@ -26,14 +26,14 @@ const LEVELS = {
 type Props = { score: LiveScore; turns: LiveTurn[]; onAgain: () => void; onContinue: () => void };
 
 export const LiveResult = ({ score, turns, onAgain, onContinue }: Props) => (
-  <div className="mbs-5 border-bs border-sage-200 pbs-5">
-    <h3 className="font-serif text-2xl font-medium">{HEADINGS[score.grade]}</h3>
-    <p className="mbs-2 text-sm leading-relaxed text-sage-700">{NOTES[score.grade]}</p>
+  <div className="mbs-5 border-bs border-border pbs-5">
+    <h3 className="font-heading text-2xl font-medium">{HEADINGS[score.grade]}</h3>
+    <p className="mbs-2 text-sm leading-relaxed text-muted-foreground">{NOTES[score.grade]}</p>
     <ul aria-label="Your answers" className="mbs-3.5 flex flex-col gap-1.5 text-sm">
       {score.items.map(({ id, label, level }) => (
         <li key={id} className="flex justify-between gap-3">
           <span>{label}</span>
-          <span className={level === "missing" ? "text-coral-700" : "text-sage-700"}>
+          <span className={level === "missing" ? "text-destructive" : "text-muted-foreground"}>
             {LEVELS[level]}
           </span>
         </li>

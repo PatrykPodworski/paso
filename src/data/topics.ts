@@ -1,6 +1,7 @@
 import words from "./words.json";
 import examples from "./examples.json";
 import { vocabularyHints } from "./vocabulary-hints";
+import { localDate, reviewDue } from "./progress";
 import type { ProgressSnapshot } from "./types";
 
 // Level 4 reviews come back after 14 days or more.
@@ -80,3 +81,29 @@ export const addWords = (
 // Every card the learner is studying, from topics or completed unit lessons.
 export const deckCards = (progress: ProgressSnapshot) =>
   topics.flatMap((t) => t.cards).filter((card) => inDeck(card, progress));
+
+// Which deck cards are due (first-due first) or scheduled, and today's review counts.
+export const deckReview = (progress: ProgressSnapshot, now: Date) => {
+  const cards = deckCards(progress);
+
+  const due = cards
+    .filter((w) => reviewDue(progress.vocabularyReviews[w.id], now))
+    .sort((a, b) =>
+      (progress.vocabularyReviews[a.id]?.nextAt ?? "").localeCompare(
+        progress.vocabularyReviews[b.id]?.nextAt ?? "",
+      ),
+    );
+
+  const scheduled = cards.filter((w) => !reviewDue(progress.vocabularyReviews[w.id], now));
+  const nextAt = scheduled.map((w) => progress.vocabularyReviews[w.id].nextAt).sort()[0];
+
+  const reviewedToday = cards.filter((w) => {
+    const at = progress.vocabularyReviews[w.id]?.reviewedAt;
+
+    return at && localDate(new Date(at)) === localDate(now);
+  }).length;
+
+  const newCount = due.filter((w) => !progress.vocabularyReviews[w.id]?.reviewedAt).length;
+
+  return { cards, due, scheduled, nextAt, reviewedToday, newCount };
+};

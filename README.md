@@ -144,10 +144,11 @@ use `vercel dev` to try a real talk locally.
 ## Progress
 
 `api/progress.ts` reads and writes a learner's progress in Neon Postgres
-(`DATABASE_URL`) and needs the same passcode as the live talk. The app asks for
-it once and keeps it in this browser. `pnpm dev` serves the same API from an
-in-memory Postgres that starts empty, without a passcode. Progress saved in this
-browser before the move is not read.
+(`DATABASE_URL`). It needs only the learner id this browser keeps, with no
+passcode, and limits each address to 120 requests a minute and 5000 a day, with
+bodies up to 256 KB. `pnpm dev` serves the same API from an in-memory Postgres
+that starts empty, without the rate limits. Progress saved in this browser
+before the move is not read.
 
 ## Tests
 

@@ -75,12 +75,12 @@ test("a choice reads el nombre immediately and the next listening question start
     .toBe(expectedAudio("el apellido"));
 
   expect(await page.evaluate(() => (window as any).__clips[0].paused)).toBe(true);
-  await expect(page.getByRole("button", { name: "Stop audio" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
   const clipsBeforeAnswer = await page.evaluate(() => (window as any).__clips.length);
 
   await page.getByRole("button", { name: "surname", exact: true }).click();
   expect(await page.evaluate(() => (window as any).__clips.length)).toBe(clipsBeforeAnswer);
-  await page.getByRole("button", { name: "Stop audio" }).click();
+  await page.getByRole("button", { name: "Pause audio" }).click();
   await page.getByRole("button", { name: "Play Spanish audio" }).click();
 
   await expect
@@ -88,7 +88,7 @@ test("a choice reads el nombre immediately and the next listening question start
     .toBe(clipsBeforeAnswer + 1);
 
   await expect(
-    page.locator(".question-heading").getByRole("button", { name: "Stop audio" }),
+    page.locator(".question-heading").getByRole("button", { name: "Pause audio" }),
   ).toBeVisible();
 });
 
@@ -481,15 +481,18 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await page.evaluate(() => {
     (window as any).__vocabularyClips = [];
     const play = HTMLMediaElement.prototype.play;
+    const counted = new WeakSet<HTMLMediaElement>();
 
+    // Clips are reused, and a play() interrupted before it starts leaves a
+    // listener behind, so each clip gets one listener that counts every start.
     HTMLMediaElement.prototype.play = function () {
-      this.addEventListener(
-        "playing",
-        () => {
+      if (!counted.has(this)) {
+        counted.add(this);
+
+        this.addEventListener("playing", () => {
           (window as any).__vocabularyClips.push(this);
-        },
-        { once: true },
-      );
+        });
+      }
 
       return play.call(this);
     };
@@ -596,7 +599,7 @@ test("listening records transcript assistance and plays bundled audio", async ({
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   const q = lesson.questions[1];
 
-  await expect(page.getByRole("button", { name: "Stop audio" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
   await page.getByRole("button", { name: "Need a hand? Show transcript" }).click();
   await page.getByRole("button", { name: "Hide transcript" }).click();
   await answer(page, q);

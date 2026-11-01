@@ -30,12 +30,23 @@ it.each([
   );
 });
 
-it("shows the vocabulary illustration", () => {
-  const q = allQuestions.find((question) => question.visual)!;
+it("shows the emoji for a word without a picture", () => {
+  const q = allQuestions.find((question) => question.visual && !question.picture)!;
 
   render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 
   expect(screen.getByRole("img", { name: "Vocabulary illustration" })).toHaveTextContent(q.visual!);
+});
+
+it("shows the word picture instead of the emoji", () => {
+  const q = allQuestions.find((question) => question.id === "u5-v0")!;
+
+  render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+
+  const figure = screen.getByRole("img", { name: "Vocabulary illustration" });
+
+  expect(figure).not.toHaveTextContent(q.visual!);
+  expect(figure.querySelector("img")).toHaveAttribute("src", "/illustrations/words/la-manana.webp");
 });
 
 it("shows the transcript and its assistance note only on request", () => {

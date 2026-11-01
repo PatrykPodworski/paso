@@ -1405,6 +1405,7 @@ export const vocabulary = words
     es: w.es,
     en: w.en,
     visual: w.visual,
+    picture: w.picture,
     unit: w.unit,
     memoryHint: vocabularyHints[w.es],
   }));
@@ -1429,6 +1430,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       answer: w.en,
       options,
       visual: i % 2 ? undefined : w.visual,
+      picture: i % 2 ? undefined : w.picture,
       audio: i % 2 ? w.es : undefined,
       pronunciation: w.es,
       explanation: `“${w.es}” means “${w.en}”.`,

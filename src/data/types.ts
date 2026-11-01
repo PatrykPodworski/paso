@@ -41,6 +41,8 @@ export interface Question {
   pronunciation?: string;
   image?: string;
   visual?: string;
+  // A papercut word picture in public/illustrations/words/; shown instead of the visual emoji.
+  picture?: string;
   tokens?: string[];
   checklist?: string[];
   minWords?: number;

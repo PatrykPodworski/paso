@@ -211,6 +211,24 @@ describe("original curriculum integrity", () => {
       expect(existsSync(`public/illustrations/${q.image}.svg`)).toBe(true);
     }
   });
+
+  it("bundles every word picture under its slug and keeps the emoji as a fallback", () => {
+    const pictured = words.flatMap((t) => t.words).filter((w) => w.picture);
+
+    expect(pictured.length).toBeGreaterThan(0);
+
+    for (const w of pictured) {
+      const slug = String(("key" in w && w.key) || w.es)
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .toLowerCase()
+        .replace(/ /g, "-");
+
+      expect(w.picture, w.es).toBe(slug);
+      expect(w.visual, w.es).toBeTruthy();
+      expect(existsSync(`public/illustrations/words/${w.picture}.webp`), w.es).toBe(true);
+    }
+  });
 });
 
 describe("topic vocabulary examples", () => {

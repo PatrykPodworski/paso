@@ -503,3 +503,51 @@ it("searches unlocked vocabulary in either language and clears an empty result",
   fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
   expect(flashcards()).toHaveLength(8);
 });
+
+it("rates a revealed flashcard with the arrow keys and ignores them otherwise", () => {
+  const onReview = vi.fn();
+
+  render(
+    <PocketVocabulary
+      progress={progressWithDue(3)}
+      onReview={onReview}
+      onAddWords={vi.fn()}
+      onLearn={vi.fn()}
+    />,
+  );
+
+  click("Review flashcards");
+  fireEvent.keyDown(window, { key: "ArrowRight" });
+  expect(onReview).not.toHaveBeenCalled();
+  click("Reveal answer");
+
+  for (const modifier of ["metaKey", "ctrlKey", "altKey", "shiftKey"]) {
+    fireEvent.keyDown(window, { key: "ArrowRight", [modifier]: true });
+  }
+
+  const field = document.body.appendChild(document.createElement("input"));
+
+  field.focus();
+  fireEvent.keyDown(field, { key: "ArrowLeft" });
+  field.remove();
+  expect(onReview).not.toHaveBeenCalled();
+
+  expect(screen.getByRole("button", { name: /Got it wrong/ })).toHaveAttribute(
+    "aria-keyshortcuts",
+    "ArrowLeft",
+  );
+
+  expect(screen.getByRole("button", { name: /Got it right/ })).toHaveAttribute(
+    "aria-keyshortcuts",
+    "ArrowRight",
+  );
+
+  fireEvent.keyDown(window, { key: "ArrowLeft" });
+  click("Reveal answer");
+  fireEvent.keyDown(window, { key: "ArrowRight" });
+
+  expect(onReview.mock.calls).toEqual([
+    [words[0].es, { level: 0, reviewedAt: now, nextAt: "2026-09-09T12:10:00.000Z" }],
+    [words[1].es, { level: 1, reviewedAt: now, nextAt: tomorrow }],
+  ]);
+});

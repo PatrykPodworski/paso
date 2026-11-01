@@ -550,7 +550,13 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
       .poll(async () => Object.keys((await saved(page)).vocabularyReviews))
       .toHaveLength(i);
 
-    await page.getByRole("button", { name: i === 0 ? /Got it wrong/ : /Got it right/ }).click();
+    // The first two cards are rated with the arrow keys, the rest by click.
+    if (i < 2) {
+      await page.keyboard.press(i === 0 ? "ArrowLeft" : "ArrowRight");
+    } else {
+      await page.getByRole("button", { name: /Got it right/ }).click();
+    }
+
     await expect(dialog.getByRole("status")).toContainText(i === 0 ? "in 10 min" : "in 1 day");
 
     await expect(dialog.getByRole("status").locator("time")).toHaveAttribute(

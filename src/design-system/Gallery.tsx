@@ -1,6 +1,6 @@
 import { sections } from "./sections";
 
-// A test harness, not a designed page. Reached at /#design-system; see src/main.tsx.
+// A test harness, not a designed page. Reached at /design-system; see src/routes.ts.
 const Gallery = () => (
   <main className="flex flex-col gap-8 p-8">
     <h1 className="font-heading text-4xl font-semibold tracking-tight leading-tight">

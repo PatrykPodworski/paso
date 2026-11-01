@@ -1,6 +1,6 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import App from "./App";
+import { renderApp } from "./test/renderApp";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
 import type { Attempt, Lesson, MockRunPatch } from "./data/types";
@@ -48,7 +48,7 @@ const mount = async (hash = "today", p?: Partial<ProgressSeed>) => {
   }
 
   window.location.hash = hash;
-  const view = render(<App />);
+  const view = await renderApp();
 
   await settle();
 
@@ -144,10 +144,8 @@ describe("app business orchestration", () => {
       screen.getByRole("heading", { name: "A good day to learn Spanish." }),
     ).toBeInTheDocument();
 
-    act(() => {
-      window.location.hash = "guide";
-      window.dispatchEvent(new HashChangeEvent("hashchange"));
-    });
+    window.location.hash = "guide";
+    await settle();
 
     expect(screen.getByRole("heading", { name: "Your guide to DELE A1." })).toBeInTheDocument();
   });
@@ -160,6 +158,7 @@ describe("app business orchestration", () => {
     expect(screen.queryByRole("button", { name: "Close navigation" })).not.toBeInTheDocument();
     click("Open navigation");
     click("Learning path");
+    await settle();
     expect(window.location.hash).toBe("#path");
     expect(screen.queryByRole("button", { name: "Close navigation" })).not.toBeInTheDocument();
   });
@@ -213,6 +212,7 @@ describe("app business orchestration", () => {
     expect(screen.getByRole("heading", { name: "The next chapter is yours." })).toBeInTheDocument();
     expect(screen.getAllByText("Complete")).toHaveLength(12);
     click("Meet the exam");
+    await settle();
     expect(screen.getByRole("heading", { name: "Meet the exam." })).toBeInTheDocument();
   });
 
@@ -321,10 +321,8 @@ describe("app business orchestration", () => {
     click("Clear my practice data");
     await settle();
 
-    act(() => {
-      window.location.hash = "exam";
-      window.dispatchEvent(new HashChangeEvent("hashchange"));
-    });
+    window.location.hash = "exam";
+    await settle();
 
     expect(screen.getByRole("button", { name: "Start exam rehearsal" })).toBeInTheDocument();
     expect((await saved()).mockRun).toBeNull();
@@ -430,7 +428,7 @@ it("offers no next lesson after the last lesson or a practice session", async ()
   expect(session.onNext).toBeUndefined();
   click("Test close session");
   window.location.hash = "practice";
-  act(() => window.dispatchEvent(new HashChangeEvent("hashchange")));
+  await settle();
   click("My mistakes (1)");
   click("Review my mistakes");
   expect(session.lesson.title).toBe("A fresh look at your mistakes");
@@ -487,14 +485,18 @@ it("routes help, footer, path links and the brand consistently", async () => {
     "Independent practice · Official sources inside",
   ]) {
     click(name);
+    await settle();
     expect(screen.getByRole("heading", { name: "Your guide to DELE A1." })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("link", { name: "Paso home" }));
+    await settle();
   }
 
   for (const name of ["View full path", "Home, cafés, adventures & 9 more chapters"]) {
     click(name);
+    await settle();
     expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
     click("My learning space");
+    await settle();
   }
 });
 
@@ -525,6 +527,7 @@ it("switches pages without retaining a previous main view", async () => {
 
   for (const [button, title] of steps) {
     click(button);
+    await settle();
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(title);
   }
@@ -556,6 +559,7 @@ it("only unlocks flashcards after completing their vocabulary lesson", async () 
   expect(screen.getByText("Your collection starts with a lesson.")).toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "Review flashcards" })).not.toBeInTheDocument();
   click("Explore lessons");
+  await settle();
   expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
 });
 
@@ -639,6 +643,7 @@ describe("app shell behavior kept through the component split", () => {
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Clear my practice data");
+    await settle();
     expect(window.location.hash).toBe("#today");
 
     expect(
@@ -700,6 +705,7 @@ describe("app shell behavior kept through the component split", () => {
     );
 
     click("Learning path");
+    await settle();
     expect(container.querySelector(".breadcrumb strong")).toHaveTextContent("Learning path");
   });
 });
@@ -710,6 +716,7 @@ it("renders a truthful fresh dashboard and the full learning path", async () => 
   expect(screen.getByRole("heading", { name: "A good day to learn Spanish." })).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole("button", { name: "Learning path" }));
+  await settle();
 
   expect(
     screen.getByText("12 units · 48 lessons · 264 exercises. Explore freely, or follow the path."),
@@ -725,7 +732,7 @@ describe("progress on the server", () => {
   it("shows a quiet loading screen, then a load error with Retry", async () => {
     refuse(() => Promise.reject(new TypeError("Failed to fetch")));
     window.location.hash = "today";
-    render(<App />);
+    await renderApp();
     expect(screen.getByRole("status")).toHaveTextContent("Loading your progress…");
     await settle();
 

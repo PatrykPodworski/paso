@@ -1,5 +1,6 @@
 import { TextLink } from "../../design-system/TextLink";
 import { useState } from "react";
+import { pictureSrc } from "../pictureSrc";
 import type { Question } from "../../data/types";
 
 const PASSAGE =
@@ -75,7 +76,7 @@ export const QuestionMaterials = ({ q, exam, onTranscript }: Props) => {
           {q.picture ? (
             <img
               className="mx-auto size-28 max-sm:size-24"
-              src={`/illustrations/words/${q.picture}.webp`}
+              src={pictureSrc(q.picture)}
               width={512}
               height={512}
               alt=""

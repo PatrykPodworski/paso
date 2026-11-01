@@ -11,6 +11,7 @@ import { QuestionView } from "./question-card/QuestionView";
 import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
 import { lessonPlace } from "../data/lessonPlace";
+import { usePreloadPictures } from "./usePreloadPictures";
 
 // A recording keeps playing across the questions that share it.
 const sharesRecording = (q: Question, next: Question | undefined) =>
@@ -46,6 +47,8 @@ export const LessonSession = ({
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
   const place = lessonPlace(lesson.id);
+
+  usePreloadPictures(lesson.questions);
 
   const close = () => {
     stopAudio();

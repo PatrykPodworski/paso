@@ -396,6 +396,13 @@ test("question: live talk with Lucía", async ({ page }) => {
       { id: "age", label: "Age", level: "understandable" },
       { id: "country", label: "Country", level: "missing" },
     ],
+    corrections: [
+      {
+        original: "Soy veinte años",
+        corrected: "Tengo veinte años",
+        explanation: "Spanish uses tener for age.",
+      },
+    ],
   });
 
   await page.addInitScript(() =>

@@ -28,15 +28,24 @@ const turns = [
   { role: "student", text: "Soy de Polonia." },
 ];
 
-const model = (items: object) =>
+const model = (levels: object, corrections: object[] = []) =>
   openai.mockImplementation(async () =>
     Response.json({
       output: [
         { type: "reasoning", summary: [] },
-        { type: "message", content: [{ type: "output_text", text: JSON.stringify(items) }] },
+        {
+          type: "message",
+          content: [{ type: "output_text", text: JSON.stringify({ levels, corrections }) }],
+        },
       ],
     }),
   );
+
+const age = {
+  original: "Soy veinte años",
+  corrected: "Tengo veinte años",
+  explanation: "Spanish uses tener for age.",
+};
 
 const score = (body: object, ip = "203.0.113.7"): Promise<Response> =>
   POST(
@@ -71,7 +80,43 @@ describe("scoring a talk", () => {
         { id: "age", label: "Age", level: "correct" },
         { id: "country", label: "Country", level: "correct" },
       ],
+      corrections: [],
     });
+  });
+
+  it("lists the learner's errors with the corrections the model gives", async () => {
+    model({ name: "correct", age: "understandable", country: "correct" }, [age]);
+
+    const response = await score({ turns });
+
+    expect(await response.json()).toEqual({
+      grade: "good",
+      items: [
+        { id: "name", label: "Name", level: "correct" },
+        { id: "age", label: "Age", level: "understandable" },
+        { id: "country", label: "Country", level: "correct" },
+      ],
+      corrections: [age],
+    });
+  });
+
+  it("keeps at most eight corrections", async () => {
+    const many = Array.from({ length: 10 }, (_, i) => ({ ...age, original: `error ${i}` }));
+
+    model({ name: "correct", age: "understandable", country: "correct" }, many);
+
+    const { corrections } = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(corrections?.map((c) => c.original)).toEqual([
+      "error 0",
+      "error 1",
+      "error 2",
+      "error 3",
+      "error 4",
+      "error 5",
+      "error 6",
+      "error 7",
+    ]);
   });
 
   it("lists the items in the task's order, whatever order the model used", async () => {
@@ -123,8 +168,10 @@ describe("scoring a talk", () => {
     expect(body.input).toContain("Student: Soy veinte años.");
     expect(body.input).toContain("Examiner: Gracias. ¿De dónde eres?");
     expect(body.instructions).toContain("For each of name, age and country, return one of:");
+    expect(body.instructions).toContain("In corrections, list the learner's grammar");
     expect(body.text.format.type).toBe("json_schema");
-    expect(body.text.format.schema.required).toEqual(["name", "age", "country"]);
+    expect(body.text.format.schema.required).toEqual(["levels", "corrections"]);
+    expect(body.text.format.schema.properties.levels.required).toEqual(["name", "age", "country"]);
   });
 
   it("fails a talk where the student said nothing without calling the model", async () => {
@@ -179,6 +226,26 @@ describe("guards", () => {
 
     model({ name: "yes" });
     expect((await score({ turns })).status).toBe(502);
+  });
+
+  it("reports corrections that break the schema as an upstream error", async () => {
+    const levels = { name: "correct", age: "correct", country: "correct" };
+
+    model(levels, [{ original: "Soy veinte años", corrected: "Tengo veinte años" }]);
+    expect((await score({ turns })).status).toBe(502);
+
+    openai.mockImplementationOnce(async () =>
+      Response.json({
+        output: [
+          { type: "message", content: [{ type: "output_text", text: JSON.stringify({ levels }) }] },
+        ],
+      }),
+    );
+
+    expect((await score({ turns })).status).toBe(502);
+
+    model(levels, [age]);
+    expect((await score({ turns })).status).toBe(200);
   });
 
   it("reports a missing API key as unavailable", async () => {

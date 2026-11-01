@@ -269,6 +269,60 @@ describe("a live talk", () => {
     expect(screen.getByRole("button", { name: "Talk again" })).toBeEnabled();
   });
 
+  it("lists the learner's errors with their corrections under the answers", async () => {
+    replies(started(), {
+      grade: "good",
+      items: graded("correct", "understandable", "correct"),
+      corrections: [
+        {
+          original: "Soy veinte años",
+          corrected: "Tengo veinte años",
+          explanation: "Spanish uses tener for age.",
+        },
+      ],
+    });
+
+    mount();
+    await talk();
+    await finish();
+
+    expect(await screen.findByRole("list", { name: "Corrections" })).toHaveTextContent(
+      "Soy veinte años → Tengo veinte años Spanish uses tener for age.",
+    );
+
+    expect(screen.queryByText("No errors found.")).toBeNull();
+  });
+
+  it("says no errors were found when the model lists none", async () => {
+    replies(started(), {
+      grade: "perfect",
+      items: graded("correct", "correct", "correct"),
+      corrections: [],
+    });
+
+    mount();
+    await talk();
+    await finish();
+
+    expect(await screen.findByText("No errors found.")).toBeVisible();
+    expect(screen.queryByRole("list", { name: "Corrections" })).toBeNull();
+  });
+
+  it("shows no corrections when the learner said nothing to check", async () => {
+    replies(started(), { grade: "bad", items: graded("missing", "missing", "missing") });
+
+    mount();
+    await talk();
+    await finish();
+
+    expect(
+      await screen.findByRole("heading", { name: "Not yet. Talk again to pass." }),
+    ).toBeVisible();
+
+    expect(screen.queryByText("Corrections")).toBeNull();
+    expect(screen.queryByText("No errors found.")).toBeNull();
+  });
+
   it("offers to score again when scoring fails", async () => {
     replies(started(), { grade: "perfect", items: [] });
     api.mockImplementationOnce(async () => started());

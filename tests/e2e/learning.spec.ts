@@ -617,6 +617,13 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
       { id: "age", label: "Age", level: "understandable" },
       { id: "country", label: "Country", level: "correct" },
     ],
+    corrections: [
+      {
+        original: "Soy veinte años",
+        corrected: "Tengo veinte años",
+        explanation: "Spanish uses tener for age.",
+      },
+    ],
   });
 
   const lesson = await openLesson(page, 3);
@@ -649,6 +656,11 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
   expect(await sentEvents(page)).toEqual(["session.close"]);
   await examiner(page, { type: "session.closed", reason: "close_requested" });
   await expect(page.getByRole("heading", { name: "Good. You passed." })).toBeVisible();
+
+  await expect(page.getByRole("list", { name: "Corrections" })).toHaveText(
+    "Soy veinte años → Tengo veinte años Spanish uses tener for age.",
+  );
+
   await expect(page.getByRole("list", { name: "Transcript" })).toBeHidden();
   await page.getByText("Transcript", { exact: true }).click();
   await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");

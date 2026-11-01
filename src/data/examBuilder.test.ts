@@ -177,8 +177,8 @@ describe("the exam builder", () => {
       ...Array.from({ length: 9 }, (_, i) => task(`t${i}`, ...themes.map((t) => `t${i}${t}:${t}`))),
     ];
 
-    const seen = new Map(tasks.slice(1).map((t, i) => [`t${i}y`, 1]));
-    const exam = buildExam({ seed: 1, seen: new Map([...seen, ["a2", 1]]), tasks });
+    const seen = new Map([["a2", 1], ...themes.map((_, i) => [`t${i}y`, 1] as const)]);
+    const exam = buildExam({ seed: 1, seen, tasks });
 
     expect(exam.a).toBe("a1");
     expect(Object.keys(exam)).toEqual(tasks.map((t) => t.id));

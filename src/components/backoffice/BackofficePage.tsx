@@ -1,5 +1,5 @@
 import { units } from "../../data/curriculum";
-import { mockSections } from "../../data/mock";
+import { mockExam } from "../../data/mock";
 import type { Question, QuestionKind } from "../../data/types";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { PageHeading } from "../../design-system/PageHeading";
@@ -30,8 +30,11 @@ const groups: Group[] = [
   {
     id: "mock",
     title: "Mock exam",
-    rows: mockSections.flatMap((s) =>
-      s.questions.map((question) => ({ question, context: s.title })),
+    // Every variant of every task.
+    rows: mockExam.flatMap((s) =>
+      s.tasks.flatMap((t) =>
+        t.variants.flatMap((v) => v.questions.map((question) => ({ question, context: s.title }))),
+      ),
     ),
   },
 ];

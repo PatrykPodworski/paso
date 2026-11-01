@@ -1,8 +1,11 @@
 import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
 import { mockLiveTalk } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
-import { mockSections } from "../../src/data/mock";
+import { examSections, firstVariants } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 test("complete all 55 exam questions with section reviews, oral prep, score calculation and export", async ({
   page,
@@ -17,6 +20,10 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await page.goto("/#exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await expect(page.getByRole("timer")).toHaveText("45:00");
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  // The variants the exam builder chose for this run.
+  const exam = examSections((await saved(page)).mockRun!.variants);
 
   for (let section = 0; section < 4; section++) {
     if (section === 3) {
@@ -41,8 +48,8 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
       await page.getByRole("button", { name: "I’m ready · start speaking" }).click();
     }
 
-    for (let i = 0; i < mockSections[section].questions.length; i++) {
-      const q = mockSections[section].questions[i];
+    for (let i = 0; i < exam[section].questions.length; i++) {
+      const q = exam[section].questions[i];
 
       await expect(page.getByRole("heading", { name: q.prompt, exact: true })).toBeVisible();
 
@@ -152,7 +159,7 @@ test("timer expires during navigation and section confirmation can be cancelled"
 test("listening permits two plays and writing draft survives reload and clearing", async ({
   page,
 }) => {
-  const [form, open] = mockSections[2].questions;
+  const [form, open] = sections[2].questions;
 
   await page.goto("/#exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
@@ -204,7 +211,7 @@ const markedReview = (q: Question, reason: string) => ({
 });
 
 test("mark both writing tasks at the section review and scale them to 25", async ({ page }) => {
-  const [form, letter] = mockSections[2].questions;
+  const [form, letter] = sections[2].questions;
 
   await mockWritingReview(page, {
     [form.id]: markedReview(form, "Every field answered at A1 level."),
@@ -230,7 +237,7 @@ test("mark both writing tasks at the section review and scale them to 25", async
 });
 
 test("a rehearsal resumes after a reload, and a reset clears it", async ({ page }) => {
-  const [first, second] = mockSections[0].questions;
+  const [first, second] = sections[0].questions;
 
   await page.goto("/#exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();

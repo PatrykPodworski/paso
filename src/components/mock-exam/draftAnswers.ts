@@ -1,4 +1,4 @@
-import { mockSections } from "../../data/mock";
+import { examSections } from "../../data/mock";
 import { clipText } from "../../data/progress";
 import type { MockRun, Question } from "../../data/types";
 import { formSubmission, parseFields } from "../question-card/formAnswer";
@@ -19,7 +19,7 @@ const draftAnswer = (q: Question, draft: string) => {
 // clears the answer to "", which counts as not answered.
 export const draftAnswers = (run: MockRun): MockRun["answers"] =>
   Object.fromEntries(
-    mockSections[run.section].questions
-      .filter((q) => run.drafts[q.id] !== undefined)
+    examSections(run.variants)
+      [run.section].questions.filter((q) => run.drafts[q.id] !== undefined)
       .map((q) => [q.id, draftAnswer(q, run.drafts[q.id])]),
   );

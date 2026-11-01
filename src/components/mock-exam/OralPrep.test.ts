@@ -1,7 +1,10 @@
 import { act, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
@@ -15,7 +18,7 @@ it("can finish oral preparation early without consuming speaking time", async ()
 });
 
 it("shows only the first two speaking tasks and restores saved notes while preparing", async () => {
-  const [s1, s2, s3] = mockSections[3].questions;
+  const [s1, s2, s3] = sections[3].questions;
 
   await seed({ section: 3, stage: "prep", deadline: now + 600000, drafts: { prep: "mis notas" } });
   await mount();

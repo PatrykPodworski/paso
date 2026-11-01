@@ -1,10 +1,11 @@
 // @vitest-environment node
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { PGlite } from "@electric-sql/pglite";
 import { describe, expect, it } from "vitest";
+import { firstVariants } from "../src/data/mock.ts";
 import { migrate } from "./migrate.ts";
 import { pgliteSession } from "./pglite.ts";
 
@@ -83,7 +84,11 @@ describe("migrations", () => {
   it("creates every progress table from the repo's migrations", async () => {
     const pg = new PGlite();
 
-    expect(await migrate(pgliteSession(pg))).toEqual(["001_init.sql", "002_mock_runs.sql"]);
+    expect(await migrate(pgliteSession(pg))).toEqual([
+      "001_init.sql",
+      "002_mock_runs.sql",
+      "003_mock_run_variants.sql",
+    ]);
 
     expect(await tables(pg)).toEqual([
       "attempts",
@@ -96,6 +101,45 @@ describe("migrations", () => {
       "question_states",
       "schema_migrations",
       "vocabulary_reviews",
+    ]);
+  });
+});
+
+describe("003_mock_run_variants", () => {
+  const repo = new URL("./migrations/", import.meta.url);
+  const file = (name: string) => readFileSync(new URL(name, repo), "utf8");
+  const learner = (n: number) => `00000000-0000-4000-8000-00000000000${n}`;
+
+  it("gives every run saved before variants variant 1 of each task, and keeps newer runs", async () => {
+    const pg = new PGlite();
+
+    await migrate(
+      pgliteSession(pg),
+      migrationsIn({
+        "001_init.sql": file("001_init.sql"),
+        "002_mock_runs.sql": file("002_mock_runs.sql"),
+      }),
+    );
+
+    const old = { section: 1, index: 2, stage: "run", answers: { "mock-r1-0": "a" } };
+    const newer = { ...old, seed: 7, variants: { r1: "r1-v2" } };
+
+    await pg.query("INSERT INTO learners (id) VALUES ($1), ($2)", [learner(1), learner(2)]);
+
+    await pg.query("INSERT INTO mock_runs (learner_id, run) VALUES ($1, $2), ($3, $4)", [
+      learner(1),
+      old,
+      learner(2),
+      newer,
+    ]);
+
+    expect(await migrate(pgliteSession(pg))).toEqual(["003_mock_run_variants.sql"]);
+
+    const runs = await pg.query<{ run: unknown }>("SELECT run FROM mock_runs ORDER BY learner_id");
+
+    expect(runs.rows.map((r) => r.run)).toEqual([
+      { ...old, seed: 0, variants: firstVariants },
+      newer,
     ]);
   });
 });

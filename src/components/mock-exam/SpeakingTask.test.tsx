@@ -1,7 +1,7 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import type { ComponentProps } from "react";
 import { beforeEach, expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import type { LiveScore } from "../../data/types";
 import { click, mount, seed, setupMockExam, state } from "../../test/mockExam";
 import type { LiveTalk } from "../live-talk/LiveTalk";
@@ -22,7 +22,7 @@ beforeEach(() => {
   talk = undefined;
 });
 
-const [s1, s2, s3] = mockSections[3].questions;
+const [s1, s2, s3] = examSections(firstVariants)[3].questions;
 
 const score: LiveScore = {
   grade: "good",

@@ -135,6 +135,30 @@ export const QuestionCard = ({
     return () => window.removeEventListener("keydown", handle);
   });
 
+  const checkOrFeedback = feedback ? (
+    <QuestionFeedback
+      q={q}
+      correct={correct}
+      productive={productive}
+      value={value}
+      checked={a.checks.length}
+      assisted={assisted}
+      onRevise={() => {
+        stopAudio();
+        setFeedback(false);
+      }}
+      onContinue={() => onSubmit(submission, correct, assisted)}
+    />
+  ) : (
+    <QuestionFooter
+      exam={exam}
+      productive={productive}
+      kind={q.kind}
+      canSubmit={canSubmit}
+      onCheck={() => submit()}
+    />
+  );
+
   return (
     <div className={cardPadding(exam)}>
       <QuestionHeading
@@ -183,28 +207,8 @@ export const QuestionCard = ({
           onEvaluated={onEvaluated}
           onSubmit={onSubmit}
         />
-      ) : !feedback ? (
-        <QuestionFooter
-          exam={exam}
-          productive={productive}
-          kind={q.kind}
-          canSubmit={canSubmit}
-          onCheck={() => submit()}
-        />
       ) : (
-        <QuestionFeedback
-          q={q}
-          correct={correct}
-          productive={productive}
-          value={value}
-          checked={a.checks.length}
-          assisted={assisted}
-          onRevise={() => {
-            stopAudio();
-            setFeedback(false);
-          }}
-          onContinue={() => onSubmit(submission, correct, assisted)}
-        />
+        checkOrFeedback
       )}
     </div>
   );

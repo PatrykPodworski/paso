@@ -46,3 +46,4 @@ temp/
 
 # Captures written by capture() in tests/fixtures/app.ts
 screenshots/
+__pycache__/

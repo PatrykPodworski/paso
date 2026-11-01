@@ -1,9 +1,8 @@
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
-import { mockSections } from "../../data/mock";
 import { passingGroups } from "../../data/progress";
 import { FIELD } from "../../design-system/field";
-import type { MockRun } from "../../data/types";
+import type { MockRun, Question } from "../../data/types";
 
 const GRADES = { perfect: "Perfect", good: "Good", bad: "Not everything" };
 
@@ -13,6 +12,8 @@ type Props = {
   writing: string;
   speaking: string;
   talks: MockRun["talks"];
+  // The run's speaking tasks, whose talks Lucía grades.
+  talkTasks: Question[];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
 };
@@ -23,6 +24,7 @@ export const ScoreCalculator = ({
   writing,
   speaking,
   talks,
+  talkTasks,
   onWriting,
   onSpeaking,
 }: Props) => {
@@ -72,7 +74,7 @@ export const ScoreCalculator = ({
         </label>
       </div>
       <ul aria-label="Lucía's grades" className="mbs-4 flex flex-col gap-1.5 text-sm">
-        {mockSections[3].questions.map((q, i) => (
+        {talkTasks.map((q, i) => (
           <li key={q.id} className="flex justify-between gap-3">
             <span>Task {i + 1}</span>
             <span className="text-muted-foreground">

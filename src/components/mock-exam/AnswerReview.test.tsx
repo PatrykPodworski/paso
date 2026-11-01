@@ -1,11 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import { AnswerReview } from "./AnswerReview";
 
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
+
 describe("reviewed answer", () => {
-  const [reading] = mockSections[0].questions;
-  const [form] = mockSections[2].questions;
+  const [reading] = sections[0].questions;
+  const [form] = sections[2].questions;
 
   it.each([
     ["Correct", reading.answer],

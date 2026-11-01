@@ -2,7 +2,7 @@ import { ButtonRow } from "../../design-system/ButtonRow";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
-import { mockSections } from "../../data/mock";
+import { examSections, mockExam } from "../../data/mock";
 import { AnswerReview } from "./AnswerReview";
 import { Icon } from "../../design-system/Icon";
 import type { MockRun } from "../../data/types";
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const SectionReview = ({ run, score, onNext }: Props) => {
-  const section = mockSections[run.section];
+  const section = examSections(run.variants)[run.section];
 
   return (
     <Panel className="p-8 max-md:p-6">
@@ -36,7 +36,7 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
             ? "See my results"
             : run.section === 2
               ? "Continue to speaking preparation"
-              : `Continue to ${mockSections[run.section + 1].title.toLowerCase()}`}
+              : `Continue to ${mockExam[run.section + 1].title.toLowerCase()}`}
           <Icon name="arrow" />
         </Button>
       </ButtonRow>

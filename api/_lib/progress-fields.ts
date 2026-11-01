@@ -1,8 +1,9 @@
-import { mockSections } from "../../src/data/mock.ts";
+import { mockQuestions, mockTasks, mockTopics, sectionSizes } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
-  LiveGrade,
+  Grade,
+  LiveItem,
   MockRun,
   MockRunPatch,
   MockStage,
@@ -22,9 +23,14 @@ const MAX_ID = 64;
 const MAX_TEXT = 4000;
 const MAX_SECTION = 25;
 const MAX_SCORE_TEXT = 16;
+// The exam builder takes an unsigned 32-bit seed.
+const MAX_SEED = 2 ** 32 - 1;
 const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
-const GRADES: LiveGrade[] = ["perfect", "good", "bad"];
+const GRADES: Grade[] = ["perfect", "good", "bad"];
+const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
+const MAX_TALK_ITEMS = 20;
+const MAX_LABEL = 200;
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
 
 // Postgres takes offsets up to ±15:59.
@@ -99,7 +105,7 @@ export const attemptOf = (value: unknown): Attempt | null => {
     !isText(value.answer) ||
     !isInstant(value.at) ||
     !(value.assisted == null || typeof value.assisted === "boolean") ||
-    !(value.grade == null || GRADES.includes(value.grade as LiveGrade))
+    !(value.grade == null || GRADES.includes(value.grade as Grade))
   ) {
     return null;
   }
@@ -112,7 +118,7 @@ export const attemptOf = (value: unknown): Attempt | null => {
     answer: value.answer,
     at: value.at,
     ...(value.assisted ? { assisted: true } : {}),
-    ...(value.grade ? { grade: value.grade as LiveGrade } : {}),
+    ...(value.grade ? { grade: value.grade as Grade } : {}),
   };
 };
 
@@ -158,13 +164,34 @@ export const mockResultOf = (value: unknown): MockResult | null => {
 
 type Check = (value: unknown) => boolean;
 
-const MOCK_QUESTIONS = new Set(mockSections.flatMap((s) => s.questions.map((q) => q.id)));
+const MOCK_QUESTIONS = new Set(mockQuestions.map((q) => q.id));
 const isMockQuestion: Check = (key) => MOCK_QUESTIONS.has(key as string);
+
+// One variant for every task of the exam, each from that task's own pool.
+const isExamVariants: Check = (value) =>
+  isRecord(value) &&
+  Object.keys(value).length === mockTasks.length &&
+  mockTasks.every((t) => t.variants.some((v) => v.id === value[t.id]));
 
 const mapOf =
   (isKey: Check, isValue: Check): Check =>
   (value) =>
     isRecord(value) && Object.entries(value).every(([key, item]) => isKey(key) && isValue(item));
+
+// Lucía's score of a mock exam talk, as api/score-talk returned it.
+const isLiveScore: Check = (value) =>
+  isRecord(value) &&
+  GRADES.includes(value.grade as Grade) &&
+  Array.isArray(value.items) &&
+  value.items.length <= MAX_TALK_ITEMS &&
+  value.items.every(
+    (item: unknown) =>
+      isRecord(item) &&
+      isId(item.id) &&
+      isText(item.label, MAX_LABEL) &&
+      LEVELS.includes(item.level as LiveItem),
+  ) &&
+  Object.keys(value).length === 2;
 
 const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["stage", (value) => STAGES.includes(value as MockStage)],
@@ -180,12 +207,15 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
       (value) => isText(value, MAX_SCORE_TEXT),
     ),
   ],
+  ["topic", (value) => mockTopics.some((topic) => topic.id === value)],
+  ["talks", mapOf(isMockQuestion, isLiveScore)],
+  ["seed", (value) => isCount(value, 0, MAX_SEED)],
+  ["variants", isExamVariants],
 ];
 
 // A question index is only valid within its section, so the two always travel together.
 const isPosition = (section: unknown, index: unknown) =>
-  isCount(section, 0, mockSections.length - 1) &&
-  isCount(index, 0, mockSections[section].questions.length - 1);
+  isCount(section, 0, sectionSizes.length - 1) && isCount(index, 0, sectionSizes[section] - 1);
 
 // The fields a change to the mock run sets, or null when one of them is invalid.
 export const mockRunPatchOf = (value: unknown): MockRunPatch | null => {

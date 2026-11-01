@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -47,6 +47,7 @@ it("restores a saved form draft without losing field labels", () => {
     Object.fromEntries(formPractice.fields!.map((f) => [f.label, "Una respuesta"])),
   );
 
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
   render(<QuestionCard q={formPractice} draft={draft} onSubmit={vi.fn()} />);
   expect(screen.getByRole("textbox", { name: "Nacionalidad" })).toHaveValue("Una respuesta");
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeEnabled();

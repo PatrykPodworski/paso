@@ -1,7 +1,11 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { buildExam } from "../../data/examBuilder";
+import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
@@ -22,8 +26,24 @@ it("starts a new 45-minute reading section and persists its deadline", async () 
   expect(screen.getByRole("button", { name: "← Previous question" })).toBeDisabled();
 });
 
+it("builds the new exam from a random seed and saves the seed with the variants", async () => {
+  vi.spyOn(crypto, "getRandomValues").mockImplementation((array) => {
+    (array as Uint32Array).set([3_000_000_000]);
+
+    return array;
+  });
+
+  await mount();
+  click("Start exam rehearsal");
+
+  expect(await state()).toMatchObject({
+    seed: 3_000_000_000,
+    variants: buildExam({ seed: 3_000_000_000 }),
+  });
+});
+
 it("counts correct answers only, reveals models after locking, and starts listening at 25 minutes", async () => {
-  const [a, b] = mockSections[0].questions;
+  const [a, b] = sections[0].questions;
 
   await seed({ answers: { [a.id]: a.answer, [b.id]: "wrong" } });
   await mount();
@@ -61,11 +81,14 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-it("dismisses a confirmation left open when the speaking time runs out", async () => {
+it("shows no finish dialog in the next rehearsal after the speaking time ran out", async () => {
   await seed({ section: 3, deadline: now + 2000 });
   await mount();
   click("Finish section");
   act(() => vi.advanceTimersByTime(2000));
+  // The speaking clock cuts no talk, so the dialog stays until the learner finishes.
+  expect(screen.getByRole("dialog")).toBeInTheDocument();
+  click("Finish & review");
   click("See my results");
   click("Return to exam overview");
   click("Start exam rehearsal");
@@ -102,7 +125,18 @@ it("starts oral preparation, persists notes, then gives a separate ten minutes t
   act(() => vi.advanceTimersByTime(600000 - 800));
   expect(await state()).toMatchObject({ stage: "run", deadline: now + 1200000 });
   expect(screen.getByRole("timer")).toHaveTextContent("10:00");
-  expect(screen.getByRole("button", { name: "Save answer" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Start the talk" })).toBeEnabled();
+});
+
+it("lets a speaking talk run past the section's clock instead of cutting it", async () => {
+  await seed({ section: 3, stage: "run", deadline: now + 1000 });
+  await mount();
+  act(() => vi.advanceTimersByTime(3000));
+  expect((await state()).stage).toBe("run");
+  expect(screen.getByRole("timer")).toHaveTextContent("00:00");
+  click("Finish section");
+  click("Finish & review");
+  expect((await state()).stage).toBe("review");
 });
 
 it("keeps the results page after the last deadline has passed", async () => {

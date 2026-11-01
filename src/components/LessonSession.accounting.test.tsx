@@ -6,9 +6,9 @@ import type { QuestionCard } from "./question-card/QuestionCard";
 import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
 import { allQuestions } from "../data/curriculum";
-import { formPractice, mockQuestions } from "../data/mock";
+import { formPractice } from "../data/mock";
 import { emptySnapshot } from "../test/progress";
-import type { Question } from "../data/types";
+import type { LiveScore, Question } from "../data/types";
 
 // Test session accounting independently of the question widget. The real
 // widget and its integration are exercised in the question-card and browser tests.
@@ -63,7 +63,7 @@ const stat = (label: string) =>
     screen.getAllByRole("term").findIndex((term) => term.textContent === label)
   ];
 
-it("counts mixed objective, creative and assisted work independently", () => {
+it("counts objective and assisted work independently and leaves ungraded work out of the score", () => {
   const { onComplete } = mount(allQuestions.slice(0, 4));
 
   expect(screen.getByText("1 / 4")).toBeInTheDocument();
@@ -75,19 +75,19 @@ it("counts mixed objective, creative and assisted work independently", () => {
   submit(true, true);
   expect(onComplete).toHaveBeenCalledExactlyOnceWith(2, 3);
   expect(stat("objective answers")).toHaveTextContent(/^2\/3$/);
-  expect(stat("creative practices")).toHaveTextContent(/^1$/);
+  expect(screen.queryByText("creative practices")).not.toBeInTheDocument();
   expect(stat("moments to review")).toHaveTextContent(/^1$/);
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
   expect(stopAudio).toHaveBeenCalledTimes(4);
 });
 
-it("lets a reading passage play on while its own questions continue", () => {
-  const passage = allQuestions.find((q) => q.passage)!.passage;
-  const reading = allQuestions.filter((q) => q.passage === passage);
+it("lets a listening recording play on while its own questions continue", () => {
+  const recording = allQuestions.find((q) => /-a\d+$/.test(q.id))!.audio;
+  const listening = allQuestions.filter((q) => q.audio === recording);
 
-  expect(reading.length).toBeGreaterThan(1);
-  mount([...reading.slice(0, 2), allQuestions.find((q) => !q.passage)!]);
+  expect(listening.length).toBeGreaterThan(1);
+  mount([...listening.slice(0, 2), allQuestions.find((q) => !q.audio)!]);
   submit(true);
   expect(stopAudio).not.toHaveBeenCalled();
   submit(true);
@@ -95,15 +95,14 @@ it("lets a reading passage play on while its own questions continue", () => {
 });
 
 it.each([
-  { results: [true, true], score: 2, total: 2, creative: 0 },
-  { results: [null, null], score: 0, total: 0, creative: 2 },
-])("reports a session without mistakes (case %#)", ({ results, score, total, creative }) => {
+  { results: [true, true], score: 2, total: 2 },
+  { results: [null, null], score: 0, total: 0 },
+])("reports a session without mistakes (case %#)", ({ results, score, total }) => {
   const { onComplete, onClose } = mount(allQuestions.slice(0, 2));
 
   results.forEach((result) => submit(result));
   expect(onComplete).toHaveBeenCalledExactlyOnceWith(score, total);
   expect(stat("objective answers").textContent).toBe(`${score}/${total}`);
-  expect(stat("creative practices").textContent).toBe(String(creative));
   expect(stat("moments to review").textContent).toBe("0");
   expect(screen.queryByText(/answers used transcript assistance/)).not.toBeInTheDocument();
   expect(screen.queryByText(/Your mistakes are waiting/)).not.toBeInTheDocument();
@@ -112,13 +111,10 @@ it.each([
   expect(stopAudio).toHaveBeenCalledTimes(3);
 });
 
-it.each(["write", "form", "choice", "type", "speak"] as const)(
+it.each(["write", "form", "choice", "type"] as const)(
   "restores drafts only for editable productive work: %s",
   (kind) => {
-    const q =
-      kind === "form"
-        ? formPractice
-        : [...allQuestions, ...mockQuestions].find((q) => q.kind === kind)!;
+    const q = kind === "form" ? formPractice : allQuestions.find((q) => q.kind === kind)!;
 
     const progress = emptySnapshot();
 
@@ -136,11 +132,13 @@ it.each(["write", "form", "choice", "type", "speak"] as const)(
   },
 );
 
+const bad: LiveScore = { grade: "bad", items: [{ id: "name", label: "Name", level: "missing" }] };
+
 it("saves a live talk's grade with its attempt", () => {
   const live = allQuestions.find((q) => q.kind === "live")!;
   const { onAttempt } = mount([live]);
 
-  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad"));
+  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad", bad));
 
   expect(onAttempt.mock.calls[0][0]).toMatchObject({
     questionId: "u1-o3",

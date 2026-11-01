@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { firstVariants } from "../src/data/mock.ts";
 import type { Attempt, ProgressSnapshot } from "../src/data/types.ts";
 
 const store = vi.hoisted(() => new Map<string, unknown>());
@@ -185,6 +186,20 @@ describe("the mistake and review rules", () => {
     expect(p.questions["u1-o3"]).toMatchObject({ inMistakes: false });
     expect(p.questions["u1-o3"].review).toBeUndefined();
     expect(p.questions["u1-o3"].grade).toBe("good");
+  });
+
+  it("adds a writing task not passed to the mistakes and clears it once a review passes it", async () => {
+    const me = learner();
+    const writing = { questionId: "u1-o2", skill: "writing" as const };
+
+    expect(
+      (await answer(me, { ...writing, id: "a1", correct: false, grade: "bad" })).questions["u1-o2"],
+    ).toMatchObject({ inMistakes: true });
+
+    const p = await answer(me, { ...writing, id: "a2", correct: true, grade: "perfect" });
+
+    expect(p.questions["u1-o2"]).toMatchObject({ inMistakes: false, grade: "perfect" });
+    expect(p.questions["u1-o2"].review).toBeUndefined();
   });
 
   it("schedules only the question actually missed and keeps other cards untouched", async () => {
@@ -428,6 +443,9 @@ describe("the mock exam run", () => {
     started: "",
     drafts: {},
     scores: {},
+    talks: {},
+    seed: 0,
+    variants: firstVariants,
   };
 
   const DEADLINE = Date.parse(T) + 45 * 60000;
@@ -451,6 +469,19 @@ describe("the mock exam run", () => {
       answers: { "mock-r1-0": "b", "mock-r1-1": "c" },
       drafts: { "mock-w1": "Hola", prep: "" },
       scores: { writing: "12", speaking: "14.5" },
+    });
+  });
+
+  it("keeps the picked topic and merges Lucía's scores per talk", async () => {
+    const me = learner();
+    const good = { grade: "good", items: [{ id: "name", label: "Name", level: "correct" }] };
+    const bad = { grade: "bad", items: [] };
+
+    await change(me, { ...started, topic: "home", talks: { "mock-s1": good } }, true);
+
+    expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
+      topic: "studies",
+      talks: { "mock-s1": good, "mock-s2": bad },
     });
   });
 
@@ -481,6 +512,23 @@ describe("the mock exam run", () => {
     await change(me, { ...started, answers: { "mock-r1-0": "a" }, scores: { writing: "3" } }, true);
 
     expect(await change(me, {}, true)).toEqual(FRESH);
+  });
+
+  it("keeps the seed and the variants a new run starts with", async () => {
+    const me = learner();
+    const variants = { ...firstVariants };
+
+    expect(await change(me, { ...started, seed: 4_294_967_295, variants }, true)).toEqual({
+      ...FRESH,
+      ...started,
+      seed: 4_294_967_295,
+      variants,
+    });
+
+    expect(await change(me, { answers: { "mock-r1-0": "a" } })).toMatchObject({
+      seed: 4_294_967_295,
+      variants,
+    });
   });
 });
 
@@ -652,6 +700,63 @@ describe("requests", () => {
       "a long mock score",
       me,
       { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
+      "run",
+    ],
+    ["a negative mock seed", me, { action: "mockRun", run: { seed: -1 } }, "run"],
+    ["a mock seed over 32 bits", me, { action: "mockRun", run: { seed: 2 ** 32 } }, "run"],
+    ["a fractional mock seed", me, { action: "mockRun", run: { seed: 1.5 } }, "run"],
+    [
+      "mock variants that are not a record",
+      me,
+      { action: "mockRun", run: { variants: [] } },
+      "run",
+    ],
+    [
+      "mock variants without every task",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, s2: undefined } } },
+      "run",
+    ],
+    [
+      "a mock variant from another task",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, r1: "r2-v1" } } },
+      "run",
+    ],
+    [
+      "a mock variant no task has",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, r1: "r1-v99" } } },
+      "run",
+    ],
+    [
+      "mock variants for a task the exam does not have",
+      me,
+      { action: "mockRun", run: { variants: { ...firstVariants, r5: "r5-v1" } } },
+      "run",
+    ],
+    ["a mock topic", me, { action: "mockRun", run: { topic: "sport" } }, "run"],
+    [
+      "a mock talk outside the exam",
+      me,
+      { action: "mockRun", run: { talks: { "u1-o3": { grade: "good", items: [] } } } },
+      "run",
+    ],
+    [
+      "a mock talk grade",
+      me,
+      { action: "mockRun", run: { talks: { "mock-s1": { grade: "A", items: [] } } } },
+      "run",
+    ],
+    [
+      "a mock talk item level",
+      me,
+      {
+        action: "mockRun",
+        run: {
+          talks: { "mock-s1": { grade: "good", items: [{ id: "a", label: "A", level: "ok" }] } },
+        },
+      },
       "run",
     ],
     ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],

@@ -56,8 +56,7 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
   logistics and a calculator for the two-group pass rule.
 - **Progress is saved online.** Lessons, history, goals, streaks, XP,
   preferences, drafts and self-assessments are saved as you go and can be
-  exported from preferences. Recordings live only in the open tab unless you
-  download them.
+  exported from preferences.
 
 The interface is built for long sessions: large default type and controls,
 keyboard navigation, modal focus containment, reduced-motion support and
@@ -77,7 +76,7 @@ rather than components, so the units, lessons and exercises live under
 | `src/data/mock.ts`       | Exam rehearsal and personal form          |
 | `src/data/progress.ts`   | Scoring, review windows, writing checks   |
 | `src/data/research.ts`   | The source-linked readiness map           |
-| `src/components/`        | Question types, exam, audio, recorder     |
+| `src/components/`        | Question types, exam, audio, live talk    |
 | `public/audio/`          | Generated speech and its manifest         |
 | `api/`                   | Live examiner, progress API               |
 | `db/`                    | Progress migrations and their runner      |
@@ -107,10 +106,27 @@ Generating new clips, the voice assignments and the credit guards are in
 
 ## Writing and speaking
 
-Free writing, the personal form and speaking tasks end in a reflection panel:
-a model answer, word-count guidance, a few targeted pattern checks and a
-self-review checklist. Speaking tasks record in the browser with playback and
-download; nothing is uploaded. AI feedback on your writing is coming soon.
+Every speaking task is a live talk with Lucía; nothing is recorded in the browser.
+
+In a lesson or practice writing task, "Review my practice" asks an AI tutor for
+feedback: a result (passed, partly passed or not passed yet), each requested
+point covered or missing, corrections, the word count and a revised version. The
+result is recorded like a live talk's grade, so a task not passed goes to the
+mistake review. At the mock exam's writing review, one button marks both tasks
+with a DELE band from 0 to 3 and scales them to the 25-point writing score.
+Nothing is sent until the learner asks, and the server stores nothing.
+
+`api/review-writing.ts` looks the task up on the server, so the client sends
+only the task id, the answer and the passcode. It calls OpenRouter with
+`OPENROUTER_API_KEY` on the model that `OPENROUTER_MODEL` names, and checks the
+same `PASSCODE` as the live talks. Both OpenRouter variables are required: without
+either one the function logs which is missing and answers 503. Use `vercel dev`
+to try it locally.
+
+`pnpm eval:writing` reviews the sample answers in `scripts/writing-evals/samples.json`
+and fails when any band (exam tasks) or result (practice tasks) differs from the
+expected one. It reads the key and the model
+from the environment or `.env.local`; rerun it after changing the prompt or the model.
 
 ## Live examiner
 
@@ -131,6 +147,12 @@ bodies up to 256 KB. `pnpm dev` serves the same API from an in-memory Postgres
 that starts empty, without the rate limits. Progress saved in this browser
 before the move is not read.
 
+Each Vercel preview gets a Neon branch named `preview/<git branch>`. When a pull
+request closes, the Neon cleanup workflow (`.github/workflows/neon-cleanup.yml`)
+deletes that branch, because the free plan allows only 10 branches. It needs the
+repository secret `NEON_API_KEY` and skips with a notice when the secret is
+missing.
+
 ## Tests
 
 ```sh
@@ -150,11 +172,10 @@ coverage and the browser journeys run only in the local gate.
 
 On pull requests, the Visual workflow (`.github/workflows/visual.yml`) compares
 screenshots of the five top-level views, desktop and mobile, with the base
-branch's. A diff fails the job, publishes the Playwright report to GitHub Pages under
-`pr-<number>/` and links it in a pull request comment; closing the pull request removes
-the report. The `visual-approved` label accepts the diff until the
-next push. The `main` ruleset requires the job's `compare` check, so a pull request
-with an unapproved diff cannot merge. Other views are not compared. To compare locally, run
+branch's. A diff does not fail the job: it publishes the Playwright report to GitHub
+Pages under `pr-<number>/` and links it, with the list of changed screenshots, in a
+pull request comment that every push updates; closing the pull request removes the
+report. Other views are not compared. To compare locally, run
 `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then
 `VISUAL_COMPARE=1 pnpm test:visual` on the change. macOS baselines are only
 comparable with macOS runs.

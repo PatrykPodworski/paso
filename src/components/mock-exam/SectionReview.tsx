@@ -2,10 +2,11 @@ import { ButtonRow } from "../../design-system/ButtonRow";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
-import { mockSections } from "../../data/mock";
+import { examSections, mockExam } from "../../data/mock";
 import { AnswerReview } from "./AnswerReview";
 import { Icon } from "../../design-system/Icon";
 import type { MockRun } from "../../data/types";
+import { WritingMarks } from "./WritingMarks";
 
 type Props = {
   run: MockRun;
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export const SectionReview = ({ run, score, onNext }: Props) => {
-  const section = mockSections[run.section];
+  const section = examSections(run.variants)[run.section];
 
   return (
     <Panel className="p-8 max-md:p-6">
@@ -25,7 +26,9 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
       <p className="leading-relaxed mb-5 text-sm text-muted-foreground">
         {run.section < 2
           ? "Correct answers earn one point. Wrong or unanswered questions earn zero, with no penalty."
-          : "Open responses require human judgment. Compare your response with the model and cover every requested point."}
+          : run.section === 2
+            ? "Get feedback from an AI tutor with a DELE mark from 0 to 3 for each task, and compare your response with the model."
+            : "Open responses require human judgment. Compare your response with the model and cover every requested point."}
       </p>
       <ButtonRow>
         <Button variant="primary" onClick={onNext}>
@@ -33,10 +36,11 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
             ? "See my results"
             : run.section === 2
               ? "Continue to speaking preparation"
-              : `Continue to ${mockSections[run.section + 1].title.toLowerCase()}`}
+              : `Continue to ${mockExam[run.section + 1].title.toLowerCase()}`}
           <Icon name="arrow" />
         </Button>
       </ButtonRow>
+      {run.section === 2 && <WritingMarks questions={section.questions} answers={run.answers} />}
       <div className="mt-7">
         {section.questions.map((q, i) => (
           <AnswerReview

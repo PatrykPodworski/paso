@@ -1,7 +1,8 @@
+import { freshMockRun } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
-  LiveGrade,
+  Grade,
   MockRun,
   MockRunPatch,
   ProgressSnapshot,
@@ -14,17 +15,6 @@ import type { Completion, MockResult } from "./progress-fields.js";
 export type Settings = { name: string; goal: number; examDate: string };
 
 const RECENT = 20;
-
-const FRESH_MOCK_RUN: MockRun = {
-  section: 0,
-  index: 0,
-  stage: "intro",
-  answers: {},
-  deadline: 0,
-  started: "",
-  drafts: {},
-  scores: {},
-};
 
 const DAYS = 400;
 const QUESTION_XP = 5;
@@ -91,7 +81,7 @@ type AttemptRow = {
   answer: string;
   at: string;
   assisted: boolean;
-  grade: LiveGrade | null;
+  grade: Grade | null;
 };
 
 type QuestionRow = Omit<AttemptRow, "id"> & {
@@ -163,7 +153,8 @@ const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
     drafts: Object.fromEntries(drafts.map((d) => [d.question_id, d.text])),
     recent: recent.map((r) => ({ id: r.id, questionId: r.question_id, ...answerOf(r) })),
     days: days.map((d) => d.day),
-    mockRun: runs[0]?.run ?? null,
+    // A run saved before a field existed takes that field's default.
+    mockRun: runs[0] ? { ...freshMockRun(), ...runs[0].run } : null,
   };
 };
 
@@ -182,7 +173,7 @@ export const readProgress = async (db: Db, learner: string) =>
 
 // The attempt rules: a wrong answer goes to the mistakes, due at once. An unassisted
 // correct answer to a tracked question leaves the mistakes and moves one review window
-// up, or leaves the reviews for good when it is a graded live talk. +5 XP when the
+// up, or leaves the reviews for good when it is graded (a live talk or a writing review). +5 XP when the
 // question is new. An attempt id already stored changes nothing.
 export const saveAttempt = async (db: Db, learner: string, a: Attempt, timeZone: string) => {
   const recovers =
@@ -360,7 +351,7 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
     ])
   ).snapshot;
 
-// Top-level fields replace; answers, drafts and scores merge per key, so a change from one
+// Top-level fields replace; answers, drafts, scores and talks merge per key, so a change from one
 // tab keeps what another tab saved. `replace` starts a new run from the defaults.
 export const saveMockRun = async (
   db: Db,
@@ -369,7 +360,7 @@ export const saveMockRun = async (
   replace: boolean,
 ) => {
   const merged = (map: string) =>
-    `'${map}', (r.run->'${map}') || COALESCE($3::jsonb->'${map}', '{}')`;
+    `'${map}', COALESCE(r.run->'${map}', '{}') || COALESCE($3::jsonb->'${map}', '{}')`;
 
   return (
     await write(db, learner, [
@@ -380,11 +371,11 @@ export const saveMockRun = async (
          ON CONFLICT (learner_id) DO UPDATE SET
            run = CASE WHEN $4::boolean THEN excluded.run ELSE
              r.run || $3::jsonb ||
-             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")})
+             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")}, ${merged("talks")})
            END,
            updated_at = now()`,
         learner,
-        JSON.stringify(FRESH_MOCK_RUN),
+        JSON.stringify(freshMockRun()),
         JSON.stringify(patch),
         replace,
       ),

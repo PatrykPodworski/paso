@@ -5,12 +5,15 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { Icon } from "../../design-system/Icon";
 import { ScoreCalculator } from "./ScoreCalculator";
+import type { MockRun, Question } from "../../data/types";
 
 type Props = {
   reading: number;
   listening: number;
   writing: string;
   speaking: string;
+  talks: MockRun["talks"];
+  talkTasks: Question[];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
   onDownload: () => void;
@@ -24,6 +27,8 @@ export const MockResults = ({
   listening,
   writing,
   speaking,
+  talks,
+  talkTasks,
   onWriting,
   onSpeaking,
   onDownload,
@@ -67,6 +72,8 @@ export const MockResults = ({
       listening={listening}
       writing={writing}
       speaking={speaking}
+      talks={talks}
+      talkTasks={talkTasks}
       onWriting={onWriting}
       onSpeaking={onSpeaking}
     />

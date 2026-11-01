@@ -1,14 +1,17 @@
 import { fireEvent, screen } from "@testing-library/react";
 import { expect, it } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, remount, seed, setupMockExam, state } from "../../test/mockExam";
 import { savedProgress, settle } from "../../test/progressApi";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
 it("stores only objective results once and requires both human scores before a verdict", async () => {
   const answers = Object.fromEntries(
-    [...mockSections[0].questions, ...mockSections[1].questions].map((q) => [q.id, q.answer]),
+    [...sections[0].questions, ...sections[1].questions].map((q) => [q.id, q.answer]),
   );
 
   const results = async () =>
@@ -107,9 +110,28 @@ it("rejects negative and excessive writing scores independently", async () => {
   }
 });
 
+it("shows Lucía's grades for the three talks next to the speaking score", async () => {
+  await seed({
+    section: 3,
+    stage: "done",
+    talks: {
+      "mock-s1": { grade: "good", items: [] },
+      "mock-s2": { grade: "perfect", items: [] },
+    },
+  });
+
+  await mount();
+
+  expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
+    "Task 1GoodTask 2PerfectTask 3Not done",
+  );
+
+  expect(screen.getByText(/not DELE points/)).toBeInTheDocument();
+});
+
 it("shows the objective scores on the results page", async () => {
   const answers = Object.fromEntries(
-    mockSections[0].questions.slice(0, 3).map((q) => [q.id, q.answer]),
+    sections[0].questions.slice(0, 3).map((q) => [q.id, q.answer]),
   );
 
   await seed({ section: 3, stage: "done", answers });

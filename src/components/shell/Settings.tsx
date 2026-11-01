@@ -72,8 +72,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       </label>
       <FieldNote className="mb-5">
         Progress and writing drafts are saved online and linked to this browser. Export a copy
-        before clearing browser data. Microphone recordings stay only in the active tab unless
-        downloaded.
+        before clearing browser data.
       </FieldNote>
       <ButtonRow className="justify-between">
         <Button

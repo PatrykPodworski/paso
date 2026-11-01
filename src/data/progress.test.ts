@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  answerWords,
   clipText,
   countWords,
   dailyAnswers,
@@ -12,7 +13,7 @@ import {
   REVIEW_WINDOWS,
   skillStats,
   streak,
-  writingHints,
+  writingScore,
 } from "./progress";
 import { allQuestions } from "./curriculum";
 import type { Attempt, Question } from "./types";
@@ -117,6 +118,28 @@ describe("progress contracts", () => {
     ["Ana María López, treinta años.", 5],
   ])("counts words in %s", (input, n) => expect(countWords(input)).toBe(n));
 
+  it("counts only the field values of a form answer", () => {
+    const form =
+      "Nombre y apellidos: Elena García\nNacionalidad: polaca\nCiudad: \nAficiones: leer: novelas";
+
+    expect(answerWords({ kind: "form" }, form)).toBe(5);
+    expect(answerWords({ kind: "write" }, form)).toBe(11);
+    expect(answerWords({ kind: "write" }, "Hola, Ana: nos vemos.")).toBe(4);
+    expect(answerWords({ kind: "form" }, "Nombre: Ana\nCiudad:")).toBe(1);
+  });
+
+  it.each([
+    [[2, 2], 16.67],
+    [[3, 3], 25],
+    [[0, 0], 0],
+    [[3, 0], 12.5],
+    [[1, 2], 12.5],
+    [[3, 2], 20.83],
+    [[1, 0], 4.17],
+  ] as const)("scales DELE writing bands %j to %d out of 25", (bands, score) =>
+    expect(writingScore(bands)).toBe(score),
+  );
+
   it("counts the questions last answered on the requested local day", () => {
     const p = answered([
       a(),
@@ -188,43 +211,6 @@ describe("progress contracts", () => {
   ])("requires BOTH groups at the boundary %s/%s/%s/%s", (r, w, l, s, pass) =>
     expect(passingGroups(r, w, l, s)).toEqual({ group1: r + w, group2: l + s, pass }),
   );
-
-  it.each([
-    ["ESTOY quince años", "For age, use tener"],
-    ["Soy 21 años", "For age, use tener"],
-    ["Me gusta los libros", "plural noun"],
-    ["mi hermanas", "plural possession"],
-    ["cerca de el banco", "de + el"],
-    ["voy a el parque", "a + el"],
-    ["Tengo 20 anos", "write años"],
-    ["Cómo estás?", "opening ¿"],
-  ])("explains a specific error: %s", (text, fragment) =>
-    expect(writingHints(text).join(" ")).toContain(fragment),
-  );
-
-  it("gives one hint per error when a text has several", () => {
-    expect(
-      writingHints("Soy 20 años. Me gusta las manzanas. Mi padres viven a el lado de el banco."),
-    ).toHaveLength(5);
-  });
-
-  it.each([
-    "Tengo veinte años. Me gustan los libros. Mis padres viven cerca del banco. Voy al parque.",
-    "Tengo veinte años. Me gustan las manzanas.",
-    "¿Cómo estás?",
-    "Todo bien.",
-    "soy profesor",
-    "Me gusta el café",
-    "Mi hermana",
-    "de ella",
-    "a ella",
-    "Tengo años",
-    "¿Hola",
-  ])("does not invent hints for %s", (text) => expect(writingHints(text)).toEqual([]));
-});
-
-it("handles flexible whitespace in age errors and accepts a genuinely zero allowance", () => {
-  expect(writingHints("Soy   veinte   años")).toHaveLength(1);
 });
 
 it("does not accidentally accept an undeclared fallback answer", () => {

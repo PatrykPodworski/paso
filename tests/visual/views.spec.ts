@@ -10,8 +10,9 @@ import {
 } from "../fixtures/app";
 import { progressSeed } from "../fixtures/progressSeed";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
-import type { Page } from "@playwright/test";
+import type { Page, Route } from "@playwright/test";
 import { examiner, mockLiveTalk } from "../fixtures/live";
+import { writingReview } from "../fixtures/writing";
 
 const shot = async (page: Page, name: string) => {
   const stop = page.getByRole("button", { name: /^(Stop|Pause) audio$/ });
@@ -189,7 +190,7 @@ test("question: immediate vocabulary feedback for nombre and apellido", async ({
   await shot(page, "question-apellido-feedback");
 });
 
-test("question: completed grammar sentence and apellidos field pronunciation", async ({ page }) => {
+test("question: completed grammar sentence and a checked reading question", async ({ page }) => {
   const grammar = await openLesson(page, 5);
 
   await answer(page, grammar.questions[0]);
@@ -243,7 +244,7 @@ test("lesson completion", async ({ page }) => {
   await shot(page, "lesson-complete");
 });
 
-test("question: sentence, typed answer, writing and reflection", async ({ page }) => {
+test("question: sentence, typed answer, writing and its feedback", async ({ page }) => {
   const l = await openLesson(page, 3);
 
   await shot(page, "question-order");
@@ -259,11 +260,52 @@ test("question: sentence, typed answer, writing and reflection", async ({ page }
   await shot(page, "question-type");
   await answer(page, l.questions[1]);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page.getByRole("textbox").fill("Me llamo Ana. Soy veinte años.");
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill("Me llamo Ana. Soy veinte años.");
+
+  // The request state: no passcode is stored, so the field shows under the answer.
   await shot(page, "question-writing");
+
+  // Held until the loading state is captured, then answered with a fixed review.
+  const held = Promise.withResolvers<Route>();
+
+  await page.route("**/api/review-writing", held.resolve);
+  await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
-  await shot(page, "writing-feedback");
+  await expect(page.getByText("Checking your writing…")).toBeVisible();
+  await shot(page, "writing-feedback-loading");
+  const route = await held.promise;
+
+  await route.fulfill({ json: writingReview(l.questions[2].checklist!, "good") });
+  await expect(page.getByRole("heading", { name: "Partly passed" })).toBeVisible();
+  await shot(page, "writing-feedback-result");
+});
+
+test("question: writing not passed", async ({ page }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" })),
+  );
+
+  const l = await openLesson(page, 3);
+
+  await page.route("**/api/review-writing", (route) =>
+    route.fulfill({ json: writingReview(l.questions[2].checklist!, "bad") }),
+  );
+
+  for (const q of l.questions.slice(0, 2)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill("Me llamo Ana. Soy veinte años.");
+
+  await page.getByRole("button", { name: "Review my practice" }).click();
+  await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
+  await shot(page, "writing-feedback-not-passed");
 });
 
 test("question: form", async ({ page }) => {
@@ -286,6 +328,7 @@ const examCases = [
   ["writing", 2, 1, "run"],
   ["oral-preparation", 3, 0, "prep"],
   ["speaking", 3, 0, "run"],
+  ["speaking-topic", 3, 1, "run"],
   ["reading-review", 0, 0, "review"],
   ["listening-review", 1, 0, "review"],
   ["writing-review", 2, 0, "review"],
@@ -325,7 +368,7 @@ test("microphone denial", async ({ page }) => {
   });
 
   await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
-  await page.getByRole("button", { name: "Record your answer" }).click();
+  await page.getByRole("button", { name: "Start the talk" }).click();
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
   await shot(page, "microphone-denied");
 });
@@ -361,12 +404,21 @@ test("question: live talk with Lucía", async ({ page }) => {
   );
 
   const lesson = await openLesson(page, 3);
+  const next = page.getByRole("button", { name: "Continue", exact: true });
 
   for (const q of lesson.questions.slice(0, 3)) {
     await answer(page, q);
-    await page.getByRole("button", { name: "Continue", exact: true }).click();
+    await expect(next).toBeVisible();
+
+    // The writing review stores the passcode it used; this shot shows a learner without one.
+    await page.evaluate(() =>
+      localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "" })),
+    );
+
+    await next.click();
   }
 
+  await expect(page.getByLabel("Passcode")).toHaveValue("");
   await shot(page, "question-live-passcode");
   await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Start the talk" }).click();

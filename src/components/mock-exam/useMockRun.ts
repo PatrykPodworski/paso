@@ -1,16 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { freshMockRun } from "../../data/mock";
 import type { MockRun, MockRunPatch } from "../../data/types";
-
-const freshMockRun = (): MockRun => ({
-  section: 0,
-  index: 0,
-  stage: "intro",
-  answers: {},
-  deadline: 0,
-  started: "",
-  drafts: {},
-  scores: {},
-});
 
 export type ChangeRun = (change: MockRunPatch) => void;
 
@@ -39,6 +29,7 @@ export const useMockRun = (
         answers: { ...r.answers, ...patch.answers },
         drafts: { ...r.drafts, ...patch.drafts },
         scores: { ...r.scores, ...patch.scores },
+        talks: { ...r.talks, ...patch.talks },
       }));
 
       onRunChange(patch);

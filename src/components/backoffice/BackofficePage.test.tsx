@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { expect, it } from "vitest";
 import { allLessons, units } from "../../data/curriculum";
-import { mockSections } from "../../data/mock";
+import { mockQuestions } from "../../data/mock";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
 
@@ -14,14 +14,14 @@ it("lists every question of every unit and of the mock exam, grouped by unit", (
   expect(groups.at(-1)).toBe("Mock exam");
 
   expect(screen.getAllByRole("button")).toHaveLength(
-    units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length +
-      mockSections.flatMap((s) => s.questions).length,
+    units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length + mockQuestions.length,
   );
 
   const mock = within(screen.getByRole("region", { name: "Mock exam" }));
   const row = within(mock.getByRole("button", { name: /Task 1 · Personal presentation/ }));
 
-  expect(row.getAllByText("Speaking")).toHaveLength(2);
+  expect(row.getByText("Live talk")).toBeInTheDocument();
+  expect(row.getByText("Speaking")).toBeInTheDocument();
 });
 
 it("tells apart rows that share a title by their answer", () => {

@@ -10,15 +10,24 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
 const click = (name: string) => fireEvent.click(screen.getByRole("button", { name }));
 
-it("preserves form labels and refuses whitespace-only fields", () => {
+it("preserves form labels and refuses whitespace-only fields", async () => {
   const onDraft = vi.fn(),
     evaluated = vi.fn();
+
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () =>
+      Response.json({ wordCount: 6, coverage: [], corrections: [], revised: "", grade: "perfect" }),
+    ),
+  );
 
   render(
     <QuestionCard q={formPractice} onDraft={onDraft} onSubmit={vi.fn()} onEvaluated={evaluated} />,
@@ -36,11 +45,13 @@ it("preserves form labels and refuses whitespace-only fields", () => {
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
   fireEvent.change(screen.getByRole("textbox", { name: f.label }), { target: { value: "Ana" } });
   click("Review my practice");
+  await screen.findByRole("heading", { name: "Passed" });
 
   expect(evaluated.mock.calls[0]).toEqual([
     expect.stringContaining(`${f.label}: Ana\nNacionalidad:`),
-    null,
+    true,
     false,
+    "perfect",
   ]);
 
   expect(JSON.parse(onDraft.mock.calls.at(-1)![0])[f.label]).toBe("Ana");
@@ -70,6 +81,7 @@ it("counts only form values toward the writing target", () => {
 });
 
 it("requires all form fields before reviewing", () => {
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
   render(<QuestionCard q={formPractice} onSubmit={vi.fn()} />);
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
 

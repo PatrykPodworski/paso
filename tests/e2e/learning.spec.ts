@@ -9,11 +9,16 @@ import {
   seedProgress,
   stored,
 } from "../fixtures/app";
-import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
+import { examiner, mockLiveTalk, sentEvents, talkToLucia } from "../fixtures/live";
+import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
-import { mockSections } from "../../src/data/mock";
+import { examSections, firstVariants } from "../../src/data/mock";
 import { allLessons } from "../../src/data/curriculum";
+import type { Route } from "@playwright/test";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -123,9 +128,7 @@ test("a grammar choice plays the completed Spanish sentence from a local recordi
   expect(await page.evaluate(() => (window as any).__heard[0].duration)).toBeGreaterThan(0);
 });
 
-test("a reading passage plays from the start and keeps going across its questions", async ({
-  page,
-}) => {
+test("a reading passage plays no audio before or after checking", async ({ page }) => {
   await page.addInitScript(() => {
     (window as any).__clips = [];
     const play = HTMLMediaElement.prototype.play;
@@ -138,31 +141,15 @@ test("a reading passage plays from the start and keeps going across its question
   });
 
   const lesson = await openLesson(page, 2);
-  const clips = () => page.evaluate(() => (window as any).__clips.length);
+  const audioButtons = page.getByRole("button", { name: /Play|Stop audio|Pause audio/ });
 
-  await page.getByRole("button", { name: "Play the reading passage" }).click();
-  await expect.poll(clips).toBe(1);
-
-  await expect
-    .poll(() => page.evaluate(() => new URL((window as any).__clips[0].src).pathname))
-    .toBe(expectedAudio(lesson.questions[0].passage!));
-
+  expect(lesson.questions[0].passage).toBeDefined();
+  await expect(page.locator(".reading-passage")).toBeVisible();
+  await expect(audioButtons).toHaveCount(0);
   await answer(page, lesson.questions[0]);
-  // The model answer must not interrupt a passage the learner is listening to.
-  expect(await clips()).toBe(1);
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-
-  await expect(
-    page.getByRole("heading", { name: lesson.questions[1].prompt, exact: true }),
-  ).toBeVisible();
-
-  expect(await page.evaluate(() => (window as any).__clips[0].paused)).toBe(false);
-  expect(await clips()).toBe(1);
-  await expect(page.getByRole("button", { name: "Pause audio" })).toBeVisible();
-  await answer(page, lesson.questions[1]);
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  // The next question is not about this passage, so the passage stops.
-  await expect.poll(() => page.evaluate(() => (window as any).__clips[0].paused)).toBe(true);
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeVisible();
+  await expect(audioButtons).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).__clips.length)).toBe(0);
 });
 
 test("complete a lesson, persist progress, continue the path, and recover a mistake", async ({
@@ -294,8 +281,29 @@ test("Enter checks a typed answer and a second Enter continues", async ({ page }
   await expect(page.getByRole("heading", { name: next.prompt, exact: true })).toBeVisible();
 });
 
-test("writing persists drafts, reviews and permits revision", async ({ page }) => {
+test("a writing answer takes typing as soon as the next question appears", async ({ page }) => {
   const lesson = await openLesson(page, 3);
+  const [first, typed, written] = lesson.questions;
+  const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  await answer(page, first);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("heading", { name: typed.prompt, exact: true })).toBeVisible();
+  await page.keyboard.type(typed.answer);
+  await expect(input).toHaveValue(typed.answer);
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { name: written.prompt, exact: true })).toBeVisible();
+  await page.keyboard.type("Hola");
+  await expect(input).toHaveValue("Hola");
+});
+
+test("writing keeps its draft and is graded by the AI review from Review my practice", async ({
+  page,
+}) => {
+  const lesson = await openLesson(page, 3);
+  const writing = lesson.questions[2];
 
   for (const q of lesson.questions.slice(0, 2)) {
     await answer(page, q);
@@ -326,62 +334,148 @@ test("writing persists drafts, reviews and permits revision", async ({ page }) =
     };
   });
 
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  const review = page.getByRole("button", { name: "Review my practice" });
+  // Held until the loading state is checked.
+  const held = Promise.withResolvers<Route>();
+
+  await page.route("**/api/review-writing", held.resolve);
+  await expect(review).toBeDisabled();
+  await page.getByLabel("Passcode").fill("olé");
+  await review.click();
+  const loading = page.getByRole("status").filter({ hasText: "Checking your writing…" });
+
+  await expect(loading).toBeVisible();
+  await expect(review).toBeHidden();
+  await expect(input).toBeDisabled();
+  await (await held.promise).fulfill({ json: writingReview(writing.checklist!, "good") });
+
+  await expect(page.getByRole("heading", { name: "Partly passed" })).toBeVisible();
+  await expect(page.getByText("6 words. Target: 30–40.")).toBeVisible();
+  await expect(page.getByText("Add a greeting and a farewell.")).toBeVisible();
+  await expect(page.getByText("Tengo veinte años", { exact: true })).toBeVisible();
+  await expect(page.getByText("Hola. Me llamo Ana. Tengo veinte años. Adiós.")).toBeVisible();
+  await expect(page.getByText("Your practice is saved.")).toBeVisible();
+  await expect(input).toBeDisabled();
+  await expect(page.getByLabel("Passcode")).toBeHidden();
+
+  await expect(page.getByRole("button", { name: /Check my writing|Revise my answer/ })).toHaveCount(
+    0,
+  );
+
   // A writing task never reads its model answer aloud.
   await expect(page.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toHaveCount(0);
   expect(await page.evaluate(() => (window as any).__plays.length)).toBe(0);
-  await page.getByRole("button", { name: "Revise my answer" }).click();
-  await expect(input).toBeEnabled();
-  await input.fill("Me llamo Ana. Tengo veinte años.");
-  await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
 
   await expect
-    .poll(async () => (await saved(page)).questions[lesson.questions[2].id]?.correct)
-    .toBeNull();
+    .poll(async () => (await saved(page)).questions[writing.id])
+    .toMatchObject({
+      answer: "Me llamo Ana. Soy veinte años.",
+      correct: true,
+      grade: "good",
+    });
+
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Start the talk" })).toBeVisible();
 });
 
-// The mock exam holds the only recording tasks: every unit's speaking task is a live talk.
-const [speakingTask, nextSpeakingTask] = mockSections[3].questions;
+test("a failed writing review keeps the answer editable, and a red result goes to mistakes", async ({
+  page,
+}) => {
+  const lesson = allLessons[3];
+  const writing = lesson.questions[2];
+  let calls = 0;
 
-test("record, save and download a speaking answer in the mock exam", async ({ page }) => {
-  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
-  await expect(page.getByRole("heading", { name: speakingTask.prompt, exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Record your answer" }).click();
-  await expect(page.getByRole("button", { name: "Stop recording" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Save answer" })).toBeDisabled();
-  await expect.poll(() => page.locator(".recorder .mono").innerText()).not.toBe("00:00");
-  await page.getByRole("button", { name: "Stop recording" }).click();
-  await expect(page.getByRole("button", { name: "Save answer" })).toBeEnabled();
-  const download = page.waitForEvent("download");
+  await page.route("**/api/review-writing", (route) =>
+    calls++
+      ? route.fulfill({ json: writingReview(writing.checklist!, "bad") })
+      : route.fulfill({ status: 502, json: { error: "upstream" } }),
+  );
 
-  await page.getByRole("link", { name: "Save recording" }).click();
-  expect((await download).suggestedFilename()).toMatch(/^paso-speaking\.(webm|m4a)$/);
-  await page.getByRole("button", { name: "Save answer" }).click();
+  await page.addInitScript(() =>
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" })),
+  );
+
+  await openLesson(page, 3);
+
+  for (const q of lesson.questions.slice(0, 2)) {
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
+
+  await input.fill("Me llamo Ana. Soy veinte años.");
+  await page.getByRole("button", { name: "Review my practice" }).click();
 
   await expect(
-    page.getByRole("heading", { name: nextSpeakingTask.prompt, exact: true }),
+    page.getByText("Feedback is not available right now. Your answer is saved; try again later."),
   ).toBeVisible();
+
+  await expect(input).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeHidden();
+  expect((await saved(page)).questions[writing.id]).toBeUndefined();
+  await input.fill("Me llamo Ana. Tengo veinte años.");
+  await page.getByRole("button", { name: "Review my practice" }).click();
+
+  await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
+  await expect(page.getByText("Added to your mistake review.")).toBeVisible();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Start the talk" })).toBeVisible();
+
+  await expect
+    .poll(async () => (await saved(page)).questions[writing.id])
+    .toMatchObject({
+      answer: "Me llamo Ana. Tengo veinte años.",
+      correct: false,
+      grade: "bad",
+      inMistakes: true,
+    });
 });
 
-test("speaking supports microphone denial and the practised-aloud fallback", async ({ page }) => {
-  await page.addInitScript(() => {
-    navigator.mediaDevices.getUserMedia = async () => {
-      throw new DOMException("Denied", "NotAllowedError");
-    };
+const [, task2, task3] = sections[3].questions;
+
+test("the mock exam's Task 2 talks to Lucía on the picked topic and keeps the result across a reload", async ({
+  page,
+}) => {
+  await mockLiveTalk(page, {
+    grade: "good",
+    items: [
+      { id: "location", label: "Where your home is", level: "correct" },
+      { id: "rooms", label: "The rooms", level: "understandable" },
+      { id: "favorite", label: "Your favourite room", level: "correct" },
+    ],
   });
 
-  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
-  await page.getByRole("button", { name: "Record your answer" }).click();
-  await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
-  await expect(page.getByRole("button", { name: "Save answer" })).toBeDisabled();
-  await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
-  await page.getByRole("button", { name: "Save answer" }).click();
+  await resumeMockExam(page, { section: 3, index: 1, stage: "run" });
+  await expect(page.getByRole("heading", { name: task2.prompt, exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start the talk" })).toBeHidden();
+  await page.getByRole("radio", { name: /Your home/ }).check();
+  const session = page.waitForRequest("**/api/live-session");
 
-  await expect(
-    page.getByRole("heading", { name: nextSpeakingTask.prompt, exact: true }),
-  ).toBeVisible();
+  await talkToLucia(page);
+  expect((await session).postDataJSON()).toMatchObject({ task: "mock-s2", topic: "home" });
+  await expect(page.getByRole("heading", { name: "Good." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Talk again" })).toBeHidden();
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Good." })).toBeVisible();
+
+  await expect(page.getByRole("list", { name: "Your answers" })).toContainText(
+    "The roomsUnderstandable, with mistakes",
+  );
+
+  await expect(page.getByRole("radio")).toHaveCount(0);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("heading", { name: task3.prompt, exact: true })).toBeVisible();
+  await expect(page.getByRole("radio", { name: /Your home/ })).toBeChecked();
+
+  await expect
+    .poll(async () => (await saved(page)).mockRun)
+    .toMatchObject({
+      index: 2,
+      topic: "home",
+      answers: { "mock-s2": "Lucía: Hola.\nYou: Hola, soy Ana." },
+      talks: { "mock-s2": { grade: "good" } },
+    });
 });
 
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {
@@ -485,7 +579,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await expect(pocket.locator(".vocabulary-list time")).toHaveCount(8);
 });
 
-test("form requires every field, saves labels and gives productive feedback", async ({ page }) => {
+test("form practice requires every field and counts its review as an answer", async ({ page }) => {
   await page.goto("/#practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
   await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
@@ -495,10 +589,14 @@ test("form requires every field, saves labels and gives productive feedback", as
     await fields.nth(i).fill(`Respuesta ${i}`);
   }
 
+  await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Review my practice" }).click();
-  await expect(page.getByRole("heading", { name: "Let’s reflect on your answer" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Passed" })).toBeVisible();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByText("creative practices")).toBeVisible();
+  const objective = page.locator("dl > div").filter({ hasText: "objective answers" });
+
+  await expect(objective.locator("dd")).toHaveText("1/1");
+  await expect(page.getByText("creative practices")).toHaveCount(0);
 });
 
 test("listening records transcript assistance and plays bundled audio", async ({ page }) => {
@@ -572,5 +670,22 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
       answer: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
     });
 
-  expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "" });
+  // The free talk keeps the passcode the lesson's writing review stored before it.
+  expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "olé" });
+});
+
+test("the lesson header names the unit and lesson, and a practice session as practice", async ({
+  page,
+}) => {
+  const lesson = await openLesson(page, 13);
+  const header = page.getByRole("dialog").locator("header");
+
+  await expect(header.getByText("UNIT 4 · LESSON 2", { exact: true })).toBeVisible();
+  await expect(header.getByRole("heading", { name: lesson.title, exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Close lesson" }).click();
+
+  await page.goto("/#practice");
+  await page.getByRole("button", { name: "Start my daily mix" }).click();
+  await expect(header.getByText("PRACTICE", { exact: true })).toBeVisible();
+  await expect(header.getByRole("heading", { name: "Your daily mix", exact: true })).toBeVisible();
 });

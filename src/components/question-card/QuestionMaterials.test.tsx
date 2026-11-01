@@ -2,7 +2,6 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
-import { audioSources } from "../../data/audio-sources";
 import { allQuestions, visualQuestions } from "../../data/curriculum";
 
 beforeEach(() => {
@@ -11,7 +10,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -31,12 +30,23 @@ it.each([
   );
 });
 
-it("shows the vocabulary illustration", () => {
-  const q = allQuestions.find((question) => question.visual)!;
+it("shows the emoji for a word without a picture", () => {
+  const q = allQuestions.find((question) => question.visual && !question.picture)!;
 
   render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 
   expect(screen.getByRole("img", { name: "Vocabulary illustration" })).toHaveTextContent(q.visual!);
+});
+
+it("shows the word picture instead of the emoji", () => {
+  const q = allQuestions.find((question) => question.id === "u5-v0")!;
+
+  render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+
+  const figure = screen.getByRole("img", { name: "Vocabulary illustration" });
+
+  expect(figure).not.toHaveTextContent(q.visual!);
+  expect(figure.querySelector("img")).toHaveAttribute("src", "/illustrations/words/la-manana.webp");
 });
 
 it("shows the transcript and its assistance note only on request", () => {
@@ -52,22 +62,13 @@ it("shows the transcript and its assistance note only on request", () => {
   expect(screen.queryByText(/Transcript assistance is recorded/)).not.toBeInTheDocument();
 });
 
-it("plays the reading passage before an answer and is not cut off by the model", () => {
-  const q = allQuestions.find((question) => question.id === "u2-r0")!;
-  const { unmount } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
-  const plays = vi.mocked(HTMLMediaElement.prototype.play);
+it("shows a reading passage without a player", () => {
+  const q = allQuestions.find((question) => question.passage)!;
 
-  fireEvent.click(screen.getByRole("button", { name: "Play the reading passage" }));
-  expect(plays).toHaveBeenCalledOnce();
-  expect((plays.mock.contexts[0] as HTMLAudioElement).src).toContain(audioSources(q.passage!)[0]);
-  fireEvent.click(screen.getByRole("button", { name: "Ruiz López" }));
-  expect(plays).toHaveBeenCalledOnce();
-  unmount();
-  render(<QuestionCard q={q} exam onSubmit={vi.fn()} />);
+  render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 
-  expect(
-    screen.queryByRole("button", { name: "Play the reading passage" }),
-  ).not.toBeInTheDocument();
+  expect(screen.getByText(q.passage!, { normalizer: (t) => t })).toBeVisible();
+  expect(screen.queryByRole("button", { name: /Play/ })).not.toBeInTheDocument();
 });
 
 it("remembers transcript assistance even after hiding the transcript", () => {

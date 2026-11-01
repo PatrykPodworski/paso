@@ -14,6 +14,11 @@ describe("bundled audio lookup", () => {
       "/audio/605891.m4a",
     ]);
 
+    expect(audioSources("la cocina")).toEqual([
+      "/audio/voxcpm/401bff33039f205fe74afd37.mp3",
+      "/audio/v6yukl.m4a",
+    ]);
+
     expect(audioSources("phrase never generated 98765")).toEqual([
       `/audio/${audioKey("phrase never generated 98765")}.m4a`,
     ]);

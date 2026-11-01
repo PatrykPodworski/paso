@@ -13,7 +13,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -21,7 +21,7 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
-it("records objective, assisted and creative answers without conflating their scores", () => {
+it("records objective, assisted and graded writing answers without conflating their scores", async () => {
   const choice = { ...allQuestions[0], audio: "Hola." };
   const qs: Question[] = [choice, { ...type, answer: "correcto" }, writing];
 
@@ -29,6 +29,8 @@ it("records objective, assisted and creative answers without conflating their sc
     attempt = vi.fn(),
     close = vi.fn(),
     draft = vi.fn();
+
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
 
   render(
     <LessonSession
@@ -72,9 +74,27 @@ it("records objective, assisted and creative answers without conflating their sc
   click("Continue");
   fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
   expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Ana.");
+
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () =>
+      Response.json({ wordCount: 2, coverage: [], corrections: [], revised: "", grade: "good" }),
+    ),
+  );
+
   click("Review my practice");
+  await screen.findByRole("heading", { name: "Partly passed" });
+
+  expect(attempt.mock.calls.at(-1)![0]).toMatchObject({
+    questionId: writing.id,
+    answer: "Hola, Ana.",
+    correct: true,
+    grade: "good",
+  });
+
   click("Continue");
-  expect(done).toHaveBeenCalledExactlyOnceWith(1, 2);
+  // A graded writing review counts like an objective answer, as a graded live talk does.
+  expect(done).toHaveBeenCalledExactlyOnceWith(2, 3);
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
   click("Back to my journey");
@@ -387,4 +407,51 @@ it("shows how a question went last time, as it stood when the lesson opened", ()
   expect(screen.getByText(/^Last time:/)).toHaveTextContent(lastTime);
   click("Continue");
   expect(screen.queryByText(/^Last time:/)).not.toBeInTheDocument();
+});
+
+it("fetches every picture of the lesson when it starts, once each", () => {
+  const requested: string[] = [];
+
+  vi.stubGlobal(
+    "Image",
+    class {
+      decode = () => Promise.resolve();
+
+      set src(url: string) {
+        requested.push(url);
+      }
+    },
+  );
+
+  const qs: Question[] = [
+    { ...type, id: "a", picture: "la-manana" },
+    { ...type, id: "b" },
+    { ...type, id: "c", picture: "la-noche" },
+    { ...type, id: "d", picture: "la-manana" },
+  ];
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "lesson",
+        title: "Lesson",
+        subtitle: "",
+        minutes: 4,
+        icon: "book",
+        questions: qs,
+      }}
+      progress={emptySnapshot()}
+      onClose={() => {}}
+      onComplete={() => {}}
+      onAttempt={() => {}}
+      onDraft={() => {}}
+    />,
+  );
+
+  expect(requested).toEqual([
+    "/illustrations/words/la-manana.webp",
+    "/illustrations/words/la-noche.webp",
+  ]);
+
+  vi.unstubAllGlobals();
 });

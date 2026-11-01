@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Question } from "../../data/types";
+import type { Grade, Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
@@ -10,16 +10,16 @@ import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
-import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
-import { isWritingTask, useAnswer } from "./useAnswer";
+import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
+import { WritingCheck } from "./WritingCheck";
 import type { LastAttempt } from "../history/LastTime";
 
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
@@ -39,7 +39,6 @@ export const QuestionCard = ({
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
-  const passageAudio = useRef<AudioHandle>(null);
   const [feedback, setFeedback] = useState(false);
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
@@ -74,9 +73,8 @@ export const QuestionCard = ({
     // Keep the player mounted so playback starts inside the answer gesture.
     // Read the Spanish model even after a mistake, never the incorrect answer.
     // A tapped word is already speaking, so wait for it and read the sentence
-    // after it rather than cutting it off. A passage the learner is listening
-    // to must not be cut off by the model at all. A writing task stays silent.
-    if (q.kind !== "listen" && !isWritingTask(q) && !passageAudio.current?.playing()) {
+    // after it rather than cutting it off. Writing and reading tasks stay silent.
+    if (q.kind !== "listen" && !isSilentTask(q)) {
       const player = q.audio ? listeningAudio : answerAudio;
 
       if (after) {
@@ -134,6 +132,30 @@ export const QuestionCard = ({
     return () => window.removeEventListener("keydown", handle);
   });
 
+  const checkOrFeedback = feedback ? (
+    <QuestionFeedback
+      q={q}
+      correct={correct}
+      productive={productive}
+      value={value}
+      checked={a.checks.length}
+      assisted={assisted}
+      onRevise={() => {
+        stopAudio();
+        setFeedback(false);
+      }}
+      onContinue={() => onSubmit(submission, correct, assisted)}
+    />
+  ) : (
+    <QuestionFooter
+      exam={exam}
+      productive={productive}
+      kind={q.kind}
+      canSubmit={canSubmit}
+      onCheck={() => submit()}
+    />
+  );
+
   return (
     <div className={cardPadding(exam)}>
       <QuestionHeading
@@ -145,12 +167,7 @@ export const QuestionCard = ({
         answerAudio={answerAudio}
         previous={previous}
       />
-      <QuestionMaterials
-        q={q}
-        exam={exam}
-        passageAudio={passageAudio}
-        onTranscript={() => setAssisted(true)}
-      />
+      <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
       <AnswerInput
         q={q}
         feedback={feedback}
@@ -162,38 +179,18 @@ export const QuestionCard = ({
         onPick={pickToken}
         onCheck={() => submit()}
       />
-      <PracticeChecks
-        q={q}
-        exam={exam}
-        feedback={feedback}
-        practice={a}
-        onStart={() => {
-          a.setSpoken(false);
-          setFeedback(false);
-        }}
-      />
-      {!feedback ? (
-        <QuestionFooter
-          exam={exam}
-          productive={productive}
-          kind={q.kind}
+      {!exam && isWritingTask(q) ? (
+        <WritingCheck
+          q={q}
+          answer={submission}
           canSubmit={canSubmit}
-          onCheck={() => submit()}
+          assisted={assisted}
+          onLock={setFeedback}
+          onEvaluated={onEvaluated}
+          onSubmit={onSubmit}
         />
       ) : (
-        <QuestionFeedback
-          q={q}
-          correct={correct}
-          productive={productive}
-          value={value}
-          checked={a.checks.length}
-          assisted={assisted}
-          onRevise={() => {
-            stopAudio();
-            setFeedback(false);
-          }}
-          onContinue={() => onSubmit(submission, correct, assisted)}
-        />
+        checkOrFeedback
       )}
     </div>
   );

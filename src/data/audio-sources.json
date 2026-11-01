@@ -65,14 +65,28 @@
     "modelId": "eleven_multilingual_v2"
   },
   "qcw4wk": {
-    "src": "/audio/elevenlabs/2ee13791df989226958f3619.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/b1c7593ebf23633311db17cb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el teléfono",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1papnhq": {
-    "src": "/audio/elevenlabs/1b2cad760947af2a60c191cc.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/14f37e347e2c6c2cf755f625.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, soy Laura García. Tengo treinta y dos años y vivo en el número quince de la calle Sol. Soy italiana. Mi teléfono es seis, dos, uno, cuatro, cinco, siete, ocho, nueve, cero.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "t3hvw9": {
     "src": "/audio/voxcpm/75514c7596674339472c14ca.mp3",
@@ -135,44 +149,100 @@
     }
   },
   "ng30e6": {
-    "src": "/audio/elevenlabs/0411c34884cad6bd48dd32e7.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/60ed82c721e5b8941955aa2a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el apellido",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1crdhlq": {
-    "src": "/audio/elevenlabs/790d58dacc38c3e648cc1d22.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/bb4e12577533574730ebb7bd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "treinta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
+    }
   },
   "uair6p": {
-    "src": "/audio/elevenlabs/78bcefdc9f3b62654ebed640.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1bb51797f0313e547e41e78a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el correo electrónico",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "7odzis": {
-    "src": "/audio/elevenlabs/2af37db281eb492fe91c57d8.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/12b19928f148f8976c8c4f52.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el padre",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1divsum": {
-    "src": "/audio/elevenlabs/c31d7477a53dbda85d54add4.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/7a5d2a78f23a93d63cbb6f44.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el hermano",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1b2za80": {
-    "src": "/audio/elevenlabs/3631ee54138f1c5ca1d61653.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/331c2d64d0c02f7d2ffdc633.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el hijo",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1ag692l": {
-    "src": "/audio/elevenlabs/f4a20ac961efd2e281e3c3d2.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/a0f8b93550593d41574e7f3f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la familia",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1jh65b8": {
-    "src": "/audio/elevenlabs/26364061e4d16041723bdb0d.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/d91228e48ded778268f5e4f7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Esta es mi amiga Isabel. Es baja y tiene el pelo rubio. Tiene un hermano pequeño que se llama Luis. Isabel trabaja en una tienda y su hermano es estudiante.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "v6yukl": {
     "src": "/audio/voxcpm/401bff33039f205fe74afd37.mp3",
@@ -370,29 +440,64 @@
     "modelId": "eleven_multilingual_v2"
   },
   "jv3l0e": {
-    "src": "/audio/elevenlabs/31db31c76b5ee7d6dea58f8d.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/00bf36a0d40e73430c97e828.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "bailar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "q0kkg9": {
-    "src": "/audio/elevenlabs/57084558980b340aec1bf3ea.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/34c56f1cab848bc0f8ae6010.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el cine",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "wteb4t": {
-    "src": "/audio/elevenlabs/72cd3dae7c004254de77e1e9.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/0d749c436c2d19c9987fce33.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el fútbol",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "jzvgxr": {
-    "src": "/audio/elevenlabs/cecba39fdbb24b63dcb3c5a2.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/0dac6880c47586422ee06d5b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el trabajo",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "13jvole": {
-    "src": "/audio/elevenlabs/7660349c7d65a5989ae2bb0b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/654e925e0e311282124fd734.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Los sábados me gusta nadar por la mañana. Por la tarde escucho música en casa. No me gusta el fútbol, pero mi hermano juega los domingos. Estudio español porque quiero viajar.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "oo4x7k": {
     "src": "/audio/elevenlabs/3075c0e14b7c2d6687a96341.mp3",
@@ -445,29 +550,64 @@
     "modelId": "eleven_multilingual_v2"
   },
   "117hvfk": {
-    "src": "/audio/elevenlabs/ec3adb4b8c420cb066a36412.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/fc67da2cbcae84533089c57e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "escribir",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "37i0s0": {
-    "src": "/audio/elevenlabs/30f3c4ff583666666956533f.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/03713744e471e507215e39f6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la pregunta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1whty5x": {
-    "src": "/audio/elevenlabs/269bccb5c308210e512a4375.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/858cd72bf510b423fba12aa4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "despacio",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1megcr2": {
-    "src": "/audio/elevenlabs/1f58cb55a9fcd7eddb02bf27.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/bc6bd457b540a3ed353b7af6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "repetir",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1kjhkt": {
-    "src": "/audio/elevenlabs/b7536dbdaef85f81a57c8377.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/993a56d267960a6ceba9fc6b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Buenos días. La prueba empieza a las nueve. Primero, escriba su nombre y sus apellidos. Después, lea las preguntas. Si necesita ayuda, pregunte al profesor. Los teléfonos deben estar apagados.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "lcja8y": {
     "src": "/audio/elevenlabs/a1986ac5134a37659e542216.mp3",
@@ -611,44 +751,100 @@
     }
   },
   "1cqvv4p": {
-    "src": "/audio/elevenlabs/ac1de2920ea9553559e365e1.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/e6706344a4ae00ef3732347f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el nombre",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "h9f7y8": {
-    "src": "/audio/elevenlabs/84b53deb1619a203d15e6506.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1d5ea9c11201bed91c4b172e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la dirección",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "6jgdk": {
-    "src": "/audio/elevenlabs/39e1d9e74b9a79b7e2c63c69.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/3afe3ed878fd2ab457783e21.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "veinte",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
+    }
   },
   "3laa2n": {
-    "src": "/audio/elevenlabs/3d12e489e79b63d5d198677f.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/56f4ee91ef72a31bd243785a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la nacionalidad",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "67aevl": {
-    "src": "/audio/elevenlabs/78a6d99f853a5f0e193e26cd.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/035901711658a4c2eb1aa69f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la madre",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1a550ee": {
-    "src": "/audio/elevenlabs/51d9a5726b606510daef16ac.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/8d5b417e3522f428dcaac4a8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la hermana",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "4r5nl0": {
-    "src": "/audio/elevenlabs/de34511cdca9fab717fa4366.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1de76e540fd0e6e69ac8e102.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la abuela",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "19l8a2r": {
-    "src": "/audio/elevenlabs/cb2e7744d83b7ed416656d7a.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/a315fdeb755ca8a07e21125d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la amiga",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1s6nv8y": {
     "src": "/audio/voxcpm/957f263ff4ca1d976de0f9e7.mp3",
@@ -807,24 +1003,52 @@
     "modelId": "eleven_multilingual_v2"
   },
   "bqpurh": {
-    "src": "/audio/elevenlabs/27fe7841a87f6b4a101fb862.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/4f0cbcb2c8812dc959261cdd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "leer",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "55v8i7": {
-    "src": "/audio/elevenlabs/c75056974415c1fcce868398.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1dbdb2405e28e9bf94f8e918.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "nadar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "11i7j99": {
-    "src": "/audio/elevenlabs/010ec36b78322a3681aeef48.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/93ba7e167bb6a085fd133ca7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la música",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "h4flly": {
-    "src": "/audio/elevenlabs/76e1ff3cfcb10cb6ba1620dc.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/9006a69bcdef3d596f0d0961.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la escuela",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1wugl65": {
     "src": "/audio/elevenlabs/9234e9bc7753d8d0b6264cdd.mp3",
@@ -867,24 +1091,52 @@
     "modelId": "eleven_multilingual_v2"
   },
   "1tce7rd": {
-    "src": "/audio/elevenlabs/4f899f6478a07327d00fc8d4.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/8bd3c552c2596090a6e4db9b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "escuchar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "dc3ct3": {
-    "src": "/audio/elevenlabs/d3f740f00283d24001eede6b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/ca796e3c87a8a82905aae60e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "hablar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "qckaek": {
-    "src": "/audio/elevenlabs/620ad65772cafcc7c18b9f7b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/5160756ad44969843bc12a6f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la respuesta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "eyoxdo": {
-    "src": "/audio/elevenlabs/02ea5e7c94e834c59d7fe29f.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/5c85c44c8e8ebd57c1916656.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "entender",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1s1jmho": {
     "src": "/audio/voxcpm/8bbe8ad4b3f9cbc2bbb1638c.mp3",
@@ -899,14 +1151,28 @@
     }
   },
   "11ochxi": {
-    "src": "/audio/elevenlabs/58a0b22ddb496069120bf1ae.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/ecd82ab9f40e98473b5a10ea.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuántos años tienes? Tengo veinticinco años.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "p12af7": {
-    "src": "/audio/elevenlabs/8d38c5dc7432a456602b3424.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/c3c744d38a4c797669f6fd03.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Mis hermanas son altas y simpáticas.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1wd1g0h": {
     "src": "/audio/voxcpm/526957b536ea3a99a50408b0.mp3",
@@ -948,9 +1214,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "rjs5j1": {
-    "src": "/audio/elevenlabs/cfd61114b2807af4b8ada9f7.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/c681ad0efcd4e4d19b2c25eb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Me gusta leer, pero no me gusta bailar.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1vkjq4o": {
     "src": "/audio/elevenlabs/39ce15430e6de22b549e3ada.mp3",
@@ -963,9 +1236,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "1kf07ez": {
-    "src": "/audio/elevenlabs/1fff99fb88aa44a0f383e3e9.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/c47ba93e21bb442a4015994a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Perdón, no entiendo. ¿Puedes hablar más despacio?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "lus4h5": {
     "src": "/audio/voxcpm/166a35bcc1689e314c41a824.mp3",
@@ -980,14 +1260,29 @@
     }
   },
   "qpjj25": {
-    "src": "/audio/elevenlabs/49c0eed5623a2642bfc3db38.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/5381d7697859c294d126cb07.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, me llamo Pablo y tengo veintiocho años. Soy argentino y vivo en Valencia. Hablo español e inglés. Estudio italiano en una escuela cerca de mi casa. ¿Dónde vives tú? Un saludo, Pablo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1bhgjx6": {
-    "src": "/audio/elevenlabs/910ff22bea4d73191fa2bd12.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/9b77cbc05e0233887dff81f9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
+    "spokenText": "Hola Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "sxumn5": {
     "src": "/audio/voxcpm/e3782c6c5aeb816fff9264b8.mp3",
@@ -1039,18 +1334,15 @@
     }
   },
   "1a9dxh4": {
-    "src": "/audio/elevenlabs/0e6446ab41576efd25b4fc1e.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/fdb0ba12cec8aa7a31cb5cbe.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
-    "request": {
-      "text": "[warmly] [slowly] Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1g30v6u": {
@@ -1084,19 +1376,15 @@
     }
   },
   "j3bp1m": {
-    "src": "/audio/elevenlabs/38db2dd1b9ccafbdc4f01715.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/7a38d39d908aaa0123910fce.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Elena. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
-    "request": {
-      "text": "[calm] [slowly] Hola, Elena. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 1,
-        "speed": 0.85
-      },
-      "language_code": "es",
-      "seed": 20260910
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1nbq59n": {
@@ -1272,292 +1560,232 @@
     }
   },
   "14edysr": {
-    "src": "/audio/elevenlabs/ee77702152b613d8da101a8b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/7c7234adefd98c35e98dff25.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Yo tengo veintidós años.",
-    "request": {
-      "text": "[calm] [slowly] Yo tengo veintidós años.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1wzcn5w": {
-    "src": "/audio/elevenlabs/15125b257926c4557bcc4ce3.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/cc03a82f39fbef4f07242efd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Dónde vives? — En Málaga.",
-    "request": {
-      "text": "[curious] [slowly] ¿Dónde vives? — En Málaga.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "93tfqh": {
-    "src": "/audio/elevenlabs/5f7584cc8691f712d8512ffc.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_multilingual_v2",
+    "src": "/audio/voxcpm/e63985d0b150dd053849ad8a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "dieciséis",
-    "request": {
-      "text": "dieciséis",
-      "model_id": "eleven_multilingual_v2",
-      "voice_settings": {
-        "stability": 0.65,
-        "similarity_boost": 0.75,
-        "style": 0,
-        "use_speaker_boost": true,
-        "speed": 0.85
-      }
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1sxbdz3": {
-    "src": "/audio/elevenlabs/9487618dbe2ad819a42f95e1.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/c80ebe78b5fe797912de624b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Ana es de España. Es española.",
-    "request": {
-      "text": "[calm] [slowly] Ana es de España. Es española.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "v8wavk": {
-    "src": "/audio/elevenlabs/b3ebd05f1e467eb2990e1c01.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/fa60384305a2e979d2ef0d7c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Nosotros somos estudiantes.",
-    "request": {
-      "text": "[calm] [slowly] Nosotros somos estudiantes.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "ws4o8x": {
-    "src": "/audio/elevenlabs/ed14e7186dff3bb7c9b32c99.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/9f071daff230f2beafd7aff2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cuál es tu teléfono?",
-    "request": {
-      "text": "[curious] [slowly] ¿Cuál es tu teléfono?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1nakwps": {
-    "src": "/audio/elevenlabs/9e94408ed8987de066c338c8.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/695a3d4d174074e50d89ab23.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "apellidos",
-    "request": {
-      "text": "[calm] [slowly] apellidos",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "14h24uf": {
-    "src": "/audio/elevenlabs/c85a2896b5fc4ead2c69656b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ac93117e9852ce952ecd8a1b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "FICHA DE ESTUDIANTE\nNombre: Carlos\nApellidos: Ruiz López\nEdad: 28\nNacionalidad: argentina\nDomicilio: calle Luna, 12, Valencia\nTeléfono: 612 345 789\nCorreo: carlos@example.com",
-    "request": {
-      "text": "[calm] [slowly] Ficha de estudiante. Nombre: Carlos. Apellidos: Ruiz López. Edad: veintiocho. Nacionalidad: argentina. Domicilio: calle Luna, doce, Valencia. Teléfono: seis, uno, dos; tres, cuatro, cinco; siete, ocho, nueve. Correo: carlos, arroba, e, equis, a, eme, pe, ele, e, punto com.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 1,
-        "speed": 0.85
-      },
-      "language_code": "es",
-      "seed": 20260910
-    },
-    "spokenText": "Ficha de estudiante. Nombre: Carlos. Apellidos: Ruiz López. Edad: veintiocho. Nacionalidad: argentina. Domicilio: calle Luna, doce, Valencia. Teléfono: seis, uno, dos; tres, cuatro, cinco; siete, ocho, nueve. Correo: carlos, arroba, e, equis, a, eme, pe, ele, e, punto com."
+    "spokenText": "Ficha de estudiante. Nombre: Carlos. Apellidos: Ruiz López. Edad: veintiocho. Nacionalidad: argentina. Domicilio: calle Luna, doce, Valencia. Teléfono: seis, uno, dos; tres, cuatro, cinco; siete, ocho, nueve. Correo: carlos, arroba, example, punto, com.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "b3i8q7": {
-    "src": "/audio/elevenlabs/605a637d63dd6d32285e97f3.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/05bb6792b6e424a75c79d5c8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tengo veinticinco años",
-    "request": {
-      "text": "[calm] [slowly] Tengo veinticinco años",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "8jczum": {
-    "src": "/audio/elevenlabs/bb2c120384935f0c73b58c37.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/723840b1a5d7c72d1b822426.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me llamo Carlos.",
-    "request": {
-      "text": "[calm] [slowly] Me llamo Carlos.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "x9arpc": {
-    "src": "/audio/elevenlabs/106434111ab38c721a4b1c66.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/85ec5a2695df4375043e8eeb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mis padres viven en Sevilla.",
-    "request": {
-      "text": "[calm] [slowly] Mis padres viven en Sevilla.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1ylvcvt": {
-    "src": "/audio/elevenlabs/893ba4ee140aea6d6aded754.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ec45ab09191110aa5e0d014c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi hermana es alta.",
-    "request": {
-      "text": "[calm] [slowly] Mi hermana es alta.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "nf2iks": {
-    "src": "/audio/elevenlabs/2df6210ef89fccd8e9a85d17.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/805d57658e1863b30fab2e09.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "El padre de mi madre es mi abuelo.",
-    "request": {
-      "text": "[calm] [slowly] El padre de mi madre es mi abuelo.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "s3nkyz": {
-    "src": "/audio/elevenlabs/ccfa80cfa2a1228d7da837d5.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1f845333d2533b5cfa87bad2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tenemos dos hijas. Son nuestras hijas.",
-    "request": {
-      "text": "[calm] [slowly] Tenemos dos hijas. Son nuestras hijas.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1lfe9vt": {
-    "src": "/audio/elevenlabs/495f12c9340482ad61d6f454.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/102b12c4ad7c3a375deeb651.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Una mujer. Dos mujeres.",
-    "request": {
-      "text": "[calm] [slowly] Una mujer. Dos mujeres.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1eggyoo": {
-    "src": "/audio/elevenlabs/2d265495cf1283c57f294491.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/3e9278d75495716f0e2a7b52.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La profesora es simpática.",
-    "request": {
-      "text": "[calm] [slowly] La profesora es simpática.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "12qor38": {
-    "src": "/audio/elevenlabs/3f51ea126097d24b5ecee828.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/fa2ae12d49ec6c91d9f53774.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
-    "request": {
-      "text": "[calm] [slowly] Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1ynil3z": {
-    "src": "/audio/elevenlabs/a7fbff5ab2809afb3e179d93.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/3aef8286ba21db7428aced56.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi hermana es muy simpática",
-    "request": {
-      "text": "[calm] [slowly] Mi hermana es muy simpática",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "pyzq2v": {
-    "src": "/audio/elevenlabs/702c38b8cfbd9a1419cfd3d3.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f7f482708035297e4976033a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tengo dos hermanos.",
-    "request": {
-      "text": "[calm] [slowly] Tengo dos hermanos.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "13paqtp": {
@@ -2179,123 +2407,99 @@
     }
   },
   "1tms2l6": {
-    "src": "/audio/elevenlabs/6a46c809e79eb156b6802ebf.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/27774946d6fd16cd3fd746ea.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me gusta leer libros.",
-    "request": {
-      "text": "[calm] [slowly] Me gusta leer libros.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1sndd0j": {
-    "src": "/audio/elevenlabs/a2dbc5de92a373a8ada7b74f.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6aa2583fc2a6152dbaa02cb4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "No voy al cine porque trabajo.",
-    "request": {
-      "text": "[calm] [slowly] No voy al cine porque trabajo.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1yhefzc": {
-    "src": "/audio/elevenlabs/49532d501948e83fb055937c.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ecb8f368ee34047acf1af658.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me gusta bailar, pero no me gusta cantar.",
-    "request": {
-      "text": "[calm] [slowly] Me gusta bailar, pero no me gusta cantar.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1sawaqt": {
-    "src": "/audio/elevenlabs/0d0d68c8c69ccd50496897eb.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/04676b2ee3a226d471674479.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Sí, gracias. Buena idea.",
-    "request": {
-      "text": "[warmly] [slowly] Sí, gracias. Buena idea.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1g2fxue": {
-    "src": "/audio/elevenlabs/13f4ded3fe9a919f009f98cf.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/8b078a8b8c60fcdf5e160768.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Ellos trabajan en una escuela.",
-    "request": {
-      "text": "[calm] [slowly] Ellos trabajan en una escuela.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "84h6uq": {
-    "src": "/audio/elevenlabs/0e0d91663711f91b9bcc8d65.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/06f93580351f9e2b835f42cd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "No me gusta el fútbol.",
-    "request": {
-      "text": "[calm] [slowly] No me gusta el fútbol.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "hw6wqt": {
-    "src": "/audio/elevenlabs/c6212395a2315c5cd9cae72f.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/2538269e4041500c28f26335.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
-    "request": {
-      "text": "[warmly] [slowly] Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "p5xlpj": {
-    "src": "/audio/elevenlabs/cecb1ff033324d6109768b45.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/10fe46967ce8b8584cbcb6c4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me gusta leer porque es interesante",
-    "request": {
-      "text": "[calm] [slowly] Me gusta leer porque es interesante",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "tzetjn": {
@@ -2571,124 +2775,99 @@
     }
   },
   "fnw8h6": {
-    "src": "/audio/elevenlabs/b6a3f46cb44d4dd099142c9d.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/4d126eb49796a8c6d11c53a8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Dónde vives?",
-    "request": {
-      "text": "[curious] [slowly] ¿Dónde vives?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "5u15lk": {
-    "src": "/audio/elevenlabs/768137b6991e15fded0a36af.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/9f89fb4953e6b2f3a3f53d67.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Soy profesora y vivo en Madrid.",
-    "request": {
-      "text": "[calm] [slowly] Soy profesora y vivo en Madrid.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "7adcxy": {
-    "src": "/audio/elevenlabs/8d9a4144ef8e88f67cc39f49.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/16685a84c9df3b75242be7e6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tengo dos hermanas. Mis hermanas son altas.",
-    "request": {
-      "text": "[calm] [slowly] Tengo dos hermanas. Mis hermanas son altas.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1bg7yio": {
-    "src": "/audio/elevenlabs/3f3cbc5e64deff3960f6e171.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/2b348c3241eb465af5bed9c1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi madre tiene treinta años.",
-    "request": {
-      "text": "[calm] [slowly] Mi madre tiene treinta años.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "ruf8hl": {
-    "src": "/audio/elevenlabs/2d7b165cb0efcd3a368bb9c2.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/23ed4e2daaf566164318ee4a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "No puedo ir el lunes. ¿El martes?",
-    "request": {
-      "text": "[calm] [slowly] No puedo ir el lunes. ¿El martes?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 1,
-        "speed": 0.85
-      },
-      "language_code": "es",
-      "seed": 20260910
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "tcco7z": {
-    "src": "/audio/elevenlabs/3bf6e98cd743d67d899a64ae.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/87ef16f014146061431cfdc1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Pablo. Soy Elena, tu nueva compañera de español. Soy italiana, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Elena.",
-    "request": {
-      "text": "[warmly] [slowly] Hola, Pablo. Soy Elena, tu nueva compañera de español. Soy italiana, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Elena.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1fksed1": {
-    "src": "/audio/elevenlabs/1baf5333d7a715eca1edec7c.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/193df11abd7132d74f237ede.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Estudio español porque quiero viajar a España",
-    "request": {
-      "text": "[calm] [slowly] Estudio español porque quiero viajar a España",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1el98c0": {
-    "src": "/audio/elevenlabs/5ba2043a9e3c6f9e4166846e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f5ae41cd233cb6cb2083dc00.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Puedes hablar más despacio?",
-    "request": {
-      "text": "[curious] [slowly] ¿Puedes hablar más despacio?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1a92808": {
@@ -3193,18 +3372,15 @@
     }
   },
   "1bkscxd": {
-    "src": "/audio/elevenlabs/af4633a286dbfbceeb955e09.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/bb51f1f535bc2303363ca5f3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "años",
-    "request": {
-      "text": "[calm] [slowly] años",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "vfsnle": {
@@ -3223,78 +3399,63 @@
     }
   },
   "18sdiwg": {
-    "src": "/audio/elevenlabs/26449f25123d926c75984f23.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/96585e83ead641296bda2e60.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "veinticinco",
-    "request": {
-      "text": "[calm] [slowly] veinticinco",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1pqogsq": {
-    "src": "/audio/elevenlabs/f28cb1afd1354248bf80d197.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f8a5ae11f5b9ba3340f74851.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "muy",
-    "request": {
-      "text": "[calm] [slowly] muy",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "egxdlk": {
-    "src": "/audio/elevenlabs/5e202ada1517ec279fd1065b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/80ef8fdbf719a0df20206112.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "simpática",
-    "request": {
-      "text": "[calm] [slowly] simpática",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "phpnmr": {
-    "src": "/audio/elevenlabs/3306eb0edfa458990168e601.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/115c6aa01957aac1090a39f3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi",
-    "request": {
-      "text": "[calm] [slowly] Mi",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "cm363v": {
-    "src": "/audio/elevenlabs/26e5f9d03147157064265f9d.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1019a47da94b1540ecda39d9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "hermana",
-    "request": {
-      "text": "[calm] [slowly] hermana",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "jg8p61": {
@@ -3703,33 +3864,27 @@
     }
   },
   "18ushp5": {
-    "src": "/audio/elevenlabs/f2827676546656bb66c3f3a5.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/2bf27e50b299ed766c90ec57.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "interesante",
-    "request": {
-      "text": "[calm] [slowly] interesante",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1fl1whp": {
-    "src": "/audio/elevenlabs/38bb7971d76cdd1d38a1cf9f.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/38bb5d8a2c97741323801d17.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "gusta",
-    "request": {
-      "text": "[calm] [slowly] gusta",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "t9i23v": {
@@ -3868,48 +4023,39 @@
     }
   },
   "1ztms4": {
-    "src": "/audio/elevenlabs/bb38cf864b956872e8f9f978.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/8ff6136c0d78863ad7e52233.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "viajar",
-    "request": {
-      "text": "[calm] [slowly] viajar",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "17itf7o": {
-    "src": "/audio/elevenlabs/e8f2db939d4687e71c2459d9.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/aa28795427e7ba030c6b3ad2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "España",
-    "request": {
-      "text": "[calm] [slowly] España",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "vw27a": {
-    "src": "/audio/elevenlabs/87afc8514b451b36af80d76d.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/a3094a65fad11456d9b9d844.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Estudio",
-    "request": {
-      "text": "[calm] [slowly] Estudio",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "rh7yjq": {

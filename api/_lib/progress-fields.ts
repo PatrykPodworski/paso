@@ -1,4 +1,5 @@
 import { mockSections, mockTopics } from "../../src/data/mock.ts";
+import { CORRECTION_FIELDS, MAX_CORRECTIONS } from "./corrections.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
@@ -170,6 +171,16 @@ const mapOf =
   (value) =>
     isRecord(value) && Object.entries(value).every(([key, item]) => isKey(key) && isValue(item));
 
+const isStoredCorrections: Check = (value) =>
+  Array.isArray(value) &&
+  value.length <= MAX_CORRECTIONS &&
+  value.every(
+    (correction: unknown) =>
+      isRecord(correction) &&
+      Object.keys(correction).length === CORRECTION_FIELDS.length &&
+      CORRECTION_FIELDS.every((field) => isText(correction[field])),
+  );
+
 // Lucía's score of a mock exam talk, as api/score-talk returned it.
 const isLiveScore: Check = (value) =>
   isRecord(value) &&
@@ -183,7 +194,8 @@ const isLiveScore: Check = (value) =>
       isText(item.label, MAX_LABEL) &&
       LEVELS.includes(item.level as LiveItem),
   ) &&
-  Object.keys(value).length === 2;
+  (value.corrections === undefined || isStoredCorrections(value.corrections)) &&
+  Object.keys(value).length === ("corrections" in value ? 3 : 2);
 
 const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["stage", (value) => STAGES.includes(value as MockStage)],

@@ -12,6 +12,13 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await mockLiveTalk(page, {
     grade: "good",
     items: [{ id: "name", label: "Name", level: "understandable" }],
+    corrections: [
+      {
+        original: "Soy veinte años",
+        corrected: "Tengo veinte años",
+        explanation: "Spanish uses tener for age.",
+      },
+    ],
   });
 
   await page.goto("/#exam");

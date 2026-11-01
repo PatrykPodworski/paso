@@ -472,7 +472,14 @@ describe("the mock exam run", () => {
   it("keeps the picked topic and merges Lucía's scores per talk", async () => {
     const me = learner();
     const good = { grade: "good", items: [{ id: "name", label: "Name", level: "correct" }] };
-    const bad = { grade: "bad", items: [] };
+
+    const bad = {
+      grade: "bad",
+      items: [],
+      corrections: [
+        { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
+      ],
+    };
 
     await change(me, { ...started, topic: "home", talks: { "mock-s1": good } }, true);
 
@@ -704,6 +711,50 @@ describe("requests", () => {
           talks: { "mock-s1": { grade: "good", items: [{ id: "a", label: "A", level: "ok" }] } },
         },
       },
+      "run",
+    ],
+    [
+      "a mock talk correction without an explanation",
+      me,
+      {
+        action: "mockRun",
+        run: {
+          talks: {
+            "mock-s1": {
+              grade: "good",
+              items: [],
+              corrections: [{ original: "a", corrected: "b" }],
+            },
+          },
+        },
+      },
+      "run",
+    ],
+    [
+      "more than eight mock talk corrections",
+      me,
+      {
+        action: "mockRun",
+        run: {
+          talks: {
+            "mock-s1": {
+              grade: "good",
+              items: [],
+              corrections: Array.from({ length: 9 }, () => ({
+                original: "a",
+                corrected: "b",
+                explanation: "c",
+              })),
+            },
+          },
+        },
+      },
+      "run",
+    ],
+    [
+      "an unknown mock talk field",
+      me,
+      { action: "mockRun", run: { talks: { "mock-s1": { grade: "good", items: [], note: "" } } } },
       "run",
     ],
     ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],

@@ -13,9 +13,12 @@ import { examiner, mockLiveTalk, sentEvents, talkToLucia } from "../fixtures/liv
 import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
-import { mockSections } from "../../src/data/mock";
+import { examSections, firstVariants } from "../../src/data/mock";
 import { allLessons } from "../../src/data/curriculum";
 import type { Route } from "@playwright/test";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 const recordings = JSON.parse(readFileSync("src/data/audio-sources.json", "utf8"));
 
@@ -429,7 +432,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
     });
 });
 
-const [, task2, task3] = mockSections[3].questions;
+const [, task2, task3] = sections[3].questions;
 
 test("the mock exam's Task 2 talks to Lucía on the picked topic and keeps the result across a reload", async ({
   page,

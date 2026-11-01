@@ -49,7 +49,7 @@ export const AudioButton = ({
 
   return (
     <div
-      className={`audio-control flex flex-wrap items-center gap-2.5 [.question-pronunciation_&]:contents [.reading-passage>&]:mb-3.5 ${iconOnly ? "compact" : ""} ${className}`}
+      className={`audio-control flex flex-wrap items-center gap-2.5 [.question-pronunciation_&]:contents ${iconOnly ? "compact" : ""} ${className}`}
     >
       <PlayButton
         label={label}

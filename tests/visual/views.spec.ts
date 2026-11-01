@@ -190,7 +190,7 @@ test("question: immediate vocabulary feedback for nombre and apellido", async ({
   await shot(page, "question-apellido-feedback");
 });
 
-test("question: completed grammar sentence and apellidos field pronunciation", async ({ page }) => {
+test("question: completed grammar sentence and a checked reading question", async ({ page }) => {
   const grammar = await openLesson(page, 5);
 
   await answer(page, grammar.questions[0]);

@@ -5,7 +5,7 @@ import { spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
-import { isWritingTask } from "./useAnswer";
+import { isSilentTask } from "./useAnswer";
 import { type LastAttempt, LastTime } from "../history/LastTime";
 
 type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
@@ -48,16 +48,20 @@ export const QuestionHeading = ({
   const heading = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    heading.current?.focus({ preventScroll: true });
+    // A typed answer focuses its own field, so the learner can type at once.
+    if (!["type", "write"].includes(q.kind)) {
+      heading.current?.focus({ preventScroll: true });
+    }
+
     const dialog = heading.current?.closest("dialog");
 
     if (dialog) {
       dialog.scrollTop = 0;
     }
-  }, [q.id]);
+  }, [q.id, q.kind]);
 
   const pronunciation = spokenText(q);
-  const hidePronunciation = !q.audio && (!feedback || isWritingTask(q));
+  const hidePronunciation = !q.audio && (!feedback || isSilentTask(q));
 
   return (
     <>
@@ -86,7 +90,7 @@ export const QuestionHeading = ({
               continuous={!exam}
               limit={exam ? 2 : undefined}
             />
-          ) : !exam && !isWritingTask(q) ? (
+          ) : !exam && !isSilentTask(q) ? (
             <AudioButton
               ref={answerAudio}
               round="pronunciation"

@@ -26,16 +26,17 @@ describe("question clips", () => {
     expect(questionClips(q, true)).toEqual(["Hola, ¿qué tal?"]);
   });
 
-  it("loads the pronunciation and the reading passage outside an exam", () => {
-    const q = question({ pronunciation: "Me llamo Ana.", passage: "Ana vive en Madrid." });
+  it("loads the pronunciation outside an exam", () => {
+    const q = question({ pronunciation: "Me llamo Ana." });
 
-    expect(questionClips(q, false)).toEqual(["Me llamo Ana.", "Ana vive en Madrid."]);
+    expect(questionClips(q, false)).toEqual(["Me llamo Ana."]);
   });
 
-  it("loads no answer or passage audio in an exam or a writing task", () => {
-    const q = question({ passage: "Ana vive en Madrid." });
+  it("loads no audio in an exam, a writing task or a reading task", () => {
+    const q = question({ pronunciation: "Me llamo Ana." });
 
     expect(questionClips(q, true)).toEqual([]);
     expect(questionClips({ ...q, kind: "write" }, false)).toEqual([]);
+    expect(questionClips({ ...q, passage: "Ana vive en Madrid." }, false)).toEqual([]);
   });
 });

@@ -13,7 +13,7 @@ import { stopAudio } from "./audio/playback";
 
 // A recording keeps playing across the questions that share it.
 const sharesRecording = (q: Question, next: Question | undefined) =>
-  (!!q.passage && q.passage === next?.passage) || (!!q.audio && q.audio === next?.audio);
+  !!q.audio && q.audio === next?.audio;
 
 type Props = {
   lesson: Lesson;

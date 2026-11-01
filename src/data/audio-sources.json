@@ -570,9 +570,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "1dlqaon": {
-    "src": "/audio/elevenlabs/a84946fa41940f95fcd162fa.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/3be103eecf61192377332c2c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "hola",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "t6zczv": {
     "src": "/audio/voxcpm/88cb8f3022b6312ca686d2f9.mp3",
@@ -1197,18 +1204,15 @@
     }
   },
   "2hv8on": {
-    "src": "/audio/elevenlabs/2b352cd81c6d61ab41ffdf2e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/585b6241b95988280a13c25f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Puedes repetir, por favor?",
-    "request": {
-      "text": "[curious] [slowly] ¿Puedes repetir, por favor?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "6kdbmg": {
@@ -2692,18 +2696,15 @@
     }
   },
   "1a92808": {
-    "src": "/audio/elevenlabs/6adc630b63708545357fdb14.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/b1f529b01b7901bc4c6508ab.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "mañana",
-    "request": {
-      "text": "[calm] [slowly] mañana",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1wf7pja": {
@@ -2933,18 +2934,15 @@
     }
   },
   "1thlc5a": {
-    "src": "/audio/elevenlabs/ab247e802bcb7a19f0b9261e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f6dd06db6356d0e1df1665c7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "español",
-    "request": {
-      "text": "[calm] [slowly] español",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "zhmrhy": {
@@ -3208,18 +3206,15 @@
     }
   },
   "vfsnle": {
-    "src": "/audio/elevenlabs/24f93db16b80aee55a8f7b0c.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/9dff48d2400cab7bf8b452df.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tengo",
-    "request": {
-      "text": "[calm] [slowly] Tengo",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "18sdiwg": {
@@ -3286,18 +3281,15 @@
     }
   },
   "jg8p61": {
-    "src": "/audio/elevenlabs/48acfa885200827c570bfa72.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/9e59406ffdd2782e2584598e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "es",
-    "request": {
-      "text": "[calm] [slowly] es",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "op2tf7": {
@@ -3400,18 +3392,15 @@
     }
   },
   "pk33xe": {
-    "src": "/audio/elevenlabs/8413f1595c80924fa4c31e7b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/e3076ace343c156a9f69f22b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "de",
-    "request": {
-      "text": "[calm] [slowly] de",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "k14p9a": {
@@ -3430,18 +3419,15 @@
     }
   },
   "stkvyf": {
-    "src": "/audio/elevenlabs/6c17f64c90314b694203f204.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/cd0e5d1da12a71a1f654559e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me",
-    "request": {
-      "text": "[calm] [slowly] Me",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1lqe5j2": {
@@ -3460,48 +3446,39 @@
     }
   },
   "1r9wi7g": {
-    "src": "/audio/elevenlabs/184bca3e27a62ecae818d5ce.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1daae7ff4c3bd2a353703b05.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "a",
-    "request": {
-      "text": "[calm] [slowly] a",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "n4ttnb": {
-    "src": "/audio/elevenlabs/795f6f3c3996eb2ba3da2a5e.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/57485bbc132f5e954a725d86.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "las",
-    "request": {
-      "text": "[calm] [slowly] las",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1xxmyus": {
-    "src": "/audio/elevenlabs/bd5eb0ad5d90f543ca027623.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/d2d5c00249ab136d8cf2b310.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "y",
-    "request": {
-      "text": "[calm] [slowly] y",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "hibhb8": {
@@ -3640,33 +3617,27 @@
     }
   },
   "v0rhzu": {
-    "src": "/audio/elevenlabs/809f9f046d828c1a375a1431.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/003d641f0dbe3cfa0bc23d59.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Quiero",
-    "request": {
-      "text": "[calm] [slowly] Quiero",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "odbeg1": {
-    "src": "/audio/elevenlabs/aaf9304c85b727951c80daeb.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/5475700f1637eeba4b49522d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "una",
-    "request": {
-      "text": "[calm] [slowly] una",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1hgnbpb": {
@@ -3685,18 +3656,15 @@
     }
   },
   "lfu0of": {
-    "src": "/audio/elevenlabs/ac0111a1b9cd23a8b78f68e9.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/7c91960b14ec37db4d9b638c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "porque",
-    "request": {
-      "text": "[calm] [slowly] porque",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "18ushp5": {
@@ -3850,18 +3818,15 @@
     }
   },
   "bkqcoq": {
-    "src": "/audio/elevenlabs/27c882cf7a377faa71da8194.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/25a58d98defe6c44fa6bb1be.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "quiero",
-    "request": {
-      "text": "[calm] [slowly] quiero",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1ztms4": {

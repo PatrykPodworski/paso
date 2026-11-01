@@ -140,29 +140,64 @@
     "modelId": "eleven_multilingual_v2"
   },
   "v6yukl": {
-    "src": "/audio/elevenlabs/9810f7363e0d4b97c2380d1f.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/401bff33039f205fe74afd37.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la cocina",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1kplyot": {
-    "src": "/audio/elevenlabs/7e6fd117101b0f97e6beaee3.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1be24dce0c2d99c6c249f6a8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el baño",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "lfmxbp": {
-    "src": "/audio/elevenlabs/658b0dc406685c2a285dfa81.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/9c1b02acac0bdecd05c64d6f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la silla",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "g1xish": {
-    "src": "/audio/elevenlabs/0206cef189fe08f1f2a60fdd.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/01e5921f352f01f083a94d17.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la puerta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "16gkfh5": {
-    "src": "/audio/elevenlabs/3bb0d52286412932db30e928.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/eeb1aee9ef99b4940d73e367.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Mi casa tiene una cocina grande. La mesa está junto a la ventana. Hay cuatro sillas y una lámpara sobre la mesa. Mi habitación está a la derecha del baño.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
+    }
   },
   "1pbh3t2": {
     "src": "/audio/elevenlabs/657c005ffa2de5a716bfda98.mp3",
@@ -525,24 +560,52 @@
     "modelId": "eleven_multilingual_v2"
   },
   "1s6nv8y": {
-    "src": "/audio/elevenlabs/d7f6ebf59b8c4df26a468f8d.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/957f263ff4ca1d976de0f9e7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la casa",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "15xexnc": {
-    "src": "/audio/elevenlabs/d7efdde45fec5a84b344f446.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/70101776b13acb68261ea7a0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el dormitorio",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "7tcb1k": {
-    "src": "/audio/elevenlabs/a9cd70983446a14b3fb87173.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/b8fd1ee6275ff2289be95940.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la mesa",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1cfh97d": {
-    "src": "/audio/elevenlabs/b113dfb7839200614af2f53d.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/5b443a9b5122f61ccb97517d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la ventana",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "kwk6db": {
     "src": "/audio/elevenlabs/ba955a9fb41f1bd5b097c04b.mp3",
@@ -720,9 +783,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "1wd1g0h": {
-    "src": "/audio/elevenlabs/ad66b06fb30a846b1f32bc07.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/526957b536ea3a99a50408b0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hay dos sillas. La silla verde está junto a la ventana.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
+    }
   },
   "1dds0mg": {
     "src": "/audio/elevenlabs/68b14dc631b5e0458068054f.mp3",
@@ -780,9 +850,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "sxumn5": {
-    "src": "/audio/elevenlabs/6ee6998cd0a532a3834c7314.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/e3782c6c5aeb816fff9264b8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Ana. Mi casa está en el centro, cerca de la estación. Tiene dos dormitorios, una cocina y un salón grande. Puedes dormir en la habitación pequeña, junto al baño. Nos vemos pronto. Un abrazo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
+    }
   },
   "15aax92": {
     "src": "/audio/elevenlabs/ddc39ce58639541aa08babb7.mp3",
@@ -1360,138 +1437,112 @@
     }
   },
   "13paqtp": {
-    "src": "/audio/elevenlabs/ae639f569bccacd2c315cea1.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/e1b5163fd09120c17c733847.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "En mi casa hay tres dormitorios.",
-    "request": {
-      "text": "[calm] [slowly] En mi casa hay tres dormitorios.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1fln0e1": {
-    "src": "/audio/elevenlabs/80e83ea76b3181b220eeb4ef.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/43f92abb3d19a31f8a5f01c8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La cocina está al lado del baño.",
-    "request": {
-      "text": "[calm] [slowly] La cocina está al lado del baño.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "wora0u": {
-    "src": "/audio/elevenlabs/6db84a1e42c037d0cf90b2de.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/74ba055d2951d7a0904994da.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "El libro está encima de la mesa.",
-    "request": {
-      "text": "[calm] [slowly] El libro está encima de la mesa.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1xrpkdo": {
-    "src": "/audio/elevenlabs/5b934e91566117a17f9834b8.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/d94ff8d3894378051c8d21c3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "una casa blanca",
-    "request": {
-      "text": "[calm] [slowly] una casa blanca",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "kykozc": {
-    "src": "/audio/elevenlabs/66f9abbb64d25b1b7329d858.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1c21d7cdcefd463d5fd01ea3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cuántas habitaciones hay?",
-    "request": {
-      "text": "[curious] [slowly] ¿Cuántas habitaciones hay?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "7rchqv": {
-    "src": "/audio/elevenlabs/14c4f46219d3938b7da354bc.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/78d74c1e9024505f1f67055c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Voy al salón.",
-    "request": {
-      "text": "[calm] [slowly] Voy al salón.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1yuyt3k": {
-    "src": "/audio/elevenlabs/491e2fff638cd1aefab4db5d.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/fe5611593922374826ea5e71.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "SE ALQUILA PISO\nPiso de dos dormitorios en el centro. Salón grande, cocina pequeña y un baño. Está cerca del metro. No tiene jardín. Precio: 650 euros al mes. Llamar por la tarde.",
-    "request": {
-      "text": "[calm] [slowly] SE ALQUILA PISO\nPiso de dos dormitorios en el centro. Salón grande, cocina pequeña y un baño. Está cerca del metro. No tiene jardín. Precio: 650 euros al mes. Llamar por la tarde.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "spokenText": "Se alquila piso. Piso de dos dormitorios en el centro. Salón grande, cocina pequeña y un baño. Está cerca del metro. No tiene jardín. Precio: 650 euros al mes. Llamar por la tarde.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1irjm7h": {
-    "src": "/audio/elevenlabs/d9c2f60de40d941327dd4824.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/bdf3e1ae28dd023f9e2e7afc.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La cocina está al lado del baño",
-    "request": {
-      "text": "[calm] [slowly] La cocina está al lado del baño",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "xnmamr": {
-    "src": "/audio/elevenlabs/0a8c85cce56e33912b5c837d.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/2974b27b98afac4f4e26377d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hay una mesa.",
-    "request": {
-      "text": "[calm] [slowly] Hay una mesa.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "6dja2i": {
@@ -3176,108 +3227,87 @@
     }
   },
   "op2tf7": {
-    "src": "/audio/elevenlabs/4e5af79c6e7fc5a5f405d975.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/750446ca47cf2b227a279447.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "lado",
-    "request": {
-      "text": "[calm] [slowly] lado",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1lj5qve": {
-    "src": "/audio/elevenlabs/573889318c2fe0c1fbe5aa70.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/db7c194ab188967c2208f692.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "del",
-    "request": {
-      "text": "[calm] [slowly] del",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "f5fl4o": {
-    "src": "/audio/elevenlabs/ffa45b6bcec48469b6572eea.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/532e068ae6694360b14f6292.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "baño",
-    "request": {
-      "text": "[calm] [slowly] baño",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "jy0r9a": {
-    "src": "/audio/elevenlabs/67cdbac41b1a25d0f71bcc84.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/709ff21e1ba80aa0ecda4f0b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La",
-    "request": {
-      "text": "[calm] [slowly] La",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "i2ozty": {
-    "src": "/audio/elevenlabs/55bdc8c7869628adff25a6b1.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/59bb26acf7c8c6e99cea3a58.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "cocina",
-    "request": {
-      "text": "[calm] [slowly] cocina",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "8w9g6q": {
-    "src": "/audio/elevenlabs/337c270e2af44d953458ad8a.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/76e9b28d7f6491f1dee5b459.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "está",
-    "request": {
-      "text": "[calm] [slowly] está",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "hiqaww": {
-    "src": "/audio/elevenlabs/5d8f997dc07d0fbe5a332821.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/a0ebadc8a54b1c01fa3467f5.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "al",
-    "request": {
-      "text": "[calm] [slowly] al",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "9kfnwn": {
@@ -7226,18 +7256,15 @@
     }
   },
   "1a3eiom": {
-    "src": "/audio/elevenlabs/6fbb339c79399d927c70a01b.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/9d9aa4ba6a011b65dc9f0ec2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi cocina es pequeña.",
-    "request": {
-      "text": "[calm] [slowly] Mi cocina es pequeña.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1te6z89": {
@@ -7586,18 +7613,15 @@
     }
   },
   "rb0ez2": {
-    "src": "/audio/elevenlabs/bef262d740990e3e30147f95.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/edadd33cd1f56057a1c0420f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi casa tiene tres habitaciones.",
-    "request": {
-      "text": "[calm] [slowly] Mi casa tiene tres habitaciones.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "x6s7oj": {
@@ -7631,18 +7655,15 @@
     }
   },
   "1ayw91a": {
-    "src": "/audio/elevenlabs/6b8088dbb68a00beef9e96ea.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/1a1a88df10c054ff4e2f1acb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "El baño está al final del pasillo.",
-    "request": {
-      "text": "[calm] [slowly] El baño está al final del pasillo.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "rgjioz": {
@@ -7661,18 +7682,15 @@
     }
   },
   "1w1t8jq": {
-    "src": "/audio/elevenlabs/a9232812d5a18da9592e2277.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/083d3e52786555dcefb3be90.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi dormitorio tiene una ventana grande.",
-    "request": {
-      "text": "[calm] [slowly] Mi dormitorio tiene una ventana grande.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1g3q9gb": {
@@ -7706,63 +7724,51 @@
     }
   },
   "cxg0dy": {
-    "src": "/audio/elevenlabs/3c79d56bc722c52d090a534a.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/0593cb49ab6db354afe6d47e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La comida está en la mesa.",
-    "request": {
-      "text": "[calm] [slowly] La comida está en la mesa.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "sxt01q": {
-    "src": "/audio/elevenlabs/b0e3253b1745f6c82c709e9e.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/7ccd277fcbbe2a72001c0d60.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hay cuatro sillas en la cocina.",
-    "request": {
-      "text": "[calm] [slowly] Hay cuatro sillas en la cocina.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "1jdljt8": {
-    "src": "/audio/elevenlabs/05c12b13197b44863b00755c.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ec5941cb1040a655ca622caa.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Abro la ventana por la mañana.",
-    "request": {
-      "text": "[calm] [slowly] Abro la ventana por la mañana.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "17nsxeg": {
-    "src": "/audio/elevenlabs/93a657ac2b5279e534130607.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/e235a1437a3c5e90bd4f4f6a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Cierra la puerta, por favor.",
-    "request": {
-      "text": "[calm] [slowly] Cierra la puerta, por favor.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   },
   "b3bik3": {
@@ -29387,6 +29393,18 @@
       },
       "language_code": "es",
       "seed": 20260909
+    }
+  },
+  "193hns8": {
+    "src": "/audio/voxcpm/43cf014861f47bc5edb8985d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Vivo en un piso en el centro. Tiene dos habitaciones, una cocina y un salón. Me gusta el salón porque es grande. La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación. ¿Dónde vives? ¿Cómo es tu casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "direct"
     }
   }
 }

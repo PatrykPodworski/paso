@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { mockSections } from "../../data/mock";
+import { examSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
 import type { MockRun, MockRunPatch } from "../../data/types";
@@ -27,7 +27,7 @@ type Props = {
 };
 
 export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) => {
-  const section = mockSections[run.section];
+  const section = examSections(run.variants)[run.section];
   const q = section.questions[run.index];
   const last = section.questions.length - 1;
   const answers = { ...run.answers, ...draftAnswers(run) };

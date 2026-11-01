@@ -1,8 +1,11 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { examSections, firstVariants } from "../../data/mock";
 import { mount, seed, setupMockExam } from "../../test/mockExam";
 import { Blob as NodeBlob } from "node:buffer";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
@@ -16,7 +19,7 @@ it("exports objective scores with all responses and revokes the temporary URL", 
   );
 
   const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
-  const question = mockSections[0].questions[0];
+  const question = sections[0].questions[0];
 
   await seed({ section: 3, stage: "done", answers: { [question.id]: question.answer } });
   await mount();

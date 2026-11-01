@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { mockSections } from "../../data/mock";
+import { buildExam } from "../../data/examBuilder";
+import { examSections, mockExam } from "../../data/mock";
 import type { MockRun, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
@@ -47,7 +48,11 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
   const start = () => {
     setNow(Date.now());
 
+    const seed = crypto.getRandomValues(new Uint32Array(1))[0];
+
     restart({
+      seed,
+      variants: buildExam({ seed }),
       stage: "run",
       started: new Date().toISOString(),
       deadline: Date.now() + 45 * 60000,
@@ -61,7 +66,8 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
   };
 
   const score = (index: number) =>
-    mockSections[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || "")).length;
+    examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
+      .length;
 
   const nextSection = () => {
     setConfirm(false);
@@ -83,7 +89,7 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
       section: next,
       index: 0,
       stage: next === 3 ? "prep" : "run",
-      deadline: Date.now() + (next === 3 ? 10 : mockSections[next].minutes) * 60000,
+      deadline: Date.now() + (next === 3 ? 10 : mockExam[next].minutes) * 60000,
     });
   };
 

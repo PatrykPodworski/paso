@@ -71,6 +71,7 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 10 (_¡Buen viaje!_): 24 texts.
 - Unit 11 (_¿Qué tal estás?_): 24 texts.
 - Unit 12 (_¡Tú puedes!_): 22 texts.
+- Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.
 - Topic flashcards (Body parts to Weather, 10 topics): 296 texts.

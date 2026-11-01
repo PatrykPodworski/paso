@@ -71,6 +71,8 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 10 (_¡Buen viaje!_): 24 texts.
 - Unit 11 (_¿Qué tal estás?_): 24 texts.
 - Unit 12 (_¡Tú puedes!_): 22 texts.
+- Texts spoken only in the mock exam (listening audio, writing models) or the
+  foundations and picture practice: 49 texts.
 - Texts that several units speak, mostly sentence-builder tiles such as _es_,
   _de_ and _Me_: 15 texts.
 

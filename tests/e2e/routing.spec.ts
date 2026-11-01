@@ -10,11 +10,11 @@ const title = {
   "design-system": "Design system",
 };
 
-for (const [hash, heading] of Object.entries(title)) {
-  test(`a deep link to #${hash} opens that page`, async ({ page }) => {
-    await page.goto(`/#${hash}`);
+for (const [path, heading] of Object.entries(title)) {
+  test(`a deep link to /${path} opens that page`, async ({ page }) => {
+    await page.goto(`/${path}`);
     await expect(page.getByRole("heading", { level: 1 }).first()).toHaveText(heading);
-    await expect(page).toHaveURL(new RegExp(`/#${hash}$`));
+    await expect(page).toHaveURL(new RegExp(`/${path}$`));
   });
 }
 
@@ -28,30 +28,30 @@ test("back and forward retrace the pages and their URLs", async ({ page }, info)
     ["The A1 guide", "guide"],
   ] as const;
 
-  const expectPage = async (hash: keyof typeof title) => {
-    await expect(page.getByRole("heading", { level: 1 }).first()).toHaveText(title[hash]);
-    await expect(page).toHaveURL(new RegExp(`/#${hash}$`));
+  const expectPage = async (path: keyof typeof title) => {
+    await expect(page.getByRole("heading", { level: 1 }).first()).toHaveText(title[path]);
+    await expect(page).toHaveURL(new RegExp(`/${path}$`));
   };
 
-  await page.goto("/#today");
+  await page.goto("/today");
 
-  for (const [label, hash] of visits) {
+  for (const [label, path] of visits) {
     if (mobile) {
       await page.getByRole("button", { name: "Open navigation" }).click();
     }
 
     await page.getByRole("button", { name: label, exact: true }).click();
-    await expectPage(hash);
+    await expectPage(path);
   }
 
-  for (const hash of ["exam", "practice", "path", "today"] as const) {
+  for (const path of ["exam", "practice", "path", "today"] as const) {
     await page.goBack();
-    await expectPage(hash);
+    await expectPage(path);
   }
 
-  for (const [, hash] of visits) {
+  for (const [, path] of visits) {
     await page.goForward();
-    await expectPage(hash);
+    await expectPage(path);
   }
 
   if (mobile) {

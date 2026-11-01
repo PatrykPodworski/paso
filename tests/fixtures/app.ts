@@ -81,7 +81,7 @@ export const stabilise = async (page: Page) => {
 };
 
 export const openLesson = async (page: Page, index: number) => {
-  await page.goto("/#path");
+  await page.goto("/path");
   const lesson = allLessons[index];
   const unit = page.locator(".unit-card").nth(Math.floor(index / 4));
 
@@ -175,7 +175,7 @@ export const resumeMockExam = async (
 
   await seedProgress(page, { mockRun: run });
 
-  await page.goto("/#exam");
+  await page.goto("/exam");
 };
 
 export const stored = async (page: Page, key: string) =>

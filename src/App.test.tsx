@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { renderApp } from "./test/renderApp";
+import { changeUrl, renderApp } from "./test/renderApp";
 import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
 import { formPractice } from "./data/mock";
 import type { Attempt, Lesson, MockRunPatch } from "./data/types";
@@ -42,13 +42,12 @@ const keptRun: MockRunPatch = {
   drafts: {},
 };
 
-const mount = async (hash = "today", p?: Partial<ProgressSeed>) => {
+const mount = async (path = "today", p?: Partial<ProgressSeed>) => {
   if (p) {
     await seedProgress(p);
   }
 
-  window.location.hash = hash;
-  const view = await renderApp();
+  const view = await renderApp(`/${path}`);
 
   await settle();
 
@@ -137,14 +136,14 @@ describe("app business orchestration", () => {
     expect((await saved()).mockResults).toHaveLength(2);
   });
 
-  it("falls back from unknown links and handles external hash changes", async () => {
+  it("falls back from unknown links and handles external URL changes", async () => {
     await mount("unknown");
 
     expect(
       screen.getByRole("heading", { name: "A good day to learn Spanish." }),
     ).toBeInTheDocument();
 
-    window.location.hash = "guide";
+    changeUrl("/guide");
     await settle();
 
     expect(screen.getByRole("heading", { name: "Your guide to DELE A1." })).toBeInTheDocument();
@@ -159,7 +158,7 @@ describe("app business orchestration", () => {
     click("Open navigation");
     click("Learning path");
     await settle();
-    expect(window.location.hash).toBe("#path");
+    expect(window.location.pathname).toBe("/path");
     expect(screen.queryByRole("button", { name: "Close navigation" })).not.toBeInTheDocument();
   });
 
@@ -321,7 +320,7 @@ describe("app business orchestration", () => {
     click("Clear my practice data");
     await settle();
 
-    window.location.hash = "exam";
+    changeUrl("/exam");
     await settle();
 
     expect(screen.getByRole("button", { name: "Start exam rehearsal" })).toBeInTheDocument();
@@ -427,7 +426,7 @@ it("offers no next lesson after the last lesson or a practice session", async ()
   expect(session.lesson.id).toBe(allLessons.at(-1)!.id);
   expect(session.onNext).toBeUndefined();
   click("Test close session");
-  window.location.hash = "practice";
+  changeUrl("/practice");
   await settle();
   click("My mistakes (1)");
   click("Review my mistakes");
@@ -644,7 +643,7 @@ describe("app shell behavior kept through the component split", () => {
     click("Reset my progress");
     click("Clear my practice data");
     await settle();
-    expect(window.location.hash).toBe("#today");
+    expect(window.location.pathname).toBe("/today");
 
     expect(
       screen.getByRole("heading", { name: "A good day to learn Spanish." }),
@@ -668,7 +667,7 @@ describe("app shell behavior kept through the component split", () => {
     fireEvent.click(screen.getByRole("link", { name: "Skip to content" }));
     expect(screen.getByRole("main")).toHaveFocus();
     expect(scrollIntoView).toHaveBeenCalledOnce();
-    expect(window.location.hash).toBe("#practice");
+    expect(window.location.pathname).toBe("/practice");
     delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
   });
 
@@ -731,8 +730,7 @@ describe("progress on the server", () => {
 
   it("shows a quiet loading screen, then a load error with Retry", async () => {
     refuse(() => Promise.reject(new TypeError("Failed to fetch")));
-    window.location.hash = "today";
-    await renderApp();
+    await renderApp("/today");
     expect(screen.getByRole("status")).toHaveTextContent("Loading your progress…");
     await settle();
 

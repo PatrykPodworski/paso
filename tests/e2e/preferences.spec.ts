@@ -39,7 +39,7 @@ test("preferences persist, export contains actual progress, reset requires confi
 });
 
 test("guide checklist persists and sliders require both passing groups", async ({ page }) => {
-  await page.goto("/#guide");
+  await page.goto("/guide");
   const first = page.getByRole("checkbox").first();
 
   await first.click();
@@ -60,7 +60,7 @@ test("guide checklist persists and sliders require both passing groups", async (
 test("navigation, deep links, unknown routes and modal keyboard focus work", async ({
   page,
 }, info) => {
-  await page.goto("/#unknown");
+  await page.goto("/unknown");
   await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();
 
   const labels = [

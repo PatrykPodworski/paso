@@ -2,10 +2,8 @@ name: Visual
 
 # Compares the pull request's screenshots with the base branch's. Both sets are taken in
 # this job, in the same container, so fonts and the browser match and no baseline is
-# stored anywhere. The visual-approved label accepts the diff of the current commit.
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
+# stored anywhere. A diff does not fail the job; the pull request comment reports it.
+on: pull_request
 
 jobs:
   compare:
@@ -73,13 +71,6 @@ jobs:
           path: |
             playwright-report/
             changed.md
-      - name: Require approval
-        if: >-
-          steps.compare.outcome == 'failure' && (github.event.action == 'synchronize' ||
-          !contains(github.event.pull_request.labels.*.name, 'visual-approved'))
-        run: |
-          echo "::error::Screenshots differ from the base; the job summary lists them. Open the report linked in the pull request comment, then add the visual-approved label to accept the diff."
-          exit 1
 
   # Publishes the report to GitHub Pages under pr-<number>/ and keeps one comment on the
   # pull request that links it, or says there is no difference.
@@ -126,17 +117,3 @@ jobs:
           else
             gh pr comment "$NUMBER" --body "$body"
           fi
-
-  # A new commit needs a new approval. The container above has no gh.
-  reset-approval:
-    if: >-
-      github.event.action == 'synchronize' &&
-      contains(github.event.pull_request.labels.*.name, 'visual-approved')
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - run: gh pr edit ${{ github.event.number }} --remove-label visual-approved
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}

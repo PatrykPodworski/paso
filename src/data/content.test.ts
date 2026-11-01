@@ -8,7 +8,7 @@ import {
   vocabulary,
   visualQuestions,
 } from "./curriculum";
-import { formPractice, mockExam, mockQuestions, mockTasks } from "./mock";
+import { formPractice, mockExam, mockQuestions, mockTasks, mockTopics, topicTalks } from "./mock";
 import { countWords } from "./progress";
 import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
@@ -94,6 +94,36 @@ describe("original curriculum integrity", () => {
     }
   });
 
+  it("runs the mock exam's speaking as three live talks, two of them on the picked topic", () => {
+    const speaking = mockExam[3].tasks.flatMap((t) => t.variants[0].questions);
+
+    expect(speaking.map((q) => q.kind)).toEqual(["live", "live", "live"]);
+    expect(speaking.map((q) => q.talk)).toEqual(["mock-s1", "mock-s2", "mock-s3"]);
+
+    expect(speaking.map((q) => q.task)).toEqual([
+      "Task 1 · Personal presentation · 1–2 min",
+      "Task 2 · A familiar topic · 2–3 min",
+      "Task 3 · Conversation · 3–4 min",
+    ]);
+
+    expect(taskOf("mock-s1")?.limitSeconds).toBe(150);
+    expect(topicTalks).toEqual(["mock-s2", "mock-s3"]);
+    expect(mockTopics.map((t) => t.id)).toEqual(["home", "studies", "freeTime"]);
+
+    for (const talk of topicTalks) {
+      expect(taskOf(talk), talk).toBeUndefined();
+
+      for (const topic of mockTopics) {
+        expect(taskOf(talk, topic.id)?.id, `${talk} ${topic.id}`).toBe(talk);
+      }
+    }
+
+    for (const q of speaking) {
+      expect(q.checklist, q.id).toBeUndefined();
+      expect(q.audio, q.id).toBeUndefined();
+    }
+  });
+
   it("has 96 different vocabulary entries", () => {
     expect(vocabulary).toHaveLength(96);
     expect(new Set(vocabulary.map((w) => w.es)).size).toBe(96);
@@ -161,10 +191,7 @@ describe("original curriculum integrity", () => {
     const phrases = [
       ...new Set(
         questions
-          .flatMap((q) => [
-            q.audio,
-            ...(["speak", "write", "order"].includes(q.kind) ? [q.answer] : []),
-          ])
+          .flatMap((q) => [q.audio, ...(["write", "order"].includes(q.kind) ? [q.answer] : [])])
           .filter((x): x is string => !!x)
           .concat(
             [...allQuestions, ...foundations, ...visualQuestions, formPractice]
@@ -198,6 +225,24 @@ describe("original curriculum integrity", () => {
   it("bundles every referenced scene illustration", () => {
     for (const q of questions.filter((q) => q.image)) {
       expect(existsSync(`public/illustrations/${q.image}.svg`)).toBe(true);
+    }
+  });
+
+  it("bundles every word picture under its slug and keeps the emoji as a fallback", () => {
+    const pictured = words.flatMap((t) => t.words).filter((w) => w.picture);
+
+    expect(pictured.length).toBeGreaterThan(0);
+
+    for (const w of pictured) {
+      const slug = String(("key" in w && w.key) || w.es)
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .toLowerCase()
+        .replace(/ /g, "-");
+
+      expect(w.picture, w.es).toBe(slug);
+      expect(w.visual, w.es).toBeTruthy();
+      expect(existsSync(`public/illustrations/words/${w.picture}.webp`), w.es).toBe(true);
     }
   });
 });

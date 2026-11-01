@@ -110,6 +110,25 @@ it("rejects negative and excessive writing scores independently", async () => {
   }
 });
 
+it("shows Lucía's grades for the three talks next to the speaking score", async () => {
+  await seed({
+    section: 3,
+    stage: "done",
+    talks: {
+      "mock-s1": { grade: "good", items: [] },
+      "mock-s2": { grade: "perfect", items: [] },
+    },
+  });
+
+  await mount();
+
+  expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
+    "Task 1GoodTask 2PerfectTask 3Not done",
+  );
+
+  expect(screen.getByText(/not DELE points/)).toBeInTheDocument();
+});
+
 it("shows the objective scores on the results page", async () => {
   const answers = Object.fromEntries(
     sections[0].questions.slice(0, 3).map((q) => [q.id, q.answer]),

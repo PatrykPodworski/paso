@@ -25,8 +25,16 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
     return () => clearInterval(id);
   }, [run.stage]);
 
+  // Lucía closes each talk at its own limit, so the speaking clock cuts no talk half-way.
+  const speaking = run.stage === "run" && run.section === 3;
+
   useEffect(() => {
-    if ((run.stage === "run" || run.stage === "prep") && run.deadline > 0 && now >= run.deadline) {
+    if (
+      (run.stage === "run" || run.stage === "prep") &&
+      !speaking &&
+      run.deadline > 0 &&
+      now >= run.deadline
+    ) {
       stopAudio();
 
       change(
@@ -35,7 +43,7 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
           : { answers: draftAnswers(run), stage: "review" },
       );
     }
-  }, [now, run, change]);
+  }, [now, run, speaking, change]);
 
   const start = () => {
     setNow(Date.now());

@@ -22,6 +22,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         className={`${FIELD} leading-relaxed`}
         id="written-answer"
         lang="es"
+        autoFocus
         value={answer}
         maxLength={MAX_TEXT}
         onChange={(e) => setText(e.target.value)}
@@ -34,6 +35,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         className={FIELD}
         id="written-answer"
         lang="es"
+        autoFocus
         value={answer}
         maxLength={MAX_TEXT}
         onChange={(e) => setText(e.target.value)}

@@ -136,7 +136,12 @@ export const useLiveTalk = () => {
     return () => clearInterval(timer);
   }, [status]);
 
-  const start = async (task: string, passcode: string | undefined, handlers: Handlers) => {
+  const start = async (
+    task: string,
+    passcode: string | undefined,
+    handlers: Handlers,
+    topic?: string,
+  ) => {
     fragments.current = [];
     setTurns([]);
     setSeconds(0);
@@ -166,7 +171,7 @@ export const useLiveTalk = () => {
     }
 
     setStatus("connecting");
-    const code = await examiner.connect(task, passcode);
+    const code = await examiner.connect(task, passcode, topic);
 
     if (code && connection.current === current) {
       fail(code);

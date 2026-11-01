@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { Grade, Question } from "../../data/types";
+import type { Grade, LiveScore, Question } from "../../data/types";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 import { cardPadding } from "../question-card/cardPadding";
 import type { LastAttempt } from "../history/LastTime";
@@ -8,7 +8,13 @@ import { LiveTalk } from "./LiveTalk";
 
 type Props = {
   q: Question;
-  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: Grade) => void;
+  onEvaluated?: (
+    answer: string,
+    correct: boolean,
+    assisted: boolean,
+    grade: Grade,
+    score: LiveScore,
+  ) => void;
   onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
   previous?: LastAttempt;
 };

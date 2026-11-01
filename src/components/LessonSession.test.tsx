@@ -13,7 +13,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -407,4 +407,51 @@ it("shows how a question went last time, as it stood when the lesson opened", ()
   expect(screen.getByText(/^Last time:/)).toHaveTextContent(lastTime);
   click("Continue");
   expect(screen.queryByText(/^Last time:/)).not.toBeInTheDocument();
+});
+
+it("fetches every picture of the lesson when it starts, once each", () => {
+  const requested: string[] = [];
+
+  vi.stubGlobal(
+    "Image",
+    class {
+      decode = () => Promise.resolve();
+
+      set src(url: string) {
+        requested.push(url);
+      }
+    },
+  );
+
+  const qs: Question[] = [
+    { ...type, id: "a", picture: "la-manana" },
+    { ...type, id: "b" },
+    { ...type, id: "c", picture: "la-noche" },
+    { ...type, id: "d", picture: "la-manana" },
+  ];
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "lesson",
+        title: "Lesson",
+        subtitle: "",
+        minutes: 4,
+        icon: "book",
+        questions: qs,
+      }}
+      progress={emptySnapshot()}
+      onClose={() => {}}
+      onComplete={() => {}}
+      onAttempt={() => {}}
+      onDraft={() => {}}
+    />,
+  );
+
+  expect(requested).toEqual([
+    "/illustrations/words/la-manana.webp",
+    "/illustrations/words/la-noche.webp",
+  ]);
+
+  vi.unstubAllGlobals();
 });

@@ -1,14 +1,8 @@
+import type { MockTopic } from "./mock.ts";
+
 export type Skill = "reading" | "listening" | "writing" | "speaking";
 
-export type QuestionKind =
-  | "choice"
-  | "listen"
-  | "type"
-  | "order"
-  | "write"
-  | "speak"
-  | "form"
-  | "live";
+export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "form" | "live";
 
 export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
@@ -47,6 +41,8 @@ export interface Question {
   pronunciation?: string;
   image?: string;
   visual?: string;
+  // A papercut word picture in public/illustrations/words/; shown instead of the visual emoji.
+  picture?: string;
   tokens?: string[];
   checklist?: string[];
   minWords?: number;
@@ -166,13 +162,18 @@ export interface MockRun {
   drafts: Record<string, string>;
   // The writing and speaking scores as typed into the score calculator.
   scores: { writing?: string; speaking?: string };
+  // The topic picked for speaking Tasks 2 and 3.
+  topic?: MockTopic;
+  // Lucía's score for each finished talk, by question id.
+  talks: Record<string, LiveScore>;
   // The seed the exam builder took and the variants it chose, so a run resumes and is reviewed
   // with the same tasks.
   seed: number;
   variants: ExamVariants;
 }
 
-// A change to the mock run: top-level fields replace, answers, drafts and scores merge per key.
+// A change to the mock run: top-level fields replace; answers, drafts, scores and talks merge per
+// key.
 export type MockRunPatch = Partial<MockRun>;
 
 // A rehearsal result before the server stores it under an id.

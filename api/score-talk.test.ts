@@ -99,6 +99,30 @@ describe("scoring a talk", () => {
     expect(openai).not.toHaveBeenCalled();
   });
 
+  it("refuses a topic task without one of its topics, and grades it with one", async () => {
+    for (const topic of [undefined, "garden"]) {
+      const response = await score({ turns, task: "mock-s3", topic });
+
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({ error: "task" });
+    }
+
+    expect(openai).not.toHaveBeenCalled();
+    model({ withWhom: "correct", nearby: "missing", questions: "correct" });
+    const response = await score({ turns, task: "mock-s3", topic: "home" });
+
+    expect(response.status).toBe(200);
+
+    expect(await response.json()).toEqual({
+      grade: "bad",
+      items: [
+        { id: "withWhom", label: "Who you live with", level: "correct" },
+        { id: "nearby", label: "What there is nearby", level: "missing" },
+        { id: "questions", label: "Two questions to Lucía", level: "correct" },
+      ],
+    });
+  });
+
   it("passes understandable answers with mistakes as good", async () => {
     model({ name: "correct", age: "understandable", country: "correct" });
 

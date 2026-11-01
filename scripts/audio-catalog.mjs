@@ -22,13 +22,13 @@ export const phrases = [
         vocabulary.map((w) => w.es),
         units.map((u) => u.example),
         ["Poco a poco."],
-        [...allQuestions, ...mockQuestions]
-          .filter((q) => ["speak", "write"].includes(q.kind))
-          .map((q) => q.answer),
+        [...allQuestions, ...mockQuestions].filter((q) => q.kind === "write").map((q) => q.answer),
         // Each sentence-builder tile is read on its own when the learner taps it.
         allQuestions.filter((q) => q.kind === "order").flatMap((q) => q.tokens ?? []),
         // Every practice task reads the Spanish word, completed sentence, passage or model.
-        [...allQuestions, ...foundations, ...visualQuestions, formPractice].map(spokenText),
+        [...allQuestions, ...foundations, ...visualQuestions, formPractice]
+          .filter((q) => q.kind !== "live")
+          .map(spokenText),
         // Topic flashcards: each word, then its example sentence on reveal.
         words.flatMap((t) => t.words.map((w) => w.es)),
         Object.values(examples).map((e) => e.es),

@@ -1,6 +1,7 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Badge } from "../../design-system/Badge";
 import { PageHeading } from "../../design-system/PageHeading";
+import { examSections } from "../../data/mock";
 import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { downloadResponses } from "./downloadResponses";
@@ -51,6 +52,8 @@ export const MockExam = ({ progress, ...actions }: Props) => {
           listening={score(1)}
           writing={run.scores.writing ?? ""}
           speaking={run.scores.speaking ?? ""}
+          talks={run.talks}
+          talkTasks={examSections(run.variants)[3].questions}
           onWriting={(writing) => change({ scores: { writing } })}
           onSpeaking={(speaking) => change({ scores: { speaking } })}
           onDownload={() => downloadResponses(run, score)}

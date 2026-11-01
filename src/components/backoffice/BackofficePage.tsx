@@ -15,7 +15,6 @@ const KIND: Record<QuestionKind, string> = {
   type: "Typed answer",
   order: "Sentence builder",
   write: "Writing",
-  speak: "Speaking",
   form: "Form",
   live: "Live talk",
 };

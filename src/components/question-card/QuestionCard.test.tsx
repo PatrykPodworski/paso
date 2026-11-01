@@ -8,27 +8,13 @@ import { spokenText } from "../../data/audio";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice, mockQuestions } from "../../data/mock";
 
-let recordingProps: {
-  onRecorded: (b: Blob) => void;
-  onStart: () => void;
-  onRecordingChange: (v: boolean) => void;
-};
-
-vi.mock("./Recorder", () => ({
-  Recorder: (props: typeof recordingProps) => {
-    recordingProps = props;
-
-    return null;
-  },
-}));
-
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -36,7 +22,6 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const order = allQuestions.find((q) => q.kind === "order")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const speaking = mockQuestions.find((q) => q.kind === "speak")!;
 
 // Records the clips the cache creates; jsdom never fetches them.
 const loadedClips = () => {
@@ -85,7 +70,7 @@ it("loads no clips for a question that is not active", () => {
 });
 
 // All productive and objective save paths run against the actual component.
-for (const q of [type, writing, speaking, formPractice]) {
+for (const q of [type, writing, formPractice]) {
   it(`exam isolation: ${q.kind}`, () => {
     const submitted = vi.fn(),
       evaluated = vi.fn();
@@ -98,11 +83,6 @@ for (const q of [type, writing, speaking, formPractice]) {
           target: { value: f.example },
         });
       }
-    } else if (q.kind === "speak") {
-      act(() => {
-        recordingProps.onStart();
-        recordingProps.onRecorded(new Blob(["speech"]));
-      });
     } else {
       fireEvent.change(screen.getByRole("textbox"), { target: { value: q.answer } });
     }
@@ -125,7 +105,6 @@ it.each([
   [order, "Build a sentence"],
   [type, "A small step forward"],
   [writing, "Your turn"],
-  [speaking, "Your turn"],
   [formPractice, "Your turn"],
   // fallow-ignore-next-line complexity -- moved unchanged from src/test/question-rules.test.tsx (#190: move, don't rewrite)
 ])("renders only the appropriate controls for exercise case %#", (q, description) => {
@@ -149,9 +128,7 @@ it.each([
 
   expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(q.options?.length || 0);
 
-  expect(screen.queryAllByText("Your self-review checklist")).toHaveLength(
-    q.kind === "speak" ? 1 : 0,
-  );
+  expect(screen.queryByText("Your self-review checklist")).not.toBeInTheDocument();
 
   expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
@@ -236,10 +213,7 @@ const fillWriting = (q: typeof writing) => {
   }
 };
 
-const audioButtons = () => [
-  ...screen.queryAllByRole("button", { name: "Play Spanish audio" }),
-  ...screen.queryAllByRole("button", { name: "Play the reading passage" }),
-];
+const audioButtons = () => screen.queryAllByRole("button", { name: /Play|Stop audio|Pause audio/ });
 
 it.each([writing, writingWithPassage, formPractice])(
   "a lesson writing task plays no audio before or after review: $id",
@@ -263,6 +237,31 @@ it.each([writing, writingWithPassage, formPractice])(
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   },
 );
+
+const reading = allQuestions.find((q) => q.passage)!;
+const mockReading = mockQuestions.find((q) => q.skill === "reading" && q.passage)!;
+
+it.each([reading, mockReading])(
+  "a reading task plays no audio before or after checking: $id",
+  (q) => {
+    render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+
+    expect(audioButtons()).toHaveLength(0);
+    click(q.answer);
+    expect(screen.getByRole("button", { name: "Continue" })).toBeVisible();
+    expect(audioButtons()).toHaveLength(0);
+    expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+  },
+);
+
+it("a vocabulary word still reads the Spanish word after answering", () => {
+  const word = allQuestions.find((q) => q.kind === "choice" && q.visual)!;
+
+  render(<QuestionCard q={word} onSubmit={vi.fn()} />);
+  click(word.answer);
+  expect(screen.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toBeVisible();
+  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+});
 
 it("a typed answer still reads the Spanish model after checking", () => {
   render(<QuestionCard q={type} onSubmit={vi.fn()} />);

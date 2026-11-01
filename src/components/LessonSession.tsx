@@ -10,10 +10,12 @@ import { ProgressTrack } from "../design-system/ProgressTrack";
 import { QuestionView } from "./question-card/QuestionView";
 import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
+import { lessonPlace } from "../data/lessonPlace";
+import { usePreloadPictures } from "./usePreloadPictures";
 
 // A recording keeps playing across the questions that share it.
 const sharesRecording = (q: Question, next: Question | undefined) =>
-  (!!q.passage && q.passage === next?.passage) || (!!q.audio && q.audio === next?.audio);
+  !!q.audio && q.audio === next?.audio;
 
 type Props = {
   lesson: Lesson;
@@ -44,6 +46,9 @@ export const LessonSession = ({
   const question = lesson.questions[index];
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
+  const place = lessonPlace(lesson.id);
+
+  usePreloadPictures(lesson.questions);
 
   const close = () => {
     stopAudio();
@@ -90,7 +95,7 @@ export const LessonSession = ({
         </IconButton>
         <div className="flex-1">
           <Eyebrow variant="small" className="mb-1">
-            PASO · YOUR LEARNING PATH
+            {place ? `UNIT ${place.unit} · LESSON ${place.lesson}` : "PRACTICE"}
           </Eyebrow>
           <h3 className="font-semibold tracking-tight text-sm">{lesson.title}</h3>
         </div>

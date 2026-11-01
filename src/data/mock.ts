@@ -612,55 +612,57 @@ const [writing1, writing2]: Question[] = [
   },
 ];
 
+// The topic the learner picks before Task 2; Tasks 2 and 3 both run on it.
+export const mockTopics = [
+  { id: "home", label: "Your home", points: "location, rooms, favourite room" },
+  { id: "studies", label: "Your studies", points: "school, teachers, timetable" },
+  { id: "freeTime", label: "Your free time", points: "activities, when, with whom" },
+] as const;
+
+export type MockTopic = (typeof mockTopics)[number]["id"];
+
+// The talks that need the topic.
+export const topicTalks = ["mock-s2", "mock-s3"];
+
 const [speaking1, speaking2, speaking3]: Question[] = [
   {
     id: "mock-s1",
-    kind: "speak",
+    kind: "live",
     skill: "speaking",
     task: "Task 1 · Personal presentation · 1–2 min",
     prompt:
-      "Present yourself. Cover: name, nationality, age, where you live, occupation, languages and personality. Add a simple detail to each point. Aim for 1–2 minutes.",
+      "Talk to Lucía. Present yourself: name, nationality, age, where you live, occupation, languages and personality. She gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
     answer:
       "Me llamo Elena. Soy polaca y tengo veintiséis años. Vivo en Varsovia. Soy profesora de música. Hablo polaco e inglés y estudio español. Soy tranquila y simpática.",
     explanation:
       "This short model provides a starting structure. Expand it naturally to the task time. All seven requested points matter.",
-    checklist: ["I covered all seven points.", "I added simple details.", "I was understandable."],
+    talk: "mock-s1",
   },
   {
     id: "mock-s2",
-    kind: "speak",
+    kind: "live",
     skill: "speaking",
     task: "Task 2 · A familiar topic · 2–3 min",
     prompt:
-      "Choose ONE topic: your home (location, rooms, favorite room), your studies (school, teachers, timetable) or your free time (activities, when, with whom). Talk about all three points for 2–3 minutes.",
+      "Pick ONE topic before you start: your home (location, rooms, favourite room), your studies (school, teachers, timetable) or your free time (activities, when, with whom). Lucía gives you the task, then listens for 2–3 minutes while you cover all three points.",
     answer:
       "Mi casa está cerca del centro. Es un piso pequeño con dos dormitorios, un salón y una cocina. Me gusta el salón porque tiene una ventana grande. Hay una mesa y dos sillas.",
     explanation:
       "Use the model as a starting example, not a full-length speech. Cover all three points in your chosen topic and add details.",
-    checklist: [
-      "I chose one topic and covered its three points.",
-      "I linked simple ideas with y, pero or porque.",
-      "I added enough detail for 2–3 minutes.",
-    ],
+    talk: "mock-s2",
   },
   {
     id: "mock-s3",
-    kind: "speak",
+    kind: "live",
     skill: "speaking",
     task: "Task 3 · Conversation · 3–4 min",
     prompt:
-      "For 3–4 minutes, answer these follow-up questions on your chosen topic. Home: ¿Con quién vives? ¿Qué hay cerca? Studies: ¿Por qué estudias español? ¿Cómo es tu profesor? Free time: ¿Qué haces los domingos? ¿Qué no te gusta hacer? Then ask the interviewer TWO questions on the same topic. Use a partner if possible.",
-    audio:
-      "Ahora vamos a conversar. Si habla de su casa, ¿con quién vive y qué hay cerca? Si habla de sus estudios, ¿por qué estudia español y cómo es su profesor? Si habla del tiempo libre, ¿qué hace los domingos y qué no le gusta hacer? Ahora, hágame dos preguntas sobre el mismo tema.",
+      "Lucía asks you two questions about your Task 2 topic. Answer each one, then ask her TWO questions on the same topic; she answers them briefly.",
     answer:
       "Vivo con mi hermana. Cerca de mi casa hay una biblioteca y un parque. Me gusta mi barrio porque es tranquilo. ¿Dónde vives tú? ¿Cómo es tu casa?",
     explanation:
-      "The two questions to the interviewer are part of the task. Without a live partner, these fixed prompts are only a rehearsal of interaction; a person must assess spontaneous conversation.",
-    checklist: [
-      "I answered follow-up questions on my chosen topic.",
-      "I asked two clear questions on that topic.",
-      "I could ask for repetition and keep the exchange going.",
-    ],
+      "The two questions to Lucía are part of the task. Lucía grades the transcript only; a person must assess pronunciation and how the conversation flows.",
+    talk: "mock-s3",
   },
 ];
 
@@ -776,6 +778,7 @@ export const freshMockRun = (): MockRun => ({
   started: "",
   drafts: {},
   scores: {},
+  talks: {},
   seed: 0,
   variants: firstVariants,
 });

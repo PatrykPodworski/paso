@@ -153,7 +153,8 @@ const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
     drafts: Object.fromEntries(drafts.map((d) => [d.question_id, d.text])),
     recent: recent.map((r) => ({ id: r.id, questionId: r.question_id, ...answerOf(r) })),
     days: days.map((d) => d.day),
-    mockRun: runs[0]?.run ?? null,
+    // A run saved before a field existed takes that field's default.
+    mockRun: runs[0] ? { ...freshMockRun(), ...runs[0].run } : null,
   };
 };
 
@@ -350,7 +351,7 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
     ])
   ).snapshot;
 
-// Top-level fields replace; answers, drafts and scores merge per key, so a change from one
+// Top-level fields replace; answers, drafts, scores and talks merge per key, so a change from one
 // tab keeps what another tab saved. `replace` starts a new run from the defaults.
 export const saveMockRun = async (
   db: Db,
@@ -359,7 +360,7 @@ export const saveMockRun = async (
   replace: boolean,
 ) => {
   const merged = (map: string) =>
-    `'${map}', (r.run->'${map}') || COALESCE($3::jsonb->'${map}', '{}')`;
+    `'${map}', COALESCE(r.run->'${map}', '{}') || COALESCE($3::jsonb->'${map}', '{}')`;
 
   return (
     await write(db, learner, [
@@ -370,7 +371,7 @@ export const saveMockRun = async (
          ON CONFLICT (learner_id) DO UPDATE SET
            run = CASE WHEN $4::boolean THEN excluded.run ELSE
              r.run || $3::jsonb ||
-             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")})
+             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")}, ${merged("talks")})
            END,
            updated_at = now()`,
         learner,

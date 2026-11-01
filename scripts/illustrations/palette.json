@@ -1,0 +1,21 @@
+{
+  "#FFDF20": "light yellow (chart-1)",
+  "#FDC700": "primary yellow (primary)",
+  "#F0B100": "yellow shade (chart-2)",
+  "#D08700": "amber (chart-3)",
+  "#A65F00": "dark amber (chart-4)",
+  "#894B00": "brown (chart-5)",
+  "#733E0A": "dark brown (primary-foreground)",
+  "#FEFCE8": "cream (sidebar-primary-foreground)",
+  "#F9FBFB": "near-white (sidebar)",
+  "#F1F3F3": "light grey (muted)",
+  "#E3E7E8": "grey (border)",
+  "#9CA8AB": "mid grey (ring)",
+  "#67787C": "slate (muted-foreground)",
+  "#22292B": "near-black (dark muted)",
+  "#578861": "green (illustration only)",
+  "#8FB981": "light green (illustration only)",
+  "#C26B49": "terracotta (illustration only)",
+  "#B1D8ED": "sky blue (illustration only)",
+  "#4476A4": "deep blue (illustration only)"
+}

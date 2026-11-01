@@ -1,8 +1,8 @@
-import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
 import { writingScore } from "../../data/progress";
 import type { Question } from "../../data/types";
+import { Button } from "../ui/button";
 import { PasscodeField } from "../writing-review/PasscodeField";
 import { problemOf } from "../writing-review/requestReview";
 import { useWritingReviews } from "../writing-review/useWritingReviews";
@@ -20,7 +20,7 @@ export const WritingMarks = ({ questions, answers }: Props) => {
   });
 
   return (
-    <div className="mbs-7 flex flex-col gap-3.5 rounded-lg border border-sage-200 bg-white p-5 max-md:p-4">
+    <div className="mbs-7 flex flex-col gap-3.5 rounded-lg border border-border bg-card p-5 max-md:p-4">
       <FieldNote>
         An AI tutor marks each task from 0 to 3 like a DELE examiner and checks every requested
         point. Your answers go to OpenRouter for the feedback.
@@ -28,7 +28,8 @@ export const WritingMarks = ({ questions, answers }: Props) => {
       {needsPasscode && <PasscodeField passcode={passcode} onPasscode={setPasscode} />}
       <Button
         type="button"
-        variant="secondary"
+        variant="outline"
+        size="lg"
         className="self-start max-sm:self-stretch"
         disabled={loading || !passcode.trim()}
         onClick={() => check(Object.fromEntries(questions.map((q) => [q.id, answers[q.id] ?? ""])))}
@@ -36,7 +37,7 @@ export const WritingMarks = ({ questions, answers }: Props) => {
         {loading ? "Getting feedback…" : "Get feedback on my writing"}
       </Button>
       {bands.length === questions.length && (
-        <p className="font-serif text-2xl font-semibold tracking-tight">
+        <p className="font-heading text-2xl font-semibold tracking-tight">
           {writingScore([bands[0], bands[1]])} out of 25 for writing.
         </p>
       )}
@@ -45,7 +46,7 @@ export const WritingMarks = ({ questions, answers }: Props) => {
 
         return (
           result && (
-            <section key={q.id} className="border-bs border-sage-200 pbs-4">
+            <section key={q.id} className="border-bs border-border pbs-4">
               <h3 className="mbe-3 text-base font-semibold tracking-tight">{q.task}</h3>
               {"error" in result ? (
                 <Notice as="p">{problemOf(result.error)}</Notice>

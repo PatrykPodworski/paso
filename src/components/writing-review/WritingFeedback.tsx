@@ -2,7 +2,7 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Icon } from "../../design-system/Icon";
 import type { WritingReview } from "../../data/types";
 
-const TEXT = "text-sm leading-relaxed text-olive-700";
+const TEXT = "text-sm leading-relaxed text-foreground";
 
 type Props = { review: WritingReview; minWords?: number; maxWords?: number };
 
@@ -24,7 +24,7 @@ export const WritingFeedback = ({ review, minWords, maxWords }: Props) => (
             <Icon name={c.met ? "check" : "x"} size={16} className="mbs-1 shrink-0" />
             <span>
               <span className="sr-only">{c.met ? "Covered: " : "Missing: "}</span>
-              {c.point} <span className="text-sage-600">{c.feedback}</span>
+              {c.point} <span className="text-muted-foreground">{c.feedback}</span>
             </span>
           </li>
         ))}
@@ -36,11 +36,11 @@ export const WritingFeedback = ({ review, minWords, maxWords }: Props) => (
         <ul className="mbs-2 flex flex-col gap-2">
           {review.corrections.map((c) => (
             <li key={`${c.original}→${c.corrected}`} className={TEXT}>
-              <span lang="es" className="line-through decoration-sand-500">
+              <span lang="es" className="line-through decoration-destructive">
                 {c.original}
               </span>{" "}
               → <strong lang="es">{c.corrected}</strong>{" "}
-              <span className="text-sage-600">{c.explanation}</span>
+              <span className="text-muted-foreground">{c.explanation}</span>
             </li>
           ))}
         </ul>

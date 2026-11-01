@@ -1,9 +1,9 @@
 import { useId } from "react";
-import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Icon } from "../../design-system/Icon";
 import { Notice } from "../../design-system/Notice";
 import type { Grade, Question, WritingReview } from "../../data/types";
+import { Button } from "../ui/button";
 import { PasscodeField } from "../writing-review/PasscodeField";
 import { problemOf, type ReviewResult } from "../writing-review/requestReview";
 import { useWritingReviews } from "../writing-review/useWritingReviews";
@@ -17,20 +17,20 @@ const FLAGS = {
   perfect: {
     label: "Passed",
     icon: "check",
-    border: "border-sage-200",
-    badge: "bg-sage-100 text-olive-800",
+    border: "border-success/20",
+    badge: "bg-success/10 text-success",
   },
   good: {
     label: "Partly passed",
     icon: "repeat",
-    border: "border-sand-200",
-    badge: "bg-sand-100 text-sand-800",
+    border: "border-border",
+    badge: "bg-muted text-foreground",
   },
   bad: {
     label: "Not passed yet",
     icon: "x",
-    border: "border-coral-200",
-    badge: "bg-coral-100 text-coral-800",
+    border: "border-destructive/20",
+    badge: "bg-destructive/10 text-destructive",
   },
 };
 
@@ -42,7 +42,7 @@ const WritingResult = ({ q, review, grade, onContinue }: ResultProps) => {
   const flagId = useId();
 
   return (
-    <div className={`${BOX} bg-white ${flag.border}`}>
+    <div className={`${BOX} bg-card ${flag.border}`}>
       <div
         id={flagId}
         role="status"
@@ -53,20 +53,19 @@ const WritingResult = ({ q, review, grade, onContinue }: ResultProps) => {
       </div>
       <WritingFeedback review={review} minWords={q.minWords} maxWords={q.maxWords} />
       <div className="flex items-center justify-between gap-5 mt-1 max-md:flex-wrap max-md:gap-3.5">
-        <small className="text-xs leading-relaxed text-sage-800">
+        <small className="text-xs leading-relaxed text-muted-foreground">
           {grade === "bad" ? "Added to your mistake review." : "Your practice is saved."}
         </small>
         <Button
           type="button"
-          variant="primary"
-          size="compact"
+          size="lg"
           className="max-md:ml-auto"
           autoFocus
           aria-describedby={flagId}
           onClick={onContinue}
         >
           Continue
-          <Icon name="arrow" size={18} />
+          <Icon name="arrow" />
         </Button>
       </div>
     </div>
@@ -89,7 +88,7 @@ const WritingRequest = ({
   error,
   focusPasscode,
 }: RequestProps) => (
-  <div className={`${BOX} border-sage-200 bg-white`}>
+  <div className={`${BOX} border-border bg-card`}>
     <FieldNote>
       Get feedback from an AI tutor on every requested point, with corrections and a revised
       version. Your answer goes to OpenRouter for the feedback. The result is saved, and a task not
@@ -158,7 +157,7 @@ export const WritingCheck = ({
 
   if (loading) {
     return (
-      <div className={`${BOX} border-sage-200 bg-white`}>
+      <div className={`${BOX} border-border bg-card`}>
         <FieldNote role="status">Checking your writing…</FieldNote>
       </div>
     );

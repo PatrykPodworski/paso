@@ -41,7 +41,7 @@ export const Sidebar = ({
       }`}
     >
       <a
-        href="#today"
+        href="/today"
         className="flex items-center gap-2 no-underline mt-0 mx-3 mb-8 text-4xl font-bold tracking-tighter leading-none"
         onClick={(e) => {
           e.preventDefault();

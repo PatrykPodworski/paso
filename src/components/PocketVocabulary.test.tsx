@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import App from "../App";
+import { renderApp } from "../test/renderApp";
 import { audioSources } from "../data/audio-sources";
 import { vocabulary } from "../data/curriculum";
 import { vocabularyReview } from "../data/progress";
@@ -67,7 +67,7 @@ const mount = async (p: Partial<ProgressSeed> | null = progressWithDue()) => {
   }
 
   window.location.hash = "#practice";
-  const view = render(<App />);
+  const view = await renderApp();
 
   await settle();
 

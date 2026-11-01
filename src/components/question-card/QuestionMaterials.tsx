@@ -1,10 +1,6 @@
 import { TextLink } from "../../design-system/TextLink";
 import { useState } from "react";
-import type { Ref } from "react";
 import type { Question } from "../../data/types";
-import { AudioButton } from "../audio/AudioButton";
-import type { AudioHandle } from "../audio/useAudioPlayer";
-import { isWritingTask } from "./useAnswer";
 
 const PASSAGE =
   "reading-passage relative rounded-lg border border-border bg-muted py-6 px-7 mb-5 max-md:p-5";
@@ -12,11 +8,10 @@ const PASSAGE =
 type Props = {
   q: Question;
   exam: boolean;
-  passageAudio: Ref<AudioHandle>;
   onTranscript: () => void;
 };
 
-export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props) => {
+export const QuestionMaterials = ({ q, exam, onTranscript }: Props) => {
   const [transcript, setTranscript] = useState(false);
 
   return (
@@ -40,16 +35,6 @@ export const QuestionMaterials = ({ q, exam, passageAudio, onTranscript }: Props
             className="absolute right-6 -top-1.5 h-6 w-2.5 rotate-15 rounded-md border-2 border-border"
             aria-hidden="true"
           />
-          {!exam && !isWritingTask(q) && (
-            <AudioButton
-              ref={passageAudio}
-              continuous
-              minimal
-              round="passage"
-              text={q.passage}
-              label="Play the reading passage"
-            />
-          )}
           <p className="whitespace-pre-line text-sm leading-loose text-foreground">{q.passage}</p>
         </div>
       )}

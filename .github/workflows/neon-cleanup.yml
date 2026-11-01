@@ -1,0 +1,43 @@
+name: Neon cleanup
+
+# Deletes a closed pull request's Neon preview branch. The Vercel integration
+# only deletes it with the deployment, so the plan's branch limit fills up.
+on:
+  pull_request:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  delete-preview-branch:
+    runs-on: ubuntu-latest
+    env:
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+      NEON_PROJECT_ID: little-cake-76689513
+      HEAD_REF: ${{ github.head_ref }}
+    steps:
+      - name: Delete preview/<head branch>
+        run: |
+          set -euo pipefail
+          if [ -z "$NEON_API_KEY" ]; then
+            echo "::notice::NEON_API_KEY is not set; skipping Neon cleanup."
+            exit 0
+          fi
+          if [ -z "$HEAD_REF" ]; then
+            echo "::notice::No head branch; skipping Neon cleanup."
+            exit 0
+          fi
+          branch="preview/$HEAD_REF"
+          api="https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches"
+          search=$(jq -rn --arg s "$branch" '$s | @uri')
+          branches=$(curl -fsS -H "Authorization: Bearer $NEON_API_KEY" "$api?search=$search")
+          # Exact name match only; never the default or a protected branch.
+          id=$(jq -r --arg name "$branch" \
+            '[.branches[] | select(.name == $name and (.default | not) and (.protected | not))][0].id // empty' \
+            <<<"$branches")
+          if [ -z "$id" ]; then
+            echo "::notice::No deletable Neon branch named $branch."
+            exit 0
+          fi
+          curl -fsS -X DELETE -H "Authorization: Bearer $NEON_API_KEY" "$api/$id" > /dev/null
+          echo "Deleted Neon branch $branch ($id)."

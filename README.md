@@ -150,6 +150,12 @@ bodies up to 256 KB. `pnpm dev` serves the same API from an in-memory Postgres
 that starts empty, without the rate limits. Progress saved in this browser
 before the move is not read.
 
+Each Vercel preview gets a Neon branch named `preview/<git branch>`. When a pull
+request closes, the Neon cleanup workflow (`.github/workflows/neon-cleanup.yml`)
+deletes that branch, because the free plan allows only 10 branches. It needs the
+repository secret `NEON_API_KEY` and skips with a notice when the secret is
+missing.
+
 ## Tests
 
 ```sh
@@ -169,11 +175,10 @@ coverage and the browser journeys run only in the local gate.
 
 On pull requests, the Visual workflow (`.github/workflows/visual.yml`) compares
 screenshots of the five top-level views, desktop and mobile, with the base
-branch's. A diff fails the job, publishes the Playwright report to GitHub Pages under
-`pr-<number>/` and links it in a pull request comment; closing the pull request removes
-the report. The `visual-approved` label accepts the diff until the
-next push. The `main` ruleset requires the job's `compare` check, so a pull request
-with an unapproved diff cannot merge. Other views are not compared. To compare locally, run
+branch's. A diff does not fail the job: it publishes the Playwright report to GitHub
+Pages under `pr-<number>/` and links it, with the list of changed screenshots, in a
+pull request comment that every push updates; closing the pull request removes the
+report. Other views are not compared. To compare locally, run
 `VISUAL_COMPARE=1 pnpm test:visual --update-snapshots=all` on the base, then
 `VISUAL_COMPARE=1 pnpm test:visual` on the change. macOS baselines are only
 comparable with macOS runs.

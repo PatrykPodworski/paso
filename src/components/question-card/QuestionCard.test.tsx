@@ -28,7 +28,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -236,10 +236,7 @@ const fillWriting = (q: typeof writing) => {
   }
 };
 
-const audioButtons = () => [
-  ...screen.queryAllByRole("button", { name: "Play Spanish audio" }),
-  ...screen.queryAllByRole("button", { name: "Play the reading passage" }),
-];
+const audioButtons = () => screen.queryAllByRole("button", { name: /Play|Stop audio|Pause audio/ });
 
 it.each([writing, writingWithPassage, formPractice])(
   "a lesson writing task plays no audio before or after review: $id",
@@ -263,6 +260,31 @@ it.each([writing, writingWithPassage, formPractice])(
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   },
 );
+
+const reading = allQuestions.find((q) => q.passage)!;
+const mockReading = mockQuestions.find((q) => q.skill === "reading" && q.passage)!;
+
+it.each([reading, mockReading])(
+  "a reading task plays no audio before or after checking: $id",
+  (q) => {
+    render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+
+    expect(audioButtons()).toHaveLength(0);
+    click(q.answer);
+    expect(screen.getByRole("button", { name: "Continue" })).toBeVisible();
+    expect(audioButtons()).toHaveLength(0);
+    expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+  },
+);
+
+it("a vocabulary word still reads the Spanish word after answering", () => {
+  const word = allQuestions.find((q) => q.kind === "choice" && q.visual)!;
+
+  render(<QuestionCard q={word} onSubmit={vi.fn()} />);
+  click(word.answer);
+  expect(screen.getByRole("button", { name: /Play Spanish audio|Stop audio/ })).toBeVisible();
+  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
+});
 
 it("a typed answer still reads the Spanish model after checking", () => {
   render(<QuestionCard q={type} onSubmit={vi.fn()} />);

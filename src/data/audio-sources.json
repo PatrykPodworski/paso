@@ -370,29 +370,64 @@
     "modelId": "eleven_multilingual_v2"
   },
   "jv3l0e": {
-    "src": "/audio/elevenlabs/31db31c76b5ee7d6dea58f8d.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/00bf36a0d40e73430c97e828.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "bailar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "q0kkg9": {
-    "src": "/audio/elevenlabs/57084558980b340aec1bf3ea.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/34c56f1cab848bc0f8ae6010.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el cine",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "wteb4t": {
-    "src": "/audio/elevenlabs/72cd3dae7c004254de77e1e9.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/0d749c436c2d19c9987fce33.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el fútbol",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "jzvgxr": {
-    "src": "/audio/elevenlabs/cecba39fdbb24b63dcb3c5a2.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/0dac6880c47586422ee06d5b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el trabajo",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "13jvole": {
-    "src": "/audio/elevenlabs/7660349c7d65a5989ae2bb0b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/654e925e0e311282124fd734.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Los sábados me gusta nadar por la mañana. Por la tarde escucho música en casa. No me gusta el fútbol, pero mi hermano juega los domingos. Estudio español porque quiero viajar.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "oo4x7k": {
     "src": "/audio/elevenlabs/3075c0e14b7c2d6687a96341.mp3",
@@ -807,24 +842,52 @@
     "modelId": "eleven_multilingual_v2"
   },
   "bqpurh": {
-    "src": "/audio/elevenlabs/27fe7841a87f6b4a101fb862.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/4f0cbcb2c8812dc959261cdd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "leer",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "55v8i7": {
-    "src": "/audio/elevenlabs/c75056974415c1fcce868398.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1dbdb2405e28e9bf94f8e918.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "nadar",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "11i7j99": {
-    "src": "/audio/elevenlabs/010ec36b78322a3681aeef48.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/93ba7e167bb6a085fd133ca7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la música",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "h4flly": {
-    "src": "/audio/elevenlabs/76e1ff3cfcb10cb6ba1620dc.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/9006a69bcdef3d596f0d0961.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la escuela",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1wugl65": {
     "src": "/audio/elevenlabs/9234e9bc7753d8d0b6264cdd.mp3",
@@ -948,9 +1011,16 @@
     "modelId": "eleven_multilingual_v2"
   },
   "rjs5j1": {
-    "src": "/audio/elevenlabs/cfd61114b2807af4b8ada9f7.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/c681ad0efcd4e4d19b2c25eb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Me gusta leer, pero no me gusta bailar.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1vkjq4o": {
     "src": "/audio/elevenlabs/39ce15430e6de22b549e3ada.mp3",
@@ -1040,18 +1110,15 @@
     }
   },
   "1a9dxh4": {
-    "src": "/audio/elevenlabs/0e6446ab41576efd25b4fc1e.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/fdb0ba12cec8aa7a31cb5cbe.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
-    "request": {
-      "text": "[warmly] [slowly] Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1g30v6u": {
@@ -2179,123 +2246,99 @@
     }
   },
   "1tms2l6": {
-    "src": "/audio/elevenlabs/6a46c809e79eb156b6802ebf.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/27774946d6fd16cd3fd746ea.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me gusta leer libros.",
-    "request": {
-      "text": "[calm] [slowly] Me gusta leer libros.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1sndd0j": {
-    "src": "/audio/elevenlabs/a2dbc5de92a373a8ada7b74f.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6aa2583fc2a6152dbaa02cb4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "No voy al cine porque trabajo.",
-    "request": {
-      "text": "[calm] [slowly] No voy al cine porque trabajo.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1yhefzc": {
-    "src": "/audio/elevenlabs/49532d501948e83fb055937c.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ecb8f368ee34047acf1af658.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me gusta bailar, pero no me gusta cantar.",
-    "request": {
-      "text": "[calm] [slowly] Me gusta bailar, pero no me gusta cantar.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1sawaqt": {
-    "src": "/audio/elevenlabs/0d0d68c8c69ccd50496897eb.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/04676b2ee3a226d471674479.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Sí, gracias. Buena idea.",
-    "request": {
-      "text": "[warmly] [slowly] Sí, gracias. Buena idea.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1g2fxue": {
-    "src": "/audio/elevenlabs/13f4ded3fe9a919f009f98cf.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/8b078a8b8c60fcdf5e160768.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Ellos trabajan en una escuela.",
-    "request": {
-      "text": "[calm] [slowly] Ellos trabajan en una escuela.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "84h6uq": {
-    "src": "/audio/elevenlabs/0e0d91663711f91b9bcc8d65.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/06f93580351f9e2b835f42cd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "No me gusta el fútbol.",
-    "request": {
-      "text": "[calm] [slowly] No me gusta el fútbol.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "hw6wqt": {
-    "src": "/audio/elevenlabs/c6212395a2315c5cd9cae72f.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/2538269e4041500c28f26335.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
-    "request": {
-      "text": "[warmly] [slowly] Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "p5xlpj": {
-    "src": "/audio/elevenlabs/cecb1ff033324d6109768b45.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/10fe46967ce8b8584cbcb6c4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Me gusta leer porque es interesante",
-    "request": {
-      "text": "[calm] [slowly] Me gusta leer porque es interesante",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "tzetjn": {
@@ -3700,33 +3743,27 @@
     }
   },
   "18ushp5": {
-    "src": "/audio/elevenlabs/f2827676546656bb66c3f3a5.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/2bf27e50b299ed766c90ec57.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "interesante",
-    "request": {
-      "text": "[calm] [slowly] interesante",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1fl1whp": {
-    "src": "/audio/elevenlabs/38bb7971d76cdd1d38a1cf9f.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/38bb5d8a2c97741323801d17.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "gusta",
-    "request": {
-      "text": "[calm] [slowly] gusta",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "t9i23v": {

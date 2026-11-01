@@ -9,7 +9,6 @@ const ROUND = {
   word: "h-11 w-11 border-0 bg-muted text-foreground",
   pronunciation:
     "col-start-2 row-start-1 mt-3.5 h-11 w-11 self-start border border-border bg-card text-foreground hover:bg-muted",
-  passage: "h-9 w-9 border border-border bg-card text-muted-foreground hover:bg-muted",
 };
 
 export type Round = keyof typeof ROUND;

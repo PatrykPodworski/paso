@@ -82,12 +82,12 @@ it("counts mixed objective, creative and assisted work independently", () => {
   expect(stopAudio).toHaveBeenCalledTimes(4);
 });
 
-it("lets a reading passage play on while its own questions continue", () => {
-  const passage = allQuestions.find((q) => q.passage)!.passage;
-  const reading = allQuestions.filter((q) => q.passage === passage);
+it("lets a listening recording play on while its own questions continue", () => {
+  const recording = allQuestions.find((q) => /-a\d+$/.test(q.id))!.audio;
+  const listening = allQuestions.filter((q) => q.audio === recording);
 
-  expect(reading.length).toBeGreaterThan(1);
-  mount([...reading.slice(0, 2), allQuestions.find((q) => !q.passage)!]);
+  expect(listening.length).toBeGreaterThan(1);
+  mount([...listening.slice(0, 2), allQuestions.find((q) => !q.audio)!]);
   submit(true);
   expect(stopAudio).not.toHaveBeenCalled();
   submit(true);

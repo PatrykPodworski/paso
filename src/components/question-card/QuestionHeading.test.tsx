@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // A passage player deliberately survives its own unmount; end it with the session.
+  // A shared listening recording deliberately survives its own unmount; end it with the session.
   act(stopAudio);
 });
 
@@ -38,7 +38,6 @@ it.each([
   ["u1-g0", "soy", "Yo soy Marta."],
   ["u2-g1", "Dónde", "¿Dónde vives? — En Málaga."],
   ["u2-g2", "dieciséis", "dieciséis"],
-  ["u2-r0", "Ruiz López", "apellidos"],
   ["u7-g1", "To the left.", "A la izquierda."],
   ["u1-o1", "wrong answer", "Soy de Polonia."],
 ])("reads the Spanish teaching phrase for %s", (id, choice, expected) => {

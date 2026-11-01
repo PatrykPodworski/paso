@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 
 const paths: Record<string, string> = {
   arrow: "M4 12h15m-6-6 6 6-6 6",
+  "arrow-left": "M20 12H5m6-6-6 6 6 6",
   chevron: "m9 5 7 7-7 7",
   down: "m6 9 6 6 6-6",
   check: "m5 12 4 4L19 6",

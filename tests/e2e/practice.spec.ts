@@ -10,7 +10,7 @@ for (const skill of ["reading", "listening", "writing"] as const) {
   test(`complete focused ${skill} practice without advancing the learning path`, async ({
     page,
   }) => {
-    await page.goto("/#practice");
+    await page.goto("/practice");
 
     await page
       .getByRole("button", { name: skill[0].toUpperCase() + skill.slice(1), exact: true })
@@ -40,7 +40,7 @@ for (const [title, questions] of [
   ["The foundation lab", foundations],
 ] as const) {
   test(`complete ${title} and revisit with fresh answers`, async ({ page }) => {
-    await page.goto("/#practice");
+    await page.goto("/practice");
     await page.getByRole("button", { name: title, exact: false }).click();
 
     for (const q of questions) {
@@ -57,7 +57,7 @@ for (const [title, questions] of [
 }
 
 test("daily mix prioritizes questions not yet answered", async ({ page }) => {
-  await page.goto("/#practice");
+  await page.goto("/practice");
   await page.getByRole("button", { name: "Start my daily mix" }).click();
   await answer(page, bank[0]);
   await page.getByRole("button", { name: "Close lesson" }).click();

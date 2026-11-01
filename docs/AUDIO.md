@@ -66,6 +66,7 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 5 (_Mi día a día_): 23 texts.
 - Unit 6 (_¡Buen provecho!_): 24 texts.
 - Unit 7 (_Por el barrio_): 23 texts.
+- Unit 8 (_De compras_): 22 texts.
 - Unit 9 (_Tiempo libre_): 21 texts.
 - Unit 10 (_¡Buen viaje!_): 24 texts.
 - Unit 12 (_¡Tú puedes!_): 22 texts.

@@ -485,29 +485,64 @@
     }
   },
   "aop9ol": {
-    "src": "/audio/elevenlabs/7c1e979eff7cc2f400c512ac.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/54f0ea2edcefebacdc9285f2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "los zapatos",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "bgojri": {
-    "src": "/audio/elevenlabs/edadc0f3035928b652b7a8a7.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/4fbe4771c85e2cdf702b2664.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la chaqueta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "k98ly3": {
-    "src": "/audio/elevenlabs/115d233e8ecc33e06c2a6654.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/36e6bb4fe9e1ee5cb507e5cb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "azul",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "1cs1ehv": {
-    "src": "/audio/elevenlabs/efa5dea7d5c98e9348e7dd41.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/726e6252ef1e2664e07c7bdf.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la tarjeta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "7dahye": {
-    "src": "/audio/elevenlabs/d1a2b1c570ffb9b2dc568a18.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/3e061bea9da87b6c8e0930be.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Buenos días. Busco una camisa azul, talla mediana. ¿Cuánto cuesta? Cuesta veintidós euros. Muy bien. Quiero dos, por favor. ¿Puedo pagar con tarjeta?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "jv3l0e": {
     "src": "/audio/voxcpm/00bf36a0d40e73430c97e828.mp3",
@@ -1144,24 +1179,52 @@
     }
   },
   "15nd9oo": {
-    "src": "/audio/elevenlabs/db624f889939da9a57069985.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/cb52ce2b624d4bb3efd3dec6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la camisa",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "f23r0s": {
-    "src": "/audio/elevenlabs/514a28fb619ace1d51415ec7.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/ed631117a0f42e10fd1428cd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el vestido",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "63wam1": {
-    "src": "/audio/elevenlabs/bdc26a1fa4cf7330b4547b75.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/61837315a97e87f73654ac55.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "rojo",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "187i5s": {
-    "src": "/audio/elevenlabs/b73f6ae2cde72b28a309872e.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/95803bd5f5fa1323f78ae045.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la talla",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "bqpurh": {
     "src": "/audio/voxcpm/4f0cbcb2c8812dc959261cdd.mp3",
@@ -1412,9 +1475,16 @@
     }
   },
   "q4y7e7": {
-    "src": "/audio/elevenlabs/16e8422ef3e9dc6fa7c8a65b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/cfd3794ee98b1f35323f1b0a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánto cuestan estos zapatos? Cuarenta euros.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "rjs5j1": {
     "src": "/audio/voxcpm/c681ad0efcd4e4d19b2c25eb.mp3",
@@ -1543,18 +1613,15 @@
     }
   },
   "a8vk2q": {
-    "src": "/audio/elevenlabs/0503d9fe32a5543311cb8ee1.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/50f23fcc826a06adb002daa3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Mario. Hay una tienda de ropa junto al banco. Tiene camisas azules por veinte euros y chaquetas muy bonitas. Abre de diez a siete. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto.",
-    "request": {
-      "text": "[warmly] [slowly] Hola, Mario. Hay una tienda de ropa junto al banco. Tiene camisas azules por veinte euros y chaquetas muy bonitas. Abre de diez a siete. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1a9dxh4": {
@@ -2449,128 +2516,100 @@
     }
   },
   "immzl4": {
-    "src": "/audio/elevenlabs/4e46299d0b24ef8312aecf6b.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ea8ad8e1adc9d75533061074.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Esta camisa es roja.",
-    "request": {
-      "text": "[calm] [slowly] Esta camisa es roja.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1snqtma": {
-    "src": "/audio/elevenlabs/b0dc2749237efc0823f43262.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/831b2949b8018ab352a4d0ca.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cuánto cuestan los zapatos?",
-    "request": {
-      "text": "[curious] [slowly] ¿Cuánto cuestan los zapatos?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "zzt49b": {
-    "src": "/audio/elevenlabs/dc072aa30f01b633197a652d.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_multilingual_v2",
+    "src": "/audio/voxcpm/a7276d1fe885c7b7d514ba8e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Quiero una chaqueta negra.",
-    "request": {
-      "text": "Quiero una chaqueta negra.",
-      "model_id": "eleven_multilingual_v2",
-      "voice_settings": {
-        "stability": 0.65,
-        "similarity_boost": 0.75,
-        "style": 0,
-        "use_speaker_boost": true,
-        "speed": 0.85
-      }
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1u4wxkv": {
-    "src": "/audio/elevenlabs/944a3fee65e0bc91a5030d76.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/58ac2f4917279a7433467b55.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Cuarenta y cinco euros.",
-    "request": {
-      "text": "[calm] [slowly] Cuarenta y cinco euros.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "omdjzh": {
-    "src": "/audio/elevenlabs/bd77c231acdeaab46dd04d91.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/748f559720fbafc9fc1f00ea.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Estos zapatos son azules.",
-    "request": {
-      "text": "[calm] [slowly] Estos zapatos son azules.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1fk3pi0": {
-    "src": "/audio/elevenlabs/99337170f3926145a2e28c5b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/83cf5a52abb111c997016788.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Puedo pagar con tarjeta?",
-    "request": {
-      "text": "[curious] [slowly] ¿Puedo pagar con tarjeta?",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 1,
-        "speed": 0.85
-      },
-      "language_code": "es",
-      "seed": 20260910
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "iu1jr7": {
-    "src": "/audio/elevenlabs/916c7fb71d9f36ffab65d151.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/f83a047c34fd62c22b0eb0c1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "TIENDA LUNA\nCamisetas: 12 €\nPantalones: 25 €\nChaquetas: 40 €\nTallas S, M y L. Abierto de 10:00 a 19:00 de lunes a sábado. Aceptamos tarjetas. Los domingos, cerrado.",
-    "request": {
-      "text": "[calm] [slowly] Tienda Luna. Camisetas: doce euros. Pantalones: veinticinco euros. Chaquetas: cuarenta euros. Tallas: ese, eme y ele. Abierto de las diez de la mañana a las siete de la tarde, de lunes a sábado. Aceptamos tarjetas. Cerrado los domingos.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 1,
-        "speed": 0.85
-      },
-      "language_code": "es",
-      "seed": 20260911
-    },
-    "spokenText": "Tienda Luna. Camisetas: doce euros. Pantalones: veinticinco euros. Chaquetas: cuarenta euros. Tallas: ese, eme y ele. Abierto de las diez de la mañana a las siete de la tarde, de lunes a sábado. Aceptamos tarjetas. Cerrado los domingos."
+    "spokenText": "Tienda Luna. Camisetas: doce euros. Pantalones: veinticinco euros. Chaquetas: cuarenta euros. Tallas ese, eme y ele. Abierto de diez a siete de la tarde, de lunes a sábado. Aceptamos tarjetas. Los domingos, cerrado.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "11jss3l": {
-    "src": "/audio/elevenlabs/f08bb04eac79ed5fa9b38b16.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6ccd3a3f298604a243dbab30.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Quiero una camisa azul por favor",
-    "request": {
-      "text": "[calm] [slowly] Quiero una camisa azul por favor",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1tms2l6": {
@@ -3892,33 +3931,27 @@
     }
   },
   "n32h9y": {
-    "src": "/audio/elevenlabs/55b49b58d43374e59bb17845.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/bb4fee3a4abded44e22b5c25.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "por",
-    "request": {
-      "text": "[calm] [slowly] por",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "dtv153": {
-    "src": "/audio/elevenlabs/f3b75fec8f0c4f1afa9aec4b.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/76d0457748026ca685ac97d3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "favor",
-    "request": {
-      "text": "[calm] [slowly] favor",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "v0rhzu": {
@@ -3952,18 +3985,15 @@
     }
   },
   "1hgnbpb": {
-    "src": "/audio/elevenlabs/273e15eac8096c2663a6bf56.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/4570d0e4823ad67e6b7b8ebc.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "camisa",
-    "request": {
-      "text": "[calm] [slowly] camisa",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "lfu0of": {

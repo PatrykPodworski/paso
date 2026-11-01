@@ -135,6 +135,24 @@ export interface ProgressSnapshot {
   mockRun: MockRun | null;
 }
 
+// One version of an official exam task: a whole coherent task with all its items.
+export type MockVariant = {
+  id: string;
+  // What the variant is about and the characters in it. One exam repeats neither.
+  theme: string;
+  names: string[];
+  questions: Question[];
+};
+
+// The pool of variants for one official task. Every variant of a task has the same number of
+// items, so a section keeps the official structure whichever variants an exam takes.
+export type MockTask = { id: string; variants: MockVariant[] };
+
+export type MockSection = { title: string; spanish: string; minutes: number; tasks: MockTask[] };
+
+// The variant an exam uses for each task: task id to variant id.
+export type ExamVariants = Record<string, string>;
+
 export type MockStage = "intro" | "run" | "review" | "prep" | "done";
 
 // The mock exam in progress. `deadline` is in epoch milliseconds, 0 when no timer runs.
@@ -148,6 +166,10 @@ export interface MockRun {
   drafts: Record<string, string>;
   // The writing and speaking scores as typed into the score calculator.
   scores: { writing?: string; speaking?: string };
+  // The seed the exam builder took and the variants it chose, so a run resumes and is reviewed
+  // with the same tasks.
+  seed: number;
+  variants: ExamVariants;
 }
 
 // A change to the mock run: top-level fields replace, answers, drafts and scores merge per key.

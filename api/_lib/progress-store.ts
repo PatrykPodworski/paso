@@ -1,3 +1,4 @@
+import { freshMockRun } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
@@ -14,17 +15,6 @@ import type { Completion, MockResult } from "./progress-fields.js";
 export type Settings = { name: string; goal: number; examDate: string };
 
 const RECENT = 20;
-
-const FRESH_MOCK_RUN: MockRun = {
-  section: 0,
-  index: 0,
-  stage: "intro",
-  answers: {},
-  deadline: 0,
-  started: "",
-  drafts: {},
-  scores: {},
-};
 
 const DAYS = 400;
 const QUESTION_XP = 5;
@@ -384,7 +374,7 @@ export const saveMockRun = async (
            END,
            updated_at = now()`,
         learner,
-        JSON.stringify(FRESH_MOCK_RUN),
+        JSON.stringify(freshMockRun()),
         JSON.stringify(patch),
         replace,
       ),

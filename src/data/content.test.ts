@@ -1,15 +1,4 @@
 import { describe, expect, it } from "vitest";
-import type { Question } from "./types";
-
-const taskSizes = (qs: Question[]) => {
-  const counts = new Map<string, number>();
-
-  for (const q of qs) {
-    counts.set(q.task!, (counts.get(q.task!) || 0) + 1);
-  }
-
-  return [...counts.values()];
-};
 
 import {
   allLessons,
@@ -19,7 +8,7 @@ import {
   vocabulary,
   visualQuestions,
 } from "./curriculum";
-import { formPractice, mockQuestions, mockSections } from "./mock";
+import { formPractice, mockExam, mockQuestions, mockTasks } from "./mock";
 import { countWords } from "./progress";
 import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
@@ -134,11 +123,38 @@ describe("original curriculum integrity", () => {
     }
   });
 
-  it("matches the official task distributions and time limits", () => {
-    expect(mockSections.map((s) => s.questions.length)).toEqual([25, 25, 2, 3]);
-    expect(mockSections.map((s) => s.minutes)).toEqual([45, 25, 25, 10]);
-    expect(taskSizes(mockSections[0].questions)).toEqual([5, 6, 6, 8]);
-    expect(taskSizes(mockSections[1].questions)).toEqual([5, 5, 8, 7]);
+  it("matches the official task distributions and time limits in every variant", () => {
+    const official = [
+      [5, 6, 6, 8],
+      [5, 5, 8, 7],
+      [1, 1],
+      [1, 2],
+    ];
+
+    expect(mockExam.map((s) => s.minutes)).toEqual([45, 25, 25, 10]);
+    expect(mockExam.map((s) => s.tasks.length)).toEqual(official.map((sizes) => sizes.length));
+
+    mockExam.forEach((s, i) =>
+      s.tasks.forEach((t, j) => {
+        expect(t.variants.length, t.id).toBeGreaterThan(0);
+
+        for (const v of t.variants) {
+          expect(v.questions.length, v.id).toBe(official[i][j]);
+        }
+      }),
+    );
+  });
+
+  it("names every variant after its task, once, with a theme", () => {
+    const variants = mockTasks.flatMap((t) => t.variants.map((v) => [t.id, v] as const));
+
+    for (const [task, v] of variants) {
+      expect(v.id).toMatch(new RegExp(`^${task}-v\\d+$`));
+      expect(v.theme.trim(), v.id).not.toBe("");
+    }
+
+    expect(new Set(variants.map(([, v]) => v.id)).size).toBe(variants.length);
+    expect(new Set(mockQuestions.map((q) => q.id)).size).toBe(mockQuestions.length);
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {

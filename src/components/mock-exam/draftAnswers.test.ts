@@ -1,16 +1,12 @@
 import { expect, it } from "vitest";
+import { freshMockRun } from "../../data/mock";
 import type { MockRun } from "../../data/types";
 import { draftAnswers } from "./draftAnswers";
 
 const writing = (patch: Partial<MockRun>): MockRun => ({
+  ...freshMockRun(),
   section: 2,
-  index: 0,
   stage: "run",
-  answers: {},
-  deadline: 0,
-  started: "",
-  drafts: {},
-  scores: {},
   ...patch,
 });
 

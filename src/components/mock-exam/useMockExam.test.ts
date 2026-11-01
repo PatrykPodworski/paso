@@ -1,7 +1,11 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { mockSections } from "../../data/mock";
+import { buildExam } from "../../data/examBuilder";
+import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+
+// The exam as variant 1 of each task.
+const sections = examSections(firstVariants);
 
 setupMockExam();
 
@@ -22,8 +26,24 @@ it("starts a new 45-minute reading section and persists its deadline", async () 
   expect(screen.getByRole("button", { name: "← Previous question" })).toBeDisabled();
 });
 
+it("builds the new exam from a random seed and saves the seed with the variants", async () => {
+  vi.spyOn(crypto, "getRandomValues").mockImplementation((array) => {
+    (array as Uint32Array).set([3_000_000_000]);
+
+    return array;
+  });
+
+  await mount();
+  click("Start exam rehearsal");
+
+  expect(await state()).toMatchObject({
+    seed: 3_000_000_000,
+    variants: buildExam({ seed: 3_000_000_000 }),
+  });
+});
+
 it("counts correct answers only, reveals models after locking, and starts listening at 25 minutes", async () => {
-  const [a, b] = mockSections[0].questions;
+  const [a, b] = sections[0].questions;
 
   await seed({ answers: { [a.id]: a.answer, [b.id]: "wrong" } });
   await mount();

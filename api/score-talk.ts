@@ -1,4 +1,5 @@
 import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
+import { correctionsSchema, isCorrections, keptCorrections } from "./_lib/corrections.js";
 import { json } from "./_lib/limits.js";
 import { reserve } from "./_lib/reserve.js";
 import type { TaskSpec } from "./_lib/talk-tasks/base.js";
@@ -76,12 +77,25 @@ const modelText = (data: unknown) => {
   return isRecord(part) && typeof part.text === "string" ? part.text : undefined;
 };
 
-const modelItems = (task: TaskSpec, data: unknown) => {
-  try {
-    const levels = JSON.parse(modelText(data) ?? "");
+const modelSchemaOf = (task: TaskSpec) => ({
+  type: "object",
+  properties: { levels: schemaOf(task), corrections: correctionsSchema },
+  required: ["levels", "corrections"],
+  additionalProperties: false,
+});
 
-    return task.items.every((item) => LEVELS.includes(levels[item.id]))
-      ? itemsOf(task, (id) => levels[id])
+// Null when the output breaks the schema, so a talk is never scored without its corrections.
+const modelScore = (task: TaskSpec, data: unknown) => {
+  try {
+    const { levels, corrections } = JSON.parse(modelText(data) ?? "");
+
+    return isRecord(levels) &&
+      task.items.every((item) => LEVELS.includes(levels[item.id] as LiveItem)) &&
+      isCorrections(corrections)
+      ? {
+          items: itemsOf(task, (id) => levels[id] as LiveItem),
+          corrections: keptCorrections(corrections),
+        }
       : null;
   } catch {
     return null;
@@ -103,18 +117,23 @@ const scoreTurns = async (key: string, task: TaskSpec, turns: TalkTurn[]) => {
           .map((t) => `${t.role === "student" ? "Student" : "Examiner"}: ${t.text}`)
           .join("\n"),
         text: {
-          format: { type: "json_schema", name: "talk_score", strict: true, schema: schemaOf(task) },
+          format: {
+            type: "json_schema",
+            name: "talk_score",
+            strict: true,
+            schema: modelSchemaOf(task),
+          },
         },
       }),
     });
 
-    const items = response.ok ? modelItems(task, await response.json()) : null;
+    const scored = response.ok ? modelScore(task, await response.json()) : null;
 
-    if (!items) {
+    if (!scored) {
       console.error("Talk scoring failed", response.status);
     }
 
-    return items;
+    return scored;
   } catch (error) {
     console.error("Talk scoring failed", error);
 
@@ -157,13 +176,15 @@ export const POST = async (request: Request) => {
     return reserved.refusal;
   }
 
-  const items = await scoreTurns(key, task, turns);
+  const scored = await scoreTurns(key, task, turns);
 
-  if (!items) {
+  if (!scored) {
     await reserved.refund();
 
     return json({ error: "upstream" }, 502);
   }
 
-  return json({ grade: gradeOf(items), items }, 200);
+  const score: LiveScore = { grade: gradeOf(scored.items), ...scored };
+
+  return json(score, 200);
 };

@@ -1,4 +1,4 @@
-import { mockSections } from "../../data/mock";
+import { examSections } from "../../data/mock";
 import { downloadJson } from "../downloadJson";
 import type { MockRun } from "../../data/types";
 
@@ -9,7 +9,7 @@ export const downloadResponses = (run: MockRun, score: (index: number) => number
     listening: score(1),
     writing: "Requires human assessment",
     speaking: "Requires human assessment",
-    responses: mockSections.flatMap((s) =>
+    responses: examSections(run.variants).flatMap((s) =>
       s.questions.map((q) => ({
         skill: s.title,
         task: q.task,

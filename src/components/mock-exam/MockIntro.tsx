@@ -2,7 +2,7 @@ import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { Notice } from "../../design-system/Notice";
-import { mockSections } from "../../data/mock";
+import { mockExam, sectionSizes } from "../../data/mock";
 import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
@@ -43,7 +43,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
       </div>
     </div>
     <div className="mt-6 grid grid-cols-4 gap-4 max-xl:gap-3 max-lg:grid-cols-2 max-sm:gap-2.5">
-      {mockSections.map((s, i) => (
+      {mockExam.map((s, i) => (
         <Panel
           as="article"
           key={s.title}
@@ -60,7 +60,7 @@ export const MockIntro = ({ progress, onStart }: Props) => (
             {s.minutes} minutes
           </strong>
           <span className="text-xs text-muted-foreground max-sm:text-2xs">
-            {s.questions.length} {i < 2 ? "questions · 4 tasks" : "tasks"}
+            {sectionSizes[i]} {i < 2 ? "questions · 4 tasks" : "tasks"}
           </span>
         </Panel>
       ))}

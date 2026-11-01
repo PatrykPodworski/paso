@@ -183,7 +183,7 @@ test("complete a lesson, persist progress, continue the path, and recover a mist
   await page.getByRole("button", { name: "Back to my journey" }).click();
   await page.reload();
   await expect(page.locator(".xp-stat")).toHaveText(`${xp} XP`);
-  await page.goto("/#practice");
+  await page.goto("/practice");
   await page.getByRole("button", { name: "My mistakes (1)", exact: true }).click();
   await page.getByRole("button", { name: "Review my mistakes" }).click();
   await answer(page, lesson.questions[0]);
@@ -483,7 +483,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
     completed: { "u6-words": { score: 8, total: 8, at: "2026-01-01T00:00:00Z" } },
   });
 
-  await page.goto("/#practice");
+  await page.goto("/practice");
 
   await page.evaluate(() => {
     (window as any).__vocabularyClips = [];
@@ -550,7 +550,13 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
       .poll(async () => Object.keys((await saved(page)).vocabularyReviews))
       .toHaveLength(i);
 
-    await page.getByRole("button", { name: i === 0 ? /Got it wrong/ : /Got it right/ }).click();
+    // The first two cards are rated with the arrow keys, the rest by click.
+    if (i < 2) {
+      await page.keyboard.press(i === 0 ? "ArrowLeft" : "ArrowRight");
+    } else {
+      await page.getByRole("button", { name: /Got it right/ }).click();
+    }
+
     await expect(dialog.getByRole("status")).toContainText(i === 0 ? "in 10 min" : "in 1 day");
 
     await expect(dialog.getByRole("status").locator("time")).toHaveAttribute(
@@ -580,7 +586,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
 });
 
 test("form practice requires every field and counts its review as an answer", async ({ page }) => {
-  await page.goto("/#practice");
+  await page.goto("/practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
   await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
   const fields = page.getByRole("dialog").getByRole("textbox");
@@ -696,7 +702,7 @@ test("the lesson header names the unit and lesson, and a practice session as pra
   await expect(header.getByRole("heading", { name: lesson.title, exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Close lesson" }).click();
 
-  await page.goto("/#practice");
+  await page.goto("/practice");
   await page.getByRole("button", { name: "Start my daily mix" }).click();
   await expect(header.getByText("PRACTICE", { exact: true })).toBeVisible();
   await expect(header.getByRole("heading", { name: "Your daily mix", exact: true })).toBeVisible();

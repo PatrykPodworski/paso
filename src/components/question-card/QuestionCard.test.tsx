@@ -1,7 +1,10 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
+import { clearClips } from "../audio/clipCache";
 import { stopAudio } from "../audio/playback";
+import { audioSources } from "../../data/audio-sources";
+import { spokenText } from "../../data/audio";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice, mockQuestions } from "../../data/mock";
 
@@ -19,6 +22,52 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const order = allQuestions.find((q) => q.kind === "order")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
+
+// Records the clips the cache creates; jsdom never fetches them.
+const loadedClips = () => {
+  const RealAudio = window.Audio;
+  const created: HTMLAudioElement[] = [];
+
+  clearClips();
+
+  vi.stubGlobal(
+    "Audio",
+    class {
+      constructor() {
+        const audio = new RealAudio();
+
+        created.push(audio);
+
+        return audio;
+      }
+    },
+  );
+
+  return () => created.map((audio) => new URL(audio.src).pathname);
+};
+
+const firstSources = (texts: string[]) => texts.map((text) => audioSources(text)[0]);
+
+it("loads a question's clips as it appears, before any tap, and again for the next one", () => {
+  const loaded = loadedClips();
+  const next = allQuestions.find((q) => q.kind === "order" && q.id !== order.id)!;
+  const { rerender } = render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+
+  expect(loaded()).toEqual(firstSources([spokenText(order), ...order.tokens!]));
+  expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+  rerender(<QuestionCard q={next} onSubmit={vi.fn()} />);
+
+  expect(loaded()).toEqual(
+    expect.arrayContaining(firstSources([spokenText(next), ...next.tokens!])),
+  );
+});
+
+it("loads no clips for a question that is not active", () => {
+  const loaded = loadedClips();
+
+  render(<QuestionCard q={order} onSubmit={vi.fn()} active={false} />);
+  expect(loaded()).toEqual([]);
+});
 
 // All productive and objective save paths run against the actual component.
 for (const q of [type, writing, formPractice]) {
@@ -79,9 +128,7 @@ it.each([
 
   expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(q.options?.length || 0);
 
-  expect(screen.queryAllByText("Your self-review checklist")).toHaveLength(
-    ["write", "form"].includes(q.kind) ? 1 : 0,
-  );
+  expect(screen.queryByText("Your self-review checklist")).not.toBeInTheDocument();
 
   expect(screen.queryByText("One possible answer")).not.toBeInTheDocument();
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
@@ -97,7 +144,7 @@ it("selecting a listening answer keeps the original playback running without res
   expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false);
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
   expect(HTMLMediaElement.prototype.pause).not.toHaveBeenCalled();
-  expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
 });
 
 it("saves an exam choice immediately without revealing or playing the answer", () => {
@@ -173,13 +220,22 @@ const audioButtons = () => [
 
 it.each([writing, writingWithPassage, formPractice])(
   "a lesson writing task plays no audio before or after review: $id",
-  (q) => {
+  async (q) => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Response.json({ wordCount: 5, coverage: [], corrections: [], revised: "", grade: "good" }),
+      ),
+    );
+
     render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 
     expect(audioButtons()).toHaveLength(0);
     fillWriting(q);
     click("Review my practice");
-    expect(screen.getByRole("button", { name: "Revise my answer" })).toBeVisible();
+    expect(await screen.findByRole("button", { name: "Continue" })).toBeVisible();
     expect(audioButtons()).toHaveLength(0);
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   },

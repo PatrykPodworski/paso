@@ -1,7 +1,8 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
 import { stopAudio } from "./audio/playback";
+import { audioSources } from "../data/audio-sources";
 import { allQuestions } from "../data/curriculum";
 import { emptySnapshot, questionState } from "../test/progress";
 import type { ProgressSnapshot, Question } from "../data/types";
@@ -20,7 +21,7 @@ const click = (name: string) => fireEvent.click(screen.getByRole("button", { nam
 const type = allQuestions.find((q) => q.kind === "type")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
-it("records objective, assisted and creative answers without conflating their scores", () => {
+it("records objective, assisted and graded writing answers without conflating their scores", async () => {
   const choice = { ...allQuestions[0], audio: "Hola." };
   const qs: Question[] = [choice, { ...type, answer: "correcto" }, writing];
 
@@ -28,6 +29,8 @@ it("records objective, assisted and creative answers without conflating their sc
     attempt = vi.fn(),
     close = vi.fn(),
     draft = vi.fn();
+
+  localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
 
   render(
     <LessonSession
@@ -71,9 +74,27 @@ it("records objective, assisted and creative answers without conflating their sc
   click("Continue");
   fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
   expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Ana.");
+
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () =>
+      Response.json({ wordCount: 2, coverage: [], corrections: [], revised: "", grade: "good" }),
+    ),
+  );
+
   click("Review my practice");
+  await screen.findByRole("heading", { name: "Partly passed" });
+
+  expect(attempt.mock.calls.at(-1)![0]).toMatchObject({
+    questionId: writing.id,
+    answer: "Hola, Ana.",
+    correct: true,
+    grade: "good",
+  });
+
   click("Continue");
-  expect(done).toHaveBeenCalledExactlyOnceWith(1, 2);
+  // A graded writing review counts like an objective answer, as a graded live talk does.
+  expect(done).toHaveBeenCalledExactlyOnceWith(2, 3);
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
   click("Back to my journey");
@@ -266,6 +287,83 @@ it("focuses the way back to the journey when no lesson follows", () => {
 
   expect(screen.queryByRole("button", { name: "Next lesson" })).not.toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Back to my journey" })).toHaveFocus();
+});
+
+describe("a recording shared by consecutive listening questions", () => {
+  const [first, second] = ["u1-a0", "u1-a1"].map((id) => allQuestions.find((q) => q.id === id)!);
+  const word = allQuestions.find((q) => q.id === "u1-v1")!;
+  const plays = () => vi.mocked(HTMLMediaElement.prototype.play);
+  const pauses = () => vi.mocked(HTMLMediaElement.prototype.pause);
+
+  beforeEach(() => {
+    plays().mockImplementation(async function (this: HTMLMediaElement) {
+      Object.defineProperty(this, "paused", { value: false, configurable: true });
+    });
+
+    pauses().mockImplementation(function (this: HTMLMediaElement) {
+      Object.defineProperty(this, "paused", { value: true, configurable: true });
+    });
+  });
+
+  const start = (questions: Question[]) =>
+    render(
+      <LessonSession
+        lesson={{
+          id: "listening",
+          title: "Listening",
+          subtitle: "",
+          minutes: 4,
+          icon: "book",
+          questions,
+        }}
+        progress={emptySnapshot()}
+        onClose={vi.fn()}
+        onComplete={vi.fn()}
+        onAttempt={vi.fn()}
+        onDraft={vi.fn()}
+      />,
+    );
+
+  const answerAndContinue = (q: Question) => {
+    click(q.answer);
+    click("Continue");
+  };
+
+  it("keeps playing on the next question and stops for a different recording", async () => {
+    expect(second.audio).toBe(first.audio);
+    start([first, second, word]);
+    await act(async () => {});
+    expect(plays()).toHaveBeenCalledOnce();
+    answerAndContinue(first);
+    expect(screen.getByRole("heading", { name: second.prompt })).toBeInTheDocument();
+    expect(plays()).toHaveBeenCalledOnce();
+    expect(pauses()).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+    answerAndContinue(second);
+    expect(pauses()).toHaveBeenCalledOnce();
+    expect(plays()).toHaveBeenCalledTimes(2);
+
+    expect((plays().mock.contexts[1] as HTMLAudioElement).src).toContain(
+      audioSources(word.audio!)[0],
+    );
+
+    click("Close lesson");
+    expect(pauses()).toHaveBeenCalledTimes(2);
+  });
+
+  it("keeps a paused recording at its position on the next question", async () => {
+    start([first, second]);
+    await act(async () => {});
+    click("Pause audio");
+    expect(pauses()).toHaveBeenCalledOnce();
+    answerAndContinue(first);
+    expect(screen.getByRole("heading", { name: second.prompt })).toBeInTheDocument();
+    expect(plays()).toHaveBeenCalledOnce();
+    click("Play Spanish audio");
+    await act(async () => {});
+    expect(plays()).toHaveBeenCalledTimes(2);
+    expect(plays().mock.contexts[1]).toBe(plays().mock.contexts[0]);
+  });
 });
 
 it("shows how a question went last time, as it stood when the lesson opened", () => {

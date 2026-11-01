@@ -2,12 +2,13 @@ import { createRef } from "react";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AudioButton } from "./AudioButton";
+import { clearClips } from "./clipCache";
 import { stopAudio } from "./playback";
 import { TAP_TO_PLAY } from "./useAudioPlayer";
 import type { AudioHandle } from "./useAudioPlayer";
 
 vi.mock("../../data/audio-sources", () => ({
-  audioSources: () => ["/audio/elevenlabs/test.mp3", "/audio/original.m4a"],
+  audioSources: (text: string) => [`/audio/elevenlabs/${text}.mp3`, `/audio/${text}.m4a`],
 }));
 
 class MockAudio {
@@ -15,6 +16,9 @@ class MockAudio {
   playbackRate = 1;
   preservesPitch = false;
   paused = true;
+  preload = "";
+  currentTime = 0;
+  error = null;
   onended: (() => void) | null = null;
   onpause: (() => void) | null = null;
   onerror: (() => void) | null = null;
@@ -25,7 +29,15 @@ class MockAudio {
     this.paused = true;
     this.onpause?.();
   });
-  constructor(src: string) {
+  end = () => {
+    this.paused = true;
+    this.onended?.();
+  };
+  load = vi.fn();
+  removeAttribute = () => {
+    this.src = "";
+  };
+  constructor(src = "") {
     this.src = src;
   }
 }
@@ -39,7 +51,7 @@ beforeEach(() => {
   vi.stubGlobal(
     "Audio",
     class extends MockAudio {
-      constructor(src: string) {
+      constructor(src?: string) {
         super(src);
 
         if (nextPlay) {
@@ -55,6 +67,7 @@ beforeEach(() => {
 
 afterEach(() => {
   act(stopAudio);
+  clearClips();
   vi.unstubAllGlobals();
 });
 
@@ -76,12 +89,18 @@ describe("course audio playback", () => {
     expect(played).toHaveBeenCalledOnce();
     rerender(<AudioButton text="Hola." label="Play Hola" minimal autoPlay onPlayed={played} />);
     expect(clips[0].play).toHaveBeenCalledTimes(2);
-    act(() => clips[0].onended?.());
+    act(() => clips[0].end());
+    clips[0].currentTime = 3;
     fireEvent.click(screen.getByRole("button", { name: "Play Hola" }));
     await waitFor(() => expect(played).toHaveBeenCalledTimes(2));
-    expect(clips).toHaveLength(2);
+    // The replay reuses the loaded clip from its start instead of fetching it again.
+    expect(clips).toHaveLength(1);
+    expect(clips[0].currentTime).toBe(0);
+    expect(clips[0].play).toHaveBeenCalledTimes(3);
+    const pauses = clips[0].pause.mock.calls.length;
+
     unmount();
-    expect(clips[1].pause).toHaveBeenCalled();
+    expect(clips[0].pause).toHaveBeenCalledTimes(pauses + 1);
   });
 
   it("autoplays once, counts the successful play, and does not restart on rerender", async () => {
@@ -95,13 +114,19 @@ describe("course audio playback", () => {
     expect(clips).toHaveLength(1);
     fireEvent.click(screen.getByRole("button", { name: "Listen" }));
     await waitFor(() => expect(played).toHaveBeenCalledTimes(2));
-    act(() => clips[1].onended?.());
+    act(() => clips[0].end());
     expect(screen.getByRole("button", { name: "Listen" })).toBeDisabled();
   });
 
   it("leaves a manual retry when autoplay is blocked without consuming a play", async () => {
+    let blocked = true;
+
     nextPlay = async () => {
-      throw new DOMException("Autoplay blocked", "NotAllowedError");
+      if (blocked) {
+        blocked = false;
+
+        throw new DOMException("Autoplay blocked", "NotAllowedError");
+      }
     };
 
     const played = vi.fn();
@@ -122,7 +147,8 @@ describe("course audio playback", () => {
     render(<AudioButton text="Hola." onPlayed={played} />);
     fireEvent.click(screen.getByRole("button", { name: "Listen" }));
     await waitFor(() => expect(played).toHaveBeenCalledOnce());
-    expect(clips[0].src).toBe("/audio/elevenlabs/test.mp3");
+    expect(clips[0].src).toBe("/audio/elevenlabs/Hola..mp3");
+    expect(clips[0].preload).toBe("auto");
     expect(clips[0].preservesPitch).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: /Audio speed/ }));
     expect(clips[0].playbackRate).toBe(0.75);
@@ -140,12 +166,12 @@ describe("course audio playback", () => {
     await waitFor(() => expect(played).toHaveBeenCalledOnce());
 
     expect(clips.map((clip) => clip.src)).toEqual([
-      "/audio/elevenlabs/test.mp3",
-      "/audio/original.m4a",
+      "/audio/elevenlabs/Hola..mp3",
+      "/audio/Hola..m4a",
     ]);
 
     expect(screen.getByText("1/1 plays")).toBeInTheDocument();
-    act(() => clips[1].onended?.());
+    act(() => clips[1].end());
     expect(screen.getByRole("button", { name: "Listen" })).toBeDisabled();
   });
 
@@ -183,6 +209,27 @@ describe("course audio playback", () => {
     expect(clips[0].pause).toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "First" })).toBeInTheDocument();
   });
+
+  it("starts a fresh clip for a resumable player that another player stopped", async () => {
+    render(
+      <>
+        <AudioButton text="Uno." label="Play uno" minimal />
+        <AudioButton text="Dos." label="Play dos" minimal />
+      </>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Play uno" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    clips[0].currentTime = 3;
+    fireEvent.click(screen.getByRole("button", { name: "Play dos" }));
+    await waitFor(() => expect(clips[1].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Play uno" }));
+    // The cache hands back the same element, rewound: a fresh play, not a resume.
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(2);
+    expect(clips[0].currentTime).toBe(0);
+    expect(clips[0].paused).toBe(false);
+  });
 });
 
 describe("audio cancellation and device fallback", () => {
@@ -211,7 +258,7 @@ describe("audio cancellation and device fallback", () => {
     fireEvent.click(screen.getByRole("button", { name: "Listen" }));
     await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
     expect(clips[0].playbackRate).toBe(1);
-    act(() => clips[0].onpause?.());
+    act(() => clips[0].pause());
     expect(screen.getByRole("button", { name: "Listen" })).toBeEnabled();
   });
 
@@ -247,6 +294,102 @@ describe("audio cancellation and device fallback", () => {
     expect(clips[0].pause).toHaveBeenCalledOnce();
   });
 
+  it("lets the next autoplaying continuous player adopt the running clip without restarting it", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => {});
+    expect(clips).toHaveLength(1);
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    expect(clips[0].pause).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+
+  it("keeps a paused continuous clip paused for the next player and resumes it there", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => {});
+    expect(clips[0].play).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+    expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
+  });
+
+  it("pauses and resumes in place a clip adopted while it was still loading", async () => {
+    let start!: () => void;
+
+    nextPlay = function (this: MockAudio) {
+      this.paused = false;
+
+      return new Promise<void>((resolve) => {
+        start = resolve;
+      });
+    };
+
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => start());
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+  });
+
+  it("pauses and resumes the fallback clip that took over after adoption", async () => {
+    let fail!: () => void;
+
+    nextPlay = function (this: MockAudio) {
+      this.paused = false;
+
+      return new Promise<void>((_, reject) => {
+        fail = () => {
+          this.paused = true;
+          reject(new Error("Missing upgraded clip"));
+        };
+      });
+    };
+
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Hola." label="Listening" continuous autoPlay />);
+    await act(async () => fail());
+    expect(clips[1].play).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Pause audio" }));
+    expect(clips[1].paused).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "Listening" }));
+    await waitFor(() => expect(clips[1].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(2);
+  });
+
+  it("autoplays a fresh clip when the continuous player moves to a different recording", async () => {
+    const { rerender } = render(
+      <AudioButton key="q1" text="Hola." label="Listening" continuous autoPlay />,
+    );
+
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledOnce());
+    rerender(<AudioButton key="q2" text="Adiós." label="Listening" continuous autoPlay />);
+    await waitFor(() => expect(clips).toHaveLength(2));
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    expect(clips[1].play).toHaveBeenCalledOnce();
+  });
+
   it("unmounting an old player does not stop the new active player", async () => {
     const { rerender } = render(
       <>
@@ -264,14 +407,38 @@ describe("audio cancellation and device fallback", () => {
     expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
   });
 
-  it("ignores the late end of a stopped clip while the replay is playing", async () => {
-    render(<AudioButton text="Hola." />);
-    fireEvent.click(screen.getByRole("button", { name: "Listen" }));
+  it("ignores the late end of a stopped clip while another player is playing", async () => {
+    render(
+      <>
+        <AudioButton text="Hola." label="First" />
+        <AudioButton text="Adiós." label="Second" />
+      </>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "First" }));
     await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
-    fireEvent.click(screen.getByRole("button", { name: "Stop audio" }));
-    fireEvent.click(screen.getByRole("button", { name: "Listen" }));
+    fireEvent.click(screen.getByRole("button", { name: "Second" }));
     await waitFor(() => expect(clips[1]?.play).toHaveBeenCalledOnce());
     act(() => clips[0].onended?.());
+    expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
+  });
+
+  it("unmounting a stopped player does not pause the clip another player now plays", async () => {
+    const { rerender } = render(
+      <>
+        <AudioButton key="first" text="Hola." label="First" />
+        <AudioButton key="second" text="Hola." label="Second" />
+      </>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "First" }));
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole("button", { name: "Second" }));
+    await waitFor(() => expect(clips[0].play).toHaveBeenCalledTimes(2));
+    expect(clips).toHaveLength(1);
+    expect(clips[0].pause).toHaveBeenCalledOnce();
+    rerender(<AudioButton key="second" text="Hola." label="Second" />);
+    expect(clips[0].pause).toHaveBeenCalledOnce();
     expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
   });
 
@@ -398,6 +565,21 @@ describe("audio cancellation and device fallback", () => {
   });
 });
 
+describe("events from a clip's previous play", () => {
+  it("ignores a pause or end that arrives after the clip started again", async () => {
+    render(<AudioButton text="Hola." />);
+    fireEvent.click(screen.getByRole("button", { name: "Listen" }));
+    await waitFor(() => expect(clips[0]?.play).toHaveBeenCalledOnce());
+
+    act(() => {
+      clips[0].onpause?.();
+      clips[0].onended?.();
+    });
+
+    expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
+  });
+});
+
 describe("player controls", () => {
   it("shows the full player's playing state and speed until the clip ends", async () => {
     render(<AudioButton text="Hola." />);
@@ -416,7 +598,7 @@ describe("player controls", () => {
     fireEvent.click(speed);
     expect(speed).toHaveAccessibleName("Audio speed 0.75 times. Click to change");
     expect(speed).toHaveTextContent("0.75×");
-    act(() => clips[0].onended?.());
+    act(() => clips[0].end());
     expect(play).toHaveAccessibleName("Listen");
     expect(play).toHaveTextContent("Listen");
   });
@@ -492,7 +674,7 @@ describe("resuming and replay limits", () => {
     act(() => ref.current!.play());
     await waitFor(() => expect(played).toHaveBeenCalledOnce());
     expect(ref.current!.playing()).toBe(true);
-    act(() => clips[0].onended?.());
+    act(() => clips[0].end());
     expect(ref.current!.playing()).toBe(false);
     await act(async () => ref.current!.play());
     expect(clips).toHaveLength(1);

@@ -1,4 +1,4 @@
-import { TONE } from "./tone";
+import { TINT } from "./tone";
 import { FieldNote } from "../design-system/FieldNote";
 import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
@@ -13,7 +13,7 @@ import type { Session } from "./practice";
 import { UnitCard } from "./UnitCard";
 
 const PATH_NUMBER =
-  "flex items-center justify-center shrink-0 rounded-full border border-sage-200 mt-6 w-8 h-8 text-xs max-md:w-7 max-md:h-7 max-md:text-2xs";
+  "flex items-center justify-center shrink-0 rounded-full border border-border mt-6 w-8 h-8 text-xs max-md:w-7 max-md:h-7 max-md:text-2xs";
 
 type Props = {
   progress: ProgressSnapshot;
@@ -21,7 +21,7 @@ type Props = {
   completed: number;
   progressPercent: number;
   expanded: string;
-  setExpanded: (id: string) => void;
+  toggleExpanded: (id: string) => void;
   setSession: Session;
   navigate: (target: Page) => void;
 };
@@ -32,7 +32,7 @@ export const PathPage = ({
   completed,
   progressPercent,
   expanded,
-  setExpanded,
+  toggleExpanded,
   setSession,
   navigate,
 }: Props) => {
@@ -58,7 +58,7 @@ export const PathPage = ({
       </PageHeading>
       <Panel className="flex items-center gap-4 max-md:gap-3 mb-7 p-6 max-md:p-5 max-lg:flex-wrap">
         <span
-          className={`flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11 max-md:w-11 max-sm:w-8 max-sm:h-9 ${TONE[nextUnit.color]}`}
+          className={`flex items-center justify-center shrink-0 rounded-xl w-12 h-12 max-xl:w-10 max-xl:h-11 max-md:w-11 max-sm:w-8 max-sm:h-9 ${TINT}`}
         >
           <Icon name={nextUnit.icon} size={28} />
         </span>
@@ -69,7 +69,7 @@ export const PathPage = ({
           <h3 className="font-semibold tracking-tight text-base max-xl:text-sm">
             {nextUnit.title} · {nextLesson.title}
           </h3>
-          <p className="leading-relaxed mt-1.5 text-sm text-sage-500">
+          <p className="leading-relaxed mt-1.5 text-sm text-muted-foreground">
             {completed}/{allLessons.length} complete · {progressPercent}% of your path
           </p>
         </div>
@@ -83,33 +83,33 @@ export const PathPage = ({
         </Button>
       </Panel>
       <div className="flex gap-7 max-xl:gap-5 max-lg:flex-col">
-        <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-sage-200">
-          {units.map((u, i) => (
-            <div className="relative flex items-start gap-4 max-md:gap-2.5 mb-4" key={u.id}>
-              <span
-                className={`${PATH_NUMBER} ${u.lessons.every((l) => progress.completed[l.id]) ? "bg-olive-600 text-white" : "bg-sage-50 text-sage-500"}`}
-              >
-                {u.lessons.every((l) => progress.completed[l.id]) ? (
-                  <Icon name="check" size={16} />
-                ) : (
-                  String(i + 1).padStart(2, "0")
-                )}
-              </span>
-              <UnitCard
-                onPath
-                unit={u}
-                index={i}
-                progress={progress}
-                start={setSession}
-                expanded={expanded === u.id}
-                onExpand={() => setExpanded(expanded === u.id ? "" : u.id)}
-              />
-            </div>
-          ))}
-          <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-sage-100 text-olive-600">
+        <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-border">
+          {units.map((u, i) => {
+            const done = u.lessons.every((l) => progress.completed[l.id]);
+
+            return (
+              <div className="relative flex items-start gap-4 max-md:gap-2.5 mb-4" key={u.id}>
+                <span
+                  className={`${PATH_NUMBER} ${done ? "bg-success text-success-foreground" : "bg-background text-muted-foreground"}`}
+                >
+                  {done ? <Icon name="check" size={16} /> : String(i + 1).padStart(2, "0")}
+                </span>
+                <UnitCard
+                  onPath
+                  unit={u}
+                  index={i}
+                  progress={progress}
+                  start={setSession}
+                  expanded={expanded === u.id}
+                  onExpand={() => toggleExpanded(u.id)}
+                />
+              </div>
+            );
+          })}
+          <div className="flex flex-wrap items-center gap-3.5 max-md:gap-3 mt-7 ml-12 max-md:ml-9 p-6 max-md:p-5 rounded-xl bg-muted text-foreground">
             <Icon name="flag" size={28} />
             <div>
-              <h3 className="font-semibold tracking-tight font-serif text-xl">
+              <h3 className="font-semibold tracking-tight font-heading text-xl">
                 The next chapter is yours.
               </h3>
               <p className="leading-relaxed mt-1 text-xs">
@@ -132,7 +132,7 @@ export const PathPage = ({
           className="w-65 shrink-0 p-6 self-start sticky top-5 max-xl:w-57 max-lg:w-auto max-lg:self-stretch max-lg:static max-lg:grid max-lg:grid-cols-2 max-lg:gap-5 max-sm:grid-cols-1"
         >
           <Eyebrow className="max-lg:col-span-full">HOW YOUR PATH WORKS</Eyebrow>
-          <h3 className="tracking-normal font-serif font-medium leading-tight text-2xl mt-3 mx-0 mb-6 max-lg:m-0 max-lg:col-span-full">
+          <h3 className="tracking-normal font-heading font-medium leading-tight text-2xl mt-3 mx-0 mb-6 max-lg:m-0 max-lg:col-span-full">
             Learn it. Try it.
             <br />
             Make it yours.
@@ -143,10 +143,10 @@ export const PathPage = ({
             ["headphones", "Meet real life", "Read a message. Listen to a conversation."],
             ["mic", "Use your own voice", "Write, talk to Lucía and reflect on your progress."],
           ].map(([icon, title, body]) => (
-            <div key={title} className="flex gap-3 mb-6 max-lg:mb-0 text-sage-600">
+            <div key={title} className="flex gap-3 mb-6 max-lg:mb-0 text-muted-foreground">
               <Icon name={icon} size={20} />
               <section>
-                <h4 className="font-semibold text-sm text-sage-800">{title}</h4>
+                <h4 className="font-semibold text-sm text-foreground">{title}</h4>
                 <p className="leading-relaxed mt-1.5 text-sm">{body}</p>
               </section>
             </div>

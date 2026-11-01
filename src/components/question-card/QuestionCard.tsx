@@ -1,23 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import type { Question } from "../../data/types";
+import type { Grade, Question } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
+import { preloadClips } from "../audio/clipCache";
 import { playWord } from "../audio/playWord";
 import { stopAudio } from "../audio/playback";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading } from "./QuestionHeading";
-import { PracticeChecks } from "./PracticeChecks";
 import { QuestionMaterials } from "./QuestionMaterials";
+import { questionClips } from "./questionClips";
 import { isWritingTask, useAnswer } from "./useAnswer";
+import { WritingCheck } from "./WritingCheck";
 import type { LastAttempt } from "../history/LastTime";
 
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean) => void;
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
@@ -42,6 +44,13 @@ export const QuestionCard = ({
   const [assisted, setAssisted] = useState(false);
   const a = useAnswer(q, draft, onDraft);
   const { setText, selected, productive, value, submission, correct, canSubmit } = a;
+
+  // Clips fetched on click start late, so the question's clips load as it appears.
+  useEffect(() => {
+    if (active) {
+      preloadClips(questionClips(q, exam));
+    }
+  }, [q, exam, active]);
 
   const submit = (choice?: string, after?: Promise<void>) => {
     const valid = choice === undefined ? canSubmit : !q.options || q.options.includes(choice);
@@ -125,6 +134,30 @@ export const QuestionCard = ({
     return () => window.removeEventListener("keydown", handle);
   });
 
+  const checkOrFeedback = feedback ? (
+    <QuestionFeedback
+      q={q}
+      correct={correct}
+      productive={productive}
+      value={value}
+      checked={a.checks.length}
+      assisted={assisted}
+      onRevise={() => {
+        stopAudio();
+        setFeedback(false);
+      }}
+      onContinue={() => onSubmit(submission, correct, assisted)}
+    />
+  ) : (
+    <QuestionFooter
+      exam={exam}
+      productive={productive}
+      kind={q.kind}
+      canSubmit={canSubmit}
+      onCheck={() => submit()}
+    />
+  );
+
   return (
     <div className={cardPadding(exam)}>
       <QuestionHeading
@@ -153,29 +186,18 @@ export const QuestionCard = ({
         onPick={pickToken}
         onCheck={() => submit()}
       />
-      <PracticeChecks q={q} exam={exam} feedback={feedback} practice={a} />
-      {!feedback ? (
-        <QuestionFooter
-          exam={exam}
-          productive={productive}
-          kind={q.kind}
+      {!exam && isWritingTask(q) ? (
+        <WritingCheck
+          q={q}
+          answer={submission}
           canSubmit={canSubmit}
-          onCheck={() => submit()}
+          assisted={assisted}
+          onLock={setFeedback}
+          onEvaluated={onEvaluated}
+          onSubmit={onSubmit}
         />
       ) : (
-        <QuestionFeedback
-          q={q}
-          correct={correct}
-          productive={productive}
-          value={value}
-          checked={a.checks.length}
-          assisted={assisted}
-          onRevise={() => {
-            stopAudio();
-            setFeedback(false);
-          }}
-          onContinue={() => onSubmit(submission, correct, assisted)}
-        />
+        checkOrFeedback
       )}
     </div>
   );

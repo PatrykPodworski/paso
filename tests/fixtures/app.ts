@@ -26,6 +26,14 @@ export const test = base.extend<{ blockExternal: void }>({
     const errors: string[] = [];
 
     page.on("pageerror", (error) => errors.push(error.message));
+
+    // A lesson writing task needs a review to move on; a test that cares registers its own.
+    await page.route("**/api/review-writing", (route) =>
+      route.fulfill({
+        json: { wordCount: 0, coverage: [], corrections: [], revised: "", grade: "perfect" },
+      }),
+    );
+
     await page.clock.setFixedTime(new Date("2026-09-09T10:00:00+02:00"));
     await provide(page);
     expect(errors, "Uncaught browser errors").toEqual([]);
@@ -90,6 +98,18 @@ export const openLesson = async (page: Page, index: number) => {
   return lesson;
 };
 
+const submitLabel = (q: Question, exam: boolean) =>
+  exam ? "Save answer" : ["write", "form"].includes(q.kind) ? "Review my practice" : "Check answer";
+
+// A lesson writing task asks for the passcode until one gets a review.
+const fillPasscode = async (page: Page, q: Question, exam: boolean) => {
+  const passcode = page.getByLabel("Passcode");
+
+  if (!exam && ["write", "form"].includes(q.kind) && (await passcode.isVisible())) {
+    await passcode.fill("olé");
+  }
+};
+
 export const answer = async (page: Page, q: Question, exam = false, wrong = false) => {
   if (q.options) {
     await page
@@ -123,16 +143,8 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
   }
 
-  await page
-    .getByRole("button", {
-      name: exam
-        ? "Save answer"
-        : ["write", "form"].includes(q.kind)
-          ? "Review my practice"
-          : "Check answer",
-      exact: true,
-    })
-    .click();
+  await fillPasscode(page, q, exam);
+  await page.getByRole("button", { name: submitLabel(q, exam), exact: true }).click();
 };
 
 export const closeLesson = async (page: Page) => {

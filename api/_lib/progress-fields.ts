@@ -2,7 +2,7 @@ import { mockSections, mockTopics } from "../../src/data/mock.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
-  LiveGrade,
+  Grade,
   LiveItem,
   MockRun,
   MockRunPatch,
@@ -25,7 +25,7 @@ const MAX_SECTION = 25;
 const MAX_SCORE_TEXT = 16;
 const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
-const GRADES: LiveGrade[] = ["perfect", "good", "bad"];
+const GRADES: Grade[] = ["perfect", "good", "bad"];
 const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
 const MAX_TALK_ITEMS = 20;
 const MAX_LABEL = 200;
@@ -103,7 +103,7 @@ export const attemptOf = (value: unknown): Attempt | null => {
     !isText(value.answer) ||
     !isInstant(value.at) ||
     !(value.assisted == null || typeof value.assisted === "boolean") ||
-    !(value.grade == null || GRADES.includes(value.grade as LiveGrade))
+    !(value.grade == null || GRADES.includes(value.grade as Grade))
   ) {
     return null;
   }
@@ -116,7 +116,7 @@ export const attemptOf = (value: unknown): Attempt | null => {
     answer: value.answer,
     at: value.at,
     ...(value.assisted ? { assisted: true } : {}),
-    ...(value.grade ? { grade: value.grade as LiveGrade } : {}),
+    ...(value.grade ? { grade: value.grade as Grade } : {}),
   };
 };
 
@@ -173,7 +173,7 @@ const mapOf =
 // Lucía's score of a mock exam talk, as api/score-talk returned it.
 const isLiveScore: Check = (value) =>
   isRecord(value) &&
-  GRADES.includes(value.grade as LiveGrade) &&
+  GRADES.includes(value.grade as Grade) &&
   Array.isArray(value.items) &&
   value.items.length <= MAX_TALK_ITEMS &&
   value.items.every(

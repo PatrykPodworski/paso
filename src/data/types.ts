@@ -1,15 +1,29 @@
 import type { MockTopic } from "./mock.ts";
 
 export type Skill = "reading" | "listening" | "writing" | "speaking";
-export type Tone = "peach" | "sage" | "lavender" | "sand" | "blue";
 
 export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "form" | "live";
 
-export type LiveGrade = "perfect" | "good" | "bad";
+export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
 export type LiveScoreItem = { id: string; label: string; level: LiveItem };
-export type LiveScore = { grade: LiveGrade; items: LiveScoreItem[] };
+export type LiveScore = { grade: Grade; items: LiveScoreItem[] };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
+
+export type WritingCoverage = { point: string; met: boolean; feedback: string };
+export type WritingCorrection = { original: string; corrected: string; explanation: string };
+// A DELE A1 writing mark: one holistic band from 0 to 3 per task.
+export type WritingMark = { band: number; reason: string };
+
+export type WritingReview = {
+  wordCount: number;
+  coverage: WritingCoverage[];
+  corrections: WritingCorrection[];
+  revised: string;
+  mark?: WritingMark;
+  // A practice task's result, recorded like a live talk's grade.
+  grade?: Grade;
+};
 
 export interface Question {
   id: string;
@@ -51,7 +65,6 @@ export interface Unit {
   title: string;
   spanish: string;
   subtitle: string;
-  color: Tone;
   icon: string;
   goals: string[];
   tip: string;
@@ -67,7 +80,7 @@ export interface Attempt {
   answer: string;
   at: string;
   assisted?: boolean;
-  grade?: LiveGrade;
+  grade?: Grade;
 }
 
 export type ReviewState = {
@@ -93,7 +106,7 @@ export interface ProgressSnapshot {
       correct: boolean | null;
       answer: string;
       assisted?: boolean;
-      grade?: LiveGrade;
+      grade?: Grade;
       inMistakes: boolean;
       review?: ReviewState;
     }

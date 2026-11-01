@@ -1,10 +1,10 @@
 import type { Skill } from "../data/types";
 
 const COLOR: Record<Skill, string> = {
-  reading: "bg-sage-400",
-  listening: "bg-lavender-400",
-  writing: "bg-sand-400",
-  speaking: "bg-coral-500",
+  reading: "bg-skill-reading",
+  listening: "bg-skill-listening",
+  writing: "bg-skill-writing",
+  speaking: "bg-skill-speaking",
 };
 
 type Props = { skill: Skill };

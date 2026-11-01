@@ -1,17 +1,19 @@
-import { CompletionArt } from "./CompletionArt";
 import { ButtonRow } from "../design-system/ButtonRow";
-import { Eyebrow } from "../design-system/Eyebrow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
-import type { Attempt, Lesson, ProgressSnapshot } from "../data/types";
+import type { Attempt, Lesson, ProgressSnapshot, Question } from "../data/types";
+import { Eyebrow } from "../design-system/Eyebrow";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
 import { ProgressTrack } from "../design-system/ProgressTrack";
 import { QuestionView } from "./question-card/QuestionView";
+import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
-import { FieldNote } from "../design-system/FieldNote";
-import { CompletionStats } from "./CompletionStats";
+
+// A recording keeps playing across the questions that share it.
+const sharesRecording = (q: Question, next: Question | undefined) =>
+  (!!q.passage && q.passage === next?.passage) || (!!q.audio && q.audio === next?.audio);
 
 type Props = {
   lesson: Lesson;
@@ -56,8 +58,7 @@ export const LessonSession = ({
   const submit = (answer: string, correct: boolean | null, help: boolean) => {
     void answer;
 
-    // A reading passage keeps playing across the questions that share it.
-    if (!question.passage || lesson.questions[index + 1]?.passage !== question.passage) {
+    if (!sharesRecording(question, lesson.questions[index + 1])) {
       stopAudio();
     }
 
@@ -93,7 +94,7 @@ export const LessonSession = ({
           </Eyebrow>
           <h3 className="font-semibold tracking-tight text-sm">{lesson.title}</h3>
         </div>
-        <span className="text-sm text-sage-400 max-md:text-xs">
+        <span className="text-sm text-muted-foreground max-md:text-xs">
           {finished ? lesson.questions.length : index + 1} / {lesson.questions.length}
         </span>
       </header>
@@ -104,11 +105,11 @@ export const LessonSession = ({
       />
       {confirmExit && (
         <div className="py-12 px-7 text-center">
-          <Icon name="book" size={40} className="mx-auto text-olive-500 mb-5" />
-          <h2 className="font-serif font-semibold tracking-tight leading-tight text-3xl">
+          <Icon name="book" size={40} className="mx-auto text-muted-foreground mb-5" />
+          <h2 className="font-heading font-semibold tracking-tight leading-tight text-3xl">
             Leave this lesson?
           </h2>
-          <p className="leading-relaxed text-sm text-sage-500 max-w-112 mt-3.5 mx-auto mb-6">
+          <p className="leading-relaxed text-sm text-muted-foreground max-w-112 mt-3.5 mx-auto mb-6">
             Your submitted answers and writing drafts are saved. You can restart the lesson any
             time.
           </p>
@@ -123,57 +124,7 @@ export const LessonSession = ({
         </div>
       )}
       {finished ? (
-        <div className="py-12 px-7 text-center max-md:py-9 max-md:px-5">
-          <CompletionArt icon="flag" sparkles />
-          <Eyebrow>ONE STEP CLOSER</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-tight leading-tight text-4xl my-3 mx-0">
-            Look at you go.
-          </h2>
-          <p className="leading-relaxed text-sm text-sage-500 mt-3">
-            Another little piece of Spanish, yours to keep.
-          </p>
-          <CompletionStats
-            stats={[
-              [
-                "objective answers",
-                <>
-                  {results.filter((r) => r).length}
-                  <small className="text-base text-sage-400">
-                    /{results.filter((r) => r !== null).length}
-                  </small>
-                </>,
-              ],
-              ["creative practices", results.filter((r) => r === null).length],
-              ["moments to review", results.filter((r) => r === false).length],
-            ]}
-          />
-          {assisted > 0 && (
-            <FieldNote className="mt-3">{assisted} answers used transcript assistance.</FieldNote>
-          )}
-          <p className="leading-relaxed text-sm text-sage-500 mt-3">
-            {results.some((r) => r === false)
-              ? "Your mistakes are waiting in Practice studio, with explanations and another chance."
-              : "A little practice every day goes a long way."}
-          </p>
-          <ButtonRow className="justify-center mt-6">
-            {onNext ? (
-              <>
-                <Button variant="secondary" onClick={onClose}>
-                  Back to my journey
-                </Button>
-                <Button variant="primary" autoFocus onClick={onNext}>
-                  Next lesson
-                  <Icon name="arrow" />
-                </Button>
-              </>
-            ) : (
-              <Button variant="primary" autoFocus onClick={onClose}>
-                Back to my journey
-                <Icon name="arrow" />
-              </Button>
-            )}
-          </ButtonRow>
-        </div>
+        <LessonComplete results={results} assisted={assisted} onClose={onClose} onNext={onNext} />
       ) : (
         <div hidden={confirmExit}>
           <QuestionView
@@ -181,7 +132,7 @@ export const LessonSession = ({
             q={question}
             active={!confirmExit}
             onSubmit={submit}
-            onEvaluated={(answer, correct, assisted, score) => {
+            onEvaluated={(answer, correct, assisted, grade) => {
               const q = lesson.questions[index];
 
               onAttempt({
@@ -191,7 +142,7 @@ export const LessonSession = ({
                 answer,
                 correct,
                 assisted,
-                ...(score && { grade: score.grade }),
+                ...(grade && { grade }),
                 at: new Date().toISOString(),
               });
             }}

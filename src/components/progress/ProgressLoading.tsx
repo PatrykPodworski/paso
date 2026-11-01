@@ -7,7 +7,7 @@ export const ProgressLoading = ({ failed, onRetry }: Props) => (
   <main className="min-h-screen grid place-items-center p-6 text-center">
     {failed ? (
       <div>
-        <h1 className="font-serif font-semibold tracking-tight leading-tight text-2xl">
+        <h1 className="font-heading font-semibold tracking-tight leading-tight text-2xl">
           Your progress could not be loaded.
         </h1>
         <FieldNote className="mbs-3 mbe-5">Check your connection and try again.</FieldNote>
@@ -16,7 +16,7 @@ export const ProgressLoading = ({ failed, onRetry }: Props) => (
         </Button>
       </div>
     ) : (
-      <p role="status" className="text-sm text-sage-500">
+      <p role="status" className="text-sm text-muted-foreground">
         Loading your progress…
       </p>
     )}

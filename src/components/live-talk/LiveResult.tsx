@@ -41,18 +41,18 @@ type Props = {
 };
 
 export const LiveResult = ({ score, turns, exam, onAgain, onContinue }: Props) => (
-  <div className="mbs-5 border-bs border-sage-200 pbs-5">
-    <h3 className="font-serif text-2xl font-medium">
+  <div className="mbs-5 border-bs border-border pbs-5">
+    <h3 className="font-heading text-2xl font-medium">
       {(exam ? EXAM_HEADINGS : HEADINGS)[score.grade]}
     </h3>
-    <p className="mbs-2 text-sm leading-relaxed text-sage-700">
+    <p className="mbs-2 text-sm leading-relaxed text-muted-foreground">
       {(exam ? EXAM_NOTES : NOTES)[score.grade]}
     </p>
     <ul aria-label="Your answers" className="mbs-3.5 flex flex-col gap-1.5 text-sm">
       {score.items.map(({ id, label, level }) => (
         <li key={id} className="flex justify-between gap-3">
           <span>{label}</span>
-          <span className={level === "missing" ? "text-coral-700" : "text-sage-700"}>
+          <span className={level === "missing" ? "text-destructive" : "text-muted-foreground"}>
             {LEVELS[level]}
           </span>
         </li>

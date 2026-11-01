@@ -4,34 +4,41 @@ import type { Lesson, Skill } from "../data/types";
 
 export const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
 
+export const SKILL_TINT: Record<Skill, string> = {
+  reading: "bg-skill-reading/10 text-skill-reading",
+  listening: "bg-skill-listening/10 text-skill-listening",
+  writing: "bg-skill-writing/10 text-skill-writing",
+  speaking: "bg-skill-speaking/10 text-skill-speaking",
+};
+
 export const skills: { id: Skill; name: string; spanish: string; icon: string; tint: string }[] = [
   {
     id: "reading",
     name: "Reading",
     spanish: "Leer",
     icon: "book",
-    tint: "bg-sage-100 text-olive-500",
+    tint: SKILL_TINT.reading,
   },
   {
     id: "listening",
     name: "Listening",
     spanish: "Escuchar",
     icon: "headphones",
-    tint: "bg-lavender-100 text-lavender-500",
+    tint: SKILL_TINT.listening,
   },
   {
     id: "writing",
     name: "Writing",
     spanish: "Escribir",
     icon: "pen",
-    tint: "bg-sand-100 text-sand-500",
+    tint: SKILL_TINT.writing,
   },
   {
     id: "speaking",
     name: "Speaking",
     spanish: "Hablar",
     icon: "mic",
-    tint: "bg-coral-100 text-coral-500",
+    tint: SKILL_TINT.speaking,
   },
 ];
 

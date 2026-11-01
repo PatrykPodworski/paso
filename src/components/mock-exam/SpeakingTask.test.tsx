@@ -63,7 +63,7 @@ it("keeps the picked topic for Task 3", async () => {
 it("keeps the transcript and the grade with the run as soon as Lucía has scored", async () => {
   await seed({ section: 3, stage: "run" });
   await mount();
-  act(() => talk!.onEvaluated!("Lucía: Hola.\nYou: Hola.", true, false, score));
+  act(() => talk!.onEvaluated!("Lucía: Hola.\nYou: Hola.", true, false, score.grade, score));
   expect((await state()).answers[s1.id]).toBe("Lucía: Hola.\nYou: Hola.");
   expect((await state()).talks[s1.id]).toEqual(score);
   expect((await state()).index).toBe(0);
@@ -79,7 +79,7 @@ it("shows a finished talk's result again instead of a new talk, and confirms aft
   expect(talk).toMatchObject({ task: "mock-s3", topic: "home", result: score });
   act(() => talk!.onSubmit("", true, false));
   expect((await state()).index).toBe(2);
-  expect(screen.getByRole("alert")).toHaveTextContent("3 unanswered");
+  expect(screen.getByRole("dialog")).toHaveTextContent("3 unanswered");
 });
 
 it("moves between talks with the section's own navigation", async () => {

@@ -30,11 +30,11 @@ export const PageHeading = ({
     <div>
       {eyebrow}
       <h1
-        className={`font-serif font-semibold tracking-tighter leading-tight ${TITLE_SIZE[variant]}`}
+        className={`font-heading font-semibold tracking-tighter leading-tight ${TITLE_SIZE[variant]}`}
       >
         {title}
       </h1>
-      <p className="leading-relaxed mt-2 text-sm text-sage-700">{description}</p>
+      <p className="leading-relaxed mt-2 text-sm text-muted-foreground">{description}</p>
     </div>
     {children}
   </div>

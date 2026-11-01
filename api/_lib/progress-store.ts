@@ -1,7 +1,7 @@
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
-  LiveGrade,
+  Grade,
   MockRun,
   MockRunPatch,
   ProgressSnapshot,
@@ -92,7 +92,7 @@ type AttemptRow = {
   answer: string;
   at: string;
   assisted: boolean;
-  grade: LiveGrade | null;
+  grade: Grade | null;
 };
 
 type QuestionRow = Omit<AttemptRow, "id"> & {
@@ -184,7 +184,7 @@ export const readProgress = async (db: Db, learner: string) =>
 
 // The attempt rules: a wrong answer goes to the mistakes, due at once. An unassisted
 // correct answer to a tracked question leaves the mistakes and moves one review window
-// up, or leaves the reviews for good when it is a graded live talk. +5 XP when the
+// up, or leaves the reviews for good when it is graded (a live talk or a writing review). +5 XP when the
 // question is new. An attempt id already stored changes nothing.
 export const saveAttempt = async (db: Db, learner: string, a: Attempt, timeZone: string) => {
   const recovers =

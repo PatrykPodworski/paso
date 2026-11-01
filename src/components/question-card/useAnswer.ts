@@ -1,21 +1,7 @@
 import { useState } from "react";
 import type { Question } from "../../data/types";
 import { countWords, isCorrect, MAX_TEXT } from "../../data/progress";
-
-const parseFields = (draft: string): Record<string, string> => {
-  try {
-    const parsed = JSON.parse(draft);
-
-    return parsed &&
-      typeof parsed === "object" &&
-      !Array.isArray(parsed) &&
-      Object.values(parsed).every((v) => typeof v === "string")
-      ? parsed
-      : {};
-  } catch {
-    return {};
-  }
-};
+import { formSubmission, parseFields } from "./formAnswer";
 
 const answerValue = (q: Question, built: string, formText: string, answer: string) =>
   q.kind === "order" ? built : q.kind === "form" ? formText : answer;
@@ -52,10 +38,7 @@ export const useAnswer = (q: Question, draft: string, onDraft?: (text: string) =
   const formText = (q.fields || []).map((f) => fieldValues[f.label] || "").join(" ");
   const value = answerValue(q, built, formText, answer);
 
-  const submission =
-    q.kind === "form"
-      ? (q.fields || []).map((f) => `${f.label}: ${fieldValues[f.label] || ""}`).join("\n")
-      : value;
+  const submission = q.kind === "form" ? formSubmission(q, fieldValues) : value;
 
   const setText = (text: string) => {
     if (text.length > MAX_TEXT) {

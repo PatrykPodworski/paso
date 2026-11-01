@@ -24,9 +24,9 @@ it("saves an answer, permits previous/skip navigation and hides corrections unti
   click("Skip for now →");
   expect((await state()).index).toBe(1);
   click("Finish section");
-  expect(screen.getByRole("alert")).toHaveTextContent("24 unanswered");
+  expect(screen.getByRole("dialog")).toHaveTextContent("24 unanswered");
   click("Keep working");
-  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect((await state()).stage).toBe("run");
 });
 
@@ -45,7 +45,7 @@ it.each([0, 1])(
     }
 
     expect((await state()).index).toBe(24);
-    expect(screen.getByRole("alert")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   },
 );
 

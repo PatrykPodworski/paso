@@ -47,7 +47,7 @@ export const SpeakingTask = ({ q, run, change, onNext }: Props) => {
           task={task}
           topic={needsTopic ? run.topic : undefined}
           result={result}
-          onEvaluated={(answer, _correct, _assisted, score) => keep(answer, score)}
+          onEvaluated={(answer, _correct, _assisted, _grade, score) => keep(answer, score)}
           onSubmit={onNext}
         />
       )}

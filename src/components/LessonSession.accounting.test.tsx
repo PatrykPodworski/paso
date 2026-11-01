@@ -63,7 +63,7 @@ const stat = (label: string) =>
     screen.getAllByRole("term").findIndex((term) => term.textContent === label)
   ];
 
-it("counts mixed objective, creative and assisted work independently", () => {
+it("counts objective and assisted work independently and leaves ungraded work out of the score", () => {
   const { onComplete } = mount(allQuestions.slice(0, 4));
 
   expect(screen.getByText("1 / 4")).toBeInTheDocument();
@@ -75,7 +75,7 @@ it("counts mixed objective, creative and assisted work independently", () => {
   submit(true, true);
   expect(onComplete).toHaveBeenCalledExactlyOnceWith(2, 3);
   expect(stat("objective answers")).toHaveTextContent(/^2\/3$/);
-  expect(stat("creative practices")).toHaveTextContent(/^1$/);
+  expect(screen.queryByText("creative practices")).not.toBeInTheDocument();
   expect(stat("moments to review")).toHaveTextContent(/^1$/);
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
   expect(screen.getByText(/Your mistakes are waiting/)).toBeInTheDocument();
@@ -95,15 +95,14 @@ it("lets a reading passage play on while its own questions continue", () => {
 });
 
 it.each([
-  { results: [true, true], score: 2, total: 2, creative: 0 },
-  { results: [null, null], score: 0, total: 0, creative: 2 },
-])("reports a session without mistakes (case %#)", ({ results, score, total, creative }) => {
+  { results: [true, true], score: 2, total: 2 },
+  { results: [null, null], score: 0, total: 0 },
+])("reports a session without mistakes (case %#)", ({ results, score, total }) => {
   const { onComplete, onClose } = mount(allQuestions.slice(0, 2));
 
   results.forEach((result) => submit(result));
   expect(onComplete).toHaveBeenCalledExactlyOnceWith(score, total);
   expect(stat("objective answers").textContent).toBe(`${score}/${total}`);
-  expect(stat("creative practices").textContent).toBe(String(creative));
   expect(stat("moments to review").textContent).toBe("0");
   expect(screen.queryByText(/answers used transcript assistance/)).not.toBeInTheDocument();
   expect(screen.queryByText(/Your mistakes are waiting/)).not.toBeInTheDocument();
@@ -139,7 +138,7 @@ it("saves a live talk's grade with its attempt", () => {
   const live = allQuestions.find((q) => q.kind === "live")!;
   const { onAttempt } = mount([live]);
 
-  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, bad));
+  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad", bad));
 
   expect(onAttempt.mock.calls[0][0]).toMatchObject({
     questionId: "u1-o3",

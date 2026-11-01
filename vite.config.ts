@@ -37,8 +37,8 @@ const serve = async (
 };
 
 // Serves /api/progress in `pnpm dev` and Playwright from the real handler, on an
-// in-memory PGlite that starts empty with each server. There is no PASSCODE locally,
-// so the passcode check is skipped.
+// in-memory PGlite that starts empty with each server. Every test browser shares one
+// address, so the rate limits are skipped.
 const progressApi = (): Plugin => ({
   name: "progress-api",
   apply: "serve",

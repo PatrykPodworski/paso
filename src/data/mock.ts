@@ -562,7 +562,7 @@ export const formPractice: Question = {
   answer:
     "Nombre: Elena García. Nacionalidad: polaca. Ciudad: Varsovia. Profesión: profesora de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
   explanation:
-    "Each field must answer the label. Nombre asks for a name, nacionalidad for a nationality adjective, and aficiones for hobbies. The model is one possible response, not an answer key.",
+    "Each field must answer its label: Nombre asks for a name, nacionalidad for a nationality adjective and aficiones for hobbies. The model is one possible answer; other details can be just as good.",
   minWords: 15,
   maxWords: 25,
   fields: [

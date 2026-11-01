@@ -1,4 +1,4 @@
-import type { Question, Unit, Skill, Tone } from "./types.ts";
+import type { Question, Unit, Skill } from "./types.ts";
 import { vocabularyHints } from "./vocabulary-hints.ts";
 import words from "./words.json" with { type: "json" };
 
@@ -7,7 +7,6 @@ type Seed = {
   spanish: string;
   subtitle: string;
   icon: string;
-  color: Tone;
   goals: string[];
   tip: string;
   example: string;
@@ -30,7 +29,6 @@ const seeds: Seed[] = [
     spanish: "Primeros pasos",
     subtitle: "Say hello. Make your first connection.",
     icon: "sun",
-    color: "peach",
     goals: [
       "Greet and introduce yourself",
       "Use ser and llamarse",
@@ -144,7 +142,6 @@ const seeds: Seed[] = [
     spanish: "Así soy yo",
     subtitle: "Names, numbers and your little corner of the world.",
     icon: "user",
-    color: "lavender",
     goals: [
       "Give age, nationality and contact details",
       "Recognize numbers and question words",
@@ -259,7 +256,6 @@ const seeds: Seed[] = [
     spanish: "Mi gente",
     subtitle: "Family, friends and the words that bring you together.",
     icon: "people",
-    color: "sage",
     goals: [
       "Describe family and appearance",
       "Use possessives and adjective agreement",
@@ -374,7 +370,6 @@ const seeds: Seed[] = [
     spanish: "En casa",
     subtitle: "Open the door. Find your words.",
     icon: "home",
-    color: "sand",
     goals: [
       "Name rooms and furniture",
       "Distinguish hay and estar",
@@ -488,7 +483,6 @@ const seeds: Seed[] = [
     spanish: "Mi día a día",
     subtitle: "From the first coffee to buenas noches.",
     icon: "clock",
-    color: "blue",
     goals: [
       "Tell the time and understand schedules",
       "Use present-tense verbs and reflexives",
@@ -603,7 +597,6 @@ const seeds: Seed[] = [
     spanish: "¡Buen provecho!",
     subtitle: "Order something delicious. Make yourself understood.",
     icon: "coffee",
-    color: "peach",
     goals: [
       "Order food and ask for the bill",
       "Express preferences with gustar",
@@ -718,7 +711,6 @@ const seeds: Seed[] = [
     spanish: "Por el barrio",
     subtitle: "Find your way, one conversation at a time.",
     icon: "map",
-    color: "sage",
     goals: [
       "Ask for and understand directions",
       "Locate places and services",
@@ -834,7 +826,6 @@ const seeds: Seed[] = [
     spanish: "De compras",
     subtitle: "Colors, sizes and something just right.",
     icon: "bag",
-    color: "lavender",
     goals: [
       "Ask about prices, sizes and colors",
       "Use demonstratives and quantities",
@@ -949,7 +940,6 @@ const seeds: Seed[] = [
     spanish: "Tiempo libre",
     subtitle: "The things you love and the people you meet.",
     icon: "heart",
-    color: "peach",
     goals: [
       "Talk about hobbies, work and studies",
       "Accept or decline an invitation",
@@ -1063,7 +1053,6 @@ const seeds: Seed[] = [
     spanish: "¡Buen viaje!",
     subtitle: "Trains, check-ins and your next small adventure.",
     icon: "train",
-    color: "blue",
     goals: [
       "Understand tickets and travel announcements",
       "Ask for a room or a transport ticket",
@@ -1179,7 +1168,6 @@ const seeds: Seed[] = [
     spanish: "¿Qué tal estás?",
     subtitle: "Talk about the weather and how you feel.",
     icon: "cloud",
-    color: "sand",
     goals: [
       "Describe weather and seasons",
       "Express basic feelings and physical needs",
@@ -1293,7 +1281,6 @@ const seeds: Seed[] = [
     spanish: "¡Tú puedes!",
     subtitle: "Bring it all together. Walk in with confidence.",
     icon: "flag",
-    color: "sage",
     goals: [
       "Complete exam-style personal exchanges",
       "Apply grammar, spelling and reading strategies",
@@ -1530,7 +1517,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       prompt: s.writing,
       answer: s.model,
       explanation:
-        "Compare your text with the model and review each requested point. Different answers can be valid. The checklist and word count are practice feedback, not an examiner grade.",
+        "Cover every requested point in simple, understandable Spanish and write at least 30 words. The model is one possible answer; different wording and details can be just as good.",
       checklist: s.checks,
       minWords: 30,
       maxWords: 40,
@@ -1552,7 +1539,6 @@ export const units: Unit[] = seeds.map((s, ui) => {
     spanish: s.spanish,
     subtitle: s.subtitle,
     icon: s.icon,
-    color: s.color,
     goals: s.goals,
     tip: s.tip,
     example: s.example,

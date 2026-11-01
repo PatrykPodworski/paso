@@ -14,7 +14,7 @@ type Props = {
 
 export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Props) => (
   <div className="mt-5">
-    <label htmlFor="written-answer" className="block text-sm text-sage-500 mb-2.5">
+    <label htmlFor="written-answer" className="block text-sm text-muted-foreground mb-2.5">
       Your answer in Spanish
     </label>
     {q.kind === "write" ? (
@@ -54,7 +54,7 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
           <button
             type="button"
             key={c}
-            className={`${PRESSABLE} h-7 w-6 rounded-sm border border-sage-200 bg-sage-50 p-0 text-sm text-olive-500`}
+            className={`${PRESSABLE} h-7 w-6 rounded-sm border border-border bg-muted p-0 text-sm text-foreground`}
             onClick={() => {
               const el = document.getElementById("written-answer") as
                 | HTMLInputElement
@@ -81,8 +81,8 @@ export const WritingArea = ({ q, answer, feedback, words, setText, submit }: Pro
         <span
           className={`word-count whitespace-nowrap text-xs ${
             words < q.minWords || words > (q.maxWords || Infinity)
-              ? "outside text-sand-500"
-              : "text-olive-600"
+              ? "outside text-destructive"
+              : "text-success"
           }`}
         >
           {words} / {q.minWords}–{q.maxWords} words

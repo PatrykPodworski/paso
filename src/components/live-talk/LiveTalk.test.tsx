@@ -249,6 +249,7 @@ describe("a live talk", () => {
       "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
       true,
       false,
+      "good",
       {
         grade: "good",
         items: [
@@ -285,6 +286,7 @@ describe("a live talk", () => {
     expect(onEvaluated.mock.calls[0].slice(1)).toEqual([
       false,
       false,
+      "bad",
       { grade: "bad", items: graded("correct", "missing", "missing") },
     ]);
 
@@ -388,6 +390,7 @@ describe("a live talk", () => {
       "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
       true,
       false,
+      "good",
       expect.objectContaining({ grade: "good" }),
     );
 
@@ -469,7 +472,7 @@ describe("access", () => {
     });
   });
 
-  it("keeps the passcode progress stored when the free talk is used", async () => {
+  it("keeps a stored passcode when the free talk is used", async () => {
     localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
     replies(started(), { grade: "perfect", items: [] });
     mount();

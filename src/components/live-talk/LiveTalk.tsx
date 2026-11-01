@@ -3,10 +3,10 @@ import { Button } from "../../design-system/Button";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Notice } from "../../design-system/Notice";
 import { clipText } from "../../data/progress";
-import type { LiveScore, TalkTurn } from "../../data/types";
+import type { Grade, LiveScore, TalkTurn } from "../../data/types";
 import { LiveResult } from "./LiveResult";
 import { LiveStart } from "./LiveStart";
-import { accessAfter, readAccess, saveAccess } from "./liveAccess";
+import { accessAfter, readAccess, saveAccess } from "../liveAccess";
 import { LiveStatus } from "./LiveStatus";
 import { clearPendingTalk, readPendingTalk, savePendingTalk } from "./pendingTalk";
 import { transcriptText } from "./transcript";
@@ -36,7 +36,13 @@ type Props = {
   exam?: boolean;
   // The result of an earlier session of this task, shown instead of a new talk.
   result?: LiveScore;
-  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, score: LiveScore) => void;
+  onEvaluated?: (
+    answer: string,
+    correct: boolean,
+    assisted: boolean,
+    grade: Grade,
+    score: LiveScore,
+  ) => void;
   onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
 };
 
@@ -84,7 +90,15 @@ export const LiveTalk = ({
       const result = (await response.json()) as LiveScore;
 
       setScoring({ state: "done", turns, score: result });
-      onEvaluated?.(clipText(transcriptText(turns)), result.grade !== "bad", false, result);
+
+      onEvaluated?.(
+        clipText(transcriptText(turns)),
+        result.grade !== "bad",
+        false,
+        result.grade,
+        result,
+      );
+
       clearPendingTalk(questionId);
     } catch {
       setScoring({ state: "failed", turns, passcode });
@@ -131,7 +145,7 @@ export const LiveTalk = ({
   };
 
   return (
-    <div className="mbs-1 rounded-lg border border-sand-200 bg-sand-100 p-5 max-md:p-4">
+    <div className="mbs-1 rounded-lg border border-border bg-muted p-5 max-md:p-4">
       <FieldNote className="mbe-4">
         Lucía talks with you in Spanish. Your voice goes to OpenAI for the talk; the transcript is
         scored.

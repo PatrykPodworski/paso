@@ -16,7 +16,7 @@ export const FormFields = ({ q, fieldValues, feedback, words, onFieldChange }: P
     {q.fields?.map((f) => (
       <label
         key={f.label}
-        className="flex flex-col gap-2 text-sm text-olive-600 max-md:text-xs max-sm:text-sm"
+        className="flex flex-col gap-2 text-sm text-foreground max-md:text-xs max-sm:text-sm"
       >
         {f.label}
         <input

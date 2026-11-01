@@ -106,10 +106,27 @@ Generating new clips, the voice assignments and the credit guards are in
 
 ## Writing and speaking
 
-Free writing and the personal form end in a reflection panel: a model answer,
-word-count guidance, a few targeted pattern checks and a self-review checklist.
-AI feedback on your writing is coming soon. Every speaking task is a live talk
-with Lucía; nothing is recorded in the browser.
+Every speaking task is a live talk with Lucía; nothing is recorded in the browser.
+
+In a lesson or practice writing task, "Review my practice" asks an AI tutor for
+feedback: a result (passed, partly passed or not passed yet), each requested
+point covered or missing, corrections, the word count and a revised version. The
+result is recorded like a live talk's grade, so a task not passed goes to the
+mistake review. At the mock exam's writing review, one button marks both tasks
+with a DELE band from 0 to 3 and scales them to the 25-point writing score.
+Nothing is sent until the learner asks, and the server stores nothing.
+
+`api/review-writing.ts` looks the task up on the server, so the client sends
+only the task id, the answer and the passcode. It calls OpenRouter with
+`OPENROUTER_API_KEY` on the model that `OPENROUTER_MODEL` names, and checks the
+same `PASSCODE` as the live talks. Both OpenRouter variables are required: without
+either one the function logs which is missing and answers 503. Use `vercel dev`
+to try it locally.
+
+`pnpm eval:writing` reviews the sample answers in `scripts/writing-evals/samples.json`
+and fails when any band (exam tasks) or result (practice tasks) differs from the
+expected one. It reads the key and the model
+from the environment or `.env.local`; rerun it after changing the prompt or the model.
 
 ## Live examiner
 
@@ -124,10 +141,11 @@ use `vercel dev` to try a real talk locally.
 ## Progress
 
 `api/progress.ts` reads and writes a learner's progress in Neon Postgres
-(`DATABASE_URL`) and needs the same passcode as the live talk. The app asks for
-it once and keeps it in this browser. `pnpm dev` serves the same API from an
-in-memory Postgres that starts empty, without a passcode. Progress saved in this
-browser before the move is not read.
+(`DATABASE_URL`). It needs only the learner id this browser keeps, with no
+passcode, and limits each address to 120 requests a minute and 5000 a day, with
+bodies up to 256 KB. `pnpm dev` serves the same API from an in-memory Postgres
+that starts empty, without the rate limits. Progress saved in this browser
+before the move is not read.
 
 ## Tests
 

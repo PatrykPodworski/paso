@@ -1,5 +1,5 @@
 import type { Question } from "../../data/types";
-import { countWords, isCorrect } from "../../data/progress";
+import { answerWords, isCorrect } from "../../data/progress";
 import { Icon } from "../../design-system/Icon";
 
 type Props = {
@@ -16,9 +16,9 @@ const verdictLabel = {
 };
 
 const status = {
-  good: "bg-sage-100 text-olive-600",
-  bad: "bg-sand-200 text-coral-600",
-  neutral: "bg-lavender-100 text-lavender-500",
+  good: "bg-success/10 text-success",
+  bad: "bg-destructive/10 text-destructive",
+  neutral: "bg-muted text-muted-foreground",
 };
 
 const LINE = "leading-relaxed my-2 text-sm";
@@ -27,7 +27,7 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
   const verdict = section > 1 ? "neutral" : isCorrect(q, answer || "") ? "good" : "bad";
 
   return (
-    <details className="border-t border-sage-200">
+    <details className="border-t border-border">
       <summary className="flex cursor-pointer items-center gap-3 py-4 text-sm max-md:leading-relaxed">
         <span
           role="img"
@@ -40,7 +40,7 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
           {number}. {q.prompt}
         </span>
       </summary>
-      <div className="pb-5 pl-10 text-sage-600 max-md:pl-0">
+      <div className="pb-5 pl-10 text-muted-foreground max-md:pl-0">
         <p className={LINE}>
           Your answer: <strong lang="es">{answer || "Not answered"}</strong>
         </p>
@@ -56,9 +56,8 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
         )}
         {q.minWords && (
           <p className={LINE}>
-            Response length:{" "}
-            {countWords(q.kind === "form" ? (answer || "").replace(/^.*?: /gm, "") : answer || "")}{" "}
-            words. Target: {q.minWords}–{q.maxWords}.
+            Response length: {answerWords(q, answer || "")} words. Target: {q.minWords}–{q.maxWords}
+            .
           </p>
         )}
         {q.checklist?.map((c) => (

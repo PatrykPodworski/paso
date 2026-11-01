@@ -20,7 +20,7 @@ type Props = {
   onReset: () => void;
 };
 
-const LABEL = "flex flex-col gap-2 mb-5 text-sage-600 text-sm";
+const LABEL = "flex flex-col gap-2 mb-5 text-muted-foreground text-sm";
 
 export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
   const [name, setName] = useState(progress.name);
@@ -35,7 +35,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
       <header className="flex justify-between gap-2.5 mb-7">
         <div>
           <Eyebrow>MAKE YOURSELF AT HOME</Eyebrow>
-          <h2 className="font-serif font-semibold tracking-tight leading-tight mt-2 text-2xl">
+          <h2 className="font-heading font-semibold tracking-tight leading-tight mt-2 text-2xl">
             Your little preferences.
           </h2>
         </div>
@@ -62,7 +62,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
         </select>
       </label>
       <label className={LABEL}>
-        Exam date <span className="text-xs text-sage-700">(optional)</span>
+        Exam date <span className="text-xs text-muted-foreground">(optional)</span>
         <input
           className={FIELD}
           type="date"
@@ -97,7 +97,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
           <Icon name="check" size={17} />
         </Button>
       </ButtonRow>
-      <details className="mt-6 pt-4 border-t border-t-sage-200 text-xs text-sage-400">
+      <details className="mt-6 pt-4 border-t border-t-border text-xs text-muted-foreground">
         <summary className="cursor-pointer">Start over</summary>
         {reset ? (
           <div>
@@ -115,7 +115,7 @@ export const Settings = ({ progress, onSave, onClose, onReset }: Props) => {
             </ButtonRow>
           </div>
         ) : (
-          <TextLink className="mt-3 text-xs! text-sand-500!" onClick={() => setReset(true)}>
+          <TextLink className="mt-3 text-xs! text-destructive!" onClick={() => setReset(true)}>
             Reset my progress
           </TextLink>
         )}

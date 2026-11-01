@@ -13,8 +13,9 @@ import {
 import { mockSections } from "../../data/mock";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
-import type { MockRun } from "../../data/types";
+import type { MockRun, MockRunPatch } from "../../data/types";
 import { draftAnswers } from "./draftAnswers";
+import { SpeakingTask } from "./SpeakingTask";
 import type { ChangeRun } from "./useMockRun";
 
 type Props = {
@@ -28,7 +29,17 @@ type Props = {
 export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) => {
   const section = mockSections[run.section];
   const q = section.questions[run.index];
+  const last = section.questions.length - 1;
   const answers = { ...run.answers, ...draftAnswers(run) };
+
+  // Moves to the next question, or asks to finish the section after the last one.
+  const advance = (patch: MockRunPatch = {}) => {
+    change({ ...patch, section: run.section, index: Math.min(run.index + 1, last) });
+
+    if (run.index === last) {
+      setConfirm(true);
+    }
+  };
 
   return (
     <Panel className="px-7 pt-5 pb-5 max-md:p-4">
@@ -38,26 +49,27 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           {run.index + 1} / {section.questions.length}
         </strong>
       </div>
-      <QuestionCard
-        key={`${run.section}-${run.index}`}
-        q={q}
-        exam
-        draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
-        onDraft={(text) => change({ drafts: { [q.id]: text } })}
-        onSubmit={(answer) => {
-          stopAudio();
-
-          change({
-            answers: { [q.id]: answer },
-            section: run.section,
-            index: Math.min(run.index + 1, section.questions.length - 1),
-          });
-
-          if (run.index === section.questions.length - 1) {
-            setConfirm(true);
-          }
-        }}
-      />
+      {q.kind === "live" ? (
+        <SpeakingTask
+          key={`${run.section}-${run.index}`}
+          q={q}
+          run={run}
+          change={change}
+          onNext={() => advance()}
+        />
+      ) : (
+        <QuestionCard
+          key={`${run.section}-${run.index}`}
+          q={q}
+          exam
+          draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
+          onDraft={(text) => change({ drafts: { [q.id]: text } })}
+          onSubmit={(answer) => {
+            stopAudio();
+            advance({ answers: { [q.id]: answer } });
+          }}
+        />
+      )}
       <div className="mt-5 flex items-center justify-between gap-3.5 border-t border-border pt-4 max-md:flex-wrap max-md:gap-4">
         <TextLink
           disabled={run.index === 0}
@@ -72,7 +84,7 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           onClick={() => {
             stopAudio();
 
-            if (run.index === section.questions.length - 1) {
+            if (run.index === last) {
               setConfirm(true);
             } else {
               change({ section: run.section, index: run.index + 1 });

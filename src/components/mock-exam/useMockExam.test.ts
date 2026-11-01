@@ -61,11 +61,14 @@ it("automatically ends a section exactly at its deadline and dismisses confirmat
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-it("dismisses a confirmation left open when the speaking time runs out", async () => {
+it("shows no finish dialog in the next rehearsal after the speaking time ran out", async () => {
   await seed({ section: 3, deadline: now + 2000 });
   await mount();
   click("Finish section");
   act(() => vi.advanceTimersByTime(2000));
+  // The speaking clock cuts no talk, so the dialog stays until the learner finishes.
+  expect(screen.getByRole("dialog")).toBeInTheDocument();
+  click("Finish & review");
   click("See my results");
   click("Return to exam overview");
   click("Start exam rehearsal");
@@ -102,7 +105,18 @@ it("starts oral preparation, persists notes, then gives a separate ten minutes t
   act(() => vi.advanceTimersByTime(600000 - 800));
   expect(await state()).toMatchObject({ stage: "run", deadline: now + 1200000 });
   expect(screen.getByRole("timer")).toHaveTextContent("10:00");
-  expect(screen.getByRole("button", { name: "Save answer" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Start the talk" })).toBeEnabled();
+});
+
+it("lets a speaking talk run past the section's clock instead of cutting it", async () => {
+  await seed({ section: 3, stage: "run", deadline: now + 1000 });
+  await mount();
+  act(() => vi.advanceTimersByTime(3000));
+  expect((await state()).stage).toBe("run");
+  expect(screen.getByRole("timer")).toHaveTextContent("00:00");
+  click("Finish section");
+  click("Finish & review");
+  expect((await state()).stage).toBe("review");
 });
 
 it("keeps the results page after the last deadline has passed", async () => {

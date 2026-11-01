@@ -41,8 +41,8 @@ it("shows a text box for a typed answer", () => {
   expect(screen.queryByRole("group", { name: "Word bank" })).not.toBeInTheDocument();
 });
 
-it("shows nothing for a speaking question", () => {
-  const { container } = show(mockQuestions.find((q) => q.kind === "speak")!);
+it("shows nothing for a live talk", () => {
+  const { container } = show(mockQuestions.find((q) => q.kind === "live")!);
 
   expect(container).toBeEmptyDOMElement();
 });

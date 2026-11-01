@@ -51,6 +51,7 @@ export const MockExam = ({ progress, ...actions }: Props) => {
           listening={score(1)}
           writing={run.scores.writing ?? ""}
           speaking={run.scores.speaking ?? ""}
+          talks={run.talks}
           onWriting={(writing) => change({ scores: { writing } })}
           onSpeaking={(speaking) => change({ scores: { speaking } })}
           onDownload={() => downloadResponses(run, score)}

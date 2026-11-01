@@ -328,6 +328,7 @@ const examCases = [
   ["writing", 2, 1, "run"],
   ["oral-preparation", 3, 0, "prep"],
   ["speaking", 3, 0, "run"],
+  ["speaking-topic", 3, 1, "run"],
   ["reading-review", 0, 0, "review"],
   ["listening-review", 1, 0, "review"],
   ["writing-review", 2, 0, "review"],
@@ -367,7 +368,7 @@ test("microphone denial", async ({ page }) => {
   });
 
   await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
-  await page.getByRole("button", { name: "Record your answer" }).click();
+  await page.getByRole("button", { name: "Start the talk" }).click();
   await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
   await shot(page, "microphone-denied");
 });

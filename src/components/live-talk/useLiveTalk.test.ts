@@ -117,7 +117,7 @@ describe("steps", () => {
     steps.push(h.talk().status);
 
     expect(steps).toEqual(["idle", "microphone", "connecting", "live", "ending", "ended"]);
-    expect(examiner().connect).toHaveBeenCalledWith("u1", "olé");
+    expect(examiner().connect).toHaveBeenCalledWith("u1", "olé", undefined);
     expect(examiner().end).toHaveBeenCalledTimes(1);
     expect(examiner().close).toHaveBeenCalledTimes(1);
     expect(h.handlers.onEnded).toHaveBeenCalledWith([]);

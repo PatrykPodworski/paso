@@ -9,7 +9,7 @@ import {
   seedProgress,
   stored,
 } from "../fixtures/app";
-import { examiner, mockLiveTalk, sentEvents } from "../fixtures/live";
+import { examiner, mockLiveTalk, sentEvents, talkToLucia } from "../fixtures/live";
 import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
@@ -429,46 +429,50 @@ test("a failed writing review keeps the answer editable, and a red result goes t
     });
 });
 
-// The mock exam holds the only recording tasks: every unit's speaking task is a live talk.
-const [speakingTask, nextSpeakingTask] = mockSections[3].questions;
+const [, task2, task3] = mockSections[3].questions;
 
-test("record, save and download a speaking answer in the mock exam", async ({ page }) => {
-  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
-  await expect(page.getByRole("heading", { name: speakingTask.prompt, exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Record your answer" }).click();
-  await expect(page.getByRole("button", { name: "Stop recording" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Save answer" })).toBeDisabled();
-  await expect.poll(() => page.locator(".recorder .mono").innerText()).not.toBe("00:00");
-  await page.getByRole("button", { name: "Stop recording" }).click();
-  await expect(page.getByRole("button", { name: "Save answer" })).toBeEnabled();
-  const download = page.waitForEvent("download");
-
-  await page.getByRole("link", { name: "Save recording" }).click();
-  expect((await download).suggestedFilename()).toMatch(/^paso-speaking\.(webm|m4a)$/);
-  await page.getByRole("button", { name: "Save answer" }).click();
-
-  await expect(
-    page.getByRole("heading", { name: nextSpeakingTask.prompt, exact: true }),
-  ).toBeVisible();
-});
-
-test("speaking supports microphone denial and the practised-aloud fallback", async ({ page }) => {
-  await page.addInitScript(() => {
-    navigator.mediaDevices.getUserMedia = async () => {
-      throw new DOMException("Denied", "NotAllowedError");
-    };
+test("the mock exam's Task 2 talks to Lucía on the picked topic and keeps the result across a reload", async ({
+  page,
+}) => {
+  await mockLiveTalk(page, {
+    grade: "good",
+    items: [
+      { id: "location", label: "Where your home is", level: "correct" },
+      { id: "rooms", label: "The rooms", level: "understandable" },
+      { id: "favorite", label: "Your favourite room", level: "correct" },
+    ],
   });
 
-  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
-  await page.getByRole("button", { name: "Record your answer" }).click();
-  await expect(page.getByText(/Microphone access was declined/)).toBeVisible();
-  await expect(page.getByRole("button", { name: "Save answer" })).toBeDisabled();
-  await page.getByRole("checkbox", { name: "I practised aloud", exact: false }).check();
-  await page.getByRole("button", { name: "Save answer" }).click();
+  await resumeMockExam(page, { section: 3, index: 1, stage: "run" });
+  await expect(page.getByRole("heading", { name: task2.prompt, exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start the talk" })).toBeHidden();
+  await page.getByRole("radio", { name: /Your home/ }).check();
+  const session = page.waitForRequest("**/api/live-session");
 
-  await expect(
-    page.getByRole("heading", { name: nextSpeakingTask.prompt, exact: true }),
-  ).toBeVisible();
+  await talkToLucia(page);
+  expect((await session).postDataJSON()).toMatchObject({ task: "mock-s2", topic: "home" });
+  await expect(page.getByRole("heading", { name: "Good." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Talk again" })).toBeHidden();
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Good." })).toBeVisible();
+
+  await expect(page.getByRole("list", { name: "Your answers" })).toContainText(
+    "The roomsUnderstandable, with mistakes",
+  );
+
+  await expect(page.getByRole("radio")).toHaveCount(0);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("heading", { name: task3.prompt, exact: true })).toBeVisible();
+  await expect(page.getByRole("radio", { name: /Your home/ })).toBeChecked();
+
+  await expect
+    .poll(async () => (await saved(page)).mockRun)
+    .toMatchObject({
+      index: 2,
+      topic: "home",
+      answers: { "mock-s2": "Lucía: Hola.\nYou: Hola, soy Ana." },
+      talks: { "mock-s2": { grade: "good" } },
+    });
 });
 
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {

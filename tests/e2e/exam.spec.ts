@@ -1,4 +1,5 @@
 import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
+import { mockLiveTalk } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
 import { mockSections } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
@@ -7,6 +8,12 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   page,
 }) => {
   test.setTimeout(90000);
+
+  await mockLiveTalk(page, {
+    grade: "good",
+    items: [{ id: "name", label: "Name", level: "understandable" }],
+  });
+
   await page.goto("/#exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await expect(page.getByRole("timer")).toHaveText("45:00");
@@ -93,6 +100,11 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("4.99");
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
+
+  await expect(page.getByRole("list", { name: "Lucía's grades" })).toHaveText(
+    "Task 1GoodTask 2GoodTask 3Good",
+  );
+
   const downloaded = page.waitForEvent("download");
 
   await page.getByRole("button", { name: "Export responses for review" }).click();

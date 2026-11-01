@@ -63,6 +63,7 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 4 (_La casa_): 36 texts. Lookup is per text, so units 3, 7 and 10 also
   play the unit 4 recordings of the tiles _del_, _La_, _está_ and _al_.
 - Unit 9 (_Tiempo libre_): 21 texts.
+- Unit 12 (_¡Tú puedes!_): 22 texts.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

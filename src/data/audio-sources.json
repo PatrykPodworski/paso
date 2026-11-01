@@ -535,29 +535,64 @@
     }
   },
   "oo4x7k": {
-    "src": "/audio/elevenlabs/3075c0e14b7c2d6687a96341.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/3226c123253f0ae266ad2c00.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el autobús",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "kpf05b": {
-    "src": "/audio/elevenlabs/0fdb57cdfdf94f0257c26e53.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/3d4ebe0913385406e631aa83.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el billete",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "18slpuo": {
-    "src": "/audio/elevenlabs/1746da3beb046aa6615fda50.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/103096dcb46c37e46e36850a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la maleta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "7xzc02": {
-    "src": "/audio/elevenlabs/fec197eeef48b2fa3f774fb9.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/2d82c2e11c122569800ee892.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "la habitación",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "y8aj44": {
-    "src": "/audio/elevenlabs/a4992d836e54b9f06f60207a.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/1bf97c8b541cc6cf5474aa0d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Atención, por favor. El autobús a Granada sale a las diez y media de la estación central. El billete cuesta quince euros. El viaje dura dos horas. Gracias.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "1vy5lbv": {
     "src": "/audio/elevenlabs/f1df987a5c0a1a19c376f6c3.mp3",
@@ -1114,24 +1149,52 @@
     }
   },
   "1wugl65": {
-    "src": "/audio/elevenlabs/9234e9bc7753d8d0b6264cdd.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/26e320b8a9311ea3eb294745.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el tren",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "11waxpn": {
-    "src": "/audio/elevenlabs/2377656fb5ca7fb3430f54b5.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/a0f9fd011c85c7f7aad6d444.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el avión",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "88lkzy": {
-    "src": "/audio/elevenlabs/8a8a217744260d6c00536091.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/3123945728f684bf7bb05063.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el hotel",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "359mv": {
-    "src": "/audio/elevenlabs/ece8ad8241e152408bbc401b.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/fdddd0ec6ba5f432c0e45c9d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el pasaporte",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
   },
   "nn9cse": {
     "src": "/audio/elevenlabs/18c4b8349d2cf47c852fc13d.mp3",
@@ -1296,9 +1359,16 @@
     }
   },
   "1vkjq4o": {
-    "src": "/audio/elevenlabs/39ce15430e6de22b549e3ada.mp3",
-    "voiceId": "EXAVITQu4vr4xnSDxMaL",
-    "modelId": "eleven_multilingual_v2"
+    "src": "/audio/voxcpm/b71e09799a364ca9ad59ad04.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Un billete a Sevilla para el viernes, por favor.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "vh6bs8": {
     "src": "/audio/elevenlabs/d56351e8e3455ab4ef954a16.mp3",
@@ -1423,18 +1493,15 @@
     }
   },
   "1g30v6u": {
-    "src": "/audio/elevenlabs/711b152fa11e70fbf5befa02.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/ac78831b9965676dfc5933b2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
-    "request": {
-      "text": "[warmly] [slowly] Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1ec0mev": {
@@ -2552,140 +2619,112 @@
     }
   },
   "tzetjn": {
-    "src": "/audio/elevenlabs/27bd26e0d34947024c624a81.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/657ec4b59cc375bcf7ac5fc6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Voy a Barcelona en tren.",
-    "request": {
-      "text": "[calm] [slowly] Voy a Barcelona en tren.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "tz3mo4": {
-    "src": "/audio/elevenlabs/a8daa595dcc720a53b424128.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/9faefbac1980645ac2dde8f5.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Un billete a Valencia, por favor.",
-    "request": {
-      "text": "[calm] [slowly] Un billete a Valencia, por favor.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "9toyi6": {
-    "src": "/audio/elevenlabs/fdefa051df3f38832f50e0d4.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/e0f9b5da9803affd076cbbc5.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Una habitación para dos personas es doble.",
-    "request": {
-      "text": "[calm] [slowly] Una habitación para dos personas es doble.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1xpiu7i": {
-    "src": "/audio/elevenlabs/b2fe107985c44868ecc0e487.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/a6b4204863ea70deb6665240.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Vamos al hotel.",
-    "request": {
-      "text": "[calm] [slowly] Vamos al hotel.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1n7qwmw": {
-    "src": "/audio/elevenlabs/666453abd9d9ed6e30b7f694.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6884696b8e525f4f7d903cd4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "El tren sale a las ocho menos cuarto.",
-    "request": {
-      "text": "[calm] [slowly] El tren sale a las ocho menos cuarto.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "ayxro7": {
-    "src": "/audio/elevenlabs/fd925b7e15f6073995502385.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/634ca2c5a07cdd168681a187.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Ida y vuelta.",
-    "request": {
-      "text": "[calm] [slowly] Ida y vuelta.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "gu2kwz": {
-    "src": "/audio/elevenlabs/95f74572086b00cb531be40d.mp3",
-    "voiceId": "jBlmi27XRORxjPquUeCh",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/3409668377156af467a2c0a7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "BILLETE DE TREN\nOrigen: Madrid\nDestino: Sevilla\nFecha: 18 de junio\nSalida: 09:15\nLlegada: 12:00\nCoche: 4 · Asiento: 12A\nPrecio: 35 €",
-    "request": {
-      "text": "[calm] [slowly] Billete de tren. Origen: Madrid. Destino: Sevilla. Fecha: dieciocho de junio. Salida: las nueve y cuarto de la mañana. Llegada: las doce del mediodía. Coche: cuatro. Asiento: doce, a. Precio: treinta y cinco euros.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 1,
-        "speed": 0.85
-      },
-      "language_code": "es",
-      "seed": 20260910
-    },
-    "spokenText": "Billete de tren. Origen: Madrid. Destino: Sevilla. Fecha: dieciocho de junio. Salida: las nueve y cuarto de la mañana. Llegada: las doce del mediodía. Coche: cuatro. Asiento: doce, a. Precio: treinta y cinco euros."
+    "spokenText": "Billete de tren. Origen: Madrid. Destino: Sevilla. Fecha: dieciocho de junio. Salida: nueve y cuarto. Llegada: doce en punto. Coche: cuatro. Asiento: doce A. Precio: treinta y cinco euros.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
   },
   "vnp4dx": {
-    "src": "/audio/elevenlabs/05f39741713510c3d73e9acb.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/86b4e7d98210b370fd8112a0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Quiero una habitación para dos personas",
-    "request": {
-      "text": "[calm] [slowly] Quiero una habitación para dos personas",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1ik5mqq": {
-    "src": "/audio/elevenlabs/4b2ce4a2ec2f82b7f306bf21.mp3",
-    "voiceId": "KHCvMklQZZo0O30ERnVn",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/0c56c0efa92e256f47da0d6d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Un billete a Madrid, por favor.",
-    "request": {
-      "text": "[calm] [slowly] Un billete a Madrid, por favor.",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   },
   "1w0hpna": {
@@ -3925,63 +3964,51 @@
     }
   },
   "t9i23v": {
-    "src": "/audio/elevenlabs/f1b72d4fcbdcbb1582e79ed0.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6d9ec20d27939f2eabd84184.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "para",
-    "request": {
-      "text": "[calm] [slowly] para",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1olmi3p": {
-    "src": "/audio/elevenlabs/b9e6acd3135cc2c4266bdad0.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/de77b4e5f4839787297e8286.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "dos",
-    "request": {
-      "text": "[calm] [slowly] dos",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "1ttks74": {
-    "src": "/audio/elevenlabs/0ce3739901b740e178b9ddfa.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/231ddaaecf29725d251c7225.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "personas",
-    "request": {
-      "text": "[calm] [slowly] personas",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "533io1": {
-    "src": "/audio/elevenlabs/9c51440bfa5d2d8cc0779177.mp3",
-    "voiceId": "htFfPSZGJwjBv1CL0aMD",
-    "modelId": "eleven_v3",
+    "src": "/audio/voxcpm/6ea832e8aa6bc746991c5c7d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "habitación",
-    "request": {
-      "text": "[calm] [slowly] habitación",
-      "model_id": "eleven_v3",
-      "voice_settings": {
-        "stability": 0.5
-      },
-      "language_code": "es",
-      "seed": 20260909
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   },
   "qzj1p6": {

@@ -166,21 +166,21 @@ describe("the exam builder", () => {
     }
   });
 
-  it("stops searching after the limit and still gives an exam", () => {
-    // Twelve tasks share eleven themes, so every exam repeats one, and the search tries far
-    // more partial exams than the limit allows before it could prove that.
-    const tasks = Array.from({ length: 12 }, (_, i) =>
-      task(`t${i}`, ...[0, 1, 2].map((j) => `t${i}v${j}:x${(i + j) % 11}`)),
-    );
+  it("stops searching after the limit and settles for the fewest repeats", () => {
+    // Taking the unseen "a1" leaves nine tasks to share eight themes. Proving that impossible
+    // takes far more tries than the limit, so the search gives up before it reaches "a2",
+    // which would have given an exam without repeats.
+    const themes = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "y"];
 
-    const started = performance.now();
-    const exam = buildExam({ seed: 1, tasks });
+    const tasks = [
+      task("a", "a1:y", "a2:z"),
+      ...Array.from({ length: 9 }, (_, i) => task(`t${i}`, ...themes.map((t) => `t${i}${t}:${t}`))),
+    ];
 
-    expect(performance.now() - started).toBeLessThan(1000);
+    const seen = new Map(tasks.slice(1).map((t, i) => [`t${i}y`, 1]));
+    const exam = buildExam({ seed: 1, seen: new Map([...seen, ["a2", 1]]), tasks });
+
+    expect(exam.a).toBe("a1");
     expect(Object.keys(exam)).toEqual(tasks.map((t) => t.id));
-
-    for (const t of tasks) {
-      expect(t.variants.map((v) => v.id)).toContain(exam[t.id]);
-    }
   });
 });

@@ -1,11 +1,8 @@
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
 import { allLessons } from "../../src/data/curriculum";
-import { examSections, firstVariants } from "../../src/data/mock";
+import { mockQuestions } from "../../src/data/mock";
 import type { ProgressSnapshot, Question } from "../../src/data/types";
 import { type ProgressSeed, seedWrites } from "./progressSeed";
-
-// The exam as variant 1 of each task.
-const sections = examSections(firstVariants);
 
 export const test = base.extend<{ blockExternal: void }>({
   blockExternal: [
@@ -169,7 +166,9 @@ export const resumeMockExam = async (
     section,
     index,
     stage,
-    answers: { [sections[0].questions[0].id]: sections[0].questions[0].answer },
+    // The first reading question. The visual compare runs this fixture against the base app too,
+    // so it uses only what both versions of the mock data export.
+    answers: { [mockQuestions[0].id]: mockQuestions[0].answer },
     deadline: new Date("2026-09-09T10:25:00+02:00").getTime(),
     started: "2026-09-09T08:00:00Z",
     drafts: {},

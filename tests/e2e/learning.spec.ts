@@ -256,9 +256,8 @@ test("sentence building supports removal and reads the sentence after checking",
   await page.getByRole("button", { name: "Keep learning" }).click();
   await expect(page.getByRole("textbox")).toHaveValue("Soy de");
   await closeLesson(page);
-  await openLesson(page, 3);
-  await answer(page, q);
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await openLesson(page, 3, 1);
+  // A reopened lesson resumes at the typed exercise, which starts a fresh attempt.
   await expect(page.getByRole("textbox")).toHaveValue("");
 });
 
@@ -314,13 +313,7 @@ test("writing keeps its draft and is graded by the AI review from Review my prac
 
   await input.fill("Me llamo Ana. Soy veinte años.");
   await closeLesson(page);
-  await openLesson(page, 3);
-
-  for (const q of lesson.questions.slice(0, 2)) {
-    await answer(page, q);
-    await page.getByRole("button", { name: "Continue", exact: true }).click();
-  }
-
+  await openLesson(page, 3, 2);
   await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
 
   await page.evaluate(() => {
@@ -706,4 +699,33 @@ test("the lesson header names the unit and lesson, and a practice session as pra
   await page.getByRole("button", { name: "Start my daily mix" }).click();
   await expect(header.getByText("PRACTICE", { exact: true })).toBeVisible();
   await expect(header.getByRole("heading", { name: "Your daily mix", exact: true })).toBeVisible();
+});
+
+test("the journey button resumes an unfinished lesson at its first unanswered exercise after a reload", async ({
+  page,
+}) => {
+  const lesson = allLessons[0];
+
+  const journey = page.getByRole("button", {
+    name: /Let’s take the first step|Continue my journey/,
+  });
+
+  await page.goto("/today");
+  await journey.click();
+
+  for (const q of lesson.questions.slice(0, 3)) {
+    await expect(page.getByRole("heading", { name: q.prompt, exact: true })).toBeVisible();
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await closeLesson(page);
+  await expect.poll(async () => (await saved(page)).recent).toHaveLength(3);
+  await page.reload();
+  await journey.click();
+  await expect(page.getByText(`4 / ${lesson.questions.length}`)).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: lesson.questions[3].prompt, exact: true }),
+  ).toBeVisible();
 });

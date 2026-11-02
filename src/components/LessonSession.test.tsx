@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LessonSession } from "./LessonSession";
 import { stopAudio } from "./audio/playback";
 import { audioSources } from "../data/audio-sources";
-import { allQuestions } from "../data/curriculum";
+import { allLessons, allQuestions } from "../data/curriculum";
 import { emptySnapshot, questionState } from "../test/progress";
 import type { ProgressSnapshot, Question } from "../data/types";
 
@@ -454,4 +454,51 @@ it("fetches every picture of the lesson when it starts, once each", () => {
   ]);
 
   vi.unstubAllGlobals();
+});
+
+describe("an unfinished path lesson", () => {
+  const lesson = { ...allLessons[0], questions: allLessons[0].questions.slice(0, 4) };
+  const [first, second, third, fourth] = lesson.questions;
+  const progress = emptySnapshot();
+
+  progress.questions[first.id] = questionState({ correct: true });
+  progress.questions[second.id] = questionState({ correct: false });
+  progress.questions[third.id] = questionState({ correct: true, assisted: true });
+
+  const open = (close = vi.fn(), done = vi.fn()) =>
+    render(
+      <LessonSession
+        lesson={lesson}
+        progress={progress}
+        onClose={close}
+        onAttempt={vi.fn()}
+        onComplete={done}
+        onDraft={vi.fn()}
+      />,
+    );
+
+  it("opens at the first exercise without a stored answer and scores the whole lesson", () => {
+    const done = vi.fn();
+
+    open(vi.fn(), done);
+    expect(screen.getByText("4 / 4")).toBeInTheDocument();
+
+    expect(screen.getByRole("progressbar", { name: "Lesson progress" })).toHaveAttribute(
+      "aria-valuenow",
+      "3",
+    );
+
+    click(fourth.answer);
+    click("Continue");
+    expect(done).toHaveBeenCalledExactlyOnceWith(3, 4);
+    expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
+  });
+
+  it("closes at once when nothing was answered since it opened", () => {
+    const close = vi.fn();
+
+    open(close);
+    click("Close lesson");
+    expect(close).toHaveBeenCalledOnce();
+  });
 });

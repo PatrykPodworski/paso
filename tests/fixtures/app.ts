@@ -80,7 +80,8 @@ export const stabilise = async (page: Page) => {
   await page.mouse.move(0, 0);
 };
 
-export const openLesson = async (page: Page, index: number) => {
+// Opens a path lesson; one with stored answers resumes at its first unanswered exercise.
+export const openLesson = async (page: Page, index: number, resumeAt = 0) => {
   await page.goto("/path");
   const lesson = allLessons[index];
   const unit = page.locator(".unit-card").nth(Math.floor(index / 4));
@@ -92,7 +93,7 @@ export const openLesson = async (page: Page, index: number) => {
   await unit.getByRole("button", { name: lesson.title, exact: false }).click();
 
   await expect(
-    page.getByRole("heading", { name: lesson.questions[0].prompt, exact: true }),
+    page.getByRole("heading", { name: lesson.questions[resumeAt].prompt, exact: true }),
   ).toBeVisible();
 
   return lesson;

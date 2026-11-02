@@ -12,6 +12,7 @@ import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
 import { lessonPlace } from "../data/lessonPlace";
 import { usePreloadPictures } from "./usePreloadPictures";
+import { resumeIndex } from "../data/resumeIndex";
 
 // A recording keeps playing across the questions that share it.
 const sharesRecording = (q: Question, next: Question | undefined) =>
@@ -36,13 +37,16 @@ export const LessonSession = ({
   onDraft,
   onNext,
 }: Props) => {
-  const [index, setIndex] = useState(0);
-  const [results, setResults] = useState<(boolean | null)[]>([]);
-  const [finished, setFinished] = useState(false);
-  const [confirmExit, setConfirmExit] = useState(false);
-  const [assisted, setAssisted] = useState(0);
   // Each question's answer from before this lesson; answers given now must not replace it.
   const [before] = useState(() => progress.questions);
+  // A resumed lesson counts the stored answers to the exercises it skips.
+  const [start] = useState(() => resumeIndex(lesson, progress));
+  const skipped = lesson.questions.slice(0, start).map((q) => before[q.id]);
+  const [index, setIndex] = useState(start);
+  const [results, setResults] = useState(() => skipped.map((a) => a.correct));
+  const [finished, setFinished] = useState(false);
+  const [confirmExit, setConfirmExit] = useState(false);
+  const [assisted, setAssisted] = useState(() => skipped.filter((a) => a.assisted).length);
   const question = lesson.questions[index];
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
@@ -53,7 +57,7 @@ export const LessonSession = ({
   const close = () => {
     stopAudio();
 
-    if (index > 0 && !finished) {
+    if (index > start && !finished) {
       setConfirmExit(true);
     } else {
       onClose();

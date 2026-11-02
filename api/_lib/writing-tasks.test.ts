@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
+import { mockExam } from "../../src/data/mock.ts";
 import { writingTaskOf } from "./writing-tasks.ts";
 
 describe("writing tasks", () => {
@@ -10,9 +11,11 @@ describe("writing tasks", () => {
       exam: true,
       prompt: expect.stringContaining("Your friend Jorge writes"),
       points: [
-        "I greeted Jorge and answered the invitation.",
-        "I gave a place, time and activity.",
-        "I wrote 30–40 words and included a farewell.",
+        "I greeted Jorge.",
+        "I answered his invitation.",
+        "I gave a meeting place and time.",
+        "I suggested an activity.",
+        "I said goodbye.",
       ],
       wordRange: [30, 40],
     });
@@ -31,6 +34,16 @@ describe("writing tasks", () => {
       "Lenguas",
       "Aficiones",
     ]);
+  });
+
+  it("marks every writing variant as an exam task with its own points", () => {
+    for (const q of mockExam[2].tasks.flatMap((t) => t.variants.flatMap((v) => v.questions))) {
+      expect(writingTaskOf(q.id), q.id).toMatchObject({
+        exam: true,
+        prompt: q.prompt,
+        points: q.fields?.map((f) => f.label) ?? q.checklist,
+      });
+    }
   });
 
   it("reviews lesson and practice writing without an exam mark", () => {

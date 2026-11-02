@@ -1,5 +1,13 @@
 import type { Correction, Grade, WritingMark, WritingReview } from "../../src/data/types.ts";
-import { correctionsSchema, isCorrections, keptCorrections } from "./corrections.ts";
+import {
+  correctionOf,
+  correctionSchema,
+  correctionsSchema,
+  isCorrection,
+  isCorrections,
+  isFix,
+  keptCorrections,
+} from "./corrections.ts";
 import { messagesOf } from "./writing-prompt.ts";
 import type { WritingTask } from "./writing-tasks.ts";
 
@@ -32,7 +40,15 @@ const object = <T extends Record<string, object>>(properties: T) => ({
   additionalProperties: false,
 });
 
-const coverageItem = object({ point: text, met: { type: "boolean" }, feedback: text });
+// fix is the correction a missed point needs. Strict outputs have no conditional fields, so a
+// met point returns an empty fix, which the code ignores.
+const coverageItem = object({
+  point: text,
+  met: { type: "boolean" },
+  feedback: text,
+  fix: correctionSchema,
+});
+
 const mark = object({ band: { type: "integer", enum: BANDS }, reason: text });
 const result = { type: "string", enum: Object.keys(RESULT_GRADES) };
 
@@ -48,8 +64,14 @@ export const schemaOf = (task: WritingTask) =>
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-const isCoverage = (value: unknown): value is { met: boolean; feedback: string } =>
-  isRecord(value) && typeof value.met === "boolean" && typeof value.feedback === "string";
+type Coverage = { met: boolean; feedback: string; fix: Correction };
+
+const isCoverage = (value: unknown): value is Coverage =>
+  isRecord(value) &&
+  typeof value.met === "boolean" &&
+  typeof value.feedback === "string" &&
+  isCorrection(value.fix) &&
+  (value.met || isFix(value.fix));
 
 const isMark = (value: unknown): value is WritingMark =>
   isRecord(value) &&
@@ -60,10 +82,7 @@ const isMark = (value: unknown): value is WritingMark =>
 const isResult = (value: unknown): value is Result =>
   typeof value === "string" && Object.hasOwn(RESULT_GRADES, value);
 
-const isCoverageOf = (
-  task: WritingTask,
-  value: unknown,
-): value is { met: boolean; feedback: string }[] =>
+const isCoverageOf = (task: WritingTask, value: unknown): value is Coverage[] =>
   Array.isArray(value) && value.length === task.points.length && value.every(isCoverage);
 
 const isRevised = (value: unknown): value is string =>
@@ -95,7 +114,7 @@ const parseJson = (content: string): unknown => {
 };
 
 type Output = {
-  coverage: { met: boolean; feedback: string }[];
+  coverage: Coverage[];
   corrections: Correction[];
   revised: string;
   mark?: WritingMark;
@@ -126,7 +145,11 @@ export const parseReview = (
   const review: WritingReview = {
     wordCount,
     coverage: coverage.map(({ met, feedback }, i) => ({ point: task.points[i], met, feedback })),
-    corrections: keptCorrections(corrections),
+    // Missed points come first and outside the cap, so their fixes are never cut.
+    corrections: [
+      ...coverage.filter((c) => !c.met).map((c) => correctionOf(c.fix)),
+      ...keptCorrections(corrections),
+    ],
     revised,
   };
 

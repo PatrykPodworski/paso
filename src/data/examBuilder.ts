@@ -4,6 +4,10 @@ import type { ExamVariants, MockTask, MockVariant } from "./types";
 // When the learner last saw each variant, in epoch milliseconds. A variant not in it is unseen.
 export type SeenVariants = ReadonlyMap<string, number>;
 
+// The seen history as the progress snapshot keeps it: variant id to ISO time.
+export const seenFrom = (seenVariants: Record<string, string>): SeenVariants =>
+  new Map(Object.entries(seenVariants).map(([id, at]) => [id, Date.parse(at)]));
+
 export type ExamRequest = {
   seed: number;
   seen?: SeenVariants;

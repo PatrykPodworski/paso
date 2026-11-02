@@ -88,6 +88,7 @@ describe("migrations", () => {
       "001_init.sql",
       "002_mock_runs.sql",
       "003_mock_run_variants.sql",
+      "004_seen_variants.sql",
     ]);
 
     expect(await tables(pg)).toEqual([
@@ -100,6 +101,7 @@ describe("migrations", () => {
       "mock_runs",
       "question_states",
       "schema_migrations",
+      "seen_variants",
       "vocabulary_reviews",
     ]);
   });
@@ -133,7 +135,17 @@ describe("003_mock_run_variants", () => {
       newer,
     ]);
 
-    expect(await migrate(pgliteSession(pg))).toEqual(["003_mock_run_variants.sql"]);
+    // Later migrations are left out, so this test keeps checking 003 alone.
+    expect(
+      await migrate(
+        pgliteSession(pg),
+        migrationsIn({
+          "001_init.sql": file("001_init.sql"),
+          "002_mock_runs.sql": file("002_mock_runs.sql"),
+          "003_mock_run_variants.sql": file("003_mock_run_variants.sql"),
+        }),
+      ),
+    ).toEqual(["003_mock_run_variants.sql"]);
 
     const runs = await pg.query<{ run: unknown }>("SELECT run FROM mock_runs ORDER BY learner_id");
 

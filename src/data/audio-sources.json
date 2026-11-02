@@ -120,10 +120,11 @@
     }
   },
   "1ocxwip": {
-    "src": "/audio/voxcpm/5099a376d3e8ee82e184ef0f.mp3",
+    "src": "/audio/voxcpm/a62e05084485d2e8e1203fc9.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, buenos días. Me llamo Pablo. Soy de España. ¿Cómo te llamas? Por favor, habla más despacio.",
+    "spokenText": "Hola, buenos días. Me llamo Pablo. Soy de España. ¿Cómo te llamas? Por favor, habla más despacio…",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -989,15 +990,16 @@
     }
   },
   "117z3no": {
-    "src": "/audio/voxcpm/ae4294d74db15da0d5592d64.mp3",
+    "src": "/audio/voxcpm/17d71e2472cf0db927502246.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "buenos días",
+    "spokenText": "buenos días…",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-words"
+      "method": "make-sentences"
     }
   },
   "iut41g": {
@@ -1790,16 +1792,15 @@
     }
   },
   "6kdbmg": {
-    "src": "/audio/voxcpm/4406c019e069825c8ad7e287.mp3",
+    "src": "/audio/voxcpm/f9a80bad954776028a011ddf.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "año",
-    "spokenText": "Año.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "direct"
+      "method": "make-words"
     }
   },
   "19hmr26": {
@@ -3279,7 +3280,7 @@
     }
   },
   "swmmcn": {
-    "src": "/audio/voxcpm/1fb6c6adf00fa57d154b1e0b.mp3",
+    "src": "/audio/voxcpm/942762f382e5c77b0ca4d7b4.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "me",
@@ -3287,7 +3288,7 @@
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "direct"
+      "method": "make-words"
     }
   },
   "1bkscxd": {
@@ -24353,30 +24354,6 @@
       "method": "make-sentences"
     }
   },
-  "1g5umvc": {
-    "src": "/audio/voxcpm/30a96ad8e81c13b44126bc92.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Soy Andrés y soy profesor de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "3xprrz": {
-    "src": "/audio/voxcpm/85c5a8858d25ce9cd6a86e2c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Los sábados juego al tenis con mi amigo Hugo. Nos gusta mucho el deporte y después tomamos un café juntos.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1vrjpgj": {
     "src": "/audio/voxcpm/0352e4973325047795eda84b.mp3",
     "voiceId": "es-male-teacher",
@@ -24643,18 +24620,6 @@
       "method": "make-sentences"
     }
   },
-  "z69plb": {
-    "src": "/audio/voxcpm/852af1375f1602f3d71bdedf.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Nombre: Pedro García. Nacionalidad: polaco. Ciudad: Varsovia. Profesión: profesor de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1u4m9yu": {
     "src": "/audio/voxcpm/e715ee3fb01706b39d3cf57a.mp3",
     "voiceId": "es-male-teacher",
@@ -24708,6 +24673,30 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Diego es de España. Es español.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "nejtxq": {
+    "src": "/audio/voxcpm/4f6e3f9221b6f874df1b43d8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Soy Fernando y soy profesor de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "15tgxmg": {
+    "src": "/audio/voxcpm/be07a4bb55a31d8a9d1de801.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Los sábados juego al tenis con mi amigo Diego. Nos gusta mucho el deporte y después tomamos un café juntos.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,

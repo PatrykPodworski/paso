@@ -1,7 +1,7 @@
 import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
 import { mockLiveTalk } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
-import { examSections, firstVariants } from "../../src/data/mock";
+import { examSections, firstVariants, mockTasks } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
 
 // The exam as variant 1 of each task.
@@ -143,8 +143,22 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
     speaking: "Requires human assessment",
   });
 
+  // The variants the finished exam took are seen, so the next exam takes others where the
+  // task has any.
+  const first = (await saved(page)).mockRun!.variants;
+
+  expect(Object.keys((await saved(page)).seenVariants).sort()).toEqual(Object.values(first).sort());
+
   await page.getByRole("button", { name: "Return to exam overview" }).click();
   await expect(page.getByText("Your previous rehearsals")).toBeVisible();
+  await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  const second = (await saved(page)).mockRun!.variants;
+
+  for (const task of mockTasks) {
+    expect(second[task.id] === first[task.id]).toBe(task.variants.length === 1);
+  }
 });
 
 test("timer expires during navigation and section confirmation can be cancelled", async ({
@@ -166,10 +180,14 @@ test("timer expires during navigation and section confirmation can be cancelled"
 test("listening permits two plays and writing draft survives reload and clearing", async ({
   page,
 }) => {
-  const [form, open] = sections[2].questions;
-
   await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  // The variants the exam builder chose for this run.
+  const [form, open] = examSections((await saved(page)).mockRun!.variants)[2].questions;
+  const field = page.getByRole("textbox", { name: form.fields![1].label, exact: true });
+
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Finish & review", exact: true }).click();
   await page.getByRole("button", { name: "Continue to listening" }).click();
@@ -189,10 +207,10 @@ test("listening permits two plays and writing draft survives reload and clearing
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Finish & review", exact: true }).click();
   await page.getByRole("button", { name: "Continue to writing" }).click();
-  await page.getByRole("textbox", { name: "Nacionalidad" }).fill("polaca");
+  await field.fill("polaca");
   await expect.poll(async () => (await saved(page)).mockRun?.drafts[form.id]).toContain("polaca");
   await page.reload();
-  await expect(page.getByRole("textbox", { name: "Nacionalidad" })).toHaveValue("polaca");
+  await expect(field).toHaveValue("polaca");
   await page.getByRole("button", { name: "Skip for now →" }).click();
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 
@@ -244,10 +262,13 @@ test("mark both writing tasks at the section review and scale them to 25", async
 });
 
 test("a rehearsal resumes after a reload, and a reset clears it", async ({ page }) => {
-  const [first, second] = sections[0].questions;
-
   await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  // The variants the exam builder chose for this run.
+  const [first, second] = examSections((await saved(page)).mockRun!.variants)[0].questions;
+
   await answer(page, first, true);
   await expect(page.getByRole("heading", { name: second.prompt, exact: true })).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockRun?.answers[first.id]).toBe(first.answer);

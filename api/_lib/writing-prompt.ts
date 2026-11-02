@@ -7,6 +7,7 @@ const tutor = [
   "Recognize valid regional variants and alternate wording. Correct real mistakes, not stylistic preferences.",
   "For each correction, quote an exact fragment from the answer, give a minimal correction and explain it in one short sentence. Give at most eight corrections. Do not invent errors.",
   "Check every supplied point in coverage, one entry per point and in the same order: met is true when the answer covers the point and false when it is missing, with one short sentence of feedback.",
+  "For each point that is not met, give a fix in the same form as a correction: quote the exact fragment of the answer where the point goes wrong, or leave the quote empty when the answer has nothing for it; give the corrected Spanish phrase, built from the learner's own words where possible; and explain in one short sentence what was wrong or missing. For a met point, leave every part of the fix empty. Do not repeat a point's fix in corrections.",
   "The revised version corrects the learner's text and keeps its meaning and facts. Do not add invented details or bracketed prompts; discuss missing details in coverage instead. Keep vocabulary at A1.",
   "Consider the requested word range and use the supplied wordCount exactly; do not recount.",
   "Address the learner naturally. Never mention JSON fields, supplied data or other implementation details.",
@@ -20,7 +21,7 @@ const scale = [
 const taskScale = {
   form: "This is task 1, a form of 15–25 words across all fields.",
   write:
-    "This is task 2, a short letter or email of 30–40 words. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
+    "This is task 2, a short message of 30–40 words: an email, a letter, a note or a postcard. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
 };
 
 // Follows the exam standard, which penalises a short letter but not a long one.

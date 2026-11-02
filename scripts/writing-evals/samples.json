@@ -84,6 +84,76 @@
     "rationale": "A blank answer is band 0; the code answers without the model."
   },
   {
+    "id": "hotel-form-simple",
+    "questionId": "mock-w1-v2",
+    "answer": "Nombre y apellidos: Jan Nowak\nNacionalidad: polaco\nFecha de llegada: el 3 de junio\nNúmero de noches: dos noches\nTipo de habitación: habitación doble\nMotivo del viaje: vacaciones con mi mujer",
+    "expected": 2,
+    "rationale": "Every hotel field answered with simple correct phrases: A1 level."
+  },
+  {
+    "id": "library-form-simple",
+    "questionId": "mock-w1-v3",
+    "answer": "Nombre y apellidos: Piotr Wiśniewski\nDirección: calle Mayor, 8\nTeléfono: 600 123 456\nProfesión: soy ingeniero\nLibros favoritos: libros de historia\nHorario de visita: los lunes por la tarde",
+    "expected": 2,
+    "rationale": "Every library field answered, including an address and a visiting time: A1 level."
+  },
+  {
+    "id": "gym-form-simple",
+    "questionId": "mock-w1-v4",
+    "answer": "Nombre y apellidos: Tomasz Lis\nEdad: treinta y dos años\nDeportes favoritos: el fútbol y correr\nDías y horario: martes y viernes por la tarde\nObjetivo: estar en forma",
+    "expected": 2,
+    "rationale": "Every gym field answered with simple correct phrases: A1 level."
+  },
+  {
+    "id": "cooking-form-gaps",
+    "questionId": "mock-w1-v5",
+    "answer": "Nombre y apellidos: Marek\nNacionalidad: Polonia\nProfesión: \nComida favorita: pizza\nAlergias: \nPlatos que quiere aprender: paella",
+    "expected": 1,
+    "rationale": "Four words, two empty fields and a country for a nationality: A1 not reached."
+  },
+  {
+    "id": "festival-form-simple",
+    "questionId": "mock-w1-v6",
+    "answer": "Nombre y apellidos: Kamil Zając\nEdad: veinte años\nLenguas: polaco e inglés\nProfesión: estudiante\nDías libres: el sábado y el domingo\nTareas preferidas: trabajar en el bar",
+    "expected": 2,
+    "rationale": "Every volunteer field answered with simple correct phrases: A1 level."
+  },
+  {
+    "id": "thanks-simple",
+    "questionId": "mock-w2-v2",
+    "answer": "Hola, Víctor. Gracias por el libro, es muy bonito. Primero voy a preparar una sopa de tomate. ¿Quieres comer conmigo el domingo en mi casa? Me gusta mucho cocinar. Un abrazo, Jan.",
+    "expected": 2,
+    "rationale": "All five points covered in simple A1 Spanish."
+  },
+  {
+    "id": "info-simple",
+    "questionId": "mock-w2-v3",
+    "answer": "Hola, Emilio. Me llamo Piotr y soy polaco. Vivo en Granada con mi familia. Me gusta mucho la montaña. ¿Cuánto cuesta la excursión? ¿A qué hora sale el autobús? Gracias. Un saludo, Piotr.",
+    "expected": 2,
+    "rationale": "All five points covered in simple A1 Spanish."
+  },
+  {
+    "id": "invite-two-missed",
+    "questionId": "mock-w2-v4",
+    "answer": "Hola, Nicolás. Tengo un piso nuevo. Es grande y bonito, tiene tres habitaciones y una cocina moderna. Me gusta mucho mi barrio porque es tranquilo y hay un parque. Un abrazo, Tomasz.",
+    "expected": 1,
+    "rationale": "Greets and says goodbye but never invites him or gives the day, time or place of the party: more than one point missed."
+  },
+  {
+    "id": "decline-simple",
+    "questionId": "mock-w2-v5",
+    "answer": "Hola, Rodrigo. Lo siento, el viernes no puedo ir al partido porque tengo clase de inglés hasta las diez. ¿Quedamos el sábado por la mañana para tomar un café? Un abrazo, Kamil.",
+    "expected": 2,
+    "rationale": "All five points covered in simple A1 Spanish."
+  },
+  {
+    "id": "postcard-simple",
+    "questionId": "mock-w2-v6",
+    "answer": "Hola, Héctor. Estoy en Cádiz con mis amigos. Hace buen tiempo y mucho sol. Todos los días voy a la playa, nado en el mar y por la noche como pescado. Un abrazo, Marek.",
+    "expected": 2,
+    "rationale": "All five points covered in simple A1 Spanish."
+  },
+  {
     "id": "lesson-letter-passed",
     "questionId": "u1-o2",
     "answer": "¡Hola! Me llamo Marta y soy de Polonia, de Cracovia. Ahora vivo en Madrid con mi familia y estudio español en una escuela del centro. ¿Cómo te llamas tú? ¡Hasta mañana! Un saludo, Marta.",

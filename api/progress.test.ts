@@ -37,6 +37,7 @@ const EMPTY: ProgressSnapshot = {
   recent: [],
   days: [],
   mockRun: null,
+  seenVariants: {},
 };
 
 const learner = () => crypto.randomUUID();
@@ -426,6 +427,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
       });
 
       await snapshot(id, { action: "mockRun", run: { answers: { "mock-r1-0": "a" } } });
+      await snapshot(id, { action: "seen", variants: ["r1-v1"], at: T });
     }
 
     expect(await snapshot(me, { action: "reset" })).toEqual(EMPTY);
@@ -536,6 +538,41 @@ describe("the mock exam run", () => {
       seed: 4_294_967_295,
       variants,
     });
+  });
+});
+
+describe("seen exam variants", () => {
+  const LATER = "2026-09-10T08:30:00.000Z";
+
+  const see = async (id: string, variants: string[], at: string) =>
+    (await snapshot(id, { action: "seen", variants, at })).seenVariants;
+
+  it("keeps when the learner last saw each variant of any task", async () => {
+    const me = learner();
+
+    expect(await see(me, ["r1-v1", "l2-v1", "w1-v1", "s2-v1"], T)).toEqual({
+      "r1-v1": T,
+      "l2-v1": T,
+      "w1-v1": T,
+      "s2-v1": T,
+    });
+
+    expect(await see(me, ["r1-v1"], LATER)).toMatchObject({ "r1-v1": LATER, "l2-v1": T });
+  });
+
+  it("keeps the latest sighting when an older one or a resend arrives", async () => {
+    const me = learner();
+
+    await see(me, ["r1-v1"], LATER);
+    await see(me, ["r1-v1"], LATER);
+
+    expect(await see(me, ["r1-v1", "r1-v1"], T)).toEqual({ "r1-v1": LATER });
+  });
+
+  it("shows each learner only the variants they saw", async () => {
+    await see(learner(), ["r1-v1"], T);
+
+    expect((await snapshot(learner())).seenVariants).toEqual({});
   });
 });
 
@@ -811,6 +848,21 @@ describe("requests", () => {
       "run",
     ],
     ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],
+    ["no seen variants", me, { action: "seen", variants: [], at: T }, "variants"],
+    ["an unknown seen variant", me, { action: "seen", variants: ["r1-v99"], at: T }, "variants"],
+    [
+      "seen variants that are no list",
+      me,
+      { action: "seen", variants: "r1-v1", at: T },
+      "variants",
+    ],
+    [
+      "more seen variants than one exam has",
+      me,
+      { action: "seen", variants: Array.from({ length: 13 }, () => "r1-v1"), at: T },
+      "variants",
+    ],
+    ["a seen time", me, { action: "seen", variants: ["r1-v1"], at: "yesterday" }, "at"],
   ])("refuses %s", async (_, id, body, error) => {
     const response = await send(id, body);
 

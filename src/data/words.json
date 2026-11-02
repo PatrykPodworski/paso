@@ -235,7 +235,8 @@
         "en": "tired (masculine)",
         "unit": 11,
         "unitOrder": 7,
-        "visual": "😴"
+        "visual": "😴",
+        "picture": "cansado"
       },
       {
         "es": "la pregunta",
@@ -1302,14 +1303,16 @@
         "en": "room",
         "unit": 10,
         "unitOrder": 8,
-        "visual": "🛏️"
+        "visual": "🛏️",
+        "picture": "la-habitacion"
       },
       {
         "es": "el baño",
         "en": "bathroom",
         "unit": 4,
         "unitOrder": 4,
-        "visual": "🛁"
+        "visual": "🛁",
+        "picture": "el-bano"
       },
       {
         "es": "el salón",
@@ -1524,7 +1527,8 @@
         "en": "happy (masculine)",
         "unit": 11,
         "unitOrder": 8,
-        "visual": "🙂"
+        "visual": "🙂",
+        "picture": "contento"
       },
       {
         "es": "satisfecho/a",
@@ -2223,14 +2227,16 @@
         "en": "sun",
         "unit": 11,
         "unitOrder": 1,
-        "visual": "☀️"
+        "visual": "☀️",
+        "picture": "el-sol"
       },
       {
         "es": "la lluvia",
         "en": "rain",
         "unit": 11,
         "unitOrder": 2,
-        "visual": "🌧️"
+        "visual": "🌧️",
+        "picture": "la-lluvia"
       },
       {
         "es": "la nieve",
@@ -2289,14 +2295,16 @@
         "en": "heat",
         "unit": 11,
         "unitOrder": 4,
-        "visual": "🌡️"
+        "visual": "🌡️",
+        "picture": "el-calor"
       },
       {
         "es": "el frío",
         "en": "cold",
         "unit": 11,
         "unitOrder": 3,
-        "visual": "❄️"
+        "visual": "❄️",
+        "picture": "el-frio"
       }
     ]
   },
@@ -2403,7 +2411,8 @@
         "en": "summer",
         "unit": 11,
         "unitOrder": 5,
-        "visual": "🏖️"
+        "visual": "🏖️",
+        "picture": "el-verano"
       },
       {
         "es": "el otoño",
@@ -2414,7 +2423,8 @@
         "en": "winter",
         "unit": 11,
         "unitOrder": 6,
-        "visual": "⛄"
+        "visual": "⛄",
+        "picture": "el-invierno"
       }
     ]
   },
@@ -2684,14 +2694,16 @@
         "en": "airplane",
         "unit": 10,
         "unitOrder": 3,
-        "visual": "✈️"
+        "visual": "✈️",
+        "picture": "el-avion"
       },
       {
         "es": "la maleta",
         "en": "suitcase",
         "unit": 10,
         "unitOrder": 6,
-        "visual": "🧳"
+        "visual": "🧳",
+        "picture": "la-maleta"
       },
       {
         "es": "la estación",
@@ -2706,14 +2718,16 @@
         "en": "train",
         "unit": 10,
         "unitOrder": 1,
-        "visual": "🚆"
+        "visual": "🚆",
+        "picture": "el-tren"
       },
       {
         "es": "el billete",
         "en": "ticket",
         "unit": 10,
         "unitOrder": 4,
-        "visual": "🎟️"
+        "visual": "🎟️",
+        "picture": "el-billete"
       },
       {
         "es": "el aeropuerto",
@@ -2724,7 +2738,8 @@
         "en": "passport",
         "unit": 10,
         "unitOrder": 7,
-        "visual": "🛂"
+        "visual": "🛂",
+        "picture": "el-pasaporte"
       },
       {
         "es": "el taxi",
@@ -2735,7 +2750,8 @@
         "en": "hotel",
         "unit": 10,
         "unitOrder": 5,
-        "visual": "🏨"
+        "visual": "🏨",
+        "picture": "el-hotel"
       },
       {
         "es": "el mapa",
@@ -2882,7 +2898,8 @@
         "en": "bus",
         "unit": 10,
         "unitOrder": 2,
-        "visual": "🚌"
+        "visual": "🚌",
+        "picture": "el-autobus"
       },
       {
         "es": "la parada de autobús",

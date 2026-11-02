@@ -60,6 +60,14 @@ describe("writing prompt", () => {
     expect(formSystem.content).not.toContain("20–29 words");
   });
 
+  it("describes exam task 2 as any short message, not only a letter", () => {
+    const [system] = messagesOf(letter, answer, 9);
+
+    expect(system.content).toContain(
+      "a short message of 30–40 words: an email, a letter, a note or a postcard",
+    );
+  });
+
   it("asks for a practice result instead of a band in a lesson", () => {
     const [system] = messagesOf(lesson, answer, 9);
 

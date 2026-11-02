@@ -8,6 +8,7 @@ import {
   isId,
   isInstant,
   isRecord,
+  isSeenVariants,
   isText,
   MAX_NAME,
   MAX_TOTAL,
@@ -24,6 +25,7 @@ import {
   saveDraft,
   saveMockResult,
   saveMockRun,
+  saveSeen,
   saveSettings,
   saveVocabulary,
   setCheck,
@@ -128,6 +130,17 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
     }
 
     return (db, learner) => saveMockRun(db, learner, patch, replace === true);
+  },
+  seen: ({ variants, at }) => {
+    if (!isSeenVariants(variants)) {
+      return "variants";
+    }
+
+    if (!isInstant(at)) {
+      return "at";
+    }
+
+    return (db, learner) => saveSeen(db, learner, variants, at);
   },
 
   reset: () => resetProgress,

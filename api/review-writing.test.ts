@@ -23,11 +23,10 @@ const openrouter = vi.fn();
 const letter =
   "Hola, Jorge. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Un abrazo, Tomás.";
 
-const points = [
-  "I greeted Jorge and answered the invitation.",
-  "I gave a place, time and activity.",
-  "I wrote 30–40 words and included a farewell.",
-];
+const { points } = writingTaskOf("mock-w2")!;
+
+// A met point returns an empty fix.
+const fix = { original: "", corrected: "", explanation: "" };
 
 const model = (band: number) =>
   openrouter.mockImplementation(async () =>
@@ -37,7 +36,7 @@ const model = (band: number) =>
           message: {
             role: "assistant",
             content: JSON.stringify({
-              coverage: points.map((point) => ({ point, met: true, feedback: "Done." })),
+              coverage: points.map((point) => ({ point, met: true, feedback: "Done.", fix })),
               corrections: [],
               revised: letter,
               mark: { band, reason: "Clear and complete." },
@@ -124,7 +123,12 @@ describe("reviewing writing", () => {
             message: {
               role: "assistant",
               content: JSON.stringify({
-                coverage: lesson.points.map((point) => ({ point, met: true, feedback: "Done." })),
+                coverage: lesson.points.map((point) => ({
+                  point,
+                  met: true,
+                  feedback: "Done.",
+                  fix,
+                })),
                 corrections: [],
                 revised: "Me llamo Pablo.",
                 result: "partly",

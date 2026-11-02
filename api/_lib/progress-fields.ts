@@ -174,6 +174,15 @@ const isExamVariants: Check = (value) =>
   Object.keys(value).length === mockTasks.length &&
   mockTasks.every((t) => t.variants.some((v) => v.id === value[t.id]));
 
+const VARIANTS = new Set(mockTasks.flatMap((t) => t.variants.map((v) => v.id)));
+
+// The variants a section or a whole exam shows: at least one, at most one per task.
+export const isSeenVariants = (value: unknown): value is string[] =>
+  Array.isArray(value) &&
+  value.length > 0 &&
+  value.length <= mockTasks.length &&
+  value.every((id) => VARIANTS.has(id));
+
 const mapOf =
   (isKey: Check, isValue: Check): Check =>
   (value) =>

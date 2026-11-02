@@ -1,8 +1,9 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
-import { buildExam } from "../../data/examBuilder";
-import { examSections, firstVariants } from "../../data/mock";
+import { buildExam, seenFrom } from "../../data/examBuilder";
+import { examSections, firstVariants, mockExam } from "../../data/mock";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+import { savedProgress } from "../../test/progressApi";
 
 // The exam as variant 1 of each task.
 const sections = examSections(firstVariants);
@@ -33,13 +34,48 @@ it("builds the new exam from a random seed and saves the seed with the variants"
     return array;
   });
 
+  const seen = { "r1-v1": "2026-09-01T10:00:00.000Z", "w2-v1": "2026-09-02T10:00:00.000Z" };
+
+  await seed({ stage: "intro" }, seen);
   await mount();
   click("Start exam rehearsal");
 
   expect(await state()).toMatchObject({
     seed: 3_000_000_000,
-    variants: buildExam({ seed: 3_000_000_000 }),
+    variants: buildExam({ seed: 3_000_000_000, seen: seenFrom(seen) }),
   });
+});
+
+// The variant ids the exam takes for one section's tasks.
+const sectionVariants = (variants: Record<string, string>, section: number) =>
+  mockExam[section].tasks.map((t) => variants[t.id]);
+
+it("marks a section's variants seen when the section starts, and no others", async () => {
+  const at = new Date(now).toISOString();
+
+  await mount();
+  click("Start exam rehearsal");
+
+  const { variants } = await state();
+
+  expect((await savedProgress()).seenVariants).toEqual(
+    Object.fromEntries(sectionVariants(variants, 0).map((id) => [id, at])),
+  );
+});
+
+it.each([
+  [0, "Continue to listening"],
+  [2, "Continue to speaking preparation"],
+])("marks the next section's variants seen after section %i", async (section, button) => {
+  await seed({ section, stage: "review" });
+  await mount();
+  click(button);
+
+  const { variants } = await state();
+
+  expect(Object.keys((await savedProgress()).seenVariants).sort()).toEqual(
+    sectionVariants(variants, section + 1).sort(),
+  );
 });
 
 it("counts correct answers only, reveals models after locking, and starts listening at 25 minutes", async () => {

@@ -28,14 +28,28 @@ const turns = [
   { role: "student", text: "Soy de Polonia." },
 ];
 
-const model = (levels: object, corrections: object[] = []) =>
+const noFix = { original: "", corrected: "", explanation: "" };
+
+const fixOf = (id: string) => ({
+  original: `said ${id}`,
+  corrected: `fixed ${id}`,
+  explanation: `Explain ${id}.`,
+});
+
+// The fix the model gives each item: empty for a correct one.
+const fixesOf = (levels: object) =>
+  Object.fromEntries(
+    Object.entries(levels).map(([id, level]) => [id, level === "correct" ? noFix : fixOf(id)]),
+  );
+
+const model = (levels: object, corrections: object[] = [], fixes = fixesOf(levels)) =>
   openai.mockImplementation(async () =>
     Response.json({
       output: [
         { type: "reasoning", summary: [] },
         {
           type: "message",
-          content: [{ type: "output_text", text: JSON.stringify({ levels, corrections }) }],
+          content: [{ type: "output_text", text: JSON.stringify({ levels, fixes, corrections }) }],
         },
       ],
     }),
@@ -85,7 +99,40 @@ describe("scoring a talk", () => {
   });
 
   it("lists the learner's errors with the corrections the model gives", async () => {
-    model({ name: "correct", age: "understandable", country: "correct" }, [age]);
+    model({ name: "correct", age: "correct", country: "correct" }, [age]);
+
+    const { corrections } = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(corrections).toEqual([age]);
+  });
+
+  it("lists a correction for each item below correct, before the other corrections", async () => {
+    const levels = { name: "correct", age: "understandable", country: "missing" };
+    const spelling = { original: "e por la noche", corrected: "y por la noche", explanation: "y." };
+
+    model(levels, [spelling]);
+
+    const { corrections } = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(corrections).toEqual([fixOf("age"), fixOf("country"), spelling]);
+  });
+
+  it("keeps the fixes of items below correct when the talk has eight other corrections", async () => {
+    const many = Array.from({ length: 8 }, (_, i) => ({ ...age, original: `error ${i}` }));
+
+    model({ name: "correct", age: "understandable", country: "correct" }, many);
+
+    const { corrections } = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(corrections).toHaveLength(9);
+    expect(corrections?.[0]).toEqual(fixOf("age"));
+  });
+
+  it("gives the fix of an understandable item as its correction", async () => {
+    model({ name: "correct", age: "understandable", country: "correct" }, [], {
+      ...fixesOf({ name: "correct", country: "correct" }),
+      age,
+    });
 
     const response = await score({ turns });
 
@@ -103,7 +150,7 @@ describe("scoring a talk", () => {
   it("keeps at most eight corrections", async () => {
     const many = Array.from({ length: 10 }, (_, i) => ({ ...age, original: `error ${i}` }));
 
-    model({ name: "correct", age: "understandable", country: "correct" }, many);
+    model({ name: "correct", age: "correct", country: "correct" }, many);
 
     const { corrections } = (await (await score({ turns })).json()) as LiveScore;
 
@@ -165,7 +212,7 @@ describe("scoring a talk", () => {
         { id: "nearby", label: "What there is nearby", level: "missing" },
         { id: "questions", label: "Two questions to Lucas", level: "correct" },
       ],
-      corrections: [],
+      corrections: [fixOf("nearby")],
     });
   });
 
@@ -195,7 +242,16 @@ describe("scoring a talk", () => {
     expect(body.instructions).toContain("For each of name, age and country, return one of:");
     expect(body.instructions).toContain("In corrections, list the learner's grammar");
     expect(body.text.format.type).toBe("json_schema");
-    expect(body.text.format.schema.required).toEqual(["levels", "corrections"]);
+    expect(body.instructions).toContain("In fixes, for each item that is not correct");
+    expect(body.text.format.schema.required).toEqual(["levels", "fixes", "corrections"]);
+    expect(body.text.format.schema.properties.fixes.required).toEqual(["name", "age", "country"]);
+
+    expect(body.text.format.schema.properties.fixes.properties.age.required).toEqual([
+      "original",
+      "corrected",
+      "explanation",
+    ]);
+
     expect(body.text.format.schema.properties.levels.required).toEqual(["name", "age", "country"]);
   });
 
@@ -251,6 +307,23 @@ describe("guards", () => {
 
     model({ name: "yes" });
     expect((await score({ turns })).status).toBe(502);
+  });
+
+  it("reports an item below correct without a fix as an upstream error", async () => {
+    const levels = { name: "correct", age: "understandable", country: "correct" };
+    const fixes = fixesOf(levels);
+
+    model(levels, [], { ...fixes, age: { ...fixOf("age"), corrected: " " } });
+    expect((await score({ turns })).status).toBe(502);
+
+    model(levels, [], { ...fixes, age: { ...fixOf("age"), explanation: "" } });
+    expect((await score({ turns })).status).toBe(502);
+
+    model(levels, [], { name: fixes.name, country: fixes.country });
+    expect((await score({ turns })).status).toBe(502);
+
+    model(levels, [], { ...fixes, age: { ...fixOf("age"), original: "" } });
+    expect((await score({ turns })).status).toBe(200);
   });
 
   it("reports corrections that break the schema as an upstream error", async () => {

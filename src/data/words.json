@@ -128,7 +128,8 @@
         "en": "female friend",
         "unit": 3,
         "unitOrder": 7,
-        "visual": "👩‍🦰"
+        "visual": "👩‍🦰",
+        "picture": "la-amiga"
       },
       {
         "es": "la mañana",
@@ -2408,42 +2409,48 @@
         "en": "family",
         "unit": 3,
         "unitOrder": 8,
-        "visual": "👪"
+        "visual": "👪",
+        "picture": "la-familia"
       },
       {
         "es": "el padre",
         "en": "father",
         "unit": 3,
         "unitOrder": 2,
-        "visual": "👨"
+        "visual": "👨",
+        "picture": "el-padre"
       },
       {
         "es": "la madre",
         "en": "mother",
         "unit": 3,
         "unitOrder": 1,
-        "visual": "👩"
+        "visual": "👩",
+        "picture": "la-madre"
       },
       {
         "es": "el hermano",
         "en": "brother",
         "unit": 3,
         "unitOrder": 4,
-        "visual": "👨‍🦱"
+        "visual": "👨‍🦱",
+        "picture": "el-hermano"
       },
       {
         "es": "la hermana",
         "en": "sister",
         "unit": 3,
         "unitOrder": 3,
-        "visual": "👩‍🦱"
+        "visual": "👩‍🦱",
+        "picture": "la-hermana"
       },
       {
         "es": "el hijo",
         "en": "son",
         "unit": 3,
         "unitOrder": 6,
-        "visual": "👦"
+        "visual": "👦",
+        "picture": "el-hijo"
       },
       {
         "es": "la hija",
@@ -2458,7 +2465,8 @@
         "en": "grandmother",
         "unit": 3,
         "unitOrder": 5,
-        "visual": "👵"
+        "visual": "👵",
+        "picture": "la-abuela"
       },
       {
         "es": "el nieto",

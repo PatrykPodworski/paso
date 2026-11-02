@@ -1302,7 +1302,8 @@
         "en": "room",
         "unit": 10,
         "unitOrder": 8,
-        "visual": "🛏️"
+        "visual": "🛏️",
+        "picture": "la-habitacion"
       },
       {
         "es": "el baño",
@@ -2684,14 +2685,16 @@
         "en": "airplane",
         "unit": 10,
         "unitOrder": 3,
-        "visual": "✈️"
+        "visual": "✈️",
+        "picture": "el-avion"
       },
       {
         "es": "la maleta",
         "en": "suitcase",
         "unit": 10,
         "unitOrder": 6,
-        "visual": "🧳"
+        "visual": "🧳",
+        "picture": "la-maleta"
       },
       {
         "es": "la estación",
@@ -2706,14 +2709,16 @@
         "en": "train",
         "unit": 10,
         "unitOrder": 1,
-        "visual": "🚆"
+        "visual": "🚆",
+        "picture": "el-tren"
       },
       {
         "es": "el billete",
         "en": "ticket",
         "unit": 10,
         "unitOrder": 4,
-        "visual": "🎟️"
+        "visual": "🎟️",
+        "picture": "el-billete"
       },
       {
         "es": "el aeropuerto",
@@ -2724,7 +2729,8 @@
         "en": "passport",
         "unit": 10,
         "unitOrder": 7,
-        "visual": "🛂"
+        "visual": "🛂",
+        "picture": "el-pasaporte"
       },
       {
         "es": "el taxi",
@@ -2735,7 +2741,8 @@
         "en": "hotel",
         "unit": 10,
         "unitOrder": 5,
-        "visual": "🏨"
+        "visual": "🏨",
+        "picture": "el-hotel"
       },
       {
         "es": "el mapa",
@@ -2882,7 +2889,8 @@
         "en": "bus",
         "unit": 10,
         "unitOrder": 2,
-        "visual": "🚌"
+        "visual": "🚌",
+        "picture": "el-autobus"
       },
       {
         "es": "la parada de autobús",

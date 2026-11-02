@@ -242,28 +242,32 @@
         "en": "question",
         "unit": 12,
         "unitOrder": 4,
-        "visual": "❓"
+        "visual": "❓",
+        "picture": "la-pregunta"
       },
       {
         "es": "la respuesta",
         "en": "answer",
         "unit": 12,
         "unitOrder": 5,
-        "visual": "💡"
+        "visual": "💡",
+        "picture": "la-respuesta"
       },
       {
         "es": "despacio",
         "en": "slowly",
         "unit": 12,
         "unitOrder": 6,
-        "visual": "🐢"
+        "visual": "🐢",
+        "picture": "despacio"
       },
       {
         "es": "repetir",
         "en": "to repeat",
         "unit": 12,
         "unitOrder": 8,
-        "visual": "🔁"
+        "visual": "🔁",
+        "picture": "repetir"
       }
     ]
   },
@@ -276,7 +280,8 @@
         "en": "to speak",
         "unit": 12,
         "unitOrder": 3,
-        "visual": "💬"
+        "visual": "💬",
+        "picture": "hablar"
       },
       {
         "es": "comer",
@@ -298,7 +303,8 @@
         "en": "to write",
         "unit": 12,
         "unitOrder": 2,
-        "visual": "✍️"
+        "visual": "✍️",
+        "picture": "escribir"
       },
       {
         "es": "trabajar",
@@ -364,7 +370,8 @@
         "en": "to understand",
         "unit": 12,
         "unitOrder": 7,
-        "visual": "🧠"
+        "visual": "🧠",
+        "picture": "entender"
       },
       {
         "es": "pensar",
@@ -3431,7 +3438,8 @@
         "en": "to listen",
         "unit": 12,
         "unitOrder": 1,
-        "visual": "🎧"
+        "visual": "🎧",
+        "picture": "escuchar"
       },
       {
         "es": "repasar",

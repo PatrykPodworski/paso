@@ -35,12 +35,12 @@ test("the backoffice flags clips and pictures by keyboard and copies their ids",
   await page.getByRole("combobox", { name: "Unit" }).selectOption("Unit 4");
   await page.getByRole("searchbox", { name: "Search" }).fill("v6yukl");
   await page.getByRole("checkbox", { name: "Flawed: la cocina" }).press("Space");
-  await expect(page.getByText("1 of 2055 shown · 1 flagged")).toBeVisible();
+  await expect(page.getByText(/^1 of \d+ shown · 1 flagged$/)).toBeVisible();
 
   await page.getByRole("tab", { name: /Images/ }).click();
   await page.getByRole("combobox", { name: "Unit" }).selectOption("Unit 1");
   await page.getByRole("checkbox", { name: /Select all visible/ }).press("Space");
-  await expect(page.getByText("8 of 39 shown · 8 flagged")).toBeVisible();
+  await expect(page.getByText(/^8 of \d+ shown · 8 flagged$/)).toBeVisible();
   await page.getByRole("checkbox", { name: "Flawed: adiós" }).click();
 
   await page.reload();

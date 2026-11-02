@@ -1,8 +1,14 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { readdirSync } from "node:fs";
+import sources from "../../data/audio-sources.json";
 import { units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
 import { BackofficePage } from "./BackofficePage";
+
+// Both grow as the audio and picture rollouts land, so they come from the repo.
+const clips = Object.keys(sources).length;
+const pictures = readdirSync("public/illustrations/words").length;
 
 const writeText = vi.fn((_text: string) => Promise.resolve());
 
@@ -36,15 +42,20 @@ it("counts the assets of each kind on its tab", () => {
 
   expect(screen.getAllByRole("tab").map((t) => t.textContent)).toEqual([
     `Exercises${exercises}`,
-    "Audio2055",
-    "Images39",
+    `Audio${clips}`,
+    `Images${pictures}`,
   ]);
 });
 
 it("filters the audio by unit and by text or key, accent-blind, with the clip's key and file", () => {
   openTab(/Audio/);
   expect(screen.getByRole("combobox", { name: "Unit" })).toHaveValue("Unit 1");
-  expect(screen.getByText("24 of 2055 shown · 0 flagged")).toBeInTheDocument();
+
+  expect(screen.getAllByRole("listitem").every((r) => r.textContent?.includes("Unit 1 · "))).toBe(
+    true,
+  );
+
+  expect(screen.getByRole("checkbox", { name: "Flawed: hola" })).toBeInTheDocument();
 
   filter("Unit 4", "v6yukl");
   const rows = screen.getAllByRole("listitem");
@@ -57,7 +68,7 @@ it("filters the audio by unit and by text or key, accent-blind, with the clip's 
     "Unit 4 · audio:v6yukl · /audio/voxcpm/401bff33039f205fe74afd37.mp3",
   );
 
-  expect(screen.getByText("1 of 2055 shown · 0 flagged")).toBeInTheDocument();
+  expect(screen.getByText(`1 of ${clips} shown · 0 flagged`)).toBeInTheDocument();
 
   filter("Unit 1", "adios");
   expect(screen.getByRole("listitem")).toHaveTextContent("adiós");
@@ -94,7 +105,7 @@ it("flags every visible asset at once, then clears them", () => {
   expect(all).toHaveAttribute("aria-checked", "mixed");
 
   fireEvent.click(all);
-  expect(screen.getByText("8 of 39 shown · 8 flagged")).toBeInTheDocument();
+  expect(screen.getByText(`8 of ${pictures} shown · 8 flagged`)).toBeInTheDocument();
   expect(all).toHaveAttribute("aria-checked", "true");
 
   fireEvent.click(all);
@@ -115,8 +126,8 @@ it("shows each picture at card size and at 96 px, and the words still on an emoj
   expect(hola).toHaveTextContent("Unit 1 · image:hola.webp · /illustrations/words/hola.webp");
 
   filter("All units", "");
-  expect(screen.getAllByText("Emoji fallback")).toHaveLength(57);
-  expect(screen.getAllByRole("checkbox", { name: /^Flawed/ })).toHaveLength(39);
+  expect(screen.getAllByText("Emoji fallback")).toHaveLength(96 - pictures);
+  expect(screen.getAllByRole("checkbox", { name: /^Flawed/ })).toHaveLength(pictures);
 });
 
 it("plays the exact file a row lists, even a clip saved without its text", () => {

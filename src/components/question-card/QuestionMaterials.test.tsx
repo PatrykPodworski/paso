@@ -31,7 +31,8 @@ it.each([
 });
 
 it("shows the emoji for a word without a picture", () => {
-  const q = allQuestions.find((question) => question.visual && !question.picture)!;
+  const pictured = allQuestions.find((question) => question.visual && question.picture)!;
+  const q = { ...pictured, picture: undefined };
 
   render(<QuestionCard q={q} onSubmit={vi.fn()} />);
 

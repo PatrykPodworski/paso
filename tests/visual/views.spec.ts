@@ -60,6 +60,15 @@ for (const skill of ["Reading", "Listening", "Writing", "Speaking"]) {
   });
 }
 
+for (const tab of ["Audio", "Images"]) {
+  test(`backoffice: ${tab} tab`, async ({ page }) => {
+    await page.goto("/backoffice");
+    await page.getByRole("tab", { name: new RegExp(tab) }).click();
+    await page.getByRole("combobox", { name: "Unit" }).selectOption("Unit 1");
+    await shot(page, `backoffice-${tab.toLowerCase()}`);
+  });
+}
+
 test("mistakes: empty and populated", async ({ page }) => {
   await page.goto("/practice");
   await page.getByRole("button", { name: "My mistakes (0)" }).click();

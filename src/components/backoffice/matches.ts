@@ -1,0 +1,9 @@
+const fold = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+
+// Accent-blind, so "cancion" finds "canción".
+export const matches = (query: string, ...texts: string[]) =>
+  texts.some((t) => fold(t).includes(fold(query.trim())));

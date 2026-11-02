@@ -5,5 +5,8 @@ const fold = (text: string) =>
     .toLowerCase();
 
 // Accent-blind, so "cancion" finds "canción".
-export const matches = (query: string, ...texts: string[]) =>
-  texts.some((t) => fold(t).includes(fold(query.trim())));
+export const matches = (query: string, ...texts: string[]) => {
+  const needle = fold(query.trim());
+
+  return texts.some((t) => fold(t).includes(needle));
+};

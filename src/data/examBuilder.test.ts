@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildExam } from "./examBuilder";
+import { buildExam, seenFrom } from "./examBuilder";
 import { examSections, firstVariants, mockTasks } from "./mock";
 import type { MockTask } from "./types";
 
@@ -119,6 +119,34 @@ describe("the exam builder", () => {
     for (const seed of SEEDS) {
       expect(buildExam({ seed, seen, tasks: pools }).a).toBe("a2");
     }
+  });
+
+  it("gives a second exam other variants wherever the pool has one the first did not take", () => {
+    const tasks = [...pools, task("d", "d1:garden")];
+
+    for (const seed of SEEDS) {
+      const first = buildExam({ seed, tasks });
+
+      const seen = seenFrom(
+        Object.fromEntries(Object.values(first).map((id) => [id, "2026-09-09T12:00:00.000Z"])),
+      );
+
+      const second = buildExam({ seed: seed + 1, seen, tasks });
+
+      expect(second.a).not.toBe(first.a);
+      expect(second.b).not.toBe(first.b);
+      expect(second.c).not.toBe(first.c);
+      expect(second.d).toBe("d1");
+    }
+  });
+
+  it("reads the seen history the server keeps as times per variant", () => {
+    expect(seenFrom({ a1: "2026-09-09T12:00:00.000Z", a2: "2026-09-10T08:30:00.000Z" })).toEqual(
+      new Map([
+        ["a1", Date.parse("2026-09-09T12:00:00.000Z")],
+        ["a2", Date.parse("2026-09-10T08:30:00.000Z")],
+      ]),
+    );
   });
 
   it("takes a seen variant over a repeated theme", () => {

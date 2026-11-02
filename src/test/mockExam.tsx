@@ -17,9 +17,9 @@ const run = (patch: Record<string, unknown> = {}) => ({
   ...patch,
 });
 
-// A run the server keeps for a new learner.
-export const seed = (patch: Record<string, unknown> = {}) =>
-  seedProgress({ mockRun: run(patch) as MockRunPatch });
+// A run the server keeps for a new learner, who saw the given variants at the given times.
+export const seed = (patch: Record<string, unknown> = {}, seenVariants?: Record<string, string>) =>
+  seedProgress({ mockRun: run(patch) as MockRunPatch, seenVariants });
 
 // The run as the server keeps it.
 export const state = async () => {

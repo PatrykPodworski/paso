@@ -2,14 +2,19 @@ import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { Notice } from "../../design-system/Notice";
-import { mockExam, sectionSizes } from "../../data/mock";
-import type { ProgressSnapshot } from "../../data/types";
+import { Badge } from "../ui/badge";
+import { mockExam, sectionSizes, sectionVariants } from "../../data/mock";
+import type { ExamVariants, ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
 
-type Props = { progress: ProgressSnapshot; onStart: () => void };
+// The exam the start button begins: a section is new when the learner saw none of its variants.
+type Props = { progress: ProgressSnapshot; variants: ExamVariants; onStart: () => void };
 
-export const MockIntro = ({ progress, onStart }: Props) => (
+const isNew = (progress: ProgressSnapshot, variants: ExamVariants, section: number) =>
+  sectionVariants(variants, section).every((id) => !Object.hasOwn(progress.seenVariants, id));
+
+export const MockIntro = ({ progress, variants, onStart }: Props) => (
   <>
     <div className="flex items-center gap-11 rounded-xl border border-border bg-muted p-10 max-xl:gap-6 max-xl:p-7 max-md:p-6">
       <div className="flex h-55 w-47 shrink-0 flex-col items-center justify-center gap-6 rounded-t-arch rounded-b-2xl border border-border bg-muted text-foreground max-xl:h-47 max-xl:w-37 max-lg:hidden">
@@ -49,8 +54,15 @@ export const MockIntro = ({ progress, onStart }: Props) => (
           key={s.title}
           className="p-6 max-xl:px-3.5 max-xl:py-5 max-md:p-5 max-sm:px-3.5 max-sm:py-5"
         >
-          <div className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${skills[i].tint}`}>
-            <Icon name={["book", "headphones", "pen", "mic"][i]} />
+          <div className="flex items-start justify-between gap-2">
+            <div className={`${SKILL_ICON} ${SKILL_ICON_SIZE} ${skills[i].tint}`}>
+              <Icon name={["book", "headphones", "pen", "mic"][i]} />
+            </div>
+            {isNew(progress, variants, i) ? (
+              <Badge variant="secondary">New</Badge>
+            ) : (
+              <Badge variant="outline">Seen before</Badge>
+            )}
           </div>
           <h3 className="text-base font-semibold tracking-tight mt-4 mb-2">{s.title}</h3>
           <p className="leading-relaxed min-h-7 text-xs text-muted-foreground max-sm:text-2xs">

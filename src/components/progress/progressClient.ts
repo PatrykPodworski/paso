@@ -180,6 +180,8 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
         write({ action: "mockRun", run: change });
       }
     },
+    // The mock exam task variants a section shows as it starts.
+    seen: (variants: string[]) => write({ action: "seen", variants, at: new Date().toISOString() }),
     newMockRun: (run: MockRunPatch) => {
       dropMockDrafts();
       write({ action: "mockRun", run, replace: true });

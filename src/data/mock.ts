@@ -764,6 +764,10 @@ export const examSections = (variants: ExamVariants) =>
     questions: tasks.flatMap((t) => variantOf(t, variants[t.id]).questions),
   }));
 
+// The variants the exam takes for the tasks of one section.
+export const sectionVariants = (variants: ExamVariants, section: number) =>
+  mockExam[section].tasks.map((t) => variants[t.id]);
+
 // The number of questions in each section. Every variant of a task has as many items as
 // variant 1, so the sizes are the same whichever variants an exam takes.
 export const sectionSizes = examSections(firstVariants).map((s) => s.questions.length);

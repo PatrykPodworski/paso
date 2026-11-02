@@ -1,16 +1,34 @@
-import { useEffect, useState } from "react";
-import { buildExam } from "../../data/examBuilder";
-import { examSections, mockExam } from "../../data/mock";
+import { useEffect, useMemo, useState } from "react";
+import { buildExam, seenFrom } from "../../data/examBuilder";
+import { examSections, mockExam, sectionVariants } from "../../data/mock";
 import type { MockRun, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
 import { draftAnswers } from "./draftAnswers";
 import { type MockRunActions, useMockRun } from "./useMockRun";
 
-export type MockExamActions = MockRunActions & { onResult: (result: NewMockResult) => void };
+export type MockExamActions = MockRunActions & {
+  onResult: (result: NewMockResult) => void;
+  // Records the task variants a section shows, so later exams prefer others.
+  onSeen: (variants: string[]) => void;
+};
 
-export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: MockExamActions) => {
+const randomSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
+
+export const useMockExam = (
+  saved: MockRun | null,
+  seenVariants: Record<string, string>,
+  { onResult, onSeen, ...actions }: MockExamActions,
+) => {
   const { run, change, restart } = useMockRun(saved, actions);
+  // The exam the start button begins, built ahead so the intro can say what is new in it.
+  const [seed, setSeed] = useState(randomSeed);
+
+  const nextExam = useMemo(
+    () => buildExam({ seed, seen: seenFrom(seenVariants) }),
+    [seed, seenVariants],
+  );
+
   const [now, setNow] = useState(Date.now());
   const [confirm, setConfirm] = useState(false);
   const left = Math.max(0, Math.ceil((run.deadline - now) / 1000));
@@ -48,15 +66,16 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
   const start = () => {
     setNow(Date.now());
 
-    const seed = crypto.getRandomValues(new Uint32Array(1))[0];
-
     restart({
       seed,
-      variants: buildExam({ seed }),
+      variants: nextExam,
       stage: "run",
       started: new Date().toISOString(),
       deadline: Date.now() + 45 * 60000,
     });
+
+    onSeen(sectionVariants(nextExam, 0));
+    setSeed(randomSeed());
   };
 
   const endSection = () => {
@@ -84,6 +103,7 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
     const next = run.section + 1;
 
     setNow(Date.now());
+    onSeen(sectionVariants(run.variants, next));
 
     change({
       section: next,
@@ -94,6 +114,7 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
   };
 
   return {
+    nextExam,
     run,
     change,
     restart,

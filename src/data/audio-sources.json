@@ -71,18 +71,6 @@
       "method": "make-words"
     }
   },
-  "1papnhq": {
-    "src": "/audio/voxcpm/14f37e347e2c6c2cf755f625.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, soy Laura García. Tengo treinta y dos años y vivo en el número quince de la calle Sol. Soy italiana. Mi teléfono es seis, dos, uno, cuatro, cinco, siete, ocho, nueve, cero.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "t3hvw9": {
     "src": "/audio/voxcpm/75514c7596674339472c14ca.mp3",
     "voiceId": "es-male-teacher",
@@ -225,18 +213,6 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-words"
-    }
-  },
-  "1jh65b8": {
-    "src": "/audio/voxcpm/d91228e48ded778268f5e4f7.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Esta es mi amiga Isabel. Es baja y tiene el pelo rubio. Tiene un hermano pequeño que se llama Luis. Isabel trabaja en una tienda y su hermano es estudiante.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
     }
   },
   "v6yukl": {
@@ -899,18 +875,6 @@
       "method": "make-sentences"
     }
   },
-  "y3b0s7": {
-    "src": "/audio/voxcpm/ffffd0b57319abe3637f3d8a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Soy Elena y soy profesora de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1tuscjt": {
     "src": "/audio/voxcpm/f0684a4cfd74e304494b4150.mp3",
     "voiceId": "es-male-teacher",
@@ -964,18 +928,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Los lunes y miércoles estudio francés por la tarde. Mi profesora es de París y en clase hablamos mucho.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1gwxca3": {
-    "src": "/audio/voxcpm/5f265120a3aaa3d993ff9556.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Los sábados juego al tenis con mi amiga Sara. Nos gusta mucho el deporte y después tomamos un café juntas.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -1588,18 +1540,6 @@
       "method": "make-words"
     }
   },
-  "1s1jmho": {
-    "src": "/audio/voxcpm/8bbe8ad4b3f9cbc2bbb1638c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, me llamo Ana. Soy de Polonia.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "11ochxi": {
     "src": "/audio/voxcpm/ecd82ab9f40e98473b5a10ea.mp3",
     "voiceId": "es-male-teacher",
@@ -1732,18 +1672,6 @@
       "method": "make-sentences"
     }
   },
-  "lus4h5": {
-    "src": "/audio/voxcpm/166a35bcc1689e314c41a824.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, me llamo Julia y soy de Polonia. Vivo en Varsovia con mi familia. Estudio español en una escuela y hablo inglés. Me gusta mucho la clase. ¿Cómo te llamas? Hasta pronto, Julia.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "qpjj25": {
     "src": "/audio/voxcpm/5381d7697859c294d126cb07.mp3",
     "voiceId": "es-male-teacher",
@@ -1754,31 +1682,6 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-sentences"
-    }
-  },
-  "1bhgjx6": {
-    "src": "/audio/voxcpm/9b77cbc05e0233887dff81f9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
-    "spokenText": "Hola Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "sxumn5": {
-    "src": "/audio/voxcpm/e3782c6c5aeb816fff9264b8.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Ana. Mi casa está en el centro, cerca de la estación. Tiene dos dormitorios, una cocina y un salón grande. Puedes dormir en la habitación pequeña, junto al baño. Nos vemos pronto. Un abrazo.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "direct"
     }
   },
   "15aax92": {
@@ -1793,95 +1696,11 @@
       "method": "make-sentences"
     }
   },
-  "1bmofb4": {
-    "src": "/audio/voxcpm/12397f90ebbc4b9c9600b4dc.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Elena. ¿Quieres comer conmigo el sábado? Hay un café muy bueno junto a la plaza. Podemos quedar a las dos. Me gustan sus bocadillos de queso y el zumo de naranja. Hasta pronto, Ana.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "k5q19i": {
-    "src": "/audio/voxcpm/4fef5e370d08ebcf981d8787.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Eva. Vivo en la calle Luna, cerca del parque y del banco. Desde la estación, sigue todo recto y gira a la derecha. Mi casa está enfrente de la farmacia. Nos vemos pronto. Un abrazo.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "a8vk2q": {
     "src": "/audio/voxcpm/50f23fcc826a06adb002daa3.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Mario. Hay una tienda de ropa junto al banco. Tiene camisas azules por veinte euros y chaquetas muy bonitas. Abre de diez a siete. ¿Quieres ir conmigo el sábado por la mañana? Hasta pronto.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1a9dxh4": {
-    "src": "/audio/voxcpm/fdb0ba12cec8aa7a31cb5cbe.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1g30v6u": {
-    "src": "/audio/voxcpm/ac78831b9965676dfc5933b2.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1ec0mev": {
-    "src": "/audio/voxcpm/af540fe862d8fc362f32d512.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Sara. Hoy hace mucho sol y calor en mi ciudad. Estoy contenta porque no trabajo. ¿Quieres ir al parque conmigo? Podemos quedar a las cinco y tomar un zumo en el café. Un abrazo.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "j3bp1m": {
-    "src": "/audio/voxcpm/7a38d39d908aaa0123910fce.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Elena. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1nbq59n": {
-    "src": "/audio/voxcpm/36fff9f2a34da12a49e3087d.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Ana. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Elena.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -1932,18 +1751,6 @@
       },
       "language_code": "es",
       "seed": 20260909
-    }
-  },
-  "111o3av": {
-    "src": "/audio/voxcpm/c106d605c6fb44f7db150004.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Yo soy Marta.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
     }
   },
   "1iexxs0": {
@@ -2007,30 +1814,6 @@
       "method": "make-sentences"
     }
   },
-  "x26am4": {
-    "src": "/audio/voxcpm/611cf548a1695abeedce63c4.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, soy Lucía. Soy de Sevilla, pero vivo en Madrid. Soy profesora de español. Mi amigo se llama David. Él es de México. Hablamos español en clase.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "fjnw4u": {
-    "src": "/audio/voxcpm/f4c9ceef8f8efeacd630e456.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola me llamo Ana",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "jndzux": {
     "src": "/audio/voxcpm/74003d1dd1a9a56f8dbc2647.mp3",
     "voiceId": "es-male-teacher",
@@ -2077,18 +1860,6 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "direct"
-    }
-  },
-  "1sxbdz3": {
-    "src": "/audio/voxcpm/c80ebe78b5fe797912de624b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Ana es de España. Es española.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
     }
   },
   "v8wavk": {
@@ -2229,18 +2000,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La profesora es simpática.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "12qor38": {
-    "src": "/audio/voxcpm/fa2ae12d49ec6c91d9f53774.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -2446,19 +2205,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hoy es lunes. Mañana es martes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "62o9oz": {
-    "src": "/audio/voxcpm/b555319c6741eaebb552d535.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "HORARIO DE ANA\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
-    "spokenText": "Horario de Ana. De lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -2880,18 +2626,6 @@
       "method": "make-sentences"
     }
   },
-  "hw6wqt": {
-    "src": "/audio/voxcpm/2538269e4041500c28f26335.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "p5xlpj": {
     "src": "/audio/voxcpm/10fe46967ce8b8584cbcb6c4.mp3",
     "voiceId": "es-male-teacher",
@@ -3037,18 +2771,6 @@
       "method": "make-sentences"
     }
   },
-  "eju6f1": {
-    "src": "/audio/voxcpm/952ec2c14c7296dd2d1f18de.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Estoy cansada porque trabajo mucho.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "ea85gb": {
     "src": "/audio/voxcpm/5bc88bcbc4024ce778503bf6.mp3",
     "voiceId": "es-male-teacher",
@@ -3078,19 +2800,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Llueve.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "x3zenv": {
-    "src": "/audio/voxcpm/e329a1fb4d217612b509bc7b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Julia. Tu cita con la doctora García es el martes 12 de mayo a las once y media. La consulta está en la calle Sol, número 8, primera planta. Por favor, llega diez minutos antes.",
-    "spokenText": "Hola, Julia. Tu cita con la doctora García es el martes doce de mayo a las once y media. La consulta está en la calle Sol, número ocho, primera planta. Por favor, llega diez minutos antes.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -3134,18 +2843,6 @@
       "method": "make-sentences"
     }
   },
-  "5u15lk": {
-    "src": "/audio/voxcpm/9f89fb4953e6b2f3a3f53d67.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Soy profesora y vivo en Madrid.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "7adcxy": {
     "src": "/audio/voxcpm/16685a84c9df3b75242be7e6.mp3",
     "voiceId": "es-male-teacher",
@@ -3175,18 +2872,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "No puedo ir el lunes. ¿El martes?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "tcco7z": {
-    "src": "/audio/voxcpm/87ef16f014146061431cfdc1.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, Pablo. Soy Elena, tu nueva compañera de español. Soy italiana, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Elena.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -3569,35 +3254,11 @@
       "method": "make-sentences"
     }
   },
-  "hrtaab": {
-    "src": "/audio/voxcpm/47a14805722a4b12b55c33ed.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Nombre: Elena García. Nacionalidad: polaca. Ciudad: Varsovia. Profesión: profesora de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "138plck": {
     "src": "/audio/voxcpm/caef9bedda6f947a2dfc1b35.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "llamo",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "wxrodh": {
-    "src": "/audio/voxcpm/514b85d6545c1e83598ec6d3.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Ana",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -4227,18 +3888,6 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-words"
-    }
-  },
-  "rh7yjq": {
-    "src": "/audio/voxcpm/87fd5c6e8bc5abb718ffc6b6.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hola, me llamo Lucía.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
     }
   },
   "1qwxla9": {
@@ -7937,18 +7586,6 @@
       "method": "make-sentences"
     }
   },
-  "c7sc56": {
-    "src": "/audio/voxcpm/442e828260aeb1df313d2303.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Hoy estoy un poco desanimada.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1huzupk": {
     "src": "/audio/voxcpm/312a7f5951204d15a114c9a2.mp3",
     "voiceId": "es-male-teacher",
@@ -8014,18 +7651,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi hijo está apático y no sale.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "znym18": {
-    "src": "/audio/voxcpm/e33e6043c2dbb26fb6ef1787.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Estoy aterrada en el avión.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -10342,18 +9967,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Mi esposo cocina muy bien.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1eohhu2": {
-    "src": "/audio/voxcpm/b74e92fda233c26bd6b9e13c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Te presento a mi esposa, Ana.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -24714,6 +24327,392 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "direct"
+    }
+  },
+  "1x4szrg": {
+    "src": "/audio/voxcpm/610590eb5c4833e0c45acd0a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, soy Raúl García. Tengo treinta y dos años y vivo en el número quince de la calle Sol. Soy italiano. Mi teléfono es seis, dos, uno, cuatro, cinco, siete, ocho, nueve, cero.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "j8zd1i": {
+    "src": "/audio/voxcpm/25a6deb8bacc74f52eff3db8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Este es mi amigo Jorge. Es bajo y tiene el pelo rubio. Tiene un hermano pequeño que se llama Luis. Jorge trabaja en una tienda y su hermano es estudiante.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1g5umvc": {
+    "src": "/audio/voxcpm/30a96ad8e81c13b44126bc92.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Soy Andrés y soy profesor de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "3xprrz": {
+    "src": "/audio/voxcpm/85c5a8858d25ce9cd6a86e2c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Los sábados juego al tenis con mi amigo Hugo. Nos gusta mucho el deporte y después tomamos un café juntos.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1vrjpgj": {
+    "src": "/audio/voxcpm/0352e4973325047795eda84b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, me llamo Marcos. Soy de Polonia.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "zmywr5": {
+    "src": "/audio/voxcpm/5445bbe0e509119ad8cad584.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, me llamo Jorge y soy de Polonia. Vivo en Varsovia con mi familia. Estudio español en una escuela y hablo inglés. Me gusta mucho la clase. ¿Cómo te llamas? Hasta pronto, Jorge.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "123dodj": {
+    "src": "/audio/voxcpm/15b6cb017449b4a794b1a3fc.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Óscar. Vivo con mis padres y mi hermano. Mi hermano se llama Tomás. Es alto y muy simpático. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1h39dq8": {
+    "src": "/audio/voxcpm/3e6fe1d4e13c78a474bf247b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Marcos. Mi casa está en el centro, cerca de la estación. Tiene dos dormitorios, una cocina y un salón grande. Puedes dormir en la habitación pequeña, junto al baño. Nos vemos pronto. Un abrazo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "oanhbo": {
+    "src": "/audio/voxcpm/4b7db0f504a0d2ea8049fd27.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Sergio. ¿Quieres comer conmigo el sábado? Hay un café muy bueno junto a la plaza. Podemos quedar a las dos. Me gustan sus bocadillos de queso y el zumo de naranja. Hasta pronto, Juan.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "rp4467": {
+    "src": "/audio/voxcpm/d0dda0944c48b3fd96b78bb7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Hugo. Vivo en la calle Luna, cerca del parque y del banco. Desde la estación, sigue todo recto y gira a la derecha. Mi casa está enfrente de la farmacia. Nos vemos pronto. Un abrazo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1ru8ri5": {
+    "src": "/audio/voxcpm/1008d7873de4c3a995a64a53.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Sergio. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Jorge.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1d4s698": {
+    "src": "/audio/voxcpm/2ffaabcd50fc11128c318e44.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Buenos días. Me llamo Juan López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Juan.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1oyx7zb": {
+    "src": "/audio/voxcpm/05df68e4327e49086b176a08.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Marcos. Hoy hace mucho sol y calor en mi ciudad. Estoy contento porque no trabajo. ¿Quieres ir al parque conmigo? Podemos quedar a las cinco y tomar un zumo en el café. Un abrazo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "87gwxe": {
+    "src": "/audio/voxcpm/5406c5777972844c8f65c0cb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Marcos. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "nmweez": {
+    "src": "/audio/voxcpm/cf2b0ad2e52e985fff9d1245.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Jorge. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Tomás.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1k6b51z": {
+    "src": "/audio/voxcpm/1f2f2e75a4834f451c67a97b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Tomás",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "w3hxlh": {
+    "src": "/audio/voxcpm/35c2ce51d849aa47d34560b2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Yo soy Hugo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "10mipl4": {
+    "src": "/audio/voxcpm/25294f6b34e3792ab9a53846.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, soy Andrés. Soy de Sevilla, pero vivo en Madrid. Soy profesor de español. Mi amigo se llama David. Él es de México. Hablamos español en clase.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "r6cbp4": {
+    "src": "/audio/voxcpm/b28a977caa48861a931c1265.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola me llamo Tomás",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "ejmdqw": {
+    "src": "/audio/voxcpm/c9b8e8f3649ef825352aa9ef.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Mi familia es pequeña. Mi padre, Ramón, tiene cincuenta años y es médico. Mi madre es alta y tiene el pelo negro. Mi hermano Sergio tiene dieciséis años. Los domingos comemos con mi abuelo Manuel.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "p8mepn": {
+    "src": "/audio/voxcpm/93376e3a9480239ba48509bb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "HORARIO DE JUAN\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
+    "spokenText": "Horario de Juan. De lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "18yye9e": {
+    "src": "/audio/voxcpm/c9da58ef3a309d4b8bb9ab51.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Jorge. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Sergio.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "oi45av": {
+    "src": "/audio/voxcpm/4a3227ac61c1f8da00c7f6f2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Estoy cansado porque trabajo mucho.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "b89iq2": {
+    "src": "/audio/voxcpm/8e5d3ddb03ee4690887d46f2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Tomás. Tu cita con la doctora García es el martes 12 de mayo a las once y media. La consulta está en la calle Sol, número 8, primera planta. Por favor, llega diez minutos antes.",
+    "spokenText": "Hola, Tomás. Tu cita con la doctora García es el martes doce de mayo a las once y media. La consulta está en la calle Sol, número ocho, primera planta. Por favor, llega diez minutos antes.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1i7tn23": {
+    "src": "/audio/voxcpm/94ae3d984a8dcfd51e5dadd4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Soy profesor y vivo en Madrid.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "jz5dj5": {
+    "src": "/audio/voxcpm/76ec874888a504d7ce408f45.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Pablo. Soy Marcos, tu nuevo compañero de español. Soy italiano, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Marcos.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "z69plb": {
+    "src": "/audio/voxcpm/852af1375f1602f3d71bdedf.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Nombre: Pedro García. Nacionalidad: polaco. Ciudad: Varsovia. Profesión: profesor de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1u4m9yu": {
+    "src": "/audio/voxcpm/e715ee3fb01706b39d3cf57a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, me llamo Pablo.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "c94wcc": {
+    "src": "/audio/voxcpm/9a2c3f8b45edfefd700e8ab9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hoy estoy un poco desanimado.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1ieq5aa": {
+    "src": "/audio/voxcpm/9192ba69fab224f7109e7953.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Estoy aterrado en el avión.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "11b6g98": {
+    "src": "/audio/voxcpm/e276edb65986a54579f287ae.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Te presento a mi esposa.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "e0fh3s": {
+    "src": "/audio/voxcpm/788b0c70ffef641708bc045a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Diego es de España. Es español.",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
     }
   }
 }

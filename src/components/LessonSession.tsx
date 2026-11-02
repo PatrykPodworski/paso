@@ -79,9 +79,15 @@ export const LessonSession = ({
     }
   };
 
-  // A passed exercise moves on with its saved result, without a new attempt or check.
+  // A passed exercise moves on with its saved answer, as a resumed lesson does, without a new
+  // attempt or check.
   const skip = () => {
     stopAudio();
+
+    if (before[question.id].assisted) {
+      setAssisted((a) => a + 1);
+    }
+
     advance(true);
   };
 

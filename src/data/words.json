@@ -72,56 +72,64 @@
         "en": "first name",
         "unit": 2,
         "unitOrder": 1,
-        "visual": "🪪"
+        "visual": "🪪",
+        "picture": "el-nombre"
       },
       {
         "es": "el apellido",
         "en": "surname",
         "unit": 2,
         "unitOrder": 2,
-        "visual": "🪪"
+        "visual": "🪪",
+        "picture": "el-apellido"
       },
       {
         "es": "la dirección",
         "en": "address",
         "unit": 2,
         "unitOrder": 3,
-        "visual": "📍"
+        "visual": "📍",
+        "picture": "la-direccion"
       },
       {
         "es": "el teléfono",
         "en": "telephone",
         "unit": 2,
         "unitOrder": 4,
-        "visual": "☎️"
+        "visual": "☎️",
+        "picture": "el-telefono"
       },
       {
         "es": "veinte",
         "en": "twenty",
         "unit": 2,
         "unitOrder": 5,
-        "visual": "🔢"
+        "visual": "🔢",
+        "picture": "veinte"
       },
       {
         "es": "treinta",
         "en": "thirty",
         "unit": 2,
         "unitOrder": 6,
-        "visual": "🔢"
+        "visual": "🔢",
+        "picture": "treinta"
       },
       {
         "es": "la nacionalidad",
         "en": "nationality",
         "unit": 2,
         "unitOrder": 7,
-        "visual": "🌍"
+        "visual": "🌍",
+        "picture": "la-nacionalidad"
       },
       {
         "es": "la amiga",
         "en": "female friend",
         "unit": 3,
         "unitOrder": 7,
-        "visual": "👩‍🦰"
+        "visual": "👩‍🦰",
+        "picture": "la-amiga"
       },
       {
         "es": "la mañana",
@@ -160,28 +168,32 @@
         "en": "street",
         "unit": 7,
         "unitOrder": 1,
-        "visual": "🛣️"
+        "visual": "🛣️",
+        "picture": "la-calle"
       },
       {
         "es": "la plaza",
         "en": "square",
         "unit": 7,
         "unitOrder": 2,
-        "visual": "⛲"
+        "visual": "⛲",
+        "picture": "la-plaza"
       },
       {
         "es": "la farmacia",
         "en": "pharmacy",
         "unit": 7,
         "unitOrder": 4,
-        "visual": "💊"
+        "visual": "💊",
+        "picture": "la-farmacia"
       },
       {
         "es": "el parque",
         "en": "park",
         "unit": 7,
         "unitOrder": 6,
-        "visual": "🌳"
+        "visual": "🌳",
+        "picture": "el-parque"
       },
       {
         "es": "los zapatos",
@@ -694,21 +706,24 @@
         "en": "bread",
         "unit": 6,
         "unitOrder": 1,
-        "visual": "🥖"
+        "visual": "🥖",
+        "picture": "el-pan"
       },
       {
         "es": "la leche",
         "en": "milk",
         "unit": 6,
         "unitOrder": 4,
-        "visual": "🥛"
+        "visual": "🥛",
+        "picture": "la-leche"
       },
       {
         "es": "el queso",
         "en": "cheese",
         "unit": 6,
         "unitOrder": 8,
-        "visual": "🧀"
+        "visual": "🧀",
+        "picture": "el-queso"
       },
       {
         "es": "el arroz",
@@ -769,7 +784,8 @@
         "en": "apple",
         "unit": 6,
         "unitOrder": 5,
-        "visual": "🍎"
+        "visual": "🍎",
+        "picture": "la-manzana"
       },
       {
         "es": "el plátano",
@@ -1006,7 +1022,8 @@
         "en": "fish (as food)",
         "unit": 6,
         "unitOrder": 6,
-        "visual": "🐟"
+        "visual": "🐟",
+        "picture": "el-pescado"
       },
       {
         "es": "el salmón",
@@ -1109,14 +1126,16 @@
         "en": "water",
         "unit": 6,
         "unitOrder": 2,
-        "visual": "💧"
+        "visual": "💧",
+        "picture": "el-agua"
       },
       {
         "es": "el café",
         "en": "coffee",
         "unit": 6,
         "unitOrder": 3,
-        "visual": "☕"
+        "visual": "☕",
+        "picture": "el-cafe"
       },
       {
         "es": "el té",
@@ -1165,7 +1184,8 @@
         "en": "kitchen",
         "unit": 4,
         "unitOrder": 2,
-        "visual": "🍳"
+        "visual": "🍳",
+        "picture": "la-cocina"
       },
       {
         "es": "el horno",
@@ -1270,7 +1290,8 @@
         "en": "house",
         "unit": 4,
         "unitOrder": 1,
-        "visual": "🏠"
+        "visual": "🏠",
+        "picture": "la-casa"
       },
       {
         "es": "el piso",
@@ -1281,7 +1302,8 @@
         "en": "room",
         "unit": 10,
         "unitOrder": 8,
-        "visual": "🛏️"
+        "visual": "🛏️",
+        "picture": "la-habitacion"
       },
       {
         "es": "el baño",
@@ -1299,7 +1321,8 @@
         "en": "bedroom",
         "unit": 4,
         "unitOrder": 3,
-        "visual": "🛏️"
+        "visual": "🛏️",
+        "picture": "el-dormitorio"
       },
       {
         "es": "la cama",
@@ -1314,28 +1337,32 @@
         "en": "table",
         "unit": 4,
         "unitOrder": 5,
-        "visual": "🪑"
+        "visual": "🪑",
+        "picture": "la-mesa"
       },
       {
         "es": "la silla",
         "en": "chair",
         "unit": 4,
         "unitOrder": 6,
-        "visual": "🪑"
+        "visual": "🪑",
+        "picture": "la-silla"
       },
       {
         "es": "la ventana",
         "en": "window",
         "unit": 4,
         "unitOrder": 7,
-        "visual": "🪟"
+        "visual": "🪟",
+        "picture": "la-ventana"
       },
       {
         "es": "la puerta",
         "en": "door",
         "unit": 4,
         "unitOrder": 8,
-        "visual": "🚪"
+        "visual": "🚪",
+        "picture": "la-puerta"
       },
       {
         "es": "el televisor",
@@ -2401,42 +2428,48 @@
         "en": "family",
         "unit": 3,
         "unitOrder": 8,
-        "visual": "👪"
+        "visual": "👪",
+        "picture": "la-familia"
       },
       {
         "es": "el padre",
         "en": "father",
         "unit": 3,
         "unitOrder": 2,
-        "visual": "👨"
+        "visual": "👨",
+        "picture": "el-padre"
       },
       {
         "es": "la madre",
         "en": "mother",
         "unit": 3,
         "unitOrder": 1,
-        "visual": "👩"
+        "visual": "👩",
+        "picture": "la-madre"
       },
       {
         "es": "el hermano",
         "en": "brother",
         "unit": 3,
         "unitOrder": 4,
-        "visual": "👨‍🦱"
+        "visual": "👨‍🦱",
+        "picture": "el-hermano"
       },
       {
         "es": "la hermana",
         "en": "sister",
         "unit": 3,
         "unitOrder": 3,
-        "visual": "👩‍🦱"
+        "visual": "👩‍🦱",
+        "picture": "la-hermana"
       },
       {
         "es": "el hijo",
         "en": "son",
         "unit": 3,
         "unitOrder": 6,
-        "visual": "👦"
+        "visual": "👦",
+        "picture": "el-hijo"
       },
       {
         "es": "la hija",
@@ -2451,7 +2484,8 @@
         "en": "grandmother",
         "unit": 3,
         "unitOrder": 5,
-        "visual": "👵"
+        "visual": "👵",
+        "picture": "la-abuela"
       },
       {
         "es": "el nieto",
@@ -2651,35 +2685,40 @@
         "en": "airplane",
         "unit": 10,
         "unitOrder": 3,
-        "visual": "✈️"
+        "visual": "✈️",
+        "picture": "el-avion"
       },
       {
         "es": "la maleta",
         "en": "suitcase",
         "unit": 10,
         "unitOrder": 6,
-        "visual": "🧳"
+        "visual": "🧳",
+        "picture": "la-maleta"
       },
       {
         "es": "la estación",
         "en": "station",
         "unit": 7,
         "unitOrder": 7,
-        "visual": "🚉"
+        "visual": "🚉",
+        "picture": "la-estacion"
       },
       {
         "es": "el tren",
         "en": "train",
         "unit": 10,
         "unitOrder": 1,
-        "visual": "🚆"
+        "visual": "🚆",
+        "picture": "el-tren"
       },
       {
         "es": "el billete",
         "en": "ticket",
         "unit": 10,
         "unitOrder": 4,
-        "visual": "🎟️"
+        "visual": "🎟️",
+        "picture": "el-billete"
       },
       {
         "es": "el aeropuerto",
@@ -2690,7 +2729,8 @@
         "en": "passport",
         "unit": 10,
         "unitOrder": 7,
-        "visual": "🛂"
+        "visual": "🛂",
+        "picture": "el-pasaporte"
       },
       {
         "es": "el taxi",
@@ -2701,7 +2741,8 @@
         "en": "hotel",
         "unit": 10,
         "unitOrder": 5,
-        "visual": "🏨"
+        "visual": "🏨",
+        "picture": "el-hotel"
       },
       {
         "es": "el mapa",
@@ -2848,7 +2889,8 @@
         "en": "bus",
         "unit": 10,
         "unitOrder": 2,
-        "visual": "🚌"
+        "visual": "🚌",
+        "picture": "el-autobus"
       },
       {
         "es": "la parada de autobús",
@@ -2929,7 +2971,8 @@
         "en": "supermarket",
         "unit": 7,
         "unitOrder": 5,
-        "visual": "🛒"
+        "visual": "🛒",
+        "picture": "el-supermercado"
       },
       {
         "es": "la caja",
@@ -2996,7 +3039,8 @@
         "en": "bill",
         "unit": 6,
         "unitOrder": 7,
-        "visual": "🧾"
+        "visual": "🧾",
+        "picture": "la-cuenta"
       }
     ]
   },
@@ -3353,7 +3397,8 @@
         "en": "library",
         "unit": 7,
         "unitOrder": 8,
-        "visual": "📚"
+        "visual": "📚",
+        "picture": "la-biblioteca"
       },
       {
         "es": "el director",
@@ -3774,7 +3819,8 @@
         "en": "bank",
         "unit": 7,
         "unitOrder": 3,
-        "visual": "🏦"
+        "visual": "🏦",
+        "picture": "el-banco"
       },
       {
         "key": "la cuenta (account)",
@@ -3952,7 +3998,8 @@
         "en": "email",
         "unit": 2,
         "unitOrder": 8,
-        "visual": "✉️"
+        "visual": "✉️",
+        "picture": "el-correo-electronico"
       },
       {
         "es": "la red social",

@@ -16,7 +16,7 @@ import { IconButton } from "./IconButton";
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
 // including the states no app view happens to render. Rendered by Gallery.tsx at
-// /#design-system. Separate from that component so Fast Refresh keeps working.
+// /design-system. Separate from that component so Fast Refresh keeps working.
 export const sections: { id: string; name: string; render: () => ReactNode }[] = [
   {
     id: "button",
@@ -83,7 +83,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           <Icon name="arrow" size={16} />
         </TextLink>
         <TextLink disabled>Disabled</TextLink>
-        <TextLink href="#design-system">
+        <TextLink href="/design-system">
           Anchor
           <Icon name="external" size={15} />
         </TextLink>
@@ -98,7 +98,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         <FieldNote>Progress and writing drafts are saved online.</FieldNote>
         <FieldNote>
           A note with a link inside.{" "}
-          <a className="underline" href="#design-system">
+          <a className="underline" href="/design-system">
             Official structure ↗
           </a>
         </FieldNote>
@@ -161,7 +161,7 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
         <Notice icon="info">
           <p className="leading-relaxed">
             A notice with an icon and a{" "}
-            <a className="underline" href="#design-system">
+            <a className="underline" href="/design-system">
               link inside
             </a>
             .

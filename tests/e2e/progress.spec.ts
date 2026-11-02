@@ -9,7 +9,7 @@ test("an answer is saved online and kept after a reload", async ({ page }) => {
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
   await page.reload();
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
-  await page.goto("/#practice");
+  await page.goto("/practice");
   await expect(page.getByRole("button", { name: "My mistakes (1)", exact: true })).toBeVisible();
 });
 
@@ -18,13 +18,15 @@ test("an answer shows in Recent answers and as Last time after a reload", async 
   await answer(page, first, false, true);
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
   await page.reload();
-  await page.goto("/#practice");
+  await page.goto("/practice");
   const recent = page.getByRole("region", { name: "Recent answers" }).getByRole("listitem");
 
   await expect(recent).toHaveCount(1);
   await expect(recent).toContainText(first.prompt);
   await expect(recent).toContainText("Wrong");
-  await openLesson(page, 0);
+  // The lesson itself now resumes after this answer, so the mistake reopens the question.
+  await page.getByRole("button", { name: "My mistakes (1)", exact: true }).click();
+  await page.getByRole("button", { name: "Review my mistakes" }).click();
   await expect(page.getByText(/^Last time:/)).toContainText("Last time: Wrong");
 });
 

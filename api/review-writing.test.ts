@@ -29,6 +29,9 @@ const points = [
   "I wrote 30–40 words and included a farewell.",
 ];
 
+// A met point returns an empty fix.
+const fix = { original: "", corrected: "", explanation: "" };
+
 const model = (band: number) =>
   openrouter.mockImplementation(async () =>
     Response.json({
@@ -37,7 +40,7 @@ const model = (band: number) =>
           message: {
             role: "assistant",
             content: JSON.stringify({
-              coverage: points.map((point) => ({ point, met: true, feedback: "Done." })),
+              coverage: points.map((point) => ({ point, met: true, feedback: "Done.", fix })),
               corrections: [],
               revised: letter,
               mark: { band, reason: "Clear and complete." },
@@ -124,7 +127,12 @@ describe("reviewing writing", () => {
             message: {
               role: "assistant",
               content: JSON.stringify({
-                coverage: lesson.points.map((point) => ({ point, met: true, feedback: "Done." })),
+                coverage: lesson.points.map((point) => ({
+                  point,
+                  met: true,
+                  feedback: "Done.",
+                  fix,
+                })),
                 corrections: [],
                 revised: "Me llamo Ana.",
                 result: "partly",

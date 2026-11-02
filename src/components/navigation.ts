@@ -7,9 +7,3 @@ export const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "exam", label: "Exam rehearsal", icon: "flag" },
   { id: "guide", label: "The A1 guide", icon: "book" },
 ];
-
-export const pageFromHash = (): Page => {
-  const h = window.location.hash.slice(1);
-
-  return h === "backoffice" || navigation.some((n) => n.id === h) ? (h as Page) : "today";
-};

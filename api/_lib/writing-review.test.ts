@@ -8,8 +8,21 @@ const form = writingTaskOf("mock-w1")!;
 const lesson = writingTaskOf("u1-o2")!;
 const practiceForm = writingTaskOf("form-practice")!;
 
+const noFix = { original: "", corrected: "", explanation: "" };
+
+const fixOf = (i: number) => ({
+  original: `trabajo de seis ${i}`,
+  corrected: `trabajo de las seis ${i}`,
+  explanation: `Fix point ${i}.`,
+});
+
 const coverage = (task = letter, missed = 1) =>
-  task.points.map((_, i) => ({ point: `echo ${i}`, met: i >= missed, feedback: `Point ${i}.` }));
+  task.points.map((_, i) => ({
+    point: `echo ${i}`,
+    met: i >= missed,
+    feedback: `Point ${i}.`,
+    fix: i >= missed ? noFix : fixOf(i),
+  }));
 
 const gradeOf = (task: typeof lesson, wordCount: number, missed: number, result: string) =>
   parseReview(task, wordCount, output({ coverage: coverage(task, missed), result }))?.grade;
@@ -39,6 +52,21 @@ describe("writing review schema", () => {
       "failed",
     ]);
   });
+
+  it("asks for a fix with every coverage entry", () => {
+    expect(schemaOf(letter)).toHaveProperty("properties.coverage.items.required", [
+      "point",
+      "met",
+      "feedback",
+      "fix",
+    ]);
+
+    expect(schemaOf(letter)).toHaveProperty("properties.coverage.items.properties.fix.required", [
+      "original",
+      "corrected",
+      "explanation",
+    ]);
+  });
 });
 
 describe("parsing the model's review", () => {
@@ -51,11 +79,51 @@ describe("parsing the model's review", () => {
         { point: letter.points[2], met: true, feedback: "Point 2." },
       ],
       corrections: [
+        fixOf(0),
         { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
       ],
       revised: "Hola, Ana. Tengo veinte años.",
       mark: { band: 2, reason: "A1 level with one missed point." },
     });
+  });
+
+  it("lists a correction for each missed point and none for a passed one", () => {
+    const correctionsOf = (missed: number) =>
+      parseReview(
+        lesson,
+        35,
+        output({ coverage: coverage(lesson, missed), corrections: [], result: "partly" }),
+      )?.corrections;
+
+    expect(correctionsOf(2)).toEqual([fixOf(0), fixOf(1)]);
+    expect(correctionsOf(0)).toEqual([]);
+  });
+
+  it("keeps the corrections of missed points when the text has eight of its own", () => {
+    const corrections = Array.from({ length: 8 }, (_, i) => ({
+      original: `o${i}`,
+      corrected: `c${i}`,
+      explanation: `e${i}`,
+    }));
+
+    expect(parseReview(letter, 35, output({ corrections }))?.corrections).toHaveLength(9);
+    expect(parseReview(letter, 35, output({ corrections }))?.corrections[0]).toEqual(fixOf(0));
+  });
+
+  it("accepts a missed point whose fix quotes nothing, because the answer lacks it", () => {
+    const missing = {
+      original: "",
+      corrected: "Trabajo de lunes a viernes.",
+      explanation: "Say when you work.",
+    };
+
+    const review = parseReview(
+      letter,
+      35,
+      output({ coverage: coverage().map((c, i) => (i ? c : { ...c, fix: missing })) }),
+    );
+
+    expect(review?.corrections[0]).toEqual(missing);
   });
 
   it("drops a mark the lesson schema did not ask for", () => {
@@ -129,7 +197,11 @@ describe("parsing the model's review", () => {
     }));
 
     expect(
-      parseReview(letter, 35, output({ corrections }))?.corrections.map((c) => c.original),
+      parseReview(
+        letter,
+        35,
+        output({ coverage: coverage(letter, 0), corrections }),
+      )?.corrections.map((c) => c.original),
     ).toEqual(["o0", "o1", "o2", "o3", "o4", "o5", "o6", "o7"]);
   });
 
@@ -157,6 +229,26 @@ describe("parsing the model's review", () => {
     ["a coverage entry too few", output({ coverage: coverage().slice(1) })],
     ["a coverage entry too many", output({ coverage: [...coverage(), coverage()[0]] })],
     ["met as text", output({ coverage: coverage().map((c) => ({ ...c, met: "yes" })) })],
+    [
+      "a coverage entry without a fix",
+      output({ coverage: coverage().map(({ fix: _, ...c }) => c) }),
+    ],
+    [
+      "a missed point with no corrected phrase",
+      output({
+        coverage: coverage().map((c, i) =>
+          i ? c : { ...c, fix: { ...fixOf(0), corrected: " " } },
+        ),
+      }),
+    ],
+    [
+      "a missed point with no explanation",
+      output({
+        coverage: coverage().map((c, i) =>
+          i ? c : { ...c, fix: { ...fixOf(0), explanation: "" } },
+        ),
+      }),
+    ],
     ["a correction without a reason", output({ corrections: [{ original: "a", corrected: "b" }] })],
     ["corrections that are not a list", output({ corrections: "none" })],
     ["a list instead of an object", "[]"],

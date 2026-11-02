@@ -12,6 +12,7 @@ import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
 import { lessonPlace } from "../data/lessonPlace";
 import { usePreloadPictures } from "./usePreloadPictures";
+import { resumeIndex } from "../data/resumeIndex";
 
 // A recording keeps playing across the questions that share it.
 const sharesRecording = (q: Question, next: Question | undefined) =>
@@ -36,28 +37,58 @@ export const LessonSession = ({
   onDraft,
   onNext,
 }: Props) => {
-  const [index, setIndex] = useState(0);
-  const [results, setResults] = useState<(boolean | null)[]>([]);
-  const [finished, setFinished] = useState(false);
-  const [confirmExit, setConfirmExit] = useState(false);
-  const [assisted, setAssisted] = useState(0);
   // Each question's answer from before this lesson; answers given now must not replace it.
   const [before] = useState(() => progress.questions);
+  // A resumed lesson counts the stored answers to the exercises it skips.
+  const [start] = useState(() => resumeIndex(lesson, progress));
+  const skipped = lesson.questions.slice(0, start).map((q) => before[q.id]);
+  const [index, setIndex] = useState(start);
+  const [results, setResults] = useState(() => skipped.map((a) => a.correct));
+  const [finished, setFinished] = useState(false);
+  const [confirmExit, setConfirmExit] = useState(false);
+  const [assisted, setAssisted] = useState(() => skipped.filter((a) => a.assisted).length);
+  const [answered, setAnswered] = useState<number | null>(null);
   const question = lesson.questions[index];
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
   const place = lessonPlace(lesson.id);
+  const done = before[question.id]?.correct === true && answered !== index;
 
   usePreloadPictures(lesson.questions);
 
   const close = () => {
     stopAudio();
 
-    if (index > 0 && !finished) {
+    if (index > start && !finished) {
       setConfirmExit(true);
     } else {
       onClose();
     }
+  };
+
+  const advance = (correct: boolean | null) => {
+    const next = [...results, correct];
+
+    setResults(next);
+
+    if (index === lesson.questions.length - 1) {
+      setFinished(true);
+      onComplete(next.filter((r) => r === true).length, next.filter((r) => r !== null).length);
+    } else {
+      setIndex((i) => i + 1);
+    }
+  };
+
+  // A passed exercise moves on with its saved answer, as a resumed lesson does, without a new
+  // attempt or check.
+  const skip = () => {
+    stopAudio();
+
+    if (before[question.id].assisted) {
+      setAssisted((a) => a + 1);
+    }
+
+    advance(true);
   };
 
   const submit = (answer: string, correct: boolean | null, help: boolean) => {
@@ -67,20 +98,11 @@ export const LessonSession = ({
       stopAudio();
     }
 
-    const next = [...results, correct];
-
-    setResults(next);
-
     if (help) {
       setAssisted((a) => a + 1);
     }
 
-    if (index === lesson.questions.length - 1) {
-      setFinished(true);
-      onComplete(next.filter((r) => r === true).length, next.filter((r) => r !== null).length);
-    } else {
-      setIndex((i) => i + 1);
-    }
+    advance(correct);
   };
 
   return (
@@ -132,6 +154,14 @@ export const LessonSession = ({
         <LessonComplete results={results} assisted={assisted} onClose={onClose} onNext={onNext} />
       ) : (
         <div hidden={confirmExit}>
+          {done && (
+            <div className="flex items-center justify-between gap-3 pbs-5 px-9 max-md:px-5 max-sm:px-4">
+              <span className="text-xs text-muted-foreground">You passed this one before.</span>
+              <Button variant="secondary" size="small" onClick={skip}>
+                Already done, skip
+              </Button>
+            </div>
+          )}
           <QuestionView
             key={question.id}
             q={question}
@@ -139,6 +169,8 @@ export const LessonSession = ({
             onSubmit={submit}
             onEvaluated={(answer, correct, assisted, grade) => {
               const q = lesson.questions[index];
+
+              setAnswered(index);
 
               onAttempt({
                 id: crypto.randomUUID(),

@@ -130,6 +130,8 @@ export interface ProgressSnapshot {
   // Distinct local days with an attempt, newest first, at most 400.
   days: string[];
   mockRun: MockRun | null;
+  // When the learner last saw each mock exam task variant, by variant id.
+  seenVariants: Record<string, string>;
 }
 
 // One version of an official exam task: a whole coherent task with all its items.

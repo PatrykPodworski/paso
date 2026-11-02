@@ -17,6 +17,7 @@ type Props = MockExamActions & { progress: ProgressSnapshot };
 
 export const MockExam = ({ progress, ...actions }: Props) => {
   const {
+    nextExam,
     run,
     change,
     restart,
@@ -28,7 +29,7 @@ export const MockExam = ({ progress, ...actions }: Props) => {
     endSection,
     score,
     nextSection,
-  } = useMockExam(progress.mockRun, actions);
+  } = useMockExam(progress.mockRun, progress.seenVariants, actions);
 
   return (
     <div className="mock-page">
@@ -45,7 +46,9 @@ export const MockExam = ({ progress, ...actions }: Props) => {
           <Icon name="clock" size={16} /> Official section timings
         </Badge>
       </PageHeading>
-      {run.stage === "intro" && <MockIntro progress={progress} onStart={start} />}
+      {run.stage === "intro" && (
+        <MockIntro progress={progress} variants={nextExam} onStart={start} />
+      )}
       {run.stage === "done" && (
         <MockResults
           reading={score(0)}

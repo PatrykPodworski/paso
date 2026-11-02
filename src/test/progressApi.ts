@@ -67,14 +67,29 @@ export const savedProgress = async (): Promise<ProgressSnapshot> => {
   return response.json();
 };
 
-// Stores a seed for a new learner, whose id the app then reads from this browser.
-export const seedProgress = async (seed: Partial<ProgressSeed>) => {
+// The exam variants a learner saw, as one write per time they were seen.
+const seenWrites = (seenVariants: Record<string, string> = {}) => {
+  const byTime = new Map<string, string[]>();
+
+  Object.entries(seenVariants).forEach(([id, at]) =>
+    byTime.set(at, [...(byTime.get(at) ?? []), id]),
+  );
+
+  return [...byTime].map(([at, variants]) => ({ action: "seen", variants, at }));
+};
+
+// Stores a seed for a new learner, whose id the app then reads from this browser. Seen exam
+// variants are no part of the seed the visual compare shares with the base app.
+export const seedProgress = async ({
+  seenVariants,
+  ...seed
+}: Partial<ProgressSeed> & { seenVariants?: Record<string, string> }) => {
   const learner = crypto.randomUUID();
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   localStorage.setItem("paso-learner-v1", learner);
 
-  for (const body of seedWrites(seed, timeZone)) {
+  for (const body of [...seedWrites(seed, timeZone), ...seenWrites(seenVariants)]) {
     const response = await serve(
       new Request("http://localhost/api/progress", {
         method: "POST",

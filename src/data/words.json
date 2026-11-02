@@ -235,7 +235,8 @@
         "en": "tired (masculine)",
         "unit": 11,
         "unitOrder": 7,
-        "visual": "😴"
+        "visual": "😴",
+        "picture": "cansado"
       },
       {
         "es": "la pregunta",
@@ -1533,7 +1534,8 @@
         "en": "happy (masculine)",
         "unit": 11,
         "unitOrder": 8,
-        "visual": "🙂"
+        "visual": "🙂",
+        "picture": "contento"
       },
       {
         "es": "satisfecho/a",
@@ -2232,14 +2234,16 @@
         "en": "sun",
         "unit": 11,
         "unitOrder": 1,
-        "visual": "☀️"
+        "visual": "☀️",
+        "picture": "el-sol"
       },
       {
         "es": "la lluvia",
         "en": "rain",
         "unit": 11,
         "unitOrder": 2,
-        "visual": "🌧️"
+        "visual": "🌧️",
+        "picture": "la-lluvia"
       },
       {
         "es": "la nieve",
@@ -2298,14 +2302,16 @@
         "en": "heat",
         "unit": 11,
         "unitOrder": 4,
-        "visual": "🌡️"
+        "visual": "🌡️",
+        "picture": "el-calor"
       },
       {
         "es": "el frío",
         "en": "cold",
         "unit": 11,
         "unitOrder": 3,
-        "visual": "❄️"
+        "visual": "❄️",
+        "picture": "el-frio"
       }
     ]
   },
@@ -2412,7 +2418,8 @@
         "en": "summer",
         "unit": 11,
         "unitOrder": 5,
-        "visual": "🏖️"
+        "visual": "🏖️",
+        "picture": "el-verano"
       },
       {
         "es": "el otoño",
@@ -2423,7 +2430,8 @@
         "en": "winter",
         "unit": 11,
         "unitOrder": 6,
-        "visual": "⛄"
+        "visual": "⛄",
+        "picture": "el-invierno"
       }
     ]
   },

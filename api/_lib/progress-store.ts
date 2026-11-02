@@ -64,6 +64,11 @@ const reads = (learner: string) => [
     learner,
   ),
   q("SELECT run FROM mock_runs WHERE learner_id = $1", learner),
+  q(
+    `SELECT variant_id, ${iso("max(at)")} AS at FROM seen_variants WHERE learner_id = $1
+     GROUP BY variant_id ORDER BY variant_id`,
+    learner,
+  ),
 ];
 
 type LearnerRow = { name: string; goal: number; exam_date: string; xp: number };
@@ -122,19 +127,31 @@ const mockResultOf = ({ writing, speaking, ...m }: MockRow) => ({
 });
 
 const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
-  const [learners, completions, questions, reviews, checks, mocks, drafts, recent, days, runs] =
-    results as [
-      LearnerRow[],
-      CompletionRow[],
-      QuestionRow[],
-      ReviewRow[],
-      { check_id: string }[],
-      MockRow[],
-      DraftRow[],
-      AttemptRow[],
-      DayRow[],
-      { run: MockRun }[],
-    ];
+  const [
+    learners,
+    completions,
+    questions,
+    reviews,
+    checks,
+    mocks,
+    drafts,
+    recent,
+    days,
+    runs,
+    seen,
+  ] = results as [
+    LearnerRow[],
+    CompletionRow[],
+    QuestionRow[],
+    ReviewRow[],
+    { check_id: string }[],
+    MockRow[],
+    DraftRow[],
+    AttemptRow[],
+    DayRow[],
+    { run: MockRun }[],
+    { variant_id: string; at: string }[],
+  ];
 
   const learner = learners[0] ?? NEW_LEARNER;
 
@@ -155,6 +172,7 @@ const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
     days: days.map((d) => d.day),
     // A run saved before a field existed takes that field's default.
     mockRun: runs[0] ? { ...freshMockRun(), ...runs[0].run } : null,
+    seenVariants: Object.fromEntries(seen.map((r) => [r.variant_id, r.at])),
   };
 };
 
@@ -382,6 +400,23 @@ export const saveMockRun = async (
     ])
   ).snapshot;
 };
+
+// Adds a sighting of each variant. A resent sighting changes nothing, and an older one leaves
+// the latest in place, because the snapshot reads the latest per variant.
+export const saveSeen = async (db: Db, learner: string, variants: string[], at: string) =>
+  (
+    await write(db, learner, [
+      ensureLearner(learner),
+      q(
+        `INSERT INTO seen_variants (learner_id, variant_id, at)
+         SELECT DISTINCT $1::uuid, variant_id, $3::timestamptz FROM unnest($2::text[]) AS variant_id
+         ON CONFLICT DO NOTHING`,
+        learner,
+        variants,
+        at,
+      ),
+    ])
+  ).snapshot;
 
 // Deleting the learner cascades to every table.
 export const resetProgress = async (db: Db, learner: string) =>

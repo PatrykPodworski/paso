@@ -73,11 +73,7 @@ describe("parsing the model's review", () => {
   it("keeps the server's point text in the task's order", () => {
     expect(parseReview(letter, 35, output())).toEqual({
       wordCount: 35,
-      coverage: [
-        { point: letter.points[0], met: false, feedback: "Point 0." },
-        { point: letter.points[1], met: true, feedback: "Point 1." },
-        { point: letter.points[2], met: true, feedback: "Point 2." },
-      ],
+      coverage: letter.points.map((point, i) => ({ point, met: i > 0, feedback: `Point ${i}.` })),
       corrections: [
         fixOf(0),
         { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },

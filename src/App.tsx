@@ -123,6 +123,7 @@ const App = () => {
         onResult={actions.mockResult}
         onRunChange={actions.mockRun}
         onNewRun={actions.newMockRun}
+        onSeen={actions.seen}
         onLeave={actions.flushDrafts}
       />
     ),

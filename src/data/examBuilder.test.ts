@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildExam } from "./examBuilder";
+import { buildExam, seenFrom } from "./examBuilder";
 import { examSections, firstVariants, mockTasks } from "./mock";
 import type { MockTask } from "./types";
 
@@ -42,12 +42,48 @@ describe("the exam builder", () => {
     expect(new Set(exams.map((e) => e.c))).toEqual(new Set(["c1", "c2", "c3", "c4"]));
   });
 
-  it("takes variant 1 of every task while each pool holds only variant 1", () => {
-    expect(buildExam({ seed: 42 })).toEqual(firstVariants);
+  // Listening variant 1 repeats Pablo across its own tasks, so only reading and writing are
+  // checked against the rest of the exam.
+  it("builds real exams with the official sizes and no reading or writing theme or name repeated", () => {
+    const variants = new Map(mockTasks.flatMap((t) => t.variants.map((v) => [v.id, v] as const)));
 
-    expect(examSections(buildExam({ seed: 42 })).map((s) => s.questions.length)).toEqual([
-      25, 25, 2, 3,
-    ]);
+    const tagsOf = (id: string) => {
+      const { theme, names } = variants.get(id)!;
+
+      return [theme, ...names].map((tag) => tag.toLowerCase());
+    };
+
+    for (const seed of SEEDS) {
+      const exam = buildExam({ seed });
+
+      expect(examSections(exam).map((s) => s.questions.length)).toEqual([25, 25, 2, 3]);
+
+      const checked = Object.entries(exam).filter(([task]) => /^[rw]/.test(task));
+      const others = Object.entries(exam).filter(([task]) => !/^[rw]/.test(task));
+      const checkedTags = checked.flatMap(([, id]) => tagsOf(id));
+      const otherTags = new Set(others.flatMap(([, id]) => tagsOf(id)));
+
+      expect(new Set(checkedTags).size, String(seed)).toBe(checkedTags.length);
+
+      expect(
+        checkedTags.filter((tag) => otherTags.has(tag)),
+        String(seed),
+      ).toEqual([]);
+    }
+  });
+
+  it("reaches every variant of every real task", () => {
+    const exams = SEEDS.map((seed) => buildExam({ seed }));
+
+    for (const t of mockTasks) {
+      expect(new Set(exams.map((e) => e[t.id])), t.id).toEqual(
+        new Set(t.variants.map((v) => v.id)),
+      );
+    }
+  });
+
+  it("starts a fresh run on variant 1 of every task", () => {
+    expect(Object.values(firstVariants)).toEqual(mockTasks.map((t) => `${t.id}-v1`));
   });
 
   it("never picks two variants with the same theme", () => {
@@ -121,6 +157,34 @@ describe("the exam builder", () => {
     }
   });
 
+  it("gives a second exam other variants wherever the pool has one the first did not take", () => {
+    const tasks = [...pools, task("d", "d1:garden")];
+
+    for (const seed of SEEDS) {
+      const first = buildExam({ seed, tasks });
+
+      const seen = seenFrom(
+        Object.fromEntries(Object.values(first).map((id) => [id, "2026-09-09T12:00:00.000Z"])),
+      );
+
+      const second = buildExam({ seed: seed + 1, seen, tasks });
+
+      expect(second.a).not.toBe(first.a);
+      expect(second.b).not.toBe(first.b);
+      expect(second.c).not.toBe(first.c);
+      expect(second.d).toBe("d1");
+    }
+  });
+
+  it("reads the seen history the server keeps as times per variant", () => {
+    expect(seenFrom({ a1: "2026-09-09T12:00:00.000Z", a2: "2026-09-10T08:30:00.000Z" })).toEqual(
+      new Map([
+        ["a1", Date.parse("2026-09-09T12:00:00.000Z")],
+        ["a2", Date.parse("2026-09-10T08:30:00.000Z")],
+      ]),
+    );
+  });
+
   it("takes a seen variant over a repeated theme", () => {
     const tasks = [task("a", "a1:food", "a2:travel"), task("b", "b1:food")];
 
@@ -140,12 +204,13 @@ describe("the exam builder", () => {
   it("picks for the tasks of one section only", () => {
     const reading = mockTasks.filter((t) => t.id.startsWith("r"));
 
-    expect(buildExam({ seed: 3, tasks: reading })).toEqual({
-      r1: "r1-v1",
-      r2: "r2-v1",
-      r3: "r3-v1",
-      r4: "r4-v1",
-    });
+    const exam = buildExam({ seed: 3, tasks: reading });
+
+    expect(Object.keys(exam)).toEqual(["r1", "r2", "r3", "r4"]);
+
+    for (const t of reading) {
+      expect(t.variants.map((v) => v.id)).toContain(exam[t.id]);
+    }
   });
 
   it("refuses a chosen variant the task does not have", () => {

@@ -24,7 +24,9 @@ test("an answer shows in Recent answers and as Last time after a reload", async 
   await expect(recent).toHaveCount(1);
   await expect(recent).toContainText(first.prompt);
   await expect(recent).toContainText("Wrong");
-  await openLesson(page, 0);
+  // The lesson itself now resumes after this answer, so the mistake reopens the question.
+  await page.getByRole("button", { name: "My mistakes (1)", exact: true }).click();
+  await page.getByRole("button", { name: "Review my mistakes" }).click();
   await expect(page.getByText(/^Last time:/)).toContainText("Last time: Wrong");
 });
 

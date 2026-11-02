@@ -60,6 +60,15 @@ for (const skill of ["Reading", "Listening", "Writing", "Speaking"]) {
   });
 }
 
+for (const tab of ["Audio", "Images"]) {
+  test(`backoffice: ${tab} tab`, async ({ page }) => {
+    await page.goto("/backoffice");
+    await page.getByRole("tab", { name: new RegExp(tab) }).click();
+    await page.getByRole("combobox", { name: "Unit" }).selectOption("Unit 1");
+    await shot(page, `backoffice-${tab.toLowerCase()}`);
+  });
+}
+
 test("mistakes: empty and populated", async ({ page }) => {
   await page.goto("/practice");
   await page.getByRole("button", { name: "My mistakes (0)" }).click();
@@ -217,6 +226,8 @@ test("recent answers and the previous attempt", async ({ page }) => {
 
   await seedProgress(page, {
     ...progressSeed(),
+    // A finished lesson starts over, so it opens at the first question and its last attempt.
+    completed: { [allLessons[0].id]: { score: 1, total: 2, at: "2026-09-08T10:00:00Z" } },
     attempts: answers.map(([q, answer, correct], i) => ({
       id: `seed-${i}`,
       questionId: q.id,

@@ -455,3 +455,74 @@ it("fetches every picture of the lesson when it starts, once each", () => {
 
   vi.unstubAllGlobals();
 });
+
+it("skips a writing task already passed without checking it again or recording an attempt", () => {
+  const fetch = vi.fn();
+  const attempt = vi.fn();
+  const done = vi.fn();
+  const progress = emptySnapshot();
+
+  vi.stubGlobal("fetch", fetch);
+  progress.questions[writing.id] = questionState({ skill: "writing", correct: true });
+  progress.questions[type.id] = questionState({ correct: false });
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [writing, { ...type, answer: "correcto" }],
+      }}
+      progress={progress}
+      onClose={vi.fn()}
+      onAttempt={attempt}
+      onComplete={done}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  click("Already done, skip");
+  const bar = screen.getByRole("progressbar", { name: "Lesson progress" });
+
+  expect(bar).toHaveAttribute("aria-valuenow", "1");
+  expect(screen.queryByRole("button", { name: "Already done, skip" })).not.toBeInTheDocument();
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "incorrecto" } });
+  click("Check answer");
+  click("Continue");
+  expect(fetch.mock.calls).toEqual([]);
+  expect(attempt.mock.calls.map(([a]) => a.questionId)).toEqual([type.id]);
+  // The skipped task keeps its saved result in the lesson score.
+  expect(done).toHaveBeenCalledExactlyOnceWith(1, 2);
+});
+
+it("stops offering the skip once a passed exercise is answered again", () => {
+  const [seen] = allQuestions.filter((q) => q.options);
+  const progress = emptySnapshot();
+
+  progress.questions[seen.id] = questionState({ correct: true });
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [seen],
+      }}
+      progress={progress}
+      onClose={vi.fn()}
+      onAttempt={vi.fn()}
+      onComplete={vi.fn()}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  expect(screen.getByRole("button", { name: "Already done, skip" })).toBeInTheDocument();
+  click(seen.options!.find((o) => o !== seen.answer)!);
+  expect(screen.queryByRole("button", { name: "Already done, skip" })).not.toBeInTheDocument();
+});

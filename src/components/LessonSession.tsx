@@ -41,12 +41,14 @@ export const LessonSession = ({
   const [finished, setFinished] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
   const [assisted, setAssisted] = useState(0);
+  const [answered, setAnswered] = useState<number | null>(null);
   // Each question's answer from before this lesson; answers given now must not replace it.
   const [before] = useState(() => progress.questions);
   const question = lesson.questions[index];
   // Objective exercises are new attempts, not editable writing drafts.
   const keepDraft = question.kind === "write" || question.kind === "form";
   const place = lessonPlace(lesson.id);
+  const done = before[question.id]?.correct === true && answered !== index;
 
   usePreloadPictures(lesson.questions);
 
@@ -60,20 +62,10 @@ export const LessonSession = ({
     }
   };
 
-  const submit = (answer: string, correct: boolean | null, help: boolean) => {
-    void answer;
-
-    if (!sharesRecording(question, lesson.questions[index + 1])) {
-      stopAudio();
-    }
-
+  const advance = (correct: boolean | null) => {
     const next = [...results, correct];
 
     setResults(next);
-
-    if (help) {
-      setAssisted((a) => a + 1);
-    }
 
     if (index === lesson.questions.length - 1) {
       setFinished(true);
@@ -81,6 +73,26 @@ export const LessonSession = ({
     } else {
       setIndex((i) => i + 1);
     }
+  };
+
+  // A passed exercise moves on with its saved result, without a new attempt or check.
+  const skip = () => {
+    stopAudio();
+    advance(true);
+  };
+
+  const submit = (answer: string, correct: boolean | null, help: boolean) => {
+    void answer;
+
+    if (!sharesRecording(question, lesson.questions[index + 1])) {
+      stopAudio();
+    }
+
+    if (help) {
+      setAssisted((a) => a + 1);
+    }
+
+    advance(correct);
   };
 
   return (
@@ -132,6 +144,14 @@ export const LessonSession = ({
         <LessonComplete results={results} assisted={assisted} onClose={onClose} onNext={onNext} />
       ) : (
         <div hidden={confirmExit}>
+          {done && (
+            <div className="flex items-center justify-between gap-3 pbs-5 px-9 max-md:px-5 max-sm:px-4">
+              <span className="text-xs text-muted-foreground">You passed this one before.</span>
+              <Button variant="secondary" size="small" onClick={skip}>
+                Already done, skip
+              </Button>
+            </div>
+          )}
           <QuestionView
             key={question.id}
             q={question}
@@ -139,6 +159,8 @@ export const LessonSession = ({
             onSubmit={submit}
             onEvaluated={(answer, correct, assisted, grade) => {
               const q = lesson.questions[index];
+
+              setAnswered(index);
 
               onAttempt({
                 id: crypto.randomUUID(),

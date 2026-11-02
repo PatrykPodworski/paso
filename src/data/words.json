@@ -1180,7 +1180,8 @@
         "en": "kitchen",
         "unit": 4,
         "unitOrder": 2,
-        "visual": "🍳"
+        "visual": "🍳",
+        "picture": "la-cocina"
       },
       {
         "es": "el horno",
@@ -1285,7 +1286,8 @@
         "en": "house",
         "unit": 4,
         "unitOrder": 1,
-        "visual": "🏠"
+        "visual": "🏠",
+        "picture": "la-casa"
       },
       {
         "es": "el piso",
@@ -1314,7 +1316,8 @@
         "en": "bedroom",
         "unit": 4,
         "unitOrder": 3,
-        "visual": "🛏️"
+        "visual": "🛏️",
+        "picture": "el-dormitorio"
       },
       {
         "es": "la cama",
@@ -1329,28 +1332,32 @@
         "en": "table",
         "unit": 4,
         "unitOrder": 5,
-        "visual": "🪑"
+        "visual": "🪑",
+        "picture": "la-mesa"
       },
       {
         "es": "la silla",
         "en": "chair",
         "unit": 4,
         "unitOrder": 6,
-        "visual": "🪑"
+        "visual": "🪑",
+        "picture": "la-silla"
       },
       {
         "es": "la ventana",
         "en": "window",
         "unit": 4,
         "unitOrder": 7,
-        "visual": "🪟"
+        "visual": "🪟",
+        "picture": "la-ventana"
       },
       {
         "es": "la puerta",
         "en": "door",
         "unit": 4,
         "unitOrder": 8,
-        "visual": "🚪"
+        "visual": "🚪",
+        "picture": "la-puerta"
       },
       {
         "es": "el televisor",

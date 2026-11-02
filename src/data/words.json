@@ -1317,7 +1317,8 @@
         "en": "bathroom",
         "unit": 4,
         "unitOrder": 4,
-        "visual": "🛁"
+        "visual": "🛁",
+        "picture": "el-bano"
       },
       {
         "es": "el salón",

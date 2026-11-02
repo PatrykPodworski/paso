@@ -710,14 +710,16 @@
         "en": "milk",
         "unit": 6,
         "unitOrder": 4,
-        "visual": "🥛"
+        "visual": "🥛",
+        "picture": "la-leche"
       },
       {
         "es": "el queso",
         "en": "cheese",
         "unit": 6,
         "unitOrder": 8,
-        "visual": "🧀"
+        "visual": "🧀",
+        "picture": "el-queso"
       },
       {
         "es": "el arroz",
@@ -778,7 +780,8 @@
         "en": "apple",
         "unit": 6,
         "unitOrder": 5,
-        "visual": "🍎"
+        "visual": "🍎",
+        "picture": "la-manzana"
       },
       {
         "es": "el plátano",
@@ -1015,7 +1018,8 @@
         "en": "fish (as food)",
         "unit": 6,
         "unitOrder": 6,
-        "visual": "🐟"
+        "visual": "🐟",
+        "picture": "el-pescado"
       },
       {
         "es": "el salmón",
@@ -1118,14 +1122,16 @@
         "en": "water",
         "unit": 6,
         "unitOrder": 2,
-        "visual": "💧"
+        "visual": "💧",
+        "picture": "el-agua"
       },
       {
         "es": "el café",
         "en": "coffee",
         "unit": 6,
         "unitOrder": 3,
-        "visual": "☕"
+        "visual": "☕",
+        "picture": "el-cafe"
       },
       {
         "es": "el té",
@@ -3012,7 +3018,8 @@
         "en": "bill",
         "unit": 6,
         "unitOrder": 7,
-        "visual": "🧾"
+        "visual": "🧾",
+        "picture": "la-cuenta"
       }
     ]
   },

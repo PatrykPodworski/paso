@@ -1,7 +1,7 @@
 import { test, expect } from "../fixtures/app";
 
 test("the backoffice opens unit 1's live talk without the tasks before it", async ({ page }) => {
-  await page.goto("/#backoffice");
+  await page.goto("/backoffice");
   const nav = page.getByRole("navigation", { name: "Main navigation", includeHidden: true });
 
   await expect(nav.getByRole("button", { includeHidden: true })).toHaveText([

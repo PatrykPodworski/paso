@@ -187,6 +187,53 @@ describe("original curriculum integrity", () => {
     expect(new Set(mockQuestions.map((q) => q.id)).size).toBe(mockQuestions.length);
   });
 
+  it("gives each reading task six variants, each a single text with its characters in it", () => {
+    const reading = mockExam[0].tasks;
+
+    expect(reading.map((t) => t.variants.length)).toEqual([6, 6, 6, 6]);
+
+    for (const v of reading.flatMap((t) => t.variants)) {
+      const passages = new Set(v.questions.map((q) => q.passage));
+
+      expect(passages.size, v.id).toBe(1);
+
+      for (const name of v.names) {
+        expect(v.questions[0].passage, `${v.id}: ${name}`).toContain(name);
+      }
+    }
+  });
+
+  it("places reading answers so that their position gives nothing away", () => {
+    for (const t of mockExam[0].tasks.filter((t) => ["r1", "r4"].includes(t.id))) {
+      const patterns = t.variants.map((v) =>
+        v.questions.map((q) => q.options!.indexOf(q.answer)).join(""),
+      );
+
+      expect(new Set(patterns).size, t.id).toBe(patterns.length);
+
+      for (const position of ["0", "1", "2"]) {
+        expect(patterns.join("").split(position).length - 1, t.id).toBeGreaterThan(
+          patterns.join("").length / 5,
+        );
+      }
+    }
+  });
+
+  it("matches each reading situation to a different one of nine texts", () => {
+    for (const t of mockExam[0].tasks.filter((t) => ["r2", "r3"].includes(t.id))) {
+      for (const v of t.variants) {
+        const passage = v.questions[0].passage!;
+
+        expect(
+          passage.split("\n\n").map((text) => text[0]),
+          v.id,
+        ).toEqual([..."ABCDEFGHI"]);
+
+        expect(new Set(v.questions.map((q) => q.answer)).size, v.id).toBe(v.questions.length);
+      }
+    }
+  });
+
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
     const phrases = [
       ...new Set(

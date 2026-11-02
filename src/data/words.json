@@ -200,21 +200,24 @@
         "en": "shoes",
         "unit": 8,
         "unitOrder": 2,
-        "visual": "👞"
+        "visual": "👞",
+        "picture": "los-zapatos"
       },
       {
         "es": "la talla",
         "en": "size",
         "unit": 8,
         "unitOrder": 7,
-        "visual": "📏"
+        "visual": "📏",
+        "picture": "la-talla"
       },
       {
         "es": "la tarjeta",
         "en": "card",
         "unit": 8,
         "unitOrder": 8,
-        "visual": "💳"
+        "visual": "💳",
+        "picture": "la-tarjeta"
       },
       {
         "es": "bailar",
@@ -638,14 +641,16 @@
         "en": "red",
         "unit": 8,
         "unitOrder": 5,
-        "visual": "🔴"
+        "visual": "🔴",
+        "picture": "rojo"
       },
       {
         "es": "azul",
         "en": "blue",
         "unit": 8,
         "unitOrder": 6,
-        "visual": "🔵"
+        "visual": "🔵",
+        "picture": "azul"
       },
       {
         "es": "amarillo",
@@ -1840,7 +1845,8 @@
         "en": "dress",
         "unit": 8,
         "unitOrder": 3,
-        "visual": "👗"
+        "visual": "👗",
+        "picture": "el-vestido"
       },
       {
         "es": "la falda",
@@ -1867,7 +1873,8 @@
         "en": "jacket",
         "unit": 8,
         "unitOrder": 4,
-        "visual": "🧥"
+        "visual": "🧥",
+        "picture": "la-chaqueta"
       },
       {
         "es": "el abrigo",
@@ -1902,7 +1909,8 @@
         "en": "shirt",
         "unit": 8,
         "unitOrder": 1,
-        "visual": "👔"
+        "visual": "👔",
+        "picture": "la-camisa"
       },
       {
         "es": "el cinturón",

@@ -1,5 +1,13 @@
-import type { LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
-import { correctionsSchema, isCorrections, keptCorrections } from "./_lib/corrections.js";
+import type { Correction, LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
+import {
+  correctionOf,
+  correctionSchema,
+  correctionsSchema,
+  isCorrection,
+  isCorrections,
+  isFix,
+  keptCorrections,
+} from "./_lib/corrections.js";
 import { json } from "./_lib/limits.js";
 import { reserve } from "./_lib/reserve.js";
 import type { TaskSpec } from "./_lib/talk-tasks/base.js";
@@ -77,26 +85,59 @@ const modelText = (data: unknown) => {
   return isRecord(part) && typeof part.text === "string" ? part.text : undefined;
 };
 
-const modelSchemaOf = (task: TaskSpec) => ({
+// The correction each item needs. Strict outputs have no conditional fields, so a correct item
+// returns an empty fix, which the code ignores.
+const fixesSchemaOf = (task: TaskSpec) => ({
   type: "object",
-  properties: { levels: schemaOf(task), corrections: correctionsSchema },
-  required: ["levels", "corrections"],
+  properties: Object.fromEntries(task.items.map((item) => [item.id, correctionSchema])),
+  required: task.items.map((item) => item.id),
   additionalProperties: false,
 });
+
+const modelSchemaOf = (task: TaskSpec) => ({
+  type: "object",
+  properties: {
+    levels: schemaOf(task),
+    fixes: fixesSchemaOf(task),
+    corrections: correctionsSchema,
+  },
+  required: ["levels", "fixes", "corrections"],
+  additionalProperties: false,
+});
+
+const isLevels = (task: TaskSpec, levels: unknown): levels is Record<string, LiveItem> =>
+  isRecord(levels) && task.items.every((item) => LEVELS.includes(levels[item.id] as LiveItem));
+
+// Every item below correct must say how to fix it.
+const isFixes = (
+  task: TaskSpec,
+  levels: Record<string, LiveItem>,
+  fixes: unknown,
+): fixes is Record<string, Correction> =>
+  isRecord(fixes) &&
+  task.items.every(
+    ({ id }) => isCorrection(fixes[id]) && (levels[id] === "correct" || isFix(fixes[id])),
+  );
 
 // Null when the output breaks the schema, so a talk is never scored without its corrections.
 const modelScore = (task: TaskSpec, data: unknown) => {
   try {
-    const { levels, corrections } = JSON.parse(modelText(data) ?? "");
+    const { levels, fixes, corrections } = JSON.parse(modelText(data) ?? "");
 
-    return isRecord(levels) &&
-      task.items.every((item) => LEVELS.includes(levels[item.id] as LiveItem)) &&
-      isCorrections(corrections)
-      ? {
-          items: itemsOf(task, (id) => levels[id] as LiveItem),
-          corrections: keptCorrections(corrections),
-        }
-      : null;
+    if (!isLevels(task, levels) || !isFixes(task, levels, fixes) || !isCorrections(corrections)) {
+      return null;
+    }
+
+    return {
+      items: itemsOf(task, (id) => levels[id]),
+      // Items below correct come first and outside the cap, so their fixes are never cut.
+      corrections: [
+        ...task.items
+          .filter(({ id }) => levels[id] !== "correct")
+          .map(({ id }) => correctionOf(fixes[id])),
+        ...keptCorrections(corrections),
+      ],
+    };
   } catch {
     return null;
   }

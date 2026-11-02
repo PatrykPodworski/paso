@@ -21,6 +21,12 @@ export const isCorrection = (value: unknown): value is Correction =>
 export const isCorrections = (value: unknown): value is Correction[] =>
   Array.isArray(value) && value.every(isCorrection);
 
+const isFilled = (value: string) => value.trim() !== "";
+
+// A fix for a missed or flawed point must give the corrected phrase and say why. Its original
+// may be empty when the learner gave nothing to quote.
+export const isFix = (fix: Correction) => isFilled(fix.corrected) && isFilled(fix.explanation);
+
 export const correctionOf = ({ original, corrected, explanation }: Correction): Correction => ({
   original,
   corrected,

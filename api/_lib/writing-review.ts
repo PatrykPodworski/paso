@@ -5,6 +5,7 @@ import {
   correctionsSchema,
   isCorrection,
   isCorrections,
+  isFix,
   keptCorrections,
 } from "./corrections.ts";
 import { messagesOf } from "./writing-prompt.ts";
@@ -65,16 +66,12 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 type Coverage = { met: boolean; feedback: string; fix: Correction };
 
-const isFilled = (value: string) => value.trim() !== "";
-
-// A missed point must say how to fix it. Its original may be empty when the answer has nothing
-// to quote for the point.
 const isCoverage = (value: unknown): value is Coverage =>
   isRecord(value) &&
   typeof value.met === "boolean" &&
   typeof value.feedback === "string" &&
   isCorrection(value.fix) &&
-  (value.met || (isFilled(value.fix.corrected) && isFilled(value.fix.explanation)));
+  (value.met || isFix(value.fix));
 
 const isMark = (value: unknown): value is WritingMark =>
   isRecord(value) &&

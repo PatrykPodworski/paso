@@ -42,9 +42,9 @@ describe("the exam builder", () => {
     expect(new Set(exams.map((e) => e.c))).toEqual(new Set(["c1", "c2", "c3", "c4"]));
   });
 
-  // Listening variant 1 repeats Pablo across its own tasks, so only reading is checked against
-  // the rest of the exam.
-  it("builds real exams with the official sizes and no reading theme or name repeated", () => {
+  // Listening variant 1 repeats Pablo across its own tasks, so only reading and writing are
+  // checked against the rest of the exam.
+  it("builds real exams with the official sizes and no reading or writing theme or name repeated", () => {
     const variants = new Map(mockTasks.flatMap((t) => t.variants.map((v) => [v.id, v] as const)));
 
     const tagsOf = (id: string) => {
@@ -58,15 +58,15 @@ describe("the exam builder", () => {
 
       expect(examSections(exam).map((s) => s.questions.length)).toEqual([25, 25, 2, 3]);
 
-      const reading = Object.entries(exam).filter(([task]) => task.startsWith("r"));
-      const others = Object.entries(exam).filter(([task]) => !task.startsWith("r"));
-      const readingTags = reading.flatMap(([, id]) => tagsOf(id));
+      const checked = Object.entries(exam).filter(([task]) => /^[rw]/.test(task));
+      const others = Object.entries(exam).filter(([task]) => !/^[rw]/.test(task));
+      const checkedTags = checked.flatMap(([, id]) => tagsOf(id));
       const otherTags = new Set(others.flatMap(([, id]) => tagsOf(id)));
 
-      expect(new Set(readingTags).size, String(seed)).toBe(readingTags.length);
+      expect(new Set(checkedTags).size, String(seed)).toBe(checkedTags.length);
 
       expect(
-        readingTags.filter((tag) => otherTags.has(tag)),
+        checkedTags.filter((tag) => otherTags.has(tag)),
         String(seed),
       ).toEqual([]);
     }

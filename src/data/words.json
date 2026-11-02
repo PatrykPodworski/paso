@@ -224,14 +224,16 @@
         "en": "to dance",
         "unit": 9,
         "unitOrder": 2,
-        "visual": "💃"
+        "visual": "💃",
+        "picture": "bailar"
       },
       {
         "es": "la escuela",
         "en": "school",
         "unit": 9,
         "unitOrder": 7,
-        "visual": "🏫"
+        "visual": "🏫",
+        "picture": "la-escuela"
       },
       {
         "es": "cansado",
@@ -300,7 +302,8 @@
         "en": "to read",
         "unit": 9,
         "unitOrder": 1,
-        "visual": "📖"
+        "visual": "📖",
+        "picture": "leer"
       },
       {
         "es": "escribir",
@@ -339,7 +342,8 @@
         "en": "to swim",
         "unit": 9,
         "unitOrder": 3,
-        "visual": "🏊"
+        "visual": "🏊",
+        "picture": "nadar"
       },
       {
         "es": "cantar",
@@ -1997,7 +2001,8 @@
         "en": "work / job",
         "unit": 9,
         "unitOrder": 8,
-        "visual": "💼"
+        "visual": "💼",
+        "picture": "el-trabajo"
       },
       {
         "es": "el jefe",
@@ -3177,7 +3182,8 @@
         "en": "football",
         "unit": 9,
         "unitOrder": 6,
-        "visual": "⚽"
+        "visual": "⚽",
+        "picture": "el-futbol"
       },
       {
         "es": "la pelota",
@@ -3623,7 +3629,8 @@
         "en": "music",
         "unit": 9,
         "unitOrder": 5,
-        "visual": "🎵"
+        "visual": "🎵",
+        "picture": "la-musica"
       },
       {
         "es": "el teatro",
@@ -3676,7 +3683,8 @@
         "en": "cinema",
         "unit": 9,
         "unitOrder": 4,
-        "visual": "🎬"
+        "visual": "🎬",
+        "picture": "el-cine"
       },
       {
         "es": "el actor",

@@ -168,28 +168,32 @@
         "en": "street",
         "unit": 7,
         "unitOrder": 1,
-        "visual": "🛣️"
+        "visual": "🛣️",
+        "picture": "la-calle"
       },
       {
         "es": "la plaza",
         "en": "square",
         "unit": 7,
         "unitOrder": 2,
-        "visual": "⛲"
+        "visual": "⛲",
+        "picture": "la-plaza"
       },
       {
         "es": "la farmacia",
         "en": "pharmacy",
         "unit": 7,
         "unitOrder": 4,
-        "visual": "💊"
+        "visual": "💊",
+        "picture": "la-farmacia"
       },
       {
         "es": "el parque",
         "en": "park",
         "unit": 7,
         "unitOrder": 6,
-        "visual": "🌳"
+        "visual": "🌳",
+        "picture": "el-parque"
       },
       {
         "es": "los zapatos",
@@ -702,21 +706,24 @@
         "en": "bread",
         "unit": 6,
         "unitOrder": 1,
-        "visual": "🥖"
+        "visual": "🥖",
+        "picture": "el-pan"
       },
       {
         "es": "la leche",
         "en": "milk",
         "unit": 6,
         "unitOrder": 4,
-        "visual": "🥛"
+        "visual": "🥛",
+        "picture": "la-leche"
       },
       {
         "es": "el queso",
         "en": "cheese",
         "unit": 6,
         "unitOrder": 8,
-        "visual": "🧀"
+        "visual": "🧀",
+        "picture": "el-queso"
       },
       {
         "es": "el arroz",
@@ -777,7 +784,8 @@
         "en": "apple",
         "unit": 6,
         "unitOrder": 5,
-        "visual": "🍎"
+        "visual": "🍎",
+        "picture": "la-manzana"
       },
       {
         "es": "el plátano",
@@ -1014,7 +1022,8 @@
         "en": "fish (as food)",
         "unit": 6,
         "unitOrder": 6,
-        "visual": "🐟"
+        "visual": "🐟",
+        "picture": "el-pescado"
       },
       {
         "es": "el salmón",
@@ -1117,14 +1126,16 @@
         "en": "water",
         "unit": 6,
         "unitOrder": 2,
-        "visual": "💧"
+        "visual": "💧",
+        "picture": "el-agua"
       },
       {
         "es": "el café",
         "en": "coffee",
         "unit": 6,
         "unitOrder": 3,
-        "visual": "☕"
+        "visual": "☕",
+        "picture": "el-cafe"
       },
       {
         "es": "el té",
@@ -2687,7 +2698,8 @@
         "en": "station",
         "unit": 7,
         "unitOrder": 7,
-        "visual": "🚉"
+        "visual": "🚉",
+        "picture": "la-estacion"
       },
       {
         "es": "el tren",
@@ -2951,7 +2963,8 @@
         "en": "supermarket",
         "unit": 7,
         "unitOrder": 5,
-        "visual": "🛒"
+        "visual": "🛒",
+        "picture": "el-supermercado"
       },
       {
         "es": "la caja",
@@ -3018,7 +3031,8 @@
         "en": "bill",
         "unit": 6,
         "unitOrder": 7,
-        "visual": "🧾"
+        "visual": "🧾",
+        "picture": "la-cuenta"
       }
     ]
   },
@@ -3375,7 +3389,8 @@
         "en": "library",
         "unit": 7,
         "unitOrder": 8,
-        "visual": "📚"
+        "visual": "📚",
+        "picture": "la-biblioteca"
       },
       {
         "es": "el director",
@@ -3796,7 +3811,8 @@
         "en": "bank",
         "unit": 7,
         "unitOrder": 3,
-        "visual": "🏦"
+        "visual": "🏦",
+        "picture": "el-banco"
       },
       {
         "key": "la cuenta (account)",

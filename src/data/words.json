@@ -72,49 +72,56 @@
         "en": "first name",
         "unit": 2,
         "unitOrder": 1,
-        "visual": "🪪"
+        "visual": "🪪",
+        "picture": "el-nombre"
       },
       {
         "es": "el apellido",
         "en": "surname",
         "unit": 2,
         "unitOrder": 2,
-        "visual": "🪪"
+        "visual": "🪪",
+        "picture": "el-apellido"
       },
       {
         "es": "la dirección",
         "en": "address",
         "unit": 2,
         "unitOrder": 3,
-        "visual": "📍"
+        "visual": "📍",
+        "picture": "la-direccion"
       },
       {
         "es": "el teléfono",
         "en": "telephone",
         "unit": 2,
         "unitOrder": 4,
-        "visual": "☎️"
+        "visual": "☎️",
+        "picture": "el-telefono"
       },
       {
         "es": "veinte",
         "en": "twenty",
         "unit": 2,
         "unitOrder": 5,
-        "visual": "🔢"
+        "visual": "🔢",
+        "picture": "veinte"
       },
       {
         "es": "treinta",
         "en": "thirty",
         "unit": 2,
         "unitOrder": 6,
-        "visual": "🔢"
+        "visual": "🔢",
+        "picture": "treinta"
       },
       {
         "es": "la nacionalidad",
         "en": "nationality",
         "unit": 2,
         "unitOrder": 7,
-        "visual": "🌍"
+        "visual": "🌍",
+        "picture": "la-nacionalidad"
       },
       {
         "es": "la amiga",
@@ -3952,7 +3959,8 @@
         "en": "email",
         "unit": 2,
         "unitOrder": 8,
-        "visual": "✉️"
+        "visual": "✉️",
+        "picture": "el-correo-electronico"
       },
       {
         "es": "la red social",

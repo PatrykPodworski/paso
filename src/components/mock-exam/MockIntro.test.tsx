@@ -1,10 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
+import { firstVariants } from "../../data/mock";
 import { emptySnapshot } from "../../test/progress";
 import { MockIntro } from "./MockIntro";
 
 const mount = (progress = emptySnapshot()) =>
-  render(<MockIntro progress={progress} onStart={vi.fn()} />);
+  render(<MockIntro progress={progress} variants={firstVariants} onStart={vi.fn()} />);
 
 it("introduces every section and lists previous rehearsals newest first", () => {
   mount({
@@ -38,4 +39,23 @@ it("hides the history panel before the first rehearsal", () => {
   expect(
     screen.queryByRole("heading", { name: "Your previous rehearsals" }),
   ).not.toBeInTheDocument();
+});
+
+it("marks a section seen before when the exam it starts repeats one of its variants", () => {
+  mount({
+    ...emptySnapshot(),
+    seenVariants: { "r3-v1": "2026-09-01T10:00:00.000Z", "s2-v1": "2026-09-01T10:00:00.000Z" },
+  });
+
+  const status = (title: string) =>
+    within(screen.getByRole("heading", { name: title }).closest("article")!).getByText(
+      /^(New|Seen before)$/,
+    ).textContent;
+
+  expect(["Reading", "Listening", "Writing", "Speaking"].map(status)).toEqual([
+    "Seen before",
+    "New",
+    "New",
+    "Seen before",
+  ]);
 });

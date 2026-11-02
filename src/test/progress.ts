@@ -14,6 +14,7 @@ export const emptySnapshot = (): ProgressSnapshot => ({
   recent: [],
   days: [],
   mockRun: null,
+  seenVariants: {},
 });
 
 type QuestionState = ProgressSnapshot["questions"][string];

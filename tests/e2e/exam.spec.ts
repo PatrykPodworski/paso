@@ -1,7 +1,7 @@
 import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
 import { mockLiveTalk } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
-import { examSections, firstVariants } from "../../src/data/mock";
+import { examSections, firstVariants, mockTasks } from "../../src/data/mock";
 import type { Question } from "../../src/data/types";
 
 // The exam as variant 1 of each task.
@@ -143,8 +143,22 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
     speaking: "Requires human assessment",
   });
 
+  // The variants the finished exam took are seen, so the next exam takes others where the
+  // task has any.
+  const first = (await saved(page)).mockRun!.variants;
+
+  expect(Object.keys((await saved(page)).seenVariants).sort()).toEqual(Object.values(first).sort());
+
   await page.getByRole("button", { name: "Return to exam overview" }).click();
   await expect(page.getByText("Your previous rehearsals")).toBeVisible();
+  await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  const second = (await saved(page)).mockRun!.variants;
+
+  for (const task of mockTasks) {
+    expect(second[task.id] === first[task.id]).toBe(task.variants.length === 1);
+  }
 });
 
 test("timer expires during navigation and section confirmation can be cancelled", async ({

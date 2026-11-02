@@ -166,10 +166,14 @@ test("timer expires during navigation and section confirmation can be cancelled"
 test("listening permits two plays and writing draft survives reload and clearing", async ({
   page,
 }) => {
-  const [form, open] = sections[2].questions;
-
   await page.goto("/exam");
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  // The variants the exam builder chose for this run.
+  const [form, open] = examSections((await saved(page)).mockRun!.variants)[2].questions;
+  const field = page.getByRole("textbox", { name: form.fields![1].label, exact: true });
+
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Finish & review", exact: true }).click();
   await page.getByRole("button", { name: "Continue to listening" }).click();
@@ -189,10 +193,10 @@ test("listening permits two plays and writing draft survives reload and clearing
   await page.getByRole("button", { name: "Finish section", exact: true }).click();
   await page.getByRole("button", { name: "Finish & review", exact: true }).click();
   await page.getByRole("button", { name: "Continue to writing" }).click();
-  await page.getByRole("textbox", { name: "Nacionalidad" }).fill("polaca");
+  await field.fill("polaca");
   await expect.poll(async () => (await saved(page)).mockRun?.drafts[form.id]).toContain("polaca");
   await page.reload();
-  await expect(page.getByRole("textbox", { name: "Nacionalidad" })).toHaveValue("polaca");
+  await expect(field).toHaveValue("polaca");
   await page.getByRole("button", { name: "Skip for now →" }).click();
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 

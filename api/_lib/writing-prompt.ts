@@ -21,7 +21,7 @@ const scale = [
 const taskScale = {
   form: "This is task 1, a form of 15–25 words across all fields.",
   write:
-    "This is task 2, a short letter or email of 30–40 words. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
+    "This is task 2, a short message of 30–40 words: an email, a letter, a note or a postcard. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
 };
 
 // Follows the exam standard, which penalises a short letter but not a long one.

@@ -153,6 +153,68 @@ describe("original curriculum integrity", () => {
     }
   });
 
+  it("gives each writing task six variants of different kinds", () => {
+    const [forms, messages] = mockExam[2].tasks;
+
+    expect([forms.variants.length, messages.variants.length]).toEqual([6, 6]);
+
+    const prompts = (t: typeof forms) => t.variants.map((v) => v.questions[0].prompt.split(".")[0]);
+
+    expect(new Set(prompts(forms)).size).toBe(6);
+    expect(new Set(messages.variants.map((v) => v.questions[0].task)).size).toBe(6);
+  });
+
+  it("answers every field of every exam form in its model, within 15–25 words", () => {
+    for (const q of mockExam[2].tasks[0].variants.flatMap((v) => v.questions)) {
+      const labels = q.fields!.map((f) => f.label);
+      const starts = labels.map((label) => q.answer.indexOf(`${label}: `));
+
+      expect(q.kind, q.id).toBe("form");
+      expect([q.minWords, q.maxWords], q.id).toEqual([15, 25]);
+      expect(q.prompt, q.id).toContain("15–25 words");
+      expect(labels.length, q.id).toBeGreaterThanOrEqual(5);
+      // Every label is in the model, in the form's order.
+      expect(starts, q.id).not.toContain(-1);
+      expect(starts, q.id).toEqual([...starts].sort((a, b) => a - b));
+
+      const values = labels.map((label, i) =>
+        q.answer.slice(starts[i] + label.length + 2, starts[i + 1]),
+      );
+
+      const words = countWords(values.join(" "));
+      const empty = values.filter((v) => countWords(v) === 0);
+
+      expect(empty, q.id).toEqual([]);
+      expect(words, q.id).toBeGreaterThanOrEqual(15);
+      expect(words, q.id).toBeLessThanOrEqual(25);
+    }
+  });
+
+  it("gives every exam message 4–5 checkable points, from a greeting to a farewell", () => {
+    for (const v of mockExam[2].tasks[1].variants) {
+      const [q] = v.questions;
+
+      expect(q.kind, q.id).toBe("write");
+      expect([q.minWords, q.maxWords], q.id).toEqual([30, 40]);
+      expect(q.prompt, q.id).toContain("30–40 words");
+      expect(q.checklist!.length, q.id).toBeGreaterThanOrEqual(4);
+      expect(q.checklist!.length, q.id).toBeLessThanOrEqual(5);
+      expect(q.checklist![0], q.id).toMatch(/^I greeted /);
+      expect(q.checklist!.at(-1), q.id).toBe("I said goodbye.");
+
+      // One point per line: a word count is checked in code, not by the rubric.
+      for (const point of q.checklist!) {
+        expect(point, q.id).toMatch(/^I [^.]+\.$/);
+        expect(point, q.id).not.toMatch(/words/);
+      }
+
+      for (const name of v.names) {
+        expect(q.prompt, `${q.id}: ${name}`).toContain(name);
+        expect(q.answer, `${q.id}: ${name}`).toContain(name);
+      }
+    }
+  });
+
   it("matches the official task distributions and time limits in every variant", () => {
     const official = [
       [5, 6, 6, 8],
@@ -191,11 +253,12 @@ describe("original curriculum integrity", () => {
     const phrases = [
       ...new Set(
         questions
-          .flatMap((q) => [q.audio, ...(["write", "order"].includes(q.kind) ? [q.answer] : [])])
+          .flatMap((q) => [q.audio, ...(q.kind === "order" ? [q.answer] : [])])
           .filter((x): x is string => !!x)
           .concat(
-            [...allQuestions, ...foundations, ...visualQuestions, formPractice]
-              .filter((q) => q.kind !== "live")
+            // Writing tasks play no audio, not even their model answer.
+            [...allQuestions, ...foundations, ...visualQuestions]
+              .filter((q) => !["live", "write", "form"].includes(q.kind))
               .map(spokenText),
             vocabulary.map((w) => w.es),
             units.map((u) => u.example),

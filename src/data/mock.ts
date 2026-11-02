@@ -6,6 +6,9 @@ import type {
   MockVariant,
   Question,
 } from "./types.ts";
+import { writingTasks } from "./mockWriting.ts";
+
+export { formPractice } from "./mockWriting.ts";
 
 const choices = (items: string[], i: number) => [
   ...items.slice(i % items.length),
@@ -559,59 +562,6 @@ const listening4 = listening4Data.map((r, i) =>
   ),
 );
 
-export const formPractice: Question = {
-  id: "form-practice",
-  kind: "form",
-  skill: "writing",
-  task: "Task 1 · A personal form",
-  prompt:
-    "Join a Spanish language club. Complete the form in Spanish using fictional details. Aim for 15–25 words across all fields.",
-  answer:
-    "Nombre: Elena García. Nacionalidad: polaca. Ciudad: Varsovia. Profesión: profesora de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
-  explanation:
-    "Each field must answer its label: Nombre asks for a name, nacionalidad for a nationality adjective and aficiones for hobbies. The model is one possible answer; other details can be just as good.",
-  minWords: 15,
-  maxWords: 25,
-  fields: [
-    { label: "Nombre y apellidos", example: "Escribe un nombre ficticio" },
-    { label: "Nacionalidad", example: "Tu nacionalidad" },
-    { label: "Ciudad", example: "Dónde vives" },
-    { label: "Profesión", example: "Tu trabajo o estudios" },
-    { label: "Lenguas", example: "Qué idiomas hablas" },
-    { label: "Aficiones", example: "Qué te gusta hacer" },
-  ],
-  checklist: [
-    "I understood and completed every field.",
-    "I used 15–25 words across the fields.",
-    "My details and simple phrases are understandable.",
-  ],
-};
-
-const [writing1, writing2]: Question[] = [
-  { ...formPractice, id: "mock-w1" },
-  {
-    id: "mock-w2",
-    kind: "write",
-    skill: "writing",
-    task: "Task 2 · Reply to an invitation",
-    prompt:
-      "Your friend Ana writes: “Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Ana.” Write 30–40 words: greet her, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
-    passage:
-      "Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Ana.",
-    answer:
-      "Hola, Ana. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Elena.",
-    explanation:
-      "Cover each requested point clearly. This is one possible reply; your own details can be equally valid. Ask a teacher to assess task completion and comprehensibility.",
-    minWords: 30,
-    maxWords: 40,
-    checklist: [
-      "I greeted Ana and answered the invitation.",
-      "I gave a place, time and activity.",
-      "I wrote 30–40 words and included a farewell.",
-    ],
-  },
-];
-
 // The topic the learner picks before Task 2; Tasks 2 and 3 both run on it.
 export const mockTopics = [
   { id: "home", label: "Your home", points: "location, rooms, favourite room" },
@@ -716,10 +666,7 @@ export const mockExam: MockSection[] = [
     title: "Writing",
     spanish: "Expresión e interacción escritas",
     minutes: 25,
-    tasks: [
-      { id: "w1", variants: [variant("w1-v1", "a language club form", [], [writing1])] },
-      { id: "w2", variants: [variant("w2-v1", "a friend's visit", ["Ana"], [writing2])] },
-    ],
+    tasks: writingTasks,
   },
   {
     title: "Speaking",

@@ -42,12 +42,26 @@ describe("the exam builder", () => {
     expect(new Set(exams.map((e) => e.c))).toEqual(new Set(["c1", "c2", "c3", "c4"]));
   });
 
-  it("takes variant 1 of every task while each pool holds only variant 1", () => {
-    expect(buildExam({ seed: 42 })).toEqual(firstVariants);
+  it("builds real exams with the official sizes", () => {
+    for (const seed of SEEDS) {
+      expect(examSections(buildExam({ seed })).map((s) => s.questions.length)).toEqual([
+        25, 25, 2, 3,
+      ]);
+    }
+  });
 
-    expect(examSections(buildExam({ seed: 42 })).map((s) => s.questions.length)).toEqual([
-      25, 25, 2, 3,
-    ]);
+  it("reaches every variant of every real task", () => {
+    const exams = SEEDS.map((seed) => buildExam({ seed }));
+
+    for (const t of mockTasks) {
+      expect(new Set(exams.map((e) => e[t.id])), t.id).toEqual(
+        new Set(t.variants.map((v) => v.id)),
+      );
+    }
+  });
+
+  it("starts a fresh run on variant 1 of every task", () => {
+    expect(Object.values(firstVariants)).toEqual(mockTasks.map((t) => `${t.id}-v1`));
   });
 
   it("never picks two variants with the same theme", () => {

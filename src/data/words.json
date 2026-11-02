@@ -168,28 +168,32 @@
         "en": "street",
         "unit": 7,
         "unitOrder": 1,
-        "visual": "🛣️"
+        "visual": "🛣️",
+        "picture": "la-calle"
       },
       {
         "es": "la plaza",
         "en": "square",
         "unit": 7,
         "unitOrder": 2,
-        "visual": "⛲"
+        "visual": "⛲",
+        "picture": "la-plaza"
       },
       {
         "es": "la farmacia",
         "en": "pharmacy",
         "unit": 7,
         "unitOrder": 4,
-        "visual": "💊"
+        "visual": "💊",
+        "picture": "la-farmacia"
       },
       {
         "es": "el parque",
         "en": "park",
         "unit": 7,
         "unitOrder": 6,
-        "visual": "🌳"
+        "visual": "🌳",
+        "picture": "el-parque"
       },
       {
         "es": "los zapatos",
@@ -2680,7 +2684,8 @@
         "en": "station",
         "unit": 7,
         "unitOrder": 7,
-        "visual": "🚉"
+        "visual": "🚉",
+        "picture": "la-estacion"
       },
       {
         "es": "el tren",
@@ -2944,7 +2949,8 @@
         "en": "supermarket",
         "unit": 7,
         "unitOrder": 5,
-        "visual": "🛒"
+        "visual": "🛒",
+        "picture": "el-supermercado"
       },
       {
         "es": "la caja",
@@ -3368,7 +3374,8 @@
         "en": "library",
         "unit": 7,
         "unitOrder": 8,
-        "visual": "📚"
+        "visual": "📚",
+        "picture": "la-biblioteca"
       },
       {
         "es": "el director",
@@ -3789,7 +3796,8 @@
         "en": "bank",
         "unit": 7,
         "unitOrder": 3,
-        "visual": "🏦"
+        "visual": "🏦",
+        "picture": "el-banco"
       },
       {
         "key": "la cuenta (account)",

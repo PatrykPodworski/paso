@@ -10,7 +10,7 @@ describe("bundled audio lookup", () => {
 
   it("prefers the exact generated clip and retains the original fallback", () => {
     expect(audioSources("el escritorio")).toEqual([
-      "/audio/elevenlabs/135f9a59e6ff5b905d52d15c.mp3",
+      "/audio/voxcpm/273d175c2a18b9fe3a5f9bee.mp3",
       "/audio/605891.m4a",
     ]);
 

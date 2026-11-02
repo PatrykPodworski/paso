@@ -40,6 +40,11 @@ if (typeof window !== "undefined") {
   Object.defineProperty(window, "localStorage", { value: storage, configurable: true });
 }
 
+// jsdom has no HTMLImageElement.decode, which the lesson's picture preload calls.
+if (typeof HTMLImageElement !== "undefined") {
+  HTMLImageElement.prototype.decode = () => Promise.resolve();
+}
+
 if (typeof HTMLDialogElement !== "undefined") {
   HTMLDialogElement.prototype.showModal = function () {
     this.setAttribute("open", "");

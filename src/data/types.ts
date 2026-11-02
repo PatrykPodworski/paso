@@ -7,18 +7,19 @@ export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "f
 export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
 export type LiveScoreItem = { id: string; label: string; level: LiveItem };
-export type LiveScore = { grade: Grade; items: LiveScoreItem[] };
+export type Correction = { original: string; corrected: string; explanation: string };
+// corrections is absent when the learner said nothing, so there was nothing to check.
+export type LiveScore = { grade: Grade; items: LiveScoreItem[]; corrections?: Correction[] };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
 
 export type WritingCoverage = { point: string; met: boolean; feedback: string };
-export type WritingCorrection = { original: string; corrected: string; explanation: string };
 // A DELE A1 writing mark: one holistic band from 0 to 3 per task.
 export type WritingMark = { band: number; reason: string };
 
 export type WritingReview = {
   wordCount: number;
   coverage: WritingCoverage[];
-  corrections: WritingCorrection[];
+  corrections: Correction[];
   revised: string;
   mark?: WritingMark;
   // A practice task's result, recorded like a live talk's grade.

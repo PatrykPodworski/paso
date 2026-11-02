@@ -9,7 +9,7 @@ test("an answer is saved online and kept after a reload", async ({ page }) => {
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
   await page.reload();
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
-  await page.goto("/#practice");
+  await page.goto("/practice");
   await expect(page.getByRole("button", { name: "My mistakes (1)", exact: true })).toBeVisible();
 });
 
@@ -18,7 +18,7 @@ test("an answer shows in Recent answers and as Last time after a reload", async 
   await answer(page, first, false, true);
   await expect(page.locator(".xp-stat")).toHaveText("5 XP");
   await page.reload();
-  await page.goto("/#practice");
+  await page.goto("/practice");
   const recent = page.getByRole("region", { name: "Recent answers" }).getByRole("listitem");
 
   await expect(recent).toHaveCount(1);

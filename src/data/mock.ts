@@ -34,43 +34,43 @@ const make = (
 });
 
 const email =
-  "Hola, Elena:\nMe llamo Laura y soy tu nueva compañera de español. Tengo veintiséis años y soy italiana, pero ahora vivo en Salamanca con mi hermana. Nuestro piso está en una calle tranquila, cerca de la universidad. Mi hermana trabaja en una farmacia y yo soy profesora de música en una escuela pequeña. Trabajo por la mañana, de nueve a dos, y por la tarde estudio español.\nLa clase empieza el martes a las seis. Nuestra profesora se llama Carmen y es muy simpática. Hay diez estudiantes en el grupo. Después de clase quiero tomar un café contigo en el bar de la plaza. El café está al lado de la biblioteca.\nLos fines de semana me gusta pasear por el parque y leer en casa. No me gusta mucho el fútbol, pero a mi hermana sí. También me gusta cocinar pasta para mis amigos. ¿Qué te gusta hacer a ti? ¿Quieres venir a mi casa el domingo para comer?\nUn abrazo,\nLaura";
+  "Hola, Raúl:\nMe llamo Mario y soy tu nuevo compañero de español. Tengo veintiséis años y soy italiano, pero ahora vivo en Salamanca con mi hermana. Nuestro piso está en una calle tranquila, cerca de la universidad. Mi hermana trabaja en una farmacia y yo soy profesor de música en una escuela pequeña. Trabajo por la mañana, de nueve a dos, y por la tarde estudio español.\nLa clase empieza el martes a las seis. Nuestro profesor se llama Antonio y es muy simpático. Hay diez estudiantes en el grupo. Después de clase quiero tomar un café contigo en el bar de la plaza. El café está al lado de la biblioteca.\nLos fines de semana me gusta pasear por el parque y leer en casa. No me gusta mucho el fútbol, pero a mi hermana sí. También me gusta cocinar pasta para mis amigos. ¿Qué te gusta hacer a ti? ¿Quieres venir a mi casa el domingo para comer?\nUn abrazo,\nMario";
 
 const reading1 = [
   [
-    "¿De dónde es Laura?",
+    "¿De dónde es Mario?",
     "De Italia.",
     "De España.",
     "De Polonia.",
-    "Soy italiana gives nationality; Salamanca is her current home.",
+    "Soy italiano gives nationality; Salamanca is his current home.",
   ],
   [
-    "¿Con quién vive Laura?",
+    "¿Con quién vive Mario?",
     "Con su hermana.",
-    "Con Elena.",
+    "Con Raúl.",
     "Con sus padres.",
-    "Vivo… con mi hermana answers who she lives with.",
+    "Vivo… con mi hermana answers who he lives with.",
   ],
   [
-    "¿Dónde trabaja Laura?",
+    "¿Dónde trabaja Mario?",
     "En una escuela.",
     "En una farmacia.",
     "En una biblioteca.",
-    "Laura teaches music in a school. The pharmacy is her sister’s workplace.",
+    "Mario teaches music in a school. The pharmacy is his sister’s workplace.",
   ],
   [
     "¿A qué hora empieza la clase?",
     "A las seis.",
     "A las nueve.",
     "A las dos.",
-    "La clase empieza… a las seis. Nine to two are Laura’s working hours.",
+    "La clase empieza… a las seis. Nine to two are Mario’s working hours.",
   ],
   [
-    "¿Qué le gusta hacer a Laura?",
+    "¿Qué le gusta hacer a Mario?",
     "📖 Leer.",
     "⚽ Jugar al fútbol.",
     "🎮 Jugar a videojuegos.",
-    "Laura explicitly likes reading. Her sister, not Laura, likes football.",
+    "Mario explicitly likes reading. His sister, not Mario, likes football.",
   ],
 ].map((r, i) =>
   make(
@@ -433,7 +433,7 @@ const listening2 = listening2Data.map((r, i) =>
 );
 
 const endings = [
-  "es profesora.",
+  "es profesor.",
   "vive cerca del centro.",
   "tiene dos hermanos.",
   "va al trabajo en bicicleta.",
@@ -449,8 +449,8 @@ const endings = [
 const statements = [
   [
     "Su profesión…",
-    "es profesora.",
-    "Soy Elena y soy profesora de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
+    "es profesor.",
+    "Soy Andrés y soy profesor de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
   ],
   [
     "Su casa…",
@@ -480,7 +480,7 @@ const statements = [
   [
     "Su deporte…",
     "juega al tenis.",
-    "Los sábados juego al tenis con mi amiga Sara. Nos gusta mucho el deporte y después tomamos un café juntas.",
+    "Los sábados juego al tenis con mi amigo Hugo. Nos gusta mucho el deporte y después tomamos un café juntos.",
   ],
   [
     "Su noche…",
@@ -494,7 +494,7 @@ const listening3 = statements.map((r, i) =>
     `mock-l3-${i}`,
     "listening",
     "Task 3 · Match eight statements",
-    `Choose the statement that matches what Elena says about ${["her job", "her home", "her family", "transport", "lunch", "her studies", "sport", "her evening"][i]}.`,
+    `Choose the statement that matches what Andrés says about ${["his job", "his home", "his family", "transport", "lunch", "his studies", "sport", "his evening"][i]}.`,
     r[1],
     endings,
     `The speaker says: “${r[2]}” This supports “${r[1]}”; the other endings describe different or unmentioned details.`,
@@ -567,7 +567,7 @@ export const formPractice: Question = {
   prompt:
     "Join a Spanish language club. Complete the form in Spanish using fictional details. Aim for 15–25 words across all fields.",
   answer:
-    "Nombre: Elena García. Nacionalidad: polaca. Ciudad: Varsovia. Profesión: profesora de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
+    "Nombre: Pedro García. Nacionalidad: polaco. Ciudad: Varsovia. Profesión: profesor de música. Lenguas: polaco e inglés. Aficiones: leer y escuchar música.",
   explanation:
     "Each field must answer its label: Nombre asks for a name, nacionalidad for a nationality adjective and aficiones for hobbies. The model is one possible answer; other details can be just as good.",
   minWords: 15,
@@ -595,17 +595,17 @@ const [writing1, writing2]: Question[] = [
     skill: "writing",
     task: "Task 2 · Reply to an invitation",
     prompt:
-      "Your friend Ana writes: “Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Ana.” Write 30–40 words: greet her, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
+      "Your friend Jorge writes: “Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Jorge.” Write 30–40 words: greet him, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
     passage:
-      "Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Ana.",
+      "Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Jorge.",
     answer:
-      "Hola, Ana. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Elena.",
+      "Hola, Jorge. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Tomás.",
     explanation:
       "Cover each requested point clearly. This is one possible reply; your own details can be equally valid. Ask a teacher to assess task completion and comprehensibility.",
     minWords: 30,
     maxWords: 40,
     checklist: [
-      "I greeted Ana and answered the invitation.",
+      "I greeted Jorge and answered the invitation.",
       "I gave a place, time and activity.",
       "I wrote 30–40 words and included a farewell.",
     ],
@@ -631,9 +631,9 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     skill: "speaking",
     task: "Task 1 · Personal presentation · 1–2 min",
     prompt:
-      "Talk to Lucía. Present yourself: name, nationality, age, where you live, occupation, languages and personality. She gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
+      "Talk to Lucas. Present yourself: name, nationality, age, where you live, occupation, languages and personality. He gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
     answer:
-      "Me llamo Elena. Soy polaca y tengo veintiséis años. Vivo en Varsovia. Soy profesora de música. Hablo polaco e inglés y estudio español. Soy tranquila y simpática.",
+      "Me llamo Pedro. Soy polaco y tengo veintiséis años. Vivo en Varsovia. Soy profesor de música. Hablo polaco e inglés y estudio español. Soy tranquilo y simpático.",
     explanation:
       "This short model provides a starting structure. Expand it naturally to the task time. All seven requested points matter.",
     talk: "mock-s1",
@@ -644,7 +644,7 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     skill: "speaking",
     task: "Task 2 · A familiar topic · 2–3 min",
     prompt:
-      "Pick ONE topic before you start: your home (location, rooms, favourite room), your studies (school, teachers, timetable) or your free time (activities, when, with whom). Lucía gives you the task, then listens for 2–3 minutes while you cover all three points.",
+      "Pick ONE topic before you start: your home (location, rooms, favourite room), your studies (school, teachers, timetable) or your free time (activities, when, with whom). Lucas gives you the task, then listens for 2–3 minutes while you cover all three points.",
     answer:
       "Mi casa está cerca del centro. Es un piso pequeño con dos dormitorios, un salón y una cocina. Me gusta el salón porque tiene una ventana grande. Hay una mesa y dos sillas.",
     explanation:
@@ -657,11 +657,11 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     skill: "speaking",
     task: "Task 3 · Conversation · 3–4 min",
     prompt:
-      "Lucía asks you two questions about your Task 2 topic. Answer each one, then ask her TWO questions on the same topic; she answers them briefly.",
+      "Lucas asks you two questions about your Task 2 topic. Answer each one, then ask him TWO questions on the same topic; he answers them briefly.",
     answer:
       "Vivo con mi hermana. Cerca de mi casa hay una biblioteca y un parque. Me gusta mi barrio porque es tranquilo. ¿Dónde vives tú? ¿Cómo es tu casa?",
     explanation:
-      "The two questions to Lucía are part of the task. Lucía grades the transcript only; a person must assess pronunciation and how the conversation flows.",
+      "The two questions to Lucas are part of the task. Lucas grades the transcript only; a person must assess pronunciation and how the conversation flows.",
     talk: "mock-s3",
   },
 ];
@@ -684,7 +684,7 @@ export const mockExam: MockSection[] = [
     tasks: [
       {
         id: "r1",
-        variants: [variant("r1-v1", "a new classmate", ["Laura", "Elena", "Carmen"], reading1)],
+        variants: [variant("r1-v1", "a new classmate", ["Mario", "Raúl", "Antonio"], reading1)],
       },
       { id: "r2", variants: [variant("r2-v1", "notices in town", [], reading2)] },
       { id: "r3", variants: [variant("r3-v1", "local advertisements", [], reading3)] },
@@ -704,7 +704,7 @@ export const mockExam: MockSection[] = [
           variant(
             "l3-v1",
             "a teacher's daily life",
-            ["Elena", "Pablo", "Luis", "Sara"],
+            ["Andrés", "Pablo", "Luis", "Hugo"],
             listening3,
           ),
         ],
@@ -718,7 +718,7 @@ export const mockExam: MockSection[] = [
     minutes: 25,
     tasks: [
       { id: "w1", variants: [variant("w1-v1", "a language club form", [], [writing1])] },
-      { id: "w2", variants: [variant("w2-v1", "a friend's visit", ["Ana"], [writing2])] },
+      { id: "w2", variants: [variant("w2-v1", "a friend's visit", ["Jorge"], [writing2])] },
     ],
   },
   {

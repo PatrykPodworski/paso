@@ -35,10 +35,10 @@ const seeds: Seed[] = [
       "Spell names and ask for repetition",
     ],
     tip: "Use soy for identity and origin. Use me llamo to introduce your name. Spanish h is silent; ñ is a different letter from n.",
-    example: "Hola, me llamo Ana. Soy de Polonia.",
+    example: "Hola, me llamo Marcos. Soy de Polonia.",
     grammar: [
       [
-        "Yo ___ Marta.",
+        "Yo ___ Hugo.",
         "soy",
         "eres",
         "es",
@@ -82,21 +82,21 @@ const seeds: Seed[] = [
       ],
     ],
     reading:
-      "Hola, soy Lucía. Soy de Sevilla, pero vivo en Madrid. Soy profesora de español. Mi amigo se llama David. Él es de México. Hablamos español en clase.",
+      "Hola, soy Andrés. Soy de Sevilla, pero vivo en Madrid. Soy profesor de español. Mi amigo se llama David. Él es de México. Hablamos español en clase.",
     read: [
       [
-        "¿De dónde es Lucía?",
+        "¿De dónde es Andrés?",
         "De Sevilla.",
         "De Madrid.",
         "De México.",
-        "Soy de Sevilla gives her origin. Vivo en Madrid tells you where she lives, a different detail.",
+        "Soy de Sevilla gives his origin. Vivo en Madrid tells you where he lives, a different detail.",
       ],
       [
         "¿Cómo se llama el amigo?",
         "David.",
         "Madrid.",
-        "Lucía.",
-        "Mi amigo se llama David names the friend. Madrid is a city; Lucía is the writer.",
+        "Andrés.",
+        "Mi amigo se llama David names the friend. Madrid is a city; Andrés is the writer.",
       ],
     ],
     audio:
@@ -106,7 +106,7 @@ const seeds: Seed[] = [
         "What is the speaker’s name?",
         "Pablo.",
         "Pedro.",
-        "Paula.",
+        "Paco.",
         "Listen for Me llamo Pablo. The other names sound similar but are not said.",
       ],
       [
@@ -117,12 +117,12 @@ const seeds: Seed[] = [
         "Habla más despacio means speak more slowly. Despacio is the key word.",
       ],
     ],
-    sentence: "Hola me llamo Ana",
+    sentence: "Hola me llamo Tomás",
     translate: ["Say “I am from Poland.”", "Soy de Polonia."],
     writing:
       "Write a short first message to a Spanish classmate. Greet them, give your name and origin, say where you live and which language you study, ask their name, and say goodbye.",
     model:
-      "Hola, me llamo Julia y soy de Polonia. Vivo en Varsovia con mi familia. Estudio español en una escuela y hablo inglés. Me gusta mucho la clase. ¿Cómo te llamas? Hasta pronto, Julia.",
+      "Hola, me llamo Jorge y soy de Polonia. Vivo en Varsovia con mi familia. Estudio español en una escuela y hablo inglés. Me gusta mucho la clase. ¿Cómo te llamas? Hasta pronto, Jorge.",
     checks: [
       "I included a greeting and a farewell.",
       "I gave my name, origin, home and language.",
@@ -131,8 +131,8 @@ const seeds: Seed[] = [
     live: {
       task: "u1",
       prompt:
-        "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
-      answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
+        "Talk to Lucas. Answer three short questions in Spanish: your name, your age and where you are from.",
+      answer: "Me llamo Iván. Tengo treinta años. Soy de Polonia.",
       explanation:
         "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
     },
@@ -172,11 +172,11 @@ const seeds: Seed[] = [
         "Dieciséis is 16, sesenta is 60 and seis is 6. The accent marks the stressed syllable.",
       ],
       [
-        "Ana es de España. Es ___.",
-        "española",
+        "Diego es de España. Es ___.",
         "español",
+        "española",
         "España",
-        "The nationality adjective agrees with Ana: española. España is the country name.",
+        "The nationality adjective agrees with Diego: español. España is the country name.",
       ],
       [
         "Nosotros ___ estudiantes.",
@@ -213,21 +213,21 @@ const seeds: Seed[] = [
       ],
     ],
     audio:
-      "Hola, soy Laura García. Tengo treinta y dos años y vivo en el número quince de la calle Sol. Soy italiana. Mi teléfono es seis, dos, uno, cuatro, cinco, siete, ocho, nueve, cero.",
+      "Hola, soy Raúl García. Tengo treinta y dos años y vivo en el número quince de la calle Sol. Soy italiano. Mi teléfono es seis, dos, uno, cuatro, cinco, siete, ocho, nueve, cero.",
     listen: [
       [
-        "What is Laura’s street number?",
+        "What is Raúl’s street number?",
         "15",
         "32",
         "21",
-        "Número quince is street number 15. Treinta y dos refers to her age.",
+        "Número quince is street number 15. Treinta y dos refers to his age.",
       ],
       [
-        "What is Laura’s nationality?",
+        "What is Raúl’s nationality?",
         "Italian.",
         "Spanish.",
         "Polish.",
-        "Soy italiana gives her nationality. Living on calle Sol does not determine nationality.",
+        "Soy italiano gives his nationality. Living on calle Sol does not determine nationality.",
       ],
     ],
     sentence: "Tengo veinticinco años",
@@ -244,9 +244,9 @@ const seeds: Seed[] = [
     live: {
       task: "u2",
       prompt:
-        "Talk to Lucía, who takes your details. Say and spell your name, give your age and your city, say a phone number slowly (a made-up nine-digit one is fine), then ask her two questions.",
+        "Talk to Lucas, who takes your details. Say and spell your name, give your age and your city, say a phone number slowly (a made-up nine-digit one is fine), then ask him two questions.",
       answer:
-        "Me llamo Elena: e, ele, e, ene, a. Tengo veintiséis años. Vivo en Bilbao. Mi teléfono es seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho. ¿Cómo te llamas? ¿Dónde vives?",
+        "Me llamo Pedro: pe, e, de, erre, o. Tengo veintiséis años. Vivo en Bilbao. Mi teléfono es seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho. ¿Cómo te llamas? ¿Dónde vives?",
       explanation:
         "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
     },
@@ -309,17 +309,17 @@ const seeds: Seed[] = [
       ],
     ],
     reading:
-      "Mi familia es pequeña. Mi madre, Rosa, tiene cincuenta años y es médica. Mi padre es alto y tiene el pelo negro. Mi hermana Sara tiene dieciséis años. Los domingos comemos con mi abuela Carmen.",
+      "Mi familia es pequeña. Mi padre, Ramón, tiene cincuenta años y es médico. Mi madre es alta y tiene el pelo negro. Mi hermano Sergio tiene dieciséis años. Los domingos comemos con mi abuelo Manuel.",
     read: [
       [
-        "¿Quién es médica?",
-        "Rosa.",
-        "Sara.",
-        "Carmen.",
-        "Mi madre, Rosa… es médica identifies her profession. Sara is the sister and Carmen the grandmother.",
+        "¿Quién es médico?",
+        "Ramón.",
+        "Sergio.",
+        "Manuel.",
+        "Mi padre, Ramón… es médico identifies his profession. Sergio is the brother and Manuel the grandfather.",
       ],
       [
-        "¿Cuándo comen con la abuela?",
+        "¿Cuándo comen con el abuelo?",
         "Los domingos.",
         "Los lunes.",
         "Todos los días.",
@@ -327,10 +327,10 @@ const seeds: Seed[] = [
       ],
     ],
     audio:
-      "Esta es mi amiga Isabel. Es baja y tiene el pelo rubio. Tiene un hermano pequeño que se llama Luis. Isabel trabaja en una tienda y su hermano es estudiante.",
+      "Este es mi amigo Jorge. Es bajo y tiene el pelo rubio. Tiene un hermano pequeño que se llama Luis. Jorge trabaja en una tienda y su hermano es estudiante.",
     listen: [
       [
-        "What is Isabel’s hair like?",
+        "What is Jorge’s hair like?",
         "Blond.",
         "Black.",
         "Red.",
@@ -339,9 +339,9 @@ const seeds: Seed[] = [
       [
         "Who is a student?",
         "Luis.",
-        "Isabel.",
+        "Jorge.",
         "Their mother.",
-        "Su hermano es estudiante refers to Luis, her brother. Isabel works in a shop.",
+        "Su hermano es estudiante refers to Luis, his brother. Jorge works in a shop.",
       ],
     ],
     sentence: "Mi hermana es muy simpática",
@@ -349,7 +349,7 @@ const seeds: Seed[] = [
     writing:
       "Write to a friend about your family. Greet them, say who is in your family, describe one person’s appearance and character, mention something you do together, and say goodbye.",
     model:
-      "Hola, Julia. Vivo con mis padres y mi hermana. Mi hermana se llama Ana. Es alta y muy simpática. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
+      "Hola, Óscar. Vivo con mis padres y mi hermano. Mi hermano se llama Tomás. Es alto y muy simpático. Los domingos comemos juntos en casa de mi abuela y hablamos mucho. Un abrazo, Luis.",
     checks: [
       "I described my family and one person.",
       "My adjectives agree in gender and number.",
@@ -358,7 +358,7 @@ const seeds: Seed[] = [
     live: {
       task: "u3",
       prompt:
-        "Talk to Lucía about your family. Say who is in it, describe one person, say what you do together, then ask her two questions about her family.",
+        "Talk to Lucas about your family. Say who is in it, describe one person, say what you do together, then ask him two questions about his family.",
       answer:
         "Mi familia es pequeña. Vivo con mi madre y mi hermano. Mi madre es profesora, es alta y muy simpática. Los domingos vamos al parque. ¿Tienes hermanos? ¿Dónde vive tu familia?",
       explanation:
@@ -462,7 +462,7 @@ const seeds: Seed[] = [
     writing:
       "Write a message about your home to a visiting friend. Say where it is, which rooms it has and where your friend can sleep. Include a greeting and farewell.",
     model:
-      "Hola, Ana. Mi casa está en el centro, cerca de la estación. Tiene dos dormitorios, una cocina y un salón grande. Puedes dormir en la habitación pequeña, junto al baño. Nos vemos pronto. Un abrazo.",
+      "Hola, Marcos. Mi casa está en el centro, cerca de la estación. Tiene dos dormitorios, una cocina y un salón grande. Puedes dormir en la habitación pequeña, junto al baño. Nos vemos pronto. Un abrazo.",
     checks: [
       "I included location, rooms and a place to sleep.",
       "I used hay for existence and estar for location.",
@@ -471,7 +471,7 @@ const seeds: Seed[] = [
     live: {
       task: "u4",
       prompt:
-        "Talk to Lucía about your home. Say where it is, which rooms it has and which one you like most, say where three things are, then ask her two questions about her home.",
+        "Talk to Lucas about your home. Say where it is, which rooms it has and which one you like most, say where three things are, then ask him two questions about his home.",
       answer:
         "Vivo en un piso en el centro. Tiene dos habitaciones, una cocina y un salón. Me gusta el salón porque es grande. La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación. ¿Dónde vives? ¿Cómo es tu casa?",
       explanation:
@@ -536,10 +536,10 @@ const seeds: Seed[] = [
       ],
     ],
     reading:
-      "HORARIO DE ANA\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
+      "HORARIO DE JUAN\nDe lunes a viernes trabaja de nueve a cinco. Come a las dos. El martes y el jueves tiene clase de español a las seis. Los sábados no trabaja: visita a sus padres.",
     read: [
       [
-        "¿A qué hora come Ana?",
+        "¿A qué hora come Juan?",
         "A las dos.",
         "A las cinco.",
         "A las nueve.",
@@ -585,7 +585,7 @@ const seeds: Seed[] = [
     live: {
       task: "u5",
       prompt:
-        "Talk to Lucía about a typical day. Say what you do in the morning, whether you work or study, and what you do in the evening, say at what time you do things, then ask her two questions about her routine.",
+        "Talk to Lucas about a typical day. Say what you do in the morning, whether you work or study, and what you do in the evening, say at what time you do things, then ask him two questions about his routine.",
       answer:
         "Me levanto a las siete y desayuno café con pan. Trabajo en una oficina de nueve a cinco. Por la noche estudio español y leo un libro. Como a las dos y me acuesto a las once. ¿A qué hora te levantas? ¿Trabajas por la tarde?",
       explanation:
@@ -690,7 +690,7 @@ const seeds: Seed[] = [
     writing:
       "Invite a friend to eat at a café. Say where the café is, which day and time to meet and what you like to eat there. Include a greeting and farewell.",
     model:
-      "Hola, Elena. ¿Quieres comer conmigo el sábado? Hay un café muy bueno junto a la plaza. Podemos quedar a las dos. Me gustan sus bocadillos de queso y el zumo de naranja. Hasta pronto, Ana.",
+      "Hola, Sergio. ¿Quieres comer conmigo el sábado? Hay un café muy bueno junto a la plaza. Podemos quedar a las dos. Me gustan sus bocadillos de queso y el zumo de naranja. Hasta pronto, Juan.",
     checks: [
       "I gave a meeting place, day and time.",
       "I mentioned food and used gusta / gustan correctly.",
@@ -699,7 +699,7 @@ const seeds: Seed[] = [
     live: {
       task: "u6",
       prompt:
-        "Talk to Lucía, a waiter in a café. Greet her, order food and a drink, ask the price, ask for the bill and say thank you, then tell her what food you like.",
+        "Talk to Lucas, a waiter in a café. Greet him, order food and a drink, ask the price, ask for the bill and say thank you, then tell him what food you like.",
       answer:
         "Buenos días. Quiero un café con leche y una tostada, por favor. ¿Cuánto es? La cuenta, por favor. Muchas gracias. Me gusta el pan con tomate.",
       explanation:
@@ -805,7 +805,7 @@ const seeds: Seed[] = [
     writing:
       "Write directions to a friend visiting your neighborhood. Tell them where you live, name two nearby places and explain how to get from the station to your home. Add a greeting and farewell.",
     model:
-      "Hola, Eva. Vivo en la calle Luna, cerca del parque y del banco. Desde la estación, sigue todo recto y gira a la derecha. Mi casa está enfrente de la farmacia. Nos vemos pronto. Un abrazo.",
+      "Hola, Hugo. Vivo en la calle Luna, cerca del parque y del banco. Desde la estación, sigue todo recto y gira a la derecha. Mi casa está enfrente de la farmacia. Nos vemos pronto. Un abrazo.",
     checks: [
       "I named my location and two nearby places.",
       "I gave a simple route using direction words.",
@@ -814,7 +814,7 @@ const seeds: Seed[] = [
     live: {
       task: "u7",
       prompt:
-        "Talk to Lucía, a neighbour on the street. Tell her where your neighborhood is, which places it has and what you like about it, then ask her where the bank is and how far it is from the station.",
+        "Talk to Lucas, a neighbour on the street. Tell him where your neighborhood is, which places it has and what you like about it, then ask him where the bank is and how far it is from the station.",
       answer:
         "Mi barrio está en el centro. Hay un parque, una farmacia y dos supermercados. Me gusta porque es tranquilo. ¿Dónde está el banco? ¿Está lejos de la estación?",
       explanation:
@@ -928,7 +928,7 @@ const seeds: Seed[] = [
     live: {
       task: "u8",
       prompt:
-        "Talk to Lucía, a shop assistant in a clothes shop. Ask for a garment, say which color and size you want, ask the price and whether you can pay by card, then tell her which colors you like.",
+        "Talk to Lucas, a shop assistant in a clothes shop. Ask for a garment, say which color and size you want, ask the price and whether you can pay by card, then tell him which colors you like.",
       answer:
         "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo.",
       explanation:
@@ -973,7 +973,7 @@ const seeds: Seed[] = [
         "¿Quieres ir al cine? Choose a polite acceptance.",
         "Sí, gracias. Buena idea.",
         "No entiendo la palabra.",
-        "Soy profesora.",
+        "Soy profesor.",
         "Sí, gracias. Buena idea accepts the invitation. The others do not answer it.",
       ],
       [
@@ -992,7 +992,7 @@ const seeds: Seed[] = [
       ],
     ],
     reading:
-      "Hola, Ana. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Marta.",
+      "Hola, Jorge. El sábado hay una película española en el cine del centro. Empieza a las siete. La entrada cuesta ocho euros. ¿Quieres venir con Luis y conmigo? Podemos quedar a las seis y media delante del cine. Un abrazo, Sergio.",
     read: [
       [
         "What time is the meeting?",
@@ -1003,10 +1003,10 @@ const seeds: Seed[] = [
       ],
       [
         "Who wrote the invitation?",
-        "Marta.",
-        "Ana.",
+        "Sergio.",
+        "Jorge.",
         "Luis.",
-        "The signature is Marta. Ana is the recipient; Luis is another guest.",
+        "The signature is Sergio. Jorge is the recipient; Luis is another guest.",
       ],
     ],
     audio:
@@ -1032,7 +1032,7 @@ const seeds: Seed[] = [
     writing:
       "Reply to a friend’s invitation to the cinema. Thank them, accept or decline with a reason, suggest a meeting time and place, and say goodbye.",
     model:
-      "Hola, Marta. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Ana.",
+      "Hola, Sergio. Muchas gracias por tu invitación. Sí, quiero ir porque me gustan las películas españolas. Podemos quedar a las seis y media delante del cine. Después podemos tomar un café juntos. Un abrazo, Jorge.",
     checks: [
       "I thanked my friend and answered the invitation.",
       "I used porque to give a reason.",
@@ -1041,7 +1041,7 @@ const seeds: Seed[] = [
     live: {
       task: "u9",
       prompt:
-        "Talk to Lucía, a friendly interviewer, about your free time. Say what you like doing, when and with whom, then invite her to an activity and ask what she likes doing.",
+        "Talk to Lucas, a friendly interviewer, about your free time. Say what you like doing, when and with whom, then invite him to an activity and ask what he likes doing.",
       answer:
         "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Quieres ir al cine el domingo? ¿Qué te gusta hacer?",
       explanation:
@@ -1147,7 +1147,7 @@ const seeds: Seed[] = [
     writing:
       "Write to a hotel to request a room. Say how many people, your arrival day, how many nights, and ask the price. Greet the hotel staff and sign off.",
     model:
-      "Buenos días. Me llamo Ana López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Ana.",
+      "Buenos días. Me llamo Juan López. Quiero una habitación para dos personas el viernes, durante tres noches. Llegamos por la tarde. ¿Cuánto cuesta la habitación? ¿El desayuno está incluido? Muchas gracias. Un saludo, Juan.",
     checks: [
       "I gave people, arrival day and number of nights.",
       "I asked the price with a clear question.",
@@ -1156,7 +1156,7 @@ const seeds: Seed[] = [
     live: {
       task: "u10",
       prompt:
-        "Talk to Lucía, first a ticket clerk at the station, then a hotel receptionist. Buy a ticket, ask the departure time and the price, then ask for a room for two people for three nights.",
+        "Talk to Lucas, first a ticket clerk at the station, then a hotel receptionist. Buy a ticket, ask the departure time and the price, then ask for a room for two people for three nights.",
       answer:
         "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Buenas tardes. Quiero una habitación para dos personas, para tres noches. Gracias.",
       explanation:
@@ -1191,11 +1191,11 @@ const seeds: Seed[] = [
         "Tener hambre means to be hungry. Tener sed means to be thirsty; años expresses age.",
       ],
       [
-        "Estoy ___ porque trabajo mucho. (female speaker)",
-        "cansada",
+        "Estoy ___ porque trabajo mucho. (male speaker)",
         "cansado",
-        "cansadas",
-        "A female singular speaker uses cansada. This describes a state, so estar is appropriate.",
+        "cansada",
+        "cansados",
+        "A male singular speaker uses cansado. This describes a state, so estar is appropriate.",
       ],
       [
         "En invierno normalmente ___ frío.",
@@ -1220,7 +1220,7 @@ const seeds: Seed[] = [
       ],
     ],
     reading:
-      "Hola, Julia. Tu cita con la doctora García es el martes 12 de mayo a las once y media. La consulta está en la calle Sol, número 8, primera planta. Por favor, llega diez minutos antes.",
+      "Hola, Tomás. Tu cita con la doctora García es el martes 12 de mayo a las once y media. La consulta está en la calle Sol, número 8, primera planta. Por favor, llega diez minutos antes.",
     read: [
       [
         "What is the appointment time?",
@@ -1260,7 +1260,7 @@ const seeds: Seed[] = [
     writing:
       "Write a message to a friend who wants to visit. Describe today’s weather, say how you feel, suggest something to do and a time to meet. Include a greeting and farewell.",
     model:
-      "Hola, Sara. Hoy hace mucho sol y calor en mi ciudad. Estoy contenta porque no trabajo. ¿Quieres ir al parque conmigo? Podemos quedar a las cinco y tomar un zumo en el café. Un abrazo.",
+      "Hola, Marcos. Hoy hace mucho sol y calor en mi ciudad. Estoy contento porque no trabajo. ¿Quieres ir al parque conmigo? Podemos quedar a las cinco y tomar un zumo en el café. Un abrazo.",
     checks: [
       "I described the weather and how I feel.",
       "I suggested an activity and meeting time.",
@@ -1269,7 +1269,7 @@ const seeds: Seed[] = [
     live: {
       task: "u11",
       prompt:
-        "Talk to Lucía, a friendly interviewer, about the weather. Say what the weather is like today, which season you like most, and how you feel and what you need. Then ask her about her favourite season and the weather in her city.",
+        "Talk to Lucas, a friendly interviewer, about the weather. Say what the weather is like today, which season you like most, and how you feel and what you need. Then ask him about his favourite season and the weather in his city.",
       answer:
         "Hoy hace sol y calor. Me gusta el verano porque puedo nadar. Tengo calor y necesito un vaso de agua. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
       explanation:
@@ -1297,7 +1297,7 @@ const seeds: Seed[] = [
         "The question word dónde has an accent on ó. Spanish also uses an opening question mark.",
       ],
       [
-        "Soy profesora y ___ en Madrid.",
+        "Soy profesor y ___ en Madrid.",
         "vivo",
         "vive",
         "vivimos",
@@ -1334,17 +1334,17 @@ const seeds: Seed[] = [
       ],
     ],
     reading:
-      "Hola, Pablo. Soy Elena, tu nueva compañera de español. Soy italiana, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Elena.",
+      "Hola, Pablo. Soy Marcos, tu nuevo compañero de español. Soy italiano, tengo veintisiete años y trabajo en un hotel. Las clases son los lunes y miércoles a las seis. Esta semana no puedo ir el lunes porque trabajo. ¿Podemos estudiar el martes en la biblioteca a las cinco? Saludos, Marcos.",
     read: [
       [
-        "Why can Elena not attend on Monday?",
-        "She works.",
+        "Why can Marcos not attend on Monday?",
+        "He works.",
         "The library is closed.",
-        "She is on holiday.",
-        "Porque trabajo gives the reason. Do not confuse the regular class schedule with her proposed study meeting.",
+        "He is on holiday.",
+        "Porque trabajo gives the reason. Do not confuse the regular class schedule with his proposed study meeting.",
       ],
       [
-        "When does she propose studying together?",
+        "When does he propose studying together?",
         "Tuesday at five.",
         "Monday at six.",
         "Wednesday at six.",
@@ -1374,7 +1374,7 @@ const seeds: Seed[] = [
     writing:
       "Reply to a new Spanish classmate. Greet them, introduce yourself, say why you study Spanish, and propose a place and time to study together. End appropriately.",
     model:
-      "Hola, Elena. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
+      "Hola, Marcos. Me llamo Pablo y soy polaco. Vivo en Madrid y trabajo en una tienda. Estudio español porque quiero hablar con mis amigos. Podemos estudiar el martes a las cinco en la biblioteca. Un saludo.",
     checks: [
       "I answered every requested point.",
       "I used clear basic sentences and checked accents.",
@@ -1383,7 +1383,7 @@ const seeds: Seed[] = [
     live: {
       task: "u12",
       prompt:
-        "Talk to Lucía, a friendly interviewer, in a short exam rehearsal. Introduce yourself briefly, talk about your studies, your work or your home, answer two questions about it, and then ask her two questions about the same topic. The full oral exam is in the mock exam.",
+        "Talk to Lucas, a friendly interviewer, in a short exam rehearsal. Introduce yourself briefly, talk about your studies, your work or your home, answer two questions about it, and then ask him two questions about the same topic. The full oral exam is in the mock exam.",
       answer:
         "Me llamo Pablo, soy polaco, tengo veinticinco años y vivo en Madrid. Vivo en un piso pequeño con dos dormitorios y un salón. Vivo con mi hermana. Me gusta el salón porque tiene una ventana grande. ¿Dónde vives tú? ¿Cómo es tu casa?",
       explanation:

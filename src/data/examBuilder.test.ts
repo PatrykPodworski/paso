@@ -64,8 +64,8 @@ describe("the exam builder", () => {
 
   it("never repeats a character name, even when a smaller pool comes later", () => {
     const tasks = [
-      task("a", "a1:food:Ana,Luis", "a2:travel:Marta", "a3:home:Pablo"),
-      task("b", "b1:school:Marta", "b2:work:pablo"),
+      task("a", "a1:food:Bruno,Luis", "a2:travel:Hugo", "a3:home:Pablo"),
+      task("b", "b1:school:Hugo", "b2:work:pablo"),
       task("c", "c1:sport:Luis"),
     ];
 
@@ -156,9 +156,9 @@ describe("the exam builder", () => {
 
   it("repeats as little as it can when every exam repeats something", () => {
     const tasks = [
-      task("a", "a1:food:Ana"),
-      task("b", "b1:food:Ana", "b2:food:Luis"),
-      task("c", "c1:home:Luis", "c2:home:Marta", "c3:food"),
+      task("a", "a1:food:Bruno"),
+      task("b", "b1:food:Bruno", "b2:food:Luis"),
+      task("c", "c1:home:Luis", "c2:home:Hugo", "c3:food"),
     ];
 
     for (const seed of SEEDS) {

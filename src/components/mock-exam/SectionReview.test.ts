@@ -37,8 +37,8 @@ it("reviews writing against model responses, word targets and self-checks", asyn
     section: 2,
     stage: "review",
     answers: {
-      [form.id]: "Nombre y apellidos: Ana Ruiz\nCiudad: Madrid",
-      [letter.id]: "Hola Ana, nos vemos",
+      [form.id]: "Nombre y apellidos: Bruno Ruiz\nCiudad: Madrid",
+      [letter.id]: "Hola Bruno, nos vemos",
     },
   });
 
@@ -96,7 +96,7 @@ const seedWriting = () => {
   return seed({
     section: 2,
     stage: "review",
-    answers: { [form.id]: "Nombre y apellidos: Ana Ruiz", [letter.id]: "Hola Ana, nos vemos" },
+    answers: { [form.id]: "Nombre y apellidos: Bruno Ruiz", [letter.id]: "Hola Bruno, nos vemos" },
   });
 };
 
@@ -118,15 +118,15 @@ it("marks both writing tasks on request and scales them to the writing score", a
   expect(screen.getAllByText("Mark: 2 out of 3.")).toHaveLength(2);
 
   expect(api.mock.calls.map(([, init]) => JSON.parse(String(init.body)))).toEqual([
-    { questionId: form.id, answer: "Nombre y apellidos: Ana Ruiz", passcode: "olé" },
-    { questionId: letter.id, answer: "Hola Ana, nos vemos", passcode: "olé" },
+    { questionId: form.id, answer: "Nombre y apellidos: Bruno Ruiz", passcode: "olé" },
+    { questionId: letter.id, answer: "Hola Bruno, nos vemos", passcode: "olé" },
   ]);
 });
 
 it("keeps one task's mark when the other cannot be reviewed, and sends a blank task", async () => {
   await seedWriting();
 
-  await seed({ section: 2, stage: "review", answers: { [letter.id]: "Hola Ana, nos vemos" } });
+  await seed({ section: 2, stage: "review", answers: { [letter.id]: "Hola Bruno, nos vemos" } });
 
   const api = reviewWriting({
     [form.id]: async () => Response.json({ error: "upstream" }, { status: 502 }),

@@ -146,7 +146,7 @@ const talk = async () => {
   channel.emit({ type: "session.started", session: { id: "live_1" } });
   say("examiner", "¿Cómo te ", 0);
   say("examiner", "llamas?", 400);
-  say("student", "Me llamo Ana.", 2100);
+  say("student", "Me llamo Bruno.", 2100);
 };
 
 const finish = async () => {
@@ -201,7 +201,7 @@ describe("a live talk", () => {
     expect(body("/api/live-session")).toEqual({ sdp: "offer-sdp", task: "u1" });
     expect(remote).toEqual({ type: "answer", sdp: "answer-sdp" });
     expect(screen.getByRole("status")).toHaveTextContent("Live");
-    expect(screen.queryByText("Me llamo Ana.")).toBeNull();
+    expect(screen.queryByText("Me llamo Bruno.")).toBeNull();
 
     await click("End the talk");
 
@@ -231,7 +231,7 @@ describe("a live talk", () => {
       task: "u1",
       turns: [
         { role: "examiner", text: "¿Cómo te llamas?" },
-        { role: "student", text: "Me llamo Ana." },
+        { role: "student", text: "Me llamo Bruno." },
       ],
     });
 
@@ -242,11 +242,11 @@ describe("a live talk", () => {
     );
 
     expect(screen.getByRole("list", { name: "Transcript" })).not.toBeVisible();
-    expect(await openTranscript()).toHaveTextContent("Lucía¿Cómo te llamas?YouMe llamo Ana.");
+    expect(await openTranscript()).toHaveTextContent("Lucas¿Cómo te llamas?YouMe llamo Bruno.");
     expect(screen.getByRole("list", { name: "Transcript" })).toBeVisible();
 
     expect(onEvaluated).toHaveBeenCalledWith(
-      "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+      "Lucas: ¿Cómo te llamas?\nYou: Me llamo Bruno.",
       true,
       false,
       "good",
@@ -263,7 +263,7 @@ describe("a live talk", () => {
     await click("Continue");
 
     expect(onSubmit).toHaveBeenCalledWith(
-      "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+      "Lucas: ¿Cómo te llamas?\nYou: Me llamo Bruno.",
       true,
       false,
     );
@@ -281,7 +281,7 @@ describe("a live talk", () => {
       await screen.findByRole("heading", { name: "Not yet. Talk again to pass." }),
     ).toBeVisible();
 
-    expect(screen.getByText(/Lucía did not get everything she asked for\./)).toBeVisible();
+    expect(screen.getByText(/Lucas did not get everything he asked for\./)).toBeVisible();
 
     expect(onEvaluated.mock.calls[0].slice(1)).toEqual([
       false,
@@ -370,7 +370,7 @@ describe("a live talk", () => {
     await finish();
 
     expect(await screen.findByRole("heading", { name: "Not everything." })).toBeVisible();
-    expect(screen.getByText("Lucía did not get everything she asked for.")).toBeVisible();
+    expect(screen.getByText("Lucas did not get everything he asked for.")).toBeVisible();
     expect(screen.queryByRole("button", { name: "Talk again" })).toBeNull();
     expect(screen.queryByText(/My mistakes/)).toBeNull();
     await click("Continue");
@@ -384,7 +384,7 @@ describe("a live talk", () => {
     });
 
     expect(screen.getByRole("heading", { name: "Good." })).toBeVisible();
-    expect(screen.getByText("Lucía understood you, with some mistakes.")).toBeVisible();
+    expect(screen.getByText("Lucas understood you, with some mistakes.")).toBeVisible();
 
     expect(screen.getByRole("list", { name: "Your answers" })).toHaveTextContent(
       "NameCorrectAgeUnderstandable, with mistakesCountryCorrect",
@@ -430,18 +430,18 @@ describe("a live talk", () => {
 
     await click("Score again");
     expect(await screen.findByRole("heading", { name: "Good. You passed." })).toBeVisible();
-    expect(await openTranscript()).toHaveTextContent("Lucía¿Cómo te llamas?YouMe llamo Ana.");
+    expect(await openTranscript()).toHaveTextContent("Lucas¿Cómo te llamas?YouMe llamo Bruno.");
 
     expect(body("/api/score-talk")).toEqual({
       task: "u1",
       turns: [
         { role: "examiner", text: "¿Cómo te llamas?" },
-        { role: "student", text: "Me llamo Ana." },
+        { role: "student", text: "Me llamo Bruno." },
       ],
     });
 
     expect(onEvaluated).toHaveBeenCalledWith(
-      "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
+      "Lucas: ¿Cómo te llamas?\nYou: Me llamo Bruno.",
       true,
       false,
       "good",
@@ -511,7 +511,7 @@ it("clips a long transcript to the 4000 characters progress stores", async () =>
   const [answer] = onEvaluated.mock.calls[0];
 
   expect(answer).toHaveLength(4000);
-  expect(answer.startsWith("Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.")).toBe(true);
+  expect(answer.startsWith("Lucas: ¿Cómo te llamas?\nYou: Me llamo Bruno.")).toBe(true);
 });
 
 describe("access", () => {
@@ -638,13 +638,13 @@ describe("access", () => {
 });
 
 describe("connection", () => {
-  it("plays Lucía's voice", async () => {
+  it("plays Lucas's voice", async () => {
     replies(started());
     mount();
     await talk();
-    act(() => peers.at(-1)!.ontrack?.({ streams: ["lucia-stream"] }));
+    act(() => peers.at(-1)!.ontrack?.({ streams: ["lucas-stream"] }));
 
-    expect(speakers.at(-1)!.srcObject).toBe("lucia-stream");
+    expect(speakers.at(-1)!.srcObject).toBe("lucas-stream");
   });
 
   it("asks to close shortly after the limit the server returned", async () => {
@@ -701,7 +701,7 @@ describe("connection", () => {
     mount();
     await click("Start the talk");
 
-    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
+    expect(screen.getByText("Lucas is not available right now. Try again later.")).toBeVisible();
   });
 
   it("starts as a free visitor when the saved access is unreadable", () => {
@@ -709,7 +709,7 @@ describe("connection", () => {
     mount();
 
     expect(screen.getByText("Your first live talk is free.")).toBeVisible();
-    expect(screen.getByText(/^Lucía talks with you in Spanish\./)).toBeVisible();
+    expect(screen.getByText(/^Lucas talks with you in Spanish\./)).toBeVisible();
   });
 });
 
@@ -719,12 +719,12 @@ describe("guards", () => {
     mount();
     await talk();
     say("examiner", "¿Cuántos años tienes?", 4000);
-    say("student", "Ana, ", 1800);
+    say("student", "Bruno, ", 1800);
     await finish();
     await screen.findByRole("heading", { name: "Perfect. You passed." });
 
     expect(await openTranscript()).toHaveTextContent(
-      "Lucía¿Cómo te llamas?YouAna, Me llamo Ana.Lucía¿Cuántos años tienes?",
+      "Lucas¿Cómo te llamas?YouBruno, Me llamo Bruno.Lucas¿Cuántos años tienes?",
     );
   });
 
@@ -796,17 +796,17 @@ describe("guards", () => {
     oldPeer.become("failed");
     oldChannel.emit({ type: "session.closed" });
 
-    expect(screen.getByRole("status")).toHaveTextContent("Connecting to Lucía…");
+    expect(screen.getByRole("status")).toHaveTextContent("Connecting to Lucas…");
     expect(screen.queryByText(/not available/)).toBeNull();
   });
 
-  it("gives up when the connection fails before Lucía starts", async () => {
+  it("gives up when the connection fails before Lucas starts", async () => {
     replies(started());
     mount();
     await click("Start the talk");
     peers.at(-1)!.become("failed");
 
-    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
+    expect(screen.getByText("Lucas is not available right now. Try again later.")).toBeVisible();
 
     expect(stopped).toEqual(["mic", "peer"]);
   });
@@ -827,7 +827,7 @@ describe("guards", () => {
     mount();
     await click("Start the talk");
 
-    expect(screen.getByText("Lucía is not available right now. Try again later.")).toBeVisible();
+    expect(screen.getByText("Lucas is not available right now. Try again later.")).toBeVisible();
 
     expect(JSON.parse(localStorage.getItem("paso-live-v1")!)).toEqual({
       freeUsed: true,
@@ -839,7 +839,7 @@ describe("guards", () => {
 });
 
 describe("greeting", () => {
-  it("asks Lucía to greet with the server's words when she is silent", async () => {
+  it("asks Lucas to greet with the server's words when he is silent", async () => {
     vi.useFakeTimers();
     replies(started());
     mount();

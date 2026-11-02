@@ -7,16 +7,16 @@ const question = (fields: Partial<Question>): Question => ({
   kind: "choice",
   skill: "reading",
   prompt: "Prompt",
-  answer: "Yo soy Marta.",
+  answer: "Yo soy Hugo.",
   explanation: "",
   ...fields,
 });
 
 describe("question clips", () => {
   it("loads every word of a sentence to build and the sentence read after it", () => {
-    const q = question({ kind: "order", tokens: ["Yo", "soy", "Marta."] });
+    const q = question({ kind: "order", tokens: ["Yo", "soy", "Hugo."] });
 
-    expect(questionClips(q, false)).toEqual(["Yo soy Marta.", "Yo", "soy", "Marta."]);
+    expect(questionClips(q, false)).toEqual(["Yo soy Hugo.", "Yo", "soy", "Hugo."]);
   });
 
   it("loads the listening audio, in an exam too", () => {
@@ -27,16 +27,16 @@ describe("question clips", () => {
   });
 
   it("loads the pronunciation outside an exam", () => {
-    const q = question({ pronunciation: "Me llamo Ana." });
+    const q = question({ pronunciation: "Me llamo Bruno." });
 
-    expect(questionClips(q, false)).toEqual(["Me llamo Ana."]);
+    expect(questionClips(q, false)).toEqual(["Me llamo Bruno."]);
   });
 
   it("loads no audio in an exam, a writing task or a reading task", () => {
-    const q = question({ pronunciation: "Me llamo Ana." });
+    const q = question({ pronunciation: "Me llamo Bruno." });
 
     expect(questionClips(q, true)).toEqual([]);
     expect(questionClips({ ...q, kind: "write" }, false)).toEqual([]);
-    expect(questionClips({ ...q, passage: "Ana vive en Madrid." }, false)).toEqual([]);
+    expect(questionClips({ ...q, passage: "Bruno vive en Madrid." }, false)).toEqual([]);
   });
 });

@@ -19,12 +19,12 @@ export const u5: TaskSpec = {
     { id: "times", label: "Times of day", example: "Como a las dos y me acuesto a las once" },
     {
       id: "questions",
-      label: "Two questions to Lucía",
+      label: "Two questions to Lucas",
       example: "¿A qué hora te levantas? ¿Trabajas por la tarde?",
     },
   ],
   asked:
-    "The examiner, a friendly interviewer, asked for five things: what the learner does in the morning, whether they work or study and what they do, what they do in the evening, at what time they do things, and then two questions from the learner about the examiner's routine. The times count only when the learner says at what time they do things, not only what they do, and the questions only when the learner asks the examiner two questions about her routine.",
+    "The examiner, a friendly interviewer, asked for five things: what the learner does in the morning, whether they work or study and what they do, what they do in the evening, at what time they do things, and then two questions from the learner about the examiner's routine. The times count only when the learner says at what time they do things, not only what they do, and the questions only when the learner asks the examiner two questions about his routine.",
   flawed: "Yo levanto a las siete",
   limitSeconds: 210,
 };

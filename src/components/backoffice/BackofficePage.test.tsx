@@ -38,13 +38,13 @@ it("labels unit 1's live talk and opens it alone, off the learning path", () => 
 
   render(<BackofficePage setSession={(l) => (lesson = l)} />);
   const unit = within(screen.getByRole("region", { name: "Unit 1 · ¡Hola, mundo!" }));
-  const row = unit.getByRole("button", { name: /Talk to Lucía/ });
+  const row = unit.getByRole("button", { name: /Talk to Lucas/ });
 
   expect(within(row).getByText("Live talk")).toBeInTheDocument();
   expect(within(row).getByText("Make it your own")).toBeInTheDocument();
 
   expect(
-    within(row).getByText("Me llamo Ana. Tengo treinta años. Soy de Polonia."),
+    within(row).getByText("Me llamo Iván. Tengo treinta años. Soy de Polonia."),
   ).toBeInTheDocument();
 
   fireEvent.click(row);

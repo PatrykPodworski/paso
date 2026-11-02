@@ -138,12 +138,12 @@ it("saves a live talk's grade with its attempt", () => {
   const live = allQuestions.find((q) => q.kind === "live")!;
   const { onAttempt } = mount([live]);
 
-  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Ana.", false, false, "bad", bad));
+  act(() => talk.onEvaluated!("Examiner: ¿Cómo te llamas?\nYou: Bruno.", false, false, "bad", bad));
 
   expect(onAttempt.mock.calls[0][0]).toMatchObject({
     questionId: "u1-o3",
     skill: "speaking",
-    answer: "Examiner: ¿Cómo te llamas?\nYou: Ana.",
+    answer: "Examiner: ¿Cómo te llamas?\nYou: Bruno.",
     correct: false,
     grade: "bad",
   });

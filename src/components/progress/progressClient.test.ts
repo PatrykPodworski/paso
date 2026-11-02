@@ -91,11 +91,11 @@ describe("load", () => {
     expect(get.method).toBe("GET");
     expect(get.headers).toEqual({ "x-learner-id": LEARNER });
     expect(latest()).toBeUndefined();
-    get.reply(ok(snapshot({ name: "Ana" })));
+    get.reply(ok(snapshot({ name: "Bruno" })));
 
     await vi.waitFor(() =>
       expect(latest()).toEqual({
-        snapshot: snapshot({ name: "Ana" }),
+        snapshot: snapshot({ name: "Bruno" }),
         problem: null,
       }),
     );
@@ -196,7 +196,7 @@ describe("writes", () => {
 
     c.vocabulary({ casa: review });
     c.check("visa", false);
-    c.settings({ name: "Ana", goal: 5, examDate: "2026-11-20" });
+    c.settings({ name: "Bruno", goal: 5, examDate: "2026-11-20" });
     c.mockResult(result);
     c.reset();
 
@@ -212,7 +212,7 @@ describe("writes", () => {
     expect(bodies).toEqual([
       { action: "vocabulary", reviews: { casa: review } },
       { action: "check", checkId: "visa", done: false },
-      { action: "settings", name: "Ana", goal: 5, examDate: "2026-11-20" },
+      { action: "settings", name: "Bruno", goal: 5, examDate: "2026-11-20" },
       {
         action: "mockResult",
         result: { id: "5f0c2a9e-1b3d-4e7f-8a6c-9d2e4f1b3a5c", ...result },
@@ -279,9 +279,9 @@ describe("drafts", () => {
     expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo" });
     expect(latest()?.snapshot?.recent).toEqual([]);
 
-    draft.reply(ok(snapshot({ drafts: { "u2-w1": "Me llamo Ana" } })));
+    draft.reply(ok(snapshot({ drafts: { "u2-w1": "Me llamo Bruno" } })));
     await settle();
-    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo Ana" });
+    expect(latest()?.snapshot?.drafts).toEqual({ "u2-w1": "Me llamo Bruno" });
   });
 
   it("keeps showing the newer draft when the response to an older one arrives", async () => {

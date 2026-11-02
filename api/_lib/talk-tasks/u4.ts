@@ -24,12 +24,12 @@ export const u4: TaskSpec = {
     },
     {
       id: "questions",
-      label: "Two questions to Lucía",
+      label: "Two questions to Lucas",
       example: "¿Dónde vives? ¿Cómo es tu casa?",
     },
   ],
   asked:
-    "The examiner, a friendly interviewer, asked for five things: where the learner's home is, which rooms it has, which room the learner likes most, where three things in it are, and then two questions from the learner about the examiner's home. The objects count only when the learner says where three things are, not only names them, and the questions only when the learner asks the examiner two questions about her home.",
+    "The examiner, a friendly interviewer, asked for five things: where the learner's home is, which rooms it has, which room the learner likes most, where three things in it are, and then two questions from the learner about the examiner's home. The objects count only when the learner says where three things are, not only names them, and the questions only when the learner asks the examiner two questions about his home.",
   flawed: "La mesa es en la cocina",
   limitSeconds: 210,
 };

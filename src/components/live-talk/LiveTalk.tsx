@@ -13,12 +13,12 @@ import { transcriptText } from "./transcript";
 import { useLiveTalk } from "./useLiveTalk";
 
 const PROBLEMS: Record<string, string> = {
-  denied: "Microphone access was declined. Allow it in your browser settings to talk to Lucía.",
+  denied: "Microphone access was declined. Allow it in your browser settings to talk to Lucas.",
   microphone: "The microphone could not start. Check it and try again.",
   passcode: "That passcode is not right.",
   passcode_tries: "Too many wrong passcodes. Try again tomorrow.",
   free_used: "This network has already used its free live talk.",
-  unavailable: "Lucía is not available right now. Try again later.",
+  unavailable: "Lucas is not available right now. Try again later.",
 };
 
 type Scoring =
@@ -147,7 +147,7 @@ export const LiveTalk = ({
   return (
     <div className="mbs-1 rounded-lg border border-border bg-muted p-5 max-md:p-4">
       <FieldNote className="mbe-4">
-        Lucía talks with you in Spanish. Your voice goes to OpenAI for the talk; the transcript is
+        Lucas talks with you in Spanish. Your voice goes to OpenAI for the talk; the transcript is
         scored.
       </FieldNote>
       {/* A restored result stays on screen; a restored talk that failed to score can be replaced. */}

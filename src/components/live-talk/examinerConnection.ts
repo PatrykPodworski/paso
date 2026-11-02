@@ -172,7 +172,7 @@ export const createExaminerConnection = ({
     return true;
   };
 
-  // Asks Lucía to open the talk with the greeting the server sent.
+  // Asks Lucas to open the talk with the greeting the server sent.
   const greet = () => {
     if (greeting && channel.readyState === "open") {
       channel.send(

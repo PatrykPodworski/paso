@@ -7,7 +7,7 @@ import { formPractice } from "../../data/mock";
 import type { Grade, WritingReview } from "../../data/types";
 
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-const answer = "Hola. Me llamo Ana y soy de Polonia. Vivo en Varsovia. ¿Cómo te llamas?";
+const answer = "Hola. Me llamo Bruno y soy de Polonia. Vivo en Varsovia. ¿Cómo te llamas?";
 const api = vi.fn();
 
 const review = (grade: Grade = "good"): WritingReview => ({
@@ -25,7 +25,7 @@ const review = (grade: Grade = "good"): WritingReview => ({
       explanation: "Use exclamation marks for a greeting.",
     },
   ],
-  revised: "¡Hola! Me llamo Ana y soy de Polonia. Vivo en Varsovia. ¿Cómo te llamas? Adiós.",
+  revised: "¡Hola! Me llamo Bruno y soy de Polonia. Vivo en Varsovia. ¿Cómo te llamas? Adiós.",
   grade,
 });
 
@@ -191,13 +191,13 @@ it("sends a form as its labelled fields", async () => {
   render(<QuestionCard q={formPractice} onSubmit={vi.fn()} />);
 
   for (const f of formPractice.fields!) {
-    fireEvent.change(screen.getByLabelText(f.label), { target: { value: "Ana" } });
+    fireEvent.change(screen.getByLabelText(f.label), { target: { value: "Bruno" } });
   }
 
   click("Review my practice");
   await screen.findByText("15 words. Target: 15–25.");
 
-  expect(sent().answer).toBe(formPractice.fields!.map((f) => `${f.label}: Ana`).join("\n"));
+  expect(sent().answer).toBe(formPractice.fields!.map((f) => `${f.label}: Bruno`).join("\n"));
 });
 
 it("forgets a wrong passcode, records nothing and unlocks the answer", async () => {

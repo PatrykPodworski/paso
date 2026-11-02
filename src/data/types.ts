@@ -165,7 +165,7 @@ export interface MockRun {
   scores: { writing?: string; speaking?: string };
   // The topic picked for speaking Tasks 2 and 3.
   topic?: MockTopic;
-  // Lucía's score for each finished talk, by question id.
+  // Lucas's score for each finished talk, by question id.
   talks: Record<string, LiveScore>;
   // The seed the exam builder took and the variants it chose, so a run resumes and is reviewed
   // with the same tasks.

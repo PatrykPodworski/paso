@@ -152,7 +152,7 @@ it("keeps unsaved writing as the answers when the section deadline passes", asyn
     section: 2,
     deadline: now + 1000,
     answers: { "mock-w2": "Hola." },
-    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Ana." },
+    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Bruno." },
   });
 
   await mount();
@@ -163,17 +163,17 @@ it("keeps unsaved writing as the answers when the section deadline passes", asyn
     answers: {
       "mock-w1":
         "Nombre y apellidos: \nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
-      "mock-w2": "Hola, Ana.",
+      "mock-w2": "Hola, Bruno.",
     },
   });
 
-  expect(screen.getByText("Hola, Ana.")).toBeInTheDocument();
+  expect(screen.getByText("Hola, Bruno.")).toBeInTheDocument();
 });
 
 it("counts unsaved writing as answered and keeps it on Finish section", async () => {
   await seed({
     section: 2,
-    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Ana." },
+    drafts: { "mock-w1": JSON.stringify({ Ciudad: "Varsovia" }), "mock-w2": "Hola, Bruno." },
   });
 
   await mount();
@@ -186,7 +186,7 @@ it("counts unsaved writing as answered and keeps it on Finish section", async ()
     answers: {
       "mock-w1":
         "Nombre y apellidos: \nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
-      "mock-w2": "Hola, Ana.",
+      "mock-w2": "Hola, Bruno.",
     },
   });
 });

@@ -20,7 +20,7 @@ const output = (patch: object = {}) =>
     corrections: [
       { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
     ],
-    revised: "Hola, Ana. Tengo veinte años.",
+    revised: "Hola, Bruno. Tengo veinte años.",
     mark: { band: 2, reason: "A1 level with one missed point." },
     ...patch,
   });
@@ -53,7 +53,7 @@ describe("parsing the model's review", () => {
       corrections: [
         { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
       ],
-      revised: "Hola, Ana. Tengo veinte años.",
+      revised: "Hola, Bruno. Tengo veinte años.",
       mark: { band: 2, reason: "A1 level with one missed point." },
     });
   });
@@ -62,7 +62,7 @@ describe("parsing the model's review", () => {
     const practice = output({ coverage: coverage(lesson), result: "passed" });
 
     expect(parseReview(lesson, 35, practice)?.mark).toBeUndefined();
-    expect(parseReview(lesson, 35, practice)?.revised).toBe("Hola, Ana. Tengo veinte años.");
+    expect(parseReview(lesson, 35, practice)?.revised).toBe("Hola, Bruno. Tengo veinte años.");
   });
 
   it.each([

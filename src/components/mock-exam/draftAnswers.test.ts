@@ -11,33 +11,33 @@ const writing = (patch: Partial<MockRun>): MockRun => ({
 });
 
 it("turns an unsaved message draft into the answer", () => {
-  const run = writing({ drafts: { "mock-w2": "Hola, Ana. Nos vemos el domingo." } });
+  const run = writing({ drafts: { "mock-w2": "Hola, Bruno. Nos vemos el domingo." } });
 
-  expect(draftAnswers(run)).toEqual({ "mock-w2": "Hola, Ana. Nos vemos el domingo." });
+  expect(draftAnswers(run)).toEqual({ "mock-w2": "Hola, Bruno. Nos vemos el domingo." });
 });
 
 it("turns a form draft into the labelled text Save answer stores", () => {
   const run = writing({
     drafts: {
-      "mock-w1": JSON.stringify({ "Nombre y apellidos": "Elena García", Ciudad: "Varsovia" }),
+      "mock-w1": JSON.stringify({ "Nombre y apellidos": "Pedro García", Ciudad: "Varsovia" }),
     },
   });
 
   expect(draftAnswers(run)).toEqual({
     "mock-w1":
-      "Nombre y apellidos: Elena García\nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
+      "Nombre y apellidos: Pedro García\nNacionalidad: \nCiudad: Varsovia\nProfesión: \nLenguas: \nAficiones: ",
   });
 });
 
 it("replaces an older saved answer with the newer draft", () => {
-  const run = writing({ answers: { "mock-w2": "Hola." }, drafts: { "mock-w2": "Hola, Ana." } });
+  const run = writing({ answers: { "mock-w2": "Hola." }, drafts: { "mock-w2": "Hola, Bruno." } });
 
-  expect(draftAnswers(run)).toEqual({ "mock-w2": "Hola, Ana." });
+  expect(draftAnswers(run)).toEqual({ "mock-w2": "Hola, Bruno." });
 });
 
 it("clears an answer whose draft is empty after trimming", () => {
   const run = writing({
-    answers: { "mock-w1": "Nombre y apellidos: Elena", "mock-w2": "Hola." },
+    answers: { "mock-w1": "Nombre y apellidos: Pedro", "mock-w2": "Hola." },
     drafts: { "mock-w1": JSON.stringify({ Nacionalidad: " " }), "mock-w2": "  \n" },
   });
 

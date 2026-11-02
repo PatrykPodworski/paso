@@ -12,7 +12,7 @@ vi.mock("../live-talk/LiveTalk", () => ({
   LiveTalk: (props: ComponentProps<typeof LiveTalk>) => {
     talk = props;
 
-    return <p>Lucía is here</p>;
+    return <p>Lucas is here</p>;
   },
 }));
 
@@ -43,10 +43,10 @@ it("asks for the topic before Task 2 and sends it with the talk", async () => {
   await mount();
   expect(screen.getByRole("heading", { name: s2.prompt })).toBeInTheDocument();
   expect(screen.getByRole("group", { name: "Your topic for Tasks 2 and 3" })).toBeInTheDocument();
-  expect(screen.queryByText("Lucía is here")).toBeNull();
+  expect(screen.queryByText("Lucas is here")).toBeNull();
   fireEvent.click(screen.getByRole("radio", { name: /Your studies/ }));
   expect((await state()).topic).toBe("studies");
-  expect(screen.getByText("Lucía is here")).toBeInTheDocument();
+  expect(screen.getByText("Lucas is here")).toBeInTheDocument();
   expect(talk).toMatchObject({ task: "mock-s2", topic: "studies" });
   fireEvent.click(screen.getByRole("radio", { name: /Your free time/ }));
   expect(talk).toMatchObject({ task: "mock-s2", topic: "freeTime" });
@@ -60,16 +60,16 @@ it("keeps the picked topic for Task 3", async () => {
   expect(talk).toMatchObject({ task: "mock-s3", topic: "home" });
 });
 
-it("keeps the transcript and the grade with the run as soon as Lucía has scored", async () => {
+it("keeps the transcript and the grade with the run as soon as Lucas has scored", async () => {
   await seed({ section: 3, stage: "run" });
   await mount();
-  act(() => talk!.onEvaluated!("Lucía: Hola.\nYou: Hola.", true, false, score.grade, score));
-  expect((await state()).answers[s1.id]).toBe("Lucía: Hola.\nYou: Hola.");
+  act(() => talk!.onEvaluated!("Lucas: Hola.\nYou: Hola.", true, false, score.grade, score));
+  expect((await state()).answers[s1.id]).toBe("Lucas: Hola.\nYou: Hola.");
   expect((await state()).talks[s1.id]).toEqual(score);
   expect((await state()).index).toBe(0);
-  act(() => talk!.onSubmit("Lucía: Hola.\nYou: Hola.", true, false));
+  act(() => talk!.onSubmit("Lucas: Hola.\nYou: Hola.", true, false));
   expect((await state()).index).toBe(1);
-  expect((await state()).answers[s1.id]).toBe("Lucía: Hola.\nYou: Hola.");
+  expect((await state()).answers[s1.id]).toBe("Lucas: Hola.\nYou: Hola.");
 });
 
 it("shows a finished talk's result again instead of a new talk, and confirms after the last", async () => {

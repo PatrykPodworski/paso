@@ -12,7 +12,7 @@ type Props = {
   writing: string;
   speaking: string;
   talks: MockRun["talks"];
-  // The run's speaking tasks, whose talks Lucía grades.
+  // The run's speaking tasks, whose talks Lucas grades.
   talkTasks: Question[];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
@@ -73,7 +73,7 @@ export const ScoreCalculator = ({
           />
         </label>
       </div>
-      <ul aria-label="Lucía's grades" className="mbs-4 flex flex-col gap-1.5 text-sm">
+      <ul aria-label="Lucas's grades" className="mbs-4 flex flex-col gap-1.5 text-sm">
         {talkTasks.map((q, i) => (
           <li key={q.id} className="flex justify-between gap-3">
             <span>Task {i + 1}</span>
@@ -84,7 +84,7 @@ export const ScoreCalculator = ({
         ))}
       </ul>
       <FieldNote className="mbs-2.5">
-        Lucía's grades for the three talks are not DELE points. Enter the speaking score yourself
+        Lucas's grades for the three talks are not DELE points. Enter the speaking score yourself
         for now.
       </FieldNote>
       {entered ? (

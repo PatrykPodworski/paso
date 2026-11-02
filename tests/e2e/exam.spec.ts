@@ -40,16 +40,16 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
 
       await page
         .getByRole("textbox", { name: "Your preparation notes" })
-        .fill("Ana · Polonia · veinte años");
+        .fill("Bruno · Polonia · veinte años");
 
       await expect
         .poll(async () => (await saved(page)).mockRun?.drafts.prep)
-        .toBe("Ana · Polonia · veinte años");
+        .toBe("Bruno · Polonia · veinte años");
 
       await page.reload();
 
       await expect(page.getByRole("textbox", { name: "Your preparation notes" })).toHaveValue(
-        "Ana · Polonia · veinte años",
+        "Bruno · Polonia · veinte años",
       );
 
       await page.getByRole("button", { name: "I’m ready · start speaking" }).click();
@@ -115,7 +115,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
 
-  await expect(page.getByRole("list", { name: "Lucía's grades" })).toHaveText(
+  await expect(page.getByRole("list", { name: "Lucas's grades" })).toHaveText(
     "Task 1GoodTask 2GoodTask 3Good",
   );
 
@@ -196,7 +196,7 @@ test("listening permits two plays and writing draft survives reload and clearing
   await page.getByRole("button", { name: "Skip for now →" }).click();
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 
-  await input.fill("Hola, soy Ana.");
+  await input.fill("Hola, soy Bruno.");
   await page.getByRole("button", { name: "Save answer" }).click();
   await page.getByRole("button", { name: "Keep working" }).click();
   await input.clear();

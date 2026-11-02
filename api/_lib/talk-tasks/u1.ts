@@ -5,7 +5,7 @@ export const u1: TaskSpec = {
   mode: "interview",
   asks: ["¿Cómo te llamas?", "¿Cuántos años tienes?", "¿De dónde eres?"],
   items: [
-    { id: "name", label: "Name", example: "Ana" },
+    { id: "name", label: "Name", example: "Iván" },
     { id: "age", label: "Age", example: "Veinte años" },
     { id: "country", label: "Country", example: "De Polonia" },
   ],

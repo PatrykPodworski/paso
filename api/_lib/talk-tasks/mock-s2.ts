@@ -68,7 +68,7 @@ export const mockS2: Record<Topic, TaskSpec> = {
     items: [
       { id: "activities", label: "Your activities", example: "Me gusta leer y nadar" },
       { id: "when", label: "When you do them", example: "Los sábados por la mañana" },
-      { id: "withWhom", label: "With whom", example: "Con mi amiga Marta" },
+      { id: "withWhom", label: "With whom", example: "Con mi amigo Marcos" },
     ],
     flawed: "Me gusta leo libros en el sábado",
   }),

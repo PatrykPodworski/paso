@@ -25,7 +25,7 @@ export const useMockExam = (saved: MockRun | null, { onResult, ...actions }: Moc
     return () => clearInterval(id);
   }, [run.stage]);
 
-  // Lucía closes each talk at its own limit, so the speaking clock cuts no talk half-way.
+  // Lucas closes each talk at its own limit, so the speaking clock cuts no talk half-way.
   const speaking = run.stage === "run" && run.section === 3;
 
   useEffect(() => {

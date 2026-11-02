@@ -5,14 +5,14 @@ test("preferences persist, export contains actual progress, reset requires confi
 }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Open your learning preferences" }).click();
-  await page.getByRole("textbox", { name: "What should we call you?" }).fill("  Ana  ");
+  await page.getByRole("textbox", { name: "What should we call you?" }).fill("  Bruno  ");
   await page.getByRole("combobox", { name: "Your daily practice goal" }).selectOption("5");
   await page.getByLabel("Exam date").fill("2026-10-09");
   await page.getByRole("button", { name: "Save preferences" }).click();
-  await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Hola, Bruno." })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Hola, Ana." })).toBeVisible();
-  expect(await saved(page)).toMatchObject({ name: "Ana", goal: 5, examDate: "2026-10-09" });
+  await expect(page.getByRole("heading", { name: "Hola, Bruno." })).toBeVisible();
+  expect(await saved(page)).toMatchObject({ name: "Bruno", goal: 5, examDate: "2026-10-09" });
   await page.getByRole("button", { name: "Open your learning preferences" }).click();
   const next = page.waitForEvent("download");
 
@@ -27,11 +27,11 @@ test("preferences persist, export contains actual progress, reset requires confi
     chunks.push(chunk);
   }
 
-  expect(JSON.parse(Buffer.concat(chunks).toString())).toMatchObject({ name: "Ana", goal: 5 });
+  expect(JSON.parse(Buffer.concat(chunks).toString())).toMatchObject({ name: "Bruno", goal: 5 });
   await page.getByText("Start over", { exact: true }).click();
   await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
   await page.getByRole("button", { name: "Cancel", exact: true }).click();
-  expect((await saved(page)).name).toBe("Ana");
+  expect((await saved(page)).name).toBe("Bruno");
   await page.getByRole("button", { name: "Reset my progress", exact: true }).click();
   await page.getByRole("button", { name: "Clear my practice data" }).click();
   await expect(page.getByRole("heading", { name: "A good day to learn Spanish." })).toBeVisible();

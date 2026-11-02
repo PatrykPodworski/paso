@@ -14,7 +14,7 @@ it("exports real progress and revokes the temporary URL", async () => {
   vi.stubGlobal("Blob", NodeBlob);
   const p = emptySnapshot();
 
-  p.name = "Ana";
+  p.name = "Bruno";
   const create = vi.fn((_blob: Blob) => "blob:export");
 
   vi.stubGlobal(

@@ -82,7 +82,7 @@ const mount = () => {
 };
 
 const greeting: Fragment = { role: "examiner", text: "¿Cómo te llamas?", start: 0, end: 900 };
-const answer: Fragment = { role: "student", text: "Me llamo Ana.", start: 2100, end: 2400 };
+const answer: Fragment = { role: "student", text: "Me llamo Bruno.", start: 2100, end: 2400 };
 
 beforeEach(() => {
   examiners.length = 0;
@@ -222,19 +222,19 @@ describe("transcript", () => {
     h.spoken({ role: "examiner", text: "¿Cuántos años tienes?", start: 4000, end: 4800 });
     h.spoken({ role: "student", text: "Me llamo ", start: 2100, end: 2300 });
     h.spoken(greeting);
-    h.spoken({ role: "student", text: "Ana.", start: 2300, end: 2400 });
+    h.spoken({ role: "student", text: "Bruno.", start: 2300, end: 2400 });
     act(() => h.talk().end());
     h.closed();
 
     expect(h.talk().turns).toEqual([
       { role: "examiner", text: "¿Cómo te llamas?", at: 0 },
-      { role: "student", text: "Me llamo Ana.", at: 2100 },
+      { role: "student", text: "Me llamo Bruno.", at: 2100 },
       { role: "examiner", text: "¿Cuántos años tienes?", at: 4000 },
     ]);
 
     expect(h.handlers.onEnded).toHaveBeenCalledWith([
       { role: "examiner", text: "¿Cómo te llamas?" },
-      { role: "student", text: "Me llamo Ana." },
+      { role: "student", text: "Me llamo Bruno." },
       { role: "examiner", text: "¿Cuántos años tienes?" },
     ]);
   });
@@ -285,7 +285,7 @@ describe("drops", () => {
 
     expect(h.handlers.onEnded).toHaveBeenCalledWith([
       { role: "examiner", text: "¿Cómo te llamas?" },
-      { role: "student", text: "Me llamo Ana." },
+      { role: "student", text: "Me llamo Bruno." },
     ]);
   });
 });

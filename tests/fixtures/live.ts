@@ -58,8 +58,8 @@ export const examiner = (page: Page, event: object) =>
   );
 
 // Runs one whole talk against the fake examiner: start (with the passcode once the free
-// talk is used), one exchange, end, and Lucía's close.
-export const talkToLucia = async (page: Page) => {
+// talk is used), one exchange, end, and Lucas's close.
+export const talkToLucas = async (page: Page) => {
   const passcode = page.getByLabel("Passcode");
 
   if (await passcode.isVisible()) {
@@ -67,13 +67,13 @@ export const talkToLucia = async (page: Page) => {
   }
 
   await page.getByRole("button", { name: "Start the talk" }).click();
-  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucas…");
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
   await examiner(page, { type: "session.output_transcript.delta", delta: "Hola.", start_ms: 1000 });
 
   await examiner(page, {
     type: "session.input_transcript.delta",
-    delta: "Hola, soy Ana.",
+    delta: "Hola, soy Bruno.",
     start_ms: 2000,
   });
 
@@ -90,7 +90,7 @@ export const answerTalk = async (page: Page) => {
     await home.check();
   }
 
-  await talkToLucia(page);
+  await talkToLucas(page);
   await page.getByRole("button", { name: "Continue", exact: true }).click();
 };
 

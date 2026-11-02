@@ -21,7 +21,7 @@ export const u11: TaskSpec = {
     },
     {
       id: "questions",
-      label: "Two questions to Lucía",
+      label: "Two questions to Lucas",
       example: "¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
     },
   ],

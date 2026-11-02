@@ -3,7 +3,7 @@ import { clearPendingTalk, readPendingTalk, savePendingTalk } from "./pendingTal
 
 const ana = [
   { role: "examiner" as const, text: "¿Cómo te llamas?" },
-  { role: "student" as const, text: "Me llamo Ana." },
+  { role: "student" as const, text: "Me llamo Bruno." },
 ];
 
 const leo = [{ role: "student" as const, text: "Soy Leo." }];
@@ -34,7 +34,7 @@ it("keeps nothing for a talk without a question id", () => {
   expect(readPendingTalk(undefined)).toBeUndefined();
 });
 
-it.each(["{oops", "[]", JSON.stringify({ "u1-o3": "Me llamo Ana." })])(
+it.each(["{oops", "[]", JSON.stringify({ "u1-o3": "Me llamo Bruno." })])(
   "ignores unreadable saved talks %s",
   (raw) => {
     localStorage.setItem("paso-pending-talk-v1", raw);

@@ -99,7 +99,7 @@ Test paths without a directory above are in `src/test/` for TS/TSX and `scripts/
 
 ## Browser journeys and visual contract
 
-`tests/e2e/` covers: lesson completion and mistake recovery; immediate choice feedback and pronunciation; listening autoplay and manual replay; sentence editing/autoplay; writing draft/retry/revision; the live talk with Lucía; microphone denial; vocabulary; forms; listening assistance; all 55 exam questions; timer expiry; two-play limit and cleared exam drafts; preferences/export/reset; guide checks/scores; navigation/focus; each of the four focused skills; picture practice; foundation practice; and daily-mix prioritization. Every journey runs at 1440×1080 and 390×844.
+`tests/e2e/` covers: lesson completion and mistake recovery; immediate choice feedback and pronunciation; listening autoplay and manual replay; sentence editing/autoplay; writing draft/retry/revision; the live talk with Lucas; microphone denial; vocabulary; forms; listening assistance; all 55 exam questions; timer expiry; two-play limit and cleared exam drafts; preferences/export/reset; guide checks/scores; navigation/focus; each of the four focused skills; picture practice; foundation practice; and daily-mix prioritization. Every journey runs at 1440×1080 and 390×844.
 
 `tests/visual/views.spec.ts` names each view/state. Captures include the five pages, personalized progress, four practice filters, empty/populated mistakes, vocabulary flip/empty search, preferences/reset, phone navigation, seven exercise types, correct/incorrect/transcript feedback, leave/completion dialogs, writing/speaking reflection, and all exam stages/reviews/results. Tall dialogs have separate top and bottom captures. Tests also assert no horizontal overflow.
 

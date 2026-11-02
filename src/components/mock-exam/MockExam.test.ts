@@ -110,7 +110,7 @@ it("rejects negative and excessive writing scores independently", async () => {
   }
 });
 
-it("shows Lucía's grades for the three talks next to the speaking score", async () => {
+it("shows Lucas's grades for the three talks next to the speaking score", async () => {
   await seed({
     section: 3,
     stage: "done",
@@ -122,7 +122,7 @@ it("shows Lucía's grades for the three talks next to the speaking score", async
 
   await mount();
 
-  expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
+  expect(screen.getByRole("list", { name: "Lucas's grades" })).toHaveTextContent(
     "Task 1GoodTask 2PerfectTask 3Not done",
   );
 

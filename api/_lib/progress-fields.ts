@@ -189,7 +189,7 @@ const isStoredCorrections: Check = (value) =>
       CORRECTION_FIELDS.every((field) => isText(correction[field])),
   );
 
-// Lucía's score of a mock exam talk, as api/score-talk returned it.
+// Lucas's score of a mock exam talk, as api/score-talk returned it.
 const isLiveScore: Check = (value) =>
   isRecord(value) &&
   GRADES.includes(value.grade as Grade) &&

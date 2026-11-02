@@ -1,7 +1,9 @@
 import { Button } from "../../design-system/Button";
 import { ButtonRow } from "../../design-system/ButtonRow";
+import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import type { LiveScore } from "../../data/types";
+import { CorrectionList } from "../CorrectionList";
 import { LiveTranscript } from "./LiveTranscript";
 import type { LiveTurn } from "./transcript";
 
@@ -58,6 +60,16 @@ export const LiveResult = ({ score, turns, exam, onAgain, onContinue }: Props) =
         </li>
       ))}
     </ul>
+    {score.corrections && (
+      <div className="mbs-4">
+        <Eyebrow>Corrections</Eyebrow>
+        {score.corrections.length > 0 ? (
+          <CorrectionList corrections={score.corrections} />
+        ) : (
+          <p className="mbs-2 text-sm leading-relaxed text-muted-foreground">No errors found.</p>
+        )}
+      </div>
+    )}
     <FieldNote className="mbs-3.5">
       Only the transcript is scored, never your pronunciation.
     </FieldNote>

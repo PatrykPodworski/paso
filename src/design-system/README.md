@@ -28,7 +28,7 @@ rules that styled it in the same change, including descendant and state
 selectors that target it. `tests/e2e/tailwind.spec.ts` guards the layering.
 
 **Every component registers in the gallery.** `Gallery.tsx` is rendered at
-`/#design-system` and screenshotted per section by
+`/design-system` and screenshotted per section by
 `tests/visual/design-system.spec.ts`. Register each variant and state, including
 the ones no app view happens to show — a disabled button, an error state — since
 those are exactly what the whole-page baselines miss.

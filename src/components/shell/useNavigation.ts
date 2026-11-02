@@ -1,27 +1,20 @@
+import { useRouter, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { pageFromHash, type Page } from "../navigation";
+import type { Page } from "../navigation";
 
 export const useNavigation = () => {
-  const [page, setPage] = useState<Page>(pageFromHash);
+  const router = useRouter();
+  // Every route under the app shell, unknown paths included, names its page in routes.ts.
+  const page = useRouterState({ select: (s) => s.matches.at(-1)!.staticData.page! });
   const [mobileNav, setMobileNav] = useState(false);
 
-  useEffect(() => {
-    const handle = () => {
-      setPage(pageFromHash());
-      setMobileNav(false);
-    };
-
-    window.addEventListener("hashchange", handle);
-
-    return () => window.removeEventListener("hashchange", handle);
-  }, []);
+  // Back, forward and edited URLs change the page without navigate(); close the nav for them too.
+  useEffect(() => router.subscribe("onResolved", () => setMobileNav(false)), [router]);
 
   const navigate = (target: Page) => {
-    setPage(target);
-    window.location.hash = target;
+    void router.navigate({ to: `/${target}` });
     setMobileNav(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  return { page, setPage, navigate, mobileNav, setMobileNav };
+  return { page, navigate, mobileNav, setMobileNav };
 };

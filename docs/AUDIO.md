@@ -48,17 +48,39 @@ the displayed text and lookup key stay unchanged. For a few phrases, v3 returns
 an empty clip with the default tags; `retagged` in `scripts/audio-direction.mjs`
 gives those phrases different tags.
 
-### Local voice for unit 4
+### Local voice
 
-Unit 4 (_La casa_) plays 36 recordings made locally with VoxCPM2
+The units below play recordings made locally with VoxCPM2
 (`mlx-community/VoxCPM2-8bit`, 30 steps, seed 0) cloning the male teacher voice
-in `audio/spanish/voices/es-male-teacher.wav` of the ai repo. They sit in
+in `audio/spanish/voices/es-male-teacher.wav` of the ai repo (#482). They sit in
 `public/audio/voxcpm/` with `voiceId` `es-male-teacher` and a `settings` field
 instead of an ElevenLabs `request`. The MP3s are trimmed to 50 ms of silence at
-each edge and brought to about −17 LUFS with a −2 dBFS peak limiter. Lookup is
-per text, so units 3, 7 and 10 also play the unit 4 recordings of the tiles
-_del_, _La_, _está_ and _al_. The generator never contacts ElevenLabs for these
-phrases while their files exist.
+each edge and brought to about −17 LUFS with a −2 dBFS peak limiter. The
+generator never contacts ElevenLabs for these phrases while their files exist.
+
+- Unit 1 (_Primeros pasos_): 22 texts.
+- Unit 2 (_Así soy yo_): 23 texts.
+- Unit 3 (_Mi gente_): 24 texts.
+- Unit 4 (_La casa_): 36 texts. Lookup is per text, so units 3, 7 and 10 also
+  play the unit 4 recordings of the tiles _del_, _La_, _está_ and _al_.
+- Unit 5 (_Mi día a día_): 23 texts.
+- Unit 6 (_¡Buen provecho!_): 24 texts.
+- Unit 7 (_Por el barrio_): 23 texts.
+- Unit 8 (_De compras_): 22 texts.
+- Unit 9 (_Tiempo libre_): 21 texts.
+- Unit 10 (_¡Buen viaje!_): 24 texts.
+- Unit 11 (_¿Qué tal estás?_): 24 texts.
+- Unit 12 (_¡Tú puedes!_): 22 texts.
+- Topic flashcards (Music to (no topic), 9 topics): 250 texts.
+- Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
+- Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.
+- Topic flashcards (Body parts to Weather, 10 topics): 296 texts.
+- Topic flashcards (Vegetables to Emotions, 9 topics): 285 texts.
+- Topic flashcards (Everyday basics to Fruit, 7 topics): 280 texts.
+- Texts spoken only in the mock exam (listening audio, writing models) or the
+  foundations and picture practice: 49 texts.
+- Texts that several units speak, mostly sentence-builder tiles such as _es_,
+  _de_ and _Me_: 15 texts.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

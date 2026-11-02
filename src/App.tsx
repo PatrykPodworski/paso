@@ -33,7 +33,7 @@ const lessonAfter = (lesson: Lesson | null) => {
 
 const App = () => {
   const { snapshot: progress, problem, storageError, actions } = useProgress();
-  const { page, setPage, navigate, mobileNav, setMobileNav } = useNavigation();
+  const { page, navigate, mobileNav, setMobileNav } = useNavigation();
   const [session, setSession] = useState<Lesson | null>(null);
   const [settings, setSettings] = useState(false);
   const [expanded, setExpanded] = useState("u1");
@@ -215,8 +215,7 @@ const App = () => {
             actions.reset();
 
             setSettings(false);
-            setPage("today");
-            window.location.hash = "today";
+            navigate("today");
 
             setToast("A fresh start. Your practice data has been cleared.");
           }}

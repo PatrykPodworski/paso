@@ -26,7 +26,13 @@ export default defineConfig({
     screenshot: compare ? "off" : "only-on-failure",
     permissions: ["microphone"],
     launchOptions: {
-      args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"],
+      // Autoplay without the flag depends on a user activation Chromium grants a few ms
+      // after load, so a clip that starts during load played or was blocked at random.
+      args: [
+        "--use-fake-ui-for-media-stream",
+        "--use-fake-device-for-media-stream",
+        "--autoplay-policy=no-user-gesture-required",
+      ],
     },
   },
   projects: [

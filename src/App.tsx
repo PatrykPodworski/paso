@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
+import { journeyLesson } from "./data/journeyLesson";
 import type { Lesson, Skill } from "./data/types";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
 import { Guide } from "./components/Guide";
@@ -51,7 +52,7 @@ const App = () => {
     );
   }
 
-  const nextLesson = allLessons.find((l) => !progress.completed[l.id]) || allLessons[0];
+  const nextLesson = journeyLesson(progress);
   const completed = Object.keys(progress.completed).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const mistakeQuestions = mistakeQueue(progress, new Date());

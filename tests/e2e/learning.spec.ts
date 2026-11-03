@@ -729,3 +729,31 @@ test("the journey button resumes an unfinished lesson at its first unanswered ex
     page.getByRole("heading", { name: lesson.questions[3].prompt, exact: true }),
   ).toBeVisible();
 });
+
+test("the journey button passes over a lesson whose every exercise was answered but never finished", async ({
+  page,
+}) => {
+  const [lesson, next] = allLessons;
+
+  await page.goto("/today");
+  await page.getByRole("button", { name: "Let’s take the first step" }).click();
+
+  for (const [i, q] of lesson.questions.entries()) {
+    await expect(page.getByRole("heading", { name: q.prompt, exact: true })).toBeVisible();
+    await answer(page, q);
+
+    if (i < lesson.questions.length - 1) {
+      await page.getByRole("button", { name: "Continue", exact: true }).click();
+    }
+  }
+
+  await closeLesson(page);
+  await expect.poll(async () => (await saved(page)).recent).toHaveLength(lesson.questions.length);
+  await page.reload();
+  await page.getByRole("button", { name: /Let’s take the first step|Continue my journey/ }).click();
+  await expect(page.getByRole("heading", { name: next.title, exact: true })).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: next.questions[0].prompt, exact: true }),
+  ).toBeVisible();
+});

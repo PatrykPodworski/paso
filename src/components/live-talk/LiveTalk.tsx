@@ -166,21 +166,14 @@ export const LiveTalk = ({
         scored.
       </FieldNote>
       {/* A restored result stays on screen; a restored talk that failed to score can be replaced. */}
-      {broken && talk.status === "idle" && (
-        <Notice as="div" className="mbs-0">
-          <div>
-            <p className="font-medium">The talk didn’t work.</p>
-            <p>{broken} Nothing was scored or saved.</p>
-          </div>
-        </Notice>
-      )}
       {talk.status === "idle" && scoring.state !== "done" && (
         <LiveStart
           needsPasscode={access.freeUsed}
           passcode={passcode}
           onPasscode={setPasscode}
           onStart={start}
-          onSkip={broken ? () => onSubmit("", null, false) : undefined}
+          failure={broken}
+          onSkip={() => onSubmit("", null, false)}
         />
       )}
       <LiveStatus

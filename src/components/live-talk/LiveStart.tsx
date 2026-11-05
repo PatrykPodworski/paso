@@ -1,4 +1,5 @@
 import { Button } from "../../design-system/Button";
+import { ButtonRow } from "../../design-system/ButtonRow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Icon } from "../../design-system/Icon";
 import { Input } from "../ui/input";
@@ -8,9 +9,11 @@ type Props = {
   passcode: string;
   onPasscode: (passcode: string) => void;
   onStart: () => void;
+  // After a talk that did not work: the start reads as a retry, next to a way to move on.
+  onSkip?: () => void;
 };
 
-export const LiveStart = ({ needsPasscode, passcode, onPasscode, onStart }: Props) => (
+export const LiveStart = ({ needsPasscode, passcode, onPasscode, onStart, onSkip }: Props) => (
   <form
     className="flex flex-col gap-3.5"
     onSubmit={(e) => {
@@ -35,14 +38,21 @@ export const LiveStart = ({ needsPasscode, passcode, onPasscode, onStart }: Prop
         />
       </label>
     )}
-    <Button
-      type="submit"
-      variant="primary"
-      className="self-start max-sm:self-stretch"
-      disabled={needsPasscode && !passcode.trim()}
-    >
-      <Icon name="mic" size={20} />
-      Start the talk
-    </Button>
+    <ButtonRow>
+      <Button
+        type="submit"
+        variant="primary"
+        className="max-sm:flex-1"
+        disabled={needsPasscode && !passcode.trim()}
+      >
+        <Icon name="mic" size={20} />
+        {onSkip ? "Try again" : "Start the talk"}
+      </Button>
+      {onSkip && (
+        <Button type="button" variant="secondary" className="max-sm:flex-1" onClick={onSkip}>
+          Skip
+        </Button>
+      )}
+    </ButtonRow>
   </form>
 );

@@ -11,7 +11,8 @@ export const ExamTopbar = ({ run, left }: Props) =>
         aria-label="Exam sections"
         className="flex gap-6 text-xs text-muted-foreground max-lg:gap-3 max-lg:text-2xs max-md:gap-2 max-sm:gap-1.5"
       >
-        {mockExam.map((s, i) => {
+        {run.sections.map((i, step) => {
+          const s = mockExam[i];
           const active = i === run.section;
           const done = i < run.section;
 
@@ -24,7 +25,7 @@ export const ExamTopbar = ({ run, left }: Props) =>
               <b
                 className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium max-lg:h-5 max-lg:w-5 max-md:h-7 max-md:w-7 max-md:text-xs max-sm:h-6 max-sm:w-6 ${active ? "bg-primary text-primary-foreground" : "bg-muted"}`}
               >
-                {done ? "✓" : i + 1}
+                {done ? "✓" : step + 1}
               </b>
               <span className={active ? "" : "max-md:sr-only"}>{s.title}</span>
             </li>

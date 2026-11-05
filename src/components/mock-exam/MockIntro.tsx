@@ -3,13 +3,24 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
 import { Notice } from "../../design-system/Notice";
 import { Badge } from "../ui/badge";
-import { mockExam, sectionSizes, sectionVariants } from "../../data/mock";
+import { fullExam, mockExam, sectionSizes, sectionVariants } from "../../data/mock";
 import type { ExamVariants, ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
 
-// The exam the start button begins: a section is new when the learner saw none of its variants.
-type Props = { progress: ProgressSnapshot; variants: ExamVariants; onStart: () => void };
+// The exam the start buttons begin: a section is new when the learner saw none of its variants.
+type Props = {
+  progress: ProgressSnapshot;
+  variants: ExamVariants;
+  // Starts the given sections: the whole exam or one section alone.
+  onStart: (sections: number[]) => void;
+};
+
+type Result = ProgressSnapshot["mockResults"][number];
+
+// A rehearsal of part of the exam, named by its sections, such as "Speaking only".
+const partOf = ({ sections }: Result) =>
+  sections.length < mockExam.length && `${sections.map((i) => mockExam[i].title).join(", ")} only`;
 
 const isNew = (progress: ProgressSnapshot, variants: ExamVariants, section: number) =>
   sectionVariants(variants, section).every((id) => !Object.hasOwn(progress.seenVariants, id));
@@ -41,7 +52,7 @@ export const MockIntro = ({ progress, variants, onStart }: Props) => (
             <Icon name="book" className="w-4" />4 skills · 100 possible points
           </span>
         </div>
-        <Button variant="primary" onClick={onStart}>
+        <Button variant="primary" onClick={() => onStart(fullExam)}>
           Start exam rehearsal
           <Icon name="arrow" />
         </Button>
@@ -74,6 +85,15 @@ export const MockIntro = ({ progress, variants, onStart }: Props) => (
           <span className="text-xs text-muted-foreground max-sm:text-2xs">
             {sectionSizes[i]} {i < 2 ? "questions · 4 tasks" : "tasks"}
           </span>
+          <Button
+            variant="secondary"
+            size="small"
+            className="mt-4 w-full"
+            aria-label={`Practise ${s.title.toLowerCase()} alone`}
+            onClick={() => onStart([i])}
+          >
+            Practise alone
+          </Button>
         </Panel>
       ))}
     </div>
@@ -105,11 +125,18 @@ export const MockIntro = ({ progress, variants, onStart }: Props) => (
               key={r.at}
             >
               <span>{new Date(r.at).toLocaleDateString()}</span>
-              <strong className="font-medium">Reading {r.reading}/25</strong>
-              <strong className="font-medium">Listening {r.listening}/25</strong>
-              <small className="ml-auto text-xs text-muted-foreground">
-                Productive skills ungraded
-              </small>
+              {partOf(r) && <span>{partOf(r)}</span>}
+              {r.reading !== undefined && (
+                <strong className="font-medium">Reading {r.reading}/25</strong>
+              )}
+              {r.listening !== undefined && (
+                <strong className="font-medium">Listening {r.listening}/25</strong>
+              )}
+              {r.sections.some((i) => i > 1) && (
+                <small className="ml-auto text-xs text-muted-foreground">
+                  Productive skills ungraded
+                </small>
+              )}
             </div>
           ))}
       </Panel>

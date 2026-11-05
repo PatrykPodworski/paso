@@ -529,15 +529,20 @@
     }
   },
   "7dahye": {
-    "src": "/audio/voxcpm/3e061bea9da87b6c8e0930be.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/d2ba5ff691f87fb785c578d9.mp3",
+    "voiceId": "es-male-teacher+es-female-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Buenos días. Busco una camisa azul, talla mediana. ¿Cuánto cuesta? Cuesta veintidós euros. Muy bien. Quiero dos, por favor. ¿Puedo pagar con tarjeta?",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-male-teacher.wav",
+        "audio/spanish/voices/es-female-teacher.wav"
+      ],
+      "turnVoices": ["male", "female", "male"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "jv3l0e": {
@@ -781,63 +786,88 @@
     }
   },
   "lcja8y": {
-    "src": "/audio/voxcpm/3c3ea69236599d8d0972be56.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/a67ae2b9aec48707c254509c.mp3",
+    "voiceId": "es-male-teacher+es-female-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Buenos días. ¿Qué quiere tomar? Quiero un café con leche y una tostada, por favor. ¿Quiere también un zumo de naranja? No, gracias. Solo el café y la tostada.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-male-teacher.wav",
+        "audio/spanish/voices/es-female-teacher.wav"
+      ],
+      "turnVoices": ["male", "female", "male", "female"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "1cc0q53": {
-    "src": "/audio/voxcpm/8265a2cc74120879cce0cfe0.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/21056b714fe7a96dbf64e55c.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cómo vas al trabajo, Daniel? Normalmente voy en autobús. ¿No tienes coche? Sí, pero no hay aparcamiento cerca de mi oficina. El autobús para justo delante del edificio.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "1ogssot": {
-    "src": "/audio/voxcpm/5022286cf96d0b10109fa409.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/4f20e28a14988d0392857781.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Buenas tardes. Busco un vestido azul para una fiesta. Tenemos este en su talla. ¿Le gusta? Sí, es muy bonito. Me llevo el vestido, pero no necesito zapatos.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "a3lvnk": {
-    "src": "/audio/voxcpm/f5f7ea0b7a0ffdbdb4b1ff38.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/71d53075b11d8490e65346fa.mp3",
+    "voiceId": "es-male-teacher+es-female-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Estudiamos juntos esta tarde? Sí, pero en mi casa hay mucho ruido. Podemos ir a la biblioteca. Buena idea. Nos vemos en la biblioteca a las cinco, después de comer.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-male-teacher.wav",
+        "audio/spanish/voices/es-female-teacher.wav"
+      ],
+      "turnVoices": ["male", "female", "male"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "19h10be": {
-    "src": "/audio/voxcpm/cb5faac57c507dfedab6dd14.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/a8ceadc8681ff84bbe50fab8.mp3",
+    "voiceId": "es-male-teacher+es-female-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Vamos al parque esta mañana? No, hoy llueve mucho y hace frío. Es mejor estar en casa. Mañana hace sol. Vale, hoy podemos ver una película y mañana salimos.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-male-teacher.wav",
+        "audio/spanish/voices/es-female-teacher.wav"
+      ],
+      "turnVoices": ["male", "female", "male"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "9armdt": {

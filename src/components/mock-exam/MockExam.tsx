@@ -51,6 +51,7 @@ export const MockExam = ({ progress, ...actions }: Props) => {
       )}
       {run.stage === "done" && (
         <MockResults
+          sections={run.sections}
           reading={score(0)}
           listening={score(1)}
           writing={run.scores.writing ?? ""}

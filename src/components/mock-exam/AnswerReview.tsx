@@ -1,6 +1,7 @@
 import type { Question } from "../../data/types";
 import { answerWords, isCorrect } from "../../data/progress";
 import { Icon } from "../../design-system/Icon";
+import { ResultMark } from "../../design-system/ResultMark";
 
 type Props = {
   q: Question;
@@ -15,12 +16,6 @@ const verdictLabel = {
   neutral: "Not graded",
 };
 
-const status = {
-  good: "bg-success/10 text-success",
-  bad: "bg-destructive/10 text-destructive",
-  neutral: "bg-muted text-muted-foreground",
-};
-
 const LINE = "leading-relaxed my-2 text-sm";
 
 export const AnswerReview = ({ q, number, answer, section }: Props) => {
@@ -29,13 +24,20 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
   return (
     <details className="border-t border-border">
       <summary className="flex cursor-pointer items-center gap-3 py-4 text-sm max-md:leading-relaxed">
-        <span
-          role="img"
-          aria-label={verdictLabel[verdict]}
-          className={`review-status ${verdict} flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${status[verdict]}`}
-        >
-          <Icon name={section > 1 ? "pen" : verdict === "good" ? "check" : "x"} size={16} />
-        </span>
+        {verdict === "neutral" ? (
+          <span
+            role="img"
+            aria-label={verdictLabel[verdict]}
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"
+          >
+            <Icon name="pen" size={16} />
+          </span>
+        ) : (
+          <ResultMark
+            result={verdict === "good" ? "correct" : "wrong"}
+            label={verdictLabel[verdict]}
+          />
+        )}
         <span>
           {number}. {q.prompt}
         </span>

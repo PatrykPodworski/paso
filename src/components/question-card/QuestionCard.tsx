@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Grade, Question } from "../../data/types";
-import { withShownOptions } from "../../data/optionOrder";
 import { isCorrect } from "../../data/progress";
-import { randomSeed } from "../../data/random";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
 import { preloadClips } from "../audio/clipCache";
@@ -15,6 +13,7 @@ import { QuestionHeading } from "./QuestionHeading";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
 import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
+import { useShownOptions } from "./useShownOptions";
 import { WritingCheck } from "./WritingCheck";
 import type { LastAttempt } from "../history/LastTime";
 
@@ -27,12 +26,10 @@ type Props = {
   onDraft?: (text: string) => void;
   active?: boolean;
   previous?: LastAttempt;
-  // The attempt's seed for the order of the options; a card without one picks its own.
-  seed?: number;
 };
 
-export const QuestionCard = ({
-  q: authored,
+const QuestionCardBody = ({
+  q,
   onSubmit,
   onEvaluated,
   exam = false,
@@ -40,12 +37,7 @@ export const QuestionCard = ({
   onDraft,
   active = true,
   previous,
-  seed,
 }: Props) => {
-  const [ownSeed] = useState(randomSeed);
-  const attemptSeed = seed ?? ownSeed;
-  // The question with its options in the attempt's order; every handler below reads this one.
-  const q = useMemo(() => withShownOptions(authored, attemptSeed), [authored, attemptSeed]);
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
   const [feedback, setFeedback] = useState(false);
@@ -203,4 +195,14 @@ export const QuestionCard = ({
       )}
     </div>
   );
+};
+
+// The attempt's seed for the order of the options.
+type CardProps = Props & { seed?: number };
+
+// The card with its options in the attempt's order. A card without the attempt's seed picks one.
+export const QuestionCard = ({ q, seed, ...props }: CardProps) => {
+  const shown = useShownOptions(q, seed);
+
+  return <QuestionCardBody q={shown} {...props} />;
 };

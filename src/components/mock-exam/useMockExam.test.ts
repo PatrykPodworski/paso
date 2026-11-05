@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from "@testing-library/react";
+import { act, fireEvent, screen, within } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import { buildExam, seenFrom } from "../../data/examBuilder";
 import { examSections, firstVariants, mockExam } from "../../data/mock";
@@ -225,4 +225,55 @@ it("counts unsaved writing as answered and keeps it on Finish section", async ()
       "mock-w2": "Hola, Ana.",
     },
   });
+});
+
+it("starts speaking alone with its ten minutes of preparation and marks only its variants seen", async () => {
+  const at = new Date(now).toISOString();
+
+  await mount();
+  click("Practise speaking alone");
+
+  expect(await state()).toMatchObject({
+    sections: [3],
+    section: 3,
+    index: 0,
+    stage: "prep",
+    deadline: now + 600000,
+  });
+
+  expect(screen.getByRole("timer")).toHaveTextContent("10:00");
+
+  const { variants } = await state();
+
+  expect((await savedProgress()).seenVariants).toEqual(
+    Object.fromEntries(sectionVariants(variants, 3).map((id) => [id, at])),
+  );
+});
+
+it("ends a run of one section after its review and saves the result of that section only", async () => {
+  await mount();
+  click("Practise listening alone");
+  expect(screen.getByRole("timer")).toHaveTextContent("25:00");
+  click("Finish section");
+  click("Finish & review");
+  click("See my results");
+
+  expect((await state()).stage).toBe("done");
+
+  expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
+    { at: new Date(now).toISOString(), sections: [1], listening: 0 },
+  ]);
+});
+
+it("resumes a run of one section in that section, with only that section in the top bar", async () => {
+  await seed({ sections: [2], section: 2, stage: "run", deadline: now + 60000 });
+  await mount();
+
+  expect(
+    within(screen.getByRole("list", { name: "Exam sections" }))
+      .getAllByRole("listitem")
+      .map((step) => step.textContent),
+  ).toEqual(["1Writing"]);
+
+  expect(screen.getByRole("timer")).toHaveTextContent("01:00");
 });

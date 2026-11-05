@@ -23,6 +23,9 @@ const { pgliteDb } = await import("../db/pglite.ts");
 const db = await pgliteDb();
 const T = "2026-09-09T12:00:00.000Z";
 
+// The sections of a full mock exam.
+const full = { sections: [0, 1, 2, 3] };
+
 const EMPTY: ProgressSnapshot = {
   name: "",
   goal: 10,
@@ -398,8 +401,16 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
 
   it("stores a mock result once per id, oldest first", async () => {
     const me = learner();
-    const first = { id: "m1", at: "2026-09-10T12:00:00.000Z", reading: 18, listening: 20 };
-    const second = { id: "m0", at: T, reading: 10, listening: 12, writing: 15, speaking: 14 };
+    const first = { id: "m1", at: "2026-09-10T12:00:00.000Z", ...full, reading: 18, listening: 20 };
+    const second = {
+      id: "m0",
+      at: T,
+      ...full,
+      reading: 10,
+      listening: 12,
+      writing: 15,
+      speaking: 14,
+    };
 
     await snapshot(me, { action: "mockResult", result: first });
     await snapshot(me, { action: "mockResult", result: first });
@@ -407,6 +418,19 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
     expect((await snapshot(me, { action: "mockResult", result: second })).mockResults).toEqual([
       second,
       first,
+    ]);
+  });
+
+  it("stores a result of one section with that section's score only", async () => {
+    const me = learner();
+    const speaking = { id: "m1", at: T, sections: [3] };
+    const listening = { id: "m2", at: "2026-09-10T12:00:00.000Z", sections: [1], listening: 9 };
+
+    await snapshot(me, { action: "mockResult", result: speaking });
+
+    expect((await snapshot(me, { action: "mockResult", result: listening })).mockResults).toEqual([
+      speaking,
+      listening,
     ]);
   });
 
@@ -423,7 +447,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
 
       await snapshot(id, {
         action: "mockResult",
-        result: { id: "m1", at: T, reading: 1, listening: 2 },
+        result: { id: "m1", at: T, ...full, reading: 1, listening: 2 },
       });
 
       await snapshot(id, { action: "mockRun", run: { answers: { "mock-r1-0": "a" } } });
@@ -448,6 +472,7 @@ describe("the mock exam run", () => {
     talks: {},
     seed: 0,
     variants: firstVariants,
+    sections: [0, 1, 2, 3],
   };
 
   const DEADLINE = Date.parse(T) + 45 * 60000;
@@ -523,6 +548,18 @@ describe("the mock exam run", () => {
     expect(await change(me, {}, true)).toEqual(FRESH);
   });
 
+  it("keeps the one section a new run takes", async () => {
+    const me = learner();
+
+    await change(me, { ...started, sections: [3], section: 3, index: 0, stage: "prep" }, true);
+
+    expect(await change(me, { drafts: { prep: "Ana" } })).toMatchObject({
+      sections: [3],
+      section: 3,
+      stage: "prep",
+    });
+  });
+
   it("keeps the seed and the variants a new run starts with", async () => {
     const me = learner();
     const variants = { ...firstVariants };
@@ -579,7 +616,7 @@ describe("seen exam variants", () => {
 describe("requests", () => {
   const me = "8c4b3a8e-6f0e-4d0b-9a57-2f4c3f1d0b6a";
   const long = "x".repeat(65);
-  const ok = { at: T, reading: 1, listening: 2 };
+  const ok = { at: T, ...full, reading: 1, listening: 2 };
 
   it.each([
     ["the learner id", "not-a-uuid", undefined, "learner"],
@@ -696,6 +733,36 @@ describe("requests", () => {
       { action: "mockResult", result: { ...ok, id: "m", reading: 26 } },
       "result",
     ],
+    [
+      "a mock result without its sections",
+      me,
+      { action: "mockResult", result: { id: "m", at: T, reading: 1, listening: 2 } },
+      "result",
+    ],
+    ...[[], [4], [1, 0], [2, 2], "3"].map((sections) => [
+      `mock result sections ${JSON.stringify(sections)}`,
+      me,
+      { action: "mockResult", result: { ...ok, id: "m", sections } },
+      "result",
+    ]),
+    [
+      "a reading score from a run without reading",
+      me,
+      { action: "mockResult", result: { id: "m", at: T, sections: [3], reading: 1 } },
+      "result",
+    ],
+    [
+      "a run with listening but no listening score",
+      me,
+      { action: "mockResult", result: { id: "m", at: T, sections: [1] } },
+      "result",
+    ],
+    ...[[], [4], [1, 0], [2, 2], "3"].map((sections) => [
+      `mock run sections ${JSON.stringify(sections)}`,
+      me,
+      { action: "mockRun", run: { sections } },
+      "run",
+    ]),
     ["a mock run that is not a record", me, { action: "mockRun", run: [] }, "run"],
     ["a mock section without its index", me, { action: "mockRun", run: { section: 1 } }, "run"],
     [

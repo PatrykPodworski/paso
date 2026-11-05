@@ -2,6 +2,7 @@ import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
 import { mockLiveTalk } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
 import { examSections, firstVariants, mockTasks } from "../../src/data/mock";
+import { shownOptions } from "../../src/data/optionOrder";
 import type { Question } from "../../src/data/types";
 
 // The exam as variant 1 of each task.
@@ -29,8 +30,9 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByRole("timer")).toHaveText("45:00");
   await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
 
-  // The variants the exam builder chose for this run.
-  const exam = examSections((await saved(page)).mockRun!.variants);
+  // The variants the exam builder chose for this run, and the seed that orders its options.
+  const { variants, seed } = (await saved(page)).mockRun!;
+  const exam = examSections(variants);
 
   for (let section = 0; section < 4; section++) {
     if (section === 3) {
@@ -62,6 +64,14 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
 
       if (section === 1) {
         await expect(page.getByRole("button", { name: /Show transcript/ })).toHaveCount(0);
+      }
+
+      // Listening Task 3 shows its shared endings in the run's order, not in question order.
+      if (q.id.startsWith("mock-l3-")) {
+        const shown = await page.locator(".answer-option > span:nth-child(2)").allTextContents();
+
+        expect(shown).toEqual(shownOptions(q.options!, seed));
+        expect(shown).not.toEqual(q.options);
       }
 
       await answer(page, q, true);

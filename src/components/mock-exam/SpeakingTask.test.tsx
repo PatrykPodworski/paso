@@ -82,6 +82,15 @@ it("shows a finished talk's result again instead of a new talk, and confirms aft
   expect(screen.getByRole("dialog")).toHaveTextContent("3 unanswered");
 });
 
+it("leaves a talk that did not work unanswered when it is skipped", async () => {
+  await seed({ section: 3, stage: "run" });
+  await mount();
+  act(() => talk!.onSubmit("", null, false));
+  expect((await state()).index).toBe(1);
+  expect((await state()).answers[s1.id]).toBeUndefined();
+  expect((await state()).talks[s1.id]).toBeUndefined();
+});
+
 it("moves between talks with the section's own navigation", async () => {
   await seed({ section: 3, index: 1, stage: "run" });
   await mount();

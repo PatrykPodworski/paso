@@ -16,6 +16,7 @@ type Props = {
 
 export const SectionReview = ({ run, score, onNext }: Props) => {
   const section = examSections(run.variants)[run.section];
+  const next = run.sections[run.sections.indexOf(run.section) + 1];
 
   return (
     <Panel className="p-8 max-md:p-6">
@@ -32,11 +33,11 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
       </p>
       <ButtonRow>
         <Button variant="primary" onClick={onNext}>
-          {run.section === 3
+          {next === undefined
             ? "See my results"
-            : run.section === 2
+            : next === 3
               ? "Continue to speaking preparation"
-              : `Continue to ${mockExam[run.section + 1].title.toLowerCase()}`}
+              : `Continue to ${mockExam[next].title.toLowerCase()}`}
           <Icon name="arrow" />
         </Button>
       </ButtonRow>

@@ -192,7 +192,13 @@ describe("writes", () => {
     vi.spyOn(crypto, "randomUUID").mockReturnValue("5f0c2a9e-1b3d-4e7f-8a6c-9d2e4f1b3a5c");
     const c = await loaded();
     const review = { level: 1, nextAt: "2026-10-30T10:00:00.000Z" };
-    const result = { at: "2026-10-29T10:00:00.000Z", reading: 20, listening: 18 };
+
+    const result = {
+      at: "2026-10-29T10:00:00.000Z",
+      sections: [0, 1, 2, 3],
+      reading: 20,
+      listening: 18,
+    };
 
     c.vocabulary({ casa: review });
     c.check("visa", false);

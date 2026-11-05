@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { buildExam, seenFrom } from "../../data/examBuilder";
 import { examSections, mockExam, sectionVariants } from "../../data/mock";
 import { randomSeed } from "../../data/random";
-import type { MockRun, NewMockResult } from "../../data/types";
+import type { MockRun, MockRunPatch, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
 import { draftAnswers } from "./draftAnswers";
@@ -13,6 +13,14 @@ export type MockExamActions = MockRunActions & {
   // Records the task variants a section shows, so later exams prefer others.
   onSeen: (variants: string[]) => void;
 };
+
+// Moves the run to the start of a section. Speaking starts with ten minutes of preparation.
+const sectionStart = (section: number): MockRunPatch => ({
+  section,
+  index: 0,
+  stage: section === 3 ? "prep" : "run",
+  deadline: Date.now() + (section === 3 ? 10 : mockExam[section].minutes) * 60000,
+});
 
 export const useMockExam = (
   saved: MockRun | null,
@@ -62,18 +70,19 @@ export const useMockExam = (
     }
   }, [now, run, speaking, change]);
 
-  const start = () => {
+  // Starts the sections given, the whole exam or one section alone.
+  const start = (sections: number[]) => {
     setNow(Date.now());
 
     restart({
       seed,
       variants: nextExam,
-      stage: "run",
+      sections,
       started: new Date().toISOString(),
-      deadline: Date.now() + 45 * 60000,
+      ...sectionStart(sections[0]),
     });
 
-    onSeen(sectionVariants(nextExam, 0));
+    onSeen(sectionVariants(nextExam, sections[0]));
     setSeed(randomSeed());
   };
 
@@ -90,26 +99,26 @@ export const useMockExam = (
   const nextSection = () => {
     setConfirm(false);
 
-    if (run.section === 3) {
-      const result = { at: new Date().toISOString(), reading: score(0), listening: score(1) };
+    const next = run.sections[run.sections.indexOf(run.section) + 1];
 
-      onResult(result);
+    if (next === undefined) {
+      const took = (section: number) => run.sections.includes(section);
+
+      onResult({
+        at: new Date().toISOString(),
+        sections: run.sections,
+        ...(took(0) ? { reading: score(0) } : {}),
+        ...(took(1) ? { listening: score(1) } : {}),
+      });
+
       change({ stage: "done" });
 
       return;
     }
 
-    const next = run.section + 1;
-
     setNow(Date.now());
     onSeen(sectionVariants(run.variants, next));
-
-    change({
-      section: next,
-      index: 0,
-      stage: next === 3 ? "prep" : "run",
-      deadline: Date.now() + (next === 3 ? 10 : mockExam[next].minutes) * 60000,
-    });
+    change(sectionStart(next));
   };
 
   return {

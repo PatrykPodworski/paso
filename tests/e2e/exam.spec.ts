@@ -171,6 +171,36 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   }
 });
 
+test("practise speaking alone: oral prep, resume after a reload, and a result for speaking only", async ({
+  page,
+}) => {
+  await page.goto("/exam");
+  await page.getByRole("button", { name: "Practise speaking alone" }).click();
+  await expect(page.getByRole("heading", { name: "A moment to find your words." })).toBeVisible();
+  await expect(page.getByRole("timer")).toHaveText("10:00");
+  await expect.poll(async () => (await saved(page)).mockRun?.sections).toEqual([3]);
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "A moment to find your words." })).toBeVisible();
+
+  await expect(page.getByRole("list", { name: "Exam sections" }).getByRole("listitem")).toHaveText([
+    "1Speaking",
+  ]);
+
+  await page.getByRole("button", { name: "I’m ready · start speaking" }).click();
+  await page.getByRole("button", { name: "Finish section", exact: true }).click();
+  await page.getByRole("button", { name: "Finish & review", exact: true }).click();
+  await page.getByRole("button", { name: "See my results", exact: true }).click();
+  await expect(page.getByRole("list", { name: "Lucía's grades" })).toBeVisible();
+
+  await expect
+    .poll(async () => (await saved(page)).mockResults.map((r) => r.sections))
+    .toEqual([[3]]);
+
+  await page.getByRole("button", { name: "Return to exam overview" }).click();
+  await expect(page.getByText("Speaking only")).toBeVisible();
+});
+
 test("timer expires during navigation and section confirmation can be cancelled", async ({
   page,
 }) => {

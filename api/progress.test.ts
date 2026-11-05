@@ -402,6 +402,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
   it("stores a mock result once per id, oldest first", async () => {
     const me = learner();
     const first = { id: "m1", at: "2026-09-10T12:00:00.000Z", ...full, reading: 18, listening: 20 };
+
     const second = {
       id: "m0",
       at: T,
@@ -739,7 +740,7 @@ describe("requests", () => {
       { action: "mockResult", result: { id: "m", at: T, reading: 1, listening: 2 } },
       "result",
     ],
-    ...[[], [4], [1, 0], [2, 2], "3"].map((sections) => [
+    ...[[], [4], [1, 0], [2, 2], "3"].map((sections): [string, string, unknown, string] => [
       `mock result sections ${JSON.stringify(sections)}`,
       me,
       { action: "mockResult", result: { ...ok, id: "m", sections } },
@@ -757,7 +758,7 @@ describe("requests", () => {
       { action: "mockResult", result: { id: "m", at: T, sections: [1] } },
       "result",
     ],
-    ...[[], [4], [1, 0], [2, 2], "3"].map((sections) => [
+    ...[[], [4], [1, 0], [2, 2], "3"].map((sections): [string, string, unknown, string] => [
       `mock run sections ${JSON.stringify(sections)}`,
       me,
       { action: "mockRun", run: { sections } },

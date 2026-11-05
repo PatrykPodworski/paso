@@ -160,12 +160,14 @@ describe("003_mock_run_variants", () => {
 describe("005_mock_result_sections", () => {
   const repo = new URL("./migrations/", import.meta.url);
   const file = (name: string) => readFileSync(new URL(name, repo), "utf8");
+
   const before = [
     "001_init.sql",
     "002_mock_runs.sql",
     "003_mock_run_variants.sql",
     "004_seen_variants.sql",
   ];
+
   const learner = "00000000-0000-4000-8000-000000000001";
 
   it("gives every result saved before it the four sections, and lets a result skip reading and listening", async () => {

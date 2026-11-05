@@ -417,6 +417,9 @@ export const examSections = (variants: ExamVariants) =>
 export const sectionVariants = (variants: ExamVariants, section: number) =>
   mockExam[section].tasks.map((t) => variants[t.id]);
 
+// The sections of the whole exam, by index.
+export const fullExam = mockExam.map((_, i) => i);
+
 // The number of questions in each section. Every variant of a task has as many items as
 // variant 1, so the sizes are the same whichever variants an exam takes.
 export const sectionSizes = examSections(firstVariants).map((s) => s.questions.length);
@@ -434,4 +437,5 @@ export const freshMockRun = (): MockRun => ({
   talks: {},
   seed: 0,
   variants: firstVariants,
+  sections: fullExam,
 });

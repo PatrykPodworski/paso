@@ -3,6 +3,7 @@ import { Eyebrow } from "../design-system/Eyebrow";
 import type { Lesson, ProgressSnapshot, Unit } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { Icon } from "../design-system/Icon";
+import { ResultMark } from "../design-system/ResultMark";
 import { PRESSABLE } from "../design-system/pressable";
 
 type Props = {
@@ -46,7 +47,7 @@ const NODE =
 
 const NODE_STATE = {
   current: "bg-primary border-primary text-primary-foreground",
-  completed: "bg-success/10 border-transparent text-success",
+  completed: "border-transparent",
   upcoming: "bg-background border-border text-muted-foreground",
 };
 
@@ -176,7 +177,11 @@ export const UnitCard = ({
                   onClick={() => start(l)}
                 >
                   <div className={`${NODE} ${NODE_STATE[state]} ${at.node}`}>
-                    <Icon name={completed ? "check" : l.icon} size={17} className={at.nodeSvg} />
+                    {completed ? (
+                      <ResultMark result="correct" size={36} className="h-full w-full" />
+                    ) : (
+                      <Icon name={l.icon} size={17} className={at.nodeSvg} />
+                    )}
                   </div>
                   <span className="flex-1">
                     <strong className={`${ROW_TITLE} ${at.rowTitle}`}>{l.title}</strong>

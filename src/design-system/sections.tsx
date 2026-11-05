@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Icon, iconNames } from "./Icon";
+import { ResultMark } from "./ResultMark";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Eyebrow } from "./Eyebrow";
@@ -263,6 +264,20 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
             <Icon key={size} name="star" size={size} />
           ))}
         </div>
+      </div>
+    ),
+  },
+  {
+    id: "result-mark",
+    name: "ResultMark",
+    render: () => (
+      <div className="flex flex-wrap items-center gap-3">
+        {[24, 28, 36, 96].map((size) => (
+          <div key={size} className="flex items-center gap-3">
+            <ResultMark result="correct" size={size} label="Correct" />
+            <ResultMark result="wrong" size={size} label="Incorrect" />
+          </div>
+        ))}
       </div>
     ),
   },

@@ -46,7 +46,7 @@ const reads = (learner: string) => [
   ),
   q("SELECT check_id FROM guide_checks WHERE learner_id = $1 ORDER BY check_id", learner),
   q(
-    `SELECT id, ${iso("at")} AS at, reading, listening, writing, speaking
+    `SELECT id, ${iso("at")} AS at, sections, reading, listening, writing, speaking
      FROM mock_results WHERE learner_id = $1 ORDER BY mock_results.at, id`,
     learner,
   ),
@@ -74,7 +74,8 @@ const reads = (learner: string) => [
 type LearnerRow = { name: string; goal: number; exam_date: string; xp: number };
 type CompletionRow = { lesson_id: string; score: number; total: number; at: string };
 type ReviewRow = { word: string; level: number; next_at: string; reviewed_at: string | null };
-type MockRow = MockResult & { writing: number | null; speaking: number | null };
+type MockRow = Omit<MockResult, "reading" | "listening" | "writing" | "speaking"> &
+  Record<"reading" | "listening" | "writing" | "speaking", number | null>;
 type DraftRow = { question_id: string; text: string };
 type DayRow = { day: string };
 
@@ -120,8 +121,10 @@ const vocabularyReviewOf = (r: ReviewRow) => ({
   ...(r.reviewed_at ? { reviewedAt: r.reviewed_at } : {}),
 });
 
-const mockResultOf = ({ writing, speaking, ...m }: MockRow) => ({
+const mockResultOf = ({ reading, listening, writing, speaking, ...m }: MockRow) => ({
   ...m,
+  ...(reading === null ? {} : { reading }),
+  ...(listening === null ? {} : { listening }),
   ...(writing === null ? {} : { writing }),
   ...(speaking === null ? {} : { speaking }),
 });
@@ -355,14 +358,15 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
     await write(db, learner, [
       ensureLearner(learner),
       q(
-        `INSERT INTO mock_results (learner_id, id, at, reading, listening, writing, speaking)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `INSERT INTO mock_results (learner_id, id, at, sections, reading, listening, writing, speaking)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
          ON CONFLICT (learner_id, id) DO NOTHING`,
         learner,
         m.id,
         m.at,
-        m.reading,
-        m.listening,
+        m.sections,
+        m.reading ?? null,
+        m.listening ?? null,
         m.writing ?? null,
         m.speaking ?? null,
       ),

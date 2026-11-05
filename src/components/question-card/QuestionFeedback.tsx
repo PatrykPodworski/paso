@@ -3,6 +3,7 @@ import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../ui/button";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
+import { ResultMark } from "../../design-system/ResultMark";
 import { MemoryHint } from "../MemoryHint";
 
 const PANEL = "rounded-lg border p-5 mbs-6 max-md:py-5 max-md:px-4";
@@ -47,9 +48,13 @@ const FeedbackHeading = ({ correct, productive }: FeedbackHeadingProps) => {
 
   return (
     <div className="flex items-center gap-2.5">
-      <span className={`flex h-7 w-7 items-center justify-center rounded-full ${tone.icon}`}>
-        <Icon name={needsWork ? "repeat" : productive ? "pen" : "check"} />
-      </span>
+      {needsWork || productive ? (
+        <span className={`flex h-7 w-7 items-center justify-center rounded-full ${tone.icon}`}>
+          <Icon name={needsWork ? "repeat" : "pen"} />
+        </span>
+      ) : (
+        <ResultMark result="correct" size={28} />
+      )}
       <h3 className={`font-semibold tracking-tight text-base max-md:text-sm ${tone.heading}`}>
         {productive
           ? "Let’s reflect on your answer"

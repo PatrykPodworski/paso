@@ -81,6 +81,85 @@ const loudness = (path, filters) => {
   return Number(JSON.parse(output.slice(start, output.indexOf("}", start) + 1)).input_i);
 };
 
+const tail = (output) => output.trim().split("\n").slice(-3).join("\n");
+
+// Speaks every turn on its own and returns the turn files in dialogue order.
+const speakTurns = (dialogue, work, lines) => {
+  const list = join(work, "turns.txt");
+
+  writeFileSync(list, `${dialogue.turns.join("\n")}\n`);
+
+  const spoken = run(join(aiRepo, "audio/spanish/make-sentences"), [
+    ...["--voice", "male", "--out", work, "--name", "turn", "--file", list],
+  ]);
+
+  lines.push("make-sentences:", spoken.output.trim());
+
+  if (spoken.code !== 0 && !spoken.output.includes("MISMATCH")) {
+    throw new Error(tail(spoken.output));
+  }
+
+  return dialogue.turns.map((_, i) =>
+    join(work, "male", `turn-${String(i + 1).padStart(2, "0")}.wav`),
+  );
+};
+
+const joinTurns = (files, work) => {
+  const pause = join(work, "pause.wav");
+  const list = join(work, "parts.txt");
+  const joined = join(work, "joined.wav");
+
+  ffmpeg(["-f", "lavfi", "-i", "anullsrc=r=48000:cl=mono", "-t", String(pauseSeconds), pause]);
+
+  const parts = files.flatMap((file, i) => [...(i ? [pause] : []), file]);
+
+  writeFileSync(list, parts.map((p) => `file '${p}'`).join("\n"));
+  ffmpeg(["-f", "concat", "-safe", "0", "-i", list, "-c", "copy", joined]);
+
+  return joined;
+};
+
+const encode = (joined, mp3) => {
+  const gain = -17 - loudness(joined, `${trim},`);
+
+  ffmpeg([
+    "-i",
+    joined,
+    "-af",
+    `${trim},volume=${gain.toFixed(2)}dB,${limiter},aresample=44100`,
+    ...["-ac", "1", "-ar", "44100", "-c:a", "libmp3lame", "-b:a", "128k"],
+    ...["-map_metadata", "-1", "-write_xing", "1", mp3],
+  ]);
+
+  return gain;
+};
+
+const transcribe = (mp3, work) => {
+  const heard = run(python, [
+    ...["-m", "mlx_audio.stt.generate", "--model", whisper, "--audio", mp3],
+    ...["--output-path", join(work, "whisper"), "--format", "json", "--language", "es"],
+  ]);
+
+  if (heard.code !== 0) {
+    throw new Error(tail(heard.output));
+  }
+
+  return JSON.parse(readFileSync(join(work, "whisper.json"), "utf8")).text.trim();
+};
+
+// Copies the clip into public/ and deletes the file it replaces once no other text plays it.
+const install = (sources, mp3, entry) => {
+  const installed = installClip(sources, audioKey(entry.text), entry);
+
+  copyFileSync(mp3, join(root, "public", entry.src));
+
+  if (installed.unused && installed.unused !== entry.src) {
+    unlinkSync(join(root, "public", installed.unused));
+  }
+
+  return installed;
+};
+
 const makeClip = (dialogue, sources) => {
   const text = dialogueText(dialogue.turns);
   const work = join(root, "temp/make-dialogue", dialogue.id);
@@ -88,41 +167,8 @@ const makeClip = (dialogue, sources) => {
 
   rmSync(work, { recursive: true, force: true });
   mkdirSync(work, { recursive: true });
-  writeFileSync(join(work, "turns.txt"), `${dialogue.turns.join("\n")}\n`);
 
-  const spoken = run(join(aiRepo, "audio/spanish/make-sentences"), [
-    "--voice",
-    "male",
-    "--out",
-    work,
-    "--name",
-    "turn",
-    "--file",
-    join(work, "turns.txt"),
-  ]);
-
-  lines.push("make-sentences:", spoken.output.trim());
-
-  if (spoken.code !== 0 && !spoken.output.includes("MISMATCH")) {
-    throw new Error(spoken.output.trim().split("\n").slice(-3).join("\n"));
-  }
-
-  const pause = join(work, "pause.wav");
-
-  ffmpeg(["-f", "lavfi", "-i", "anullsrc=r=48000:cl=mono", "-t", String(pauseSeconds), pause]);
-
-  const parts = dialogue.turns.flatMap((_, i) => [
-    ...(i ? [pause] : []),
-    join(work, "male", `turn-${String(i + 1).padStart(2, "0")}.wav`),
-  ]);
-
-  writeFileSync(join(work, "parts.txt"), parts.map((p) => `file '${p}'`).join("\n"));
-
-  const joined = join(work, "joined.wav");
-
-  ffmpeg(["-f", "concat", "-safe", "0", "-i", join(work, "parts.txt"), "-c", "copy", joined]);
-
-  const gain = -17 - loudness(joined, `${trim},`);
+  const joined = joinTurns(speakTurns(dialogue, work, lines), work);
 
   const settings = {
     referenceAudio: "audio/spanish/voices/es-male-teacher.wav",
@@ -138,39 +184,15 @@ const makeClip = (dialogue, sources) => {
     .slice(0, 24);
 
   const mp3 = join(work, `${name}.mp3`);
-
-  ffmpeg([
-    "-i",
-    joined,
-    "-af",
-    `${trim},volume=${gain.toFixed(2)}dB,${limiter},aresample=44100`,
-    ...["-ac", "1", "-ar", "44100", "-c:a", "libmp3lame", "-b:a", "128k"],
-    ...["-map_metadata", "-1", "-write_xing", "1", mp3],
-  ]);
-
-  const heardRun = run(python, [
-    ...["-m", "mlx_audio.stt.generate", "--model", whisper, "--audio", mp3],
-    ...["--output-path", join(work, "whisper"), "--format", "json", "--language", "es"],
-  ]);
-
-  if (heardRun.code !== 0) {
-    throw new Error(heardRun.output.trim().split("\n").slice(-3).join("\n"));
-  }
-
-  const heard = JSON.parse(readFileSync(join(work, "whisper.json"), "utf8")).text.trim();
-  const duration = seconds(mp3);
-  const wordsPerSecond = text.split(/\s+/).length / duration;
+  const gain = encode(joined, mp3);
+  const heard = transcribe(mp3, work);
   const src = `/audio/voxcpm/${name}.mp3`;
-  const installed = installClip(sources, audioKey(text), { src, voiceId, modelId, text, settings });
-
-  copyFileSync(mp3, join(root, "public", src));
-
-  if (installed.unused && installed.unused !== src) {
-    unlinkSync(join(root, "public", installed.unused));
-  }
+  const installed = install(sources, mp3, { src, voiceId, modelId, text, settings });
+  const duration = seconds(mp3);
+  const pace = `${duration.toFixed(1)} s, ${(text.split(/\s+/).length / duration).toFixed(2)} words/s`;
 
   lines.push(
-    `clip: public${src} (${duration.toFixed(1)} s, ${wordsPerSecond.toFixed(2)} words/s, gain ${gain.toFixed(2)} dB)`,
+    `clip: public${src} (${pace}, gain ${gain.toFixed(2)} dB)`,
     `removed: ${installed.unused ?? "none"}`,
     `expected: ${text}`,
     `whisper:  ${heard}`,
@@ -182,7 +204,7 @@ const makeClip = (dialogue, sources) => {
     // make-sentences flags a turn whose numbers Whisper wrote as digits; the whole-clip check
     // accepts those, so it alone decides.
     attention: sameWords(text, heard) ? [] : [`MISMATCH ${dialogue.id}: heard '${heard}'`],
-    summary: `${dialogue.id}: public${src}, ${duration.toFixed(1)} s, ${wordsPerSecond.toFixed(2)} words/s`,
+    summary: `${dialogue.id}: public${src}, ${pace}`,
   };
 };
 

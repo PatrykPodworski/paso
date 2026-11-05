@@ -9,7 +9,7 @@ import { stopAudio } from "../audio/playback";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
-import { QuestionHeading } from "./QuestionHeading";
+import { QuestionHeading, type RecordingPlays } from "./QuestionHeading";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
 import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
@@ -25,9 +25,7 @@ type Props = {
   onDraft?: (text: string) => void;
   active?: boolean;
   previous?: LastAttempt;
-  // The exam's plays of the recording, which every question that shares it counts together.
-  plays?: number;
-  onPlayed?: () => void;
+  plays?: RecordingPlays;
 };
 
 export const QuestionCard = ({
@@ -40,7 +38,6 @@ export const QuestionCard = ({
   active = true,
   previous,
   plays,
-  onPlayed,
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
@@ -172,7 +169,6 @@ export const QuestionCard = ({
         answerAudio={answerAudio}
         previous={previous}
         plays={plays}
-        onPlayed={onPlayed}
       />
       <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
       <AnswerInput

@@ -79,9 +79,13 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           exam
           draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
           onDraft={(text) => change({ drafts: { [q.id]: text } })}
-          plays={audio ? (plays[audio] ?? 0) : undefined}
-          onPlayed={
-            audio ? () => setPlays((p) => ({ ...p, [audio]: (p[audio] ?? 0) + 1 })) : undefined
+          plays={
+            audio
+              ? {
+                  count: plays[audio] ?? 0,
+                  onPlayed: () => setPlays((p) => ({ ...p, [audio]: (p[audio] ?? 0) + 1 })),
+                }
+              : undefined
           }
           onSubmit={(answer) => {
             leaveFor(section.questions[run.index + 1]);

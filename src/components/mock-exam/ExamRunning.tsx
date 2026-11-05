@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Panel } from "../../design-system/Panel";
 import { TextLink } from "../../design-system/TextLink";
 import { Button } from "../ui/button";
@@ -11,9 +12,10 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { examSections } from "../../data/mock";
+import { sharesRecording } from "../../data/sharesRecording";
 import { stopAudio } from "../audio/playback";
 import { QuestionCard } from "../question-card/QuestionCard";
-import type { MockRun, MockRunPatch } from "../../data/types";
+import type { MockRun, MockRunPatch, Question } from "../../data/types";
 import { draftAnswers } from "./draftAnswers";
 import { SpeakingTask } from "./SpeakingTask";
 import type { ChangeRun } from "./useMockRun";
@@ -31,6 +33,19 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
   const q = section.questions[run.index];
   const last = section.questions.length - 1;
   const answers = { ...run.answers, ...draftAnswers(run) };
+  // Plays of each recording, by its text: the questions that share one count them together.
+  const [plays, setPlays] = useState<Record<string, number>>({});
+  const audio = q.audio;
+
+  // Leaving the exam page stops the recording, which the shared player leaves running.
+  useEffect(() => stopAudio, []);
+
+  // The recording keeps playing only on a question that shares it.
+  const leaveFor = (next: Question | undefined) => {
+    if (!sharesRecording(q, next)) {
+      stopAudio();
+    }
+  };
 
   // Moves to the next question, or asks to finish the section after the last one.
   const advance = (patch: MockRunPatch = {}) => {
@@ -64,8 +79,12 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           exam
           draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
           onDraft={(text) => change({ drafts: { [q.id]: text } })}
+          plays={audio ? (plays[audio] ?? 0) : undefined}
+          onPlayed={
+            audio ? () => setPlays((p) => ({ ...p, [audio]: (p[audio] ?? 0) + 1 })) : undefined
+          }
           onSubmit={(answer) => {
-            stopAudio();
+            leaveFor(section.questions[run.index + 1]);
             advance({ answers: { [q.id]: answer } });
           }}
         />
@@ -74,7 +93,7 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
         <TextLink
           disabled={run.index === 0}
           onClick={() => {
-            stopAudio();
+            leaveFor(section.questions[run.index - 1]);
             change({ section: run.section, index: run.index - 1 });
           }}
         >
@@ -82,7 +101,7 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
         </TextLink>
         <TextLink
           onClick={() => {
-            stopAudio();
+            leaveFor(section.questions[run.index + 1]);
 
             if (run.index === last) {
               setConfirm(true);

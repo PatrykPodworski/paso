@@ -34,6 +34,9 @@ type Props = {
   answerAudio: Ref<AudioHandle>;
   // The learner's previous answer to this question, shown in a lesson.
   previous?: LastAttempt;
+  // The exam's plays of the recording, which every question that shares it counts together.
+  plays?: number;
+  onPlayed?: () => void;
 };
 
 export const QuestionHeading = ({
@@ -44,6 +47,8 @@ export const QuestionHeading = ({
   listeningAudio,
   answerAudio,
   previous,
+  plays,
+  onPlayed,
 }: Props) => {
   const heading = useRef<HTMLHeadingElement>(null);
 
@@ -86,9 +91,12 @@ export const QuestionHeading = ({
               round="pronunciation"
               text={q.audio}
               label="Play Spanish audio"
-              autoPlay={q.kind === "listen"}
-              continuous={!exam}
+              // A recording plays by itself only the first time.
+              autoPlay={q.kind === "listen" && !plays}
+              continuous
               limit={exam ? 2 : undefined}
+              played={plays}
+              onPlayed={onPlayed}
             />
           ) : !exam && !isSilentTask(q) ? (
             <AudioButton

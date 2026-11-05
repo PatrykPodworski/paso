@@ -25,6 +25,9 @@ type Props = {
   onDraft?: (text: string) => void;
   active?: boolean;
   previous?: LastAttempt;
+  // The exam's plays of the recording, which every question that shares it counts together.
+  plays?: number;
+  onPlayed?: () => void;
 };
 
 export const QuestionCard = ({
@@ -36,6 +39,8 @@ export const QuestionCard = ({
   onDraft,
   active = true,
   previous,
+  plays,
+  onPlayed,
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
@@ -166,6 +171,8 @@ export const QuestionCard = ({
         listeningAudio={listeningAudio}
         answerAudio={answerAudio}
         previous={previous}
+        plays={plays}
+        onPlayed={onPlayed}
       />
       <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
       <AnswerInput

@@ -82,6 +82,21 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Texts that several units speak, mostly sentence-builder tiles such as _es_,
   _de_ and _Me_: 15 texts.
 
+### Dialogues
+
+A listening dialogue is not spoken in one pass. A long input comes out faster than
+a short one: the Task 4 conversation of the mock exam ran at almost 5 words per
+second as one 165-word text, against 2–3 for every other clip. `pnpm
+audio:dialogues` makes each dialogue in `scripts/dialogues.mjs` from its turns:
+`make-sentences` speaks every turn on its own, the turns are joined with a
+0.7-second pause, and the clip gets the same trim and loudness as the other
+local clips. Whisper checks the whole clip against the text; spoken numbers it
+writes as digits count as a match. Its manifest entry has `method`
+`make-dialogue` and the pause length in `settings`. The script prints a short
+digest and writes the details to `temp/make-dialogue.log`.
+
+- Mock exam listening Task 4 (the day trip to Segovia).
+
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.
 [audio-voice-review.md](audio-voice-review.md) covers the auditions, the voice

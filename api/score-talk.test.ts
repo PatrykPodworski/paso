@@ -255,17 +255,16 @@ describe("scoring a talk", () => {
     expect(body.text.format.schema.properties.levels.required).toEqual(["name", "age", "country"]);
   });
 
-  it("fails a talk where the student said nothing without calling the model", async () => {
-    const response = await score({ turns: [{ role: "examiner", text: "¿Cómo te llamas?" }] });
-
-    expect(await response.json()).toEqual({
-      grade: "bad",
-      items: [
-        { id: "name", label: "Name", level: "missing" },
-        { id: "age", label: "Age", level: "missing" },
-        { id: "country", label: "Country", level: "missing" },
+  it("refuses a talk where the student said nothing without calling the model", async () => {
+    const response = await score({
+      turns: [
+        { role: "examiner", text: "¿Cómo te llamas?" },
+        { role: "student", text: "  " },
       ],
     });
+
+    expect(response.status).toBe(422);
+    expect(await response.json()).toEqual({ error: "silent" });
 
     expect(openai).not.toHaveBeenCalled();
   });

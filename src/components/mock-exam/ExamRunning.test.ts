@@ -1,13 +1,18 @@
 import { act, cleanup, fireEvent, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { examSections, firstVariants } from "../../data/mock";
-import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
+import { shownOptions } from "../../data/optionOrder";
+import { click, mount, now, remount, seed, setupMockExam, state } from "../../test/mockExam";
 import { settle } from "../../test/progressApi";
 
 // The exam as variant 1 of each task.
 const sections = examSections(firstVariants);
 
 setupMockExam();
+
+// The option texts in the order the card shows them; the number badge is hidden from the name.
+const shown = () =>
+  [...document.querySelectorAll(".answer-option")].map((b) => b.children[1].textContent);
 
 it("saves an answer, permits previous/skip navigation and hides corrections until review", async () => {
   await seed();
@@ -163,4 +168,20 @@ describe("listening audio", () => {
     cleanup();
     expect(pauses()).toBe(2);
   });
+});
+
+it("shows listening Task 3's shared list in the run's order on every question and after a resume", async () => {
+  const listening = sections[1].questions;
+  const index = listening.findIndex((q) => q.id === "mock-l3-0");
+  const order = shownOptions(listening[index].options!, 7);
+
+  expect(order).not.toEqual(listening[index].options);
+  await seed({ section: 1, index, seed: 7, variants: firstVariants });
+  await mount();
+  expect(shown()).toEqual(order);
+  click(listening[index].answer);
+  expect((await state()).answers[listening[index].id]).toBe(listening[index].answer);
+  expect(shown()).toEqual(order);
+  await remount();
+  expect(shown()).toEqual(order);
 });

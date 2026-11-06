@@ -24,6 +24,7 @@
     "audio:preview": "node scripts/generate-elevenlabs.mjs --preview",
     "audio:generate": "node scripts/generate-elevenlabs.mjs --complete",
     "audio:recover": "node scripts/generate-elevenlabs.mjs --recover",
+    "audio:dialogues": "node scripts/make-dialogue.mjs",
     "lint": "oxlint --max-warnings=0",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",

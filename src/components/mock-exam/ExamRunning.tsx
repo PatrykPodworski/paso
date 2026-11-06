@@ -76,6 +76,7 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
         <QuestionCard
           key={`${run.section}-${run.index}`}
           q={q}
+          seed={run.seed}
           exam
           draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
           onDraft={(text) => change({ drafts: { [q.id]: text } })}

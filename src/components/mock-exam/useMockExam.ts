@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { buildExam, seenFrom } from "../../data/examBuilder";
 import { examSections, mockExam, sectionVariants } from "../../data/mock";
+import { randomSeed } from "../../data/random";
 import type { MockRun, MockRunPatch, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
@@ -12,8 +13,6 @@ export type MockExamActions = MockRunActions & {
   // Records the task variants a section shows, so later exams prefer others.
   onSeen: (variants: string[]) => void;
 };
-
-const randomSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 
 // Moves the run to the start of a section. Speaking starts with ten minutes of preparation.
 const sectionStart = (section: number): MockRunPatch => ({

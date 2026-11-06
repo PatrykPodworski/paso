@@ -1,7 +1,7 @@
 import { SkillDot } from "../SkillDot";
 import { useEffect, useRef } from "react";
 import type { Ref } from "react";
-import { spokenText } from "../../data/audio";
+import { EXAM_PLAYS, spokenText } from "../../data/audio";
 import type { Question } from "../../data/types";
 import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
@@ -44,7 +44,7 @@ const ListeningPlayer = ({ ref, q, exam, plays }: ListeningPlayerProps) => (
     label="Play Spanish audio"
     autoPlay={q.kind === "listen" && !plays?.count}
     continuous
-    limit={exam ? 2 : undefined}
+    limit={exam ? EXAM_PLAYS : undefined}
     played={plays?.count}
     onPlayed={plays?.onPlayed}
   />

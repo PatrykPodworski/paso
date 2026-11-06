@@ -471,6 +471,7 @@ describe("the mock exam run", () => {
     drafts: {},
     scores: {},
     talks: {},
+    plays: {},
     seed: 0,
     variants: firstVariants,
     sections: [0, 1, 2, 3],
@@ -517,6 +518,17 @@ describe("the mock exam run", () => {
     expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
       topic: "studies",
       talks: { "mock-s1": good, "mock-s2": bad },
+    });
+  });
+
+  it("merges the plays of each recording", async () => {
+    const me = learner();
+
+    await change(me, { ...started, plays: { "mock-l1-0": 1 } }, true);
+    await change(me, { plays: { "mock-l4-0": 1 } });
+
+    expect(await change(me, { plays: { "mock-l1-0": 2 } })).toMatchObject({
+      plays: { "mock-l1-0": 2, "mock-l4-0": 1 },
     });
   });
 
@@ -915,6 +927,14 @@ describe("requests", () => {
       { action: "mockRun", run: { talks: { "mock-s1": { grade: "good", items: [], note: "" } } } },
       "run",
     ],
+    [
+      "plays of a question without a recording",
+      me,
+      { action: "mockRun", run: { plays: { "mock-r1-0": 1 } } },
+      "run",
+    ],
+    ["a third play", me, { action: "mockRun", run: { plays: { "mock-l1-0": 3 } } }, "run"],
+    ["no plays", me, { action: "mockRun", run: { plays: { "mock-l1-0": 0 } } }, "run"],
     ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],
     ["no seen variants", me, { action: "seen", variants: [], at: T }, "variants"],
     ["an unknown seen variant", me, { action: "seen", variants: ["r1-v99"], at: T }, "variants"],

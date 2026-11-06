@@ -82,12 +82,14 @@ it("starts each listening question on entry, cancels the previous clip and leave
   expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledOnce();
 });
 
-it("keeps the exam listening player a stop button whose clip ends with its card", () => {
+// The exam stops the clip when the next question has other audio, so the next
+// question about the same recording can take it over.
+it("keeps the exam listening player a stop button whose clip outlives its card", () => {
   const q = allQuestions.find((question) => question.id === "u1-a0")!;
   const { unmount } = render(<QuestionCard q={q} exam onSubmit={vi.fn()} />);
 
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
   expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
   unmount();
-  expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledOnce();
+  expect(HTMLMediaElement.prototype.pause).not.toHaveBeenCalled();
 });

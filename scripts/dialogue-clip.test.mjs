@@ -14,8 +14,23 @@ describe("dialogue clips", () => {
     }
   });
 
-  it("joins turns with one space", () => {
-    expect(dialogueText(["Hola, Pablo.", "¿Qué tal?"])).toBe("Hola, Pablo. ¿Qué tal?");
+  it("gives the speakers of a dialogue different voices", () => {
+    for (const dialogue of dialogues) {
+      const speakers = new Set(dialogue.turns.map(([speaker]) => speaker));
+      const voices = new Set([...speakers].map((speaker) => dialogue.voices[speaker]));
+
+      expect(speakers.size, dialogue.id).toBeGreaterThan(1);
+      expect(voices.size, dialogue.id).toBe(speakers.size);
+    }
+  });
+
+  it("joins the turn texts with one space", () => {
+    expect(
+      dialogueText([
+        ["friend", "Hola, Pablo."],
+        ["pablo", "¿Qué tal?"],
+      ]),
+    ).toBe("Hola, Pablo. ¿Qué tal?");
   });
 
   it("compares a transcript by its words, ignoring case, accents and punctuation", () => {

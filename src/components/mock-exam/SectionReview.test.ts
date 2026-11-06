@@ -199,3 +199,22 @@ it("sends the second task only after the first one's answer arrives", async () =
   expect(await screen.findByText("16.67 out of 25 for writing.")).toBeInTheDocument();
   expect(api).toHaveBeenCalledTimes(2);
 });
+
+it("keeps the writing marks with the run, even when the learner moves on before they arrive", async () => {
+  await seedWriting();
+  let answerForm = (_: Response) => {};
+
+  reviewWriting({
+    [form.id]: () => new Promise<Response>((resolve) => (answerForm = resolve)),
+    [letter.id]: async () => Response.json(reviewOf(letter, 1, "Two missed points.")),
+  });
+
+  await mount();
+  click("Get feedback on my writing");
+  click("Continue to speaking preparation");
+  answerForm(Response.json(reviewOf(form, 3, "Every field at A1 level.")));
+
+  await vi.waitFor(async () =>
+    expect((await state()).marks).toEqual({ [form.id]: 3, [letter.id]: 1 }),
+  );
+});

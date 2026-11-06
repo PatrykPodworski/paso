@@ -198,6 +198,10 @@ const isExamVariants: Check = (value) =>
   Object.keys(value).length === mockTasks.length &&
   mockTasks.every((t) => t.variants.some((v) => v.id === value[t.id]));
 
+const WRITING_QUESTIONS = new Set(
+  mockExam[2].tasks.flatMap((t) => t.variants.flatMap((v) => v.questions.map((q) => q.id))),
+);
+
 const VARIANTS = new Set(mockTasks.flatMap((t) => t.variants.map((v) => v.id)));
 
 // The variants a section or a whole exam shows: at least one, at most one per task.
@@ -254,6 +258,14 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ],
   ["topic", (value) => mockTopics.some((topic) => topic.id === value)],
   ["talks", mapOf(isMockQuestion, isLiveScore)],
+  // A DELE writing band from 0 to 3 per writing task.
+  [
+    "marks",
+    mapOf(
+      (key) => WRITING_QUESTIONS.has(key as string),
+      (value) => isCount(value, 0, 3),
+    ),
+  ],
   ["plays", mapOf(isRecording, (value) => isCount(value, 1, EXAM_PLAYS))],
   ["seed", (value) => isCount(value, 0, MAX_SEED)],
   ["variants", isExamVariants],

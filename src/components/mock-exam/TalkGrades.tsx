@@ -15,7 +15,7 @@ export const TalkGrades = ({ talks, talkTasks, className = "" }: Props) => (
       <li key={q.id} className="flex justify-between gap-3">
         <span>Task {i + 1}</span>
         <span className="text-muted-foreground">
-          {talks[q.id] ? GRADES[talks[q.id].grade] : "Not done"}
+          {talks[q.id] ? GRADES[talks[q.id].grade] : "Not scored"}
         </span>
       </li>
     ))}

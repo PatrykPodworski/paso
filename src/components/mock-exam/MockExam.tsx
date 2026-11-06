@@ -10,6 +10,7 @@ import { ExamTopbar } from "./ExamTopbar";
 import { MockIntro } from "./MockIntro";
 import { MockResults } from "./MockResults";
 import { OralPrep } from "./OralPrep";
+import { productiveScores } from "./productiveScores";
 import { SectionReview } from "./SectionReview";
 import { type MockExamActions, useMockExam } from "./useMockExam";
 
@@ -54,10 +55,17 @@ export const MockExam = ({ progress, ...actions }: Props) => {
           sections={run.sections}
           reading={score(0)}
           listening={score(1)}
+          scored={productiveScores(run)}
           writing={run.scores.writing ?? ""}
           speaking={run.scores.speaking ?? ""}
           talks={run.talks}
           talkTasks={examSections(run.variants)[3].questions}
+          unmarked={Object.fromEntries(
+            examSections(run.variants)[2]
+              .questions.filter((q) => run.marks[q.id] === undefined)
+              .map((q) => [q.id, run.answers[q.id] ?? ""]),
+          )}
+          onMarks={(marks) => change({ marks })}
           onWriting={(writing) => change({ scores: { writing } })}
           onSpeaking={(speaking) => change({ scores: { speaking } })}
           onDownload={() => downloadResponses(run, score)}
@@ -66,7 +74,9 @@ export const MockExam = ({ progress, ...actions }: Props) => {
       )}
       <ExamTopbar run={run} left={left} />
       {run.stage === "prep" && <OralPrep run={run} change={change} setNow={setNow} />}
-      {run.stage === "review" && <SectionReview run={run} score={score} onNext={nextSection} />}
+      {run.stage === "review" && (
+        <SectionReview run={run} change={change} score={score} onNext={nextSection} />
+      )}
       {run.stage === "run" && (
         <ExamRunning
           run={run}

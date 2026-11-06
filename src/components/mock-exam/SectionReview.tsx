@@ -6,15 +6,17 @@ import { examSections, mockExam } from "../../data/mock";
 import { AnswerReview } from "./AnswerReview";
 import { Icon } from "../../design-system/Icon";
 import type { MockRun } from "../../data/types";
+import type { ChangeRun } from "./useMockRun";
 import { WritingMarks } from "./WritingMarks";
 
 type Props = {
   run: MockRun;
+  change: ChangeRun;
   score: (index: number) => number;
   onNext: () => void;
 };
 
-export const SectionReview = ({ run, score, onNext }: Props) => {
+export const SectionReview = ({ run, change, score, onNext }: Props) => {
   const section = examSections(run.variants)[run.section];
   const next = run.sections[run.sections.indexOf(run.section) + 1];
 
@@ -41,7 +43,13 @@ export const SectionReview = ({ run, score, onNext }: Props) => {
           <Icon name="arrow" />
         </Button>
       </ButtonRow>
-      {run.section === 2 && <WritingMarks questions={section.questions} answers={run.answers} />}
+      {run.section === 2 && (
+        <WritingMarks
+          questions={section.questions}
+          answers={run.answers}
+          onMarks={(marks) => change({ marks })}
+        />
+      )}
       <div className="mt-7">
         {section.questions.map((q, i) => (
           <AnswerReview

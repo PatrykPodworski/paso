@@ -12,11 +12,12 @@ import {
   passingGroups,
   REVIEW_WINDOWS,
   skillStats,
+  speakingScore,
   streak,
   writingScore,
 } from "./progress";
 import { allQuestions } from "./curriculum";
-import type { Attempt, Question } from "./types";
+import type { Attempt, LiveItem, LiveScore, Question } from "./types";
 import { emptySnapshot, questionState } from "../test/progress";
 
 // The snapshot's latest answer per question, from attempts in time order.
@@ -139,6 +140,35 @@ describe("progress contracts", () => {
   ] as const)("scales DELE writing bands %j to %d out of 25", (bands, score) =>
     expect(writingScore(bands)).toBe(score),
   );
+
+  // A talk as Lucía scores it, with one item per level given.
+  const talk = (...levels: LiveItem[]): LiveScore => ({
+    grade: "good",
+    items: levels.map((level, i) => ({ id: `p${i}`, label: `Point ${i}`, level })),
+  });
+
+  it.each([
+    ["every point correct", [talk("correct"), talk("correct", "correct"), talk("correct")], 25],
+    ["every point missing", [talk("missing"), talk("missing"), talk("missing", "missing")], 0],
+    [
+      "understandable as half a point",
+      [talk("correct", "understandable"), talk("correct"), talk("correct")],
+      22.92,
+    ],
+    [
+      "each talk as a third",
+      [talk("correct", "correct", "correct", "correct"), talk(), talk()],
+      8.33,
+    ],
+    ["a missing talk as zero", [talk("understandable"), undefined, undefined], 4.17],
+  ] as const)("converts Lucía's points to speaking points: %s", (_, talks, score) =>
+    expect(speakingScore(talks)).toBe(score),
+  );
+
+  it("gives no speaking score when no talk has a point scored", () => {
+    expect(speakingScore([undefined, undefined, undefined])).toBeUndefined();
+    expect(speakingScore([talk(), undefined, undefined])).toBeUndefined();
+  });
 
   it("counts the questions last answered on the requested local day", () => {
     const p = answered([

@@ -471,6 +471,7 @@ describe("the mock exam run", () => {
     drafts: {},
     scores: {},
     talks: {},
+    marks: {},
     plays: {},
     seed: 0,
     variants: firstVariants,
@@ -518,6 +519,16 @@ describe("the mock exam run", () => {
     expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
       topic: "studies",
       talks: { "mock-s1": good, "mock-s2": bad },
+    });
+  });
+
+  it("merges the AI tutor's writing marks per task", async () => {
+    const me = learner();
+
+    await change(me, { ...started, marks: { "mock-w1": 3 } }, true);
+
+    expect(await change(me, { marks: { "mock-w2": 0 } })).toMatchObject({
+      marks: { "mock-w1": 3, "mock-w2": 0 },
     });
   });
 
@@ -824,6 +835,19 @@ describe("requests", () => {
       "a long mock score",
       me,
       { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
+      "run",
+    ],
+    ["a writing mark over 3", me, { action: "mockRun", run: { marks: { "mock-w1": 4 } } }, "run"],
+    [
+      "a fractional writing mark",
+      me,
+      { action: "mockRun", run: { marks: { "mock-w1": 1.5 } } },
+      "run",
+    ],
+    [
+      "a mark for a reading task",
+      me,
+      { action: "mockRun", run: { marks: { "mock-r1-0": 1 } } },
       "run",
     ],
     ["a negative mock seed", me, { action: "mockRun", run: { seed: -1 } }, "run"],

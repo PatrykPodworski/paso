@@ -203,8 +203,9 @@ export const POST = async (request: Request) => {
     return json({ error: "task" }, 400);
   }
 
+  // A talk with nothing from the learner did not work; grading it would mark every item missing.
   if (!turns.some((t) => t.role === "student" && t.text.trim())) {
-    return json({ grade: "bad", items: itemsOf(task, () => "missing") }, 200);
+    return json({ error: "silent" }, 422);
   }
 
   if (!key) {

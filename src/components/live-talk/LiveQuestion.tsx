@@ -15,7 +15,7 @@ type Props = {
     grade: Grade,
     score: LiveScore,
   ) => void;
-  onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
+  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
   previous?: LastAttempt;
 };
 

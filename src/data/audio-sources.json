@@ -469,15 +469,20 @@
     }
   },
   "wmukc2": {
-    "src": "/audio/voxcpm/7032a147e422a022aec02338.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/011b6651f16c715990891faa.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Perdona, ¿dónde está la estación? Está cerca. Sigue todo recto y después gira a la derecha. La estación está al lado del supermercado. Son cinco minutos a pie.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male"],
       "inferenceTimesteps": 30,
       "seed": 0,
-      "method": "make-sentences"
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
     }
   },
   "aop9ol": {
@@ -1027,12 +1032,32 @@
     }
   },
   "1bfw43d": {
-    "src": "/audio/voxcpm/84f2109072498fd87ac19640.mp3",
-    "voiceId": "es-male-teacher",
+    "src": "/audio/voxcpm/94a98eefab2a35ec14cae6f3.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Hola, Pablo. ¿Tienes planes para el sábado? Sí, quiero ir a Segovia con mi hermana. ¿Quieres venir? Me encantaría. ¿Cómo vamos? Podemos ir en tren. El tren sale de Madrid a las nueve de la mañana y llega a las diez. Muy bien. ¿Cuánto cuesta el billete? Cuesta doce euros por persona. Mi hermana compra los billetes esta tarde. Perfecto. ¿Y qué hacemos en Segovia? Primero podemos visitar el centro. Hay una plaza muy bonita y una iglesia antigua. Después comemos en un restaurante cerca de la estación. ¿A qué hora comemos? A las dos. El restaurante tiene un menú de quince euros con bebida y postre. Me parece bien. ¿Volvemos por la tarde? Sí, el tren de vuelta sale a las seis. Llegamos a Madrid a las siete. Entonces nos vemos el sábado en la estación. ¿A las ocho y media? Sí, a las ocho y media, junto a la entrada principal. No olvides llevar agua. Hace mucho calor. De acuerdo, hasta el sábado.",
     "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": [
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female"
+      ],
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-dialogue",

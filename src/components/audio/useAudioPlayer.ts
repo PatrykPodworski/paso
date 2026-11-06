@@ -16,6 +16,7 @@ export const useAudioPlayer = ({
   autoPlay,
   continuous,
   limit,
+  played,
   onPlayed,
 }: {
   controlsRef?: Ref<AudioHandle>;
@@ -24,17 +25,21 @@ export const useAudioPlayer = ({
   autoPlay: boolean;
   continuous: boolean;
   limit?: number;
+  // Plays counted by the owner, for a recording that several players share.
+  played?: number;
   onPlayed?: () => void;
 }) => {
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
-  const [count, setCount] = useState(0);
+  const [ownCount, setCount] = useState(0);
+  const count = played ?? ownCount;
   const [error, setError] = useState("");
   // Read the clip and its resume from here at use time: an adopted playback may
   // start, or fall back to another source, after this player took it over.
   const playbackRef = useRef<Playback | null>(null);
-  // A continuous clip pauses in place so the next player can pick it up there.
-  const resumable = minimal || continuous;
+  // A continuous clip pauses in place so the next player can pick it up there. A limited
+  // player stops instead, so each tap is one counted play from the start.
+  const resumable = (minimal || continuous) && !limit;
   const resumeClip = () => (resumable ? playbackRef.current?.resume : null);
 
   useEffect(() => {

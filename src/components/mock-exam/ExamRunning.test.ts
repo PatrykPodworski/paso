@@ -1,8 +1,9 @@
-import { act, fireEvent, screen } from "@testing-library/react";
-import { expect, it, vi } from "vitest";
+import { act, cleanup, fireEvent, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { examSections, firstVariants } from "../../data/mock";
 import { shownOptions } from "../../data/optionOrder";
 import { click, mount, now, remount, seed, setupMockExam, state } from "../../test/mockExam";
+import { settle } from "../../test/progressApi";
 
 // The exam as variant 1 of each task.
 const sections = examSections(firstVariants);
@@ -96,6 +97,77 @@ it("shows the task and position within the section", async () => {
   expect(screen.getAllByText(q.task!).length).toBeGreaterThan(0);
   click("← Previous question");
   expect(screen.getByText("3 / 25")).toBeInTheDocument();
+});
+
+describe("listening audio", () => {
+  const listening = sections[1].questions;
+  // Task 4: one conversation for all of its questions.
+  const shared = listening.findIndex((q, i) => q.audio && q.audio === listening[i + 1]?.audio);
+  const plays = () => vi.mocked(HTMLMediaElement.prototype.play).mock.calls.length;
+  const pauses = () => vi.mocked(HTMLMediaElement.prototype.pause).mock.calls.length;
+
+  const open = async (index: number) => {
+    await seed({ section: 1, index, deadline: now + 40 * 60000 });
+    await mount();
+    await settle();
+  };
+
+  it("keeps a recording its task shares playing, with one count, across the task's questions", async () => {
+    await open(shared);
+    expect(plays()).toBe(1);
+    expect(screen.getByText("1/2 plays")).toBeInTheDocument();
+
+    click(listening[shared].answer);
+    await settle();
+    expect((await state()).index).toBe(shared + 1);
+    click("Skip for now →");
+    await settle();
+    click("← Previous question");
+    await settle();
+
+    expect(plays()).toBe(1);
+    expect(pauses()).toBe(0);
+    expect(screen.getByText("1/2 plays")).toBeInTheDocument();
+  });
+
+  it("uses up a shared recording's two plays for every question of its task", async () => {
+    await open(shared);
+    click("Stop audio");
+    click("Play Spanish audio");
+    await settle();
+    expect(screen.getByText("2/2 plays")).toBeInTheDocument();
+
+    click("Skip for now →");
+    await settle();
+
+    expect(screen.getByText("2/2 plays")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /audio/ })).toBeDisabled();
+    expect(plays()).toBe(2);
+  });
+
+  it("keeps a question's used plays after leaving it and coming back", async () => {
+    await open(0);
+    click("Stop audio");
+    click("Play Spanish audio");
+    await settle();
+    click("Skip for now →");
+    await settle();
+    click("← Previous question");
+    await settle();
+
+    expect(screen.getByText("2/2 plays")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Play Spanish audio" })).toBeDisabled();
+  });
+
+  it("stops the recording when the next question has other audio or the exam page closes", async () => {
+    await open(shared);
+    click("← Previous question");
+    await settle();
+    expect(pauses()).toBe(1);
+
+    cleanup();
+    expect(pauses()).toBe(2);
+  });
 });
 
 it("shows listening Task 3's shared list in the run's order on every question and after a resume", async () => {

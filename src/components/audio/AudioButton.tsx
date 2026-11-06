@@ -19,6 +19,8 @@ type Props = {
   autoPlay?: boolean;
   continuous?: boolean;
   limit?: number;
+  // Plays counted by the owner, for a recording that several players share.
+  played?: number;
   onPlayed?: () => void;
 };
 
@@ -33,6 +35,7 @@ export const AudioButton = ({
   autoPlay = false,
   continuous = false,
   limit,
+  played,
   onPlayed,
 }: Props) => {
   const { playing, resumable, speed, setSpeed, count, error, play } = useAudioPlayer({
@@ -42,6 +45,7 @@ export const AudioButton = ({
     autoPlay,
     continuous,
     limit,
+    played,
     onPlayed,
   });
 

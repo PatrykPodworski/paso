@@ -9,7 +9,7 @@ import { stopAudio } from "../audio/playback";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
-import { QuestionHeading } from "./QuestionHeading";
+import { QuestionHeading, type RecordingPlays } from "./QuestionHeading";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
 import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
@@ -26,6 +26,7 @@ type Props = {
   onDraft?: (text: string) => void;
   active?: boolean;
   previous?: LastAttempt;
+  plays?: RecordingPlays;
 };
 
 const QuestionCardBody = ({
@@ -37,6 +38,7 @@ const QuestionCardBody = ({
   onDraft,
   active = true,
   previous,
+  plays,
 }: Props) => {
   const answerAudio = useRef<AudioHandle>(null);
   const listeningAudio = useRef<AudioHandle>(null);
@@ -167,6 +169,7 @@ const QuestionCardBody = ({
         listeningAudio={listeningAudio}
         answerAudio={answerAudio}
         previous={previous}
+        plays={plays}
       />
       <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
       <AnswerInput

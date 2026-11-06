@@ -173,6 +173,8 @@ export interface MockRun {
   talks: Record<string, LiveScore>;
   // The AI tutor's DELE band (0–3) for each writing task, by question id.
   marks: Record<string, number>;
+  // The plays of each listening recording, by the id of the first question that has it.
+  plays: Record<string, number>;
   // The seed the exam builder took and the variants it chose, so a run resumes and is reviewed
   // with the same tasks.
   seed: number;
@@ -181,8 +183,8 @@ export interface MockRun {
   sections: number[];
 }
 
-// A change to the mock run: top-level fields replace; answers, drafts, scores, talks and marks
-// merge per key.
+// A change to the mock run: top-level fields replace; answers, drafts, scores, talks, marks and
+// plays merge per key.
 export type MockRunPatch = Partial<MockRun>;
 
 // A rehearsal result before the server stores it under an id.

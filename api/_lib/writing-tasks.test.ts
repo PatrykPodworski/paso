@@ -9,10 +9,10 @@ describe("writing tasks", () => {
       id: "mock-w2",
       kind: "write",
       exam: true,
-      prompt: expect.stringContaining("Your friend Ana writes"),
+      prompt: expect.stringContaining("Your friend Jorge writes"),
       points: [
-        "I greeted Ana.",
-        "I answered her invitation.",
+        "I greeted Jorge.",
+        "I answered his invitation.",
         "I gave a meeting place and time.",
         "I suggested an activity.",
         "I said goodbye.",

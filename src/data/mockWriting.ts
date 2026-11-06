@@ -82,7 +82,7 @@ const w1: MockVariant[] = [
       prompt:
         "Join a Spanish language club. Complete the form in Spanish using fictional details. Aim for 15–25 words across all fields.",
       answer:
-        "Nombre y apellidos: Elena García. Nacionalidad: polaca. Ciudad: Varsovia. Profesión: profesora de música. Lenguas: polaco, inglés y un poco de español. Aficiones: leer y escuchar música.",
+        "Nombre y apellidos: Pedro García. Nacionalidad: polaco. Ciudad: Varsovia. Profesión: profesor de música. Lenguas: polaco, inglés y un poco de español. Aficiones: leer y escuchar música.",
       explanation:
         "Each field must answer its label: Nombre asks for a name, nacionalidad for a nationality adjective and aficiones for hobbies. The model is one possible answer; other details can be just as good.",
     },
@@ -187,18 +187,18 @@ const w1: MockVariant[] = [
 export const formPractice: Question = { ...w1[0].questions[0], id: "form-practice" };
 
 const w2: MockVariant[] = [
-  message(1, "a friend's visit", ["Ana"], {
+  message(1, "a friend's visit", ["Jorge"], {
     task: "Task 2 · Reply to an invitation",
     prompt:
-      "Your friend Ana writes: “Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Ana.” Write 30–40 words: greet her, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
+      "Your friend Jorge writes: “Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Jorge.” Write 30–40 words: greet him, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
     passage:
-      "Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Ana.",
+      "Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Jorge.",
     answer:
-      "Hola, Ana. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Elena.",
+      "Hola, Jorge. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Me gusta mucho la idea. Un abrazo, Tomás.",
     explanation: messageNote,
     checklist: [
-      "I greeted Ana.",
-      "I answered her invitation.",
+      "I greeted Jorge.",
+      "I answered his invitation.",
       "I gave a meeting place and time.",
       "I suggested an activity.",
       "I said goodbye.",

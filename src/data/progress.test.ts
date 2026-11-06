@@ -111,22 +111,22 @@ describe("progress contracts", () => {
   it.each([
     ["", 0],
     [" … — / ", 0],
-    ["Ana-María d’Ávila O'Neil 25", 4],
+    ["Bruno-Mario d’Ávila O'Neil 25", 4],
     ["uno\ndos\ttres", 3],
     ["¡Sí! café 中文", 3],
     ["¡Hola! ¿Cómo estás?", 3],
     ["  \n ", 0],
-    ["Ana María López, treinta años.", 5],
+    ["Bruno Mario López, treinta años.", 5],
   ])("counts words in %s", (input, n) => expect(countWords(input)).toBe(n));
 
   it("counts only the field values of a form answer", () => {
     const form =
-      "Nombre y apellidos: Elena García\nNacionalidad: polaca\nCiudad: \nAficiones: leer: novelas";
+      "Nombre y apellidos: Pedro García\nNacionalidad: polaca\nCiudad: \nAficiones: leer: novelas";
 
     expect(answerWords({ kind: "form" }, form)).toBe(5);
     expect(answerWords({ kind: "write" }, form)).toBe(11);
-    expect(answerWords({ kind: "write" }, "Hola, Ana: nos vemos.")).toBe(4);
-    expect(answerWords({ kind: "form" }, "Nombre: Ana\nCiudad:")).toBe(1);
+    expect(answerWords({ kind: "write" }, "Hola, Bruno: nos vemos.")).toBe(4);
+    expect(answerWords({ kind: "form" }, "Nombre: Bruno\nCiudad:")).toBe(1);
   });
 
   it.each([

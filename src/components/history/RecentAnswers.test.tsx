@@ -25,7 +25,7 @@ it("lists each answer with its question, the answer, the result and the day, in 
       recent={[
         attempt({ questionId: first.id, answer: "hola", correct: true }),
         attempt({ questionId: second.id, answer: "adiós", correct: false }),
-        attempt({ questionId: third.id, answer: "Me llamo Ana", correct: null }),
+        attempt({ questionId: third.id, answer: "Me llamo Bruno", correct: null }),
       ]}
     />,
   );
@@ -34,7 +34,7 @@ it("lists each answer with its question, the answer, the result and the day, in 
     [
       [first.prompt, "hola", "Correct"],
       [second.prompt, "adiós", "Wrong"],
-      [third.prompt, "Me llamo Ana", "Not graded"],
+      [third.prompt, "Me llamo Bruno", "Not graded"],
     ].map((parts) => parts.join("") + new Date("2026-09-09T08:00:00.000Z").toLocaleDateString()),
   );
 

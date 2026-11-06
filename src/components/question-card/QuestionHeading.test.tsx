@@ -35,7 +35,7 @@ it("focuses the new heading and scrolls its dialog to the top when the question 
 });
 
 it.each([
-  ["u1-g0", "soy", "Yo soy Marta."],
+  ["u1-g0", "soy", "Yo soy Hugo."],
   ["u2-g1", "Dónde", "¿Dónde vives? — En Málaga."],
   ["u2-g2", "dieciséis", "dieciséis"],
   ["u7-g1", "To the left.", "A la izquierda."],

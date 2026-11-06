@@ -373,8 +373,8 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
     ])
   ).snapshot;
 
-// Top-level fields replace; answers, drafts, scores, talks and marks merge per key, so a change from one
-// tab keeps what another tab saved. `replace` starts a new run from the defaults.
+// Top-level fields replace; answers, drafts, scores, talks, marks and plays merge per key, so a
+// change from one tab keeps what another tab saved. `replace` starts a new run from the defaults.
 export const saveMockRun = async (
   db: Db,
   learner: string,
@@ -393,7 +393,7 @@ export const saveMockRun = async (
          ON CONFLICT (learner_id) DO UPDATE SET
            run = CASE WHEN $4::boolean THEN excluded.run ELSE
              r.run || $3::jsonb ||
-             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")}, ${merged("talks")}, ${merged("marks")})
+             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")}, ${merged("talks")}, ${merged("marks")}, ${merged("plays")})
            END,
            updated_at = now()`,
         learner,

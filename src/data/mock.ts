@@ -146,7 +146,7 @@ const listening2 = listening2Data.map((r, i) =>
 );
 
 const endings = [
-  "es profesora.",
+  "es profesor.",
   "vive cerca del centro.",
   "tiene dos hermanos.",
   "va al trabajo en bicicleta.",
@@ -162,8 +162,8 @@ const endings = [
 const statements = [
   [
     "Su profesión…",
-    "es profesora.",
-    "Soy Elena y soy profesora de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
+    "es profesor.",
+    "Soy Fernando y soy profesor de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
   ],
   [
     "Su casa…",
@@ -193,7 +193,7 @@ const statements = [
   [
     "Su deporte…",
     "juega al tenis.",
-    "Los sábados juego al tenis con mi amiga Sara. Nos gusta mucho el deporte y después tomamos un café juntas.",
+    "Los sábados juego al tenis con mi amigo Diego. Nos gusta mucho el deporte y después tomamos un café juntos.",
   ],
   [
     "Su noche…",
@@ -207,7 +207,7 @@ const listening3 = statements.map((r, i) =>
     `mock-l3-${i}`,
     "listening",
     "Task 3 · Match eight statements",
-    `Choose the statement that matches what Elena says about ${["her job", "her home", "her family", "transport", "lunch", "her studies", "sport", "her evening"][i]}.`,
+    `Choose the statement that matches what Fernando says about ${["his job", "his home", "his family", "transport", "lunch", "his studies", "sport", "his evening"][i]}.`,
     r[1],
     endings,
     `The speaker says: “${r[2]}” This supports “${r[1]}”; the other endings describe different or unmentioned details.`,
@@ -293,7 +293,7 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     prompt:
       "Talk to Lucía. Present yourself: name, nationality, age, where you live, occupation, languages and personality. She gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
     answer:
-      "Me llamo Elena. Soy polaca y tengo veintiséis años. Vivo en Varsovia. Soy profesora de música. Hablo polaco e inglés y estudio español. Soy tranquila y simpática.",
+      "Me llamo Pedro. Soy polaco y tengo veintiséis años. Vivo en Varsovia. Soy profesor de música. Hablo polaco e inglés y estudio español. Soy tranquilo y simpático.",
     explanation:
       "This short model provides a starting structure. Expand it naturally to the task time. All seven requested points matter.",
     talk: "mock-s1",
@@ -356,7 +356,7 @@ export const mockExam: MockSection[] = [
           variant(
             "l3-v1",
             "a teacher's daily life",
-            ["Elena", "Pablo", "Luis", "Sara"],
+            ["Fernando", "Pablo", "Luis", "Diego"],
             listening3,
           ),
         ],
@@ -436,6 +436,7 @@ export const freshMockRun = (): MockRun => ({
   scores: {},
   talks: {},
   marks: {},
+  plays: {},
   seed: 0,
   variants: firstVariants,
   sections: fullExam,

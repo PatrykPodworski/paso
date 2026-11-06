@@ -21,7 +21,7 @@ const { writingTaskOf } = await import("./_lib/writing-tasks.ts");
 const openrouter = vi.fn();
 
 const letter =
-  "Hola, Ana. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Un abrazo, Elena.";
+  "Hola, Jorge. Sí, puedo quedar el domingo. Nos vemos a las once en la estación. Podemos visitar el parque y después comer en un restaurante del centro. Un abrazo, Tomás.";
 
 const { points } = writingTaskOf("mock-w2")!;
 
@@ -107,7 +107,7 @@ describe("reviewing writing", () => {
     expect(body.response_format.type).toBe("json_schema");
     expect(body.response_format.json_schema.strict).toBe(true);
     expect(body.response_format.json_schema.schema.required).toContain("mark");
-    expect(data.task).toContain("Your friend Ana writes");
+    expect(data.task).toContain("Your friend Jorge writes");
     expect(data.task).not.toContain("Give band 3");
     expect(data.learnerAnswer).toBe(letter);
     expect(data.wordCount).toBe(30);
@@ -130,7 +130,7 @@ describe("reviewing writing", () => {
                   fix,
                 })),
                 corrections: [],
-                revised: "Me llamo Ana.",
+                revised: "Me llamo Pablo.",
                 result: "partly",
               }),
             },
@@ -139,7 +139,7 @@ describe("reviewing writing", () => {
       }),
     );
 
-    const response = await review({ questionId: "u1-o2", answer: "Me llamo Ana." });
+    const response = await review({ questionId: "u1-o2", answer: "Me llamo Pablo." });
     const body = JSON.parse(openrouter.mock.calls[0][1].body);
     const { grade, mark } = (await response.json()) as WritingReview;
 
@@ -161,7 +161,7 @@ describe("reviewing writing", () => {
 
     await review({
       questionId: "mock-w1",
-      answer: "Nombre y apellidos: Elena García\nCiudad: Varsovia",
+      answer: "Nombre y apellidos: Pedro García\nCiudad: Varsovia",
     });
 
     expect(

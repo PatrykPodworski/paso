@@ -1,7 +1,7 @@
 {
   "hola": {
-    "es": "Hola, me llamo Lucía.",
-    "en": "Hi, my name is Lucía."
+    "es": "Hola, me llamo Pablo.",
+    "en": "Hi, my name is Pablo."
   },
   "adiós": {
     "es": "Adiós, hasta mañana.",
@@ -1244,7 +1244,7 @@
     "en": "I'm disappointed with the hotel."
   },
   "desanimado/a": {
-    "es": "Hoy estoy un poco desanimada.",
+    "es": "Hoy estoy un poco desanimado.",
     "en": "Today I'm a bit discouraged."
   },
   "aplastado/a": {
@@ -1272,7 +1272,7 @@
     "en": "My son is apathetic and doesn't go out."
   },
   "aterrado/a": {
-    "es": "Estoy aterrada en el avión.",
+    "es": "Estoy aterrado en el avión.",
     "en": "I'm terrified on the plane."
   },
   "la cabeza": {
@@ -2048,8 +2048,8 @@
     "en": "My husband cooks very well."
   },
   "la esposa": {
-    "es": "Te presento a mi esposa, Ana.",
-    "en": "This is my wife, Ana."
+    "es": "Te presento a mi esposa.",
+    "en": "This is my wife."
   },
   "el suegro": {
     "es": "Mi suegro es de Bilbao.",

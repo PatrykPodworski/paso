@@ -290,7 +290,7 @@ describe("app business orchestration", () => {
     click("Open your learning preferences");
 
     fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
-      target: { value: " Ana " },
+      target: { value: " Bruno " },
     });
 
     fireEvent.change(screen.getByRole("combobox", { name: "Your daily practice goal" }), {
@@ -300,13 +300,13 @@ describe("app business orchestration", () => {
     fireEvent.change(screen.getByLabelText(/Exam date/), { target: { value: "2026-10-09" } });
     click("Save preferences");
     await settle();
-    expect(await saved()).toMatchObject({ name: "Ana", goal: 20, examDate: "2026-10-09" });
-    expect(screen.getByRole("heading", { name: "Hola, Ana." })).toBeInTheDocument();
+    expect(await saved()).toMatchObject({ name: "Bruno", goal: 20, examDate: "2026-10-09" });
+    expect(screen.getByRole("heading", { name: "Hola, Bruno." })).toBeInTheDocument();
     click("Open your learning preferences");
     fireEvent.click(screen.getByText("Start over"));
     click("Reset my progress");
     click("Cancel");
-    expect(await saved()).toMatchObject({ name: "Ana", mockRun: { stage: "run" } });
+    expect(await saved()).toMatchObject({ name: "Bruno", mockRun: { stage: "run" } });
     click("Reset my progress");
     click("Clear my practice data");
     await settle();
@@ -339,12 +339,12 @@ describe("app business orchestration", () => {
     click("Open your learning preferences");
 
     fireEvent.change(screen.getByRole("textbox", { name: "What should we call you?" }), {
-      target: { value: "Ana" },
+      target: { value: "Bruno" },
     });
 
     click("Save preferences");
     await settle();
-    expect(screen.getByRole("heading", { name: "Hola, Ana." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Hola, Bruno." })).toBeInTheDocument();
   });
 
   it("persists guide checks, toggles them off, and updates all four passing scores", async () => {

@@ -1,4 +1,4 @@
-export const dialogueText = (turns) => turns.join(" ");
+export const dialogueText = (turns) => turns.map(([, text]) => text).join(" ");
 
 // Whisper writes most spoken numbers as digits; "un" and "uno" stay words, so they are not listed.
 const numbers = [

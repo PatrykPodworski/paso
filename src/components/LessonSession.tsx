@@ -1,7 +1,7 @@
 import { ButtonRow } from "../design-system/ButtonRow";
 import { Button } from "../design-system/Button";
 import { useState } from "react";
-import type { Attempt, Lesson, ProgressSnapshot, Question } from "../data/types";
+import type { Attempt, Lesson, ProgressSnapshot } from "../data/types";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
@@ -13,10 +13,7 @@ import { stopAudio } from "./audio/playback";
 import { lessonPlace } from "../data/lessonPlace";
 import { usePreloadPictures } from "./usePreloadPictures";
 import { resumeIndex } from "../data/resumeIndex";
-
-// A recording keeps playing across the questions that share it.
-const sharesRecording = (q: Question, next: Question | undefined) =>
-  !!q.audio && q.audio === next?.audio;
+import { sharesRecording } from "../data/sharesRecording";
 
 type Props = {
   lesson: Lesson;

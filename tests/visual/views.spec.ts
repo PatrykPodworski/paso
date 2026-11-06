@@ -142,7 +142,7 @@ test("mobile navigation drawer", async ({ page }, info) => {
 test("personalized dashboard with completed lessons and activity", async ({ page }) => {
   const p = progressSeed();
 
-  p.name = "Ana";
+  p.name = "Bruno";
   p.goal = 5;
   p.examDate = "2026-10-09";
   p.completed[allLessons[0].id] = { score: 7, total: 8, at: "2026-09-09T08:00:00Z" };
@@ -221,7 +221,7 @@ test("recent answers and the previous attempt", async ({ page }) => {
   const answers = [
     [first, first.options!.find((o) => o !== first.answer)!, false],
     [second, second.answer, true],
-    [writing, "Me llamo Ana y vivo en Madrid.", null],
+    [writing, "Me llamo Bruno y vivo en Madrid.", null],
   ] as const;
 
   await seedProgress(page, {
@@ -274,7 +274,7 @@ test("question: sentence, typed answer, writing and its feedback", async ({ page
 
   await page
     .getByRole("textbox", { name: "Your answer in Spanish" })
-    .fill("Me llamo Ana. Soy veinte años.");
+    .fill("Me llamo Bruno. Soy veinte años.");
 
   // The request state: no passcode is stored, so the field shows under the answer.
   await shot(page, "question-writing");
@@ -312,7 +312,7 @@ test("question: writing not passed", async ({ page }) => {
 
   await page
     .getByRole("textbox", { name: "Your answer in Spanish" })
-    .fill("Me llamo Ana. Soy veinte años.");
+    .fill("Me llamo Bruno. Soy veinte años.");
 
   await page.getByRole("button", { name: "Review my practice" }).click();
   await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
@@ -322,7 +322,7 @@ test("question: writing not passed", async ({ page }) => {
 test("question: form", async ({ page }) => {
   await page.goto("/practice");
   await page.getByRole("button", { name: "Fill in your story", exact: false }).click();
-  await page.getByRole("textbox", { name: "Nombre y apellidos" }).fill("Ana María López");
+  await page.getByRole("textbox", { name: "Nombre y apellidos" }).fill("Bruno Mario López");
   await shot(page, "question-form");
 });
 

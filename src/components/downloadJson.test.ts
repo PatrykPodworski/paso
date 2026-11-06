@@ -21,9 +21,9 @@ it("saves the value as indented JSON under the given name and revokes the URL af
 
   const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
 
-  downloadJson({ name: "Ana", goal: 10 }, "paso-test.json");
+  downloadJson({ name: "Bruno", goal: 10 }, "paso-test.json");
 
-  expect(await create.mock.calls[0][0].text()).toBe('{\n  "name": "Ana",\n  "goal": 10\n}');
+  expect(await create.mock.calls[0][0].text()).toBe('{\n  "name": "Bruno",\n  "goal": 10\n}');
   const anchor = click.mock.instances[0] as HTMLAnchorElement;
 
   expect(anchor.getAttribute("href")).toBe("blob:file");

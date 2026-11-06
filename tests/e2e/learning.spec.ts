@@ -123,7 +123,7 @@ test("a grammar choice plays the completed Spanish sentence from a local recordi
 
   await expect
     .poll(() => page.evaluate(() => (window as any).__heard[0]?.src))
-    .toBe(expectedAudio("Yo soy Marta."));
+    .toBe(expectedAudio("Yo soy Hugo."));
 
   expect(await page.evaluate(() => (window as any).__heard[0].duration)).toBeGreaterThan(0);
 });
@@ -311,10 +311,10 @@ test("writing keeps its draft and is graded by the AI review from Review my prac
 
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 
-  await input.fill("Me llamo Ana. Soy veinte años.");
+  await input.fill("Me llamo Bruno. Soy veinte años.");
   await closeLesson(page);
   await openLesson(page, 3, 2);
-  await expect(input).toHaveValue("Me llamo Ana. Soy veinte años.");
+  await expect(input).toHaveValue("Me llamo Bruno. Soy veinte años.");
 
   await page.evaluate(() => {
     (window as any).__plays = [];
@@ -346,7 +346,7 @@ test("writing keeps its draft and is graded by the AI review from Review my prac
   await expect(page.getByText("6 words. Target: 30–40.")).toBeVisible();
   await expect(page.getByText("Add a greeting and a farewell.")).toBeVisible();
   await expect(page.getByText("Tengo veinte años", { exact: true })).toBeVisible();
-  await expect(page.getByText("Hola. Me llamo Ana. Tengo veinte años. Adiós.")).toBeVisible();
+  await expect(page.getByText("Hola. Me llamo Bruno. Tengo veinte años. Adiós.")).toBeVisible();
   await expect(page.getByText("Your practice is saved.")).toBeVisible();
   await expect(input).toBeDisabled();
   await expect(page.getByLabel("Passcode")).toBeHidden();
@@ -362,7 +362,7 @@ test("writing keeps its draft and is graded by the AI review from Review my prac
   await expect
     .poll(async () => (await saved(page)).questions[writing.id])
     .toMatchObject({
-      answer: "Me llamo Ana. Soy veinte años.",
+      answer: "Me llamo Bruno. Soy veinte años.",
       correct: true,
       grade: "good",
     });
@@ -397,7 +397,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
 
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 
-  await input.fill("Me llamo Ana. Soy veinte años.");
+  await input.fill("Me llamo Bruno. Soy veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
 
   await expect(
@@ -407,7 +407,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
   await expect(input).toBeEnabled();
   await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeHidden();
   expect((await saved(page)).questions[writing.id]).toBeUndefined();
-  await input.fill("Me llamo Ana. Tengo veinte años.");
+  await input.fill("Me llamo Bruno. Tengo veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
 
   await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
@@ -418,7 +418,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
   await expect
     .poll(async () => (await saved(page)).questions[writing.id])
     .toMatchObject({
-      answer: "Me llamo Ana. Tengo veinte años.",
+      answer: "Me llamo Bruno. Tengo veinte años.",
       correct: false,
       grade: "bad",
       inMistakes: true,

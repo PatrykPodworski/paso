@@ -12,9 +12,9 @@ export const vocabularyHints: Record<string, string> = {
   perdón: "Perdón looks like “pardon” and does the same job: sorry, excuse me, pardon me.",
 
   "el nombre":
-    "Name → nombre. Mi nombre es Ana means “My name is Ana.” On a form, nombre is your first name.",
+    "Name → nombre. Mi nombre es Pablo means “My name is Pablo.” On a form, nombre is your first name.",
   "el apellido":
-    "An “appellation” is a name. Use that similar sound as a hook: apellido is your family name. Ana García → her apellido is García.",
+    "An “appellation” is a name. Use that similar sound as a hook: apellido is your family name. Pablo García → his apellido is García.",
   "la dirección":
     "Dirección looks like “direction.” Directions help someone find your address — the meaning of dirección on a form.",
   "el teléfono":

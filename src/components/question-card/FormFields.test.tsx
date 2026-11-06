@@ -43,25 +43,25 @@ it("preserves form labels and refuses whitespace-only fields", async () => {
 
   fireEvent.change(screen.getByRole("textbox", { name: f.label }), { target: { value: " " } });
   expect(screen.getByRole("button", { name: "Review my practice" })).toBeDisabled();
-  fireEvent.change(screen.getByRole("textbox", { name: f.label }), { target: { value: "Ana" } });
+  fireEvent.change(screen.getByRole("textbox", { name: f.label }), { target: { value: "Bruno" } });
   click("Review my practice");
   await screen.findByRole("heading", { name: "Passed" });
 
   expect(evaluated.mock.calls[0]).toEqual([
-    expect.stringContaining(`${f.label}: Ana\nNacionalidad:`),
+    expect.stringContaining(`${f.label}: Bruno\nNacionalidad:`),
     true,
     false,
     "perfect",
   ]);
 
-  expect(JSON.parse(onDraft.mock.calls.at(-1)![0])[f.label]).toBe("Ana");
+  expect(JSON.parse(onDraft.mock.calls.at(-1)![0])[f.label]).toBe("Bruno");
 });
 
 it("counts only form values toward the writing target", () => {
   render(<QuestionCard q={formPractice} onSubmit={vi.fn()} />);
 
   const values = [
-    "Ana María López",
+    "Bruno Mario López",
     "polaca",
     "Varsovia",
     "profesora de música",

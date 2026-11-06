@@ -355,7 +355,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
     const draft = (text: string) => snapshot(me, { action: "draft", questionId: "u1-w1", text });
 
     expect((await draft("Hola")).drafts).toEqual({ "u1-w1": "Hola" });
-    expect((await draft("Hola, me llamo Ana")).drafts).toEqual({ "u1-w1": "Hola, me llamo Ana" });
+    expect((await draft("Hola, me llamo Leo")).drafts).toEqual({ "u1-w1": "Hola, me llamo Leo" });
     expect((await draft("")).drafts).toEqual({});
   });
 
@@ -391,12 +391,12 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
   it("saves the learner's settings", async () => {
     const p = await snapshot(learner(), {
       action: "settings",
-      name: "Ana",
+      name: "Bruno",
       goal: 20,
       examDate: "2026-11-20",
     });
 
-    expect([p.name, p.goal, p.examDate]).toEqual(["Ana", 20, "2026-11-20"]);
+    expect([p.name, p.goal, p.examDate]).toEqual(["Bruno", 20, "2026-11-20"]);
   });
 
   it("stores a mock result once per id, oldest first", async () => {
@@ -444,7 +444,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
       await snapshot(id, { action: "draft", questionId: "u1-w1", text: "Hola" });
       await snapshot(id, { action: "vocabulary", reviews: { casa: { level: 0, nextAt: T } } });
       await snapshot(id, { action: "check", checkId: "passport", done: true });
-      await snapshot(id, { action: "settings", name: "Ana", goal: 5, examDate: "" });
+      await snapshot(id, { action: "settings", name: "Bruno", goal: 5, examDate: "" });
 
       await snapshot(id, {
         action: "mockResult",

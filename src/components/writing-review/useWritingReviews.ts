@@ -31,7 +31,8 @@ const reviewInTurn = async (
 // Requests reviews for several answers with the passcode the live talks share. They go one
 // after another, and a rejected passcode stops the rest, so one wrong passcode costs one of
 // the daily tries. A rejected passcode is forgotten; one that got a review is remembered.
-export const useWritingReviews = () => {
+// `onReviewed` gets the results even after the view closed, so a caller can keep them.
+export const useWritingReviews = (onReviewed?: (results: Record<string, ReviewResult>) => void) => {
   const [passcode, setPasscode] = useState(() => readAccess().passcode);
   const [stored, setStored] = useState(() => readAccess().passcode !== "");
   const [loading, setLoading] = useState(false);
@@ -48,12 +49,14 @@ export const useWritingReviews = () => {
   }, []);
 
   // Resolves to undefined when the view closed before the reviews came back: nobody saw them,
-  // so they are dropped.
+  // so the view drops them.
   const check = async (answers: Record<string, string>) => {
     setLoading(true);
 
     try {
       const next = await reviewInTurn(Object.entries(answers), passcode);
+
+      onReviewed?.(next);
 
       if (!mounted.current) {
         return undefined;

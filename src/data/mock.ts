@@ -33,7 +33,7 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     prompt:
       "Talk to Lucía. Present yourself: name, nationality, age, where you live, occupation, languages and personality. She gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
     answer:
-      "Me llamo Elena. Soy polaca y tengo veintiséis años. Vivo en Varsovia. Soy profesora de música. Hablo polaco e inglés y estudio español. Soy tranquila y simpática.",
+      "Me llamo Pedro. Soy polaco y tengo veintiséis años. Vivo en Varsovia. Soy profesor de música. Hablo polaco e inglés y estudio español. Soy tranquilo y simpático.",
     explanation:
       "This short model provides a starting structure. Expand it naturally to the task time. All seven requested points matter.",
     talk: "mock-s1",
@@ -160,6 +160,8 @@ export const freshMockRun = (): MockRun => ({
   drafts: {},
   scores: {},
   talks: {},
+  marks: {},
+  plays: {},
   seed: 0,
   variants: firstVariants,
   sections: fullExam,

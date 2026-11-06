@@ -5,6 +5,7 @@ import {
   mockTopics,
   sectionSizes,
 } from "../../src/data/mock.ts";
+import { EXAM_PLAYS } from "../../src/data/audio.ts";
 import { CORRECTION_FIELDS, MAX_CORRECTIONS } from "./corrections.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
@@ -188,11 +189,18 @@ type Check = (value: unknown) => boolean;
 const MOCK_QUESTIONS = new Set(mockQuestions.map((q) => q.id));
 const isMockQuestion: Check = (key) => MOCK_QUESTIONS.has(key as string);
 
+const RECORDINGS = new Set(mockQuestions.filter((q) => q.audio).map((q) => q.id));
+const isRecording: Check = (key) => RECORDINGS.has(key as string);
+
 // One variant for every task of the exam, each from that task's own pool.
 const isExamVariants: Check = (value) =>
   isRecord(value) &&
   Object.keys(value).length === mockTasks.length &&
   mockTasks.every((t) => t.variants.some((v) => v.id === value[t.id]));
+
+const WRITING_QUESTIONS = new Set(
+  mockExam[2].tasks.flatMap((t) => t.variants.flatMap((v) => v.questions.map((q) => q.id))),
+);
 
 const VARIANTS = new Set(mockTasks.flatMap((t) => t.variants.map((v) => v.id)));
 
@@ -250,6 +258,15 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ],
   ["topic", (value) => mockTopics.some((topic) => topic.id === value)],
   ["talks", mapOf(isMockQuestion, isLiveScore)],
+  // A DELE writing band from 0 to 3 per writing task.
+  [
+    "marks",
+    mapOf(
+      (key) => WRITING_QUESTIONS.has(key as string),
+      (value) => isCount(value, 0, 3),
+    ),
+  ],
+  ["plays", mapOf(isRecording, (value) => isCount(value, 1, EXAM_PLAYS))],
   ["seed", (value) => isCount(value, 0, MAX_SEED)],
   ["variants", isExamVariants],
   ["sections", isSections],

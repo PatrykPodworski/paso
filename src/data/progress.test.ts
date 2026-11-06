@@ -12,11 +12,12 @@ import {
   passingGroups,
   REVIEW_WINDOWS,
   skillStats,
+  speakingScore,
   streak,
   writingScore,
 } from "./progress";
 import { allQuestions } from "./curriculum";
-import type { Attempt, Question } from "./types";
+import type { Attempt, LiveItem, LiveScore, Question } from "./types";
 import { emptySnapshot, questionState } from "../test/progress";
 
 // The snapshot's latest answer per question, from attempts in time order.
@@ -110,22 +111,22 @@ describe("progress contracts", () => {
   it.each([
     ["", 0],
     [" … — / ", 0],
-    ["Ana-María d’Ávila O'Neil 25", 4],
+    ["Bruno-Mario d’Ávila O'Neil 25", 4],
     ["uno\ndos\ttres", 3],
     ["¡Sí! café 中文", 3],
     ["¡Hola! ¿Cómo estás?", 3],
     ["  \n ", 0],
-    ["Ana María López, treinta años.", 5],
+    ["Bruno Mario López, treinta años.", 5],
   ])("counts words in %s", (input, n) => expect(countWords(input)).toBe(n));
 
   it("counts only the field values of a form answer", () => {
     const form =
-      "Nombre y apellidos: Elena García\nNacionalidad: polaca\nCiudad: \nAficiones: leer: novelas";
+      "Nombre y apellidos: Pedro García\nNacionalidad: polaca\nCiudad: \nAficiones: leer: novelas";
 
     expect(answerWords({ kind: "form" }, form)).toBe(5);
     expect(answerWords({ kind: "write" }, form)).toBe(11);
-    expect(answerWords({ kind: "write" }, "Hola, Ana: nos vemos.")).toBe(4);
-    expect(answerWords({ kind: "form" }, "Nombre: Ana\nCiudad:")).toBe(1);
+    expect(answerWords({ kind: "write" }, "Hola, Bruno: nos vemos.")).toBe(4);
+    expect(answerWords({ kind: "form" }, "Nombre: Bruno\nCiudad:")).toBe(1);
   });
 
   it.each([
@@ -139,6 +140,35 @@ describe("progress contracts", () => {
   ] as const)("scales DELE writing bands %j to %d out of 25", (bands, score) =>
     expect(writingScore(bands)).toBe(score),
   );
+
+  // A talk as Lucía scores it, with one item per level given.
+  const talk = (...levels: LiveItem[]): LiveScore => ({
+    grade: "good",
+    items: levels.map((level, i) => ({ id: `p${i}`, label: `Point ${i}`, level })),
+  });
+
+  it.each([
+    ["every point correct", [talk("correct"), talk("correct", "correct"), talk("correct")], 25],
+    ["every point missing", [talk("missing"), talk("missing"), talk("missing", "missing")], 0],
+    [
+      "understandable as half a point",
+      [talk("correct", "understandable"), talk("correct"), talk("correct")],
+      22.92,
+    ],
+    [
+      "each talk as a third",
+      [talk("correct", "correct", "correct", "correct"), talk(), talk()],
+      8.33,
+    ],
+    ["a missing talk as zero", [talk("understandable"), undefined, undefined], 4.17],
+  ] as const)("converts Lucía's points to speaking points: %s", (_, talks, score) =>
+    expect(speakingScore(talks)).toBe(score),
+  );
+
+  it("gives no speaking score when no talk has a point scored", () => {
+    expect(speakingScore([undefined, undefined, undefined])).toBeUndefined();
+    expect(speakingScore([talk(), undefined, undefined])).toBeUndefined();
+  });
 
   it("counts the questions last answered on the requested local day", () => {
     const p = answered([

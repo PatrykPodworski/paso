@@ -355,7 +355,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
     const draft = (text: string) => snapshot(me, { action: "draft", questionId: "u1-w1", text });
 
     expect((await draft("Hola")).drafts).toEqual({ "u1-w1": "Hola" });
-    expect((await draft("Hola, me llamo Ana")).drafts).toEqual({ "u1-w1": "Hola, me llamo Ana" });
+    expect((await draft("Hola, me llamo Leo")).drafts).toEqual({ "u1-w1": "Hola, me llamo Leo" });
     expect((await draft("")).drafts).toEqual({});
   });
 
@@ -391,12 +391,12 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
   it("saves the learner's settings", async () => {
     const p = await snapshot(learner(), {
       action: "settings",
-      name: "Ana",
+      name: "Bruno",
       goal: 20,
       examDate: "2026-11-20",
     });
 
-    expect([p.name, p.goal, p.examDate]).toEqual(["Ana", 20, "2026-11-20"]);
+    expect([p.name, p.goal, p.examDate]).toEqual(["Bruno", 20, "2026-11-20"]);
   });
 
   it("stores a mock result once per id, oldest first", async () => {
@@ -444,7 +444,7 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
       await snapshot(id, { action: "draft", questionId: "u1-w1", text: "Hola" });
       await snapshot(id, { action: "vocabulary", reviews: { casa: { level: 0, nextAt: T } } });
       await snapshot(id, { action: "check", checkId: "passport", done: true });
-      await snapshot(id, { action: "settings", name: "Ana", goal: 5, examDate: "" });
+      await snapshot(id, { action: "settings", name: "Bruno", goal: 5, examDate: "" });
 
       await snapshot(id, {
         action: "mockResult",
@@ -471,6 +471,8 @@ describe("the mock exam run", () => {
     drafts: {},
     scores: {},
     talks: {},
+    marks: {},
+    plays: {},
     seed: 0,
     variants: firstVariants,
     sections: [0, 1, 2, 3],
@@ -517,6 +519,27 @@ describe("the mock exam run", () => {
     expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
       topic: "studies",
       talks: { "mock-s1": good, "mock-s2": bad },
+    });
+  });
+
+  it("merges the AI tutor's writing marks per task", async () => {
+    const me = learner();
+
+    await change(me, { ...started, marks: { "mock-w1": 3 } }, true);
+
+    expect(await change(me, { marks: { "mock-w2": 0 } })).toMatchObject({
+      marks: { "mock-w1": 3, "mock-w2": 0 },
+    });
+  });
+
+  it("merges the plays of each recording", async () => {
+    const me = learner();
+
+    await change(me, { ...started, plays: { "mock-l1-0": 1 } }, true);
+    await change(me, { plays: { "mock-l4-0": 1 } });
+
+    expect(await change(me, { plays: { "mock-l1-0": 2 } })).toMatchObject({
+      plays: { "mock-l1-0": 2, "mock-l4-0": 1 },
     });
   });
 
@@ -814,6 +837,19 @@ describe("requests", () => {
       { action: "mockRun", run: { scores: { writing: "1".repeat(17) } } },
       "run",
     ],
+    ["a writing mark over 3", me, { action: "mockRun", run: { marks: { "mock-w1": 4 } } }, "run"],
+    [
+      "a fractional writing mark",
+      me,
+      { action: "mockRun", run: { marks: { "mock-w1": 1.5 } } },
+      "run",
+    ],
+    [
+      "a mark for a reading task",
+      me,
+      { action: "mockRun", run: { marks: { "mock-r1-0": 1 } } },
+      "run",
+    ],
     ["a negative mock seed", me, { action: "mockRun", run: { seed: -1 } }, "run"],
     ["a mock seed over 32 bits", me, { action: "mockRun", run: { seed: 2 ** 32 } }, "run"],
     ["a fractional mock seed", me, { action: "mockRun", run: { seed: 1.5 } }, "run"],
@@ -915,6 +951,14 @@ describe("requests", () => {
       { action: "mockRun", run: { talks: { "mock-s1": { grade: "good", items: [], note: "" } } } },
       "run",
     ],
+    [
+      "plays of a question without a recording",
+      me,
+      { action: "mockRun", run: { plays: { "mock-r1-0": 1 } } },
+      "run",
+    ],
+    ["a third play", me, { action: "mockRun", run: { plays: { "mock-l1-0": 3 } } }, "run"],
+    ["no plays", me, { action: "mockRun", run: { plays: { "mock-l1-0": 0 } } }, "run"],
     ["a replace flag", me, { action: "mockRun", run: {}, replace: "yes" }, "replace"],
     ["no seen variants", me, { action: "seen", variants: [], at: T }, "variants"],
     ["an unknown seen variant", me, { action: "seen", variants: ["r1-v99"], at: T }, "variants"],

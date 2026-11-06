@@ -72,8 +72,8 @@ it("records objective, assisted and graded writing answers without conflating th
   fireEvent.change(screen.getByRole("textbox"), { target: { value: "incorrecto" } });
   click("Check answer");
   click("Continue");
-  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Ana." } });
-  expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Ana.");
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Bruno." } });
+  expect(draft).toHaveBeenLastCalledWith(writing.id, "Hola, Bruno.");
 
   vi.stubGlobal(
     "fetch",
@@ -87,7 +87,7 @@ it("records objective, assisted and graded writing answers without conflating th
 
   expect(attempt.mock.calls.at(-1)![0]).toMatchObject({
     questionId: writing.id,
-    answer: "Hola, Ana.",
+    answer: "Hola, Bruno.",
     correct: true,
     grade: "good",
   });
@@ -194,7 +194,7 @@ it("still restores longer writing drafts in a new practice session", () => {
   const q = allQuestions.find((q) => q.id === "u1-o2")!;
   const progress = emptySnapshot();
 
-  progress.drafts[q.id] = "Hola, me llamo Julia.";
+  progress.drafts[q.id] = "Hola, me llamo Jorge.";
 
   render(
     <LessonSession

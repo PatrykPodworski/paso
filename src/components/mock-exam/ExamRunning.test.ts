@@ -159,6 +159,33 @@ describe("listening audio", () => {
     expect(screen.getByRole("button", { name: "Play Spanish audio" })).toBeDisabled();
   });
 
+  it("keeps the used plays across a reload, without playing the recording again", async () => {
+    await open(shared);
+    click("Stop audio");
+    click("Play Spanish audio");
+    await settle();
+    expect((await state()).plays).toEqual({ [listening[shared].id]: 2 });
+
+    await remount();
+    expect(screen.getByText("2/2 plays")).toBeInTheDocument();
+    click("Skip for now →");
+    await settle();
+
+    expect(screen.getByText("2/2 plays")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /audio/ })).toBeDisabled();
+    expect(plays()).toBe(2);
+  });
+
+  it("does not play a recording by itself after a reload once a play is used", async () => {
+    await open(0);
+    expect(plays()).toBe(1);
+
+    await remount();
+
+    expect(screen.getByText("1/2 plays")).toBeInTheDocument();
+    expect(plays()).toBe(1);
+  });
+
   it("stops the recording when the next question has other audio or the exam page closes", async () => {
     await open(shared);
     click("← Previous question");

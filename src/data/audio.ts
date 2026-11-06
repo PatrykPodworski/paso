@@ -10,4 +10,7 @@ export const audioKey = (text: string) => {
   return (hash >>> 0).toString(36);
 };
 
+// The plays the exam allows each listening recording.
+export const EXAM_PLAYS = 2;
+
 export const spokenText = (q: Question) => q.pronunciation || q.audio || q.passage || q.answer;

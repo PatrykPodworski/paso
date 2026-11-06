@@ -42,16 +42,16 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
 
       await page
         .getByRole("textbox", { name: "Your preparation notes" })
-        .fill("Ana · Polonia · veinte años");
+        .fill("Bruno · Polonia · veinte años");
 
       await expect
         .poll(async () => (await saved(page)).mockRun?.drafts.prep)
-        .toBe("Ana · Polonia · veinte años");
+        .toBe("Bruno · Polonia · veinte años");
 
       await page.reload();
 
       await expect(page.getByRole("textbox", { name: "Your preparation notes" })).toHaveValue(
-        "Ana · Polonia · veinte años",
+        "Bruno · Polonia · veinte años",
       );
 
       await page.getByRole("button", { name: "I’m ready · start speaking" }).click();
@@ -118,10 +118,20 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
 
   await expect(page.getByRole("heading", { name: "You’ve met the exam." })).toBeVisible();
   await expect(page.getByText(/A pass cannot be determined/)).toBeVisible();
+
+  // Lucía found every point understandable, half a point each; the writing has no AI marks.
+  await expect(page.getByText("Speaking", { exact: true }).locator("..")).toHaveText(
+    "Speaking12.5/25",
+  );
+
+  await expect(page.getByText("Writing", { exact: true }).locator("..")).toHaveText(
+    "WritingNot scored",
+  );
+
+  await expect(page.getByRole("spinbutton", { name: "Speaking score /25" })).toHaveCount(0);
   await page.getByRole("spinbutton", { name: "Writing score /25" }).fill("5");
-  await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("5");
   await expect(page.getByText(/Both groups meet 30/)).toBeVisible();
-  await page.getByRole("spinbutton", { name: "Speaking score /25" }).fill("4.99");
+  await page.getByRole("spinbutton", { name: "Writing score /25" }).fill("4.99");
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
 
@@ -149,8 +159,8 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   expect(report).toMatchObject({
     reading: 25,
     listening: 25,
-    writing: "Requires human assessment",
-    speaking: "Requires human assessment",
+    writing: "Not scored",
+    speaking: 12.5,
   });
 
   // The variants the finished exam took are seen, so the next exam takes others where the
@@ -254,7 +264,7 @@ test("listening permits two plays and writing draft survives reload and clearing
   await page.getByRole("button", { name: "Skip for now →" }).click();
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 
-  await input.fill("Hola, soy Ana.");
+  await input.fill("Hola, soy Bruno.");
   await page.getByRole("button", { name: "Save answer" }).click();
   await page.getByRole("button", { name: "Keep working" }).click();
   await input.clear();
@@ -299,6 +309,11 @@ test("mark both writing tasks at the section review and scale them to 25", async
   await expect(page.getByText("Every field answered at A1 level.")).toBeVisible();
   await expect(page.getByText("Clear reply with one missed point.")).toBeVisible();
   await expect(page.getByText("Mark: 2 out of 3.")).toHaveCount(2);
+
+  // The marks stay with the run, so the results page scores the writing.
+  await expect
+    .poll(async () => (await saved(page)).mockRun?.marks)
+    .toEqual({ [form.id]: 2, [letter.id]: 2 });
 });
 
 test("a rehearsal resumes after a reload, and a reset clears it", async ({ page }) => {

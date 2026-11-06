@@ -346,7 +346,7 @@ const task1 = [
   conversations(
     3,
     "home, food and travel",
-    ["Diego"],
+    ["Matías"],
     [
       {
         prompt: "¿Qué pide el hombre?",
@@ -365,47 +365,47 @@ const task1 = [
         },
       },
       {
-        prompt: "¿Qué animal tiene Diego?",
+        prompt: "¿Qué animal tiene Matías?",
         answer: "🐱 Un gato.",
         wrong: ["🐶 Un perro.", "🐦 Un pájaro."],
-        explanation: "Diego has a black cat. The woman is the one who wants a dog.",
+        explanation: "Matías has a black cat. The woman is the one who wants a dog.",
         audio: {
-          voices: { friend: "female", diego: "male" },
+          voices: { friend: "female", matias: "male" },
           turns: [
-            ["friend", "Diego, ¿tienes animales en casa?"],
-            ["diego", "Sí, tengo un gato negro. Es muy tranquilo."],
+            ["friend", "Matías, ¿tienes animales en casa?"],
+            ["matias", "Sí, tengo un gato negro. Es muy tranquilo."],
             ["friend", "¡Qué bonito! Yo quiero un perro, pero mi piso es pequeño."],
           ],
         },
       },
       {
-        prompt: "¿Qué hace Diego esta tarde?",
+        prompt: "¿Qué hace Matías esta tarde?",
         answer: "📖 Estudia.",
         wrong: ["🎬 Va al cine.", "⚽ Juega al fútbol."],
         explanation:
           "He cannot go to the cinema this afternoon because he has to study for an exam.",
         audio: {
-          voices: { friend: "female", diego: "male" },
+          voices: { friend: "female", matias: "male" },
           turns: [
             ["friend", "¿Vamos al cine esta tarde?"],
-            ["diego", "Lo siento, esta tarde no puedo. Tengo que estudiar para un examen."],
+            ["matias", "Lo siento, esta tarde no puedo. Tengo que estudiar para un examen."],
             ["friend", "¿Y mañana?"],
-            ["diego", "Mañana sí. Mañana vamos al cine."],
+            ["matias", "Mañana sí. Mañana vamos al cine."],
           ],
         },
       },
       {
-        prompt: "¿Dónde vive el hermano de Diego?",
+        prompt: "¿Dónde vive el hermano de Matías?",
         answer: "🏔️ En la montaña.",
         wrong: ["🏖️ En la playa.", "🏙️ En la ciudad."],
         explanation: "His brother lives in a mountain village. The beach is far away.",
         audio: {
-          voices: { friend: "female", diego: "male" },
+          voices: { friend: "female", matias: "male" },
           turns: [
             ["friend", "¿Dónde vive tu hermano?"],
-            ["diego", "Vive en un pueblo en la montaña. Es muy tranquilo."],
+            ["matias", "Vive en un pueblo en la montaña. Es muy tranquilo."],
             ["friend", "¿Está cerca de la playa?"],
-            ["diego", "No, la playa está lejos. Pero en invierno hay mucha nieve."],
+            ["matias", "No, la playa está lejos. Pero en invierno hay mucha nieve."],
           ],
         },
       },
@@ -428,7 +428,7 @@ const task1 = [
   conversations(
     4,
     "shopping and the weekend",
-    ["Óscar"],
+    ["Felipe"],
     [
       {
         prompt: "¿Qué fruta compra el hombre?",
@@ -446,15 +446,15 @@ const task1 = [
         },
       },
       {
-        prompt: "¿Qué lleva Óscar a la fiesta?",
+        prompt: "¿Qué lleva Felipe a la fiesta?",
         answer: "🍰 Una tarta.",
         wrong: ["🧃 Zumo.", "🎁 Un regalo."],
-        explanation: "Óscar brings a chocolate cake. The woman brings the water and juice.",
+        explanation: "Felipe brings a chocolate cake. The woman brings the water and juice.",
         audio: {
-          voices: { friend: "female", oscar: "male" },
+          voices: { friend: "female", felipe: "male" },
           turns: [
-            ["friend", "Óscar, ¿qué llevas a la fiesta del sábado?"],
-            ["oscar", "Yo llevo una tarta de chocolate. Y tú, ¿llevas bebidas?"],
+            ["friend", "Felipe, ¿qué llevas a la fiesta del sábado?"],
+            ["felipe", "Yo llevo una tarta de chocolate. Y tú, ¿llevas bebidas?"],
             ["friend", "Sí, yo llevo agua y zumo."],
           ],
         },
@@ -475,17 +475,17 @@ const task1 = [
         },
       },
       {
-        prompt: "¿Dónde trabaja Óscar?",
+        prompt: "¿Dónde trabaja Felipe?",
         answer: "🏫 En un colegio.",
         wrong: ["🏥 En un hospital.", "🏦 En un banco."],
         explanation: "He teaches music at a school. The hospital is only next to it.",
         audio: {
-          voices: { friend: "female", oscar: "male" },
+          voices: { friend: "female", felipe: "male" },
           turns: [
-            ["friend", "¿Dónde trabajas ahora, Óscar?"],
-            ["oscar", "Trabajo en un colegio. Soy profesor de música."],
+            ["friend", "¿Dónde trabajas ahora, Felipe?"],
+            ["felipe", "Trabajo en un colegio. Soy profesor de música."],
             ["friend", "¿En el colegio de tu barrio?"],
-            ["oscar", "No, está en el centro, al lado del hospital."],
+            ["felipe", "No, está en el centro, al lado del hospital."],
           ],
         },
       },
@@ -736,10 +736,10 @@ const task3 = [
   statements(
     1,
     "a teacher's daily life",
-    ["Elena", "Pablo", "Luis", "Sara"],
-    "Elena",
+    ["Fernando", "Pablo", "Luis", "Diego"],
+    "Fernando",
     [
-      "es profesora.",
+      "es profesor.",
       "vive cerca del centro.",
       "tiene dos hermanos.",
       "va al trabajo en bicicleta.",
@@ -753,19 +753,19 @@ const task3 = [
     ],
     [
       {
-        about: "her job",
-        answer: "es profesora.",
+        about: "his job",
+        answer: "es profesor.",
         audio:
-          "Soy Elena y soy profesora de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
+          "Soy Fernando y soy profesor de español en una escuela pequeña. Me gusta mi trabajo porque conozco a mucha gente.",
       },
       {
-        about: "her home",
+        about: "his home",
         answer: "vive cerca del centro.",
         audio:
           "Mi piso no es muy grande, pero está cerca del centro. Puedo ir andando a las tiendas y al mercado.",
       },
       {
-        about: "her family",
+        about: "his family",
         answer: "tiene dos hermanos.",
         audio:
           "Tengo dos hermanos. Mi hermano mayor se llama Pablo y el pequeño se llama Luis. Los dos son estudiantes.",
@@ -783,7 +783,7 @@ const task3 = [
           "Normalmente como a las dos de la tarde con mis compañeros. Comemos en un pequeño restaurante junto a la escuela.",
       },
       {
-        about: "her studies",
+        about: "his studies",
         answer: "estudia francés.",
         audio:
           "Los lunes y miércoles estudio francés por la tarde. Mi profesora es de París y en clase hablamos mucho.",
@@ -792,10 +792,10 @@ const task3 = [
         about: "sport",
         answer: "juega al tenis.",
         audio:
-          "Los sábados juego al tenis con mi amiga Sara. Nos gusta mucho el deporte y después tomamos un café juntas.",
+          "Los sábados juego al tenis con mi amigo Diego. Nos gusta mucho el deporte y después tomamos un café juntos.",
       },
       {
-        about: "her evening",
+        about: "his evening",
         answer: "lee antes de dormir.",
         audio:
           "Por la noche leo un poco antes de dormir. Me gustan los libros de viajes y las historias sobre otros países.",
@@ -805,8 +805,8 @@ const task3 = [
   statements(
     2,
     "a cook's week",
-    ["Jorge"],
-    "Jorge",
+    ["Vicente"],
+    "Vicente",
     [
       "trabaja en un restaurante.",
       "vive con su hermano.",
@@ -826,7 +826,7 @@ const task3 = [
         answer: "trabaja en un restaurante.",
         audio: say(
           "male",
-          "Me llamo Jorge y soy cocinero. Trabajo en un restaurante pequeño del centro. Me gusta mucho cocinar para la gente.",
+          "Me llamo Vicente y soy cocinero. Trabajo en un restaurante pequeño del centro. Me gusta mucho cocinar para la gente.",
         ),
       },
       {
@@ -975,8 +975,8 @@ const task3 = [
   statements(
     4,
     "a bus driver's day",
-    ["Alberto"],
-    "Alberto",
+    ["Ernesto"],
+    "Ernesto",
     [
       "es conductor de autobús.",
       "trabaja por la tarde.",
@@ -996,7 +996,7 @@ const task3 = [
         answer: "es conductor de autobús.",
         audio: say(
           "male",
-          "Soy Alberto y soy conductor de autobús. Trabajo en la línea cinco, que va del centro al hospital.",
+          "Soy Ernesto y soy conductor de autobús. Trabajo en la línea cinco, que va del centro al hospital.",
         ),
       },
       {
@@ -1202,24 +1202,24 @@ const task4 = [
   conversation(
     3,
     "a surprise birthday dinner",
-    ["Mario", "Fernando"],
+    ["Lorenzo", "Esteban"],
     {
-      voices: { friend: "female", mario: "male" },
+      voices: { friend: "female", lorenzo: "male" },
       turns: [
-        ["friend", "Hola, Mario. El viernes es el cumpleaños de Fernando. ¿Hacemos una cena?"],
-        ["mario", "¡Buena idea! ¿Dónde? ¿En tu casa o en un restaurante?"],
+        ["friend", "Hola, Lorenzo. El viernes es el cumpleaños de Esteban. ¿Hacemos una cena?"],
+        ["lorenzo", "¡Buena idea! ¿Dónde? ¿En tu casa o en un restaurante?"],
         ["friend", "En un restaurante. Conozco uno mexicano muy bueno en la plaza Mayor."],
-        ["mario", "Perfecto. A Fernando le encanta la comida mexicana. ¿A qué hora?"],
+        ["lorenzo", "Perfecto. A Esteban le encanta la comida mexicana. ¿A qué hora?"],
         ["friend", "A las nueve. ¿Está bien?"],
-        ["mario", "Sí. ¿Cuántas personas vamos?"],
+        ["lorenzo", "Sí. ¿Cuántas personas vamos?"],
         ["friend", "Somos ocho: los compañeros de trabajo y su hermano."],
-        ["mario", "¿Y el regalo? Podemos comprar un libro."],
+        ["lorenzo", "¿Y el regalo? Podemos comprar un libro."],
         ["friend", "Mejor unas entradas para un concierto. Le gusta mucho la música."],
-        ["mario", "Vale. ¿Cuánto pagamos cada uno?"],
+        ["lorenzo", "Vale. ¿Cuánto pagamos cada uno?"],
         ["friend", "Unos quince euros por persona. Yo compro las entradas mañana."],
-        ["mario", "Muy bien. Y yo llamo al restaurante para reservar la mesa."],
-        ["friend", "Genial. Pero es una sorpresa. No le digas nada a Fernando."],
-        ["mario", "Tranquila, no digo nada."],
+        ["lorenzo", "Muy bien. Y yo llamo al restaurante para reservar la mesa."],
+        ["friend", "Genial. Pero es una sorpresa. No le digas nada a Esteban."],
+        ["lorenzo", "Tranquila, no digo nada."],
       ],
     },
     [
@@ -1233,13 +1233,17 @@ const task4 = [
       "mexicano",
     ],
     [
-      ["La cena es el…", "viernes", "Fernando’s birthday is on Friday, so the dinner is then."],
+      ["La cena es el…", "viernes", "Esteban’s birthday is on Friday, so the dinner is then."],
       ["El restaurante es…", "mexicano", "She knows a very good Mexican restaurant."],
       ["La cena empieza…", "a las nueve", "They agree to start the dinner at nine o’clock."],
       ["En la cena son…", "ocho personas", "Eight people: his work colleagues and his brother."],
-      ["El regalo es…", "unas entradas", "Mario suggests a book, but they choose concert tickets."],
+      [
+        "El regalo es…",
+        "unas entradas",
+        "Lorenzo suggests a book, but they choose concert tickets.",
+      ],
       ["Cada persona paga…", "quince euros", "About fifteen euros per person."],
-      ["Mario llama al…", "restaurante", "Mario calls the restaurant to book the table."],
+      ["Lorenzo llama al…", "restaurante", "Lorenzo calls the restaurant to book the table."],
     ],
   ),
   conversation(

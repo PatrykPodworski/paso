@@ -4,7 +4,7 @@ import type { MockRun } from "../../data/types";
 import type { ReviewResult } from "../writing-review/requestReview";
 
 // The DELE band of each review that has one, by question id.
-export const marksOf = (results: Record<string, ReviewResult>) =>
+const marksOf = (results: Record<string, ReviewResult>) =>
   Object.fromEntries(
     Object.entries(results).flatMap(([id, result]) =>
       "review" in result && result.review.mark ? [[id, result.review.mark.band]] : [],

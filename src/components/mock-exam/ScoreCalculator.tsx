@@ -42,6 +42,31 @@ const ScoreInput = ({ label, value, onChange }: ScoreInputProps) => (
   </label>
 );
 
+type PassingNoticeProps = { reading: number; writing: number; listening: number; speaking: number };
+
+const PassingNotice = ({ reading, writing, listening, speaking }: PassingNoticeProps) => {
+  const groups = passingGroups(reading, writing, listening, speaking);
+
+  return (
+    <Notice positive={groups.pass}>
+      <p className="leading-relaxed my-3 text-muted-foreground">
+        Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
+        <br />
+        Listening + speaking: <strong>{groups.group2.toFixed(2)}/50</strong>
+        <br />
+        <span>
+          Total: <strong>{(groups.group1 + groups.group2).toFixed(2)}/100</strong>
+        </span>
+        <br />
+        {groups.pass
+          ? "Both groups meet 30/50 based on these scores."
+          : "At least one group is below 30/50 based on these scores."}{" "}
+        This is not an official result or a prediction.
+      </p>
+    </Notice>
+  );
+};
+
 export const ScoreCalculator = ({
   reading,
   listening,
@@ -57,7 +82,6 @@ export const ScoreCalculator = ({
   const writingPoints = scored.writing ?? typed(writing);
   const speakingPoints = scored.speaking ?? typed(speaking);
   const typing = scored.writing === undefined || scored.speaking === undefined;
-  const groups = passingGroups(reading, writingPoints ?? 0, listening, speakingPoints ?? 0);
 
   return (
     <div className="mb-6 rounded-lg border border-border p-6 text-left max-md:p-5">
@@ -85,22 +109,12 @@ export const ScoreCalculator = ({
         practice estimate, not a DELE mark.
       </FieldNote>
       {writingPoints !== undefined && speakingPoints !== undefined ? (
-        <Notice positive={groups.pass}>
-          <p className="leading-relaxed my-3 text-muted-foreground">
-            Reading + writing: <strong>{groups.group1.toFixed(2)}/50</strong>
-            <br />
-            Listening + speaking: <strong>{groups.group2.toFixed(2)}/50</strong>
-            <br />
-            <span>
-              Total: <strong>{(groups.group1 + groups.group2).toFixed(2)}/100</strong>
-            </span>
-            <br />
-            {groups.pass
-              ? "Both groups meet 30/50 based on these scores."
-              : "At least one group is below 30/50 based on these scores."}{" "}
-            This is not an official result or a prediction.
-          </p>
-        </Notice>
+        <PassingNotice
+          reading={reading}
+          writing={writingPoints}
+          listening={listening}
+          speaking={speakingPoints}
+        />
       ) : (
         <FieldNote className="my-3">
           A pass cannot be determined without a writing and a speaking score. Enter a score between

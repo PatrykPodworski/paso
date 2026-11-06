@@ -34,25 +34,81 @@ type Props = {
   onReset: () => void;
 };
 
-const TILE = "flex flex-col gap-2.5 rounded-lg bg-muted px-2.5 py-5 text-foreground";
+type TileProps = { label: string; children: ReactNode };
 
-type PointsProps = { value: number; children?: ReactNode };
-
-const Points = ({ value, children }: PointsProps) => (
-  <>
-    <strong className="font-heading text-4xl font-medium">
-      {value}
-      <small className="text-base text-muted-foreground">/25</small>
-    </strong>
-    {children && <small className="text-xs text-muted-foreground">{children}</small>}
-  </>
+const Tile = ({ label, children }: TileProps) => (
+  <div className="flex flex-col gap-2.5 rounded-lg bg-muted px-2.5 py-5 text-foreground">
+    <span className="text-sm">{label}</span>
+    {children}
+  </div>
 );
 
-type UnscoredProps = { children?: ReactNode };
+type PointsProps = {
+  // Undefined when the section has no score yet.
+  value: number | undefined;
+  // What a section without a score shows in place of the points.
+  unscored?: string;
+  children?: ReactNode;
+};
 
-const Unscored = ({ children = "Not scored" }: UnscoredProps) => (
-  <strong className="my-2.5 text-sm font-medium">{children}</strong>
-);
+const Points = ({ value, unscored = "Not scored", children }: PointsProps) =>
+  value === undefined ? (
+    <strong className="my-2.5 text-sm font-medium">{unscored}</strong>
+  ) : (
+    <>
+      <strong className="font-heading text-4xl font-medium">
+        {value}
+        <small className="text-base text-muted-foreground">/25</small>
+      </strong>
+      {children && <small className="text-xs text-muted-foreground">{children}</small>}
+    </>
+  );
+
+type ScoreTilesProps = Pick<Props, "sections" | "reading" | "listening" | "scored"> & {
+  // How many talks the speaking section has.
+  talkCount: number;
+  // Whether the AI tutor is marking the writing now.
+  scoring: boolean;
+};
+
+const ScoreTiles = ({
+  sections,
+  reading,
+  listening,
+  scored,
+  talkCount,
+  scoring,
+}: ScoreTilesProps) => {
+  const full = sections.length === mockExam.length;
+  const partTalks = scored.scoredTalks < talkCount;
+
+  return (
+    <div className={`my-7 grid gap-3.5 ${full ? "grid-cols-4 max-lg:grid-cols-2" : ""}`}>
+      {sections.includes(0) && (
+        <Tile label="Reading">
+          <Points value={reading} />
+        </Tile>
+      )}
+      {sections.includes(1) && (
+        <Tile label="Listening">
+          <Points value={listening} />
+        </Tile>
+      )}
+      {sections.includes(2) && (
+        <Tile label="Writing">
+          <Points value={scored.writing} unscored={scoring ? "Scoring…" : "Not scored"} />
+        </Tile>
+      )}
+      {sections.includes(3) && (
+        <Tile label="Speaking">
+          <Points value={scored.speaking}>
+            {partTalks && `From ${scored.scoredTalks} of ${talkCount} talks`}
+          </Points>
+        </Tile>
+      )}
+    </div>
+  );
+};
 
 export const MockResults = ({
   sections,
@@ -72,7 +128,6 @@ export const MockResults = ({
 }: Props) => {
   const full = sections.length === mockExam.length;
   const reviews = useWritingReviews(keepMarks(onMarks));
-  const partTalks = scored.scoredTalks < talkTasks.length;
 
   return (
     <Panel className="p-9 text-center max-md:px-5 max-md:py-7">
@@ -84,42 +139,14 @@ export const MockResults = ({
       <p className="leading-relaxed text-sm text-muted-foreground">
         Now you know where your next steps can take you.
       </p>
-      <div className={`my-7 grid gap-3.5 ${full ? "grid-cols-4 max-lg:grid-cols-2" : ""}`}>
-        {sections.includes(0) && (
-          <div className={TILE}>
-            <span className="text-sm">Reading</span>
-            <Points value={reading} />
-          </div>
-        )}
-        {sections.includes(1) && (
-          <div className={TILE}>
-            <span className="text-sm">Listening</span>
-            <Points value={listening} />
-          </div>
-        )}
-        {sections.includes(2) && (
-          <div className={TILE}>
-            <span className="text-sm">Writing</span>
-            {scored.writing !== undefined ? (
-              <Points value={scored.writing} />
-            ) : (
-              <Unscored>{reviews.loading ? "Scoring…" : "Not scored"}</Unscored>
-            )}
-          </div>
-        )}
-        {sections.includes(3) && (
-          <div className={TILE}>
-            <span className="text-sm">Speaking</span>
-            {scored.speaking !== undefined ? (
-              <Points value={scored.speaking}>
-                {partTalks && `From ${scored.scoredTalks} of ${talkTasks.length} talks`}
-              </Points>
-            ) : (
-              <Unscored />
-            )}
-          </div>
-        )}
-      </div>
+      <ScoreTiles
+        sections={sections}
+        reading={reading}
+        listening={listening}
+        scored={scored}
+        talkCount={talkTasks.length}
+        scoring={reviews.loading}
+      />
       {sections.includes(2) && scored.writing === undefined && (
         <WritingRetry reviews={reviews} unmarked={unmarked} />
       )}

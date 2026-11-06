@@ -435,6 +435,7 @@ export const freshMockRun = (): MockRun => ({
   drafts: {},
   scores: {},
   talks: {},
+  plays: {},
   seed: 0,
   variants: firstVariants,
   sections: fullExam,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Panel } from "../../design-system/Panel";
 import { TextLink } from "../../design-system/TextLink";
 import { Button } from "../ui/button";
@@ -33,9 +33,9 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
   const q = section.questions[run.index];
   const last = section.questions.length - 1;
   const answers = { ...run.answers, ...draftAnswers(run) };
-  // Plays of each recording, by its text: the questions that share one count them together.
-  const [plays, setPlays] = useState<Record<string, number>>({});
-  const audio = q.audio;
+  // The questions that share a recording count its plays together, under the first of them.
+  const recording = q.audio && section.questions.find((other) => other.audio === q.audio)?.id;
+  const played = recording ? (run.plays[recording] ?? 0) : 0;
 
   // Leaving the exam page stops the recording, which the shared player leaves running.
   useEffect(() => stopAudio, []);
@@ -81,10 +81,10 @@ export const ExamRunning = ({ run, change, confirm, setConfirm, onEnd }: Props) 
           draft={run.drafts[q.id] ?? run.answers[q.id] ?? ""}
           onDraft={(text) => change({ drafts: { [q.id]: text } })}
           plays={
-            audio
+            recording
               ? {
-                  count: plays[audio] ?? 0,
-                  onPlayed: () => setPlays((p) => ({ ...p, [audio]: (p[audio] ?? 0) + 1 })),
+                  count: played,
+                  onPlayed: () => change({ plays: { [recording]: played + 1 } }),
                 }
               : undefined
           }

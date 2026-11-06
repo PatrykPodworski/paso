@@ -30,6 +30,7 @@ export const useMockRun = (
         drafts: { ...r.drafts, ...patch.drafts },
         scores: { ...r.scores, ...patch.scores },
         talks: { ...r.talks, ...patch.talks },
+        plays: { ...r.plays, ...patch.plays },
       }));
 
       onRunChange(patch);

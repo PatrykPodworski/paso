@@ -13,7 +13,7 @@ export const u2: TaskSpec = {
     "Ahora, hazme dos preguntas a mí.",
   ],
   items: [
-    { id: "name", label: "Name, spelled", example: "Pedro: pe, e, de, erre, o" },
+    { id: "name", label: "Name, spelled", example: "Ana: a, ene, a" },
     { id: "age", label: "Age", example: "Veinte años" },
     { id: "city", label: "City", example: "En Bilbao" },
     {
@@ -21,7 +21,7 @@ export const u2: TaskSpec = {
       label: "Phone number",
       example: "Seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho",
     },
-    { id: "questions", label: "Two questions to Lucas", example: "¿Cómo te llamas? ¿Dónde vives?" },
+    { id: "questions", label: "Two questions to Lucía", example: "¿Cómo te llamas? ¿Dónde vives?" },
   ],
   asked:
     "The examiner, a clerk taking the learner's details, asked for five things: the learner's name, age, city and phone number, and then two questions from the learner. The name counts only when the learner also spells it letter by letter, and the questions only when the learner asks the examiner two questions.",

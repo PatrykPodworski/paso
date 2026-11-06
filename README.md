@@ -8,7 +8,7 @@ written for this app and informed by Instituto Cervantes sources, not scraped
 from a textbook.
 
 It runs in the browser and saves your progress online, under a learner id this
-browser keeps. There is no account yet. The live talk with Lucas in unit 1 sends
+browser keeps. There is no account yet. The live talk with Lucía in unit 1 sends
 your voice to OpenAI for that talk, and its transcript is sent back for scoring.
 
 Try it: **https://paso.podwor.ski**
@@ -106,7 +106,7 @@ Generating new clips, the voice assignments and the credit guards are in
 
 ## Writing and speaking
 
-Every speaking task is a live talk with Lucas; nothing is recorded in the browser.
+Every speaking task is a live talk with Lucía; nothing is recorded in the browser.
 
 In a lesson or practice writing task, "Review my practice" asks an AI tutor for
 feedback: a result (passed, partly passed or not passed yet), each requested
@@ -130,7 +130,7 @@ from the environment or `.env.local`; rerun it after changing the prompt or the 
 
 ## Live examiner
 
-Unit 1's speaking task is a two-minute voice talk with Lucas, an OpenAI
+Unit 1's speaking task is a two-minute voice talk with Lucía, an OpenAI
 realtime model. `api/live-session.ts` opens the session, so the API key stays
 on the server; `api/score-talk.ts` grades the transcript afterwards.
 

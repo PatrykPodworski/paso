@@ -125,7 +125,7 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
 
-  await expect(page.getByRole("list", { name: "Lucas's grades" })).toHaveText(
+  await expect(page.getByRole("list", { name: "Lucía's grades" })).toHaveText(
     "Task 1GoodTask 2GoodTask 3Good",
   );
 

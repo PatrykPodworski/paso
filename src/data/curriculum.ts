@@ -131,8 +131,8 @@ const seeds: Seed[] = [
     live: {
       task: "u1",
       prompt:
-        "Talk to Lucas. Answer three short questions in Spanish: your name, your age and where you are from.",
-      answer: "Me llamo Iván. Tengo treinta años. Soy de Polonia.",
+        "Talk to Lucía. Answer three short questions in Spanish: your name, your age and where you are from.",
+      answer: "Me llamo Ana. Tengo treinta años. Soy de Polonia.",
       explanation:
         "A perfect or good talk passes. A talk that misses an answer goes to My mistakes in Practice until you pass it.",
     },
@@ -244,7 +244,7 @@ const seeds: Seed[] = [
     live: {
       task: "u2",
       prompt:
-        "Talk to Lucas, who takes your details. Say and spell your name, give your age and your city, say a phone number slowly (a made-up nine-digit one is fine), then ask him two questions.",
+        "Talk to Lucía, who takes your details. Say and spell your name, give your age and your city, say a phone number slowly (a made-up nine-digit one is fine), then ask her two questions.",
       answer:
         "Me llamo Pedro: pe, e, de, erre, o. Tengo veintiséis años. Vivo en Bilbao. Mi teléfono es seis, uno, dos, tres, cuatro, cinco, seis, siete, ocho. ¿Cómo te llamas? ¿Dónde vives?",
       explanation:
@@ -358,7 +358,7 @@ const seeds: Seed[] = [
     live: {
       task: "u3",
       prompt:
-        "Talk to Lucas about your family. Say who is in it, describe one person, say what you do together, then ask him two questions about his family.",
+        "Talk to Lucía about your family. Say who is in it, describe one person, say what you do together, then ask her two questions about her family.",
       answer:
         "Mi familia es pequeña. Vivo con mi madre y mi hermano. Mi madre es profesora, es alta y muy simpática. Los domingos vamos al parque. ¿Tienes hermanos? ¿Dónde vive tu familia?",
       explanation:
@@ -471,7 +471,7 @@ const seeds: Seed[] = [
     live: {
       task: "u4",
       prompt:
-        "Talk to Lucas about your home. Say where it is, which rooms it has and which one you like most, say where three things are, then ask him two questions about his home.",
+        "Talk to Lucía about your home. Say where it is, which rooms it has and which one you like most, say where three things are, then ask her two questions about her home.",
       answer:
         "Vivo en un piso en el centro. Tiene dos habitaciones, una cocina y un salón. Me gusta el salón porque es grande. La mesa está junto a la ventana, el sofá está en el salón y la cama está en mi habitación. ¿Dónde vives? ¿Cómo es tu casa?",
       explanation:
@@ -585,7 +585,7 @@ const seeds: Seed[] = [
     live: {
       task: "u5",
       prompt:
-        "Talk to Lucas about a typical day. Say what you do in the morning, whether you work or study, and what you do in the evening, say at what time you do things, then ask him two questions about his routine.",
+        "Talk to Lucía about a typical day. Say what you do in the morning, whether you work or study, and what you do in the evening, say at what time you do things, then ask her two questions about her routine.",
       answer:
         "Me levanto a las siete y desayuno café con pan. Trabajo en una oficina de nueve a cinco. Por la noche estudio español y leo un libro. Como a las dos y me acuesto a las once. ¿A qué hora te levantas? ¿Trabajas por la tarde?",
       explanation:
@@ -699,7 +699,7 @@ const seeds: Seed[] = [
     live: {
       task: "u6",
       prompt:
-        "Talk to Lucas, a waiter in a café. Greet him, order food and a drink, ask the price, ask for the bill and say thank you, then tell him what food you like.",
+        "Talk to Lucía, a waiter in a café. Greet her, order food and a drink, ask the price, ask for the bill and say thank you, then tell her what food you like.",
       answer:
         "Buenos días. Quiero un café con leche y una tostada, por favor. ¿Cuánto es? La cuenta, por favor. Muchas gracias. Me gusta el pan con tomate.",
       explanation:
@@ -814,7 +814,7 @@ const seeds: Seed[] = [
     live: {
       task: "u7",
       prompt:
-        "Talk to Lucas, a neighbour on the street. Tell him where your neighborhood is, which places it has and what you like about it, then ask him where the bank is and how far it is from the station.",
+        "Talk to Lucía, a neighbour on the street. Tell her where your neighborhood is, which places it has and what you like about it, then ask her where the bank is and how far it is from the station.",
       answer:
         "Mi barrio está en el centro. Hay un parque, una farmacia y dos supermercados. Me gusta porque es tranquilo. ¿Dónde está el banco? ¿Está lejos de la estación?",
       explanation:
@@ -928,7 +928,7 @@ const seeds: Seed[] = [
     live: {
       task: "u8",
       prompt:
-        "Talk to Lucas, a shop assistant in a clothes shop. Ask for a garment, say which color and size you want, ask the price and whether you can pay by card, then tell him which colors you like.",
+        "Talk to Lucía, a shop assistant in a clothes shop. Ask for a garment, say which color and size you want, ask the price and whether you can pay by card, then tell her which colors you like.",
       answer:
         "Buenos días. Quiero una camisa azul, talla mediana, por favor. ¿Cuánto cuesta? ¿Puedo pagar con tarjeta? Me gusta el azul, pero no me gusta el rojo.",
       explanation:
@@ -1041,7 +1041,7 @@ const seeds: Seed[] = [
     live: {
       task: "u9",
       prompt:
-        "Talk to Lucas, a friendly interviewer, about your free time. Say what you like doing, when and with whom, then invite him to an activity and ask what he likes doing.",
+        "Talk to Lucía, a friendly interviewer, about your free time. Say what you like doing, when and with whom, then invite her to an activity and ask what she likes doing.",
       answer:
         "Me gusta leer y nadar. Los sábados voy a la piscina con mi amiga. Por la noche escucho música en casa. ¿Quieres ir al cine el domingo? ¿Qué te gusta hacer?",
       explanation:
@@ -1156,7 +1156,7 @@ const seeds: Seed[] = [
     live: {
       task: "u10",
       prompt:
-        "Talk to Lucas, first a ticket clerk at the station, then a hotel receptionist. Buy a ticket, ask the departure time and the price, then ask for a room for two people for three nights.",
+        "Talk to Lucía, first a ticket clerk at the station, then a hotel receptionist. Buy a ticket, ask the departure time and the price, then ask for a room for two people for three nights.",
       answer:
         "Buenos días. Un billete a Madrid, por favor. ¿A qué hora sale el tren? ¿Cuánto cuesta? Buenas tardes. Quiero una habitación para dos personas, para tres noches. Gracias.",
       explanation:
@@ -1269,7 +1269,7 @@ const seeds: Seed[] = [
     live: {
       task: "u11",
       prompt:
-        "Talk to Lucas, a friendly interviewer, about the weather. Say what the weather is like today, which season you like most, and how you feel and what you need. Then ask him about his favourite season and the weather in his city.",
+        "Talk to Lucía, a friendly interviewer, about the weather. Say what the weather is like today, which season you like most, and how you feel and what you need. Then ask her about her favourite season and the weather in her city.",
       answer:
         "Hoy hace sol y calor. Me gusta el verano porque puedo nadar. Tengo calor y necesito un vaso de agua. ¿Cuál es tu estación favorita? ¿Qué tiempo hace en tu ciudad?",
       explanation:
@@ -1383,7 +1383,7 @@ const seeds: Seed[] = [
     live: {
       task: "u12",
       prompt:
-        "Talk to Lucas, a friendly interviewer, in a short exam rehearsal. Introduce yourself briefly, talk about your studies, your work or your home, answer two questions about it, and then ask him two questions about the same topic. The full oral exam is in the mock exam.",
+        "Talk to Lucía, a friendly interviewer, in a short exam rehearsal. Introduce yourself briefly, talk about your studies, your work or your home, answer two questions about it, and then ask her two questions about the same topic. The full oral exam is in the mock exam.",
       answer:
         "Me llamo Pablo, soy polaco, tengo veinticinco años y vivo en Madrid. Vivo en un piso pequeño con dos dormitorios y un salón. Vivo con mi hermana. Me gusta el salón porque tiene una ventana grande. ¿Dónde vives tú? ¿Cómo es tu casa?",
       explanation:

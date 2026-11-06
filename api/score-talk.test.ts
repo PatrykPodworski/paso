@@ -21,7 +21,7 @@ const openai = vi.fn();
 
 const turns = [
   { role: "examiner", text: "Hola, buenos días. ¿Cómo te llamas?" },
-  { role: "student", text: "Me llamo Bruno." },
+  { role: "student", text: "Me llamo Ana." },
   { role: "examiner", text: "Muy bien. ¿Cuántos años tienes?" },
   { role: "student", text: "Soy veinte años." },
   { role: "examiner", text: "Gracias. ¿De dónde eres?" },
@@ -210,7 +210,7 @@ describe("scoring a talk", () => {
       items: [
         { id: "withWhom", label: "Who you live with", level: "correct" },
         { id: "nearby", label: "What there is nearby", level: "missing" },
-        { id: "questions", label: "Two questions to Lucas", level: "correct" },
+        { id: "questions", label: "Two questions to Lucía", level: "correct" },
       ],
       corrections: [fixOf("nearby")],
     });

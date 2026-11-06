@@ -84,7 +84,7 @@ describe("original curriculum integrity", () => {
       "u12",
     ]);
 
-    expect(speaking[11].prompt).toMatch(/^Talk to Lucas\b/);
+    expect(speaking[11].prompt).toMatch(/^Talk to Lucía\b/);
     expect(speaking[11].prompt).toMatch(/short exam rehearsal/);
     expect(speaking[11].prompt).toMatch(/full oral exam is in the mock exam/);
 

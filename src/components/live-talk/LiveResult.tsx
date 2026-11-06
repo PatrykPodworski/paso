@@ -14,17 +14,17 @@ const HEADINGS = {
 };
 
 const NOTES = {
-  perfect: "You gave Lucas everything he asked for in correct Spanish.",
-  good: "Lucas understood you. Talk again to make your answers correct.",
-  bad: "Lucas did not get everything he asked for. If you continue now, you can try it again later under My mistakes in Practice.",
+  perfect: "You gave Lucía everything she asked for in correct Spanish.",
+  good: "Lucía understood you. Talk again to make your answers correct.",
+  bad: "Lucía did not get everything she asked for. If you continue now, you can try it again later under My mistakes in Practice.",
 };
 
 const EXAM_HEADINGS = { perfect: "Perfect.", good: "Good.", bad: "Not everything." };
 
 const EXAM_NOTES = {
-  perfect: "You gave Lucas everything he asked for in correct Spanish.",
-  good: "Lucas understood you, with some mistakes.",
-  bad: "Lucas did not get everything he asked for.",
+  perfect: "You gave Lucía everything she asked for in correct Spanish.",
+  good: "Lucía understood you, with some mistakes.",
+  bad: "Lucía did not get everything she asked for.",
 };
 
 const LEVELS = {

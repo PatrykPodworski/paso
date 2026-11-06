@@ -500,7 +500,7 @@ describe("the mock exam run", () => {
     });
   });
 
-  it("keeps the picked topic and merges Lucas's scores per talk", async () => {
+  it("keeps the picked topic and merges Lucía's scores per talk", async () => {
     const me = learner();
     const good = { grade: "good", items: [{ id: "name", label: "Name", level: "correct" }] };
 

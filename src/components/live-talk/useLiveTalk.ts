@@ -5,8 +5,8 @@ import { turnsOf, type Fragment, type LiveTurn } from "./transcript";
 
 export type TalkStatus = "idle" | "microphone" | "connecting" | "live" | "ending" | "ended";
 
-// Lucas must start within CONNECT_MS of the microphone turning on, and is asked to greet
-// if he is still silent GREET_MS into the talk. The server closes a session at the
+// Lucía must start within CONNECT_MS of the microphone turning on, and is asked to greet
+// if she is still silent GREET_MS into the talk. The server closes a session at the
 // task's limit; the client asks GRACE_MS later in case it did not.
 const CONNECT_MS = 15_000;
 const GREET_MS = 2_500;

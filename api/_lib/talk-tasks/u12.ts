@@ -16,7 +16,7 @@ export const u12: TaskSpec = {
     {
       id: "intro",
       label: "Short introduction",
-      example: "Me llamo Pablo, soy polaco, tengo treinta años y vivo en Varsovia",
+      example: "Me llamo Ana, soy polaca, tengo treinta años y vivo en Varsovia",
     },
     {
       id: "topic",
@@ -30,7 +30,7 @@ export const u12: TaskSpec = {
     },
     {
       id: "questions",
-      label: "Two questions to Lucas",
+      label: "Two questions to Lucía",
       example: "¿Dónde vives tú? ¿Cómo es tu casa?",
     },
   ],

@@ -400,7 +400,7 @@ test("illustrated scenarios in the picture studio", async ({ page }) => {
   }
 });
 
-test("question: live talk with Lucas", async ({ page }) => {
+test("question: live talk with Lucía", async ({ page }) => {
   await mockLiveTalk(page, {
     grade: "bad",
     items: [
@@ -440,7 +440,7 @@ test("question: live talk with Lucas", async ({ page }) => {
   await shot(page, "question-live-passcode");
   await page.getByLabel("Passcode").fill("olé");
   await page.getByRole("button", { name: "Start the talk" }).click();
-  await expect(page.getByRole("status")).toHaveText("Connecting to Lucas…");
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
 
   await examiner(page, {
@@ -451,7 +451,7 @@ test("question: live talk with Lucas", async ({ page }) => {
 
   await examiner(page, {
     type: "session.input_transcript.delta",
-    delta: "Me llamo Bruno.",
+    delta: "Me llamo Ana.",
     start_ms: 2000,
   });
 

@@ -9,7 +9,7 @@ import {
   seedProgress,
   stored,
 } from "../fixtures/app";
-import { examiner, mockLiveTalk, sentEvents, talkToLucas } from "../fixtures/live";
+import { examiner, mockLiveTalk, sentEvents, talkToLucia } from "../fixtures/live";
 import { writingReview } from "../fixtures/writing";
 import { readFileSync } from "node:fs";
 import { audioKey } from "../../src/data/audio";
@@ -427,7 +427,7 @@ test("a failed writing review keeps the answer editable, and a red result goes t
 
 const [, task2, task3] = sections[3].questions;
 
-test("the mock exam's Task 2 talks to Lucas on the picked topic and keeps the result across a reload", async ({
+test("the mock exam's Task 2 talks to Lucía on the picked topic and keeps the result across a reload", async ({
   page,
 }) => {
   await mockLiveTalk(page, {
@@ -445,7 +445,7 @@ test("the mock exam's Task 2 talks to Lucas on the picked topic and keeps the re
   await page.getByRole("radio", { name: /Your home/ }).check();
   const session = page.waitForRequest("**/api/live-session");
 
-  await talkToLucas(page);
+  await talkToLucia(page);
   expect((await session).postDataJSON()).toMatchObject({ task: "mock-s2", topic: "home" });
   await expect(page.getByRole("heading", { name: "Good." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Talk again" })).toBeHidden();
@@ -466,7 +466,7 @@ test("the mock exam's Task 2 talks to Lucas on the picked topic and keeps the re
     .toMatchObject({
       index: 2,
       topic: "home",
-      answers: { "mock-s2": "Lucas: Hola.\nYou: Hola, soy Bruno." },
+      answers: { "mock-s2": "Lucía: Hola.\nYou: Hola, soy Ana." },
       talks: { "mock-s2": { grade: "good" } },
     });
 });
@@ -662,7 +662,7 @@ test("listening records transcript assistance and plays bundled audio", async ({
     .toMatchObject({ correct: true, assisted: true });
 });
 
-test("talk to Lucas live, get scored and pass unit 1's speaking", async ({ page }) => {
+test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page }) => {
   await mockLiveTalk(page, {
     grade: "good",
     items: [
@@ -687,7 +687,7 @@ test("talk to Lucas live, get scored and pass unit 1's speaking", async ({ page 
   }
 
   await page.getByRole("button", { name: "Start the talk" }).click();
-  await expect(page.getByRole("status")).toHaveText("Connecting to Lucas…");
+  await expect(page.getByRole("status")).toHaveText("Connecting to Lucía…");
   await examiner(page, { type: "session.started", session: { id: "live_1" } });
 
   await examiner(page, {
@@ -698,13 +698,13 @@ test("talk to Lucas live, get scored and pass unit 1's speaking", async ({ page 
 
   await examiner(page, {
     type: "session.input_transcript.delta",
-    delta: "Me llamo Bruno.",
+    delta: "Me llamo Ana.",
     start_ms: 2000,
   });
 
   await expect(page.getByRole("status")).toHaveText("Live");
   await expect(page.getByText(/^0:0\d$/)).toBeVisible();
-  await expect(page.getByText("Me llamo Bruno.")).toBeHidden();
+  await expect(page.getByText("Me llamo Ana.")).toBeHidden();
   await page.getByRole("button", { name: "End the talk" }).click();
   expect(await sentEvents(page)).toEqual(["session.close"]);
   await examiner(page, { type: "session.closed", reason: "close_requested" });
@@ -716,7 +716,7 @@ test("talk to Lucas live, get scored and pass unit 1's speaking", async ({ page 
 
   await expect(page.getByRole("list", { name: "Transcript" })).toBeHidden();
   await page.getByText("Transcript", { exact: true }).click();
-  await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Bruno.");
+  await expect(page.getByRole("list", { name: "Transcript" })).toContainText("Me llamo Ana.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
 
@@ -725,7 +725,7 @@ test("talk to Lucas live, get scored and pass unit 1's speaking", async ({ page 
     .toMatchObject({
       correct: true,
       grade: "good",
-      answer: "Lucas: ¿Cómo te llamas?\nYou: Me llamo Bruno.",
+      answer: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Ana.",
     });
 
   // The free talk keeps the passcode the lesson's writing review stored before it.

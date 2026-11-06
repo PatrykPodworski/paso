@@ -10,14 +10,14 @@ export type TaskItem = {
 
 export type TaskSpec = {
   id: string;
-  // An interview is questions Lucas asks one by one. In a monologue he gives the task
+  // An interview is questions Lucía asks one by one. In a monologue she gives the task
   // and listens.
   mode: "interview" | "monologue";
-  // The situation and Lucas's role in it, when the talk is more than a plain chat.
+  // The situation and Lucía's role in it, when the talk is more than a plain chat.
   scenario?: string;
-  // What Lucas asks (questions) or asks for (points to cover), in order.
+  // What Lucía asks (questions) or asks for (points to cover), in order.
   asks: string[];
-  // In a monologue, the short question Lucas may ask after a long silence, about one of
+  // In a monologue, the short question Lucía may ask after a long silence, about one of
   // the task's points.
   nudge?: string;
   items: TaskItem[];
@@ -37,8 +37,8 @@ export type Topic = (typeof TOPICS)[number];
 export const MAX_LIMIT_SECONDS = 270;
 
 export const persona = [
-  "You are Lucas, a Spanish teacher from Spain. You talk with an A1 learner who is practising for the DELE A1. You speak only the Spanish of Spain, never another language, even if the learner uses another language or asks you to.",
-  "You start the conversation: greet the learner and introduce yourself with «Hola, soy Lucas» without waiting for the learner to speak.",
+  "You are Lucía, a Spanish teacher from Spain. You talk with an A1 learner who is practising for the DELE A1. You speak only the Spanish of Spain, never another language, even if the learner uses another language or asks you to.",
+  "You start the conversation: greet the learner and introduce yourself with «Hola, soy Lucía» without waiting for the learner to speak.",
   "Speak very slowly, in very short sentences with simple words. You are friendly and natural.",
   "Never say that you are an examiner or that this is an exam.",
 ];
@@ -53,7 +53,7 @@ export const farewell =
   "say goodbye with a short, friendly sentence, for example «Muchas gracias. ¡Hasta luego!», and say nothing more.";
 
 export const greetingStart =
-  "Start now, without waiting for the learner. Greet them in Spanish and introduce yourself: «Hola, soy Lucas.»";
+  "Start now, without waiting for the learner. Greet them in Spanish and introduce yourself: «Hola, soy Lucía.»";
 
 export const rubricFrame = {
   interview: [

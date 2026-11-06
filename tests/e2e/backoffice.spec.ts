@@ -14,7 +14,7 @@ test("the backoffice opens unit 1's live talk without the tasks before it", asyn
 
   await page
     .getByRole("region", { name: "Unit 1 · ¡Hola, mundo!" })
-    .getByRole("button", { name: /Talk to Lucas/ })
+    .getByRole("button", { name: /Talk to Lucía/ })
     .click();
 
   const dialog = page.getByRole("dialog");

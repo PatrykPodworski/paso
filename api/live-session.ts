@@ -14,7 +14,7 @@ export const config = { maxDuration: 300 };
 const sessionOf = (task: TaskSpec) => ({
   model: "gpt-live-1",
   instructions: instructionsOf(task),
-  audio: { output: { voice: "cedar" } },
+  audio: { output: { voice: "marin" } },
   input: [{ role: "developer", content: [{ type: "input_text", text: greetingOf(task) }] }],
   client: {
     data_channel: {

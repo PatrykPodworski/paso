@@ -16,7 +16,7 @@ type Props = {
 };
 
 // One speaking task of the mock exam: a live talk whose transcript and grade are kept with
-// the run as soon as Lucas has scored, so a reload shows the result instead of a new talk.
+// the run as soon as Lucía has scored, so a reload shows the result instead of a new talk.
 export const SpeakingTask = ({ q, run, change, onNext }: Props) => {
   const listeningAudio = useRef<AudioHandle>(null);
   const answerAudio = useRef<AudioHandle>(null);

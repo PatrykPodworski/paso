@@ -291,7 +291,7 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     skill: "speaking",
     task: "Task 1 · Personal presentation · 1–2 min",
     prompt:
-      "Talk to Lucas. Present yourself: name, nationality, age, where you live, occupation, languages and personality. He gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
+      "Talk to Lucía. Present yourself: name, nationality, age, where you live, occupation, languages and personality. She gives you the task, then listens for 1–2 minutes; add a simple detail to each point.",
     answer:
       "Me llamo Pedro. Soy polaco y tengo veintiséis años. Vivo en Varsovia. Soy profesor de música. Hablo polaco e inglés y estudio español. Soy tranquilo y simpático.",
     explanation:
@@ -304,7 +304,7 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     skill: "speaking",
     task: "Task 2 · A familiar topic · 2–3 min",
     prompt:
-      "Pick ONE topic before you start: your home (location, rooms, favourite room), your studies (school, teachers, timetable) or your free time (activities, when, with whom). Lucas gives you the task, then listens for 2–3 minutes while you cover all three points.",
+      "Pick ONE topic before you start: your home (location, rooms, favourite room), your studies (school, teachers, timetable) or your free time (activities, when, with whom). Lucía gives you the task, then listens for 2–3 minutes while you cover all three points.",
     answer:
       "Mi casa está cerca del centro. Es un piso pequeño con dos dormitorios, un salón y una cocina. Me gusta el salón porque tiene una ventana grande. Hay una mesa y dos sillas.",
     explanation:
@@ -317,11 +317,11 @@ const [speaking1, speaking2, speaking3]: Question[] = [
     skill: "speaking",
     task: "Task 3 · Conversation · 3–4 min",
     prompt:
-      "Lucas asks you two questions about your Task 2 topic. Answer each one, then ask him TWO questions on the same topic; he answers them briefly.",
+      "Lucía asks you two questions about your Task 2 topic. Answer each one, then ask her TWO questions on the same topic; she answers them briefly.",
     answer:
       "Vivo con mi hermana. Cerca de mi casa hay una biblioteca y un parque. Me gusta mi barrio porque es tranquilo. ¿Dónde vives tú? ¿Cómo es tu casa?",
     explanation:
-      "The two questions to Lucas are part of the task. Lucas grades the transcript only; a person must assess pronunciation and how the conversation flows.",
+      "The two questions to Lucía are part of the task. Lucía grades the transcript only; a person must assess pronunciation and how the conversation flows.",
     talk: "mock-s3",
   },
 ];

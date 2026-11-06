@@ -166,6 +166,9 @@ const transcribe = (mp3, work) => {
   const heard = run(python, [
     ...["-m", "mlx_audio.stt.generate", "--model", whisper, "--audio", mp3],
     ...["--output-path", join(work, "whisper"), "--format", "json", "--language", "es"],
+    // Conditioned on its own earlier text, Whisper repeated nonsense after the end of the 67 s
+    // Task 4 clip; without it, the transcript stops where the speech does.
+    ...["--gen-kwargs", JSON.stringify({ condition_on_previous_text: false })],
   ]);
 
   if (heard.code !== 0) {

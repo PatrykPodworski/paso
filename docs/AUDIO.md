@@ -105,11 +105,9 @@ voice. The script prints a short digest and writes the details to
 Clips made in two voices:
 
 - Mock exam listening Task 1: the five short conversations.
+- Mock exam listening Task 4: the day trip to Segovia.
+- Unit 7 listening: the way to the station.
 - Unit 8 listening: buying a blue shirt.
-
-Mock exam listening Task 4 (the day trip to Segovia) and the unit 7 listening
-(the way to the station) are in `scripts/dialogues.mjs` too, but still play their
-earlier one-voice clips until the script runs for them.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

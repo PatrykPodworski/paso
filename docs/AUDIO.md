@@ -86,16 +86,30 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 
 A listening dialogue is not spoken in one pass. A long input comes out faster than
 a short one: the Task 4 conversation of the mock exam ran at almost 5 words per
-second as one 165-word text, against 2–3 for every other clip. `pnpm
-audio:dialogues` makes each dialogue in `scripts/dialogues.mjs` from its turns:
-`make-sentences` speaks every turn on its own, the turns are joined with a
-0.7-second pause, and the clip gets the same trim and loudness as the other
-local clips. Whisper checks the whole clip against the text; spoken numbers it
-writes as digits count as a match. Its manifest entry has `method`
-`make-dialogue` and the pause length in `settings`. The script prints a short
-digest and writes the details to `temp/make-dialogue.log`.
+second as one 165-word text, against 2–3 for every other clip. And one voice for
+every line hides who is speaking. `pnpm audio:dialogues` makes each dialogue in
+`scripts/dialogues.mjs` from its turns. Each turn names its speaker, and each
+speaker has a reference voice of the ai repo: the male teacher or the female
+teacher (`audio/spanish/voices/`). `make-sentences` speaks every turn on its own
+in that voice, each turn gets its own gain toward −17 LUFS so the voices play
+equally loud, and the turns are joined with a 0.7-second pause. The clip then
+gets the same edge trim and −2 dBFS limiter as the other local clips. Whisper
+checks the whole clip against the text; spoken numbers it writes as digits count
+as a match. The manifest entry has a `voiceId` that joins the voices with `+`
+(`es-female-teacher+es-male-teacher`), `method` `make-dialogue`, and the voice of
+each turn and the pause length in
+`settings`. A test checks that every speaker of a dialogue has a different
+voice. The script prints a short digest and writes the details to
+`temp/make-dialogue.log`.
 
-- Mock exam listening Task 4 (the day trip to Segovia).
+Clips made in two voices:
+
+- Mock exam listening Task 1: the five short conversations.
+- Unit 8 listening: buying a blue shirt.
+
+Mock exam listening Task 4 (the day trip to Segovia) and the unit 7 listening
+(the way to the station) are in `scripts/dialogues.mjs` too, but still play their
+earlier one-voice clips until the script runs for them.
 
 [audio-verification.json](audio-verification.json) records the coverage verified
 after the completion batch, before the 54 sentence-builder tiles were added.

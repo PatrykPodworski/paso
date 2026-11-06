@@ -1,3 +1,4 @@
+import { hash } from "./random.ts";
 import type { MockTask, MockVariant, Question } from "./types.ts";
 
 // A three-option item: the prompt, the answer, two wrong options and the explanation.
@@ -7,17 +8,6 @@ type ChoiceItem = [string, string, string, string, string];
 type MatchItem = [string, string, string];
 
 const LETTERS = "ABCDEFGHI".split("");
-
-// FNV-1a: a fixed number for a string, the same on every device.
-const hash = (text: string) => {
-  let h = 0x811c9dc5;
-
-  for (const char of text) {
-    h = Math.imul(h ^ char.codePointAt(0)!, 0x01000193);
-  }
-
-  return h >>> 0;
-};
 
 // Puts the answer at a position fixed by the item's key, so the position differs between items
 // and between variants and never gives the answer away.

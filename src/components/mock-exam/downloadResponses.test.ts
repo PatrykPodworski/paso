@@ -30,8 +30,8 @@ it("exports objective scores with all responses and revokes the temporary URL", 
   expect(exported).toMatchObject({
     reading: 1,
     listening: 0,
-    writing: "Requires human assessment",
-    speaking: "Requires human assessment",
+    writing: "Not scored",
+    speaking: "Not scored",
   });
 
   expect(exported.responses).toHaveLength(55);

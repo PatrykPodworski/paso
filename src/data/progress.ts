@@ -1,4 +1,11 @@
-import type { ProgressSnapshot, Question, ReviewState, Skill } from "./types.ts";
+import type {
+  LiveItem,
+  LiveScore,
+  ProgressSnapshot,
+  Question,
+  ReviewState,
+  Skill,
+} from "./types.ts";
 
 export const REVIEW_WINDOWS = [0, 1, 3, 7, 14, 30] as const;
 
@@ -118,3 +125,26 @@ export const passingGroups = (
 // DELE A1 marks each writing task 0–3; the two tasks weigh equally in a 25-point section.
 export const writingScore = ([first, second]: readonly [number, number]) =>
   Math.round(((first + second) / 2) * (25 / 3) * 100) / 100;
+
+const POINTS: Record<LiveItem, number> = { correct: 1, understandable: 0.5, missing: 0 };
+
+// The share of a talk's points Lucía found, or undefined when she scored no point.
+const talkShare = (talk: LiveScore | undefined) =>
+  talk?.items.length
+    ? talk.items.reduce((sum, item) => sum + POINTS[item.level], 0) / talk.items.length
+    : undefined;
+
+// The app's stand-in for a DELE speaking mark, since no examiner listens: each talk is the share
+// of its points, a talk without a score counts 0, and the talks weigh equally in 25 points.
+// Undefined when no talk has a score.
+export const speakingScore = (talks: readonly (LiveScore | undefined)[]) => {
+  const shares = talks.map(talkShare);
+
+  if (shares.every((share) => share === undefined)) {
+    return undefined;
+  }
+
+  const total = shares.reduce<number>((sum, share) => sum + (share ?? 0), 0);
+
+  return Math.round((total / talks.length) * 25 * 100) / 100;
+};

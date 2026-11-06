@@ -7,11 +7,19 @@ import { PasscodeField } from "../writing-review/PasscodeField";
 import { problemOf } from "../writing-review/requestReview";
 import { useWritingReviews } from "../writing-review/useWritingReviews";
 import { WritingFeedback } from "../writing-review/WritingFeedback";
+import { keepMarks } from "./productiveScores";
 
-type Props = { questions: Question[]; answers: Record<string, string> };
+type Props = {
+  questions: Question[];
+  answers: Record<string, string>;
+  // Keeps the marks with the run, so the results page scores the writing.
+  onMarks: (marks: Record<string, number>) => void;
+};
 
-export const WritingMarks = ({ questions, answers }: Props) => {
-  const { passcode, setPasscode, needsPasscode, loading, results, check } = useWritingReviews();
+export const WritingMarks = ({ questions, answers, onMarks }: Props) => {
+  const { passcode, setPasscode, needsPasscode, loading, results, check } = useWritingReviews(
+    keepMarks(onMarks),
+  );
 
   const bands = questions.flatMap((q) => {
     const result = results[q.id];

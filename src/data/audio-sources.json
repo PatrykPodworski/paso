@@ -24747,5 +24747,902 @@
       "seed": 0,
       "method": "direct"
     }
+  },
+  "8yh8an": {
+    "src": "/audio/voxcpm/05ae20aaade08ccf6a031a61.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, buenos días. ¿Qué necesita? Una barra de pan, por favor. ¿Algo más? Hoy tenemos leche fresca. No, gracias. Leche tengo en casa. Solo el pan.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "ledixa": {
+    "src": "/audio/voxcpm/002c256eee6ca60660aa13ab.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Marcos, ¿a qué hora empieza la clase de inglés? Normalmente empieza a las nueve, pero mañana empieza a las diez. ¿A las diez? ¿Y termina a las once? Sí, termina a las once, como siempre.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "aeh81s": {
+    "src": "/audio/voxcpm/703c2d6d995a579851ef6e71.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Qué haces el domingo, Marcos? Por la mañana voy a la piscina con mi hermano. Nadamos una hora. ¿No juegas al fútbol? No, el fútbol es los sábados.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1ftq0ae": {
+    "src": "/audio/voxcpm/c117d91bbb48d6523ebb510e.mp3",
+    "voiceId": "es-male-teacher+es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Dónde está mi móvil? No está en el coche. ¿Está en tu mochila? No, en la mochila solo hay libros. Mira, está aquí, en el sofá.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-male-teacher.wav",
+        "audio/spanish/voices/es-female-teacher.wav"
+      ],
+      "turnVoices": ["male", "female", "male", "female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "o9yipv": {
+    "src": "/audio/voxcpm/3c9c8d3919e92429d85efb53.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Qué te pasa, Marcos? ¿Estás enfermo? Me duele mucho la cabeza. ¿Te duelen también los dientes? No, los dientes no. Solo la cabeza. Voy a tomar una pastilla.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1pdv4c0": {
+    "src": "/audio/voxcpm/4fa2e354b85fc0618c6e0f88.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Qué va a tomar de segundo? ¿Qué hay hoy? Tenemos carne con patatas o pescado. Pescado, por favor. No como carne.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "17iz8bt": {
+    "src": "/audio/voxcpm/6698b4d5b93659aba03facca.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Diego, ¿tienes animales en casa? Sí, tengo un gato negro. Es muy tranquilo. ¡Qué bonito! Yo quiero un perro, pero mi piso es pequeño.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "j68q8i": {
+    "src": "/audio/voxcpm/cc9f24cdf70595cf6ff5d26e.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Vamos al cine esta tarde? Lo siento, esta tarde no puedo. Tengo que estudiar para un examen. ¿Y mañana? Mañana sí. Mañana vamos al cine.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "c2kvah": {
+    "src": "/audio/voxcpm/5c8642eb4501f936db29aafc.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Dónde vive tu hermano? Vive en un pueblo en la montaña. Es muy tranquilo. ¿Está cerca de la playa? No, la playa está lejos. Pero en invierno hay mucha nieve.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1a8qhd7": {
+    "src": "/audio/voxcpm/f43e873d169c9befe781332c.mp3",
+    "voiceId": "es-male-teacher+es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Perdone, ¿el autobús para Toledo sale a las tres? No, hoy es domingo. Los domingos sale a las cinco. ¿A las cinco? Bueno, entonces tomo un café y espero.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-male-teacher.wav",
+        "audio/spanish/voices/es-female-teacher.wav"
+      ],
+      "turnVoices": ["male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "m6v7qt": {
+    "src": "/audio/voxcpm/42e392a7fd48e0cc5c058784.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Buenos días. ¿Qué le pongo? Un kilo de naranjas, por favor. Lo siento, hoy no hay naranjas. Tenemos plátanos y fresas. Pues un kilo de fresas.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "m7mbp9": {
+    "src": "/audio/voxcpm/a8aeae69ad259b582f465a1f.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Óscar, ¿qué llevas a la fiesta del sábado? Yo llevo una tarta de chocolate. Y tú, ¿llevas bebidas? Sí, yo llevo agua y zumo.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "3grmco": {
+    "src": "/audio/voxcpm/3b71fb1e60280595914dca53.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, ¿le puedo ayudar? Sí, busco unas zapatillas para correr. Tenemos estas blancas y estas negras. Las negras, por favor. Son muy cómodas.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1686obw": {
+    "src": "/audio/voxcpm/ea361547f4f7a4324e1593ff.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Dónde trabajas ahora, Óscar? Trabajo en un colegio. Soy profesor de música. ¿En el colegio de tu barrio? No, está en el centro, al lado del hospital.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female", "male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "er4g7x": {
+    "src": "/audio/voxcpm/23ff894456bc410f2762a436.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Son veinte euros. ¿Paga con tarjeta? No, con tarjeta no. Pago en efectivo. Perfecto, gracias. Aquí tiene su tique.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": ["female", "male", "female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "skkq36": {
+    "src": "/audio/voxcpm/90446cabb75ffe56c5d3d60a.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, buenas tardes. Le llamo de la clínica dental. Su cita con el dentista es mañana a las cinco. Si no puede venir, llame a este número, por favor.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "ncmw61": {
+    "src": "/audio/voxcpm/3556bc42f699be9b2a1f4a43.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, soy Sergio. El sábado es mi cumpleaños y hago una fiesta en mi casa a las ocho. ¿Vienes? Llámame, por favor.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "b9nmuc": {
+    "src": "/audio/voxcpm/4e2e62ab7eb644d6ed7fc9dc.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Buenos días. Su paquete está en nuestra tienda de la calle Mayor. Puede recogerlo de lunes a viernes, de nueve a dos.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "nmccm2": {
+    "src": "/audio/voxcpm/e1f058ceda60cee7bc70be42.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, le llamamos del taller. Su coche ya está listo. Puede venir esta tarde a buscarlo. Cerramos a las siete.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "ak3het": {
+    "src": "/audio/voxcpm/ab63738a713d615f2c83353f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, soy tu profesor de español. Mañana no hay clase porque estoy enfermo. Nos vemos el jueves a la misma hora.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "exg6fu": {
+    "src": "/audio/voxcpm/9406ab686645434eff17a714.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Señores pasajeros, el vuelo a París sale con una hora de retraso. Por favor, esperen en la puerta doce.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1q8kxts": {
+    "src": "/audio/voxcpm/79544a1de34594db199fc6f3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Próxima estación: Sol. Pueden cambiar a la línea dos. Por favor, dejen salir antes de entrar.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "q0u8ni": {
+    "src": "/audio/voxcpm/a962c6bbe17e74f07474de93.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Bienvenidos a bordo. Llegamos a la isla en media hora. La cafetería está en la primera planta del barco.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "rcihze": {
+    "src": "/audio/voxcpm/12f29b8b4065a95284985667.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Atención, señores viajeros. Este autobús para en todas las paradas hasta la plaza de España. Por favor, no hablen con el conductor.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "popj3c": {
+    "src": "/audio/voxcpm/c14ddc0dd7105d7d84f5e766.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Buenas noches. El restaurante del hotel está abierto hasta las once y la piscina cierra a las nueve. Su habitación está en la tercera planta.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "q4rs9s": {
+    "src": "/audio/voxcpm/78d48801ca1fce8872776c3a.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Atención, señores clientes. Hoy, si compran dos camisetas, la tercera es gratis. Los probadores están al fondo de la tienda.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "qdoea4": {
+    "src": "/audio/voxcpm/d5321f8631439127396a3ab8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Bienvenidos. Las salas de pintura están en la primera planta. No se pueden hacer fotos. La visita termina a las seis.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "3ed0p4": {
+    "src": "/audio/voxcpm/8b940127c48d291de5f1e4a1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Atención, aficionados. El partido empieza en quince minutos. Por favor, busquen su asiento. No se puede bajar al campo.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "e7k5lg": {
+    "src": "/audio/voxcpm/eb7bbc18959d6c676f179fff.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, buenos días. Para enviar una carta o un paquete, tomen un número y esperen, por favor. Los sellos se compran en la ventanilla tres.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1ph5h5u": {
+    "src": "/audio/voxcpm/d8965015de70fa6b86f0b0f0.mp3",
+    "voiceId": "es-female-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Recuerden: el pan sale del horno a las ocho y a las doce. Hoy tenemos también pasteles de chocolate.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-female-teacher.wav"],
+      "turnVoices": ["female"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1oqv8gt": {
+    "src": "/audio/voxcpm/5177d00ab802aef3d42d58fc.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Me llamo Jorge y soy cocinero. Trabajo en un restaurante pequeño del centro. Me gusta mucho cocinar para la gente.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "obwj2k": {
+    "src": "/audio/voxcpm/40d5e76b7179d030de889c2b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Vivo en un piso con mi hermano mayor. Él es médico y trabaja en un hospital. Nos llevamos muy bien.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1irgdtt": {
+    "src": "/audio/voxcpm/345ada34da4dd2ec9cbb7706.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Todos los días me levanto a las seis de la mañana. Desayuno un café y una tostada y salgo de casa.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "gluuts": {
+    "src": "/audio/voxcpm/2081cb318873720e358c63db.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Para ir al restaurante tomo el metro. El viaje es corto, solo quince minutos, y puedo leer un poco.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "3wen97": {
+    "src": "/audio/voxcpm/0c94f2b1a7cc0f3b5f924e61.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Por la noche no ceno en el restaurante. Prefiero cenar en casa, tranquilo, con mi hermano.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1bhpv79": {
+    "src": "/audio/voxcpm/f64b3aee4c6187cb57831724.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Los martes y jueves voy a clase de inglés. Muchos clientes del restaurante son turistas y quiero hablar con ellos.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "14o4gy3": {
+    "src": "/audio/voxcpm/7673f14b5dfd2db7ca2f8616.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Los domingos voy a la piscina de mi barrio. Nado una hora y después estoy muy contento.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1urtzwx": {
+    "src": "/audio/voxcpm/2639c3c181c00cd07bd77cd0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Antes de dormir veo un poco la televisión. Me gustan las películas y los programas de viajes.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "yqivi2": {
+    "src": "/audio/voxcpm/2ed959112ba44240106dea98.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Me llamo Iván y estudio medicina en la universidad de Salamanca. Es una carrera difícil, pero me gusta mucho.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "18gi9mv": {
+    "src": "/audio/voxcpm/19e784fa606e9361ed7f58a4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "No vivo con mi familia. Vivo en una residencia de estudiantes cerca de la universidad. Mi habitación es pequeña.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "ecagaj": {
+    "src": "/audio/voxcpm/93c142ebac9c926c8fce38b4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Mi familia vive en Valencia. Tengo un hermano pequeño. Tiene doce años y va al colegio.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "giv5ju": {
+    "src": "/audio/voxcpm/34ac60b25b8131d384a9ca7f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Normalmente como en la cafetería de la universidad. La comida es barata y bastante buena.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "z2mxy7": {
+    "src": "/audio/voxcpm/f54cbddbad89dab0b1953fca.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "En la residencia tengo amigos de Francia, de Alemania y de Japón. Siempre hablamos en español.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "193gy5q": {
+    "src": "/audio/voxcpm/ce2450fd13d5be8377ab5f39.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Algunos fines de semana viajo con mis amigos. Ya conocemos Madrid, Segovia y Ávila.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1kynz5u": {
+    "src": "/audio/voxcpm/4a74a15c4e64acceb0e60ff2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Por las tardes toco la guitarra en mi habitación. Mis compañeros dicen que toco muy bien.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1i27rrg": {
+    "src": "/audio/voxcpm/010359621a56a15c2d80dc57.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Llamo a mi madre por teléfono todos los días. Ella siempre pregunta si como bien.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "b50z8k": {
+    "src": "/audio/voxcpm/44fa7abf89dbf34f8ec9ee3b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Soy Alberto y soy conductor de autobús. Trabajo en la línea cinco, que va del centro al hospital.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "c49j0f": {
+    "src": "/audio/voxcpm/96686b9d351f8e918ba5987b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Tengo horario de tarde. Empiezo a las tres y termino a las once de la noche.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "f0y73p": {
+    "src": "/audio/voxcpm/d32a9ac2f4e88a4a50b35b2f.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Vivo en un pueblo pequeño, a veinte minutos de la ciudad. Mi casa tiene un jardín con muchas flores.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1al4mcm": {
+    "src": "/audio/voxcpm/cad4798e03061b92f6365aa7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Estoy casado y tengo dos hijos. El mayor tiene diez años y el pequeño tiene siete.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "300end": {
+    "src": "/audio/voxcpm/47a0315535f40484f490a2c7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Por la mañana estoy en casa. Hago la compra y preparo la comida para toda la familia.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "o8ilsi": {
+    "src": "/audio/voxcpm/b075c543456f095157c3ebc1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Tengo un perro grande y muy simpático. Todas las mañanas paseamos juntos por el campo.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1kool34": {
+    "src": "/audio/voxcpm/6050f92e28da5269586966d9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "En agosto tengo vacaciones. Vamos siempre a la playa, a un apartamento en Alicante.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "qrlb7q": {
+    "src": "/audio/voxcpm/bdd789ee375830325e8bae8a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "En el autobús no puedo leer, claro. Pero en casa leo el periódico todos los días después de comer.",
+    "settings": {
+      "referenceAudio": ["audio/spanish/voices/es-male-teacher.wav"],
+      "turnVoices": ["male"],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "gh5901": {
+    "src": "/audio/voxcpm/2795f7f86c84a72d7d070915.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Rubén, ¿qué haces este fin de semana? El domingo voy a una clase de cocina. Aprendemos a hacer paella. ¡Qué bien! ¿Dónde es la clase? En una escuela de cocina de la calle Mayor, al lado del mercado. ¿A qué hora empieza? Empieza a las once de la mañana y termina a las dos. Después comemos la paella todos juntos. ¿Y cuánto cuesta? Veinticinco euros, con la comida y una bebida. No es caro. ¿Puedo ir contigo? Claro. Pero tienes que llamar antes, porque solo hay diez plazas. ¿Tengo que llevar algo? No, la escuela tiene todo. Solo tienes que llevar ropa cómoda. Perfecto. Llamo esta tarde. Muy bien. Nos vemos el domingo en la puerta de la escuela.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": [
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male"
+      ],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "1f1pncn": {
+    "src": "/audio/voxcpm/61e96b26deef4df08718b5fe.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Hola, Mario. El viernes es el cumpleaños de Fernando. ¿Hacemos una cena? ¡Buena idea! ¿Dónde? ¿En tu casa o en un restaurante? En un restaurante. Conozco uno mexicano muy bueno en la plaza Mayor. Perfecto. A Fernando le encanta la comida mexicana. ¿A qué hora? A las nueve. ¿Está bien? Sí. ¿Cuántas personas vamos? Somos ocho: los compañeros de trabajo y su hermano. ¿Y el regalo? Podemos comprar un libro. Mejor unas entradas para un concierto. Le gusta mucho la música. Vale. ¿Cuánto pagamos cada uno? Unos quince euros por persona. Yo compro las entradas mañana. Muy bien. Y yo llamo al restaurante para reservar la mesa. Genial. Pero es una sorpresa. No le digas nada a Fernando. Tranquila, no digo nada.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": [
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male"
+      ],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
+  },
+  "60uqfs": {
+    "src": "/audio/voxcpm/62cf4f055a7a8fec440e1c20.mp3",
+    "voiceId": "es-female-teacher+es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "Centro de salud, buenos días. ¿Dígame? Buenos días. Me llamo Adrián Gómez. Quiero una cita con la doctora Ruiz, por favor. ¿Qué le pasa? Tengo fiebre y me duele mucho la garganta. La doctora no tiene citas hoy. ¿Puede venir mañana? Sí, mañana puedo. ¿A qué hora? A las diez y media o a las cuatro de la tarde. Mejor a las cuatro. Por la mañana trabajo. Muy bien. Tiene que traer su tarjeta sanitaria. Sí, claro. ¿Dónde está la consulta? Es la consulta siete, en la segunda planta. ¿Hay ascensor? Sí, el ascensor está al lado de la farmacia. Muchas gracias. Hasta mañana.",
+    "settings": {
+      "referenceAudio": [
+        "audio/spanish/voices/es-female-teacher.wav",
+        "audio/spanish/voices/es-male-teacher.wav"
+      ],
+      "turnVoices": [
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male"
+      ],
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-dialogue",
+      "pauseSeconds": 0.7
+    }
   }
 }

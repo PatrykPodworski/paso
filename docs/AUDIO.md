@@ -88,7 +88,9 @@ A listening dialogue is not spoken in one pass. A long input comes out faster th
 a short one: the Task 4 conversation of the mock exam ran at almost 5 words per
 second as one 165-word text, against 2–3 for every other clip. And one voice for
 every line hides who is speaking. `pnpm audio:dialogues` makes each dialogue in
-`scripts/dialogues.mjs` from its turns. Each turn names its speaker, and each
+`scripts/dialogues.mjs` from its turns. The mock exam's listening clips come from
+`src/data/mockListening.ts`, where each question keeps its turns and voices; a clip
+with one speaker, such as an announcement, is one turn. Each turn names its speaker, and each
 speaker has a reference voice of the ai repo: the male teacher or the female
 teacher (`audio/spanish/voices/`). `make-sentences` speaks every turn on its own
 in that voice, each turn gets its own gain toward −17 LUFS so the voices play
@@ -107,6 +109,18 @@ Clips made in two voices:
 
 - Mock exam listening Task 1: the five short conversations.
 - Unit 8 listening: buying a blue shirt.
+
+Mock exam listening variants 2–4 of every task (#461) are made the same way: 15
+Task 1 conversations and 3 Task 4 conversations in two voices, and 39 one-speaker
+messages and statements for Tasks 2 and 3. All 57 matched Whisper. Generating one
+task variant takes about 2–3 minutes on this Mac and costs no API credits:
+
+| Task | Clips per variant | Minutes per variant |
+| ---- | ----------------- | ------------------- |
+| 1    | 5                 | 2.8–3.0             |
+| 2    | 5                 | 1.8–1.9             |
+| 3    | 8                 | 2.5–2.6             |
+| 4    | 1                 | 2.1–2.5             |
 
 Mock exam listening Task 4 (the day trip to Segovia) and the unit 7 listening
 (the way to the station) are in `scripts/dialogues.mjs` too, but still play their

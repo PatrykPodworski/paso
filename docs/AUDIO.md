@@ -95,7 +95,8 @@ in that voice, each turn gets its own gain toward −17 LUFS so the voices play
 equally loud, and the turns are joined with a 0.7-second pause. The clip then
 gets the same edge trim and −2 dBFS limiter as the other local clips. Whisper
 checks the whole clip against the text; spoken numbers it writes as digits count
-as a match. The manifest entry has a `voiceId` that joins the voices with `+`
+as a match. Whisper runs without conditioning on its own earlier text: with it,
+Whisper repeated nonsense after the end of the 67-second Task 4 clip. The manifest entry has a `voiceId` that joins the voices with `+`
 (`es-female-teacher+es-male-teacher`), `method` `make-dialogue`, and the voice of
 each turn and the pause length in
 `settings`. A test checks that every speaker of a dialogue has a different

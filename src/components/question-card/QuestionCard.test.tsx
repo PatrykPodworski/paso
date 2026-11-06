@@ -7,6 +7,7 @@ import { audioSources } from "../../data/audio-sources";
 import { spokenText } from "../../data/audio";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice, mockQuestions } from "../../data/mock";
+import { shownOptions } from "../../data/optionOrder";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -47,6 +48,10 @@ const loadedClips = () => {
 };
 
 const firstSources = (texts: string[]) => texts.map((text) => audioSources(text)[0]);
+
+// The option texts in the order the card shows them; the number badge is hidden from the name.
+const shownTexts = () =>
+  [...document.querySelectorAll(".answer-option")].map((b) => b.children[1].textContent);
 
 it("loads a question's clips as it appears, before any tap, and again for the next one", () => {
   const loaded = loadedClips();
@@ -171,12 +176,38 @@ it("records feedback immediately so closing it cannot lose a mistake", () => {
   expect(evaluated).toHaveBeenCalledWith(q.options![1], false, false);
 });
 
+it("shows the options in the attempt's order and checks the picked one by its text", () => {
+  const q = mockQuestions.find((question) => question.id === "mock-l3-2")!;
+  const evaluated = vi.fn();
+
+  const { rerender } = render(
+    <QuestionCard q={q} seed={7} onSubmit={vi.fn()} onEvaluated={evaluated} />,
+  );
+
+  expect(shownTexts()).toEqual(shownOptions(q.options!, 7));
+  expect(shownTexts()).not.toEqual(q.options);
+  rerender(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} onEvaluated={evaluated} />);
+  expect(shownTexts()).toEqual(shownOptions(q.options!, 7));
+  fireEvent.keyDown(window, { key: String(shownTexts().indexOf(q.answer) + 1) });
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false);
+});
+
+it("keeps one order through re-renders when no attempt seed is given", () => {
+  const q = mockQuestions.find((question) => question.id === "mock-l3-2")!;
+  const { rerender } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+  const first = shownTexts();
+
+  expect(first.toSorted()).toEqual(q.options!.toSorted());
+  rerender(<QuestionCard q={q} onSubmit={vi.fn()} />);
+  expect(shownTexts()).toEqual(first);
+});
+
 it("checks the numbered choice option when its digit is pressed", () => {
   const q = allQuestions.find((question) => question.id === "u2-v0")!;
   const evaluated = vi.fn();
 
-  render(<QuestionCard q={q} onSubmit={vi.fn()} onEvaluated={evaluated} />);
-  const first = q.options![0];
+  render(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} onEvaluated={evaluated} />);
+  const first = shownOptions(q.options!, 7)[0];
 
   expect(screen.getByRole("button", { name: first })).toHaveTextContent("1");
   fireEvent.keyDown(window, { key: "1", metaKey: true });

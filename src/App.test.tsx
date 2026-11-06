@@ -110,7 +110,9 @@ describe("app business orchestration", () => {
     vi.setSystemTime(now);
     const p: ProgressSeed = progressSeed();
 
-    p.mockResults = [{ at: "2026-09-08T12:00:00Z", reading: 10, listening: 12 }];
+    p.mockResults = [
+      { at: "2026-09-08T12:00:00Z", sections: [0, 1, 2, 3], reading: 10, listening: 12 },
+    ];
 
     p.mockRun = {
       section: 3,
@@ -127,8 +129,8 @@ describe("app business orchestration", () => {
     await settle();
 
     expect((await saved()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
-      { at: "2026-09-08T12:00:00.000Z", reading: 10, listening: 12 },
-      { at: "2026-09-09T12:00:00.000Z", reading: 0, listening: 0 },
+      { at: "2026-09-08T12:00:00.000Z", sections: [0, 1, 2, 3], reading: 10, listening: 12 },
+      { at: "2026-09-09T12:00:00.000Z", sections: [0, 1, 2, 3], reading: 0, listening: 0 },
     ]);
 
     click("Return to exam overview");

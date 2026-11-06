@@ -24,7 +24,7 @@ it("stores only objective results once and requires both human scores before a v
   await settle();
 
   expect(await results()).toEqual([
-    { at: new Date(now).toISOString(), reading: 25, listening: 25 },
+    { at: new Date(now).toISOString(), sections: [0, 1, 2, 3], reading: 25, listening: 25 },
   ]);
 
   expect(screen.getAllByText("Human review")).toHaveLength(2);
@@ -139,4 +139,29 @@ it("shows the objective scores on the results page", async () => {
   expect(screen.getByText("Reading").parentElement).toHaveTextContent("Reading3/25");
   expect(screen.getByText("Listening").parentElement).toHaveTextContent("Listening0/25");
   expect(screen.queryByRole("timer")).not.toBeInTheDocument();
+});
+
+it("saves a speaking run without scores and shows its talks without the passing groups", async () => {
+  await seed({
+    sections: [3],
+    section: 3,
+    stage: "review",
+    talks: { "mock-s1": { grade: "good", items: [] } },
+  });
+
+  await mount();
+  click("See my results");
+  await settle();
+
+  expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
+    { at: new Date(now).toISOString(), sections: [3] },
+  ]);
+
+  expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
+    "Task 1GoodTask 2Not doneTask 3Not done",
+  );
+
+  expect(screen.queryByText("Reading")).not.toBeInTheDocument();
+  expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();
+  expect(screen.queryByText(/A pass cannot be determined/)).not.toBeInTheDocument();
 });

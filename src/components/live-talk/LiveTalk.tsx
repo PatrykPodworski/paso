@@ -21,6 +21,12 @@ const PROBLEMS: Record<string, string> = {
   unavailable: "Lucas is not available right now. Try again later.",
 };
 
+// Why a talk that started did not work. Such a talk is not scored.
+const BROKEN: Record<string, string> = {
+  dropped: "The connection to Lucía was lost.",
+  silent: "Lucía heard nothing from you.",
+};
+
 type Scoring =
   | { state: "idle" }
   | { state: "scoring" | "failed"; turns: TalkTurn[]; passcode?: string }
@@ -43,7 +49,8 @@ type Props = {
     grade: Grade,
     score: LiveScore,
   ) => void;
-  onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
+  // `correct` is null when the learner skips a talk that did not work.
+  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
 };
 
 export const LiveTalk = ({
@@ -59,6 +66,7 @@ export const LiveTalk = ({
   const [access, setAccess] = useState(readAccess);
   const [passcode, setPasscode] = useState(access.passcode);
   const [problem, setProblem] = useState("");
+  const [broken, setBroken] = useState("");
 
   const [scoring, setScoring] = useState<Scoring>(() => {
     if (result) {
@@ -116,6 +124,7 @@ export const LiveTalk = ({
 
   const start = () => {
     setProblem("");
+    setBroken("");
 
     const used = access.freeUsed ? passcode : undefined;
 
@@ -130,6 +139,12 @@ export const LiveTalk = ({
         },
         onEnded: (turns) => score(turns, used),
         onFail: (code) => {
+          if (BROKEN[code]) {
+            setBroken(BROKEN[code]);
+
+            return;
+          }
+
           remember(code);
           setPasscode(code === "passcode" ? "" : passcode);
           setProblem(PROBLEMS[code] ?? PROBLEMS.unavailable);
@@ -157,6 +172,8 @@ export const LiveTalk = ({
           passcode={passcode}
           onPasscode={setPasscode}
           onStart={start}
+          failure={broken}
+          onSkip={() => onSubmit("", null, false)}
         />
       )}
       <LiveStatus

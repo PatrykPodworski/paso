@@ -2,6 +2,7 @@ import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
 import { mockLiveTalk } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
 import { examSections, firstVariants, mockTasks } from "../../src/data/mock";
+import { shownOptions } from "../../src/data/optionOrder";
 import type { Question } from "../../src/data/types";
 
 // The exam as variant 1 of each task.
@@ -29,8 +30,9 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByRole("timer")).toHaveText("45:00");
   await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
 
-  // The variants the exam builder chose for this run.
-  const exam = examSections((await saved(page)).mockRun!.variants);
+  // The variants the exam builder chose for this run, and the seed that orders its options.
+  const { variants, seed } = (await saved(page)).mockRun!;
+  const exam = examSections(variants);
 
   for (let section = 0; section < 4; section++) {
     if (section === 3) {
@@ -62,6 +64,14 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
 
       if (section === 1) {
         await expect(page.getByRole("button", { name: /Show transcript/ })).toHaveCount(0);
+      }
+
+      // Listening Task 3 shows its shared endings in the run's order, not in question order.
+      if (q.id.startsWith("mock-l3-")) {
+        const shown = await page.locator(".answer-option > span:nth-child(2)").allTextContents();
+
+        expect(shown).toEqual(shownOptions(q.options!, seed));
+        expect(shown).not.toEqual(q.options);
       }
 
       await answer(page, q, true);
@@ -159,6 +169,36 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   for (const task of mockTasks) {
     expect(second[task.id] === first[task.id]).toBe(task.variants.length === 1);
   }
+});
+
+test("practise speaking alone: oral prep, resume after a reload, and a result for speaking only", async ({
+  page,
+}) => {
+  await page.goto("/exam");
+  await page.getByRole("button", { name: "Practise speaking alone" }).click();
+  await expect(page.getByRole("heading", { name: "A moment to find your words." })).toBeVisible();
+  await expect(page.getByRole("timer")).toHaveText("10:00");
+  await expect.poll(async () => (await saved(page)).mockRun?.sections).toEqual([3]);
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "A moment to find your words." })).toBeVisible();
+
+  await expect(page.getByRole("list", { name: "Exam sections" }).getByRole("listitem")).toHaveText([
+    "1Speaking",
+  ]);
+
+  await page.getByRole("button", { name: "I’m ready · start speaking" }).click();
+  await page.getByRole("button", { name: "Finish section", exact: true }).click();
+  await page.getByRole("button", { name: "Finish & review", exact: true }).click();
+  await page.getByRole("button", { name: "See my results", exact: true }).click();
+  await expect(page.getByRole("list", { name: "Lucía's grades" })).toBeVisible();
+
+  await expect
+    .poll(async () => (await saved(page)).mockResults.map((r) => r.sections))
+    .toEqual([[3]]);
+
+  await page.getByRole("button", { name: "Return to exam overview" }).click();
+  await expect(page.getByText("Speaking only")).toBeVisible();
 });
 
 test("timer expires during navigation and section confirmation can be cancelled", async ({

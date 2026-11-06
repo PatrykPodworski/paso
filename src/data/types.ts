@@ -119,8 +119,10 @@ export interface ProgressSnapshot {
   mockResults: {
     id: string;
     at: string;
-    reading: number;
-    listening: number;
+    // The sections the rehearsal took. Reading and listening are scored only when it took them.
+    sections: number[];
+    reading?: number;
+    listening?: number;
     writing?: number;
     speaking?: number;
   }[];
@@ -173,6 +175,8 @@ export interface MockRun {
   // with the same tasks.
   seed: number;
   variants: ExamVariants;
+  // The sections the run takes, in exam order: the whole exam or one section alone.
+  sections: number[];
 }
 
 // A change to the mock run: top-level fields replace; answers, drafts, scores and talks merge per

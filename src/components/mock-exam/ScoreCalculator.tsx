@@ -3,8 +3,7 @@ import { Notice } from "../../design-system/Notice";
 import { passingGroups } from "../../data/progress";
 import { FIELD } from "../../design-system/field";
 import type { MockRun, Question } from "../../data/types";
-
-const GRADES = { perfect: "Perfect", good: "Good", bad: "Not everything" };
+import { TalkGrades } from "./TalkGrades";
 
 type Props = {
   reading: number;
@@ -12,7 +11,7 @@ type Props = {
   writing: string;
   speaking: string;
   talks: MockRun["talks"];
-  // The run's speaking tasks, whose talks Lucas grades.
+  // The run's speaking tasks, whose talks Lucía grades.
   talkTasks: Question[];
   onWriting: (value: string) => void;
   onSpeaking: (value: string) => void;
@@ -73,18 +72,9 @@ export const ScoreCalculator = ({
           />
         </label>
       </div>
-      <ul aria-label="Lucas's grades" className="mbs-4 flex flex-col gap-1.5 text-sm">
-        {talkTasks.map((q, i) => (
-          <li key={q.id} className="flex justify-between gap-3">
-            <span>Task {i + 1}</span>
-            <span className="text-muted-foreground">
-              {talks[q.id] ? GRADES[talks[q.id].grade] : "Not done"}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <TalkGrades talks={talks} talkTasks={talkTasks} className="mbs-4" />
       <FieldNote className="mbs-2.5">
-        Lucas's grades for the three talks are not DELE points. Enter the speaking score yourself
+        Lucía's grades for the three talks are not DELE points. Enter the speaking score yourself
         for now.
       </FieldNote>
       {entered ? (

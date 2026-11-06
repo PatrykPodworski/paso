@@ -111,6 +111,7 @@ describe("steps", () => {
     steps.push(h.talk().status);
     h.started();
     steps.push(h.talk().status);
+    h.spoken(answer);
     act(() => h.talk().end());
     steps.push(h.talk().status);
     h.closed();
@@ -120,18 +121,19 @@ describe("steps", () => {
     expect(examiner().connect).toHaveBeenCalledWith("u1", "olé", undefined);
     expect(examiner().end).toHaveBeenCalledTimes(1);
     expect(examiner().close).toHaveBeenCalledTimes(1);
-    expect(h.handlers.onEnded).toHaveBeenCalledWith([]);
+    expect(h.handlers.onEnded).toHaveBeenCalledWith([{ role: "student", text: "Me llamo Ana." }]);
   });
 
   it("ends at once when the examiner can no longer be asked to close", async () => {
     const h = mount();
 
     await h.live();
+    h.spoken(answer);
     examiner().end.mockReturnValue(false);
     act(() => h.talk().end());
 
     expect(h.talk().status).toBe("ended");
-    expect(h.handlers.onEnded).toHaveBeenCalledWith([]);
+    expect(h.handlers.onEnded).toHaveBeenCalledWith([{ role: "student", text: "Me llamo Ana." }]);
   });
 
   it("passes the session's creation on", async () => {
@@ -246,10 +248,11 @@ describe("transcript", () => {
 
     await h.live();
     h.spoken(greeting);
+    h.spoken(answer);
     h.elapse(3000);
     h.closed();
 
-    expect(h.talk().turns).toHaveLength(1);
+    expect(h.talk().turns).toHaveLength(2);
     expect(h.talk().seconds).toBe(3);
 
     await h.start();
@@ -272,12 +275,28 @@ describe("drops", () => {
     expect(examiner().close).toHaveBeenCalledTimes(1);
   });
 
-  it("finishes with what was said when the connection drops mid-talk", async () => {
+  it("fails without a transcript when the connection drops mid-talk", async () => {
     const h = mount();
 
     await h.live();
     h.spoken(greeting);
     h.spoken(answer);
+    h.dropped();
+
+    expect(h.talk().status).toBe("idle");
+    expect(h.talk().turns).toEqual([]);
+    expect(h.handlers.onFail).toHaveBeenCalledWith("dropped");
+    expect(h.handlers.onEnded).not.toHaveBeenCalled();
+    expect(examiner().close).toHaveBeenCalledTimes(1);
+  });
+
+  it("finishes with what was said when the connection drops after the learner ended the talk", async () => {
+    const h = mount();
+
+    await h.live();
+    h.spoken(greeting);
+    h.spoken(answer);
+    act(() => h.talk().end());
     h.dropped();
 
     expect(h.talk().status).toBe("ended");
@@ -287,6 +306,23 @@ describe("drops", () => {
       { role: "examiner", text: "¿Cómo te llamas?" },
       { role: "student", text: "Me llamo Bruno." },
     ]);
+  });
+});
+
+describe("silence", () => {
+  it("fails when the talk ends with nothing from the learner", async () => {
+    const h = mount();
+
+    await h.live();
+    h.spoken(greeting);
+    h.spoken({ role: "student", text: "  ", start: 2000, end: 2100 });
+    act(() => h.talk().end());
+    h.closed();
+
+    expect(h.talk().status).toBe("idle");
+    expect(h.talk().turns).toEqual([]);
+    expect(h.handlers.onFail).toHaveBeenCalledWith("silent");
+    expect(h.handlers.onEnded).not.toHaveBeenCalled();
   });
 });
 
@@ -380,6 +416,7 @@ describe("timers", () => {
 
     await h.live();
     h.spoken(greeting);
+    h.spoken(answer);
     act(() => h.talk().end());
     h.elapse(14_999);
 
@@ -391,6 +428,7 @@ describe("timers", () => {
 
     expect(h.handlers.onEnded).toHaveBeenCalledWith([
       { role: "examiner", text: "¿Cómo te llamas?" },
+      { role: "student", text: "Me llamo Ana." },
     ]);
 
     expect(examiner().close).toHaveBeenCalledTimes(1);

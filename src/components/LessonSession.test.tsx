@@ -239,12 +239,15 @@ it("ignores answer shortcuts while the leave confirmation is open", () => {
   fireEvent.keyDown(window, { key: "2" });
   expect(attempt).toHaveBeenCalledOnce();
   fireEvent.click(screen.getByRole("button", { name: "Keep learning" }));
+  // The option shown second, since the card shuffles the authored order.
+  const second = document.querySelectorAll(".answer-option")[1].children[1].textContent;
+
   fireEvent.keyDown(window, { key: "2" });
   expect(attempt).toHaveBeenCalledTimes(2);
 
   expect(attempt.mock.calls[1][0]).toMatchObject({
     questionId: questions[1].id,
-    answer: questions[1].options![1],
+    answer: second,
   });
 });
 

@@ -200,35 +200,40 @@
         "en": "shoes",
         "unit": 8,
         "unitOrder": 2,
-        "visual": "👞"
+        "visual": "👞",
+        "picture": "los-zapatos"
       },
       {
         "es": "la talla",
         "en": "size",
         "unit": 8,
         "unitOrder": 7,
-        "visual": "📏"
+        "visual": "📏",
+        "picture": "la-talla"
       },
       {
         "es": "la tarjeta",
         "en": "card",
         "unit": 8,
         "unitOrder": 8,
-        "visual": "💳"
+        "visual": "💳",
+        "picture": "la-tarjeta"
       },
       {
         "es": "bailar",
         "en": "to dance",
         "unit": 9,
         "unitOrder": 2,
-        "visual": "💃"
+        "visual": "💃",
+        "picture": "bailar"
       },
       {
         "es": "la escuela",
         "en": "school",
         "unit": 9,
         "unitOrder": 7,
-        "visual": "🏫"
+        "visual": "🏫",
+        "picture": "la-escuela"
       },
       {
         "es": "cansado",
@@ -243,28 +248,32 @@
         "en": "question",
         "unit": 12,
         "unitOrder": 4,
-        "visual": "❓"
+        "visual": "❓",
+        "picture": "la-pregunta"
       },
       {
         "es": "la respuesta",
         "en": "answer",
         "unit": 12,
         "unitOrder": 5,
-        "visual": "💡"
+        "visual": "💡",
+        "picture": "la-respuesta"
       },
       {
         "es": "despacio",
         "en": "slowly",
         "unit": 12,
         "unitOrder": 6,
-        "visual": "🐢"
+        "visual": "🐢",
+        "picture": "despacio"
       },
       {
         "es": "repetir",
         "en": "to repeat",
         "unit": 12,
         "unitOrder": 8,
-        "visual": "🔁"
+        "visual": "🔁",
+        "picture": "repetir"
       }
     ]
   },
@@ -277,7 +286,8 @@
         "en": "to speak",
         "unit": 12,
         "unitOrder": 3,
-        "visual": "💬"
+        "visual": "💬",
+        "picture": "hablar"
       },
       {
         "es": "comer",
@@ -292,14 +302,16 @@
         "en": "to read",
         "unit": 9,
         "unitOrder": 1,
-        "visual": "📖"
+        "visual": "📖",
+        "picture": "leer"
       },
       {
         "es": "escribir",
         "en": "to write",
         "unit": 12,
         "unitOrder": 2,
-        "visual": "✍️"
+        "visual": "✍️",
+        "picture": "escribir"
       },
       {
         "es": "trabajar",
@@ -330,7 +342,8 @@
         "en": "to swim",
         "unit": 9,
         "unitOrder": 3,
-        "visual": "🏊"
+        "visual": "🏊",
+        "picture": "nadar"
       },
       {
         "es": "cantar",
@@ -365,7 +378,8 @@
         "en": "to understand",
         "unit": 12,
         "unitOrder": 7,
-        "visual": "🧠"
+        "visual": "🧠",
+        "picture": "entender"
       },
       {
         "es": "pensar",
@@ -631,14 +645,16 @@
         "en": "red",
         "unit": 8,
         "unitOrder": 5,
-        "visual": "🔴"
+        "visual": "🔴",
+        "picture": "rojo"
       },
       {
         "es": "azul",
         "en": "blue",
         "unit": 8,
         "unitOrder": 6,
-        "visual": "🔵"
+        "visual": "🔵",
+        "picture": "azul"
       },
       {
         "es": "amarillo",
@@ -1833,7 +1849,8 @@
         "en": "dress",
         "unit": 8,
         "unitOrder": 3,
-        "visual": "👗"
+        "visual": "👗",
+        "picture": "el-vestido"
       },
       {
         "es": "la falda",
@@ -1860,7 +1877,8 @@
         "en": "jacket",
         "unit": 8,
         "unitOrder": 4,
-        "visual": "🧥"
+        "visual": "🧥",
+        "picture": "la-chaqueta"
       },
       {
         "es": "el abrigo",
@@ -1895,7 +1913,8 @@
         "en": "shirt",
         "unit": 8,
         "unitOrder": 1,
-        "visual": "👔"
+        "visual": "👔",
+        "picture": "la-camisa"
       },
       {
         "es": "el cinturón",
@@ -1982,7 +2001,8 @@
         "en": "work / job",
         "unit": 9,
         "unitOrder": 8,
-        "visual": "💼"
+        "visual": "💼",
+        "picture": "el-trabajo"
       },
       {
         "es": "el jefe",
@@ -3162,7 +3182,8 @@
         "en": "football",
         "unit": 9,
         "unitOrder": 6,
-        "visual": "⚽"
+        "visual": "⚽",
+        "picture": "el-futbol"
       },
       {
         "es": "la pelota",
@@ -3440,7 +3461,8 @@
         "en": "to listen",
         "unit": 12,
         "unitOrder": 1,
-        "visual": "🎧"
+        "visual": "🎧",
+        "picture": "escuchar"
       },
       {
         "es": "repasar",
@@ -3607,7 +3629,8 @@
         "en": "music",
         "unit": 9,
         "unitOrder": 5,
-        "visual": "🎵"
+        "visual": "🎵",
+        "picture": "la-musica"
       },
       {
         "es": "el teatro",
@@ -3660,7 +3683,8 @@
         "en": "cinema",
         "unit": 9,
         "unitOrder": 4,
-        "visual": "🎬"
+        "visual": "🎬",
+        "picture": "el-cine"
       },
       {
         "es": "el actor",

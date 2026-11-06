@@ -499,6 +499,103 @@ describe("a live talk", () => {
   });
 });
 
+describe("a talk that did not work", () => {
+  const dropped = async () => {
+    await talk();
+    await act(async () => channel.onclose?.());
+  };
+
+  it("does not score a talk where Lucía heard nothing from the learner", async () => {
+    replies(started(), { grade: "bad", items: graded("missing", "missing", "missing") });
+
+    const { onEvaluated } = mount();
+
+    await click("Start the talk");
+    channel.emit({ type: "session.started", session: { id: "live_1" } });
+    say("examiner", "¿Cómo te llamas?", 0);
+    await finish();
+
+    expect(screen.getByText("The talk didn’t work.")).toBeVisible();
+    expect(screen.getByText(/Lucía heard nothing from you\./)).toBeVisible();
+    expect(screen.queryByRole("heading", { name: "Not yet. Talk again to pass." })).toBeNull();
+    expect(api.mock.calls.map((c) => c[0])).toEqual(["/api/live-session"]);
+    expect(onEvaluated).not.toHaveBeenCalled();
+  });
+
+  it("keeps nothing to score again when the question is opened again", async () => {
+    replies(started(), { grade: "perfect", items: [] });
+    mount();
+    await dropped();
+    cleanup();
+    mount();
+
+    expect(screen.queryByText("The talk didn’t work.")).toBeNull();
+    expect(screen.queryByText(/could not be scored/)).toBeNull();
+    expect(screen.getByRole("button", { name: "Start the talk" })).toBeVisible();
+  });
+
+  it("starts a fresh talk for the same task on Try again", async () => {
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: false, passcode: "olé" }));
+
+    api.mockImplementation(async (url: string) =>
+      url === "/api/live-session"
+        ? started()
+        : Response.json({ grade: "good", items: graded("correct", "understandable", "correct") }),
+    );
+
+    mount({ exam: true, topic: "home", task: "mock-s2" });
+    await dropped();
+
+    expect(screen.queryByRole("button", { name: "Start the talk" })).toBeNull();
+    await click("Try again");
+
+    expect(screen.queryByText("The talk didn’t work.")).toBeNull();
+    expect(screen.getByRole("status")).toHaveTextContent("Connecting to Lucía…");
+
+    const sessions = api.mock.calls.filter((c) => c[0] === "/api/live-session");
+
+    expect(sessions).toHaveLength(2);
+
+    expect(JSON.parse(sessions[1][1].body)).toEqual({
+      sdp: "offer-sdp",
+      task: "mock-s2",
+      topic: "home",
+      passcode: "olé",
+    });
+
+    channel.emit({ type: "session.started", session: { id: "live_2" } });
+    say("student", "Vivo en un piso.", 1000);
+    await finish();
+
+    expect(await screen.findByRole("heading", { name: "Good." })).toBeVisible();
+    expect(await openTranscript()).toHaveTextContent(/^YouVivo en un piso\.$/);
+  });
+
+  it("asks for the passcode on Try again once the free talk is used", async () => {
+    api.mockImplementation(async () => started());
+    mount();
+    await dropped();
+
+    expect(screen.getByRole("button", { name: "Try again" })).toBeDisabled();
+    fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
+    await click("Try again");
+
+    expect(JSON.parse(api.mock.calls.at(-1)![1].body)).toMatchObject({ passcode: "olé" });
+  });
+
+  it("moves on without a grade on Skip", async () => {
+    replies(started(), { grade: "perfect", items: [] });
+
+    const { onEvaluated, onSubmit } = mount({ exam: true });
+
+    await dropped();
+    await click("Skip");
+
+    expect(onSubmit).toHaveBeenCalledWith("", null, false);
+    expect(onEvaluated).not.toHaveBeenCalled();
+  });
+});
+
 it("clips a long transcript to the 4000 characters progress stores", async () => {
   replies(started(), { grade: "good", items: [] });
   const { onEvaluated } = mount();
@@ -673,18 +770,19 @@ describe("connection", () => {
     expect(screen.getByText("1:02")).toBeVisible();
   });
 
-  it("scores what was said when the connection drops", async () => {
+  it("does not score a talk whose connection drops", async () => {
     replies(started(), { grade: "bad", items: graded("correct", "missing", "missing") });
 
-    mount();
+    const { onEvaluated } = mount();
+
     await talk();
     await act(async () => channel.onclose?.());
 
     expect(stopped).toEqual(["mic", "peer"]);
-
-    expect(
-      await screen.findByRole("heading", { name: "Not yet. Talk again to pass." }),
-    ).toBeVisible();
+    expect(screen.getByText("The talk didn’t work.")).toBeVisible();
+    expect(screen.getByText(/The connection to Lucía was lost\./)).toBeVisible();
+    expect(api.mock.calls.map((c) => c[0])).toEqual(["/api/live-session"]);
+    expect(onEvaluated).not.toHaveBeenCalled();
   });
 
   it("releases the microphone when the lesson closes mid-talk", async () => {
@@ -811,14 +909,16 @@ describe("guards", () => {
     expect(stopped).toEqual(["mic", "peer"]);
   });
 
-  it("scores what was said when the connection is lost mid-talk", async () => {
+  it("does not score a talk whose connection is lost mid-talk", async () => {
     replies(started(), { grade: "perfect", items: graded("correct", "correct", "correct") });
 
     mount();
     await talk();
     await act(async () => peers.at(-1)!.become("disconnected"));
 
-    expect(await screen.findByRole("heading", { name: "Perfect. You passed." })).toBeVisible();
+    expect(screen.getByText("The talk didn’t work.")).toBeVisible();
+    expect(screen.queryByRole("heading", { name: "Perfect. You passed." })).toBeNull();
+    expect(api.mock.calls.map((c) => c[0])).toEqual(["/api/live-session"]);
   });
 
   it("counts the free talk as used once the session exists, even if the call fails", async () => {

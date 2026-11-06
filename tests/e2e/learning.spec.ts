@@ -471,6 +471,53 @@ test("the mock exam's Task 2 talks to Lucas on the picked topic and keeps the re
     });
 });
 
+test("a mock exam talk that drops is not scored and starts again fresh", async ({ page }) => {
+  await mockLiveTalk(page, {
+    grade: "good",
+    items: [{ id: "name", label: "Name", level: "correct" }],
+  });
+
+  const scored: string[] = [];
+
+  page.on("request", (r) => r.url().endsWith("/api/score-talk") && scored.push(r.url()));
+  await resumeMockExam(page, { section: 3, index: 0, stage: "run" });
+  // Lucía can only start once the server has answered the session request.
+  const first = page.waitForResponse("**/api/live-session");
+
+  await page.getByRole("button", { name: "Start the talk" }).click();
+  await first;
+  await examiner(page, { type: "session.started", session: { id: "live_1" } });
+  await expect(page.getByRole("status")).toHaveText("Live");
+  await page.evaluate(() => (window as any).__live.channel.onclose());
+
+  await expect(page.getByText("The talk didn’t work.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Not everything." })).toBeHidden();
+  await page.getByLabel("Passcode").fill("olé-2026");
+  const second = page.waitForRequest("**/api/live-session");
+
+  await page.getByRole("button", { name: "Try again" }).click();
+  expect((await second).postDataJSON()).toMatchObject({ task: "mock-s1", passcode: "olé-2026" });
+  await examiner(page, { type: "session.started", session: { id: "live_2" } });
+
+  await examiner(page, {
+    type: "session.input_transcript.delta",
+    delta: "Me llamo Ana.",
+    start_ms: 1000,
+  });
+
+  await page.getByRole("button", { name: "End the talk" }).click();
+  await examiner(page, { type: "session.closed", reason: "close_requested" });
+  await expect(page.getByRole("heading", { name: "Good." })).toBeVisible();
+  expect(scored).toHaveLength(1);
+
+  await expect
+    .poll(async () => (await saved(page)).mockRun)
+    .toMatchObject({
+      answers: { "mock-s1": "You: Me llamo Ana." },
+      talks: { "mock-s1": { grade: "good" } },
+    });
+});
+
 test("vocabulary search and a complete self-assessed flashcard review", async ({ page }) => {
   await seedProgress(page, {
     completed: { "u6-words": { score: 8, total: 8, at: "2026-01-01T00:00:00Z" } },
@@ -727,5 +774,33 @@ test("the journey button resumes an unfinished lesson at its first unanswered ex
 
   await expect(
     page.getByRole("heading", { name: lesson.questions[3].prompt, exact: true }),
+  ).toBeVisible();
+});
+
+test("the journey button passes over a lesson whose every exercise was answered but never finished", async ({
+  page,
+}) => {
+  const [lesson, next] = allLessons;
+
+  await page.goto("/today");
+  await page.getByRole("button", { name: "Let’s take the first step" }).click();
+
+  for (const [i, q] of lesson.questions.entries()) {
+    await expect(page.getByRole("heading", { name: q.prompt, exact: true })).toBeVisible();
+    await answer(page, q);
+
+    if (i < lesson.questions.length - 1) {
+      await page.getByRole("button", { name: "Continue", exact: true }).click();
+    }
+  }
+
+  await closeLesson(page);
+  await expect.poll(async () => (await saved(page)).recent).toHaveLength(lesson.questions.length);
+  await page.reload();
+  await page.getByRole("button", { name: /Let’s take the first step|Continue my journey/ }).click();
+  await expect(page.getByRole("heading", { name: next.title, exact: true })).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: next.questions[0].prompt, exact: true }),
   ).toBeVisible();
 });

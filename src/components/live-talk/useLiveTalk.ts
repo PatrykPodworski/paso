@@ -23,6 +23,8 @@ type Connection = {
   examiner: ReturnType<typeof createExaminerConnection>;
   handlers: Handlers;
   live: boolean;
+  // The learner or the time limit asked the examiner to close.
+  ending: boolean;
   // Known once the server has created the session.
   limitMs?: number;
 };
@@ -43,18 +45,6 @@ export const useLiveTalk = () => {
     return current;
   };
 
-  const finish = () => {
-    const current = release();
-
-    if (current) {
-      const spoken = turnsOf(fragments.current);
-
-      setStatus("ended");
-      setTurns(spoken);
-      current.handlers.onEnded(spoken.map(({ role, text }) => ({ role, text })));
-    }
-  };
-
   const fail = (code: string) => {
     const current = release();
 
@@ -64,7 +54,31 @@ export const useLiveTalk = () => {
     }
   };
 
+  // A talk with nothing from the learner did not work: an empty transcript would score
+  // every item as missing.
+  const finish = () => {
+    const spoken = turnsOf(fragments.current);
+
+    if (!spoken.some((t) => t.role === "student" && t.text.trim())) {
+      fail("silent");
+
+      return;
+    }
+
+    const current = release();
+
+    if (current) {
+      setStatus("ended");
+      setTurns(spoken);
+      current.handlers.onEnded(spoken.map(({ role, text }) => ({ role, text })));
+    }
+  };
+
   const end = () => {
+    if (connection.current) {
+      connection.current.ending = true;
+    }
+
     if (connection.current?.examiner.end()) {
       setStatus("ending");
     } else {
@@ -90,7 +104,15 @@ export const useLiveTalk = () => {
     fragments.current.push(fragment);
   };
 
-  const drop = () => (connection.current?.live ? finish() : fail("unavailable"));
+  // Once the talk is closing, a drop only loses its last moments; before that it cut the
+  // talk short, so the talk is not scored.
+  const drop = () => {
+    if (connection.current?.ending) {
+      finish();
+    } else {
+      fail(connection.current?.live ? "dropped" : "unavailable");
+    }
+  };
 
   useEffect(() => () => void release(), []);
 
@@ -155,7 +177,7 @@ export const useLiveTalk = () => {
       onDrop: drop,
     });
 
-    const current: Connection = { examiner, handlers, live: false };
+    const current: Connection = { examiner, handlers, live: false, ending: false };
 
     connection.current = current;
     const micError = await examiner.acquireMicrophone();

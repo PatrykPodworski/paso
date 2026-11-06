@@ -1,4 +1,10 @@
-import { mockQuestions, mockTasks, mockTopics, sectionSizes } from "../../src/data/mock.ts";
+import {
+  mockExam,
+  mockQuestions,
+  mockTasks,
+  mockTopics,
+  sectionSizes,
+} from "../../src/data/mock.ts";
 import { CORRECTION_FIELDS, MAX_CORRECTIONS } from "./corrections.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
@@ -140,13 +146,26 @@ export const reviewOf = (value: unknown): VocabularyReview | null => {
   };
 };
 
+// Sections of the exam in exam order, each once: the whole exam or a part of it.
+const isSections = (value: unknown): value is number[] =>
+  Array.isArray(value) &&
+  value.length > 0 &&
+  value.every(
+    (section, i) => isCount(section, 0, mockExam.length - 1) && (i === 0 || section > value[i - 1]),
+  );
+
+// A score the result has exactly when its run took the section.
+const isSectionScore = (score: unknown, sections: number[], section: number) =>
+  sections.includes(section) ? isCount(score, 0, MAX_SECTION) : score === undefined;
+
 export const mockResultOf = (value: unknown): MockResult | null => {
   if (
     !isRecord(value) ||
     !isId(value.id) ||
     !isInstant(value.at) ||
-    !isCount(value.reading, 0, MAX_SECTION) ||
-    !isCount(value.listening, 0, MAX_SECTION) ||
+    !isSections(value.sections) ||
+    !isSectionScore(value.reading, value.sections, 0) ||
+    !isSectionScore(value.listening, value.sections, 1) ||
     !(value.writing === undefined || isScore(value.writing)) ||
     !(value.speaking === undefined || isScore(value.speaking))
   ) {
@@ -156,8 +175,9 @@ export const mockResultOf = (value: unknown): MockResult | null => {
   return {
     id: value.id,
     at: value.at,
-    reading: value.reading,
-    listening: value.listening,
+    sections: value.sections,
+    ...(value.reading === undefined ? {} : { reading: value.reading as number }),
+    ...(value.listening === undefined ? {} : { listening: value.listening as number }),
     ...(value.writing === undefined ? {} : { writing: value.writing as number }),
     ...(value.speaking === undefined ? {} : { speaking: value.speaking as number }),
   };
@@ -232,6 +252,7 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["talks", mapOf(isMockQuestion, isLiveScore)],
   ["seed", (value) => isCount(value, 0, MAX_SEED)],
   ["variants", isExamVariants],
+  ["sections", isSections],
 ];
 
 // A question index is only valid within its section, so the two always travel together.

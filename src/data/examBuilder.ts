@@ -1,4 +1,5 @@
 import { mockTasks } from "./mock";
+import { randomFrom, shuffle } from "./random";
 import type { ExamVariants, MockTask, MockVariant } from "./types";
 
 // When the learner last saw each variant, in epoch milliseconds. A variant not in it is unseen.
@@ -20,33 +21,6 @@ export type ExamRequest = {
 // How many variants the search tries before it settles for the fewest repeats. A real exam
 // finds an exam without repeats within a few dozen tries.
 const SEARCH_LIMIT = 10_000;
-
-// Mulberry32: the same seed gives the same sequence on every device.
-const randomFrom = (seed: number) => {
-  let state = seed >>> 0;
-
-  return () => {
-    state = (state + 0x6d2b79f5) >>> 0;
-    let t = state;
-
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-
-    return ((t ^ (t >>> 14)) >>> 0) / 2 ** 32;
-  };
-};
-
-const shuffle = <T>(items: T[], random: () => number) => {
-  const result = [...items];
-
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-
-  return result;
-};
 
 // A theme or a name may appear only once in an exam.
 const tagsOf = (variant: MockVariant) => [

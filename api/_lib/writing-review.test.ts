@@ -83,6 +83,33 @@ describe("parsing the model's review", () => {
     });
   });
 
+  it("collapses a repeated or shorter quote of a missed point and keeps a different mistake", () => {
+    const fix = fixOf(0);
+
+    const review = parseReview(
+      letter,
+      35,
+      output({
+        corrections: [
+          fix,
+          {
+            original: "de seis 0",
+            corrected: "de las seis 0",
+            explanation: "Too short.",
+          },
+          { original: "el casa", corrected: "la casa", explanation: fix.explanation },
+        ],
+      }),
+    );
+
+    expect(review?.mark).toEqual({ band: 2, reason: "A1 level with one missed point." });
+
+    expect(review?.corrections).toEqual([
+      fix,
+      { original: "el casa", corrected: "la casa", explanation: fix.explanation },
+    ]);
+  });
+
   it("lists a correction for each missed point and none for a passed one", () => {
     const correctionsOf = (missed: number) =>
       parseReview(

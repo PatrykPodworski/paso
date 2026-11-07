@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import type { ComponentProps } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { LiveItem } from "../../data/types";
@@ -395,6 +395,63 @@ describe("a live talk", () => {
     expect(api).not.toHaveBeenCalled();
     await click("Continue");
     expect(onSubmit).toHaveBeenCalledWith("", true, false);
+  });
+
+  it("shows a saved result's repeated speaking mistakes once, with their levels unchanged", async () => {
+    const de = {
+      original: "un poco español",
+      corrected: "un poco de español",
+      explanation: "The expression needs de before the language name.",
+    };
+
+    const personality = {
+      original: "Paciencia y muy tranquilo",
+      corrected: "paciente y muy tranquilo",
+      explanation: "Paciente is the adjective describing a person; paciencia is the noun.",
+    };
+
+    mount({
+      exam: true,
+      result: {
+        grade: "good",
+        items: [
+          { id: "languages", label: "Languages", level: "understandable" },
+          { id: "personality", label: "Personality", level: "understandable" },
+        ],
+        corrections: [
+          de,
+          personality,
+          { ...de },
+          { ...personality, original: "Paciencia", corrected: "paciente" },
+        ],
+      },
+    });
+
+    expect(screen.getByRole("heading", { name: "Good." })).toBeVisible();
+
+    expect(screen.getByRole("list", { name: "Your answers" })).toHaveTextContent(
+      "LanguagesUnderstandable, with mistakesPersonalityUnderstandable, with mistakes",
+    );
+
+    const shown = within(screen.getByRole("list", { name: "Corrections" })).getAllByRole(
+      "listitem",
+    );
+
+    expect(shown).toHaveLength(2);
+
+    expect(shown[0]).toHaveTextContent(
+      "un poco español → un poco de español The expression needs de before the language name.",
+    );
+
+    expect(shown[1]).toHaveTextContent(
+      "Paciencia y muy tranquilo → paciente y muy tranquilo Paciente is the adjective describing a person; paciencia is the noun.",
+    );
+
+    expect(
+      screen.getByText("Only the transcript is scored, never your pronunciation."),
+    ).toBeVisible();
+
+    expect(api).not.toHaveBeenCalled();
   });
 
   it("offers to score again when scoring fails", async () => {

@@ -159,6 +159,11 @@ const isSections = (value: unknown): value is number[] =>
 const isSectionScore = (score: unknown, sections: number[], section: number) =>
   sections.includes(section) ? isCount(score, 0, MAX_SECTION) : score === undefined;
 
+// Writing and speaking may be absent when the section was taken: that is ungraded, not zero.
+// A score for a section the run did not take is refused. Zero is a score.
+const isProductiveScore = (score: unknown, sections: number[], section: number) =>
+  sections.includes(section) ? score === undefined || isScore(score) : score === undefined;
+
 export const mockResultOf = (value: unknown): MockResult | null => {
   if (
     !isRecord(value) ||
@@ -167,8 +172,9 @@ export const mockResultOf = (value: unknown): MockResult | null => {
     !isSections(value.sections) ||
     !isSectionScore(value.reading, value.sections, 0) ||
     !isSectionScore(value.listening, value.sections, 1) ||
-    !(value.writing === undefined || isScore(value.writing)) ||
-    !(value.speaking === undefined || isScore(value.speaking))
+    !isProductiveScore(value.writing, value.sections, 2) ||
+    !isProductiveScore(value.speaking, value.sections, 3) ||
+    !(value.recorded === undefined || value.recorded === true)
   ) {
     return null;
   }
@@ -181,6 +187,7 @@ export const mockResultOf = (value: unknown): MockResult | null => {
     ...(value.listening === undefined ? {} : { listening: value.listening as number }),
     ...(value.writing === undefined ? {} : { writing: value.writing as number }),
     ...(value.speaking === undefined ? {} : { speaking: value.speaking as number }),
+    ...(value.recorded === true ? { recorded: true as const } : {}),
   };
 };
 
@@ -270,6 +277,7 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["seed", (value) => isCount(value, 0, MAX_SEED)],
   ["variants", isExamVariants],
   ["sections", isSections],
+  ["resultId", isId],
 ];
 
 // A question index is only valid within its section, so the two always travel together.

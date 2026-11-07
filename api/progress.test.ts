@@ -435,6 +435,78 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
     ]);
   });
 
+  it("keeps a zero and fills in a score on the same recorded result", async () => {
+    const me = learner();
+
+    const first = {
+      id: "m",
+      at: T,
+      ...full,
+      reading: 0,
+      listening: 25,
+      speaking: 0,
+      recorded: true,
+    };
+
+    await snapshot(me, { action: "mockResult", result: first });
+
+    const withWriting = { ...first, writing: 16.67 };
+
+    expect((await snapshot(me, { action: "mockResult", result: withWriting })).mockResults).toEqual(
+      [withWriting],
+    );
+
+    // A later save that omits writing must not clear the zero or the score already stored.
+    const replaced = { ...first, speaking: 8.33 };
+
+    expect((await snapshot(me, { action: "mockResult", result: replaced })).mockResults).toEqual([
+      { ...withWriting, speaking: 8.33 },
+    ]);
+  });
+
+  it("stores a partial rehearsal and a section practised alone without inventing the rest", async () => {
+    const me = learner();
+
+    const partial = {
+      id: "partial",
+      at: T,
+      sections: [0, 2],
+      reading: 4,
+      recorded: true,
+    };
+
+    const speaking = {
+      id: "speaking",
+      at: "2026-09-10T12:00:00.000Z",
+      sections: [3],
+      speaking: 0,
+      recorded: true,
+    };
+
+    await snapshot(me, { action: "mockResult", result: partial });
+
+    expect((await snapshot(me, { action: "mockResult", result: speaking })).mockResults).toEqual([
+      partial,
+      speaking,
+    ]);
+  });
+
+  it("does not add scores to a result saved before they were recorded", async () => {
+    const me = learner();
+    const legacy = { id: "old", at: T, ...full, reading: 10, listening: 12 };
+
+    await snapshot(me, { action: "mockResult", result: legacy });
+
+    expect(
+      (
+        await snapshot(me, {
+          action: "mockResult",
+          result: { ...legacy, writing: 20, speaking: 0, recorded: true },
+        })
+      ).mockResults,
+    ).toEqual([legacy]);
+  });
+
   it("resets every row of the learner and nobody else's", async () => {
     const [me, other] = [learner(), learner()];
 
@@ -519,6 +591,17 @@ describe("the mock exam run", () => {
     expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
       topic: "studies",
       talks: { "mock-s1": good, "mock-s2": bad },
+    });
+  });
+
+  it("keeps the id of the rehearsal result on the run", async () => {
+    const me = learner();
+
+    await change(me, { ...started, resultId: "result-1" }, true);
+
+    expect(await change(me, { stage: "done" })).toMatchObject({
+      resultId: "result-1",
+      stage: "done",
     });
   });
 
@@ -776,6 +859,24 @@ describe("requests", () => {
       "result",
     ],
     [
+      "a writing score from a run without writing",
+      me,
+      { action: "mockResult", result: { id: "m", at: T, sections: [3], writing: 0 } },
+      "result",
+    ],
+    [
+      "a speaking score from a run without speaking",
+      me,
+      { action: "mockResult", result: { id: "m", at: T, sections: [0], reading: 1, speaking: 1 } },
+      "result",
+    ],
+    [
+      "a mock result marked recorded false",
+      me,
+      { action: "mockResult", result: { ...ok, id: "m", recorded: false } },
+      "result",
+    ],
+    [
       "a run with listening but no listening score",
       me,
       { action: "mockResult", result: { id: "m", at: T, sections: [1] } },
@@ -795,6 +896,7 @@ describe("requests", () => {
       { action: "mockRun", run: { section: 3, index: 3 } },
       "run",
     ],
+    ["a mock result id", me, { action: "mockRun", run: { resultId: "" } }, "run"],
     ["a mock section", me, { action: "mockRun", run: { section: 4, index: 0 } }, "run"],
     ["a mock stage", me, { action: "mockRun", run: { stage: "paused" } }, "run"],
     ["a mock deadline", me, { action: "mockRun", run: { deadline: -1 } }, "run"],

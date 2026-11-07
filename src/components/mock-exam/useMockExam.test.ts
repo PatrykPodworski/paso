@@ -261,7 +261,7 @@ it("ends a run of one section after its review and saves the result of that sect
   expect((await state()).stage).toBe("done");
 
   expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
-    { at: new Date(now).toISOString(), sections: [1], listening: 0 },
+    { at: new Date(now).toISOString(), sections: [1], listening: 0, recorded: true },
   ]);
 });
 

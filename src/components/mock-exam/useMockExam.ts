@@ -6,10 +6,11 @@ import type { MockRun, MockRunPatch, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
 import { draftAnswers } from "./draftAnswers";
+import { rehearsalResult } from "./rehearsalResult";
 import { type MockRunActions, useMockRun } from "./useMockRun";
 
 export type MockExamActions = MockRunActions & {
-  onResult: (result: NewMockResult) => void;
+  onResult: (result: NewMockResult & { id?: string }) => void;
   // Records the task variants a section shows, so later exams prefer others.
   onSeen: (variants: string[]) => void;
 };
@@ -20,6 +21,21 @@ const sectionStart = (section: number): MockRunPatch => ({
   index: 0,
   stage: section === 3 ? "prep" : "run",
   deadline: Date.now() + (section === 3 ? 10 : mockExam[section].minutes) * 60000,
+});
+
+const sectionScore = (run: MockRun, index: number) =>
+  examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
+    .length;
+
+// The rehearsal result for this run. The date is the moment it is first saved; a later
+// update of the same id keeps the stored date.
+const finishedResult = (run: MockRun, resultId: string): NewMockResult & { id: string } => ({
+  id: resultId,
+  ...rehearsalResult(
+    run,
+    { reading: sectionScore(run, 0), listening: sectionScore(run, 1) },
+    new Date().toISOString(),
+  ),
 });
 
 export const useMockExam = (
@@ -92,9 +108,19 @@ export const useMockExam = (
     change({ answers: draftAnswers(run), stage: "review" });
   };
 
-  const score = (index: number) =>
-    examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
-      .length;
+  const score = (index: number) => sectionScore(run, index);
+
+  // Writing feedback on the results page arrives after the result was saved. The same id
+  // is updated then. A run that finished before results had an id is left as it was saved.
+  const recordMarks = (marks: Record<string, number>) => {
+    change({ marks });
+
+    if (run.stage !== "done" || !run.resultId) {
+      return;
+    }
+
+    onResult(finishedResult({ ...run, marks: { ...run.marks, ...marks } }, run.resultId));
+  };
 
   const nextSection = () => {
     setConfirm(false);
@@ -102,16 +128,10 @@ export const useMockExam = (
     const next = run.sections[run.sections.indexOf(run.section) + 1];
 
     if (next === undefined) {
-      const took = (section: number) => run.sections.includes(section);
+      const resultId = run.resultId ?? crypto.randomUUID();
 
-      onResult({
-        at: new Date().toISOString(),
-        sections: run.sections,
-        ...(took(0) ? { reading: score(0) } : {}),
-        ...(took(1) ? { listening: score(1) } : {}),
-      });
-
-      change({ stage: "done" });
+      change({ stage: "done", resultId });
+      onResult(finishedResult(run, resultId));
 
       return;
     }
@@ -133,6 +153,7 @@ export const useMockExam = (
     start,
     endSection,
     score,
+    recordMarks,
     nextSection,
   };
 };

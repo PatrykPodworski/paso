@@ -7,6 +7,7 @@ import { fullExam, mockExam, sectionSizes, sectionVariants } from "../../data/mo
 import type { ExamVariants, ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
+import { historyMarks, historyMarkText } from "./rehearsalHistory";
 
 // The exam the start buttons begin: a section is new when the learner saw none of its variants.
 type Props = {
@@ -122,20 +123,20 @@ export const MockIntro = ({ progress, variants, onStart }: Props) => (
           .map((r) => (
             <div
               className="mt-3 flex items-center gap-5 border-t border-border py-3.5 text-sm text-muted-foreground max-lg:flex-wrap max-lg:gap-3"
-              key={r.at}
+              key={r.id}
             >
               <span>{new Date(r.at).toLocaleDateString()}</span>
               {partOf(r) && <span>{partOf(r)}</span>}
-              {r.reading !== undefined && (
-                <strong className="font-medium">Reading {r.reading}/25</strong>
-              )}
-              {r.listening !== undefined && (
-                <strong className="font-medium">Listening {r.listening}/25</strong>
-              )}
-              {r.sections.some((i) => i > 1) && (
-                <small className="ml-auto text-xs text-muted-foreground">
-                  Productive skills ungraded
-                </small>
+              {historyMarks(r).map((mark) =>
+                mark.state === "score" ? (
+                  <strong className="font-medium" key={mark.title}>
+                    {historyMarkText(mark)}
+                  </strong>
+                ) : (
+                  <small className="text-xs text-muted-foreground" key={mark.title}>
+                    {historyMarkText(mark)}
+                  </small>
+                ),
               )}
             </div>
           ))}

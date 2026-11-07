@@ -1,5 +1,9 @@
 import type { Correction } from "../../src/data/types.ts";
 
+export { mergedCorrections } from "../../src/data/corrections.ts";
+
+// Structured outputs accept no array length limits. Fixes for missed points and for items
+// below correct sit outside this cap; other corrections stop here.
 export const MAX_CORRECTIONS = 8;
 export const CORRECTION_FIELDS = ["original", "corrected", "explanation"] as const;
 
@@ -10,7 +14,7 @@ export const correctionSchema = {
   additionalProperties: false,
 };
 
-// Structured outputs accept no array length limits, so keptCorrections enforces the maximum.
+// Structured outputs accept no array length limits, so the assembled list is capped in code.
 export const correctionsSchema = { type: "array", items: correctionSchema };
 
 export const isCorrection = (value: unknown): value is Correction =>
@@ -26,12 +30,3 @@ const isFilled = (value: string) => value.trim() !== "";
 // A fix for a missed or flawed point must give the corrected phrase and say why. Its original
 // may be empty when the learner gave nothing to quote.
 export const isFix = (fix: Correction) => isFilled(fix.corrected) && isFilled(fix.explanation);
-
-export const correctionOf = ({ original, corrected, explanation }: Correction): Correction => ({
-  original,
-  corrected,
-  explanation,
-});
-
-export const keptCorrections = (corrections: Correction[]): Correction[] =>
-  corrections.slice(0, MAX_CORRECTIONS).map(correctionOf);

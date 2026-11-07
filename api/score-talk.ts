@@ -1,12 +1,12 @@
 import type { Correction, LiveItem, LiveScore, TalkTurn } from "../src/data/types.ts";
 import {
-  correctionOf,
   correctionSchema,
   correctionsSchema,
   isCorrection,
   isCorrections,
   isFix,
-  keptCorrections,
+  MAX_CORRECTIONS,
+  mergedCorrections,
 } from "./_lib/corrections.js";
 import { json } from "./_lib/limits.js";
 import { reserve } from "./_lib/reserve.js";
@@ -130,13 +130,14 @@ const modelScore = (task: TaskSpec, data: unknown) => {
 
     return {
       items: itemsOf(task, (id) => levels[id]),
-      // Items below correct come first and outside the cap, so their fixes are never cut.
-      corrections: [
-        ...task.items
-          .filter(({ id }) => levels[id] !== "correct")
-          .map(({ id }) => correctionOf(fixes[id])),
-        ...keptCorrections(corrections),
-      ],
+      // The model is told not to repeat an item's fix. It still returns that fix again,
+      // sometimes as a shorter quote of the same change. Collapse those, and keep every
+      // item fix even when the other corrections already fill the cap.
+      corrections: mergedCorrections(
+        task.items.filter(({ id }) => levels[id] !== "correct").map(({ id }) => fixes[id]),
+        corrections,
+        MAX_CORRECTIONS,
+      ),
     };
   } catch {
     return null;

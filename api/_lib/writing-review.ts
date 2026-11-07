@@ -1,12 +1,12 @@
 import type { Correction, Grade, WritingMark, WritingReview } from "../../src/data/types.ts";
 import {
-  correctionOf,
   correctionSchema,
   correctionsSchema,
   isCorrection,
   isCorrections,
   isFix,
-  keptCorrections,
+  MAX_CORRECTIONS,
+  mergedCorrections,
 } from "./corrections.ts";
 import { messagesOf } from "./writing-prompt.ts";
 import type { WritingTask } from "./writing-tasks.ts";
@@ -145,11 +145,13 @@ export const parseReview = (
   const review: WritingReview = {
     wordCount,
     coverage: coverage.map(({ met, feedback }, i) => ({ point: task.points[i], met, feedback })),
-    // Missed points come first and outside the cap, so their fixes are never cut.
-    corrections: [
-      ...coverage.filter((c) => !c.met).map((c) => correctionOf(c.fix)),
-      ...keptCorrections(corrections),
-    ],
+    // Missed points come first and outside the cap. A repeated fix, or a shorter quote of
+    // the same change, collapses into the fuller one instead of being listed again.
+    corrections: mergedCorrections(
+      coverage.filter((c) => !c.met).map((c) => c.fix),
+      corrections,
+      MAX_CORRECTIONS,
+    ),
     revised,
   };
 

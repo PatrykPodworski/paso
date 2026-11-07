@@ -1,0 +1,379 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/views.spec.ts >> personalized dashboard with completed lessons and activity
+- Location: tests/visual/views.spec.ts:142:1
+
+# Error details
+
+```
+Error: A snapshot doesn't exist at /__w/paso/paso/screenshots/baseline/mobile/dashboard-progress.png.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - complementary [ref=e5]:
+    - link "Paso home" [ref=e6] [cursor=pointer]:
+      - /url: /today
+      - generic [ref=e7]:
+        - text: p
+        - generic [ref=e8]: •
+      - generic [ref=e9]: paso.
+    - generic [ref=e10]:
+      - generic "Spanish flag" [ref=e11]
+      - generic [ref=e15]:
+        - strong [ref=e16]: Spanish for your world
+        - generic [ref=e17]: DELE A1 · Beginner
+    - generic [ref=e18]: YOUR LEARNING SPACE
+    - navigation "Main navigation" [ref=e19]:
+      - button "My learning space" [ref=e20] [cursor=pointer]
+      - button "Learning path" [ref=e25] [cursor=pointer]
+      - button "Practice studio 1" [ref=e29] [cursor=pointer]:
+        - generic [ref=e32]: Practice studio
+        - generic [ref=e33]: "1"
+      - button "Exam rehearsal" [ref=e34] [cursor=pointer]
+      - button "The A1 guide" [ref=e38] [cursor=pointer]
+    - generic [ref=e42]:
+      - generic [ref=e43]: ✺
+      - paragraph [ref=e44]: Un poquito cada día.
+      - generic [ref=e45]: A little every daytakes you a long way.
+    - generic [ref=e47]:
+      - button "Your exam, explained" [ref=e48] [cursor=pointer]
+      - button "B Bruno Learning at your pace" [ref=e53] [cursor=pointer]:
+        - generic [ref=e54]: B
+        - generic [ref=e55]:
+          - strong [ref=e56]: Bruno
+          - generic [ref=e57]: Learning at your pace
+  - generic [ref=e60]:
+    - banner [ref=e61]:
+      - generic [ref=e62]:
+        - button "Open navigation" [ref=e63] [cursor=pointer]
+        - generic [ref=e66]: Your Spanish journey
+      - generic [ref=e67]:
+        - generic "Consecutive practice days" [ref=e68]: "1"
+        - button "Open your learning preferences" [ref=e72] [cursor=pointer]: B
+    - main [ref=e73]:
+      - generic [ref=e75]:
+        - generic [ref=e76]: BUENOS DÍAS ✦
+        - heading "Hola, Bruno." [level=1] [ref=e77]
+        - paragraph [ref=e78]: Your next chapter starts with a small step.
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]: YOUR JOURNEY TO DELE A1
+              - heading [level=2] [ref=e85]:
+                - text: Small steps.A world of
+                - emphasis [ref=e86]: Spanish.
+              - paragraph [ref=e87]: Real-life Spanish, little wins, and a clear path to your first diploma.
+              - button "Continue my journey" [ref=e88] [cursor=pointer]
+              - generic [ref=e91]: 4 minutes is a lovely start
+            - img "A papercut Spanish village with terracotta roofs, a bell tower and an orange tree in front of a sky-blue sun disc" [ref=e94]
+          - generic [ref=e95]:
+            - generic [ref=e96]:
+              - generic [ref=e97]: A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
+              - heading "Your learning path" [level=2] [ref=e98]
+            - button "View full path" [ref=e99] [cursor=pointer]
+          - generic [ref=e102]:
+            - generic [ref=e103]: 1 of 48 lessons complete
+            - generic [ref=e106]: 2%
+          - generic [ref=e107]:
+            - article [ref=e108]:
+              - button "UNIT 01 · Primeros pasos ¡Hola, mundo! Say hello. Make your first connection." [expanded] [ref=e109] [cursor=pointer]:
+                - generic [ref=e113]:
+                  - generic [ref=e114]: UNIT 01 · Primeros pasos
+                  - heading "¡Hola, mundo!" [level=3] [ref=e115]
+                  - paragraph [ref=e116]: Say hello. Make your first connection.
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - generic [ref=e122]: Greet and introduce yourself
+                  - generic [ref=e125]: Use ser and llamarse
+                  - generic [ref=e128]: Spell names and ask for repetition
+                - generic [ref=e131]:
+                  - button "Words to take with you Discover vocabulary · listen & choose 4 min" [ref=e132] [cursor=pointer]:
+                    - generic [ref=e134]:
+                      - strong [ref=e135]: Words to take with you
+                      - generic [ref=e136]: Discover vocabulary · listen & choose
+                    - generic [ref=e137]: 4 min
+                  - button "Make the words work Understand patterns · guided grammar 4 min" [ref=e140] [cursor=pointer]:
+                    - generic [ref=e144]:
+                      - strong [ref=e145]: Make the words work
+                      - generic [ref=e146]: Understand patterns · guided grammar
+                    - generic [ref=e147]: 4 min
+                  - button "A little real life Read & listen · everyday situations 5 min" [ref=e150] [cursor=pointer]:
+                    - generic [ref=e154]:
+                      - strong [ref=e155]: A little real life
+                      - generic [ref=e156]: Read & listen · everyday situations
+                    - generic [ref=e157]: 5 min
+                  - button "Make it your own Build, write & speak · your turn 8 min" [ref=e160] [cursor=pointer]:
+                    - generic [ref=e164]:
+                      - strong [ref=e165]: Make it your own
+                      - generic [ref=e166]: Build, write & speak · your turn
+                    - generic [ref=e167]: 8 min
+                - group [ref=e170]:
+                  - generic "A little pattern to remember" [ref=e171] [cursor=pointer]
+            - article [ref=e174]:
+              - button "UNIT 02 · Así soy yo This is me Names, numbers and your little corner of the world." [ref=e175] [cursor=pointer]:
+                - generic [ref=e179]:
+                  - generic [ref=e180]: UNIT 02 · Así soy yo
+                  - heading "This is me" [level=3] [ref=e181]
+                  - paragraph [ref=e182]: Names, numbers and your little corner of the world.
+            - article [ref=e186]:
+              - button "UNIT 03 · Mi gente My favorite people Family, friends and the words that bring you together." [ref=e187] [cursor=pointer]:
+                - generic [ref=e191]:
+                  - generic [ref=e192]: UNIT 03 · Mi gente
+                  - heading "My favorite people" [level=3] [ref=e193]
+                  - paragraph [ref=e194]: Family, friends and the words that bring you together.
+          - button "Home, cafés, adventures & 9 more chapters" [ref=e198] [cursor=pointer]
+          - generic [ref=e201]:
+            - heading "A little change of pace" [level=2] [ref=e203]
+            - generic [ref=e204]: Make it yours
+          - generic [ref=e205]:
+            - button "Tune your ear Listen to everyday Spanish" [ref=e206] [cursor=pointer]:
+              - generic [ref=e210]:
+                - strong [ref=e211]: Tune your ear
+                - generic [ref=e212]: Listen to everyday Spanish
+            - button "Find your voice A safe space to speak" [ref=e215] [cursor=pointer]:
+              - generic [ref=e219]:
+                - strong [ref=e220]: Find your voice
+                - generic [ref=e221]: A safe space to speak
+            - button "Make it stick 1 mistakes to revisit" [ref=e224] [cursor=pointer]:
+              - generic [ref=e228]:
+                - strong [ref=e229]: Make it stick
+                - generic [ref=e230]: 1 mistakes to revisit
+        - complementary [ref=e233]:
+          - generic [ref=e234]:
+            - generic [ref=e235]:
+              - heading "Your daily little win" [level=3] [ref=e236]
+              - button "Adjust your daily goal" [ref=e237] [cursor=pointer]
+            - progressbar "Daily goal" [ref=e240]:
+              - generic [ref=e241]:
+                - strong [ref=e244]:
+                  - text: "8"
+                  - generic [ref=e245]: /5
+                - generic [ref=e246]: exercises today
+            - paragraph [ref=e247]: Daily goal reached. ¡Muy bien!
+            - list "This week" [ref=e248]:
+              - listitem [ref=e249]:
+                - generic [ref=e250]: M
+                - 'img "07/09/2026: no practice" [ref=e251]'
+              - listitem [ref=e252]:
+                - generic [ref=e253]: T
+                - 'img "08/09/2026: no practice" [ref=e254]'
+              - listitem [ref=e255]:
+                - generic [ref=e256]: W
+                - 'img "09/09/2026: 8 exercises" [ref=e257]'
+              - listitem [ref=e260]:
+                - generic [ref=e261]: T
+                - 'img "10/09/2026: no practice" [ref=e262]'
+              - listitem [ref=e263]:
+                - generic [ref=e264]: F
+                - 'img "11/09/2026: no practice" [ref=e265]'
+              - listitem [ref=e266]:
+                - generic [ref=e267]: S
+                - 'img "12/09/2026: no practice" [ref=e268]'
+              - listitem [ref=e269]:
+                - generic [ref=e270]: S
+                - 'img "13/09/2026: no practice" [ref=e271]'
+          - generic [ref=e272]:
+            - heading "A little of every skill" [level=3] [ref=e274]
+            - paragraph [ref=e277]: Four ways to grow your Spanish.
+            - button "Reading 4 practised" [ref=e278] [cursor=pointer]:
+              - strong [ref=e283]:
+                - text: Reading
+                - generic [ref=e284]: 4 practised
+            - button "Listening 4 practised" [ref=e287] [cursor=pointer]:
+              - strong [ref=e292]:
+                - text: Listening
+                - generic [ref=e293]: 4 practised
+            - button "Writing 0 practised" [ref=e296] [cursor=pointer]:
+              - strong [ref=e301]:
+                - text: Writing
+                - generic [ref=e302]: 0 practised
+            - button "Speaking 0 practised" [ref=e304] [cursor=pointer]:
+              - strong [ref=e309]:
+                - text: Speaking
+                - generic [ref=e310]: 0 practised
+            - button "How the exam works" [ref=e312] [cursor=pointer]
+          - generic [ref=e315]:
+            - generic [ref=e316]: A PHRASE FOR TODAY
+            - heading "Poco a poco." [level=3] [ref=e319]
+            - generic [ref=e320]: /ˈpo.ko a ˈpo.ko/
+            - paragraph [ref=e321]: Little by little.
+            - generic [ref=e322]:
+              - generic [ref=e323]: Progress has its own pace.
+              - button "Listen to poco a poco" [ref=e325] [cursor=pointer]
+      - generic [ref=e328]:
+        - generic [ref=e329]: paso a paso ✦
+        - button "Independent practice · Official sources inside" [ref=e330] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  1   | import { test as base, expect, type Locator, type Page } from "@playwright/test";
+  2   | import { allLessons } from "../../src/data/curriculum";
+  3   | import { mockQuestions } from "../../src/data/mock";
+  4   | import type { ProgressSnapshot, Question } from "../../src/data/types";
+  5   | import { answerTalk } from "./live";
+  6   | import { type ProgressSeed, seedWrites } from "./progressSeed";
+  7   | 
+  8   | export const test = base.extend<{ blockExternal: void }>({
+  9   |   blockExternal: [
+  10  |     async ({ context }, provide) => {
+  11  |       await context.route("**/*", async (route) => {
+  12  |         const url = new URL(route.request().url());
+  13  | 
+  14  |         if (url.hostname !== "127.0.0.1" && url.protocol.startsWith("http")) {
+  15  |           return route.abort("blockedbyclient");
+  16  |         }
+  17  | 
+  18  |         return route.continue();
+  19  |       });
+  20  | 
+  21  |       await provide();
+  22  |     },
+  23  |     { auto: true },
+  24  |   ],
+  25  |   page: async ({ page }, provide) => {
+  26  |     const errors: string[] = [];
+  27  | 
+  28  |     page.on("pageerror", (error) => errors.push(error.message));
+  29  | 
+  30  |     // A lesson writing task needs a review to move on; a test that cares registers its own.
+  31  |     await page.route("**/api/review-writing", (route) =>
+  32  |       route.fulfill({
+  33  |         json: { wordCount: 0, coverage: [], corrections: [], revised: "", grade: "perfect" },
+  34  |       }),
+  35  |     );
+  36  | 
+  37  |     await page.clock.setFixedTime(new Date("2026-09-09T10:00:00+02:00"));
+  38  |     await provide(page);
+  39  |     expect(errors, "Uncaught browser errors").toEqual([]);
+  40  |   },
+  41  | });
+  42  | 
+  43  | export { expect };
+  44  | 
+  45  | // Captures land in screenshots/ for inspection. With VISUAL_COMPARE set they are compared
+  46  | // with screenshots/baseline/ instead, which a run with --update-snapshots=all writes.
+  47  | export const capture = async (
+  48  |   page: Page,
+  49  |   name: string,
+  50  |   { fullPage = false, element }: { fullPage?: boolean; element?: Locator } = {},
+  51  | ) => {
+  52  |   if (process.env.VISUAL_COMPARE) {
+  53  |     await (element
+  54  |       ? expect(element).toHaveScreenshot(`${name}.png`)
+> 55  |       : expect(page).toHaveScreenshot(`${name}.png`, { fullPage }));
+      |                      ^ Error: A snapshot doesn't exist at /__w/paso/paso/screenshots/baseline/mobile/dashboard-progress.png.
+  56  | 
+  57  |     return;
+  58  |   }
+  59  | 
+  60  |   const path = `screenshots/${test.info().project.name}/${name}.png`;
+  61  | 
+  62  |   await (element ? element.screenshot({ path }) : page.screenshot({ path, fullPage }));
+  63  | };
+  64  | 
+  65  | // Everything that makes a screenshot reproducible and nothing that is specific to one
+  66  | // page: kill motion, wait for webfonts, drop focus rings and hover state, scroll to the
+  67  | // top. Shared by tests/visual/views.spec.ts and tests/visual/design-system.spec.ts.
+  68  | export const stabilise = async (page: Page) => {
+  69  |   await page.addStyleTag({
+  70  |     content:
+  71  |       "*, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }",
+  72  |   });
+  73  | 
+  74  |   await page.evaluate(async () => {
+  75  |     await document.fonts.ready;
+  76  |     (document.activeElement as HTMLElement)?.blur();
+  77  |     window.scrollTo(0, 0);
+  78  |   });
+  79  | 
+  80  |   await page.mouse.move(0, 0);
+  81  | };
+  82  | 
+  83  | // Opens a path lesson; one with stored answers resumes at its first unanswered exercise.
+  84  | export const openLesson = async (page: Page, index: number, resumeAt = 0) => {
+  85  |   await page.goto("/path");
+  86  |   const lesson = allLessons[index];
+  87  |   const unit = page.locator(".unit-card").nth(Math.floor(index / 4));
+  88  | 
+  89  |   if ((await unit.locator(".unit-summary").getAttribute("aria-expanded")) !== "true") {
+  90  |     await unit.locator(".unit-summary").click();
+  91  |   }
+  92  | 
+  93  |   await unit.getByRole("button", { name: lesson.title, exact: false }).click();
+  94  | 
+  95  |   await expect(
+  96  |     page.getByRole("heading", { name: lesson.questions[resumeAt].prompt, exact: true }),
+  97  |   ).toBeVisible();
+  98  | 
+  99  |   return lesson;
+  100 | };
+  101 | 
+  102 | const submitLabel = (q: Question, exam: boolean) =>
+  103 |   exam ? "Save answer" : ["write", "form"].includes(q.kind) ? "Review my practice" : "Check answer";
+  104 | 
+  105 | // A lesson writing task asks for the passcode until one gets a review.
+  106 | const fillPasscode = async (page: Page, q: Question, exam: boolean) => {
+  107 |   const passcode = page.getByLabel("Passcode");
+  108 | 
+  109 |   if (!exam && ["write", "form"].includes(q.kind) && (await passcode.isVisible())) {
+  110 |     await passcode.fill("olé");
+  111 |   }
+  112 | };
+  113 | 
+  114 | export const answer = async (page: Page, q: Question, exam = false, wrong = false) => {
+  115 |   if (q.options) {
+  116 |     await page
+  117 |       .getByRole("button", {
+  118 |         name: wrong ? q.options.find((o) => o !== q.answer)! : q.answer,
+  119 |         exact: true,
+  120 |       })
+  121 |       .click();
+  122 | 
+  123 |     return;
+  124 |   } else if (q.kind === "order") {
+  125 |     for (const word of q.answer.split(" ")) {
+  126 |       await page
+  127 |         .locator(".word-bank")
+  128 |         .getByRole("button", { name: word, exact: true, disabled: false })
+  129 |         .filter({ visible: true })
+  130 |         .first()
+  131 |         .click();
+  132 |     }
+  133 | 
+  134 |     return;
+  135 |   } else if (q.kind === "form") {
+  136 |     for (const f of q.fields!) {
+  137 |       await page.getByRole("textbox", { name: f.label, exact: true }).fill(f.example);
+  138 |     }
+  139 |   } else if (q.kind === "live") {
+  140 |     await answerTalk(page);
+  141 | 
+  142 |     return;
+  143 |   } else {
+  144 |     await page.getByRole("textbox", { name: "Your answer in Spanish" }).fill(q.answer);
+  145 |   }
+  146 | 
+  147 |   await fillPasscode(page, q, exam);
+  148 |   await page.getByRole("button", { name: submitLabel(q, exam), exact: true }).click();
+  149 | };
+  150 | 
+  151 | export const closeLesson = async (page: Page) => {
+  152 |   await page.getByRole("button", { name: "Close lesson" }).click();
+  153 | 
+  154 |   if (await page.getByRole("button", { name: "Save & leave" }).isVisible()) {
+  155 |     await page.getByRole("button", { name: "Save & leave" }).click();
+```

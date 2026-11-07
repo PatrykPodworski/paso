@@ -4,12 +4,14 @@ export const u8: TaskSpec = {
   id: "u8",
   mode: "interview",
   scenario:
-    "You are a shop assistant in a clothes shop in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Cuesta veinte euros». If they ask whether they can pay by card, say «Sí, claro». If they thank you, answer «De nada».",
+    "You are a shop assistant in a clothes shop in Spain and the learner is your customer. Stay the assistant until the talk ends. If the learner asks the price, answer with a simple price, for example «Cuesta veinte euros». If they ask whether they can pay by card, say «Sí, claro». If they thank you, answer «De nada».",
   asks: [
     "Buenos días. ¿Qué buscas?",
-    "¿De qué color y de qué talla?",
-    "Aquí tienes. ¿Algo más?",
+    "¿De qué color?",
+    "¿De qué talla?",
     "¿Qué colores te gustan?",
+    { learner: "The price." },
+    { learner: "Whether they can pay by card." },
   ],
   items: [
     { id: "garment", label: "Garment asked for", example: "Quiero una camisa, por favor" },

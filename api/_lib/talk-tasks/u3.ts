@@ -4,12 +4,12 @@ export const u3: TaskSpec = {
   id: "u3",
   mode: "interview",
   scenario:
-    "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
+    "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you a question about your family, answer it in one short sentence before you continue or say goodbye.",
   asks: [
     "¿Quién hay en tu familia?",
-    "Describe a una persona de tu familia, por favor. ¿Cómo es?",
+    "¿Cómo es una persona de tu familia?",
     "¿Qué hacéis juntos?",
-    "Ahora, hazme dos preguntas sobre mi familia.",
+    { learner: "Two questions about your family." },
   ],
   items: [
     { id: "members", label: "Family members", example: "Vivo con mi madre y mi hermano" },

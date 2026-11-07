@@ -4,12 +4,14 @@ export const u6: TaskSpec = {
   id: "u6",
   mode: "interview",
   scenario:
-    "You are a waitress in a café in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Son cinco euros». If they ask for the bill, say «Aquí tienes la cuenta» and the total. If they thank you, answer «De nada».",
+    "You are a waitress in a café in Spain and the learner is your customer. Stay the waitress until the talk ends. If the learner asks the price, answer with a simple price, for example «Son cinco euros». If they ask for the bill, say «Aquí tienes la cuenta» and the total. If they thank you, answer «De nada».",
   asks: [
     "Buenos días. ¿Qué quieres tomar?",
-    "¿Algo más?",
-    "Aquí tienes. ¿Todo bien?",
+    "Food, if they have not ordered any. «¿Y para comer?»",
+    "A drink, if they have not ordered one. «¿Y para beber?»",
     "¿Qué comida te gusta?",
+    { learner: "The price." },
+    { learner: "The bill." },
   ],
   items: [
     { id: "greeting", label: "Greeting", example: "Buenos días" },

@@ -4,12 +4,14 @@ export const u11: TaskSpec = {
   id: "u11",
   mode: "interview",
   scenario:
-    "You are a friendly interviewer and you talk with the learner about the weather and the seasons of the year. When the learner asks you what your favourite season is and what the weather is like in your city, answer each question with a short sentence, for example «Mi estación favorita es la primavera» and «En mi ciudad hoy hace sol», and then say goodbye.",
+    "You are a friendly interviewer and you talk with the learner about the weather and the seasons of the year. When the learner asks your favourite season, or the weather in your city, answer that question with one short sentence, for example «Mi estación favorita es la primavera» or «En mi ciudad hoy hace sol», before you continue or say goodbye.",
   asks: [
     "¿Qué tiempo hace hoy?",
     "¿Qué estación del año te gusta más?",
-    "Con este tiempo, ¿cómo estás y qué necesitas?",
-    "Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad.",
+    "¿Cómo estás?",
+    "¿Qué necesitas?",
+    { learner: "Your favourite season." },
+    { learner: "The weather in your city." },
   ],
   items: [
     { id: "weather", label: "Today's weather", example: "Hoy hace sol y calor" },

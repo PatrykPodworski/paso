@@ -8,6 +8,10 @@ export type TaskItem = {
   example: string;
 };
 
+// A line Lucía may say, or a point only the learner can raise. Words outside «» are a
+// note to her: she says the one question inside the marks, not the note.
+export type Ask = string | { learner: string };
+
 export type TaskSpec = {
   id: string;
   // An interview is questions Lucía asks one by one. In a monologue she gives the task
@@ -15,8 +19,12 @@ export type TaskSpec = {
   mode: "interview" | "monologue";
   // The situation and Lucía's role in it, when the talk is more than a plain chat.
   scenario?: string;
-  // What Lucía asks (questions) or asks for (points to cover), in order.
-  asks: string[];
+  // What the talk covers, in order. The mock exam's conversation states its lines as
+  // written. A practice talk does not read a note or a learner point aloud.
+  asks: Ask[];
+  // The mock exam states its conversation lines, including the turn where the learner
+  // must ask. Practice talks leave this unset.
+  examScript?: boolean;
   // In a monologue, the short question Lucía may ask after a long silence, about one of
   // the task's points.
   nudge?: string;

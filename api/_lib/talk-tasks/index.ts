@@ -6,6 +6,7 @@ import {
   rubricEnd,
   rubricFrame,
   TOPICS,
+  type Ask,
   type TaskSpec,
   type Topic,
 } from "./base.ts";
@@ -57,10 +58,26 @@ export const taskOf = (id: unknown, topic?: unknown) => {
 };
 
 const COUNTS = ["one", "two", "three", "four", "five", "six"];
-const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth"];
 const LEVELS = ["correct", "understandable", "missing"];
 
-const numbered = (asks: string[]) => asks.map((ask, i) => `${i + 1}. ${ask}`);
+const lineOf = (ask: Ask) =>
+  typeof ask === "string"
+    ? ask
+    : `The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: ${ask.learner} If they do not ask it, give one short hint for this point only.`;
+
+const numbered = (asks: readonly Ask[]) => asks.map((ask, i) => `${i + 1}. ${lineOf(ask)}`);
+
+// The Spanish Lucía may say for one point. A note's question is the part inside «».
+export const linesOf = (task: TaskSpec) =>
+  task.asks.flatMap((ask) => {
+    if (typeof ask !== "string") {
+      return [];
+    }
+
+    const quoted = [...ask.matchAll(/«([^»]*)»/g)].map((match) => match[1]);
+
+    return quoted.length > 0 ? quoted : [ask];
+  });
 
 // "a, b and c"
 const join = (words: string[], last: string) =>
@@ -68,18 +85,49 @@ const join = (words: string[], last: string) =>
 
 const quoted = (words: string[]) => words.map((w) => `"${w}"`);
 
-const interview = (task: TaskSpec) => [
-  `Ask exactly these ${COUNTS[task.asks.length - 1]} questions, one at a time and in this order:`,
+const noPraise =
+  "Do not use «Muy bien». If you acknowledge an answer, vary a short reaction such as «Ah», «Vale» or «Gracias», or say nothing and continue. Do not praise every turn. An acknowledgement is not a correction and not a grade.";
+
+const answerFirst =
+  "If the learner asks you a question, or repairs what they said, answer that first in one short sentence. Do not ask your next question and do not say goodbye until you have answered.";
+
+const acknowledgement = [
+  noPraise,
+  "Do not correct mistakes, do not explain anything and do not leave the points above.",
+  "Remember every detail the learner has already given. Skip a detail they already gave. Each turn asks for one detail that is still missing, including another missing detail of the same point.",
+  answerFirst,
+];
+
+const practiceInterview = (task: TaskSpec) => [
+  "Cover every point below, in order. This is a conversation, not a checklist.",
+  "Ask one short question per turn. Never ask two questions in the same turn.",
+  "Where a point puts a question in «», the words outside «» are for you, not a line to speak. The question inside «» is an example: ask one short question for the missing detail, of that kind.",
   ...numbered(task.asks),
-  "After each answer say only «Muy bien» or «Gracias» and ask the next question. Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.",
-  "If the learner does not answer or you do not understand the answer, repeat the same question once, more slowly, and then move on to the next one.",
-  `After the ${ORDINALS[task.asks.length - 1]} answer, ${farewell}`,
+  ...acknowledgement,
+  "Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.",
+  "Stay in your role. If the learner says goodbye or clearly ends the exchange, answer a thank-you if they gave one, then close. A goodbye ends the talk even if a point is still open. Do not ask another question, do not greet them again and do not restart the scene.",
+  "If the learner does not answer, or you do not understand, repeat that same question once, more slowly, and then move on.",
+  `When every point is covered, or the learner has ended the talk, ${farewell}`,
+];
+
+const examInterview = (task: TaskSpec) => [
+  `Ask exactly these ${COUNTS[task.asks.length - 1]} questions, one at a time and in this order. Say each line as it is written. One line is one turn.`,
+  ...numbered(task.asks),
+  noPraise,
+  "Do not correct mistakes, do not explain anything and do not add a question that is not in the list.",
+  "Remember what the learner has already said. If a later line is already answered, do not ask it again.",
+  answerFirst,
+  "If the learner says goodbye or clearly ends the exchange, do not restart and do not go back to an earlier line. Close.",
+  "If the learner does not answer, or you do not understand, repeat that same line once, more slowly, and then move on.",
+  `When the lines are done, or the learner has ended the talk, ${farewell}`,
 ];
 
 const monologue = (task: TaskSpec) => [
   "The learner speaks alone. Give them the task in these words, in this order, and then listen without interrupting:",
   ...numbered(task.asks),
   "Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.",
+  "Say the task once. Do not use «Muy bien». An acknowledgement is not a correction and not a grade. If the learner says goodbye, close and do not give the task again.",
+  "If the learner asks you a question when they finish, answer it in one short sentence before goodbye.",
   `Only if the learner is silent for more than ten seconds, encourage them once with a short question about a point they have not mentioned yet,${task.nudge ? ` for example «${task.nudge}»,` : ""} and then listen again.`,
   `When the learner finishes, ${farewell}`,
 ];
@@ -88,12 +136,23 @@ export const instructionsOf = (task: TaskSpec) =>
   [
     ...persona,
     ...(task.scenario ? [task.scenario] : []),
-    ...(task.mode === "interview" ? interview(task) : monologue(task)),
+    ...(task.mode === "interview"
+      ? task.examScript
+        ? examInterview(task)
+        : practiceInterview(task)
+      : monologue(task)),
     ...policies,
   ].join("\n");
 
-export const greetingOf = (task: TaskSpec) =>
-  `${greetingStart} Then ${task.mode === "interview" ? "ask" : "say"} «${task.asks[0]}» and listen.`;
+export const greetingOf = (task: TaskSpec) => {
+  const opening = task.asks[0];
+
+  if (typeof opening !== "string" || opening.includes("«")) {
+    throw new Error(`Task ${task.id} must open with one spoken line`);
+  }
+
+  return `${greetingStart} Then ${task.mode === "interview" ? "ask" : "say"} «${opening}» and listen.`;
+};
 
 export const rubricOf = (task: TaskSpec) => {
   const [frame, turns] = rubricFrame[task.mode];

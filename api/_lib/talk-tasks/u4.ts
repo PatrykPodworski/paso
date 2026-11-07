@@ -4,13 +4,14 @@ export const u4: TaskSpec = {
   id: "u4",
   mode: "interview",
   scenario:
-    "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you their two questions about your home, answer each one with a short sentence and then say goodbye.",
+    "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you a question about your home, answer it in one short sentence before you continue or say goodbye.",
   asks: [
     "¿Dónde está tu casa?",
     "¿Qué habitaciones hay en tu casa?",
-    "¿Cuál es tu habitación favorita? ¿Por qué?",
-    "Dime dónde están tres cosas de tu casa, por ejemplo el sofá, la mesa y la cama.",
-    "Ahora, hazme dos preguntas sobre mi casa.",
+    "¿Cuál es tu habitación favorita?",
+    "Why that room, if they have not said. «¿Por qué te gusta?»",
+    "One thing they have not placed yet, until three places are given. «¿Dónde está el sofá?»",
+    { learner: "Two questions about your home." },
   ],
   items: [
     { id: "location", label: "Where it is", example: "Vivo en un piso en el centro" },

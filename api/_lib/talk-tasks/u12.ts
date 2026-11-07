@@ -4,13 +4,17 @@ export const u12: TaskSpec = {
   id: "u12",
   mode: "interview",
   scenario:
-    "You are a friendly interviewer and you talk with the learner about themselves and about their studies, their work or their home, whichever topic the learner chooses. When the learner asks you two questions about that topic, answer each question with a short sentence, for example «Vivo en un piso pequeño en Madrid» and «Me gusta mi casa porque es tranquila», and then say goodbye.",
+    "You are a friendly interviewer and you talk with the learner about themselves and about their studies, their work or their home, whichever topic the learner chooses. When the learner asks you a question about that topic, answer it in one short sentence, for example «Vivo en un piso pequeño en Madrid» or «Me gusta mi casa porque es tranquila», before you continue or say goodbye.",
   asks: [
-    "Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives?",
-    "Ahora háblame de tus estudios, de tu trabajo o de tu casa. Elige un tema.",
-    "¿Con quién estudias, trabajas o vives?",
-    "¿Qué te gusta de tus estudios, de tu trabajo o de tu casa?",
-    "Ahora, hazme dos preguntas sobre ese tema.",
+    "¿Cómo te llamas?",
+    "¿De dónde eres?",
+    "¿Cuántos años tienes?",
+    "¿Dónde vives?",
+    "¿Hablamos de tus estudios, de tu trabajo o de tu casa?",
+    "One detail of the topic they chose. «¿Cómo es?»",
+    "¿Con quién?",
+    "¿Qué te gusta de eso?",
+    { learner: "Two questions about that same topic." },
   ],
   items: [
     {

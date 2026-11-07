@@ -4,12 +4,13 @@ export const u7: TaskSpec = {
   id: "u7",
   mode: "interview",
   scenario:
-    "You are a neighbour and you talk with the learner in a street in their neighbourhood. When the learner asks you where the bank is and whether it is far from the station, answer each question with a short sentence, for example «El banco está enfrente de la farmacia» and «Está cerca, a cinco minutos a pie», and then say goodbye.",
+    "You are a neighbour and you talk with the learner in a street in their neighbourhood. When the learner asks where the bank is, or whether it is far from the station, answer that question with one short sentence, for example «El banco está enfrente de la farmacia» or «Está cerca, a cinco minutos a pie», before you continue or say goodbye.",
   asks: [
     "¿Dónde está tu barrio?",
     "¿Qué hay en tu barrio?",
     "¿Qué te gusta de tu barrio?",
-    "Ahora, pregúntame dónde está el banco y si está lejos de la estación.",
+    { learner: "Where the bank is." },
+    { learner: "Whether the bank is far from the station." },
   ],
   items: [
     { id: "location", label: "Where the neighborhood is", example: "Mi barrio está en el centro" },

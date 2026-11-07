@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { buildExam, seenFrom } from "../../data/examBuilder";
 import { examSections, mockExam, sectionVariants } from "../../data/mock";
 import { randomSeed } from "../../data/random";
@@ -6,10 +6,11 @@ import type { MockRun, MockRunPatch, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
 import { draftAnswers } from "./draftAnswers";
+import { rehearsalResult } from "./rehearsalResult";
 import { type MockRunActions, useMockRun } from "./useMockRun";
 
 export type MockExamActions = MockRunActions & {
-  onResult: (result: NewMockResult) => void;
+  onResult: (result: NewMockResult & { id?: string }) => void;
   // Records the task variants a section shows, so later exams prefer others.
   onSeen: (variants: string[]) => void;
 };
@@ -96,22 +97,51 @@ export const useMockExam = (
     examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
       .length;
 
+  // One date per saved result, so a score that arrives later keeps the rehearsal's date.
+  const savedResult = useRef<{ id: string; at: string } | null>(null);
+
+  if (run.stage === "done" && run.resultId && savedResult.current?.id !== run.resultId) {
+    savedResult.current = { id: run.resultId, at: new Date().toISOString() };
+  }
+
+  const result =
+    run.stage === "done" && run.resultId && savedResult.current?.id === run.resultId
+      ? {
+          id: run.resultId,
+          ...rehearsalResult(
+            run,
+            { reading: score(0), listening: score(1) },
+            savedResult.current.at,
+          ),
+        }
+      : null;
+
+  const resultKey = result ? JSON.stringify(result) : "";
+  const pending = useRef(result);
+  const published = useRef("");
+
+  pending.current = result;
+
+  // Writing feedback can arrive after the results open. The same result id is updated
+  // then. A run that finished before results had an id is left as it was saved.
+  useEffect(() => {
+    const next = pending.current;
+
+    if (!next || published.current === resultKey) {
+      return;
+    }
+
+    published.current = resultKey;
+    onResult(next);
+  }, [resultKey, onResult]);
+
   const nextSection = () => {
     setConfirm(false);
 
     const next = run.sections[run.sections.indexOf(run.section) + 1];
 
     if (next === undefined) {
-      const took = (section: number) => run.sections.includes(section);
-
-      onResult({
-        at: new Date().toISOString(),
-        sections: run.sections,
-        ...(took(0) ? { reading: score(0) } : {}),
-        ...(took(1) ? { listening: score(1) } : {}),
-      });
-
-      change({ stage: "done" });
+      change({ stage: "done", resultId: run.resultId ?? crypto.randomUUID() });
 
       return;
     }

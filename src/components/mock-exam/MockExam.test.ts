@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, remount, seed, setupMockExam, state } from "../../test/mockExam";
-import { savedProgress, settle } from "../../test/progressApi";
+import { savedProgress, seedProgress, settle } from "../../test/progressApi";
 import type { LiveItem, LiveScore } from "../../data/types";
 
 // The exam as variant 1 of each task.
@@ -25,8 +25,18 @@ it("stores only objective results once and requires both human scores before a v
   await settle();
 
   expect(await results()).toEqual([
-    { at: new Date(now).toISOString(), sections: [0, 1, 2, 3], reading: 25, listening: 25 },
+    {
+      at: new Date(now).toISOString(),
+      sections: [0, 1, 2, 3],
+      reading: 25,
+      listening: 25,
+      recorded: true,
+    },
   ]);
+
+  const saved = await savedProgress();
+
+  expect(saved.mockRun?.resultId).toBe(saved.mockResults[0].id);
 
   expect(screen.getByText("Writing").parentElement).toHaveTextContent("WritingNot scored");
   expect(screen.getByText("Speaking").parentElement).toHaveTextContent("SpeakingNot scored");
@@ -154,7 +164,7 @@ it("saves a speaking run without scores and shows its talks without the passing 
   await settle();
 
   expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
-    { at: new Date(now).toISOString(), sections: [3] },
+    { at: new Date(now).toISOString(), sections: [3], recorded: true },
   ]);
 
   expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
@@ -239,6 +249,101 @@ it("ignores a typed score once the AI has scored the section", async () => {
   expect(screen.getByText(/At least one group is below/)).toBeInTheDocument();
 });
 
+it("stores a genuine zero and a partial speaking score, and shows them in the history", async () => {
+  await seed({
+    section: 3,
+    stage: "review",
+    answers: allCorrect,
+    marks: Object.fromEntries(sections[2].questions.map((q) => [q.id, 0])),
+    talks: Object.fromEntries(sections[3].questions.map((q) => [q.id, talkAt("missing")])),
+  });
+
+  await mount();
+  click("See my results");
+  await settle();
+
+  expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
+    {
+      at: new Date(now).toISOString(),
+      sections: [0, 1, 2, 3],
+      reading: 25,
+      listening: 25,
+      writing: 0,
+      speaking: 0,
+      recorded: true,
+    },
+  ]);
+
+  click("Return to exam overview");
+
+  expect(screen.getByText("Writing 0/25")).toBeInTheDocument();
+  expect(screen.getByText("Speaking 0/25")).toBeInTheDocument();
+  expect(screen.queryByText(/ungraded|not recorded/)).not.toBeInTheDocument();
+});
+
+it("records a full exam whose writing is still ungraded and shows that in the history", async () => {
+  await seed({
+    section: 3,
+    stage: "review",
+    answers: allCorrect,
+    talks: { [sections[3].questions[0].id]: talkAt("correct") },
+  });
+
+  await mount();
+  click("See my results");
+  await settle();
+
+  expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
+    {
+      at: new Date(now).toISOString(),
+      sections: [0, 1, 2, 3],
+      reading: 25,
+      listening: 25,
+      speaking: 8.33,
+      recorded: true,
+    },
+  ]);
+
+  click("Return to exam overview");
+
+  expect(screen.getByText("Speaking 8.33/25")).toBeInTheDocument();
+  expect(screen.getByText("Writing ungraded")).toBeInTheDocument();
+  expect(screen.queryByText("Speaking ungraded")).not.toBeInTheDocument();
+  expect(screen.queryByText("Productive skills ungraded")).not.toBeInTheDocument();
+});
+
+it("leaves a finished run from before result ids alone and labels its scores as not recorded", async () => {
+  await seedProgress({
+    mockResults: [
+      {
+        at: "2026-01-05T10:00:00.000Z",
+        sections: [0, 1, 2, 3],
+        reading: 10,
+        listening: 12,
+      },
+    ],
+    mockRun: { stage: "done", section: 3, index: 0 },
+  });
+
+  await mount();
+  await settle();
+
+  const saved = await savedProgress();
+
+  expect(saved.mockResults).toHaveLength(1);
+  expect(saved.mockResults[0].writing).toBeUndefined();
+  expect(saved.mockResults[0].speaking).toBeUndefined();
+  expect(saved.mockResults[0].recorded).toBeUndefined();
+  expect(saved.mockRun?.resultId).toBeUndefined();
+
+  click("Return to exam overview");
+
+  expect(screen.getByText("Writing not recorded")).toBeInTheDocument();
+  expect(screen.getByText("Speaking not recorded")).toBeInTheDocument();
+  expect(screen.queryByText(/ungraded/)).not.toBeInTheDocument();
+  expect(screen.getByText("Reading 10/25")).toBeInTheDocument();
+});
+
 describe("writing scored from the results page", () => {
   const [form, letter] = sections[2].questions;
 
@@ -276,6 +381,49 @@ describe("writing scored from the results page", () => {
       ...patch,
     });
   };
+
+  it("adds a writing score that arrives on the results page to the saved rehearsal", async () => {
+    vi.useRealTimers();
+    localStorage.setItem("paso-live-v1", JSON.stringify({ freeUsed: true, passcode: "olé" }));
+
+    await seed({
+      section: 3,
+      stage: "review",
+      answers: { ...allCorrect, [form.id]: "Nombre: Ana", [letter.id]: "Hola Ana" },
+      talks: Object.fromEntries(sections[3].questions.map((q) => [q.id, talkAt("correct")])),
+    });
+
+    const api = reviewWriting(async () => Response.json(review(0)));
+
+    await mount();
+    click("See my results");
+    await settle();
+
+    const before = await savedProgress();
+
+    expect(before.mockResults).toHaveLength(1);
+    expect(before.mockResults[0]).toMatchObject({ speaking: 25, recorded: true, reading: 25 });
+    expect(before.mockResults[0].writing).toBeUndefined();
+    expect(before.mockRun?.resultId).toBe(before.mockResults[0].id);
+
+    click("Score my writing");
+    await waitFor(() => expect(tile("Writing")).toHaveTextContent("Writing0/25"));
+    await settle();
+
+    const after = await savedProgress();
+
+    expect(after.mockResults).toHaveLength(1);
+    expect(after.mockResults[0].id).toBe(before.mockResults[0].id);
+    expect(after.mockResults[0].writing).toBe(0);
+    expect(after.mockResults[0].speaking).toBe(25);
+    expect(after.mockResults[0].at).toBe(before.mockResults[0].at);
+
+    click("Return to exam overview");
+    expect(screen.getByText("Writing 0/25")).toBeInTheDocument();
+    expect(screen.getByText("Speaking 25/25")).toBeInTheDocument();
+    expect(screen.queryByText("Writing ungraded")).not.toBeInTheDocument();
+    expect(api).toHaveBeenCalled();
+  });
 
   it("gets the writing score on request and keeps it with the run", async () => {
     await seedDone();

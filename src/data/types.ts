@@ -119,12 +119,18 @@ export interface ProgressSnapshot {
   mockResults: {
     id: string;
     at: string;
-    // The sections the rehearsal took. Reading and listening are scored only when it took them.
+    // The sections the rehearsal took, in exam order.
     sections: number[];
+    // Present when that section was taken and scored. Zero is a score. Absent when the
+    // section was not taken, or when writing or speaking finished without a score.
     reading?: number;
     listening?: number;
     writing?: number;
     speaking?: number;
+    // Set when this result records the outcome of every section it took, including a
+    // productive section with no score. Absent on results saved before that: a missing
+    // writing or speaking score there was never stored, so it is not zero and not ungraded.
+    recorded?: true;
   }[];
   drafts: Record<string, string>;
   // The last 20 attempts, newest first.
@@ -181,6 +187,9 @@ export interface MockRun {
   variants: ExamVariants;
   // The sections the run takes, in exam order: the whole exam or one section alone.
   sections: number[];
+  // The rehearsal result this run saved, so a writing or speaking score that arrives on
+  // the results page updates that same result.
+  resultId?: string;
 }
 
 // A change to the mock run: top-level fields replace; answers, drafts, scores, talks, marks and

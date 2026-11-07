@@ -162,9 +162,12 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
       write({ action: "vocabulary", reviews }),
     check: (checkId: string, done: boolean) => write({ action: "check", checkId, done }),
     settings: (preferences: Preferences) => write({ action: "settings", ...preferences }),
-    // The id makes a resent result a no-op on the server.
-    mockResult: (result: NewMockResult) =>
-      write({ action: "mockResult", result: { id: crypto.randomUUID(), ...result } }),
+    // An id the exam already saved updates that result. A new result takes a fresh id.
+    mockResult: (result: NewMockResult & { id?: string }) =>
+      write({
+        action: "mockResult",
+        result: { ...result, id: result.id ?? crypto.randomUUID() },
+      }),
     // Answers, drafts and scores merge per key on the server; drafts are sent debounced.
     mockRun: ({ drafts: changed, ...change }: MockRunPatch) => {
       if (changed) {

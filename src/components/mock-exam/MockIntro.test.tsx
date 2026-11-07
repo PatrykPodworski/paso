@@ -42,6 +42,9 @@ it("introduces every section and lists previous rehearsals newest first", () => 
     "Listening 12/25",
   ]);
 
+  expect(screen.getAllByText("Writing not recorded")).toHaveLength(2);
+  expect(screen.getAllByText("Speaking not recorded")).toHaveLength(2);
+  expect(screen.queryByText(/ungraded/)).not.toBeInTheDocument();
   expect(screen.queryByRole("timer")).not.toBeInTheDocument();
 });
 
@@ -98,8 +101,75 @@ it("names the section of a one-section rehearsal and shows only the scores it ha
 
   expect(rows).toEqual([
     expect.stringContaining("Reading onlyReading 18/25"),
-    expect.stringContaining("Speaking only"),
+    expect.stringContaining("Speaking onlySpeaking not recorded"),
   ]);
 
   expect(screen.queryByText(/^Listening \d+\/25$/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/ungraded/)).not.toBeInTheDocument();
+});
+
+it("shows zeros, partial scores and ungraded sections without a blanket label", () => {
+  mount({
+    ...emptySnapshot(),
+    mockResults: [
+      {
+        id: "partial",
+        at: "2026-01-03T10:00:00Z",
+        sections: [0, 2],
+        reading: 4,
+        recorded: true,
+      },
+      {
+        id: "zeros",
+        at: "2026-01-04T10:00:00Z",
+        sections: [0, 1, 2, 3],
+        reading: 0,
+        listening: 0,
+        writing: 0,
+        speaking: 0,
+        recorded: true,
+      },
+      {
+        id: "scored",
+        at: "2026-01-05T10:00:00Z",
+        sections: [3],
+        speaking: 12.5,
+        recorded: true,
+      },
+      {
+        id: "ungraded",
+        at: "2026-01-06T10:00:00Z",
+        sections: [2, 3],
+        recorded: true,
+      },
+    ],
+  });
+
+  const rows = [
+    ...screen.getByRole("heading", { name: "Your previous rehearsals" }).parentElement!.children,
+  ]
+    .slice(1)
+    .map((row) => row.textContent);
+
+  expect(rows[0]).toContain("Writing, Speaking only");
+  expect(rows[0]).toContain("Writing ungraded");
+  expect(rows[0]).toContain("Speaking ungraded");
+  expect(rows[0]).not.toContain("Reading");
+
+  expect(rows[1]).toContain("Speaking only");
+  expect(rows[1]).toContain("Speaking 12.5/25");
+  expect(rows[1]).not.toContain("ungraded");
+
+  expect(rows[2]).toContain("Reading 0/25");
+  expect(rows[2]).toContain("Listening 0/25");
+  expect(rows[2]).toContain("Writing 0/25");
+  expect(rows[2]).toContain("Speaking 0/25");
+
+  expect(rows[3]).toContain("Reading, Writing only");
+  expect(rows[3]).toContain("Reading 4/25");
+  expect(rows[3]).toContain("Writing ungraded");
+  expect(rows[3]).not.toContain("Listening");
+  expect(rows[3]).not.toContain("Speaking");
+
+  expect(screen.queryByText("Productive skills ungraded")).not.toBeInTheDocument();
 });

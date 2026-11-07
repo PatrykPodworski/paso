@@ -135,6 +135,19 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
   await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
 
+  const [stored] = (await saved(page)).mockResults;
+
+  expect(stored).toMatchObject({
+    sections: [0, 1, 2, 3],
+    reading: 25,
+    listening: 25,
+    speaking: 12.5,
+    recorded: true,
+  });
+
+  expect(stored.writing).toBeUndefined();
+  expect((await saved(page)).mockRun?.resultId).toBe(stored.id);
+
   await expect(page.getByRole("list", { name: "Lucía's grades" })).toHaveText(
     "Task 1GoodTask 2GoodTask 3Good",
   );
@@ -171,6 +184,11 @@ test("complete all 55 exam questions with section reviews, oral prep, score calc
 
   await page.getByRole("button", { name: "Return to exam overview" }).click();
   await expect(page.getByText("Your previous rehearsals")).toBeVisible();
+  await expect(page.getByText("Reading 25/25")).toBeVisible();
+  await expect(page.getByText("Listening 25/25")).toBeVisible();
+  await expect(page.getByText("Writing ungraded")).toBeVisible();
+  await expect(page.getByText("Speaking 12.5/25")).toBeVisible();
+  await expect(page.getByText("Productive skills ungraded")).toHaveCount(0);
   await page.getByRole("button", { name: "Start exam rehearsal" }).click();
   await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
 
@@ -207,8 +225,14 @@ test("practise speaking alone: oral prep, resume after a reload, and a result fo
     .poll(async () => (await saved(page)).mockResults.map((r) => r.sections))
     .toEqual([[3]]);
 
+  await expect
+    .poll(async () => (await saved(page)).mockResults.map(({ id: _, ...result }) => result))
+    .toEqual([{ sections: [3], recorded: true, at: expect.any(String) }]);
+
   await page.getByRole("button", { name: "Return to exam overview" }).click();
   await expect(page.getByText("Speaking only")).toBeVisible();
+  await expect(page.getByText("Speaking ungraded")).toBeVisible();
+  await expect(page.getByText("Productive skills ungraded")).toHaveCount(0);
 });
 
 test("timer expires during navigation and section confirmation can be cancelled", async ({

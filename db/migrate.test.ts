@@ -90,6 +90,7 @@ describe("migrations", () => {
       "003_mock_run_variants.sql",
       "004_seen_variants.sql",
       "005_mock_result_sections.sql",
+      "006_mock_result_productive.sql",
     ]);
 
     expect(await tables(pg)).toEqual([
@@ -204,6 +205,55 @@ describe("005_mock_result_sections", () => {
     expect(results.rows).toEqual([
       { id: "old", sections: [0, 1, 2, 3], reading: 3 },
       { id: "speaking", sections: [3], reading: null },
+    ]);
+  });
+});
+
+describe("006_mock_result_productive", () => {
+  const repo = new URL("./migrations/", import.meta.url);
+  const file = (name: string) => readFileSync(new URL(name, repo), "utf8");
+
+  const before = [
+    "001_init.sql",
+    "002_mock_runs.sql",
+    "003_mock_run_variants.sql",
+    "004_seen_variants.sql",
+    "005_mock_result_sections.sql",
+  ];
+
+  const learner = "00000000-0000-4000-8000-000000000001";
+
+  it("leaves stored scores null and does not mark old results as recorded", async () => {
+    const pg = new PGlite();
+
+    await migrate(
+      pgliteSession(pg),
+      migrationsIn(Object.fromEntries(before.map((name) => [name, file(name)]))),
+    );
+
+    await pg.query("INSERT INTO learners (id) VALUES ($1)", [learner]);
+
+    await pg.query(
+      `INSERT INTO mock_results (learner_id, id, at, sections, reading, listening)
+       VALUES ($1, 'old', now(), '{0,1,2,3}', 0, 4)`,
+      [learner],
+    );
+
+    await migrate(
+      pgliteSession(pg),
+      migrationsIn(
+        Object.fromEntries(
+          [...before, "006_mock_result_productive.sql"].map((name) => [name, file(name)]),
+        ),
+      ),
+    );
+
+    const results = await pg.query(
+      "SELECT id, reading, writing, speaking, productive_recorded FROM mock_results",
+    );
+
+    expect(results.rows).toEqual([
+      { id: "old", reading: 0, writing: null, speaking: null, productive_recorded: null },
     ]);
   });
 });

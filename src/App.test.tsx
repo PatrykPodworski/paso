@@ -130,7 +130,13 @@ describe("app business orchestration", () => {
 
     expect((await saved()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
       { at: "2026-09-08T12:00:00.000Z", sections: [0, 1, 2, 3], reading: 10, listening: 12 },
-      { at: "2026-09-09T12:00:00.000Z", sections: [0, 1, 2, 3], reading: 0, listening: 0 },
+      {
+        at: "2026-09-09T12:00:00.000Z",
+        sections: [0, 1, 2, 3],
+        reading: 0,
+        listening: 0,
+        recorded: true,
+      },
     ]);
 
     click("Return to exam overview");

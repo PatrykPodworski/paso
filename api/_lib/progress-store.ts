@@ -46,7 +46,8 @@ const reads = (learner: string) => [
   ),
   q("SELECT check_id FROM guide_checks WHERE learner_id = $1 ORDER BY check_id", learner),
   q(
-    `SELECT id, ${iso("at")} AS at, sections, reading, listening, writing, speaking
+    `SELECT id, ${iso("at")} AS at, sections, reading, listening, writing, speaking,
+       productive_recorded
      FROM mock_results WHERE learner_id = $1 ORDER BY mock_results.at, id`,
     learner,
   ),
@@ -74,8 +75,22 @@ const reads = (learner: string) => [
 type LearnerRow = { name: string; goal: number; exam_date: string; xp: number };
 type CompletionRow = { lesson_id: string; score: number; total: number; at: string };
 type ReviewRow = { word: string; level: number; next_at: string; reviewed_at: string | null };
-type MockRow = Omit<MockResult, "reading" | "listening" | "writing" | "speaking"> &
-  Record<"reading" | "listening" | "writing" | "speaking", number | null>;
+type MockRow = {
+  id: string;
+  at: string;
+  sections: number[];
+  reading: number | null;
+  listening: number | null;
+  writing: number | null;
+  speaking: number | null;
+  productive_recorded: boolean | null;
+};
+
+// `real` is float4, so a score kept to the hundredth can come back with binary noise.
+// Zero stays zero; null stays missing.
+const pointsOf = (value: number | null) =>
+  value === null ? undefined : Math.round(value * 100) / 100;
+
 type DraftRow = { question_id: string; text: string };
 type DayRow = { day: string };
 
@@ -121,13 +136,26 @@ const vocabularyReviewOf = (r: ReviewRow) => ({
   ...(r.reviewed_at ? { reviewedAt: r.reviewed_at } : {}),
 });
 
-const mockResultOf = ({ reading, listening, writing, speaking, ...m }: MockRow) => ({
-  ...m,
-  ...(reading === null ? {} : { reading }),
-  ...(listening === null ? {} : { listening }),
-  ...(writing === null ? {} : { writing }),
-  ...(speaking === null ? {} : { speaking }),
-});
+const mockResultOf = ({
+  reading,
+  listening,
+  writing,
+  speaking,
+  productive_recorded,
+  ...m
+}: MockRow) => {
+  const writingPoints = pointsOf(writing);
+  const speakingPoints = pointsOf(speaking);
+
+  return {
+    ...m,
+    ...(reading === null ? {} : { reading }),
+    ...(listening === null ? {} : { listening }),
+    ...(writingPoints === undefined ? {} : { writing: writingPoints }),
+    ...(speakingPoints === undefined ? {} : { speaking: speakingPoints }),
+    ...(productive_recorded ? { recorded: true as const } : {}),
+  };
+};
 
 const snapshotOf = (results: unknown[][]): ProgressSnapshot => {
   const [
@@ -358,9 +386,18 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
     await write(db, learner, [
       ensureLearner(learner),
       q(
-        `INSERT INTO mock_results (learner_id, id, at, sections, reading, listening, writing, speaking)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-         ON CONFLICT (learner_id, id) DO NOTHING`,
+        // A result is inserted once. The same id may later fill in a writing or speaking
+        // score, including zero, and never clears one. A result saved before productive
+        // scores were recorded keeps its nulls: this update does not invent them.
+        `INSERT INTO mock_results (
+           learner_id, id, at, sections, reading, listening, writing, speaking, productive_recorded
+         )
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         ON CONFLICT (learner_id, id) DO UPDATE SET
+           writing = CASE WHEN mock_results.productive_recorded
+             THEN COALESCE(EXCLUDED.writing, mock_results.writing) ELSE mock_results.writing END,
+           speaking = CASE WHEN mock_results.productive_recorded
+             THEN COALESCE(EXCLUDED.speaking, mock_results.speaking) ELSE mock_results.speaking END`,
         learner,
         m.id,
         m.at,
@@ -369,6 +406,7 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
         m.listening ?? null,
         m.writing ?? null,
         m.speaking ?? null,
+        m.recorded ? true : null,
       ),
     ])
   ).snapshot;

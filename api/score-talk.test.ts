@@ -128,6 +128,100 @@ describe("scoring a talk", () => {
     expect(corrections?.[0]).toEqual(fixOf("age"));
   });
 
+  it("lists each speaking mistake once when a fix is repeated or quoted more shortly", async () => {
+    const levels = {
+      name: "correct",
+      nationality: "correct",
+      age: "correct",
+      residence: "correct",
+      occupation: "correct",
+      languages: "understandable",
+      personality: "understandable",
+    };
+
+    const de = {
+      original: "un poco español",
+      corrected: "un poco de español",
+      explanation: "The expression needs de before the language name.",
+    };
+
+    const personality = {
+      original: "Paciencia y muy tranquilo",
+      corrected: "paciente y muy tranquilo",
+      explanation: "Paciente is the adjective describing a person; paciencia is the noun.",
+    };
+
+    model(levels, [de, { ...personality, original: "Paciencia", corrected: "paciente" }], {
+      ...fixesOf(levels),
+      languages: de,
+      personality,
+    });
+
+    const body = (await (await score({ turns, task: "mock-s1" })).json()) as LiveScore;
+
+    expect(body.grade).toBe("good");
+
+    expect(body.items.map((item) => `${item.id}:${item.level}`)).toEqual([
+      "name:correct",
+      "nationality:correct",
+      "age:correct",
+      "residence:correct",
+      "occupation:correct",
+      "languages:understandable",
+      "personality:understandable",
+    ]);
+
+    expect(body.corrections).toEqual([de, personality]);
+  });
+
+  it("keeps distinct mistakes that share an explanation or a neighbouring word", async () => {
+    const ageFix = {
+      original: "Soy veinte años",
+      corrected: "Tengo veinte años",
+      explanation: "Spanish uses tener for age.",
+    };
+
+    const spelling = {
+      original: "años",
+      corrected: "anos",
+      explanation: "Spanish uses tener for age.",
+    };
+
+    model({ name: "correct", age: "understandable", country: "correct" }, [spelling], {
+      ...fixesOf({ name: "correct", country: "correct" }),
+      age: ageFix,
+    });
+
+    const body = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(body.grade).toBe("good");
+    expect(body.items.map((item) => item.level)).toEqual(["correct", "understandable", "correct"]);
+    expect(body.corrections).toEqual([ageFix, spelling]);
+  });
+
+  it("does not let a repeated fix take one of the eight correction slots", async () => {
+    const ageFix = {
+      original: "Soy veinte años",
+      corrected: "Tengo veinte años",
+      explanation: "Use tener.",
+    };
+
+    const distinct = Array.from({ length: 9 }, (_, i) => ({
+      original: `error ${i}`,
+      corrected: `fixed ${i}`,
+      explanation: `Because ${i}.`,
+    }));
+
+    model({ name: "correct", age: "understandable", country: "correct" }, [ageFix, ...distinct], {
+      ...fixesOf({ name: "correct", country: "correct" }),
+      age: ageFix,
+    });
+
+    const { corrections } = (await (await score({ turns })).json()) as LiveScore;
+
+    expect(corrections).toEqual([ageFix, ...distinct.slice(0, 8)]);
+  });
+
   it("gives the fix of an understandable item as its correction", async () => {
     model({ name: "correct", age: "understandable", country: "correct" }, [], {
       ...fixesOf({ name: "correct", country: "correct" }),

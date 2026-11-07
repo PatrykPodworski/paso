@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { buildExam, seenFrom } from "../../data/examBuilder";
 import { examSections, mockExam, sectionVariants } from "../../data/mock";
 import { randomSeed } from "../../data/random";
@@ -21,6 +21,21 @@ const sectionStart = (section: number): MockRunPatch => ({
   index: 0,
   stage: section === 3 ? "prep" : "run",
   deadline: Date.now() + (section === 3 ? 10 : mockExam[section].minutes) * 60000,
+});
+
+const sectionScore = (run: MockRun, index: number) =>
+  examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
+    .length;
+
+// The rehearsal result for this run. The date is the moment it is first saved; a later
+// update of the same id keeps the stored date.
+const finishedResult = (run: MockRun, resultId: string): NewMockResult & { id: string } => ({
+  id: resultId,
+  ...rehearsalResult(
+    run,
+    { reading: sectionScore(run, 0), listening: sectionScore(run, 1) },
+    new Date().toISOString(),
+  ),
 });
 
 export const useMockExam = (
@@ -93,47 +108,19 @@ export const useMockExam = (
     change({ answers: draftAnswers(run), stage: "review" });
   };
 
-  const score = (index: number) =>
-    examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
-      .length;
+  const score = (index: number) => sectionScore(run, index);
 
-  // One date per saved result, so a score that arrives later keeps the rehearsal's date.
-  const savedResult = useRef<{ id: string; at: string } | null>(null);
+  // Writing feedback on the results page arrives after the result was saved. The same id
+  // is updated then. A run that finished before results had an id is left as it was saved.
+  const recordMarks = (marks: Record<string, number>) => {
+    change({ marks });
 
-  if (run.stage === "done" && run.resultId && savedResult.current?.id !== run.resultId) {
-    savedResult.current = { id: run.resultId, at: new Date().toISOString() };
-  }
-
-  const result =
-    run.stage === "done" && run.resultId && savedResult.current?.id === run.resultId
-      ? {
-          id: run.resultId,
-          ...rehearsalResult(
-            run,
-            { reading: score(0), listening: score(1) },
-            savedResult.current.at,
-          ),
-        }
-      : null;
-
-  const resultKey = result ? JSON.stringify(result) : "";
-  const pending = useRef(result);
-  const published = useRef("");
-
-  pending.current = result;
-
-  // Writing feedback can arrive after the results open. The same result id is updated
-  // then. A run that finished before results had an id is left as it was saved.
-  useEffect(() => {
-    const next = pending.current;
-
-    if (!next || published.current === resultKey) {
+    if (run.stage !== "done" || !run.resultId) {
       return;
     }
 
-    published.current = resultKey;
-    onResult(next);
-  }, [resultKey, onResult]);
+    onResult(finishedResult({ ...run, marks: { ...run.marks, ...marks } }, run.resultId));
+  };
 
   const nextSection = () => {
     setConfirm(false);
@@ -141,7 +128,10 @@ export const useMockExam = (
     const next = run.sections[run.sections.indexOf(run.section) + 1];
 
     if (next === undefined) {
-      change({ stage: "done", resultId: run.resultId ?? crypto.randomUUID() });
+      const resultId = run.resultId ?? crypto.randomUUID();
+
+      change({ stage: "done", resultId });
+      onResult(finishedResult(run, resultId));
 
       return;
     }
@@ -163,6 +153,7 @@ export const useMockExam = (
     start,
     endSection,
     score,
+    recordMarks,
     nextSection,
   };
 };

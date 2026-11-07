@@ -29,6 +29,7 @@ export const MockExam = ({ progress, ...actions }: Props) => {
     start,
     endSection,
     score,
+    recordMarks,
     nextSection,
   } = useMockExam(progress.mockRun, progress.seenVariants, actions);
 
@@ -65,7 +66,7 @@ export const MockExam = ({ progress, ...actions }: Props) => {
               .questions.filter((q) => run.marks[q.id] === undefined)
               .map((q) => [q.id, run.answers[q.id] ?? ""]),
           )}
-          onMarks={(marks) => change({ marks })}
+          onMarks={recordMarks}
           onWriting={(writing) => change({ scores: { writing } })}
           onSpeaking={(speaking) => change({ scores: { speaking } })}
           onDownload={() => downloadResponses(run, score)}

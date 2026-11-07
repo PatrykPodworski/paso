@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { allQuestions } from "./curriculum";
-import { mockQuestions } from "./mock";
+import { mockQuestions, mockTasks } from "./mock";
 import { shownOptions, withShownOptions } from "./optionOrder";
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => i * 7919);
 
-// Listening Task 3: the authored endings list its answers in question order.
-const statements = mockQuestions.filter((q) => q.id.startsWith("mock-l3-"));
+// Listening Task 3, variant 1: the authored endings list its answers in question order.
+const statements = mockTasks.find((t) => t.id === "l3")!.variants[0].questions;
 const endings = statements[0].options!;
 const vocabulary = allQuestions.find((q) => q.id === "u2-v0")!;
 

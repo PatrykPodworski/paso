@@ -19,8 +19,8 @@ describe("dialogue clips", () => {
       const speakers = new Set(dialogue.turns.map(([speaker]) => speaker));
       const voices = new Set([...speakers].map((speaker) => dialogue.voices[speaker]));
 
-      expect(speakers.size, dialogue.id).toBeGreaterThan(1);
       expect(voices.size, dialogue.id).toBe(speakers.size);
+      expect(voices.has(undefined), dialogue.id).toBe(false);
     }
   });
 

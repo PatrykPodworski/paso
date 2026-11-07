@@ -4,12 +4,14 @@ export const u10: TaskSpec = {
   id: "u10",
   mode: "interview",
   scenario:
-    "You are first a ticket clerk at a train station in Spain and then a hotel receptionist, and the learner is your customer. When the learner asks you what time the train leaves and how much the ticket costs, answer each question with a short sentence, for example «El tren sale a las diez» and «Cuesta quince euros». If they thank you, answer «De nada».",
+    "You are first a ticket clerk at a train station in Spain and then a hotel receptionist, and the learner is your customer. When the learner asks what time the train leaves, or how much the ticket costs, answer that question with one short sentence, for example «El tren sale a las diez» or «Cuesta quince euros». If they thank you, answer «De nada». After the station points, greet them as the receptionist. Never say «Ahora estás en el hotel».",
   asks: [
     "Buenos días. ¿Adónde quieres viajar?",
-    "Aquí tienes el billete. Ahora, pregúntame a qué hora sale el tren y cuánto cuesta.",
-    "Ahora estás en el hotel. Buenas tardes. ¿Qué quieres?",
-    "¿Para cuántas personas y cuántas noches?",
+    { learner: "What time the train leaves." },
+    { learner: "How much the ticket costs." },
+    "Buenas tardes. ¿Qué necesitas?",
+    "¿Para cuántas personas?",
+    "¿Para cuántas noches?",
   ],
   items: [
     { id: "ticket", label: "Ticket asked for", example: "Un billete a Madrid, por favor" },

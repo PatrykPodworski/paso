@@ -4,13 +4,14 @@ export const u5: TaskSpec = {
   id: "u5",
   mode: "interview",
   scenario:
-    "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you their two questions about your routine, answer each one with a short sentence and then say goodbye.",
+    "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you a question about your routine, answer it in one short sentence before you continue or say goodbye.",
   asks: [
     "¿Qué haces por la mañana?",
-    "¿Trabajas o estudias? ¿Qué haces?",
-    "¿Qué haces por la tarde y por la noche?",
-    "¿A qué hora te levantas, a qué hora comes y a qué hora te acuestas?",
-    "Ahora, hazme dos preguntas sobre mi rutina.",
+    "¿Trabajas o estudias?",
+    "What they do there, if they have not said. «¿Qué haces allí?»",
+    "¿Qué haces por la noche?",
+    "A time they have not already said, among getting up, a meal and bedtime, until each of those three is covered. «¿A qué hora te acuestas?»",
+    { learner: "Two questions about your routine." },
   ],
   items: [
     { id: "morning", label: "Morning", example: "Me levanto a las siete y desayuno café con pan" },

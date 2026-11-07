@@ -4,13 +4,14 @@ export const u2: TaskSpec = {
   id: "u2",
   mode: "interview",
   scenario:
-    "You work at the reception of a Spanish school and take down the details of a new learner. When the learner asks you their two questions, answer each one with a short sentence and then say goodbye.",
+    "You work at the reception of a Spanish school and take down the details of a new learner. When the learner asks you a question, answer it in one short sentence before you continue or say goodbye.",
   asks: [
-    "¿Cómo te llamas? ¿Me lo deletreas, por favor?",
+    "¿Cómo te llamas?",
+    "¿Me lo deletreas, por favor?",
     "¿Cuántos años tienes?",
     "¿En qué ciudad vives?",
-    "¿Cuál es tu número de teléfono? Dímelo despacio, por favor.",
-    "Ahora, hazme dos preguntas a mí.",
+    "¿Cuál es tu número de teléfono?",
+    { learner: "Two questions to you, for example your name and where you live." },
   ],
   items: [
     { id: "name", label: "Name, spelled", example: "Ana: a, ene, a" },

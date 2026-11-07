@@ -4,12 +4,13 @@ export const u9: TaskSpec = {
   id: "u9",
   mode: "interview",
   scenario:
-    "You are a friendly interviewer and you talk with the learner about their free time. When the learner invites you to an activity, accept with a short sentence, for example «Sí, gracias. Buena idea». When they ask you what you like to do, answer with a short sentence, for example «Me gusta leer y pasear», and then say goodbye.",
+    "You are a friendly interviewer and you talk with the learner about their free time. When the learner invites you to an activity, accept with a short sentence, for example «Sí, gracias. Buena idea». When they ask what you like to do, answer with a short sentence, for example «Me gusta leer y pasear», before you continue or say goodbye. Do not invite them yourself.",
   asks: [
     "¿Qué te gusta hacer en tu tiempo libre?",
-    "¿Cuándo haces esas actividades y con quién?",
-    "Ahora, invítame a una actividad.",
-    "Y ahora, pregúntame qué me gusta hacer a mí.",
+    "¿Cuándo lo haces?",
+    "¿Con quién lo haces?",
+    { learner: "An invitation to an activity." },
+    { learner: "What you like doing in your free time." },
   ],
   items: [
     { id: "activities", label: "Activities", example: "Me gusta leer y nadar" },

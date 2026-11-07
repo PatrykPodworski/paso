@@ -27,7 +27,8 @@ const spec = ({
 }: TopicTask): TaskSpec => ({
   id: "mock-s3",
   mode: "interview",
-  scenario: `You are a friendly interviewer and you talk with the learner about their ${about}. When the learner asks you two questions about your ${about}, answer each question with a short sentence, for example «${replies[0]}» and «${replies[1]}», and then say goodbye.`,
+  examScript: true,
+  scenario: `You are a friendly interviewer and you talk with the learner about their ${about}. When the learner asks you a question about your ${about}, answer it in one short sentence, for example «${replies[0]}» or «${replies[1]}», before you continue or say goodbye.`,
   asks: [...questions, `Ahora, hazme dos preguntas sobre ${hers.replace(/^tu/, "mi")}.`],
   items: [
     ...items,

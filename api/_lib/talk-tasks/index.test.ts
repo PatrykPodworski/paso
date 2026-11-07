@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 import { MAX_LIMIT_SECONDS, type TaskSpec } from "./base.ts";
-import { greetingOf, instructionsOf, rubricOf, schemaOf, taskOf, tasks } from "./index.ts";
+import { greetingOf, instructionsOf, linesOf, rubricOf, schemaOf, taskOf, tasks } from "./index.ts";
 
 const family: TaskSpec = {
   id: "family",
@@ -24,13 +24,20 @@ describe("unit 1", () => {
 You start the conversation: greet the learner and introduce yourself with «Hola, soy Lucía» without waiting for the learner to speak.
 Speak very slowly, in very short sentences with simple words. You are friendly and natural.
 Never say that you are an examiner or that this is an exam.
-Ask exactly these three questions, one at a time and in this order:
+Cover every point below, in order. This is a conversation, not a checklist.
+Ask one short question per turn. Never ask two questions in the same turn.
+Where a point puts a question in «», the words outside «» are for you, not a line to speak. The question inside «» is an example: ask one short question for the missing detail, of that kind.
 1. ¿Cómo te llamas?
 2. ¿Cuántos años tienes?
 3. ¿De dónde eres?
-After each answer say only «Muy bien» or «Gracias» and ask the next question. Do not ask follow-up questions, do not correct mistakes, do not explain anything and do not talk about other topics.
-If the learner does not answer or you do not understand the answer, repeat the same question once, more slowly, and then move on to the next one.
-After the third answer, say goodbye with a short, friendly sentence, for example «Muchas gracias. ¡Hasta luego!», and say nothing more.
+Do not use «Muy bien». If you acknowledge an answer, vary a short reaction such as «Ah», «Vale» or «Gracias», or say nothing and continue. Do not praise every turn. An acknowledgement is not a correction and not a grade.
+Do not correct mistakes, do not explain anything and do not leave the points above.
+Remember every detail the learner has already given. Skip a detail they already gave. Each turn asks for one detail that is still missing, including another missing detail of the same point.
+If the learner asks you a question, or repairs what they said, answer that first in one short sentence. Do not ask your next question and do not say goodbye until you have answered.
+Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.
+Stay in your role. If the learner says goodbye or clearly ends the exchange, answer a thank-you if they gave one, then close. A goodbye ends the talk even if a point is still open. Do not ask another question, do not greet them again and do not restart the scene.
+If the learner does not answer, or you do not understand, repeat that same question once, more slowly, and then move on.
+When every point is covered, or the learner has ended the talk, say goodbye with a short, friendly sentence, for example «Muchas gracias. ¡Hasta luego!», and say nothing more.
 Backchannel policy: Do not make listening sounds.
 Interruption policy: If the learner speaks, stop talking and listen.
 Delegation policy: Never delegate. You have no tools.`,
@@ -70,24 +77,24 @@ describe("unit 2", () => {
     const instructions = instructionsOf(taskOf("u2")!);
 
     expect(instructions).toContain(
-      "You work at the reception of a Spanish school and take down the details of a new learner. When the learner asks you their two questions, answer each one with a short sentence and then say goodbye.",
+      "You work at the reception of a Spanish school and take down the details of a new learner. When the learner asks you a question, answer it in one short sentence before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these five questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
-      `1. ¿Cómo te llamas? ¿Me lo deletreas, por favor?
-2. ¿Cuántos años tienes?
-3. ¿En qué ciudad vives?
-4. ¿Cuál es tu número de teléfono? Dímelo despacio, por favor.
-5. Ahora, hazme dos preguntas a mí.`,
+      `1. ¿Cómo te llamas?
+2. ¿Me lo deletreas, por favor?
+3. ¿Cuántos años tienes?
+4. ¿En qué ciudad vives?
+5. ¿Cuál es tu número de teléfono?
+6. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Two questions to you, for example your name and where you live. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fifth answer, say goodbye");
+    expect(instructions).not.toContain("Ahora, hazme dos preguntas a mí.");
+    expect(instructions).toContain("A goodbye ends the talk even if a point is still open");
 
-    expect(greetingOf(taskOf("u2")!)).toMatch(
-      /Then ask «¿Cómo te llamas\? ¿Me lo deletreas, por favor\?» and listen\.$/,
-    );
+    expect(greetingOf(taskOf("u2")!)).toMatch(/Then ask «¿Cómo te llamas\?» and listen\.$/);
   });
 
   it("grades the spelled name, age, city, phone number and the two questions", () => {
@@ -115,19 +122,21 @@ describe("unit 3", () => {
     const instructions = instructionsOf(taskOf("u3")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you their two questions about your family, answer each one with a short sentence and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about their family. When the learner asks you a question about your family, answer it in one short sentence before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. ¿Quién hay en tu familia?
-2. Describe a una persona de tu familia, por favor. ¿Cómo es?
+2. ¿Cómo es una persona de tu familia?
 3. ¿Qué hacéis juntos?
-4. Ahora, hazme dos preguntas sobre mi familia.`,
+4. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Two questions about your family. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain("Ahora, hazme dos preguntas sobre mi familia.");
+    expect(instructions).toContain("answer that first in one short sentence");
+    expect(instructions).toContain("A goodbye ends the talk even if a point is still open");
 
     expect(greetingOf(taskOf("u3")!)).toMatch(
       /Then ask «¿Quién hay en tu familia\?» and listen\.$/,
@@ -167,20 +176,22 @@ describe("unit 4", () => {
     const instructions = instructionsOf(taskOf("u4")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you their two questions about your home, answer each one with a short sentence and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you a question about your home, answer it in one short sentence before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these five questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. ¿Dónde está tu casa?
 2. ¿Qué habitaciones hay en tu casa?
-3. ¿Cuál es tu habitación favorita? ¿Por qué?
-4. Dime dónde están tres cosas de tu casa, por ejemplo el sofá, la mesa y la cama.
-5. Ahora, hazme dos preguntas sobre mi casa.`,
+3. ¿Cuál es tu habitación favorita?
+4. Why that room, if they have not said. «¿Por qué te gusta?»
+5. One thing they have not placed yet, until three places are given. «¿Dónde está el sofá?»
+6. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Two questions about your home. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fifth answer, say goodbye");
+    expect(instructions).not.toContain("Dime dónde están tres cosas");
+    expect(instructions).toContain("A goodbye ends the talk even if a point is still open");
 
     expect(greetingOf(taskOf("u4")!)).toMatch(/Then ask «¿Dónde está tu casa\?» and listen\.$/);
   });
@@ -221,20 +232,26 @@ describe("unit 5", () => {
     const instructions = instructionsOf(taskOf("u5")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you their two questions about your routine, answer each one with a short sentence and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about their everyday life. When the learner asks you a question about your routine, answer it in one short sentence before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these five questions");
+    expect(instructions).toContain("Ask one short question per turn");
+    expect(instructions).toContain("Skip a detail they already gave");
 
     expect(instructions).toContain(
       `1. ¿Qué haces por la mañana?
-2. ¿Trabajas o estudias? ¿Qué haces?
-3. ¿Qué haces por la tarde y por la noche?
-4. ¿A qué hora te levantas, a qué hora comes y a qué hora te acuestas?
-5. Ahora, hazme dos preguntas sobre mi rutina.`,
+2. ¿Trabajas o estudias?
+3. What they do there, if they have not said. «¿Qué haces allí?»
+4. ¿Qué haces por la noche?
+5. A time they have not already said, among getting up, a meal and bedtime, until each of those three is covered. «¿A qué hora te acuestas?»
+6. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Two questions about your routine. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fifth answer, say goodbye");
+    expect(instructions).not.toContain(
+      "¿A qué hora te levantas, a qué hora comes y a qué hora te acuestas?",
+    );
+
+    expect(instructions).toContain("A goodbye ends the talk even if a point is still open");
 
     expect(greetingOf(taskOf("u5")!)).toMatch(
       /Then ask «¿Qué haces por la mañana\?» and listen\.$/,
@@ -277,19 +294,22 @@ describe("unit 6", () => {
     const instructions = instructionsOf(taskOf("u6")!);
 
     expect(instructions).toContain(
-      "You are a waitress in a café in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Son cinco euros». If they ask for the bill, say «Aquí tienes la cuenta» and the total. If they thank you, answer «De nada».",
+      "You are a waitress in a café in Spain and the learner is your customer. Stay the waitress until the talk ends. If the learner asks the price, answer with a simple price, for example «Son cinco euros». If they ask for the bill, say «Aquí tienes la cuenta» and the total. If they thank you, answer «De nada».",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. Buenos días. ¿Qué quieres tomar?
-2. ¿Algo más?
-3. Aquí tienes. ¿Todo bien?
-4. ¿Qué comida te gusta?`,
+2. Food, if they have not ordered any. «¿Y para comer?»
+3. A drink, if they have not ordered one. «¿Y para beber?»
+4. ¿Qué comida te gusta?
+5. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: The price. If they do not ask it, give one short hint for this point only.
+6. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: The bill. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain("¿Todo bien?");
+    expect(instructions).toContain("do not restart the scene");
 
     expect(greetingOf(taskOf("u6")!)).toMatch(
       /Then ask «Buenos días\. ¿Qué quieres tomar\?» and listen\.$/,
@@ -333,19 +353,26 @@ describe("unit 7", () => {
     const instructions = instructionsOf(taskOf("u7")!);
 
     expect(instructions).toContain(
-      "You are a neighbour and you talk with the learner in a street in their neighbourhood. When the learner asks you where the bank is and whether it is far from the station, answer each question with a short sentence, for example «El banco está enfrente de la farmacia» and «Está cerca, a cinco minutos a pie», and then say goodbye.",
+      "You are a neighbour and you talk with the learner in a street in their neighbourhood. When the learner asks where the bank is, or whether it is far from the station, answer that question with one short sentence, for example «El banco está enfrente de la farmacia» or «Está cerca, a cinco minutos a pie», before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. ¿Dónde está tu barrio?
 2. ¿Qué hay en tu barrio?
 3. ¿Qué te gusta de tu barrio?
-4. Ahora, pregúntame dónde está el banco y si está lejos de la estación.`,
+4. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Where the bank is. If they do not ask it, give one short hint for this point only.
+5. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Whether the bank is far from the station. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain(
+      "Ahora, pregúntame dónde está el banco y si está lejos de la estación.",
+    );
+
+    expect(instructions).toContain(
+      "One hint is one short question about one missing point, never a list.",
+    );
 
     expect(greetingOf(taskOf("u7")!)).toMatch(/Then ask «¿Dónde está tu barrio\?» and listen\.$/);
   });
@@ -386,19 +413,22 @@ describe("unit 8", () => {
     const instructions = instructionsOf(taskOf("u8")!);
 
     expect(instructions).toContain(
-      "You are a shop assistant in a clothes shop in Spain and the learner is your customer. If the learner asks the price, answer with a simple price, for example «Cuesta veinte euros». If they ask whether they can pay by card, say «Sí, claro». If they thank you, answer «De nada».",
+      "You are a shop assistant in a clothes shop in Spain and the learner is your customer. Stay the assistant until the talk ends. If the learner asks the price, answer with a simple price, for example «Cuesta veinte euros». If they ask whether they can pay by card, say «Sí, claro». If they thank you, answer «De nada».",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. Buenos días. ¿Qué buscas?
-2. ¿De qué color y de qué talla?
-3. Aquí tienes. ¿Algo más?
-4. ¿Qué colores te gustan?`,
+2. ¿De qué color?
+3. ¿De qué talla?
+4. ¿Qué colores te gustan?
+5. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: The price. If they do not ask it, give one short hint for this point only.
+6. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Whether they can pay by card. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain("¿De qué color y de qué talla?");
+    expect(instructions).toContain("do not restart the scene");
 
     expect(greetingOf(taskOf("u8")!)).toMatch(
       /Then ask «Buenos días\. ¿Qué buscas\?» and listen\.$/,
@@ -441,19 +471,21 @@ describe("unit 9", () => {
     const instructions = instructionsOf(taskOf("u9")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about their free time. When the learner invites you to an activity, accept with a short sentence, for example «Sí, gracias. Buena idea». When they ask you what you like to do, answer with a short sentence, for example «Me gusta leer y pasear», and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about their free time. When the learner invites you to an activity, accept with a short sentence, for example «Sí, gracias. Buena idea». When they ask what you like to do, answer with a short sentence, for example «Me gusta leer y pasear», before you continue or say goodbye. Do not invite them yourself.",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. ¿Qué te gusta hacer en tu tiempo libre?
-2. ¿Cuándo haces esas actividades y con quién?
-3. Ahora, invítame a una actividad.
-4. Y ahora, pregúntame qué me gusta hacer a mí.`,
+2. ¿Cuándo lo haces?
+3. ¿Con quién lo haces?
+4. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: An invitation to an activity. If they do not ask it, give one short hint for this point only.
+5. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: What you like doing in your free time. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain("Ahora, invítame a una actividad.");
+    expect(instructions).toContain("A goodbye ends the talk even if a point is still open");
 
     expect(greetingOf(taskOf("u9")!)).toMatch(
       /Then ask «¿Qué te gusta hacer en tu tiempo libre\?» and listen\.$/,
@@ -495,19 +527,25 @@ describe("unit 10", () => {
     const instructions = instructionsOf(taskOf("u10")!);
 
     expect(instructions).toContain(
-      "You are first a ticket clerk at a train station in Spain and then a hotel receptionist, and the learner is your customer. When the learner asks you what time the train leaves and how much the ticket costs, answer each question with a short sentence, for example «El tren sale a las diez» and «Cuesta quince euros». If they thank you, answer «De nada».",
+      "You are first a ticket clerk at a train station in Spain and then a hotel receptionist, and the learner is your customer. When the learner asks what time the train leaves, or how much the ticket costs, answer that question with one short sentence, for example «El tren sale a las diez» or «Cuesta quince euros». If they thank you, answer «De nada». After the station points, greet them as the receptionist. Never say «Ahora estás en el hotel».",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. Buenos días. ¿Adónde quieres viajar?
-2. Aquí tienes el billete. Ahora, pregúntame a qué hora sale el tren y cuánto cuesta.
-3. Ahora estás en el hotel. Buenas tardes. ¿Qué quieres?
-4. ¿Para cuántas personas y cuántas noches?`,
+2. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: What time the train leaves. If they do not ask it, give one short hint for this point only.
+3. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: How much the ticket costs. If they do not ask it, give one short hint for this point only.
+4. Buenas tardes. ¿Qué necesitas?
+5. ¿Para cuántas personas?
+6. ¿Para cuántas noches?`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain(
+      "Ahora, pregúntame a qué hora sale el tren y cuánto cuesta.",
+    );
+
+    expect(instructions).not.toContain("Ahora estás en el hotel. Buenas tardes.");
 
     expect(greetingOf(taskOf("u10")!)).toMatch(
       /Then ask «Buenos días\. ¿Adónde quieres viajar\?» and listen\.$/,
@@ -542,19 +580,23 @@ describe("unit 11", () => {
     const instructions = instructionsOf(taskOf("u11")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about the weather and the seasons of the year. When the learner asks you what your favourite season is and what the weather is like in your city, answer each question with a short sentence, for example «Mi estación favorita es la primavera» and «En mi ciudad hoy hace sol», and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about the weather and the seasons of the year. When the learner asks your favourite season, or the weather in your city, answer that question with one short sentence, for example «Mi estación favorita es la primavera» or «En mi ciudad hoy hace sol», before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these four questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
       `1. ¿Qué tiempo hace hoy?
 2. ¿Qué estación del año te gusta más?
-3. Con este tiempo, ¿cómo estás y qué necesitas?
-4. Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad.`,
+3. ¿Cómo estás?
+4. ¿Qué necesitas?
+5. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Your favourite season. If they do not ask it, give one short hint for this point only.
+6. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: The weather in your city. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fourth answer, say goodbye");
+    expect(instructions).not.toContain(
+      "Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad.",
+    );
 
     expect(greetingOf(taskOf("u11")!)).toMatch(/Then ask «¿Qué tiempo hace hoy\?» and listen\.$/);
   });
@@ -592,24 +634,27 @@ describe("unit 12", () => {
     const instructions = instructionsOf(taskOf("u12")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about themselves and about their studies, their work or their home, whichever topic the learner chooses. When the learner asks you two questions about that topic, answer each question with a short sentence, for example «Vivo en un piso pequeño en Madrid» and «Me gusta mi casa porque es tranquila», and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about themselves and about their studies, their work or their home, whichever topic the learner chooses. When the learner asks you a question about that topic, answer it in one short sentence, for example «Vivo en un piso pequeño en Madrid» or «Me gusta mi casa porque es tranquila», before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these five questions");
+    expect(instructions).toContain("Ask one short question per turn");
 
     expect(instructions).toContain(
-      `1. Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives?
-2. Ahora háblame de tus estudios, de tu trabajo o de tu casa. Elige un tema.
-3. ¿Con quién estudias, trabajas o vives?
-4. ¿Qué te gusta de tus estudios, de tu trabajo o de tu casa?
-5. Ahora, hazme dos preguntas sobre ese tema.`,
+      `1. ¿Cómo te llamas?
+2. ¿De dónde eres?
+3. ¿Cuántos años tienes?
+4. ¿Dónde vives?
+5. ¿Hablamos de tus estudios, de tu trabajo o de tu casa?
+6. One detail of the topic they chose. «¿Cómo es?»
+7. ¿Con quién?
+8. ¿Qué te gusta de eso?
+9. The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: Two questions about that same topic. If they do not ask it, give one short hint for this point only.`,
     );
 
-    expect(instructions).toContain("After the fifth answer, say goodbye");
+    expect(instructions).not.toContain("Preséntate brevemente:");
+    expect(instructions).not.toContain("Ahora, hazme dos preguntas sobre ese tema.");
 
-    expect(greetingOf(taskOf("u12")!)).toMatch(
-      /Then ask «Preséntate brevemente: ¿cómo te llamas, de dónde eres, cuántos años tienes y dónde vives\?» and listen\.$/,
-    );
+    expect(greetingOf(taskOf("u12")!)).toMatch(/Then ask «¿Cómo te llamas\?» and listen\.$/);
   });
 
   it("grades the introduction, the chosen topic, the follow-up answers and the two questions", () => {
@@ -804,10 +849,12 @@ describe("mock exam task 3", () => {
     const instructions = instructionsOf(taskOf("mock-s3", "home")!);
 
     expect(instructions).toContain(
-      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you two questions about your home, answer each question with a short sentence, for example «Vivo con mi marido» and «Cerca de mi casa hay un parque», and then say goodbye.",
+      "You are a friendly interviewer and you talk with the learner about their home. When the learner asks you a question about your home, answer it in one short sentence, for example «Vivo con mi marido» or «Cerca de mi casa hay un parque», before you continue or say goodbye.",
     );
 
-    expect(instructions).toContain("Ask exactly these three questions");
+    expect(instructions).toContain(
+      "Ask exactly these three questions, one at a time and in this order. Say each line as it is written. One line is one turn.",
+    );
 
     expect(instructions).toContain(
       `1. ¿Con quién vives?
@@ -815,7 +862,9 @@ describe("mock exam task 3", () => {
 3. Ahora, hazme dos preguntas sobre mi casa.`,
     );
 
-    expect(instructions).toContain("After the third answer, say goodbye");
+    expect(instructions).toContain("Do not use «Muy bien».");
+    expect(instructions).not.toContain("Do not say «Ahora, pregúntame…»");
+    expect(instructions).toContain("When the lines are done, or the learner has ended the talk");
 
     expect(greetingOf(taskOf("mock-s3", "home")!)).toMatch(
       /Then ask «¿Con quién vives\?» and listen\.$/,
@@ -836,11 +885,11 @@ describe("mock exam task 3", () => {
     ]);
 
     expect(instructionsOf(taskOf("mock-s3", "studies")!)).toContain(
-      "for example «Estudio inglés porque me gusta viajar» and «Mi profesor es muy simpático»",
+      "for example «Estudio inglés porque me gusta viajar» or «Mi profesor es muy simpático»",
     );
 
     expect(instructionsOf(taskOf("mock-s3", "freeTime")!)).toContain(
-      "for example «Los domingos paseo por el parque» and «No me gusta cocinar»",
+      "for example «Los domingos paseo por el parque» or «No me gusta cocinar»",
     );
   });
 
@@ -988,9 +1037,137 @@ describe("the template", () => {
   it("counts the questions of an interview", () => {
     const instructions = instructionsOf({ ...family, mode: "interview", scenario: undefined });
 
-    expect(instructions).toContain("Ask exactly these two questions");
-    expect(instructions).toContain("After the second answer, say goodbye");
+    expect(instructions).toContain("Ask one short question per turn");
+
+    expect(instructions).toContain(
+      "When every point is covered, or the learner has ended the talk, say goodbye",
+    );
+
+    expect(instructions).not.toContain("say only «Muy bien»");
     expect(instructions).not.toContain("to you.\nAsk");
     expect(greetingOf({ ...family, mode: "interview" })).toMatch(/Then ask «Habla/);
+  });
+});
+
+const questionsIn = (line: string) => line.match(/¿/g)?.length ?? 0;
+
+describe("conversation constraints", () => {
+  const practice = tasks.filter((task) => task.mode === "interview" && !task.examScript);
+  const exams = tasks.filter((task) => task.examScript);
+  const monologues = tasks.filter((task) => task.mode === "monologue");
+
+  it("keeps the acknowledgement out of the grade and the corrections in the rubric", () => {
+    for (const task of tasks) {
+      const instructions = instructionsOf(task);
+      const label = `${task.id} ${task.asks[0]}`;
+
+      expect(instructions, label).toContain("Do not use «Muy bien».");
+
+      expect(instructions, label).toContain(
+        "An acknowledgement is not a correction and not a grade.",
+      );
+
+      expect(instructions, label).toMatch(/do not correct mistakes/i);
+      expect(instructions, label).not.toContain("say only «Muy bien»");
+      expect(instructions, label).not.toContain("In corrections");
+
+      expect(rubricOf(task), label).toContain(
+        "In corrections, list the learner's grammar and vocabulary errors.",
+      );
+
+      expect(schemaOf(task).required, label).toEqual(task.items.map((item) => item.id));
+    }
+  });
+
+  it("asks one short question per spoken line in a practice talk", () => {
+    expect(practice.map((task) => task.id)).toEqual([
+      "u1",
+      "u2",
+      "u3",
+      "u4",
+      "u5",
+      "u6",
+      "u7",
+      "u8",
+      "u9",
+      "u10",
+      "u11",
+      "u12",
+    ]);
+
+    for (const task of practice) {
+      const lines = linesOf(task);
+
+      expect(lines.length, task.id).toBeGreaterThan(0);
+      expect(greetingOf(task), task.id).toContain(`«${lines[0]}»`);
+
+      for (const line of lines) {
+        expect(questionsIn(line), `${task.id}: ${line}`).toBe(1);
+      }
+
+      for (const ask of task.asks) {
+        if (typeof ask === "string" && ask.includes("«")) {
+          expect(ask.replace(/«[^»]*»/g, ""), `${task.id}: ${ask}`).not.toMatch(/¿/);
+        }
+      }
+
+      const instructions = instructionsOf(task);
+
+      expect(instructions, task.id).toContain("Never ask two questions in the same turn.");
+      expect(instructions, task.id).toContain("Skip a detail they already gave.");
+      expect(instructions, task.id).toContain("answer that first in one short sentence");
+
+      expect(instructions, task.id).toContain(
+        "A goodbye ends the talk even if a point is still open.",
+      );
+
+      expect(instructions, task.id).not.toContain("Ask exactly these");
+      expect(instructions, task.id).not.toContain("say only «Muy bien»");
+      expect(instructions, task.id).not.toContain("¿Todo bien?");
+
+      expect(instructions, task.id).not.toContain(
+        "¿A qué hora te levantas, a qué hora comes y a qué hora te acuestas?",
+      );
+
+      expect(instructions, task.id).not.toContain(
+        "Ahora, pregúntame dónde está el banco y si está lejos de la estación.",
+      );
+    }
+  });
+
+  it("states the mock exam's task and still asks one question when a line is a question", () => {
+    expect(monologues.map((task) => task.id)).toEqual(["mock-s1", "mock-s2", "mock-s2", "mock-s2"]);
+
+    for (const task of monologues) {
+      const instructions = instructionsOf(task);
+
+      expect(instructions, task.scenario).toContain(
+        "Give them the task in these words, in this order, and then listen without interrupting:",
+      );
+
+      expect(instructions, task.scenario).toContain("Say the task once.");
+      expect(task.examScript, task.scenario).toBeUndefined();
+    }
+
+    expect(exams.map((task) => task.id)).toEqual(["mock-s3", "mock-s3", "mock-s3"]);
+
+    for (const task of exams) {
+      expect(
+        task.asks.every((ask) => typeof ask === "string"),
+        task.scenario,
+      ).toBe(true);
+
+      for (const line of linesOf(task)) {
+        expect(questionsIn(line), line).toBeLessThanOrEqual(1);
+      }
+
+      const instructions = instructionsOf(task);
+      const closing = task.asks.at(-1);
+
+      expect(typeof closing).toBe("string");
+      expect(instructions, String(closing)).toContain(closing as string);
+      expect(instructions, task.scenario).toContain("Say each line as it is written.");
+      expect(instructions, task.scenario).not.toContain("Do not say «Ahora, pregúntame…»");
+    }
   });
 });

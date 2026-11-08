@@ -216,10 +216,52 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01", () => {
+  it("opens L05 on the recalled cuándo item, then quién's introduction, base items with the quiénes card, and variations", () => {
+    const lesson = askingLesson("aq-l05", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({ id: "aq-l05", title: "Asking who" });
+
+    expect(ids.slice(0, 9)).toEqual([
+      "AQ-T04-E04",
+      "AQ-T05-INTRO",
+      "AQ-T05-E01",
+      "AQ-T05-E02",
+      "AQ-T05-E03-FORM",
+      "AQ-T05-E03",
+      "AQ-T05-E04",
+      "AQ-T05-E05",
+      "AQ-T05-E06",
+    ]);
+
+    expect(lesson.questions[1]).toMatchObject({
+      kind: "teach",
+      explanation: expect.stringContaining("Example: ¿Quién es? / ¿Quiénes son?"),
+    });
+
+    expect(lesson.questions[4]).toMatchObject({
+      kind: "teach",
+      explanation: expect.stringContaining("Example: ¿Quiénes son?"),
+    });
+
+    expect([...ids.slice(9)].sort()).toEqual(variations.map((id) => id.replace("T01", "T05")));
+  });
+
+  it("draws a new L05 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-l05", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 to L04 and R01, and unit 2 with L05", () => {
     expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
-      ["Unit 2", []],
+      ["Unit 2", ["aq-l05"]],
       ["Unit 3", []],
       ["Unit 4", []],
     ]);

@@ -22,6 +22,8 @@ describe("asking questions content", () => {
         "AQ-T03-V12",
         "AQ-T04-E01",
         "AQ-T04-V12",
+        "AQ-T05-E01",
+        "AQ-T05-V12",
       ]),
     );
   });
@@ -156,6 +158,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Dónde empieza la visita?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for quién / quiénes", () => {
+    expect(ids("AQ-T05-E")).toEqual([
+      "AQ-T05-E01",
+      "AQ-T05-E02",
+      "AQ-T05-E03",
+      "AQ-T05-E04",
+      "AQ-T05-E05",
+      "AQ-T05-E06",
+    ]);
+
+    expect(ids("AQ-T05-V")).toHaveLength(12);
+  });
+
+  it("accepts quiénes, notes a missing accent and rejects quién in a plural cloze", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T05-V02")!;
+
+    expect([isCorrect(q, "Quiénes"), isCorrect(q, "quién")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "quienes")).toBe("quiénes");
+  });
+
+  it("accepts the typed quiénes question and rejects the singular one", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T05-V05")!;
+
+    expect(isCorrect(q, "¿Quiénes vienen mañana?")).toBe(true);
+    expect(isCorrect(q, "¿Quién vienen mañana?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -172,6 +201,9 @@ describe("asking questions content", () => {
       "AQ-T04-E05",
       "AQ-T04-V06",
       "AQ-T04-V12",
+      "AQ-T05-E05",
+      "AQ-T05-V06",
+      "AQ-T05-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -188,6 +220,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T04-V02")?.pronunciation).toBe(
       "¿Cuándo viene Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T05-V08")?.pronunciation).toBe(
+      "¿Quiénes estudian español?",
     );
   });
 });

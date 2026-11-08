@@ -9,10 +9,15 @@ it("lists the units that have lessons, each lesson with its exercise count", () 
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 1",
+    "Unit 2",
   ]);
 
   expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
     "Asking for thingsLearn one new question word17 exercises",
+  );
+
+  expect(screen.getByRole("button", { name: /Asking who/ })).toHaveTextContent(
+    "Asking whoLearn one new question word19 exercises",
   );
 });
 

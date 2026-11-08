@@ -173,14 +173,7 @@ const QuestionCardBody = ({
         plays={plays}
       />
       <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
-      {!exam && q.hints?.length ? (
-        <QuestionHints
-          hints={q.hints}
-          answer={q.answer}
-          feedback={feedback}
-          onHint={() => setAssisted(true)}
-        />
-      ) : null}
+      <QuestionHints q={q} exam={exam} feedback={feedback} onHint={() => setAssisted(true)} />
       <AnswerInput
         q={q}
         feedback={feedback}

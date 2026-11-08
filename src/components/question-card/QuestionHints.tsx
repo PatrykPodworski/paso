@@ -1,18 +1,20 @@
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { TextLink } from "../../design-system/TextLink";
+import type { Question } from "../../data/types";
 
 type Props = {
-  hints: string[];
-  answer: string;
+  q: Question;
+  exam: boolean;
   feedback: boolean;
   onHint: () => void;
 };
 
 // Each press shows the next hint; the press after the last hint reveals the answer.
-export const QuestionHints = ({ hints, answer, feedback, onHint }: Props) => {
+export const QuestionHints = ({ q, exam, feedback, onHint }: Props) => {
   const [shown, setShown] = useState(0);
   const reveal = useRef<HTMLParagraphElement>(null);
+  const hints = q.hints ?? [];
   const revealed = shown > hints.length;
 
   const next = () => {
@@ -21,6 +23,10 @@ export const QuestionHints = ({ hints, answer, feedback, onHint }: Props) => {
     reveal.current?.focus();
     onHint();
   };
+
+  if (exam || hints.length === 0) {
+    return null;
+  }
 
   return (
     <div className="mbe-5" aria-live="polite">
@@ -33,7 +39,7 @@ export const QuestionHints = ({ hints, answer, feedback, onHint }: Props) => {
           </ol>
           {revealed && (
             <p ref={reveal} tabIndex={-1} className="font-medium">
-              Answer: <span lang="es">{answer}</span>
+              Answer: <span lang="es">{q.answer}</span>
             </p>
           )}
         </div>

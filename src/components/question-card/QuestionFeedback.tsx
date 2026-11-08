@@ -1,6 +1,7 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../ui/button";
+import { accentOnlyAnswer, missingQuestionMarks } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
@@ -143,6 +144,7 @@ export const QuestionFeedback = ({
   const needsWork = correct === false;
   const tone = needsWork ? TONE.needsWork : TONE.success;
   const paragraph = `text-sm leading-relaxed mt-3 ${tone.paragraph}`;
+  const accentAnswer = needsWork && q.kind === "type" ? accentOnlyAnswer(q, value) : undefined;
 
   return (
     <div className={`${PANEL} ${tone.box}`} role="status">
@@ -154,7 +156,18 @@ export const QuestionFeedback = ({
           Correct answer: <strong lang="es">{q.answer}</strong>
         </p>
       )}
-      <p className={paragraph}>{q.explanation}</p>
+      {accentAnswer ? (
+        <p className={paragraph}>
+          Only the accents differ: <strong lang="es">{accentAnswer}</strong>
+        </p>
+      ) : (
+        <p className={paragraph}>{q.explanation}</p>
+      )}
+      {correct && missingQuestionMarks(q, value) && (
+        <FieldNote className="mt-3">
+          Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>
+        </FieldNote>
+      )}
       <MemoryHint text={q.memoryHint} />
       {productive && <PracticeReview q={q} checked={checked} />}
       {q.audio && (

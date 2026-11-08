@@ -1,11 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  accentOnlyAnswer,
   answerWords,
   clipText,
   countWords,
   dailyAnswers,
   isCorrect,
   localDate,
+  missingQuestionMarks,
   nextReviewAt,
   nextReviewLevel,
   normalize,
@@ -241,6 +243,58 @@ describe("progress contracts", () => {
   ])("requires BOTH groups at the boundary %s/%s/%s/%s", (r, w, l, s, pass) =>
     expect(passingGroups(r, w, l, s)).toEqual({ group1: r + w, group2: l + s, pass }),
   );
+});
+
+describe("accent-only mistakes", () => {
+  const who = { answer: "¿Quién eres?", accepted: ["¿Y tú quién eres?"] } as Question;
+
+  it.each([
+    ["quien eres", who, "¿Quién eres?"],
+    ["Y tu quien eres", who, "¿Y tú quién eres?"],
+    ["Que quieres", { answer: "¿Qué quieres?" } as Question, "¿Qué quieres?"],
+    [
+      "Qué tengas un buen día",
+      { answer: "Que tengas un buen día." } as Question,
+      "Que tengas un buen día.",
+    ],
+    ["pinguino", { answer: "pingüino" } as Question, "pingüino"],
+    ["quien eres", { answer: "¿Quie\u0301n eres?" } as Question, "¿Quie\u0301n eres?"],
+    ["quie\u0301n", { answer: "quien" } as Question, "quien"],
+    ["quién", { answer: "quien" } as Question, "quien"],
+  ])("finds the accepted answer %s misses only by accents", (answer, q, expected) =>
+    expect(accentOnlyAnswer(q, answer)).toBe(expected),
+  );
+
+  it.each([
+    ["nino", { answer: "niño" } as Question],
+    ["niño", { answer: "nino" } as Question],
+    ["nin\u0303o", { answer: "nino" } as Question],
+    ["porque estudias español", { answer: "¿Por qué estudias español?" } as Question],
+    ["¿Quién eres?", who],
+    ["quien es", who],
+  ])("finds no accent-only match for %s", (answer, q) =>
+    expect(accentOnlyAnswer(q, answer)).toBeUndefined(),
+  );
+});
+
+describe("missing question marks", () => {
+  const flagged = { answer: "¿Qué quieres?", questionMarks: true } as Question;
+
+  it.each([
+    ["Qué quieres", true],
+    ["¿Qué quieres", true],
+    ["Qué quieres?", true],
+    ["¿Qué quieres?", false],
+    ["  ¿qué quieres?  ", false],
+  ])("flags %s as %s on a full Spanish question", (answer, expected) =>
+    expect(missingQuestionMarks(flagged, answer)).toBe(expected),
+  );
+
+  it("ignores the marks on an unflagged question", () => {
+    expect(missingQuestionMarks({ ...flagged, questionMarks: undefined }, "Qué quieres")).toBe(
+      false,
+    );
+  });
 });
 
 it("does not accidentally accept an undeclared fallback answer", () => {

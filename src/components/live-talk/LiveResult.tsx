@@ -4,6 +4,7 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import type { LiveScore } from "../../data/types";
 import { CorrectionList } from "../CorrectionList";
+import { LiveScoreItems } from "./LiveScoreItems";
 import { LiveTranscript } from "./LiveTranscript";
 import type { LiveTurn } from "./transcript";
 
@@ -27,12 +28,6 @@ const EXAM_NOTES = {
   bad: "Lucía did not get everything she asked for.",
 };
 
-const LEVELS = {
-  correct: "Correct",
-  understandable: "Understandable, with mistakes",
-  missing: "Missing",
-};
-
 type Props = {
   score: LiveScore;
   turns: LiveTurn[];
@@ -50,16 +45,7 @@ export const LiveResult = ({ score, turns, exam, onAgain, onContinue }: Props) =
     <p className="mbs-2 text-sm leading-relaxed text-muted-foreground">
       {(exam ? EXAM_NOTES : NOTES)[score.grade]}
     </p>
-    <ul aria-label="Your answers" className="mbs-3.5 flex flex-col gap-1.5 text-sm">
-      {score.items.map(({ id, label, level }) => (
-        <li key={id} className="flex justify-between gap-3">
-          <span>{label}</span>
-          <span className={level === "missing" ? "text-destructive" : "text-muted-foreground"}>
-            {LEVELS[level]}
-          </span>
-        </li>
-      ))}
-    </ul>
+    <LiveScoreItems items={score.items} className="mbs-3.5" />
     {score.corrections && (
       <div className="mbs-4">
         <Eyebrow>Corrections</Eyebrow>

@@ -20,6 +20,7 @@ import {
 import {
   completeLesson,
   readProgress,
+  readResponses,
   resetProgress,
   saveAttempt,
   saveDraft,
@@ -167,6 +168,8 @@ export const progressLimit = async (request: Request) => {
   return allowed ? null : json({ error: "rate" }, 429);
 };
 
+type Refusal = { error: string; status: number };
+
 const bodyOf = async (request: Request) => {
   const raw = await request.arrayBuffer();
 
@@ -181,7 +184,41 @@ const bodyOf = async (request: Request) => {
   }
 };
 
-// GET returns the learner's snapshot; POST { action, ... } writes and returns the fresh one.
+// The write a POST body asks for, or why it is refused.
+const writeOf = async (request: Request): Promise<Write | Refusal> => {
+  const body = await bodyOf(request);
+
+  if (body === "too_large") {
+    return { error: "too_large", status: 413 };
+  }
+
+  if (!isRecord(body)) {
+    return { error: "body", status: 400 };
+  }
+
+  const action =
+    typeof body.action === "string" && Object.hasOwn(actions, body.action)
+      ? actions[body.action](body)
+      : "action";
+
+  return typeof action === "string" ? { error: action, status: 400 } : action;
+};
+
+// The read a GET asks for: the snapshot, or with ?result=<id> one result's responses.
+const readOf = (request: Request): Write | Refusal => {
+  const resultId = new URL(request.url).searchParams.get("result");
+
+  if (resultId === null) {
+    return readProgress;
+  }
+
+  return isId(resultId)
+    ? (db, learner) => readResponses(db, learner, resultId)
+    : { error: "result", status: 400 };
+};
+
+// GET returns the learner's snapshot, or one rehearsal result's responses; POST
+// { action, ... } writes and returns the fresh snapshot.
 export const handleProgress = async (
   request: Request,
   db: Db,
@@ -194,38 +231,23 @@ export const handleProgress = async (
   }
 
   const learner = request.headers.get("x-learner-id") ?? "";
-  let write: Write = readProgress;
 
   if (!UUID.test(learner)) {
     return json({ error: "learner" }, 400);
   }
 
-  if (request.method === "POST") {
-    const body = await bodyOf(request);
+  const handler =
+    request.method === "POST"
+      ? await writeOf(request)
+      : request.method === "GET"
+        ? readOf(request)
+        : { error: "method", status: 405 };
 
-    if (body === "too_large") {
-      return json({ error: "too_large" }, 413);
-    }
-
-    if (!isRecord(body)) {
-      return json({ error: "body" }, 400);
-    }
-
-    const action =
-      typeof body.action === "string" && Object.hasOwn(actions, body.action)
-        ? actions[body.action](body)
-        : "action";
-
-    if (typeof action === "string") {
-      return json({ error: action }, 400);
-    }
-
-    write = action;
-  } else if (request.method !== "GET") {
-    return json({ error: "method" }, 405);
+  if ("error" in handler) {
+    return json({ error: handler.error }, handler.status);
   }
 
-  return json(await write(db, learner.toLowerCase()), 200);
+  return json(await handler(db, learner.toLowerCase()), 200);
 };
 
 const handle = (request: Request) => {

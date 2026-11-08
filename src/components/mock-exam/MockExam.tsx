@@ -2,7 +2,7 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { Badge } from "../../design-system/Badge";
 import { PageHeading } from "../../design-system/PageHeading";
 import { examSections } from "../../data/mock";
-import type { ProgressSnapshot } from "../../data/types";
+import type { MockResponses, ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { downloadResponses } from "./downloadResponses";
 import { ExamRunning } from "./ExamRunning";
@@ -14,9 +14,12 @@ import { productiveScores } from "./productiveScores";
 import { SectionReview } from "./SectionReview";
 import { type MockExamActions, useMockExam } from "./useMockExam";
 
-type Props = MockExamActions & { progress: ProgressSnapshot };
+type Props = MockExamActions & {
+  progress: ProgressSnapshot;
+  onResponses: (resultId: string) => Promise<MockResponses | null>;
+};
 
-export const MockExam = ({ progress, ...actions }: Props) => {
+export const MockExam = ({ progress, onResponses, ...actions }: Props) => {
   const {
     nextExam,
     run,
@@ -49,7 +52,12 @@ export const MockExam = ({ progress, ...actions }: Props) => {
         </Badge>
       </PageHeading>
       {run.stage === "intro" && (
-        <MockIntro progress={progress} variants={nextExam} onStart={start} />
+        <MockIntro
+          progress={progress}
+          variants={nextExam}
+          onStart={start}
+          onResponses={onResponses}
+        />
       )}
       {run.stage === "done" && (
         <MockResults

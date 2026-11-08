@@ -122,6 +122,7 @@ const App = () => {
       <MockExam
         progress={progress}
         onResult={actions.mockResult}
+        onResponses={actions.mockResponses}
         onRunChange={actions.mockRun}
         onNewRun={actions.newMockRun}
         onSeen={actions.seen}

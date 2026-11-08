@@ -6,6 +6,7 @@ import type { MockRun, MockRunPatch, NewMockResult } from "../../data/types";
 import { isCorrect } from "../../data/progress";
 import { stopAudio } from "../audio/playback";
 import { draftAnswers } from "./draftAnswers";
+import { mockResponses } from "./mockResponses";
 import { rehearsalResult } from "./rehearsalResult";
 import { type MockRunActions, useMockRun } from "./useMockRun";
 
@@ -27,8 +28,8 @@ const sectionScore = (run: MockRun, index: number) =>
   examSections(run.variants)[index].questions.filter((q) => isCorrect(q, run.answers[q.id] || ""))
     .length;
 
-// The rehearsal result for this run. The date is the moment it is first saved; a later
-// update of the same id keeps the stored date.
+// The rehearsal result for this run, with the learner's responses. The date is the moment
+// it is first saved; a later update of the same id keeps the stored date.
 const finishedResult = (run: MockRun, resultId: string): NewMockResult & { id: string } => ({
   id: resultId,
   ...rehearsalResult(
@@ -36,6 +37,7 @@ const finishedResult = (run: MockRun, resultId: string): NewMockResult & { id: s
     { reading: sectionScore(run, 0), listening: sectionScore(run, 1) },
     new Date().toISOString(),
   ),
+  responses: mockResponses(run),
 });
 
 export const useMockExam = (

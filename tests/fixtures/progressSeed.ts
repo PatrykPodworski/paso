@@ -2,6 +2,7 @@ import type {
   Attempt,
   MockRunPatch,
   NewMockResult,
+  ProgressSnapshot,
   ReviewState,
   VocabularyReview,
 } from "../../src/data/types";
@@ -24,7 +25,8 @@ export const progressSeed = () => ({
   vocabularyReviews: {} as Record<string, VocabularyReview>,
   checks: [] as string[],
   examDate: "",
-  mockResults: [] as NewMockResult[],
+  // A snapshot's results pass as a seed too; the write refuses their `responses: true` flag.
+  mockResults: [] as (NewMockResult | Omit<ProgressSnapshot["mockResults"][number], "id">)[],
   drafts: {} as Record<string, string>,
 });
 

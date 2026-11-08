@@ -136,6 +136,7 @@ describe("app business orchestration", () => {
         reading: 0,
         listening: 0,
         recorded: true,
+        responses: true,
       },
     ]);
 

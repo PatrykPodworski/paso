@@ -26,6 +26,7 @@ const routeTree = rootRoute.addChildren([
     pageRoute("today"),
     pageRoute("path"),
     pageRoute("practice"),
+    pageRoute("practice/questions"),
     pageRoute("exam"),
     pageRoute("guide"),
     pageRoute("backoffice"),

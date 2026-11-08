@@ -1,15 +1,17 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
+import { askingLessons } from "./data/asking-questions/askingQuestions";
 import { allLessons } from "./data/curriculum";
 import { journeyLesson } from "./data/journeyLesson";
 import type { Lesson, Skill } from "./data/types";
+import { QuestionsPage } from "./components/asking-questions/QuestionsPage";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
 import { Guide } from "./components/Guide";
 import { Icon } from "./design-system/Icon";
 import { LessonSession } from "./components/LessonSession";
 import { mistakeQueue } from "./components/mistakeQueue";
 import { MockExam } from "./components/mock-exam/MockExam";
-import type { Page } from "./components/navigation";
+import { sectionOf, type Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
 import { PracticePage } from "./components/practice/PracticePage";
@@ -53,7 +55,8 @@ const App = () => {
   }
 
   const nextLesson = journeyLesson(progress);
-  const completed = Object.keys(progress.completed).length;
+  // The course progress counts course lessons; practice set lessons record completion too.
+  const completed = allLessons.filter((l) => progress.completed[l.id]).length;
   const progressPercent = Math.round((completed / allLessons.length) * 100);
   const mistakeQuestions = mistakeQueue(progress, new Date());
   const lessonAfterSession = lessonAfter(session);
@@ -73,7 +76,7 @@ const App = () => {
   const toggleExpanded = (id: string) => setExpanded((open) => (open === id ? "" : id));
 
   const complete = (score: number, total: number) => {
-    if (session && allLessons.some((l) => l.id === session.id)) {
+    if (session && [...allLessons, ...askingLessons].some((l) => l.id === session.id)) {
       actions.complete(session.id, score, total);
     }
   };
@@ -118,6 +121,7 @@ const App = () => {
         practice={practice}
       />
     ),
+    "practice/questions": <QuestionsPage progress={progress} setSession={setSession} />,
     exam: (
       <MockExam
         progress={progress}
@@ -152,7 +156,7 @@ const App = () => {
         Skip to content
       </a>
       <Sidebar
-        page={page}
+        page={sectionOf(page)}
         navigate={navigate}
         mobileNav={mobileNav}
         closeNav={() => setMobileNav(false)}
@@ -162,7 +166,7 @@ const App = () => {
       />
       <div className="ml-65 max-xl:ml-54 max-md:ml-0">
         <Topbar
-          page={page}
+          page={sectionOf(page)}
           progress={progress}
           openNav={() => setMobileNav(true)}
           openSettings={() => setSettings(true)}

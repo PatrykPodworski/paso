@@ -24,7 +24,7 @@ describe("topic cards", () => {
     const hola = vocabulary.find((w) => w.es === "hola")!;
 
     expect(card("hola")).toMatchObject({ unit: hola.unit, memoryHint: hola.memoryHint });
-    expect(vocabulary.every((w) => card(w.es).unit === w.unit)).toBe(true);
+    expect(vocabulary.every((w) => card(w.id).unit === w.unit)).toBe(true);
     expect(card("el mono (monkey)").unit).toBeUndefined();
   });
 
@@ -36,6 +36,31 @@ describe("topic cards", () => {
       en: "monkey",
       topic: "Animals",
     });
+  });
+
+  // Review history is stored by card ID, so a plain ID must keep the sense it was first given.
+  it("keeps the first sense of a word with several meanings under its plain ID", () => {
+    const words = cards.map((c) => c.es);
+    const shared = [...new Set(words.filter((es, i) => words.indexOf(es) !== i))];
+
+    const plain = Object.fromEntries(
+      shared.map((es) => [es, `${card(es).en} (${card(es).topic})`]),
+    );
+
+    expect(plain).toEqual({
+      "rico/a": "tasty (Basic adjectives)",
+      "el mono": "overalls (Clothes)",
+      "la carrera": "career (Work)",
+      "el virus": "virus (Health (nouns))",
+      "la nube": "cloud (Weather)",
+      navegar: "to sail (Travel (verbs))",
+      subir: "to get on (Travel (verbs))",
+      "la cuenta": "bill (Shopping (nouns))",
+      "el director": "head teacher (School (nouns))",
+      "la bolsa": "stock market (Finance)",
+    });
+
+    expect(card("la bolsa (bag)")).toMatchObject({ es: "la bolsa", en: "bag", unit: 8 });
   });
 
   it("passes each topic's optional flag to its cards", () => {

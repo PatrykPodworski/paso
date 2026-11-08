@@ -546,7 +546,7 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
 
   const pocket = page.getByRole("region", { name: "Your pocket vocabulary" });
 
-  await expect(pocket.locator(".vocabulary-list li")).toHaveCount(8);
+  await expect(pocket.locator(".vocabulary-list li")).toHaveCount(12);
   const search = pocket.getByRole("textbox", { name: "Search vocabulary" });
 
   await search.fill("COFFEE");
@@ -557,8 +557,8 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
   await page.getByRole("button", { name: "Review flashcards" }).click();
   const dialog = page.getByRole("dialog", { name: "Vocabulary review" });
 
-  for (let i = 0; i < 8; i++) {
-    await expect(dialog.getByText(`${i + 1} / 8`, { exact: true })).toBeVisible();
+  for (let i = 0; i < 12; i++) {
+    await expect(dialog.getByText(`${i + 1} / 12`, { exact: true })).toBeVisible();
     await expect(dialog.getByText("THE MEANING", { exact: true })).toHaveCount(0);
 
     await expect
@@ -619,9 +619,9 @@ test("vocabulary search and a complete self-assessed flashcard review", async ({
 
   await expect(
     pocket.locator(".vocabulary-stats > div").filter({ hasText: "Reviewed today" }).locator("dd"),
-  ).toHaveText("8");
+  ).toHaveText("12");
 
-  await expect(pocket.locator(".vocabulary-list time")).toHaveCount(8);
+  await expect(pocket.locator(".vocabulary-list time")).toHaveCount(12);
 });
 
 test("form practice requires every field and counts its review as an answer", async ({ page }) => {

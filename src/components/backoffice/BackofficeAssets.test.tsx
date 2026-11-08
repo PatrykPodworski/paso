@@ -126,7 +126,7 @@ it("shows each picture at card size and at 96 px, and the words still on an emoj
   expect(hola).toHaveTextContent("Unit 1 · image:hola.webp · /illustrations/words/hola.webp");
 
   filter("All units", "");
-  expect(screen.queryAllByText("Emoji fallback")).toHaveLength(96 - pictures);
+  expect(screen.queryAllByText("Emoji fallback")).toHaveLength(113 - pictures);
   expect(screen.getAllByRole("checkbox", { name: /^Flawed/ })).toHaveLength(pictures);
 });
 

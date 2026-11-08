@@ -81,6 +81,8 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   foundations and picture practice: 49 texts.
 - Texts that several units speak, mostly sentence-builder tiles such as _es_,
   _de_ and _Me_: 15 texts.
+- Unit words that the asking-questions set needs (#629): 21 texts, 10 words and
+  the example sentences of 11 cards.
 
 ### Dialogues
 

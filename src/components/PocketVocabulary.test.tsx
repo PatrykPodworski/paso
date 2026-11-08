@@ -500,7 +500,7 @@ it("searches unlocked vocabulary in either language and clears an empty result",
 
   expect(screen.getByRole("heading", { name: "No word found yet." })).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
-  expect(flashcards()).toHaveLength(8);
+  expect(flashcards()).toHaveLength(12);
 });
 
 it("rates a revealed flashcard with the arrow keys and ignores them otherwise", () => {

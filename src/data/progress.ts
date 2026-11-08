@@ -67,8 +67,29 @@ export const normalize = (s: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
+const acceptedAnswers = (q: Question) => [q.answer, ...(q.accepted || [])];
+
 export const isCorrect = (q: Question, answer: string) =>
-  [q.answer, ...(q.accepted || [])].some((a) => normalize(a) === normalize(answer));
+  acceptedAnswers(q).some((a) => normalize(a) === normalize(answer));
+
+// Only the acute accent and the diaeresis go: the tilde makes ñ a letter of its own.
+const withoutAccents = (s: string) =>
+  normalize(s)
+    .normalize("NFD")
+    .replace(/[\u0301\u0308]/g, "")
+    .normalize("NFC");
+
+// The accepted answer, as written, that a wrong answer misses only by its accents.
+export const accentOnlyAnswer = (q: Question, answer: string) =>
+  isCorrect(q, answer)
+    ? undefined
+    : acceptedAnswers(q).find((a) => withoutAccents(a) === withoutAccents(answer));
+
+export const missingQuestionMarks = (q: Question, answer: string) => {
+  const text = answer.trim();
+
+  return !!q.questionMarks && !(text.startsWith("¿") && text.endsWith("?"));
+};
 
 export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;

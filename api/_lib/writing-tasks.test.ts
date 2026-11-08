@@ -1,7 +1,29 @@
 // @vitest-environment node
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mockExam } from "../../src/data/mock.ts";
+import type { Question } from "../../src/data/types.ts";
 import { writingTaskOf } from "./writing-tasks.ts";
+
+const { dialogue } = vi.hoisted(() => ({
+  dialogue: {
+    id: "fixture-ask-drink",
+    kind: "write",
+    skill: "writing",
+    prompt: "You are the server. Ask which drink they want. Use bebida and quieres.",
+    answer: "¿Qué bebida quieres?",
+    explanation: "Use qué before bebida.",
+    checklist: ["Ask about the desired drink", "Include bebida and quieres"],
+    minWords: 2,
+    maxWords: 15,
+    singleQuestion: true,
+  } satisfies Question,
+}));
+
+vi.mock("../../src/data/curriculum.ts", async (original) => {
+  const curriculum = await original<typeof import("../../src/data/curriculum.ts")>();
+
+  return { ...curriculum, allQuestions: [...curriculum.allQuestions, dialogue] };
+});
 
 describe("writing tasks", () => {
   it("marks the mock exam's letter against its checklist", () => {
@@ -49,6 +71,17 @@ describe("writing tasks", () => {
   it("reviews lesson and practice writing without an exam mark", () => {
     expect(writingTaskOf("u1-o2")).toMatchObject({ kind: "write", exam: false });
     expect(writingTaskOf("form-practice")).toMatchObject({ kind: "form", exam: false });
+  });
+
+  it("reviews a single written question against its points", () => {
+    expect(writingTaskOf("fixture-ask-drink")).toEqual({
+      id: "fixture-ask-drink",
+      kind: "question",
+      exam: false,
+      prompt: "You are the server. Ask which drink they want. Use bebida and quieres.",
+      points: ["Ask about the desired drink", "Include bebida and quieres"],
+      wordRange: [2, 15],
+    });
   });
 
   it("knows only writing tasks", () => {

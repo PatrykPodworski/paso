@@ -1,12 +1,21 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 import { parseReview, presetReview, schemaOf } from "./writing-review.ts";
-import { writingTaskOf } from "./writing-tasks.ts";
+import { writingTaskOf, type WritingTask } from "./writing-tasks.ts";
 
 const letter = writingTaskOf("mock-w2")!;
 const form = writingTaskOf("mock-w1")!;
 const lesson = writingTaskOf("u1-o2")!;
 const practiceForm = writingTaskOf("form-practice")!;
+
+const question: WritingTask = {
+  id: "fixture-ask-drink",
+  kind: "question",
+  exam: false,
+  prompt: "You are the server. Ask which drink they want. Use bebida and quieres.",
+  points: ["Ask about the desired drink", "Include bebida and quieres", "Address one person"],
+  wordRange: [2, 15],
+};
 
 const noFix = { original: "", corrected: "", explanation: "" };
 
@@ -183,6 +192,17 @@ describe("parsing the model's review", () => {
     expect(gradeOf(lesson, 30, 0, "passed")).toBe("perfect");
     expect(gradeOf(lesson, 65, 0, "passed")).toBe("perfect");
     expect(gradeOf(practiceForm, 3, 0, "passed")).toBe("perfect");
+  });
+
+  it("caps a single question that misses any point at partly", () => {
+    expect(gradeOf(question, 3, 0, "passed")).toBe("perfect");
+    expect(gradeOf(question, 3, 1, "passed")).toBe("good");
+  });
+
+  it("holds a single question to no letter word count", () => {
+    expect(gradeOf(question, 2, 0, "passed")).toBe("perfect");
+    expect(gradeOf(question, 20, 0, "passed")).toBe("perfect");
+    expect(presetReview(question, 2)).toBeNull();
   });
 
   it("never raises a practice result", () => {

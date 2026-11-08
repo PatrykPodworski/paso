@@ -9,9 +9,9 @@ import {
   presetReview,
   RESULT_GRADES,
 } from "../api/_lib/writing-review.ts";
-import { writingTaskOf } from "../api/_lib/writing-tasks.ts";
+import { taskOf, writingTaskOf } from "../api/_lib/writing-tasks.ts";
 import { answerWords } from "../src/data/progress.ts";
-import type { WritingReview } from "../src/data/types.ts";
+import type { Question, WritingReview } from "../src/data/types.ts";
 
 type Sample = {
   id: string;
@@ -49,6 +49,18 @@ const samples: Sample[] = JSON.parse(
   readFileSync(new URL("writing-evals/samples.json", import.meta.url), "utf8"),
 );
 
+// Practice questions the samples review before the content has them. The content's own
+// question with the same id takes precedence.
+const standIns: Question[] = JSON.parse(
+  readFileSync(new URL("writing-evals/questions.json", import.meta.url), "utf8"),
+);
+
+const sampleTaskOf = (id: string) => {
+  const standIn = standIns.find((q) => q.id === id);
+
+  return writingTaskOf(id) ?? (standIn && taskOf(standIn, false));
+};
+
 const provider = openRouter();
 
 if ("missing" in provider) {
@@ -61,7 +73,7 @@ if ("missing" in provider) {
 
 const rows = await Promise.all(
   samples.map(async (sample) => {
-    const task = writingTaskOf(sample.questionId);
+    const task = sampleTaskOf(sample.questionId);
 
     if (!task) {
       throw new Error(`Sample ${sample.id} names an unknown task: ${sample.questionId}`);

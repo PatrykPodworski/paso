@@ -26,6 +26,8 @@ export const vocabularyHints: Record<string, string> = {
     "Nation → nationality → nacionalidad. The familiar nación part points to a country.",
   "el correo electrónico":
     "Correo = mail; electrónico = electronic. Put them together: electronic mail, or email.",
+  "el móvil":
+    "Mobile → móvil. In Spain the phone is el móvil: mi número de móvil is “my mobile number.”",
 
   "la madre": "Maternal means “to do with mothers.” Use maternal → madre to remember mother.",
   "el padre": "Paternal means “to do with fathers.” Use paternal → padre to remember father.",
@@ -68,6 +70,11 @@ export const vocabularyHints: Record<string, string> = {
     "Desayuno = breakfast; desayunar = to have breakfast. The -ar turns this word pair into an action.",
   trabajar: "Trabajo = work or a job; trabajar = to work. Trabajo aquí means “I work here.”",
   dormir: "Dormitory → dormir. A dormitory is for sleeping; dormir means “to sleep.”",
+  "la reunión": "Reunion → reunión: people meet again. At work, una reunión is simply “a meeting.”",
+  "la sala":
+    "Salon → sala: both are rooms where people gather. La sala de reuniones is “the meeting room.”",
+  usar: "Use → usar. Keep the us- and change the ending: uso, usas, usa — “I use, you use, he uses.”",
+  cada: "Cada = every or each, and it never changes: cada día, cada semana — “every day, every week.”",
 
   "el pan":
     "Pan = bread; panadería = bakery. The bread word is right at the start of the place that sells it.",
@@ -85,6 +92,13 @@ export const vocabularyHints: Record<string, string> = {
     "Cuenta resembles “count”: the restaurant counts up what you owe. La cuenta, por favor — “the bill, please.”",
   "el queso":
     "A quesadilla can remind you of queso: cheese. Say QUE-so, with qu sounding like k and a silent u.",
+  "la bebida":
+    "Beber = to drink; bebida = a drink. The shared beb- links the action to what you drink.",
+  "el té": "Tea → té. The accent keeps té, the tea, apart from te in ¿Cómo te llamas?",
+  "el litro":
+    "Litre → litro. Un litro de agua — “a litre of water” — is how you ask for an amount.",
+  "un poco":
+    "Poco = little; un poco = a little. Poco a poco — “little by little” — repeats the same word.",
 
   "la calle": "Calle Mayor works like “Main Street”: calle is the street part of the address.",
   "la plaza":
@@ -98,6 +112,7 @@ export const vocabularyHints: Record<string, string> = {
   "la estación": "Station → estación. La estación de tren is “the train station.”",
   "la biblioteca":
     "Borrow at a biblioteca; buy at a librería. The b in borrow helps keep the library separate from the bookshop.",
+  aquí: "Aquí = here. Stress the end, a-QUÍ, where the accent sits. ¿Vives aquí? — “Do you live here?”",
 
   "la camisa":
     "Camisa = shirt; camiseta = T-shirt. Learn the two clothing words together and notice their shared camis-.",
@@ -112,6 +127,13 @@ export const vocabularyHints: Record<string, string> = {
     "Talla is the S, M or L on clothing. ¿Qué talla? — “What size?” — is the question to learn with it.",
   "la tarjeta":
     "Con tarjeta = by card; en efectivo = in cash. ¿Puedo pagar con tarjeta? — “Can I pay by card?”",
+  comprar: "Ir de compras = to go shopping; comprar is the action. Compro pan — “I buy bread.”",
+  barato: "A bargain is barato: both start with bar-. Es muy barato — “It’s very cheap.”",
+  "la bolsa":
+    "Bolsa = bag. ¿Quiere una bolsa? — “Do you want a bag?” — is what the shop asks at the till.",
+  "la camiseta":
+    "Camiseta = T-shirt: a small camisa, a shirt. The -eta ending marks the smaller, casual one.",
+  otro: "Otro = other or another, with no un before it: otro café — “another coffee.”",
 
   leer: "Leer = to read. Keep both e’s: le-er is two syllables. Leo un libro — “I read a book.”",
   bailar: "Baile = a dance; bailar = to dance. The -ar gives you the action.",
@@ -122,6 +144,7 @@ export const vocabularyHints: Record<string, string> = {
   "el fútbol": "Say fútbol and listen for “football.” The accent puts the stress on FÚT.",
   "la escuela": "School → escuela. Try hearing the familiar school sound inside es-CUE-la.",
   "el trabajo": "Trabajo = work or job; trabajar = to work. Mi trabajo means “my job.”",
+  "el museo": "Museum → museo. Say all three syllables, mu-SE-o, with the stress in the middle.",
 
   "el tren": "Train → tren. The short Spanish word sounds close to the English one.",
   "el autobús": "The bus is already inside autobús. Stress that final part: auto-BÚS.",
@@ -135,6 +158,7 @@ export const vocabularyHints: Record<string, string> = {
     "Passport → pasaporte. The shared pasa-/pass- and port- make this travel word easy to recognize.",
   "la habitación":
     "Habitation is a place to live; habitación is a room. Una habitación doble — “a double room” — is a useful hotel phrase.",
+  "la mochila": "Mochila = backpack, the bag on your back; maleta is the suitcase you pull.",
 
   "el sol": "Solar → sol. Solar energy comes from the sun; sol is the sun.",
   "la lluvia":

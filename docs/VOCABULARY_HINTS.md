@@ -1,6 +1,6 @@
 # Vocabulary memory hints
 
-The 96 vocabulary items each have a short, individually written memory hint in `src/data/vocabulary-hints.ts`. Vocabulary feedback first states the meaning, then shows the hint separately. Hints also appear on the back of vocabulary cards and in mistake review. They are revealed after an answer or a card flip, so they do not give away a listening question beforehand.
+The 113 vocabulary items each have a short, individually written memory hint in `src/data/vocabulary-hints.ts`. Vocabulary feedback first states the meaning, then shows the hint separately. Hints also appear on the back of vocabulary cards and in mistake review. They are revealed after an answer or a card flip, so they do not give away a listening question beforehand.
 
 Hints are written in English for English speakers learning Spanish. Each gives a concrete recall cue: a familiar English word, a useful translated phrase, a word breakdown, or a distinction between related Spanish words. Avoid generic instructions to picture an object, attach a label, or fill in an imaginary form. A scene is useful only when it supplies a specific connection, such as a bench outside a bank for the two meanings of banco. Word similarities are memory associations, not etymological claims. Grammar and comprehension questions retain their targeted explanations.
 

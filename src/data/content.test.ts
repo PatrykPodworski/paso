@@ -124,9 +124,9 @@ describe("original curriculum integrity", () => {
     }
   });
 
-  it("has 96 different vocabulary entries", () => {
-    expect(vocabulary).toHaveLength(96);
-    expect(new Set(vocabulary.map((w) => w.es)).size).toBe(96);
+  it("has 113 different vocabulary entries", () => {
+    expect(vocabulary).toHaveLength(113);
+    expect(new Set(vocabulary.map((w) => w.es)).size).toBe(113);
   });
 
   it("gives every unit word a memory hint", () => {
@@ -144,6 +144,21 @@ describe("original curriculum integrity", () => {
       "la amiga",
       "la familia",
     ]);
+  });
+
+  it("adds a unit's later words after its first eight and offers them as distractors", () => {
+    const words = units[5].lessons[0].questions;
+
+    expect(words.map((q) => `${q.id} ${q.pronunciation}`).slice(6)).toEqual([
+      "u6-v6 la cuenta",
+      "u6-v7 el queso",
+      "u6-v8 la bebida",
+      "u6-v9 el té",
+      "u6-v10 el litro",
+      "u6-v11 un poco",
+    ]);
+
+    expect(words[6].options).toEqual(["a little", "bill", "drink"]);
   });
 
   it("keeps every message model within the official task-2 word target", () => {

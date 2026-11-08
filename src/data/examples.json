@@ -3251,7 +3251,7 @@
     "es": "El coche tiene seguro.",
     "en": "The car is insured."
   },
-  "la bolsa": {
+  "la bolsa (stock market)": {
     "es": "La bolsa sube hoy.",
     "en": "The stock market is up today."
   },
@@ -3638,5 +3638,49 @@
   "el Día de Acción de Gracias": {
     "es": "En Estados Unidos celebran el Día de Acción de Gracias.",
     "en": "In the United States they celebrate Thanksgiving."
+  },
+  "el móvil": {
+    "es": "Mi móvil está en la mesa.",
+    "en": "My phone is on the table."
+  },
+  "la sala": {
+    "es": "La reunión es en la sala dos.",
+    "en": "The meeting is in room two."
+  },
+  "usar": {
+    "es": "Uso el autobús para ir al trabajo.",
+    "en": "I use the bus to get to work."
+  },
+  "cada": {
+    "es": "Tomo café cada mañana.",
+    "en": "I have coffee every morning."
+  },
+  "la bebida": {
+    "es": "El agua es mi bebida favorita.",
+    "en": "Water is my favourite drink."
+  },
+  "el litro": {
+    "es": "Compro un litro de leche.",
+    "en": "I buy a litre of milk."
+  },
+  "un poco": {
+    "es": "Hablo un poco de español.",
+    "en": "I speak a little Spanish."
+  },
+  "aquí": {
+    "es": "Vivo aquí, en el centro.",
+    "en": "I live here, in the centre."
+  },
+  "barato": {
+    "es": "Este libro es barato.",
+    "en": "This book is cheap."
+  },
+  "la bolsa": {
+    "es": "Llevo los libros en una bolsa.",
+    "en": "I carry the books in a bag."
+  },
+  "otro": {
+    "es": "¿Tiene otro color?",
+    "en": "Do you have another colour?"
   }
 }

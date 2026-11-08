@@ -1417,7 +1417,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
 
   const vocab: Question[] = unitWords.map((w, i) => {
     const options = rotate(
-      [w.en, unitWords[(i + 2) % 8].en, unitWords[(i + 5) % 8].en],
+      [w.en, unitWords[(i + 2) % unitWords.length].en, unitWords[(i + 5) % unitWords.length].en],
       (ui + i) % 3,
     );
 

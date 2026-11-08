@@ -274,6 +274,20 @@
         "unitOrder": 8,
         "visual": "🔁",
         "picture": "repetir"
+      },
+      {
+        "es": "el móvil",
+        "en": "mobile phone",
+        "unit": 2,
+        "unitOrder": 9,
+        "visual": "📱"
+      },
+      {
+        "es": "un poco",
+        "en": "a little",
+        "unit": 6,
+        "unitOrder": 12,
+        "visual": "🤏"
       }
     ]
   },
@@ -367,7 +381,10 @@
       },
       {
         "es": "comprar",
-        "en": "to buy"
+        "en": "to buy",
+        "unit": 8,
+        "unitOrder": 9,
+        "visual": "🛍️"
       },
       {
         "es": "vender",
@@ -412,6 +429,13 @@
       {
         "es": "hacer",
         "en": "to do, make"
+      },
+      {
+        "es": "usar",
+        "en": "to use",
+        "unit": 5,
+        "unitOrder": 11,
+        "visual": "🛠️"
       }
     ]
   },
@@ -527,6 +551,20 @@
       {
         "es": "frío/a",
         "en": "cold"
+      },
+      {
+        "es": "barato",
+        "en": "cheap",
+        "unit": 8,
+        "unitOrder": 10,
+        "visual": "🏷️"
+      },
+      {
+        "es": "otro",
+        "en": "other, another",
+        "unit": 8,
+        "unitOrder": 13,
+        "visual": "➕"
       }
     ]
   },
@@ -633,6 +671,13 @@
       {
         "es": "después",
         "en": "after, afterwards"
+      },
+      {
+        "es": "cada",
+        "en": "every, each",
+        "unit": 5,
+        "unitOrder": 12,
+        "visual": "🔄"
       }
     ]
   },
@@ -789,6 +834,13 @@
       {
         "es": "el tofu",
         "en": "tofu"
+      },
+      {
+        "es": "el litro",
+        "en": "litre",
+        "unit": 6,
+        "unitOrder": 11,
+        "visual": "🫗"
       }
     ]
   },
@@ -1156,7 +1208,10 @@
       },
       {
         "es": "el té",
-        "en": "tea"
+        "en": "tea",
+        "unit": 6,
+        "unitOrder": 10,
+        "visual": "🍵"
       },
       {
         "es": "la cerveza",
@@ -1189,6 +1244,13 @@
       {
         "es": "la infusión",
         "en": "herbal tea"
+      },
+      {
+        "es": "la bebida",
+        "en": "drink",
+        "unit": 6,
+        "unitOrder": 9,
+        "visual": "🥤"
       }
     ]
   },
@@ -1527,6 +1589,13 @@
       {
         "es": "en medio de",
         "en": "in the middle of"
+      },
+      {
+        "es": "aquí",
+        "en": "here",
+        "unit": 7,
+        "unitOrder": 9,
+        "visual": "👇"
       }
     ]
   },
@@ -1838,7 +1907,10 @@
     "words": [
       {
         "es": "la camiseta",
-        "en": "T-shirt"
+        "en": "T-shirt",
+        "unit": 8,
+        "unitOrder": 12,
+        "visual": "👕"
       },
       {
         "es": "el pantalón/los pantalones",
@@ -2034,7 +2106,10 @@
       },
       {
         "es": "la reunión",
-        "en": "meeting"
+        "en": "meeting",
+        "unit": 5,
+        "unitOrder": 9,
+        "visual": "👥"
       },
       {
         "es": "el horario",
@@ -2075,6 +2150,13 @@
       {
         "es": "el desempleo",
         "en": "unemployment"
+      },
+      {
+        "es": "la sala",
+        "en": "room, hall",
+        "unit": 5,
+        "unitOrder": 10,
+        "visual": "🏢"
       }
     ]
   },
@@ -2803,7 +2885,10 @@
       },
       {
         "es": "la mochila",
-        "en": "backpack"
+        "en": "backpack",
+        "unit": 10,
+        "unitOrder": 9,
+        "visual": "🎒"
       },
       {
         "es": "la reserva",
@@ -3070,6 +3155,13 @@
         "unitOrder": 7,
         "visual": "🧾",
         "picture": "la-cuenta"
+      },
+      {
+        "es": "la bolsa",
+        "en": "bag",
+        "unit": 8,
+        "unitOrder": 11,
+        "visual": "👜"
       }
     ]
   },
@@ -3594,7 +3686,10 @@
       },
       {
         "es": "el museo",
-        "en": "museum"
+        "en": "museum",
+        "unit": 9,
+        "unitOrder": 9,
+        "visual": "🏛️"
       },
       {
         "es": "la escultura",
@@ -3906,6 +4001,7 @@
       },
       {
         "es": "la bolsa",
+        "key": "la bolsa (stock market)",
         "en": "stock market"
       },
       {

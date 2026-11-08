@@ -10,6 +10,7 @@ import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading, type RecordingPlays } from "./QuestionHeading";
+import { QuestionHints } from "./QuestionHints";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
 import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
@@ -172,6 +173,14 @@ const QuestionCardBody = ({
         plays={plays}
       />
       <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
+      {!exam && q.hints?.length ? (
+        <QuestionHints
+          hints={q.hints}
+          answer={q.answer}
+          feedback={feedback}
+          onHint={() => setAssisted(true)}
+        />
+      ) : null}
       <AnswerInput
         q={q}
         feedback={feedback}

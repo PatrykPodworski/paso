@@ -129,7 +129,7 @@ export const vocabularyHints: Record<string, string> = {
     "Con tarjeta = by card; en efectivo = in cash. ¿Puedo pagar con tarjeta? — “Can I pay by card?”",
   comprar: "Ir de compras = to go shopping; comprar is the action. Compro pan — “I buy bread.”",
   barato: "A bargain is barato: both start with bar-. Es muy barato — “It’s very cheap.”",
-  "la bolsa":
+  "la bolsa (bag)":
     "Bolsa = bag. ¿Quiere una bolsa? — “Do you want a bag?” — is what the shop asks at the till.",
   "la camiseta":
     "Camiseta = T-shirt: a small camisa, a shirt. The -eta ending marks the smaller, casual one.",

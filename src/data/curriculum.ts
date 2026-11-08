@@ -1401,14 +1401,19 @@ export const vocabulary = words
   .flatMap((t) => t.words)
   .filter((w) => w.unit !== undefined)
   .sort((a, b) => a.unit - b.unit || a.unitOrder - b.unitOrder)
-  .map((w) => ({
-    es: w.es,
-    en: w.en,
-    visual: w.visual,
-    picture: w.picture,
-    unit: w.unit,
-    memoryHint: vocabularyHints[w.es],
-  }));
+  .map((w) => {
+    const id = "key" in w && typeof w.key === "string" ? w.key : w.es;
+
+    return {
+      id,
+      es: w.es,
+      en: w.en,
+      visual: w.visual,
+      picture: w.picture,
+      unit: w.unit,
+      memoryHint: vocabularyHints[id],
+    };
+  });
 
 export const units: Unit[] = seeds.map((s, ui) => {
   const uid = `u${ui + 1}`;

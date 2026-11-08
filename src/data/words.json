@@ -3158,6 +3158,7 @@
       },
       {
         "es": "la bolsa",
+        "key": "la bolsa (bag)",
         "en": "bag",
         "unit": 8,
         "unitOrder": 11,
@@ -4001,7 +4002,6 @@
       },
       {
         "es": "la bolsa",
-        "key": "la bolsa (stock market)",
         "en": "stock market"
       },
       {

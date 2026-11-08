@@ -7,7 +7,7 @@ import { audioSources } from "../../data/audio-sources";
 import { spokenText } from "../../data/audio";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice, mockQuestions } from "../../data/mock";
-import { shownOptions } from "../../data/optionOrder";
+import { shownOptions, shownTokens } from "../../data/optionOrder";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -56,9 +56,9 @@ const shownTexts = () =>
 it("loads a question's clips as it appears, before any tap, and again for the next one", () => {
   const loaded = loadedClips();
   const next = allQuestions.find((q) => q.kind === "order" && q.id !== order.id)!;
-  const { rerender } = render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+  const { rerender } = render(<QuestionCard q={order} seed={7} onSubmit={vi.fn()} />);
 
-  expect(loaded()).toEqual(firstSources([spokenText(order), ...order.tokens!]));
+  expect(loaded()).toEqual(firstSources([spokenText(order), ...shownTokens(order, 7)]));
   expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   rerender(<QuestionCard q={next} onSubmit={vi.fn()} />);
 
@@ -221,13 +221,13 @@ it("checks the numbered choice option when its digit is pressed", () => {
 it("adds the numbered word to the tray and ignores a repeat of the same digit", () => {
   const q = allQuestions.find((question) => question.kind === "order")!;
 
-  render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+  render(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} />);
   fireEvent.keyDown(window, { key: "2" });
   fireEvent.keyDown(window, { key: "2" });
   const tray = screen.getByLabelText("Your sentence");
 
   expect(within(tray).getAllByRole("button")).toHaveLength(1);
-  expect(tray).toHaveTextContent(q.tokens![1]);
+  expect(tray).toHaveTextContent(shownTokens(q, 7)[1]);
 });
 
 const writingWithPassage = mockQuestions.find((q) => q.kind === "write" && q.passage)!;

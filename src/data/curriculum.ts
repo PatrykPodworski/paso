@@ -1392,11 +1392,6 @@ const seeds: Seed[] = [
   },
 ];
 
-const rotate = <T>(items: T[], n: number) => [
-  ...items.slice(n % items.length),
-  ...items.slice(0, n % items.length),
-];
-
 export const vocabulary = words
   .flatMap((t) => t.words)
   .filter((w) => w.unit !== undefined)
@@ -1416,11 +1411,6 @@ export const units: Unit[] = seeds.map((s, ui) => {
   const unitWords = vocabulary.filter((w) => w.unit === ui + 1);
 
   const vocab: Question[] = unitWords.map((w, i) => {
-    const options = rotate(
-      [w.en, unitWords[(i + 2) % 8].en, unitWords[(i + 5) % 8].en],
-      (ui + i) % 3,
-    );
-
     return {
       id: `${uid}-v${i}`,
       kind: i % 2 ? "listen" : "choice",
@@ -1428,7 +1418,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       prompt:
         i % 2 ? "Listen. What does the Spanish word or phrase mean?" : `What does “${w.es}” mean?`,
       answer: w.en,
-      options,
+      options: [w.en, unitWords[(i + 2) % 8].en, unitWords[(i + 5) % 8].en],
       visual: i % 2 ? undefined : w.visual,
       picture: i % 2 ? undefined : w.picture,
       audio: i % 2 ? w.es : undefined,
@@ -1447,7 +1437,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
     pronunciation:
       g[5] ||
       (g[0].includes("___") ? g[0].replace("___", g[1]).replace(/\s*\([^)]*\)/g, "") : g[1]),
-    options: rotate(g.slice(1, 4), (ui + i + 1) % 3),
+    options: g.slice(1, 4),
     explanation: g[4],
   }));
 
@@ -1460,7 +1450,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       passage: s.reading,
       pronunciation: r[5],
       answer: r[1],
-      options: rotate(r.slice(1, 4), (ui + i) % 3),
+      options: r.slice(1, 4),
       explanation: r[4],
       image: ui === 5 ? "cafe" : ui === 6 ? "town" : ui === 9 ? "train" : undefined,
     })),
@@ -1471,7 +1461,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       prompt: r[0],
       audio: s.audio,
       answer: r[1],
-      options: rotate(r.slice(1, 4), (ui + i + 2) % 3),
+      options: r.slice(1, 4),
       explanation: r[4],
     })),
   ];
@@ -1483,7 +1473,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
       skill: "writing",
       prompt: "Build the Spanish sentence. Tap words in order.",
       answer: s.sentence,
-      tokens: rotate(s.sentence.split(" "), Math.ceil(s.sentence.split(" ").length / 2)),
+      tokens: s.sentence.split(" "),
       explanation: `The sentence is “${s.sentence}”. ${s.tip}`,
     },
     {
@@ -1768,7 +1758,7 @@ export const foundations: Question[] = [
           .replace(/^Complete: /, "")
           .replace(/\s*\([^)]*\)/g, "")
       : r[1]),
-  options: rotate(r.slice(1, 4), i % 3),
+  options: r.slice(1, 4),
   explanation: r[4],
 }));
 

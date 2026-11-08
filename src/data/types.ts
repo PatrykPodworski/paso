@@ -43,6 +43,8 @@ export interface Question {
   answer: string;
   explanation: string;
   memoryHint?: string;
+  // Shown one at a time before checking; the step after the last one reveals the answer.
+  hints?: string[];
   options?: string[];
   accepted?: string[];
   passage?: string;

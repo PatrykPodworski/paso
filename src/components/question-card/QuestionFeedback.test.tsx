@@ -3,6 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
+import type { Question } from "../../data/types";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -73,4 +74,96 @@ it.each([
 it("leaves writing to the AI review", () => {
   render(<QuestionCard q={writing} onSubmit={vi.fn()} draft="Hola, soy 20 años." />);
   expect(screen.getByText(/Your answer goes to OpenRouter/)).toBeInTheDocument();
+});
+
+const typed = (q: Question, answer: string) => {
+  render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+
+  fireEvent.change(screen.getByLabelText("Your answer in Spanish"), { target: { value: answer } });
+  fireEvent.keyDown(screen.getByLabelText("Your answer in Spanish"), { key: "Enter" });
+
+  return screen.getByRole("status");
+};
+
+const typeQuestion = (answer: string, extra: Partial<Question> = {}): Question => ({
+  id: "t-1",
+  kind: "type",
+  skill: "writing",
+  prompt: "Write it in Spanish.",
+  answer,
+  explanation: "The generic explanation.",
+  ...extra,
+});
+
+it("explains a typed answer that is wrong only by its accents", () => {
+  const status = typed(typeQuestion("¿Quién eres?"), "quien eres");
+
+  expect(status).toHaveTextContent("Only the accents differ: ¿Quién eres?");
+  expect(status).not.toHaveTextContent("The generic explanation.");
+  expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
+});
+
+it.each([
+  ["nino", "niño"],
+  ["porque estudias español", "¿Por qué estudias español?"],
+])("gives %s the generic explanation", (answer, expected) => {
+  const status = typed(typeQuestion(expected), answer);
+
+  expect(status).toHaveTextContent("The generic explanation.");
+  expect(status).not.toHaveTextContent("Only the accents differ");
+  expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
+});
+
+it("notes the missing ¿ ? on a correct answer to a full Spanish question", () => {
+  const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Qué quieres");
+
+  expect(status).toHaveTextContent("¡Muy bien!");
+
+  expect(status).toHaveTextContent("Spanish questions open with ¿ and close with ?: ¿Qué quieres?");
+});
+
+it("leaves the ¿ ? note off an unflagged question", () => {
+  const status = typed(typeQuestion("¿Qué quieres?"), "Qué quieres");
+
+  expect(status).toHaveTextContent("¡Muy bien!");
+  expect(status).not.toHaveTextContent("Spanish questions open with");
+});
+
+it("gives a wrong choice that differs only by accents the generic explanation", () => {
+  render(
+    <QuestionCard
+      q={typeQuestion("Él", { kind: "choice", options: ["Él", "El"] })}
+      onSubmit={vi.fn()}
+    />,
+  );
+
+  click("El");
+
+  expect(screen.getByRole("status")).toHaveTextContent("The generic explanation.");
+  expect(screen.getByRole("status")).not.toHaveTextContent("Only the accents differ");
+});
+
+it("leaves the ¿ ? note off a wrong answer to a full Spanish question", () => {
+  const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Que quieres");
+
+  expect(status).toHaveTextContent("Only the accents differ: ¿Qué quieres?");
+  expect(status).not.toHaveTextContent("Spanish questions open with");
+});
+
+it("leaves the ¿ ? note off a chosen option, which the learner cannot punctuate", () => {
+  render(
+    <QuestionCard
+      q={typeQuestion("Qué quieres", {
+        kind: "choice",
+        options: ["Qué quieres", "Quién eres"],
+        questionMarks: true,
+      })}
+      onSubmit={vi.fn()}
+    />,
+  );
+
+  click("Qué quieres");
+
+  expect(screen.getByRole("status")).toHaveTextContent("¡Muy bien!");
+  expect(screen.getByRole("status")).not.toHaveTextContent("Spanish questions open with");
 });

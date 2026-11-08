@@ -392,9 +392,9 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
       q(
         // A result is inserted once. The same id may later fill in a writing or speaking
         // score, including zero, and never clears one. A result saved before productive
-        // scores were recorded keeps its nulls: this update does not invent them. Responses
-        // follow the same rule: a later save replaces them, and a result stored without
-        // them stays without.
+        // scores were recorded keeps its nulls: this update does not invent them. A later
+        // save replaces stored responses with the ones it sends, or with null when it sends
+        // none; a result stored without responses stays without. The row and its scores stay.
         `INSERT INTO mock_results (
            learner_id, id, at, sections, reading, listening, writing, speaking, productive_recorded,
            responses
@@ -406,7 +406,7 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
            speaking = CASE WHEN mock_results.productive_recorded
              THEN COALESCE(EXCLUDED.speaking, mock_results.speaking) ELSE mock_results.speaking END,
            responses = CASE WHEN mock_results.responses IS NOT NULL
-             THEN COALESCE(EXCLUDED.responses, mock_results.responses) ELSE NULL END`,
+             THEN EXCLUDED.responses ELSE NULL END`,
         learner,
         m.id,
         m.at,

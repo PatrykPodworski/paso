@@ -639,16 +639,33 @@ describe("mock result responses", () => {
     expect(await read(me, "m")).toEqual([200, { responses: marked }]);
   });
 
-  it("keeps the stored responses when a later save sends none", async () => {
+  it("replaces the stored responses with nothing when a later save sends none", async () => {
     const me = learner();
 
     await snapshot(me, { action: "mockResult", result: result({ responses }) });
 
     expect((await snapshot(me, { action: "mockResult", result: result() })).mockResults).toEqual([
-      { ...result(), responses: true },
+      result(),
     ]);
 
-    expect(await read(me, "m")).toEqual([200, { responses }]);
+    expect(await read(me, "m")).toEqual([200, { responses: null }]);
+  });
+
+  it("keeps every attempt's result and scores when a save sends no responses", async () => {
+    const me = learner();
+    const scored = result({ writing: 10, speaking: 5 });
+
+    await snapshot(me, { action: "mockResult", result: { ...scored, responses } });
+    await snapshot(me, { action: "mockResult", result: { ...scored, writing: 16.67 } });
+
+    const other = result({ id: "n", at: "2026-09-10T12:00:00.000Z" });
+
+    expect((await snapshot(me, { action: "mockResult", result: other })).mockResults).toEqual([
+      { ...scored, writing: 16.67 },
+      other,
+    ]);
+
+    expect(await read(me, "n")).toEqual([200, { responses: null }]);
   });
 
   it("does not add responses to a result saved before they were recorded", async () => {

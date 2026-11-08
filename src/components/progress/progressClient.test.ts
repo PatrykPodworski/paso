@@ -6,6 +6,7 @@ import { createProgressClient, type ProgressState } from "./progressClient";
 const LEARNER = "0b7e3c4a-2f6d-4a8e-9c1b-5d3f7e9a1c2b";
 
 type Call = {
+  url: string;
   method: string;
   headers: Record<string, string>;
   body: Record<string, unknown> | undefined;
@@ -30,9 +31,10 @@ beforeEach(() => {
     vi.fn(
       (url: string, init: RequestInit) =>
         new Promise<Response>((resolve, reject) => {
-          expect(url).toBe("/api/progress");
+          expect(url).toMatch(/^\/api\/progress(\?result=[^&]+)?$/);
 
           calls.push({
+            url,
             method: init.method ?? "GET",
             headers: init.headers as Record<string, string>,
             body: init.body ? JSON.parse(init.body as string) : undefined,
@@ -373,5 +375,53 @@ describe("mock run", () => {
       undefined,
       { action: "mockRun", run: started, replace: true },
     ]);
+  });
+});
+
+describe("mock result responses", () => {
+  const responses = {
+    started: "2026-10-29T10:00:00.000Z",
+    items: [{ section: 2, questionId: "mock-w1", variantId: "w1-v1", status: "empty", text: "" }],
+  };
+
+  it("reads one result's responses with the learner id, outside the write queue", async () => {
+    const c = await loaded();
+
+    c.check("passport", true);
+    const read = c.mockResponses("a b");
+    const get = await call(2);
+
+    expect([get.url, get.method, get.headers]).toEqual([
+      "/api/progress?result=a%20b",
+      "GET",
+      { "x-learner-id": LEARNER },
+    ]);
+
+    get.reply(ok({ responses }));
+
+    expect(await read).toEqual(responses);
+  });
+
+  it("returns null for a result without responses", async () => {
+    const c = client();
+    const read = c.mockResponses("old");
+
+    (await call(0)).reply(ok({ responses: null }));
+
+    expect(await read).toBeNull();
+  });
+
+  it("rejects when the read fails, and leaves the snapshot and its problem alone", async () => {
+    const c = await loaded({ name: "Bruno" });
+    const refused = c.mockResponses("m");
+
+    (await call(1)).reply(Response.json({ error: "result" }, { status: 400 }));
+    await expect(refused).rejects.toThrow("Responses not loaded: 400");
+
+    const offline = c.mockResponses("m");
+
+    (await call(2)).fail();
+    await expect(offline).rejects.toThrow("Failed to fetch");
+    expect(latest()).toEqual({ snapshot: snapshot({ name: "Bruno" }), problem: null });
   });
 });

@@ -131,6 +131,9 @@ export interface ProgressSnapshot {
     // productive section with no score. Absent on results saved before that: a missing
     // writing or speaking score there was never stored, so it is not zero and not ungraded.
     recorded?: true;
+    // Set when the result stored the learner's responses, which GET /api/progress?result=<id>
+    // returns. Absent on results saved before responses were recorded.
+    responses?: true;
   }[];
   drafts: Record<string, string>;
   // The last 20 attempts, newest first.
@@ -196,5 +199,23 @@ export interface MockRun {
 // plays merge per key.
 export type MockRunPatch = Partial<MockRun>;
 
-// A rehearsal result before the server stores it under an id.
-export type NewMockResult = Omit<ProgressSnapshot["mockResults"][number], "id">;
+type ResponseTask = { questionId: string; variantId: string };
+
+// One response of a rehearsal. A reading or listening answer is "" when unanswered.
+type Answer = { answer: string; correct: boolean };
+
+export type MockResponse =
+  | (ResponseTask & Answer & { section: 0 })
+  | (ResponseTask & Answer & { section: 1 })
+  | (ResponseTask & { section: 2; status: "submitted" | "empty"; text: string; band?: number })
+  | (ResponseTask & { section: 3; status: "scored"; transcript: string; score: LiveScore })
+  // A talk that was skipped, dropped or never scored: the run keeps no transcript of it.
+  | (ResponseTask & { section: 3; status: "none" });
+
+// The learner's responses in a rehearsal, in exam order, from the sections it took.
+export type MockResponses = { started: string; items: MockResponse[] };
+
+// A rehearsal result before the server stores it under an id, with the responses it stores.
+export type NewMockResult = Omit<ProgressSnapshot["mockResults"][number], "id" | "responses"> & {
+  responses?: MockResponses;
+};

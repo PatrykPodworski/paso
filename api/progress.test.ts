@@ -532,6 +532,193 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
   });
 });
 
+describe("mock result responses", () => {
+  const result = (patch: Record<string, unknown> = {}) => ({
+    id: "m",
+    at: T,
+    ...full,
+    reading: 1,
+    listening: 0,
+    recorded: true,
+    ...patch,
+  });
+
+  const score = {
+    grade: "good",
+    items: [{ id: "name", label: "Name", level: "understandable" }],
+    corrections: [
+      { original: "soy de Polonia", corrected: "soy de Polonia.", explanation: "Dot." },
+    ],
+  };
+
+  const reading = {
+    section: 0,
+    questionId: "mock-r1-0",
+    variantId: "r1-v1",
+    answer: "B",
+    correct: false,
+  };
+
+  const listening = {
+    section: 1,
+    questionId: "mock-l1-v2-0",
+    variantId: "l1-v2",
+    answer: "",
+    correct: false,
+  };
+
+  const writing = {
+    section: 2,
+    questionId: "mock-w1",
+    variantId: "w1-v1",
+    status: "submitted",
+    text: "Nombre: Bruno",
+    band: 2,
+  };
+
+  const empty = {
+    section: 2,
+    questionId: "mock-w2",
+    variantId: "w2-v1",
+    status: "empty",
+    text: "",
+  };
+
+  const talk = {
+    section: 3,
+    questionId: "mock-s1",
+    variantId: "s1-v1",
+    status: "scored",
+    transcript: "Lucía: ¿Cómo te llamas?\nYou: Me llamo Bruno.",
+    score,
+  };
+
+  const skipped = { section: 3, questionId: "mock-s2", variantId: "s2-v1", status: "none" };
+
+  const responses = {
+    started: "2026-09-09T11:00:00.000Z",
+    items: [reading, listening, writing, empty, talk, skipped],
+  };
+
+  const read = async (id: string, resultId: string) => {
+    const response = await handleProgress(
+      new Request(`https://paso.podwor.ski/api/progress?result=${encodeURIComponent(resultId)}`, {
+        headers: { "x-learner-id": id, "x-real-ip": "203.0.113.7" },
+      }),
+      db,
+      progressLimit,
+    );
+
+    return [response.status, await response.json()];
+  };
+
+  it("keeps the responses out of the snapshot and returns them by result id", async () => {
+    const me = learner();
+    const saved = await snapshot(me, { action: "mockResult", result: result({ responses }) });
+
+    expect(saved.mockResults).toEqual([{ ...result(), responses: true }]);
+    expect(JSON.stringify(saved)).not.toContain("Me llamo Bruno");
+    expect((await snapshot(me)).mockResults).toEqual([{ ...result(), responses: true }]);
+    expect(await read(me, "m")).toEqual([200, { responses }]);
+  });
+
+  it("replaces the responses when the same result is saved again with a band", async () => {
+    const me = learner();
+
+    const marked = {
+      ...responses,
+      items: [
+        { ...writing, band: 3 },
+        { ...empty, band: 0 },
+      ],
+    };
+
+    await snapshot(me, { action: "mockResult", result: result({ responses }) });
+    await snapshot(me, { action: "mockResult", result: result({ responses: marked }) });
+
+    expect(await read(me, "m")).toEqual([200, { responses: marked }]);
+  });
+
+  it("keeps the stored responses when a later save sends none", async () => {
+    const me = learner();
+
+    await snapshot(me, { action: "mockResult", result: result({ responses }) });
+
+    expect((await snapshot(me, { action: "mockResult", result: result() })).mockResults).toEqual([
+      { ...result(), responses: true },
+    ]);
+
+    expect(await read(me, "m")).toEqual([200, { responses }]);
+  });
+
+  it("does not add responses to a result saved before they were recorded", async () => {
+    const me = learner();
+
+    await snapshot(me, { action: "mockResult", result: result() });
+
+    expect(
+      (await snapshot(me, { action: "mockResult", result: result({ responses }) })).mockResults,
+    ).toEqual([result()]);
+
+    expect(await read(me, "m")).toEqual([200, { responses: null }]);
+  });
+
+  it("returns no responses for another learner's result or an unknown id", async () => {
+    const [me, other] = [learner(), learner()];
+
+    await snapshot(me, { action: "mockResult", result: result({ responses }) });
+    await snapshot(other, { action: "mockResult", result: result({ id: "theirs", responses }) });
+
+    expect(await read(other, "m")).toEqual([200, { responses: null }]);
+    expect(await read(me, "unknown")).toEqual([200, { responses: null }]);
+    expect(await read(me, "m")).toEqual([200, { responses }]);
+  });
+
+  it.each(["", "x".repeat(65)])("refuses the result id %j", async (resultId) => {
+    expect(await read(learner(), resultId)).toEqual([400, { error: "result" }]);
+  });
+
+  const items = (...list: unknown[]) => ({ ...responses, items: list });
+
+  it.each([
+    ["responses that are not a record", []],
+    ["a start that is not an instant", { ...responses, started: "today" }],
+    ["items that are not a list", { ...responses, items: {} }],
+    ["an extra top-level field", { ...responses, answers: {} }],
+    ["a question twice", items(writing, writing)],
+    ["a question outside the exam", items({ ...reading, questionId: "u1-v0" })],
+    ["a question in the wrong section", items({ ...reading, section: 1 })],
+    ["a section the result did not take", items(talk), [2]],
+    ["a foreign variant", items({ ...reading, variantId: "r1-v2" })],
+    ["a band over 3", items({ ...writing, band: 4 })],
+    ["a fractional band", items({ ...writing, band: 1.5 })],
+    ["a malformed score", items({ ...talk, score: { grade: "great", items: [] } })],
+    ["an over-long text", items({ ...writing, text: "a".repeat(4001) })],
+    ["an over-long transcript", items({ ...talk, transcript: "a".repeat(4001) })],
+    ["a reading answer that is not text", items({ ...reading, answer: 3 })],
+    ["a reading verdict that is not a boolean", items({ ...reading, correct: "yes" })],
+    ["a status on a reading answer", items({ ...reading, status: "submitted" })],
+    ["a speaking status on writing", items({ ...writing, status: "scored" })],
+    ["an empty writing task with text", items({ ...empty, text: "Hola" })],
+    ["a submitted writing task without text", items({ ...writing, text: "  " })],
+    ["a scored talk without its score", items({ ...talk, score: undefined })],
+    ["an unscored talk with a transcript", items({ ...skipped, transcript: "You: Hola" })],
+    ["a talk with a writing status", items({ ...skipped, status: "empty" })],
+    ["an unknown field on an item", items({ ...reading, at: T })],
+  ])("refuses %s", async (_, value, sections = full.sections) => {
+    const response = await send(learner(), {
+      action: "mockResult",
+      result: result({
+        sections,
+        ...(sections.includes(0) ? {} : { reading: undefined, listening: undefined }),
+        responses: value,
+      }),
+    });
+
+    expect([response.status, await response.json()]).toEqual([400, { error: "result" }]);
+  });
+});
+
 describe("the mock exam run", () => {
   const FRESH = {
     section: 0,

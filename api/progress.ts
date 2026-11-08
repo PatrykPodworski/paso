@@ -20,6 +20,7 @@ import {
 import {
   completeLesson,
   readProgress,
+  readResponses,
   resetProgress,
   saveAttempt,
   saveDraft,
@@ -181,7 +182,8 @@ const bodyOf = async (request: Request) => {
   }
 };
 
-// GET returns the learner's snapshot; POST { action, ... } writes and returns the fresh one.
+// GET returns the learner's snapshot, or with ?result=<id> the responses of one rehearsal
+// result; POST { action, ... } writes and returns the fresh snapshot.
 export const handleProgress = async (
   request: Request,
   db: Db,
@@ -223,6 +225,16 @@ export const handleProgress = async (
     write = action;
   } else if (request.method !== "GET") {
     return json({ error: "method" }, 405);
+  } else {
+    const resultId = new URL(request.url).searchParams.get("result");
+
+    if (resultId !== null) {
+      if (!isId(resultId)) {
+        return json({ error: "result" }, 400);
+      }
+
+      write = (db, learner) => readResponses(db, learner, resultId);
+    }
   }
 
   return json(await write(db, learner.toLowerCase()), 200);

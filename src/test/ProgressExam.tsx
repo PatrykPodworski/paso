@@ -10,6 +10,7 @@ export const ProgressExam = () => {
       <MockExam
         progress={snapshot}
         onResult={actions.mockResult}
+        onResponses={actions.mockResponses}
         onRunChange={actions.mockRun}
         onNewRun={actions.newMockRun}
         onSeen={actions.seen}

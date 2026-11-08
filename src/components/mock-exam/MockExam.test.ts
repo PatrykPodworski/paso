@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { examSections, firstVariants } from "../../data/mock";
 import { click, mount, now, remount, seed, setupMockExam, state } from "../../test/mockExam";
@@ -31,6 +31,7 @@ it("stores only objective results once and requires both human scores before a v
       reading: 25,
       listening: 25,
       recorded: true,
+      responses: true,
     },
   ]);
 
@@ -164,7 +165,7 @@ it("saves a speaking run without scores and shows its talks without the passing 
   await settle();
 
   expect((await savedProgress()).mockResults.map(({ id: _, ...result }) => result)).toEqual([
-    { at: new Date(now).toISOString(), sections: [3], recorded: true },
+    { at: new Date(now).toISOString(), sections: [3], recorded: true, responses: true },
   ]);
 
   expect(screen.getByRole("list", { name: "Lucía's grades" })).toHaveTextContent(
@@ -271,6 +272,7 @@ it("stores a genuine zero and a partial speaking score, and shows them in the hi
       writing: 0,
       speaking: 0,
       recorded: true,
+      responses: true,
     },
   ]);
 
@@ -301,6 +303,7 @@ it("records a full exam whose writing is still ungraded and shows that in the hi
       listening: 25,
       speaking: 8.33,
       recorded: true,
+      responses: true,
     },
   ]);
 
@@ -423,6 +426,13 @@ describe("writing scored from the results page", () => {
     expect(screen.getByText("Speaking 25/25")).toBeInTheDocument();
     expect(screen.queryByText("Writing ungraded")).not.toBeInTheDocument();
     expect(api).toHaveBeenCalled();
+
+    // The band that arrived on the results page is in the stored responses too.
+    click("View responses");
+    const dialog = screen.getByRole("dialog", { name: "Your responses" });
+
+    expect(await within(dialog).findByText("Hola Ana")).toBeInTheDocument();
+    expect(within(dialog).getAllByText("Mark 0/3")).toHaveLength(2);
   });
 
   it("gets the writing score on request and keeps it with the run", async () => {

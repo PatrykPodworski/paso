@@ -9,6 +9,7 @@ import {
   seedProgress,
 } from "../fixtures/app";
 import { progressSeed } from "../fixtures/progressSeed";
+import { rehearsalResponses } from "../fixtures/rehearsalResponses";
 import { allLessons, allQuestions, visualQuestions } from "../../src/data/curriculum";
 import type { Page, Route } from "@playwright/test";
 import { examiner, mockLiveTalk } from "../fixtures/live";
@@ -330,6 +331,33 @@ test("question: image", async ({ page }) => {
   await page.goto("/practice");
   await page.getByRole("button", { name: "Picture this", exact: false }).click();
   await shot(page, "question-image");
+});
+
+test("exam history: responses of a rehearsal, and one saved before they were kept", async ({
+  page,
+}) => {
+  await seedProgress(page, {
+    mockResults: [
+      { at: "2026-09-01T10:00:00.000Z", sections: [0, 1, 2, 3], reading: 10, listening: 12 },
+      {
+        at: "2026-09-09T10:00:00.000Z",
+        sections: [0, 1, 2, 3],
+        reading: 9,
+        listening: 9,
+        writing: 16.67,
+        speaking: 16.67,
+        recorded: true,
+        responses: rehearsalResponses(),
+      },
+    ],
+  });
+
+  await page.goto("/exam");
+  await expect(page.getByText("Responses not recorded")).toBeVisible();
+  await shot(page, "exam-history");
+  await page.getByRole("button", { name: "View responses" }).click();
+  await expect(page.getByRole("dialog").getByText("No scored talk")).toBeAttached();
+  await shot(page, "exam-responses");
 });
 
 const examCases = [

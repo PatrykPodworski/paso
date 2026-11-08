@@ -4,8 +4,15 @@ import { firstVariants } from "../../data/mock";
 import { emptySnapshot } from "../../test/progress";
 import { MockIntro } from "./MockIntro";
 
-const mount = (progress = emptySnapshot(), onStart = vi.fn()) =>
-  render(<MockIntro progress={progress} variants={firstVariants} onStart={onStart} />);
+const mount = (progress = emptySnapshot(), onStart = vi.fn(), onResponses = vi.fn()) =>
+  render(
+    <MockIntro
+      progress={progress}
+      variants={firstVariants}
+      onStart={onStart}
+      onResponses={onResponses}
+    />,
+  );
 
 it("introduces every section and lists previous rehearsals newest first", () => {
   mount({
@@ -172,4 +179,54 @@ it("shows zeros, partial scores and ungraded sections without a blanket label", 
   expect(rows[3]).not.toContain("Speaking");
 
   expect(screen.queryByText("Productive skills ungraded")).not.toBeInTheDocument();
+});
+
+it("offers the responses of a result that stored them, and says when a result did not", async () => {
+  const onResponses = vi.fn(async () => ({
+    started: "2026-02-05T09:00:00.000Z",
+    items: [
+      {
+        section: 2 as const,
+        questionId: "mock-w1",
+        variantId: "w1-v1",
+        status: "submitted" as const,
+        text: "Nombre: Bruno",
+      },
+    ],
+  }));
+
+  mount(
+    {
+      ...emptySnapshot(),
+      mockResults: [
+        { id: "legacy", at: "2026-01-05T10:00:00Z", sections: [0], reading: 3 },
+        { id: "kept", at: "2026-02-05T10:00:00Z", sections: [2], recorded: true, responses: true },
+      ],
+    },
+    vi.fn(),
+    onResponses,
+  );
+
+  const rows = [
+    ...screen.getByRole("heading", { name: "Your previous rehearsals" }).parentElement!.children,
+  ].slice(1) as HTMLElement[];
+
+  expect(rows.map((row) => within(row).queryByRole("button")?.textContent ?? null)).toEqual([
+    "View responses",
+    null,
+  ]);
+
+  expect(within(rows[1]).getByText("Responses not recorded")).toBeInTheDocument();
+  expect(within(rows[0]).queryByText("Responses not recorded")).not.toBeInTheDocument();
+
+  fireEvent.click(within(rows[0]).getByRole("button", { name: "View responses" }));
+
+  const dialog = screen.getByRole("dialog", { name: "Your responses" });
+
+  expect(dialog).toHaveTextContent(
+    `${new Date("2026-02-05T10:00:00Z").toLocaleDateString()} · Writing only`,
+  );
+
+  expect(await within(dialog).findByText("Nombre: Bruno")).toBeInTheDocument();
+  expect(onResponses.mock.calls).toEqual([["kept"]]);
 });

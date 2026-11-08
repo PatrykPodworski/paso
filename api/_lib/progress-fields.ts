@@ -12,15 +12,16 @@ import type {
   Attempt,
   Grade,
   LiveItem,
+  MockResponses,
   MockRun,
   MockRunPatch,
   MockStage,
-  ProgressSnapshot,
+  NewMockResult,
   Skill,
   VocabularyReview,
 } from "../../src/data/types.ts";
 
-export type MockResult = ProgressSnapshot["mockResults"][number];
+export type MockResult = NewMockResult & { id: string };
 export type Completion = { score: number; total: number; at: string };
 
 export const MAX_NAME = 32;
@@ -174,7 +175,8 @@ export const mockResultOf = (value: unknown): MockResult | null => {
     !isSectionScore(value.listening, value.sections, 1) ||
     !isProductiveScore(value.writing, value.sections, 2) ||
     !isProductiveScore(value.speaking, value.sections, 3) ||
-    !(value.recorded === undefined || value.recorded === true)
+    !(value.recorded === undefined || value.recorded === true) ||
+    !(value.responses === undefined || isResponses(value.responses, value.sections))
   ) {
     return null;
   }
@@ -188,6 +190,7 @@ export const mockResultOf = (value: unknown): MockResult | null => {
     ...(value.writing === undefined ? {} : { writing: value.writing as number }),
     ...(value.speaking === undefined ? {} : { speaking: value.speaking as number }),
     ...(value.recorded === true ? { recorded: true as const } : {}),
+    ...(value.responses === undefined ? {} : { responses: value.responses as MockResponses }),
   };
 };
 
@@ -248,6 +251,67 @@ const isLiveScore: Check = (value) =>
   ) &&
   (value.corrections === undefined || isStoredCorrections(value.corrections)) &&
   Object.keys(value).length === ("corrections" in value ? 3 : 2);
+
+// Each mock question with its section and the variant that holds it.
+const PLACES = new Map(
+  mockExam.flatMap((s, section) =>
+    s.tasks.flatMap((t) =>
+      t.variants.flatMap((v) =>
+        v.questions.map((q) => [q.id, { section, variantId: v.id }] as const),
+      ),
+    ),
+  ),
+);
+
+const hasFields = (value: Record<string, unknown>, fields: string[]) =>
+  Object.keys(value).length === fields.length && fields.every((f) => Object.hasOwn(value, f));
+
+const TASK = ["section", "questionId", "variantId"];
+
+const isAnswer = (r: Record<string, unknown>) =>
+  hasFields(r, [...TASK, "answer", "correct"]) &&
+  isText(r.answer) &&
+  typeof r.correct === "boolean";
+
+// A writing task is submitted exactly when its text is not blank.
+const isWriting = (r: Record<string, unknown>) =>
+  (r.status === "submitted" || r.status === "empty") &&
+  hasFields(r, [...TASK, "status", "text", ...(Object.hasOwn(r, "band") ? ["band"] : [])]) &&
+  isText(r.text) &&
+  (r.text.trim() !== "") === (r.status === "submitted") &&
+  (r.band === undefined || isCount(r.band, 0, 3));
+
+// Only a scored talk has a transcript: the run keeps none for a talk Lucía did not score.
+const isTalk = (r: Record<string, unknown>) =>
+  r.status === "scored"
+    ? hasFields(r, [...TASK, "status", "transcript", "score"]) &&
+      isText(r.transcript) &&
+      isLiveScore(r.score)
+    : r.status === "none" && hasFields(r, [...TASK, "status"]);
+
+// The response check of each section, by section index.
+const RESPONSES_OF = [isAnswer, isAnswer, isWriting, isTalk];
+
+const isResponse = (r: unknown, sections: number[]) => {
+  const place = isRecord(r) && typeof r.questionId === "string" && PLACES.get(r.questionId);
+
+  return (
+    !!place &&
+    place.section === r.section &&
+    place.variantId === r.variantId &&
+    sections.includes(place.section) &&
+    RESPONSES_OF[place.section](r)
+  );
+};
+
+// The responses of a rehearsal that took the given sections, at most one per question.
+const isResponses = (value: unknown, sections: number[]) =>
+  isRecord(value) &&
+  hasFields(value, ["started", "items"]) &&
+  (value.started === "" || isInstant(value.started)) &&
+  Array.isArray(value.items) &&
+  value.items.every((r) => isResponse(r, sections)) &&
+  new Set(value.items.map((r: { questionId: string }) => r.questionId)).size === value.items.length;
 
 const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["stage", (value) => STAGES.includes(value as MockStage)],

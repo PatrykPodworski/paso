@@ -3,6 +3,7 @@ import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
   Grade,
+  MockResponses,
   MockRun,
   MockRunPatch,
   ProgressSnapshot,
@@ -47,7 +48,7 @@ const reads = (learner: string) => [
   q("SELECT check_id FROM guide_checks WHERE learner_id = $1 ORDER BY check_id", learner),
   q(
     `SELECT id, ${iso("at")} AS at, sections, reading, listening, writing, speaking,
-       productive_recorded
+       productive_recorded, responses IS NOT NULL AS has_responses
      FROM mock_results WHERE learner_id = $1 ORDER BY mock_results.at, id`,
     learner,
   ),
@@ -84,6 +85,7 @@ type MockRow = {
   writing: number | null;
   speaking: number | null;
   productive_recorded: boolean | null;
+  has_responses: boolean;
 };
 
 // `real` is float4, so a score kept to the hundredth can come back with binary noise.
@@ -142,6 +144,7 @@ const mockResultOf = ({
   writing,
   speaking,
   productive_recorded,
+  has_responses,
   ...m
 }: MockRow) => {
   const writingPoints = pointsOf(writing);
@@ -154,6 +157,7 @@ const mockResultOf = ({
     ...(writingPoints === undefined ? {} : { writing: writingPoints }),
     ...(speakingPoints === undefined ? {} : { speaking: speakingPoints }),
     ...(productive_recorded ? { recorded: true as const } : {}),
+    ...(has_responses ? { responses: true as const } : {}),
   };
 };
 
@@ -388,16 +392,21 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
       q(
         // A result is inserted once. The same id may later fill in a writing or speaking
         // score, including zero, and never clears one. A result saved before productive
-        // scores were recorded keeps its nulls: this update does not invent them.
+        // scores were recorded keeps its nulls: this update does not invent them. Responses
+        // follow the same rule: a later save replaces them, and a result stored without
+        // them stays without.
         `INSERT INTO mock_results (
-           learner_id, id, at, sections, reading, listening, writing, speaking, productive_recorded
+           learner_id, id, at, sections, reading, listening, writing, speaking, productive_recorded,
+           responses
          )
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb)
          ON CONFLICT (learner_id, id) DO UPDATE SET
            writing = CASE WHEN mock_results.productive_recorded
              THEN COALESCE(EXCLUDED.writing, mock_results.writing) ELSE mock_results.writing END,
            speaking = CASE WHEN mock_results.productive_recorded
-             THEN COALESCE(EXCLUDED.speaking, mock_results.speaking) ELSE mock_results.speaking END`,
+             THEN COALESCE(EXCLUDED.speaking, mock_results.speaking) ELSE mock_results.speaking END,
+           responses = CASE WHEN mock_results.responses IS NOT NULL
+             THEN COALESCE(EXCLUDED.responses, mock_results.responses) ELSE NULL END`,
         learner,
         m.id,
         m.at,
@@ -407,9 +416,20 @@ export const saveMockResult = async (db: Db, learner: string, m: MockResult) =>
         m.writing ?? null,
         m.speaking ?? null,
         m.recorded ? true : null,
+        m.responses ? JSON.stringify(m.responses) : null,
       ),
     ])
   ).snapshot;
+
+// The responses of one of the learner's results: null for a result saved without them,
+// and for an id the learner has no result under.
+export const readResponses = async (db: Db, learner: string, resultId: string) => {
+  const [rows] = (await db.transaction([
+    q("SELECT responses FROM mock_results WHERE learner_id = $1 AND id = $2", learner, resultId),
+  ])) as [{ responses: MockResponses | null }[]];
+
+  return { responses: rows[0]?.responses ?? null };
+};
 
 // Top-level fields replace; answers, drafts, scores, talks, marks and plays merge per key, so a
 // change from one tab keeps what another tab saved. `replace` starts a new run from the defaults.

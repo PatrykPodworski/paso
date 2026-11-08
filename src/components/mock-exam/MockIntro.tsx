@@ -4,9 +4,10 @@ import { Panel } from "../../design-system/Panel";
 import { Notice } from "../../design-system/Notice";
 import { Badge } from "../ui/badge";
 import { fullExam, mockExam, sectionSizes, sectionVariants } from "../../data/mock";
-import type { ExamVariants, ProgressSnapshot } from "../../data/types";
+import type { ExamVariants, MockResponses, ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { skills, SKILL_ICON, SKILL_ICON_SIZE } from "../practice";
+import { RehearsalResponses } from "./rehearsal-responses/RehearsalResponses";
 import { historyMarks, historyMarkText } from "./rehearsalHistory";
 
 // The exam the start buttons begin: a section is new when the learner saw none of its variants.
@@ -15,6 +16,8 @@ type Props = {
   variants: ExamVariants;
   // Starts the given sections: the whole exam or one section alone.
   onStart: (sections: number[]) => void;
+  // Reads the responses a rehearsal result stored.
+  onResponses: (resultId: string) => Promise<MockResponses | null>;
 };
 
 type Result = ProgressSnapshot["mockResults"][number];
@@ -26,7 +29,7 @@ const partOf = ({ sections }: Result) =>
 const isNew = (progress: ProgressSnapshot, variants: ExamVariants, section: number) =>
   sectionVariants(variants, section).every((id) => !Object.hasOwn(progress.seenVariants, id));
 
-export const MockIntro = ({ progress, variants, onStart }: Props) => (
+export const MockIntro = ({ progress, variants, onStart, onResponses }: Props) => (
   <>
     <div className="flex items-center gap-11 rounded-xl border border-border bg-muted p-10 max-xl:gap-6 max-xl:p-7 max-md:p-6">
       <div className="flex h-55 w-47 shrink-0 flex-col items-center justify-center gap-6 rounded-t-arch rounded-b-2xl border border-border bg-muted text-foreground max-xl:h-47 max-xl:w-37 max-lg:hidden">
@@ -137,6 +140,20 @@ export const MockIntro = ({ progress, variants, onStart }: Props) => (
                     {historyMarkText(mark)}
                   </small>
                 ),
+              )}
+              {r.responses ? (
+                <RehearsalResponses
+                  resultId={r.id}
+                  description={[new Date(r.at).toLocaleDateString(), partOf(r)]
+                    .filter(Boolean)
+                    .join(" · ")}
+                  load={onResponses}
+                  className="ms-auto"
+                />
+              ) : (
+                <small className="ms-auto text-xs text-muted-foreground">
+                  Responses not recorded
+                </small>
               )}
             </div>
           ))}

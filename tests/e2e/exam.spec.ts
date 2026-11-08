@@ -227,12 +227,69 @@ test("practise speaking alone: oral prep, resume after a reload, and a result fo
 
   await expect
     .poll(async () => (await saved(page)).mockResults.map(({ id: _, ...result }) => result))
-    .toEqual([{ sections: [3], recorded: true, at: expect.any(String) }]);
+    .toEqual([{ sections: [3], recorded: true, responses: true, at: expect.any(String) }]);
 
   await page.getByRole("button", { name: "Return to exam overview" }).click();
   await expect(page.getByText("Speaking only")).toBeVisible();
   await expect(page.getByText("Speaking ungraded")).toBeVisible();
   await expect(page.getByText("Productive skills ungraded")).toHaveCount(0);
+});
+
+test("each rehearsal keeps its own writing to review after another rehearsal", async ({ page }) => {
+  const finish = async (results: number) => {
+    await page.getByRole("button", { name: "Finish section", exact: true }).click();
+    await page.getByRole("button", { name: "Finish & review", exact: true }).click();
+    await page.getByRole("button", { name: "See my results", exact: true }).click();
+    await page.getByRole("button", { name: "Return to exam overview" }).click();
+
+    await expect
+      .poll(async () => {
+        const { mockResults, mockRun } = await saved(page);
+
+        return [mockResults.length, mockRun?.stage];
+      })
+      .toEqual([results, "intro"]);
+  };
+
+  await page.goto("/exam");
+  await page.getByRole("button", { name: "Practise writing alone" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+
+  const [form] = examSections((await saved(page)).mockRun!.variants)[2].questions;
+
+  await page.getByRole("textbox", { name: form.fields![0].label, exact: true }).fill("Bruno Nowak");
+  await expect.poll(async () => (await saved(page)).mockRun?.drafts[form.id]).toContain("Bruno");
+  await finish(1);
+  await page.getByRole("button", { name: "Practise writing alone" }).click();
+  await expect.poll(async () => (await saved(page)).mockRun?.stage).toBe("run");
+  await finish(2);
+  await page.reload();
+
+  const rows = page
+    .getByRole("heading", { name: "Your previous rehearsals" })
+    .locator("xpath=following-sibling::div");
+
+  const dialog = page.getByRole("dialog", { name: "Your responses" });
+  // The test clock stands still, so both results share a date and either may be listed first.
+  const texts: string[] = [];
+
+  await expect(rows).toHaveCount(2);
+
+  for (const row of [rows.nth(0), rows.nth(1)]) {
+    await row.getByRole("button", { name: "View responses" }).click();
+    await expect(dialog.getByText("Loading responses…")).toHaveCount(0);
+    texts.push((await dialog.textContent()) ?? "");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+  }
+
+  const first = texts.find((text) => text.includes("Bruno Nowak")) ?? "";
+  const second = texts.find((text) => text !== first) ?? "";
+
+  expect(first).toContain(`${form.fields![0].label}: Bruno Nowak`);
+  expect(first.match(/Nothing submitted/g)).toHaveLength(1);
+  expect(second).not.toContain("Bruno Nowak");
+  expect(second.match(/Nothing submitted/g)).toHaveLength(2);
 });
 
 test("timer expires during navigation and section confirmation can be cancelled", async ({

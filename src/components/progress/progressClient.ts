@@ -1,5 +1,6 @@
 import type {
   Attempt,
+  MockResponses,
   MockRunPatch,
   NewMockResult,
   ProgressSnapshot,
@@ -168,6 +169,20 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
         action: "mockResult",
         result: { ...result, id: result.id ?? crypto.randomUUID() },
       }),
+    // One rehearsal result's responses, read when the learner opens them. The read is not a
+    // write, so it skips the queue, and a failure rejects instead of setting a problem.
+    mockResponses: async (resultId: string): Promise<MockResponses | null> => {
+      const response = await fetch(
+        `/api/progress?result=${encodeURIComponent(resultId)}`,
+        requestInit(learner, undefined),
+      );
+
+      if (!response.ok) {
+        throw new Error(`Responses not loaded: ${response.status}`);
+      }
+
+      return ((await response.json()) as { responses: MockResponses | null }).responses;
+    },
     // Answers, drafts and scores merge per key on the server; drafts are sent debounced.
     mockRun: ({ drafts: changed, ...change }: MockRunPatch) => {
       if (changed) {

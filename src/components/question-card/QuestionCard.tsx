@@ -200,10 +200,11 @@ const QuestionCardBody = ({
   );
 };
 
-// The attempt's seed for the order of the options.
+// The attempt's seed for the order of the options and word tiles.
 type CardProps = Props & { seed?: number };
 
-// The card with its options in the attempt's order. A card without the attempt's seed picks one.
+// The card with its options and word tiles in the attempt's order. A card without the attempt's
+// seed picks one.
 export const QuestionCard = ({ q, seed, ...props }: CardProps) => {
   const shown = useShownOptions(q, seed);
 

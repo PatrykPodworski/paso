@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { allQuestions } from "./curriculum";
 import { mockQuestions, mockTasks } from "./mock";
-import { shownOptions, withShownOptions } from "./optionOrder";
+import { shownOptions, shownTokens, withShownOptions, withShownTokens } from "./optionOrder";
+import { isCorrect } from "./progress";
+import type { Question } from "./types";
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => i * 7919);
 
@@ -9,6 +11,18 @@ const SEEDS = Array.from({ length: 300 }, (_, i) => i * 7919);
 const statements = mockTasks.find((t) => t.id === "l3")!.variants[0].questions;
 const endings = statements[0].options!;
 const vocabulary = allQuestions.find((q) => q.id === "u2-v0")!;
+const banks = allQuestions.filter((q) => q.kind === "order");
+const greeting = allQuestions.find((q) => q.id === "u1-o0")!;
+
+const bank = (answer: string, tokens = answer.split(" ")): Question => ({
+  id: "bank",
+  kind: "order",
+  skill: "writing",
+  prompt: "Build the Spanish sentence.",
+  answer,
+  tokens,
+  explanation: "",
+});
 
 describe("shownOptions", () => {
   it("keeps every option once, so an answer is checked by its text", () => {
@@ -91,5 +105,71 @@ describe("withShownOptions", () => {
     const order = allQuestions.find((q) => q.kind === "order")!;
 
     expect(withShownOptions(order, 7)).toBe(order);
+  });
+});
+
+describe("shownTokens", () => {
+  it("never starts a word bank in a correct order and keeps every tile once", () => {
+    expect(banks.map((q) => q.id)).toContain("u1-o0");
+
+    for (const q of banks) {
+      for (const seed of SEEDS) {
+        const shown = shownTokens(q, seed);
+
+        expect(isCorrect(q, shown.join(" ")), `${q.id} ${seed}`).toBe(false);
+        expect(shown.toSorted()).toEqual(q.tokens!.toSorted());
+      }
+    }
+  });
+
+  it("does not start in an accepted order either", () => {
+    const q = { ...bank("Yo soy Ana", ["Ana", "soy", "Yo"]), accepted: ["Ana soy yo"] };
+
+    for (const seed of SEEDS) {
+      expect(["Yo soy Ana", "Ana soy Yo"]).not.toContain(shownTokens(q, seed).join(" "));
+    }
+  });
+
+  it("swaps a two-tile bank on every seed, though half the draws come out solved", () => {
+    const q = bank("Hola Ana.");
+
+    for (const seed of Array.from({ length: 3000 }, (_, i) => i)) {
+      expect(shownTokens(q, seed)).toEqual(["Ana.", "Hola"]);
+    }
+  });
+
+  it("puts every tile first on some attempt", () => {
+    const firsts = new Set(SEEDS.map((seed) => shownTokens(greeting, seed)[0]));
+
+    expect(firsts).toEqual(new Set(["Hola", "me", "llamo", "Tomás"]));
+  });
+
+  it("gives one attempt the same order on every call and other attempts other orders", () => {
+    expect(shownTokens(greeting, 42)).toEqual(shownTokens({ ...greeting }, 42));
+
+    const orders = new Set(SEEDS.slice(0, 40).map((seed) => shownTokens(greeting, seed).join()));
+
+    // 4 tiles have 23 orders that are not the sentence.
+    expect(orders.size).toBeGreaterThan(15);
+  });
+
+  it("keeps a bank whose every order is correct as it is", () => {
+    expect(shownTokens(bank("Sí."), 7)).toEqual(["Sí."]);
+    expect(shownTokens(bank("no no"), 7)).toEqual(["no", "no"]);
+  });
+});
+
+describe("withShownTokens", () => {
+  it("orders a word bank's tiles and keeps its answer", () => {
+    const shown = withShownTokens(greeting, 7);
+
+    expect(shown.tokens).toEqual(shownTokens(greeting, 7));
+    expect(shown.tokens).not.toEqual(["Hola", "me", "llamo", "Tomás"]);
+    expect(shown.answer).toBe("Hola me llamo Tomás");
+    expect(shown.id).toBe("u1-o0");
+  });
+
+  it("returns a question without tiles as it is", () => {
+    expect(withShownTokens(vocabulary, 7)).toBe(vocabulary);
   });
 });

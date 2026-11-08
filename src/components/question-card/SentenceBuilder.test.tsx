@@ -4,6 +4,7 @@ import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { audioSources } from "../../data/audio-sources";
 import { allQuestions } from "../../data/curriculum";
+import { shownTokens } from "../../data/optionOrder";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -20,6 +21,14 @@ const order = allQuestions.find((q) => q.kind === "order")!;
 const bank = () => within(screen.getByRole("group", { name: "Word bank" }));
 const tray = () => within(screen.getByRole("group", { name: "Your sentence" }));
 
+// The tile texts in the order the bank shows them; the number badge is hidden from the name.
+const bankOrder = () =>
+  bank()
+    .getAllByRole("button")
+    .map((b) => b.lastChild!.textContent ?? "");
+
+const trayText = () => screen.getByRole("group", { name: "Your sentence" }).textContent;
+
 it("hints at the empty sentence tray until the first word is picked", () => {
   render(<QuestionCard q={order} onSubmit={vi.fn()} />);
   expect(screen.getByText("Tap the words below to build your sentence…")).toBeInTheDocument();
@@ -29,9 +38,11 @@ it("hints at the empty sentence tray until the first word is picked", () => {
 });
 
 it("requires all tiles, permits removal, and reads the correct sentence after a wrong order", () => {
-  render(<QuestionCard q={order} onSubmit={vi.fn()} />);
+  render(<QuestionCard q={order} seed={7} onSubmit={vi.fn()} />);
+  const shown = bankOrder();
 
-  for (const token of order.tokens!) {
+  // The bank never starts solved, so picking the tiles as shown builds a wrong sentence.
+  for (const token of shown) {
     fireEvent.click(bank().getByRole("button", { name: token }));
   }
 
@@ -41,7 +52,8 @@ it("requires all tiles, permits removal, and reads the correct sentence after a 
 
   fireEvent.click(tray().getAllByRole("button")[0]);
   expect(screen.getByRole("button", { name: "Check answer" })).toBeDisabled();
-  fireEvent.click(bank().getByRole("button", { name: order.tokens![0] }));
+  fireEvent.click(bank().getByRole("button", { name: shown[0] }));
+  expect(trayText()).toBe([...shown.slice(1), shown[0]].join(""));
   const beforeCheck = vi.mocked(HTMLMediaElement.prototype.play).mock.calls.length;
 
   click("Check answer");
@@ -141,4 +153,35 @@ it("lets a learner build and correct sentence tiles", async () => {
   expect(screen.queryByRole("button", { name: "Check answer" })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Continue" }));
   expect(submit).toHaveBeenCalledWith(q.answer, true, false);
+});
+
+it("shows the tiles in the attempt's order, the same through a re-render and a remount", () => {
+  const q = allQuestions.find((q) => q.id === "u1-o0")!;
+  const { rerender, unmount } = render(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} />);
+  const shown = shownTokens(q, 7);
+
+  expect(bankOrder()).toEqual(shown);
+  expect(bankOrder()).not.toEqual(["Hola", "me", "llamo", "Tomás"]);
+  rerender(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} />);
+  expect(bankOrder()).toEqual(shown);
+  unmount();
+  render(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} />);
+  expect(bankOrder()).toEqual(shown);
+});
+
+it("builds the same sentence from number keys as from taps", () => {
+  const q = allQuestions.find((q) => q.id === "u1-o0")!;
+  const { unmount } = render(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} />);
+  const shown = bankOrder();
+
+  fireEvent.click(bank().getByRole("button", { name: shown[2] }));
+  fireEvent.click(bank().getByRole("button", { name: shown[0] }));
+  const tapped = trayText();
+
+  expect(tapped).toBe(`${shown[2]}${shown[0]}`);
+  unmount();
+  render(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} />);
+  fireEvent.keyDown(window, { key: "3" });
+  fireEvent.keyDown(window, { key: "1" });
+  expect(trayText()).toBe(tapped);
 });

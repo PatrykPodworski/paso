@@ -89,6 +89,38 @@ it("uses the stored passcode without asking again", async () => {
   expect(JSON.parse(localStorage.getItem("paso-live-v1")!).freeUsed).toBe(true);
 });
 
+it("saves the answer without feedback when no passcode is entered", () => {
+  const { onSubmit, onEvaluated } = mount();
+
+  click("Save without feedback");
+
+  expect(onEvaluated.mock.calls).toEqual([[answer, null, false]]);
+  expect(onSubmit.mock.calls).toEqual([[answer, null, false]]);
+  expect(api).not.toHaveBeenCalled();
+});
+
+it("offers saving without feedback only while no passcode is entered", () => {
+  mount();
+  fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: "olé" } });
+  expect(screen.queryByRole("button", { name: "Save without feedback" })).not.toBeInTheDocument();
+  fireEvent.change(screen.getByLabelText("Passcode"), { target: { value: " " } });
+  expect(screen.getByRole("button", { name: "Save without feedback" })).toBeEnabled();
+});
+
+it("offers no saving without feedback when the passcode is stored", () => {
+  storePasscode();
+  mount();
+
+  expect(reviewButton()).toBeEnabled();
+  expect(screen.queryByRole("button", { name: "Save without feedback" })).not.toBeInTheDocument();
+});
+
+it("keeps saving without feedback disabled until the answer can be submitted", () => {
+  render(<QuestionCard q={writing} onSubmit={vi.fn()} />);
+
+  expect(screen.getByRole("button", { name: "Save without feedback" })).toBeDisabled();
+});
+
 it("keeps the review disabled until the answer can be submitted", () => {
   storePasscode();
   render(<QuestionCard q={writing} onSubmit={vi.fn()} />);

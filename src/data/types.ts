@@ -46,6 +46,8 @@ export interface Question {
   picture?: string;
   tokens?: string[];
   checklist?: string[];
+  // A write task answered with one question, which the writing review checks against the checklist.
+  singleQuestion?: true;
   minWords?: number;
   maxWords?: number;
   fields?: { label: string; example: string }[];

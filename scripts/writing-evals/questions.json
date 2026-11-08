@@ -1,0 +1,18 @@
+[
+  {
+    "id": "AQ-T01-E05",
+    "kind": "write",
+    "skill": "writing",
+    "prompt": "You are the server. The customer is ready to order a drink. Ask which drink they want. Use bebida and quieres.",
+    "answer": "¿Qué bebida quieres?",
+    "explanation": "Use qué before bebida. Both the drink category and the customer’s choice must be clear.",
+    "checklist": [
+      "Ask about the desired drink",
+      "Include bebida and quieres",
+      "Address one person informally"
+    ],
+    "minWords": 2,
+    "maxWords": 15,
+    "singleQuestion": true
+  }
+]

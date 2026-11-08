@@ -508,6 +508,52 @@ it("skips a writing task already passed without checking it again or recording a
   expect(screen.getByText("1 answers used transcript assistance.")).toBeInTheDocument();
 });
 
+it("saves a writing task without feedback when no passcode is entered, outside the score", () => {
+  const fetch = vi.fn();
+  const attempt = vi.fn();
+  const done = vi.fn();
+
+  vi.stubGlobal("fetch", fetch);
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [writing, { ...type, answer: "correcto" }],
+      }}
+      progress={emptySnapshot()}
+      onClose={vi.fn()}
+      onAttempt={attempt}
+      onComplete={done}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Hola, Bruno." } });
+  click("Save without feedback");
+
+  expect(attempt.mock.calls.map(([a]) => [a.questionId, a.answer, a.correct, a.grade])).toEqual([
+    [writing.id, "Hola, Bruno.", null, undefined],
+  ]);
+
+  expect(screen.getByRole("progressbar", { name: "Lesson progress" })).toHaveAttribute(
+    "aria-valuenow",
+    "1",
+  );
+
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "correcto" } });
+  click("Check answer");
+  click("Continue");
+  expect(fetch.mock.calls).toEqual([]);
+  expect(done).toHaveBeenCalledExactlyOnceWith(1, 1);
+  expect(screen.queryByText(/Your mistakes are waiting/)).not.toBeInTheDocument();
+  vi.unstubAllGlobals();
+});
+
 it("stops offering the skip once a passed exercise is answered again", () => {
   const [seen] = allQuestions.filter((q) => q.options);
   const progress = emptySnapshot();

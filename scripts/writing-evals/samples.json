@@ -201,5 +201,40 @@
     "answer": "Nombre y apellidos: my name\nNacionalidad: I don't know\nCiudad: big city\nProfesión: work\nLenguas: English\nAficiones: games and movies",
     "expected": "failed",
     "rationale": "English words that do not answer the fields in Spanish."
+  },
+  {
+    "id": "question-passed",
+    "questionId": "AQ-T01-E05",
+    "answer": "¿Qué bebida quieres?",
+    "expected": "passed",
+    "rationale": "The model question: asks for the drink with bebida and quieres, informal tú."
+  },
+  {
+    "id": "question-other-wording",
+    "questionId": "AQ-T01-E05",
+    "answer": "Y tú, ¿qué bebida quieres tomar?",
+    "expected": "passed",
+    "rationale": "Natural alternative wording that still asks which drink, with bebida and quieres."
+  },
+  {
+    "id": "question-no-question-marks",
+    "questionId": "AQ-T01-E05",
+    "answer": "Qué bebida quieres",
+    "expected": "passed",
+    "rationale": "Without ¿ and ? the question is still right: missing question marks are not a mistake."
+  },
+  {
+    "id": "question-other-information",
+    "questionId": "AQ-T01-E05",
+    "answer": "¿Cuándo quieres la bebida?",
+    "expected": "partly",
+    "rationale": "Understandable and uses bebida and quieres, but asks when, not which drink."
+  },
+  {
+    "id": "question-missing-accent",
+    "questionId": "AQ-T01-E05",
+    "answer": "¿Que bebida quieres?",
+    "expected": "passed",
+    "rationale": "Every point met in understandable Spanish; the missing accent on qué is a spelling correction."
   }
 ]

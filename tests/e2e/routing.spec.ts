@@ -4,6 +4,7 @@ const title = {
   today: "A good day to learn Spanish.",
   path: "Every step has a story.",
   practice: "Your practice studio.",
+  "practice/questions": "Asking questions.",
   exam: "Meet the exam.",
   guide: "Your guide to DELE A1.",
   backoffice: "Every task, one click away.",

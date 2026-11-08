@@ -37,6 +37,9 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
 - **12 units, 48 lessons.** Each unit covers reading, listening, writing and
   speaking. Alongside the learning path there are foundation checks, picture
   questions, a personal information form and a full 55-item exam rehearsal.
+- **Asking questions**, a practice set in the practice studio: forming and asking
+  questions in Spanish, one new question word per lesson, with a teaching card,
+  typed and built questions, and short dialogues the AI tutor reviews.
 - **96 vocabulary cards** you can search, flip and hear, each with its own
   memory hint: a familiar English word, a useful translated phrase, a breakdown
   of the word, or a distinction from a Spanish word it gets confused with. The

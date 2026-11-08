@@ -1,5 +1,6 @@
 import { test, expect, answer, saved } from "../fixtures/app";
 import { allQuestions, foundations, visualQuestions } from "../../src/data/curriculum";
+import { askingQuestions } from "../../src/data/asking-questions/askingQuestions";
 import { formPractice } from "../../src/data/mock";
 
 const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
@@ -55,6 +56,32 @@ for (const [title, questions] of [
     await expect(page.locator(".answer-option[aria-pressed=true]")).toHaveCount(0);
   });
 }
+
+test("complete the first asking-questions lesson and see its score on the set page", async ({
+  page,
+}) => {
+  await page.goto("/practice");
+  await page.getByRole("button", { name: "Asking questions", exact: false }).click();
+  await page.getByRole("button", { name: "Asking for things", exact: false }).click();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+
+  for (let i = 0; i < 17; i++) {
+    const heading = page.getByRole("dialog").getByRole("heading", { level: 2 }).first();
+    const prompt = await heading.textContent();
+    const q = askingQuestions.find((q) => q.prompt === prompt)!;
+
+    await answer(page, q);
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  }
+
+  await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
+  await expect.poll(async () => (await saved(page)).completed["aq-l01"]?.total).toBe(17);
+  await page.getByRole("button", { name: "Back to my journey" }).click();
+
+  await expect(page.getByRole("button", { name: "Asking for things", exact: false })).toContainText(
+    "Last score 17/17",
+  );
+});
 
 test("daily mix prioritizes questions not yet answered", async ({ page }) => {
   await page.goto("/practice");

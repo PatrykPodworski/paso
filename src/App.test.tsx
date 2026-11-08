@@ -1,8 +1,8 @@
 import { act, cleanup, fireEvent, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { changeUrl, renderApp } from "./test/renderApp";
-import { allLessons, allQuestions, foundations, visualQuestions } from "./data/curriculum";
-import { formPractice } from "./data/mock";
+import { allLessons, allQuestions } from "./data/curriculum";
+import { exerciseBank } from "./components/practice";
 import type { Attempt, Lesson, MockRunPatch } from "./data/types";
 import { type ProgressSeed, progressSeed } from "../tests/fixtures/progressSeed";
 import { emptySnapshot } from "./test/progress";
@@ -229,9 +229,7 @@ describe("app business orchestration", () => {
     async (skill) => {
       const p = progressSeed();
 
-      const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
-        (q) => q.skill === skill && q.kind !== "live",
-      );
+      const bank = exerciseBank.filter((q) => q.skill === skill && q.kind !== "live");
 
       p.attempts = [
         {
@@ -260,9 +258,7 @@ describe("app business orchestration", () => {
   it("revisits the least recently practised questions after all have been seen", async () => {
     const p = progressSeed();
 
-    const bank = [...allQuestions, ...foundations, formPractice, ...visualQuestions].filter(
-      (q) => q.skill === "reading",
-    );
+    const bank = exerciseBank.filter((q) => q.skill === "reading");
 
     p.attempts = bank.map((q, i) => ({
       id: String(i),
@@ -514,12 +510,44 @@ it.each([
   ["practice", "Your practice studio."],
   ["exam", "Meet the exam."],
   ["guide", "Your guide to DELE A1."],
+  ["practice/questions", "Asking questions."],
 ])("shows exactly one main view for #%s", async (page, title) => {
   const { container } = await mount(page);
 
   expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(title);
   expect(container.querySelectorAll('nav [aria-current="page"]')).toHaveLength(1);
+});
+
+it("opens the asking-questions page from the practice studio, under Practice studio", async () => {
+  const { container } = await mount("practice");
+
+  fireEvent.click(screen.getByRole("button", { name: /Asking questions/ }));
+  await settle();
+
+  expect(window.location.pathname).toBe("/practice/questions");
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Asking questions.");
+  expect(container.querySelector('nav [aria-current="page"]')).toHaveTextContent("Practice studio");
+});
+
+it("records a set lesson's completion without counting it in the course progress", async () => {
+  await mount("practice/questions");
+  fireEvent.click(screen.getByRole("button", { name: /Asking for things/ }));
+
+  expect(session.lesson.id).toBe("aq-l01");
+  act(() => session.onComplete(15, 17));
+  await settle();
+
+  expect((await saved()).completed).toMatchObject({ "aq-l01": { score: 15, total: 17 } });
+
+  expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
+    "Last score 15/17",
+  );
+
+  changeUrl("/path");
+  await settle();
+
+  expect(screen.getByText(`0/${allLessons.length} complete · 0% of your path`)).toBeInTheDocument();
 });
 
 it("switches pages without retaining a previous main view", async () => {

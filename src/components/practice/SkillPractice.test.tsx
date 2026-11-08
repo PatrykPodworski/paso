@@ -14,6 +14,7 @@ it("launches each focused practice bank", () => {
       progress={emptySnapshot()}
       filter="all"
       setSession={(l) => (lesson = l)}
+      navigate={vi.fn()}
       practice={vi.fn()}
     />,
   );
@@ -39,6 +40,7 @@ it.each([
       progress={emptySnapshot()}
       filter="all"
       setSession={(l) => (lesson = l)}
+      navigate={vi.fn()}
       practice={vi.fn()}
     />,
   );

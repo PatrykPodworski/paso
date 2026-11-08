@@ -84,6 +84,24 @@ describe("writing tasks", () => {
     });
   });
 
+  it("reviews the asking-questions dialogue items as single questions", () => {
+    expect(writingTaskOf("AQ-T01-E05")).toEqual({
+      id: "AQ-T01-E05",
+      kind: "question",
+      exam: false,
+      prompt:
+        "You are the server. The customer is ready to order a drink. Ask which drink they want. Use bebida and quieres.",
+      points: [
+        "Ask about the desired drink",
+        "Include bebida and quieres",
+        "Address one person informally",
+      ],
+      wordRange: [2, 15],
+    });
+
+    expect(writingTaskOf("AQ-T01-E04")).toBeUndefined();
+  });
+
   it("knows only writing tasks", () => {
     expect(["mock-s1", "u1-v0", "u99-o2", 7, undefined].map(writingTaskOf)).toEqual([
       undefined,

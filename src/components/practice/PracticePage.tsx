@@ -75,6 +75,7 @@ export const PracticePage = ({
     ) : (
       <SkillPractice
         progress={progress}
+        navigate={navigate}
         filter={filter}
         setSession={setSession}
         practice={practice}

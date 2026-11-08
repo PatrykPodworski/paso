@@ -10,6 +10,7 @@ import type { AudioHandle } from "../audio/useAudioPlayer";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { QuestionFooter } from "./QuestionFooter";
 import { QuestionHeading, type RecordingPlays } from "./QuestionHeading";
+import { QuestionHints } from "./QuestionHints";
 import { QuestionMaterials } from "./QuestionMaterials";
 import { questionClips } from "./questionClips";
 import { isSilentTask, isWritingTask, useAnswer } from "./useAnswer";
@@ -172,6 +173,7 @@ const QuestionCardBody = ({
         plays={plays}
       />
       <QuestionMaterials q={q} exam={exam} onTranscript={() => setAssisted(true)} />
+      <QuestionHints q={q} exam={exam} feedback={feedback} onHint={() => setAssisted(true)} />
       <AnswerInput
         q={q}
         feedback={feedback}
@@ -200,10 +202,11 @@ const QuestionCardBody = ({
   );
 };
 
-// The attempt's seed for the order of the options.
+// The attempt's seed for the order of the options and word tiles.
 type CardProps = Props & { seed?: number };
 
-// The card with its options in the attempt's order. A card without the attempt's seed picks one.
+// The card with its options and word tiles in the attempt's order. A card without the attempt's
+// seed picks one.
 export const QuestionCard = ({ q, seed, ...props }: CardProps) => {
   const shown = useShownOptions(q, seed);
 

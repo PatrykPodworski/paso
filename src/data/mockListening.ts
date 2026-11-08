@@ -58,9 +58,6 @@ type PictureItem = {
   audio: Audio;
 };
 
-// Rotates the options by the item's place, so the answer is not always first.
-const rotate = (items: string[], i: number) => [...items.slice(i % 3), ...items.slice(0, i % 3)];
-
 const conversations = (number: number, theme: string, names: string[], items: PictureItem[]) =>
   variant(
     "l1",
@@ -74,7 +71,7 @@ const conversations = (number: number, theme: string, names: string[], items: Pi
         task: "Task 1 · Short conversations",
         prompt: item.prompt,
         answer: item.answer,
-        options: rotate([item.answer, ...item.wrong], i),
+        options: [item.answer, ...item.wrong],
         explanation: item.explanation,
         audio: play(id, item.audio),
       });

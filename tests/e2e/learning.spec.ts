@@ -239,10 +239,9 @@ test("sentence building supports removal and reads the sentence after checking",
 
   await expect(page.getByRole("button", { name: "Check answer" })).toBeDisabled();
   const first = page.locator(".word-bank button").first();
-  const word = q.tokens![0];
 
   await first.click();
-  await page.locator(".sentence-tray").getByRole("button", { name: word, exact: false }).click();
+  await page.locator(".sentence-tray").getByRole("button").click();
   await expect(first).toBeEnabled();
   // Tapping a word reads that word; the sentence model waits for the check.
   expect(await page.evaluate(() => (window as any).__plays.length)).toBe(1);

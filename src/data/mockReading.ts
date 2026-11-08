@@ -1,4 +1,3 @@
-import { hash } from "./random.ts";
 import type { MockTask, MockVariant, Question } from "./types.ts";
 
 // A three-option item: the prompt, the answer, two wrong options and the explanation.
@@ -8,16 +7,6 @@ type ChoiceItem = [string, string, string, string, string];
 type MatchItem = [string, string, string];
 
 const LETTERS = "ABCDEFGHI".split("");
-
-// Puts the answer at a position fixed by the item's key, so the position differs between items
-// and between variants and never gives the answer away.
-const placeAnswer = (answer: string, wrong: string[], key: string) => {
-  const options = [...wrong];
-
-  options.splice(hash(key) % (wrong.length + 1), 0, answer);
-
-  return options;
-};
 
 // Variant 1 keeps the question ids it had before variants, so saved answers still point at them.
 const questionId = (task: string, variant: number, item: number) =>
@@ -48,7 +37,7 @@ const textTask =
           task: title,
           prompt,
           answer,
-          options: placeAnswer(answer, [a, b], questionId(task, variant, i)),
+          options: [answer, a, b],
           explanation,
           passage: text,
         }),

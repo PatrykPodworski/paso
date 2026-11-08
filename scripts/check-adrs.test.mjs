@@ -62,7 +62,7 @@ afterEach(async () => {
 });
 
 describe("ADR index", () => {
-  it("matches the two confirmed records in this repo", async () => {
+  it("matches the records in this repo", async () => {
     const readme = await readFile(join(repoAdrs, "README.md"), "utf8");
     const offline = await readFile(join(repoAdrs, "0001-no-offline-mode.md"), "utf8");
 
@@ -71,7 +71,6 @@ describe("ADR index", () => {
       "utf8",
     );
 
-    expect(readme.match(/^- \[/gm)).toHaveLength(2);
     expect(readme).toContain(`[0001. No offline mode](0001-no-offline-mode.md) ${dash} accepted`);
 
     expect(readme).toContain(

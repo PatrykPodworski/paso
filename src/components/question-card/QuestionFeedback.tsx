@@ -144,7 +144,8 @@ export const QuestionFeedback = ({
   const needsWork = correct === false;
   const tone = needsWork ? TONE.needsWork : TONE.success;
   const paragraph = `text-sm leading-relaxed mt-3 ${tone.paragraph}`;
-  const accentAnswer = needsWork && q.kind === "type" ? accentOnlyAnswer(q, value) : undefined;
+  const typed = q.kind === "type";
+  const accentAnswer = needsWork && typed ? accentOnlyAnswer(q, value) : undefined;
 
   return (
     <div className={`${PANEL} ${tone.box}`} role="status">
@@ -163,7 +164,7 @@ export const QuestionFeedback = ({
       ) : (
         <p className={paragraph}>{q.explanation}</p>
       )}
-      {correct && missingQuestionMarks(q, value) && (
+      {correct && typed && missingQuestionMarks(q, value) && (
         <FieldNote className="mt-3">
           Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>
         </FieldNote>

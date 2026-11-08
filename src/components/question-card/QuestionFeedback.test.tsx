@@ -128,3 +128,42 @@ it("leaves the ¿ ? note off an unflagged question", () => {
   expect(status).toHaveTextContent("¡Muy bien!");
   expect(status).not.toHaveTextContent("Spanish questions open with");
 });
+
+it("gives a wrong choice that differs only by accents the generic explanation", () => {
+  render(
+    <QuestionCard
+      q={typeQuestion("Él", { kind: "choice", options: ["Él", "El"] })}
+      onSubmit={vi.fn()}
+    />,
+  );
+
+  click("El");
+
+  expect(screen.getByRole("status")).toHaveTextContent("The generic explanation.");
+  expect(screen.getByRole("status")).not.toHaveTextContent("Only the accents differ");
+});
+
+it("leaves the ¿ ? note off a wrong answer to a full Spanish question", () => {
+  const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Que quieres");
+
+  expect(status).toHaveTextContent("Only the accents differ: ¿Qué quieres?");
+  expect(status).not.toHaveTextContent("Spanish questions open with");
+});
+
+it("leaves the ¿ ? note off a chosen option, which the learner cannot punctuate", () => {
+  render(
+    <QuestionCard
+      q={typeQuestion("Qué quieres", {
+        kind: "choice",
+        options: ["Qué quieres", "Quién eres"],
+        questionMarks: true,
+      })}
+      onSubmit={vi.fn()}
+    />,
+  );
+
+  click("Qué quieres");
+
+  expect(screen.getByRole("status")).toHaveTextContent("¡Muy bien!");
+  expect(screen.getByRole("status")).not.toHaveTextContent("Spanish questions open with");
+});

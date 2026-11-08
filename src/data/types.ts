@@ -52,7 +52,7 @@ export interface Question {
   task?: string;
   // The server-side talk task a live question runs.
   talk?: string;
-  // The answer is a full Spanish question, so a correct answer without ¿ and ? gets a note.
+  // The answer is a full Spanish question, so a correct typed answer without ¿ and ? gets a note.
   questionMarks?: true;
 }
 

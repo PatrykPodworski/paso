@@ -258,7 +258,7 @@ describe("accent-only mistakes", () => {
       "Que tengas un buen día.",
     ],
     ["pinguino", { answer: "pingüino" } as Question, "pingüino"],
-    ["quien eres", { answer: "¿Quie\u0301n eres?" } as Question, "¿Quie\u0301n eres?"],
+    ["Quien eres", { answer: "¿Quie\u0301n eres?" } as Question, "¿Quie\u0301n eres?"],
     ["quie\u0301n", { answer: "quien" } as Question, "quien"],
     ["quién", { answer: "quien" } as Question, "quien"],
   ])("finds the accepted answer %s misses only by accents", (answer, q, expected) =>

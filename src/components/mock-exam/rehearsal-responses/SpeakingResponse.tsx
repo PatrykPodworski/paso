@@ -1,13 +1,8 @@
 import type { LiveScore, Question } from "../../../data/types";
 import { CorrectionList } from "../../CorrectionList";
+import { LiveScoreItems } from "../../live-talk/LiveScoreItems";
 
 const GRADES = { perfect: "Perfect", good: "Good", bad: "Not everything" };
-
-const LEVELS = {
-  correct: "Correct",
-  understandable: "Understandable, with mistakes",
-  missing: "Missing",
-};
 
 type Props = { question: Question; transcript?: string; score?: LiveScore };
 
@@ -23,16 +18,7 @@ export const SpeakingResponse = ({ question, transcript, score }: Props) => (
           ))}
         </div>
         <p>Lucía's grade: {GRADES[score.grade]}</p>
-        <ul aria-label="Lucía's points" className="flex flex-col gap-1.5">
-          {score.items.map(({ id, label, level }) => (
-            <li key={id} className="flex justify-between gap-3">
-              <span>{label}</span>
-              <span className={level === "missing" ? "text-destructive" : "text-muted-foreground"}>
-                {LEVELS[level]}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <LiveScoreItems items={score.items} />
         {score.corrections && score.corrections.length > 0 && (
           <CorrectionList corrections={score.corrections} />
         )}

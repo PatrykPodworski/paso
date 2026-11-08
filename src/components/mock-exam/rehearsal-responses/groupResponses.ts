@@ -4,7 +4,7 @@ import type { MockResponse, MockResponses, Question } from "../../../data/types"
 const QUESTIONS = new Map(mockQuestions.map((q) => [q.id, q]));
 
 export type ResponseEntry = { response: MockResponse; question: Question };
-export type ResponseGroup = { title: string; entries: ResponseEntry[] };
+type ResponseGroup = { title: string; entries: ResponseEntry[] };
 
 // The responses by exam section, each with its question. A response to a question the exam
 // data no longer has is lost: only its saved text can be shown.

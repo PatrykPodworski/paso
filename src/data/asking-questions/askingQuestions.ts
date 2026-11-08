@@ -5,11 +5,14 @@ import type { SetLesson } from "./setLesson.ts";
 import { l01, t01Items } from "./t01.ts";
 import { l02, t02Items } from "./t02.ts";
 import { l03, t03Items } from "./t03.ts";
+import { l04, r01, t04Items } from "./t04.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
-export const askingQuestions: Question[] = [...t01Items, ...t02Items, ...t03Items].map(questionOf);
+export const askingQuestions: Question[] = [...t01Items, ...t02Items, ...t03Items, ...t04Items].map(
+  questionOf,
+);
 
-export const askingLessons: SetLesson[] = [l01, l02, l03];
+export const askingLessons: SetLesson[] = [l01, l02, l03, l04, r01];
 
 const UNITS = [
   ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"],
@@ -37,9 +40,12 @@ const baseOf = (l: SetLesson) =>
     return card ? [teachingCard(`${id}-FORM`, card.heading, card.text), q] : [q];
   });
 
+// A review lesson has no introduction card.
+const introOf = (l: SetLesson) => (l.introduction ? [l.introduction] : []);
+
 // The lesson's own questions in written order; its recalled items belong to earlier lessons.
 export const lessonItems = (l: SetLesson) => [
-  l.introduction,
+  ...introOf(l),
   ...baseOf(l),
   ...l.variations.map((id) => byId.get(id)!),
 ];
@@ -52,7 +58,7 @@ export const lessonFrom = (l: SetLesson, random: () => number): Lesson => ({
   icon: "spark",
   questions: [
     ...l.recalled.map((id) => byId.get(id)!),
-    l.introduction,
+    ...introOf(l),
     ...baseOf(l),
     ...shuffle(
       l.variations.map((id) => byId.get(id)!),

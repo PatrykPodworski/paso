@@ -7,7 +7,7 @@ import { Icon } from "../design-system/Icon";
 import { IconButton } from "../design-system/IconButton";
 import { Dialog } from "../design-system/Dialog";
 import { ProgressTrack } from "../design-system/ProgressTrack";
-import { QuestionView } from "./question-card/QuestionView";
+import { LessonStep } from "./LessonStep";
 import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
 import { lessonPlace } from "../data/lessonPlace";
@@ -38,7 +38,12 @@ export const LessonSession = ({
   const [before] = useState(() => progress.questions);
   // A resumed lesson counts the stored answers to the exercises it skips.
   const [start] = useState(() => resumeIndex(lesson, progress));
-  const skipped = lesson.questions.slice(0, start).map((q) => before[q.id]);
+
+  const skipped = lesson.questions
+    .slice(0, start)
+    .filter((q) => q.kind !== "teach")
+    .map((q) => before[q.id]);
+
   const [index, setIndex] = useState(start);
   const [results, setResults] = useState(() => skipped.map((a) => a.correct));
   const [finished, setFinished] = useState(false);
@@ -46,8 +51,6 @@ export const LessonSession = ({
   const [assisted, setAssisted] = useState(() => skipped.filter((a) => a.assisted).length);
   const [answered, setAnswered] = useState<number | null>(null);
   const question = lesson.questions[index];
-  // Objective exercises are new attempts, not editable writing drafts.
-  const keepDraft = question.kind === "write" || question.kind === "form";
   const place = lessonPlace(lesson.id);
   const done = before[question.id]?.correct === true && answered !== index;
 
@@ -63,9 +66,8 @@ export const LessonSession = ({
     }
   };
 
-  const advance = (correct: boolean | null) => {
-    const next = [...results, correct];
-
+  // A teaching card moves on with the results unchanged, so it never counts in the score.
+  const moveOn = (next: (boolean | null)[]) => {
     setResults(next);
 
     if (index === lesson.questions.length - 1) {
@@ -75,6 +77,8 @@ export const LessonSession = ({
       setIndex((i) => i + 1);
     }
   };
+
+  const advance = (correct: boolean | null) => moveOn([...results, correct]);
 
   // A passed exercise moves on with its saved answer, as a resumed lesson does, without a new
   // attempt or check.
@@ -151,18 +155,13 @@ export const LessonSession = ({
         <LessonComplete results={results} assisted={assisted} onClose={onClose} onNext={onNext} />
       ) : (
         <div hidden={confirmExit}>
-          {done && (
-            <div className="flex items-center justify-between gap-3 pbs-5 px-9 max-md:px-5 max-sm:px-4">
-              <span className="text-xs text-muted-foreground">You passed this one before.</span>
-              <Button variant="secondary" size="small" onClick={skip}>
-                Already done, skip
-              </Button>
-            </div>
-          )}
-          <QuestionView
+          <LessonStep
             key={question.id}
             q={question}
+            done={done}
             active={!confirmExit}
+            onSkip={skip}
+            onContinue={() => moveOn(results)}
             onSubmit={submit}
             onEvaluated={(answer, correct, assisted, grade) => {
               const q = lesson.questions[index];
@@ -180,8 +179,8 @@ export const LessonSession = ({
                 at: new Date().toISOString(),
               });
             }}
-            draft={keepDraft ? progress.drafts[question.id] || "" : ""}
-            onDraft={keepDraft ? (text) => onDraft(question.id, text) : undefined}
+            draft={progress.drafts[question.id]}
+            onDraft={(text) => onDraft(question.id, text)}
             previous={before[question.id]}
           />
         </div>

@@ -4,11 +4,12 @@ import { questionOf, teachingCard } from "./item.ts";
 import type { SetLesson } from "./setLesson.ts";
 import { l01, t01Items } from "./t01.ts";
 import { l02, t02Items } from "./t02.ts";
+import { l03, t03Items } from "./t03.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
-export const askingQuestions: Question[] = [...t01Items, ...t02Items].map(questionOf);
+export const askingQuestions: Question[] = [...t01Items, ...t02Items, ...t03Items].map(questionOf);
 
-export const askingLessons: SetLesson[] = [l01, l02];
+export const askingLessons: SetLesson[] = [l01, l02, l03];
 
 const UNITS = [
   ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"],

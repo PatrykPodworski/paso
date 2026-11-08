@@ -13,7 +13,14 @@ describe("asking questions content", () => {
     expect(new Set(bank).size).toBe(bank.length);
 
     expect(bank).toEqual(
-      expect.arrayContaining(["AQ-T01-E01", "AQ-T01-V12", "AQ-T02-E01", "AQ-T02-V12"]),
+      expect.arrayContaining([
+        "AQ-T01-E01",
+        "AQ-T01-V12",
+        "AQ-T02-E01",
+        "AQ-T02-V12",
+        "AQ-T03-E01",
+        "AQ-T03-V12",
+      ]),
     );
   });
 
@@ -93,6 +100,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Qué vas al hotel?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for dónde", () => {
+    expect(ids("AQ-T03-E")).toEqual([
+      "AQ-T03-E01",
+      "AQ-T03-E02",
+      "AQ-T03-E03",
+      "AQ-T03-E04",
+      "AQ-T03-E05",
+      "AQ-T03-E06",
+    ]);
+
+    expect(ids("AQ-T03-V")).toHaveLength(12);
+  });
+
+  it("accepts dónde, notes a missing accent and rejects qué in a dónde cloze", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T03-V08")!;
+
+    expect([isCorrect(q, "Dónde"), isCorrect(q, "qué")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "donde")).toBe("dónde");
+  });
+
+  it("accepts the typed dónde question and rejects one that asks for a thing", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T03-V10")!;
+
+    expect(isCorrect(q, "¿Dónde está la mochila?")).toBe(true);
+    expect(isCorrect(q, "¿Qué está la mochila?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -103,6 +137,9 @@ describe("asking questions content", () => {
       "AQ-T02-E05",
       "AQ-T02-V06",
       "AQ-T02-V12",
+      "AQ-T03-E05",
+      "AQ-T03-V06",
+      "AQ-T03-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -111,6 +148,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T02-V08")?.pronunciation).toBe(
       "¿Cómo va Luis al centro?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T03-V01")?.pronunciation).toBe(
+      "¿Dónde está la entrada?",
     );
   });
 });

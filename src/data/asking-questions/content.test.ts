@@ -24,6 +24,8 @@ describe("asking questions content", () => {
         "AQ-T04-V12",
         "AQ-T05-E01",
         "AQ-T05-V12",
+        "AQ-T06-E01",
+        "AQ-T06-V12",
       ]),
     );
   });
@@ -185,6 +187,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Quién vienen mañana?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for cuál / cuáles", () => {
+    expect(ids("AQ-T06-E")).toEqual([
+      "AQ-T06-E01",
+      "AQ-T06-E02",
+      "AQ-T06-E03",
+      "AQ-T06-E04",
+      "AQ-T06-E05",
+      "AQ-T06-E06",
+    ]);
+
+    expect(ids("AQ-T06-V")).toHaveLength(12);
+  });
+
+  it("accepts cuáles, notes a missing accent and rejects cuál in a plural-choice cloze", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T06-V02")!;
+
+    expect([isCorrect(q, "Cuáles"), isCorrect(q, "cuál")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "cuales")).toBe("cuáles");
+  });
+
+  it("accepts the typed cuáles question and rejects the singular one", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T06-V05")!;
+
+    expect(isCorrect(q, "¿Cuáles de estos tres quiere Pablo?")).toBe(true);
+    expect(isCorrect(q, "¿Cuál de estos tres quiere Pablo?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -204,6 +233,9 @@ describe("asking questions content", () => {
       "AQ-T05-E05",
       "AQ-T05-V06",
       "AQ-T05-V12",
+      "AQ-T06-E05",
+      "AQ-T06-V06",
+      "AQ-T06-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -224,6 +256,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T05-V08")?.pronunciation).toBe(
       "¿Quiénes estudian español?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T06-V08")?.pronunciation).toBe(
+      "¿Cuáles de estas tres quiere Pablo?",
     );
   });
 });

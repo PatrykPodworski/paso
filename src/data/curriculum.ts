@@ -1581,7 +1581,11 @@ export const units: Unit[] = seeds.map((s, ui) => {
 });
 
 export const allLessons = units.flatMap((u) => u.lessons);
-export const allQuestions = allLessons.flatMap((l) => l.questions);
+
+// Exercises only: teaching cards are never practised, reviewed or counted.
+export const allQuestions = allLessons
+  .flatMap((l) => l.questions)
+  .filter((q) => q.kind !== "teach");
 
 export const foundations: Question[] = [
   [

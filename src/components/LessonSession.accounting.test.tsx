@@ -5,9 +5,9 @@ import { LessonSession } from "./LessonSession";
 import type { QuestionCard } from "./question-card/QuestionCard";
 import type { LiveQuestion } from "./live-talk/LiveQuestion";
 import { stopAudio } from "./audio/playback";
-import { allQuestions } from "../data/curriculum";
+import { allLessons, allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
-import { emptySnapshot } from "../test/progress";
+import { emptySnapshot, questionState } from "../test/progress";
 import type { LiveScore, Question } from "../data/types";
 
 // Test session accounting independently of the question widget. The real
@@ -34,13 +34,13 @@ vi.mock("./live-talk/LiveQuestion", () => ({
 
 vi.mock("./audio/playback", () => ({ stopAudio: vi.fn() }));
 
-const mount = (questions: Question[], progress = emptySnapshot()) => {
+const mount = (questions: Question[], progress = emptySnapshot(), id = "accounting") => {
   const callbacks = { onClose: vi.fn(), onComplete: vi.fn(), onAttempt: vi.fn(), onDraft: vi.fn() };
 
   const view = render(
     <LessonSession
       lesson={{
-        id: "accounting",
+        id,
         title: "Session accounting",
         subtitle: "",
         minutes: 4,
@@ -147,4 +147,64 @@ it("saves a live talk's grade with its attempt", () => {
     correct: false,
     grade: "bad",
   });
+});
+
+const teach: Question = {
+  id: "teach-cuanta",
+  kind: "teach",
+  skill: "reading",
+  prompt: "Cuánta goes with feminine nouns",
+  answer: "",
+  explanation: "Cuánto agrees with the noun it asks about: ¿Cuánta agua? but ¿Cuánto café?",
+};
+
+const answerAndSubmit = (correct: boolean) =>
+  act(() => {
+    card.onEvaluated!("Learner answer", correct, false);
+    card.onSubmit("Learner answer", correct, false);
+  });
+
+it("shows a teaching card as a step between exercises without an attempt or a score", () => {
+  const [first, second] = allQuestions.slice(0, 2);
+  const { onAttempt, onComplete } = mount([first, teach, second]);
+
+  answerAndSubmit(true);
+  expect(screen.getByText("2 / 3")).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: teach.prompt })).toBeInTheDocument();
+  expect(screen.getByText(teach.explanation)).toBeInTheDocument();
+  expect(screen.queryByTestId("current-question")).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  expect(screen.getByTestId("current-question")).toHaveTextContent(second.id);
+  answerAndSubmit(false);
+
+  expect(onAttempt.mock.calls.map(([attempt]) => attempt.questionId)).toEqual([
+    first.id,
+    second.id,
+  ]);
+
+  expect(onComplete).toHaveBeenCalledExactlyOnceWith(1, 2);
+  expect(stat("objective answers")).toHaveTextContent(/^1\/2$/);
+  expect(stat("moments to review")).toHaveTextContent(/^1$/);
+});
+
+it("puts focus on the teaching card's Continue, so the keyboard moves on", () => {
+  const { onComplete } = mount([allQuestions[0], teach]);
+
+  answerAndSubmit(true);
+  expect(screen.getByRole("button", { name: "Continue" })).toHaveFocus();
+  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+  expect(onComplete).toHaveBeenCalledExactlyOnceWith(1, 1);
+});
+
+it("resumes a lesson past a teaching card it showed before", () => {
+  const lesson = allLessons[0];
+  const [first, second] = lesson.questions;
+  const progress = emptySnapshot();
+
+  progress.questions[first.id] = questionState();
+  const { onComplete } = mount([teach, first, second], progress, lesson.id);
+
+  expect(screen.getByTestId("current-question")).toHaveTextContent(second.id);
+  answerAndSubmit(true);
+  expect(onComplete).toHaveBeenCalledExactlyOnceWith(2, 2);
 });

@@ -71,6 +71,18 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Unit 10 (_¡Buen viaje!_): 24 texts.
 - Unit 11 (_¿Qué tal estás?_): 24 texts.
 - Unit 12 (_¡Tú puedes!_): 22 texts.
+- Asking questions, unit 1 (L01–L04 and R01): 67 texts, the questions and their
+  tiles. A tile reads without its question marks (_quieres?_ is read as
+  "quieres"). Two tiles are read in a form that make-words can cut from its list:
+  _¿Qué_ as "¿Qué?" and _te_ as "té". _el café?_, _el baño?_ and _la clase?_ play
+  the topic flashcard clips of the same words.
+- Asking questions, unit 2 (L05–L08 and R02): 72 texts, the questions and their
+  tiles. _quiere Luis_ and _quiere Luis?_ share one clip; _español?_ plays the
+  topic flashcard clip of _español_.
+- Asking questions, unit 3 (L09–L12 and R03): 61 texts, the questions and their
+  tiles. _¿Adónde_ and _¿A dónde_ share the clip of "A dónde"; _¿Con quién_ and
+  _¿Con quiénes_ are read as "¿Con quién?" and "¿Con quiénes?". _el tren?_ and
+  _el museo?_ play the topic flashcard clips of the same words.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

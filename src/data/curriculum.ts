@@ -1,4 +1,4 @@
-import type { Question, Unit, Skill } from "./types.ts";
+import type { Question, Unit, Skill, UnitWordCard, WordCard } from "./types.ts";
 import { vocabularyHints } from "./vocabulary-hints.ts";
 import words from "./words.json" with { type: "json" };
 
@@ -1393,8 +1393,8 @@ const seeds: Seed[] = [
 ];
 
 export const vocabulary = words
-  .flatMap((t) => t.words)
-  .filter((w) => w.unit !== undefined)
+  .flatMap((t): WordCard[] => t.words)
+  .filter((w): w is UnitWordCard => w.unit !== undefined)
   .sort((a, b) => a.unit - b.unit || a.unitOrder - b.unitOrder)
   .map((w) => {
     const id = "key" in w && typeof w.key === "string" ? w.key : w.es;

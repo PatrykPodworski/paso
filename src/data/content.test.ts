@@ -14,6 +14,7 @@ import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
+import type { WordCard } from "./types";
 import examples from "./examples.json";
 import { taskOf } from "../../api/_lib/talk-tasks/index";
 
@@ -343,7 +344,7 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every word picture under its slug and keeps the emoji as a fallback", () => {
-    const pictured = words.flatMap((t) => t.words).filter((w) => w.picture);
+    const pictured = words.flatMap((t): WordCard[] => t.words).filter((w) => w.picture);
 
     expect(pictured.length).toBeGreaterThan(0);
 

@@ -32,6 +32,8 @@ describe("asking questions content", () => {
         "AQ-T08-V12",
         "AQ-T09-E01",
         "AQ-T09-V12",
+        "AQ-T10-E01",
+        "AQ-T10-V12",
       ]),
     );
   });
@@ -307,6 +309,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Cuándo sale el tren?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for de dónde", () => {
+    expect(ids("AQ-T10-E")).toEqual([
+      "AQ-T10-E01",
+      "AQ-T10-E02",
+      "AQ-T10-E03",
+      "AQ-T10-E04",
+      "AQ-T10-E05",
+      "AQ-T10-E06",
+    ]);
+
+    expect(ids("AQ-T10-V")).toHaveLength(12);
+  });
+
+  it("accepts de dónde, notes a missing accent and rejects dónde alone", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T10-V01")!;
+
+    expect([isCorrect(q, "De dónde"), isCorrect(q, "dónde")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "de donde")).toBe("de dónde");
+  });
+
+  it("accepts the typed origin question and rejects the current-location one", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T10-E04")!;
+
+    expect(isCorrect(q, "¿De dónde eres?")).toBe(true);
+    expect(isCorrect(q, "¿Dónde estás?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -338,6 +367,9 @@ describe("asking questions content", () => {
       "AQ-T09-E05",
       "AQ-T09-V06",
       "AQ-T09-V12",
+      "AQ-T10-E05",
+      "AQ-T10-V06",
+      "AQ-T10-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -374,6 +406,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T09-V02")?.pronunciation).toBe(
       "¿A qué hora viene Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T10-V01")?.pronunciation).toBe(
+      "¿De dónde es Pablo?",
     );
   });
 });

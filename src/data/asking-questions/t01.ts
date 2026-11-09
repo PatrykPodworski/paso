@@ -189,7 +189,7 @@ export const t01Items: Item[] = [
   },
 ];
 
-export const t01Introduction = teachingCard(
+const t01Introduction = teachingCard(
   "AQ-T01-INTRO",
   "New question word: qué",
   "Qué asks for a thing or activity. Before a noun, it asks for a category: ¿Qué bebida quieres?\n\nExample: ¿Qué quieres?",

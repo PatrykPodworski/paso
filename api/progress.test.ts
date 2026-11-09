@@ -376,6 +376,43 @@ describe("lessons, drafts, vocabulary, checks, settings and mock results", () =>
     });
   });
 
+  it("gives +2 XP for each flashcard review, right or wrong, and again for a repeat", async () => {
+    const me = learner();
+    const later = "2026-09-09T12:10:00.000Z";
+
+    const review = (reviews: Record<string, unknown>) =>
+      snapshot(me, { action: "vocabulary", reviews });
+
+    expect((await review({ casa: { level: 0, nextAt: T } })).xp).toBe(0);
+
+    expect(
+      (await review({ casa: { level: 1, nextAt: "2026-09-10T12:00:00.000Z", reviewedAt: T } })).xp,
+    ).toBe(2);
+
+    expect(
+      (await review({ casa: { level: 0, nextAt: "2026-09-09T12:20:00.000Z", reviewedAt: later } }))
+        .xp,
+    ).toBe(4);
+
+    expect(
+      (
+        await review({
+          perro: { level: 1, nextAt: "2026-09-10T12:00:00.000Z", reviewedAt: T },
+          gato: { level: 0, nextAt: "2026-09-09T12:20:00.000Z", reviewedAt: T },
+        })
+      ).xp,
+    ).toBe(8);
+  });
+
+  it("gives no XP for a review it already saved", async () => {
+    const me = learner();
+    const reviews = { casa: { level: 1, nextAt: "2026-09-10T12:00:00.000Z", reviewedAt: T } };
+
+    await snapshot(me, { action: "vocabulary", reviews });
+
+    expect((await snapshot(me, { action: "vocabulary", reviews })).xp).toBe(2);
+  });
+
   it("sets a guide check, so sending it twice does not flip it back", async () => {
     const me = learner();
 

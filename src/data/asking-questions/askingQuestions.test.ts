@@ -825,12 +825,53 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L16", () => {
+  it("opens L17 on the recalled cada cuánto item, then para qué's introduction, base items and variations", () => {
+    const lesson = askingLesson("aq-l17", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({
+      id: "aq-l17",
+      title: "Asking what for",
+      subtitle: "Learn one new question word",
+    });
+
+    expect(ids.slice(0, 8)).toEqual([
+      "AQ-T16-E04",
+      "AQ-T17-INTRO",
+      "AQ-T17-E01",
+      "AQ-T17-E02",
+      "AQ-T17-E03",
+      "AQ-T17-E04",
+      "AQ-T17-E05",
+      "AQ-T17-E06",
+    ]);
+
+    expect(lesson.questions[1]).toMatchObject({
+      kind: "teach",
+      prompt: "New question word: para qué",
+      explanation: expect.stringContaining("Example: ¿Para qué usas el móvil?"),
+    });
+
+    expect([...ids.slice(8)].sort()).toEqual(variations.map((id) => id.replace("T01", "T17")));
+  });
+
+  it("draws a new L17 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-l17", randomFrom(seed))
+        .questions.slice(8)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L17", () => {
     expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
       ["Unit 2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
       ["Unit 3", ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"]],
-      ["Unit 4", ["aq-l13", "aq-l14", "aq-l15", "aq-l16"]],
+      ["Unit 4", ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17"]],
     ]);
   });
 });

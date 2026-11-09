@@ -46,6 +46,8 @@ describe("asking questions content", () => {
         "AQ-T15-V12",
         "AQ-T16-E01",
         "AQ-T16-V12",
+        "AQ-T17-E01",
+        "AQ-T17-V12",
       ]),
     );
   });
@@ -569,6 +571,33 @@ describe("asking questions content", () => {
     },
   );
 
+  it("authors six base items and twelve variations for para qué", () => {
+    expect(ids("AQ-T17-E")).toEqual([
+      "AQ-T17-E01",
+      "AQ-T17-E02",
+      "AQ-T17-E03",
+      "AQ-T17-E04",
+      "AQ-T17-E05",
+      "AQ-T17-E06",
+    ]);
+
+    expect(ids("AQ-T17-V")).toHaveLength(12);
+  });
+
+  it("accepts para qué, notes a missing accent and rejects por qué", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T17-V01")!;
+
+    expect([isCorrect(q, "Para qué"), isCorrect(q, "por qué")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "para que")).toBe("para qué");
+  });
+
+  it("accepts the typed purpose question and rejects the broad reason question", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T17-E04")!;
+
+    expect(isCorrect(q, "¿Para qué usas este libro?")).toBe(true);
+    expect(isCorrect(q, "¿Por qué usas este libro?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -621,6 +650,9 @@ describe("asking questions content", () => {
       "AQ-T16-E05",
       "AQ-T16-V06",
       "AQ-T16-V12",
+      "AQ-T17-E05",
+      "AQ-T17-V06",
+      "AQ-T17-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -685,6 +717,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T16-V08")?.pronunciation).toBe(
       "¿Cada cuánto van Pablo y Luis en autobús?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T17-V08")?.pronunciation).toBe(
+      "¿Para qué usan Pablo y Luis esta sala?",
     );
   });
 });

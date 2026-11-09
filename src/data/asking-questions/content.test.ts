@@ -36,6 +36,8 @@ describe("asking questions content", () => {
         "AQ-T10-V12",
         "AQ-T11-E01",
         "AQ-T11-V12",
+        "AQ-T12-E01",
+        "AQ-T12-V12",
       ]),
     );
   });
@@ -386,6 +388,39 @@ describe("asking questions content", () => {
     },
   );
 
+  it("authors six base items and twelve variations for con quién", () => {
+    expect(ids("AQ-T12-E")).toEqual([
+      "AQ-T12-E01",
+      "AQ-T12-E02",
+      "AQ-T12-E03",
+      "AQ-T12-E04",
+      "AQ-T12-E05",
+      "AQ-T12-E06",
+    ]);
+
+    expect(ids("AQ-T12-V")).toHaveLength(12);
+  });
+
+  it("accepts con quién, notes a missing accent and rejects quién without con", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T12-V01")!;
+
+    expect([isCorrect(q, "Con quién"), isCorrect(q, "quién")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "con quien")).toBe("con quién");
+  });
+
+  it("accepts the plural con quiénes for several companions and rejects the singular", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T12-V08")!;
+
+    expect([isCorrect(q, "con quiénes"), isCorrect(q, "con quién")]).toEqual([true, false]);
+  });
+
+  it("accepts the typed companion question and rejects one that asks who is going", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T12-E04")!;
+
+    expect(isCorrect(q, "¿Con quién vas?")).toBe(true);
+    expect(isCorrect(q, "¿Quién va?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -423,6 +458,9 @@ describe("asking questions content", () => {
       "AQ-T11-E05",
       "AQ-T11-V06",
       "AQ-T11-V12",
+      "AQ-T12-E05",
+      "AQ-T12-V06",
+      "AQ-T12-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -467,6 +505,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T11-V01")?.pronunciation).toBe(
       "¿Adónde va Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T12-V01")?.pronunciation).toBe(
+      "¿Con quién va Pablo?",
     );
   });
 });

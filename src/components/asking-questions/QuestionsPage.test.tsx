@@ -17,7 +17,7 @@ it("lists the units that have lessons, each lesson with its exercise count", () 
     "Asking for thingsLearn one new question word17 exercises",
   );
 
-  expect(screen.getByRole("button", { name: /Asking who/ })).toHaveTextContent(
+  expect(screen.getByRole("button", { name: /^Asking who(?! with)/ })).toHaveTextContent(
     "Asking whoLearn one new question word19 exercises",
   );
 });

@@ -555,11 +555,103 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, and unit 3 with L09 to L11", () => {
+  it("opens L12 on the recalled adónde item, then con quién's introduction, base items with the con quiénes card, and variations", () => {
+    const lesson = askingLesson("aq-l12", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({
+      id: "aq-l12",
+      title: "Asking who with",
+      subtitle: "Learn one new question word",
+    });
+
+    expect(ids.slice(0, 9)).toEqual([
+      "AQ-T11-E04",
+      "AQ-T12-INTRO",
+      "AQ-T12-E01",
+      "AQ-T12-E02",
+      "AQ-T12-E03-FORM",
+      "AQ-T12-E03",
+      "AQ-T12-E04",
+      "AQ-T12-E05",
+      "AQ-T12-E06",
+    ]);
+
+    expect(lesson.questions[1]).toMatchObject({
+      kind: "teach",
+      prompt: "New question word: con quién / con quiénes",
+      explanation: expect.stringContaining("Example: ¿Con quién vas?"),
+    });
+
+    expect(lesson.questions[4]).toMatchObject({
+      kind: "teach",
+      prompt: "New form: con quiénes",
+      explanation: expect.stringContaining("Example: ¿Con quiénes vas?"),
+    });
+
+    expect([...ids.slice(9)].sort()).toEqual(variations.map((id) => id.replace("T01", "T12")));
+  });
+
+  it("draws a new L12 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-l12", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("opens R03 on unit 3's base items, without an introduction, then eight variations", () => {
+    const lesson = askingLesson("aq-r03", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({
+      id: "aq-r03",
+      title: "Review: unit 3",
+      subtitle: "Review lessons 9–12",
+    });
+
+    expect(ids.slice(0, 8)).toEqual([
+      "AQ-T09-E04",
+      "AQ-T10-E04",
+      "AQ-T11-E04",
+      "AQ-T12-E04",
+      "AQ-T09-E06",
+      "AQ-T10-E06",
+      "AQ-T11-E06",
+      "AQ-T12-E06",
+    ]);
+
+    expect([...ids.slice(8)].sort()).toEqual([
+      "AQ-T09-V04",
+      "AQ-T09-V10",
+      "AQ-T10-V04",
+      "AQ-T10-V10",
+      "AQ-T11-V04",
+      "AQ-T11-V10",
+      "AQ-T12-V04",
+      "AQ-T12-V10",
+    ]);
+  });
+
+  it("draws a new R03 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-r03", randomFrom(seed))
+        .questions.slice(8)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, and unit 3 with L09 to L12 and R03", () => {
     expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
       ["Unit 2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
-      ["Unit 3", ["aq-l09", "aq-l10", "aq-l11"]],
+      ["Unit 3", ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"]],
       ["Unit 4", []],
     ]);
   });

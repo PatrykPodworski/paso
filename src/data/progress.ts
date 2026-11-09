@@ -120,7 +120,7 @@ export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
 
 // A form answer is one "Label: value" line per field; only the values are the learner's words.
-export const answerWords = (q: Pick<Question, "kind">, answer: string) =>
+export const answerWords = (q: { kind: string }, answer: string) =>
   countWords(q.kind === "form" ? answer.replace(/^.*?:[^\S\n]*/gm, "") : answer);
 
 // A question answered on the day has its latest answer on that day.

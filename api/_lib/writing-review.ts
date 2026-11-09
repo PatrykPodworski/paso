@@ -29,7 +29,7 @@ export const RESULT_GRADES = {
 type Result = keyof typeof RESULT_GRADES;
 
 // Points a practice pass may miss in the model's own coverage.
-const MISSES_ALLOWED = { write: 1, form: 0 };
+const MISSES_ALLOWED = { write: 1, form: 0, question: 0 };
 
 const text = { type: "string" };
 

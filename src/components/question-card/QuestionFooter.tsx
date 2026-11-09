@@ -9,6 +9,8 @@ type Props = {
   canSubmit: boolean | undefined;
   autoFocus?: boolean;
   onCheck: () => void;
+  // Saves a practice writing answer with no review, when there is no passcode for one.
+  saveWithoutFeedback?: { enabled: boolean; onSave: () => void };
 };
 
 export const QuestionFooter = ({
@@ -18,6 +20,7 @@ export const QuestionFooter = ({
   canSubmit,
   autoFocus,
   onCheck,
+  saveWithoutFeedback,
 }: Props) => {
   const singleChoice = kind === "choice" || kind === "listen";
 
@@ -31,17 +34,29 @@ export const QuestionFooter = ({
             : "Take your time. Every mistake is a chance to learn."}
       </span>
       {!singleChoice && (
-        <Button
-          type="button"
-          size="lg"
-          className="max-md:w-full"
-          onClick={onCheck}
-          disabled={!canSubmit}
-          autoFocus={autoFocus}
-        >
-          {exam ? "Save answer" : productive ? "Review my practice" : "Check answer"}
-          <Icon name="arrow" />
-        </Button>
+        <div className="flex gap-2 max-md:flex-col">
+          {saveWithoutFeedback && (
+            <Button
+              type="button"
+              size="lg"
+              variant="secondary"
+              onClick={saveWithoutFeedback.onSave}
+              disabled={!saveWithoutFeedback.enabled}
+            >
+              Save without feedback
+            </Button>
+          )}
+          <Button
+            type="button"
+            size="lg"
+            onClick={onCheck}
+            disabled={!canSubmit}
+            autoFocus={autoFocus}
+          >
+            {exam ? "Save answer" : productive ? "Review my practice" : "Check answer"}
+            <Icon name="arrow" />
+          </Button>
+        </div>
       )}
     </div>
   );

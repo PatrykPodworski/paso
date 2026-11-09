@@ -120,12 +120,14 @@ type Props = {
   canSubmit: boolean | undefined;
   assisted: boolean;
   onLock: (locked: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean, assisted: boolean, grade: Grade) => void;
-  onSubmit: (answer: string, correct: boolean, assisted: boolean) => void;
+  // `correct` is null, with no grade, when the answer is saved without feedback.
+  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
+  onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
 };
 
 // A lesson or practice writing task: the AI tutor's review is its result, recorded like a
 // live talk's grade. The answer stays locked while the review loads and once it arrives.
+// Without a passcode the answer can be saved ungraded instead (ADR 0005).
 export const WritingCheck = ({
   q,
   answer,
@@ -176,6 +178,11 @@ export const WritingCheck = ({
   const error = errorOf(results[q.id]);
   const ready = !!canSubmit && !!passcode.trim();
 
+  const saveWithoutFeedback = () => {
+    onEvaluated?.(answer, null, assisted);
+    onSubmit(answer, null, assisted);
+  };
+
   return (
     <>
       <WritingRequest
@@ -192,6 +199,9 @@ export const WritingCheck = ({
         canSubmit={ready}
         autoFocus={!!error && ready}
         onCheck={request}
+        saveWithoutFeedback={
+          passcode.trim() ? undefined : { enabled: !!canSubmit, onSave: saveWithoutFeedback }
+        }
       />
     </>
   );

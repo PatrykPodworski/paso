@@ -69,21 +69,40 @@ export const normalize = (s: string) =>
 
 const acceptedAnswers = (q: Question) => [q.answer, ...(q.accepted || [])];
 
-export const isCorrect = (q: Question, answer: string) =>
-  acceptedAnswers(q).some((a) => normalize(a) === normalize(answer));
+const ACCENT = /[\u0301\u0308]/g;
 
 // Only the acute accent and the diaeresis go: the tilde makes ñ a letter of its own.
 const withoutAccents = (s: string) =>
-  normalize(s)
-    .normalize("NFD")
-    .replace(/[\u0301\u0308]/g, "")
-    .normalize("NFC");
+  normalize(s).normalize("NFD").replace(ACCENT, "").normalize("NFC");
 
-// The accepted answer, as written, that a wrong answer misses only by its accents.
+const exactMatch = (q: Question, answer: string) =>
+  acceptedAnswers(q).some((a) => normalize(a) === normalize(answer));
+
+// Only a typed answer passes without its accents: options and tiles can differ by accents alone.
+const accentMatch = (q: Question, answer: string) =>
+  q.kind === "type"
+    ? acceptedAnswers(q).find((a) => withoutAccents(a) === withoutAccents(answer))
+    : undefined;
+
+export const isCorrect = (q: Question, answer: string) =>
+  exactMatch(q, answer) || accentMatch(q, answer) !== undefined;
+
+// The accepted answer, as written, that a correct answer matches only once accents are ignored.
 export const accentOnlyAnswer = (q: Question, answer: string) =>
-  isCorrect(q, answer)
-    ? undefined
-    : acceptedAnswers(q).find((a) => withoutAccents(a) === withoutAccents(answer));
+  exactMatch(q, answer) ? undefined : accentMatch(q, answer);
+
+// The accented letters of the accepted answer that the answer writes without their accent.
+export const missingAccents = (accepted: string, answer: string) => {
+  const letters = [...normalize(answer)];
+
+  return [
+    ...new Set(
+      [...normalize(accepted)].filter(
+        (letter, i) => letter !== letters[i] && letter.normalize("NFD").search(ACCENT) >= 0,
+      ),
+    ),
+  ];
+};
 
 export const missingQuestionMarks = (q: Question, answer: string) => {
   const text = answer.trim();

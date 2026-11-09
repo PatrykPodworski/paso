@@ -1,7 +1,7 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../ui/button";
-import { accentOnlyAnswer, missingAccents, missingQuestionMarks } from "../../data/progress";
+import { accentMistakes, accentOnlyAnswer, missingQuestionMarks } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
@@ -69,17 +69,18 @@ const FeedbackHeading = ({ correct, productive }: FeedbackHeadingProps) => {
 
 type AccentNoteProps = { accepted: string; value: string };
 
-const AccentNote = ({ accepted, value }: AccentNoteProps) => {
-  const letters = missingAccents(accepted, value);
+const accentPhrase = (kind: string, letters: string[]) =>
+  letters.length === 0
+    ? []
+    : [`${kind} accent${letters.length > 1 ? "s" : ""} on ${letters.join(", ")}`];
 
-  const label =
-    letters.length === 0
-      ? "Written without an accent"
-      : `Missing accent${letters.length > 1 ? "s" : ""} on ${letters.join(", ")}`;
+const AccentNote = ({ accepted, value }: AccentNoteProps) => {
+  const { missing, extra } = accentMistakes(accepted, value);
+  const label = [...accentPhrase("missing", missing), ...accentPhrase("extra", extra)].join("; ");
 
   return (
     <FieldNote className="mt-3">
-      {label}: <span lang="es">{accepted}</span>
+      {label.charAt(0).toUpperCase() + label.slice(1)}: <span lang="es">{accepted}</span>
     </FieldNote>
   );
 };

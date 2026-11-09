@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  accentMistakes,
   accentOnlyAnswer,
   answerWords,
   clipText,
@@ -7,7 +8,6 @@ import {
   dailyAnswers,
   isCorrect,
   localDate,
-  missingAccents,
   missingQuestionMarks,
   nextReviewAt,
   nextReviewLevel,
@@ -296,14 +296,17 @@ describe("accent-only answers", () => {
   });
 
   it.each([
-    ["está", "esta", ["á"]],
-    ["¿Y tú quién eres?", "Y tu quien eres", ["ú", "é"]],
-    ["¿Y tú quién eres?", "Y tú quien eres", ["é"]],
-    ["él dijo él", "el dijo el", ["é"]],
-    ["pingüino", "pinguino", ["ü"]],
-    ["Que tengas un buen día.", "Qué tengas un buen día", []],
-  ])("lists the accents %s has and %s misses", (accepted, answer, expected) =>
-    expect(missingAccents(accepted, answer)).toEqual(expected),
+    ["está", "esta", ["á"], []],
+    ["¿Y tú quién eres?", "Y tu quien eres", ["ú", "é"], []],
+    ["¿Y tú quién eres?", "Y tú quien eres", ["é"], []],
+    ["él dijo él", "el dijo el", ["é"], []],
+    ["pingüino", "pinguino", ["ü"], []],
+    ["Que tengas un buen día.", "Qué tengas un buen día", [], ["é"]],
+    ["¿Dónde está la estación?", "¿Dóndé está la estación?", [], ["é"]],
+    ["¿Dónde está?", "Dondé esta", ["ó", "á"], ["é"]],
+    ["pingüino", "pingúino", ["ü"], ["ú"]],
+  ])("compares the accents of %s with %s", (accepted, answer, missing, extra) =>
+    expect(accentMistakes(accepted, answer)).toEqual({ missing, extra }),
   );
 });
 

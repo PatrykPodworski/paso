@@ -114,11 +114,27 @@ it("names every missing accent", () => {
   expect(status).toHaveTextContent("Missing accents on ú, é: ¿Y tú quién eres?");
 });
 
-it("notes an accent the answer adds", () => {
-  const status = typed(typeQuestion("Que tengas un buen día."), "Qué tengas un buen día");
+it.each([
+  [
+    "Que tengas un buen día.",
+    "Qué tengas un buen día",
+    "Extra accent on é: Que tengas un buen día.",
+  ],
+  [
+    "¿Dónde está la estación?",
+    "¿Dóndé está la estación?",
+    "Extra accent on é: ¿Dónde está la estación?",
+  ],
+  [
+    "¿Dónde está la estación?",
+    "Dondé esta la estación",
+    "Missing accents on ó, á; extra accent on é: ¿Dónde está la estación?",
+  ],
+])("passes %s typed as %s and names the accent mistakes", (expected, answer, note) => {
+  const status = typed(typeQuestion(expected), answer);
 
   expect(status).toHaveTextContent("¡Muy bien!");
-  expect(status).toHaveTextContent("Written without an accent: Que tengas un buen día.");
+  expect(status).toHaveTextContent(note);
 });
 
 it("leaves the accent note off an exact answer", () => {

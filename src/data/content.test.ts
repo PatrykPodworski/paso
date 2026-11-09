@@ -16,6 +16,7 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
 import examples from "./examples.json";
 import { taskOf } from "../../api/_lib/talk-tasks/index";
+import { askingLesson, askingUnits } from "./asking-questions/askingQuestions";
 
 const questions = [
   ...allQuestions,
@@ -281,14 +282,21 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
+    // The asking-questions set is recorded one unit at a time; units 1 and 2 are recorded.
+    const askingRecorded = askingUnits
+      .slice(0, 2)
+      .flatMap((u) => u.lessons)
+      .flatMap((l) => askingLesson(l.id).questions)
+      .filter((q) => q.kind !== "teach");
+
     const phrases = [
       ...new Set(
-        questions
-          .flatMap((q) => [q.audio, ...(q.kind === "order" ? [q.answer] : [])])
+        [...questions, ...askingRecorded]
+          .flatMap((q) => [q.audio, ...(q.kind === "order" ? [q.answer] : []), ...(q.tokens ?? [])])
           .filter((x): x is string => !!x)
           .concat(
             // Writing tasks play no audio, not even their model answer.
-            [...allQuestions, ...foundations, ...visualQuestions]
+            [...allQuestions, ...foundations, ...visualQuestions, ...askingRecorded]
               .filter((q) => !["live", "write", "form"].includes(q.kind))
               .map(spokenText),
             vocabulary.map((w) => w.es),

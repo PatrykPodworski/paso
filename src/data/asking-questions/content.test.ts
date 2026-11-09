@@ -28,6 +28,8 @@ describe("asking questions content", () => {
         "AQ-T06-V12",
         "AQ-T07-E01",
         "AQ-T07-V12",
+        "AQ-T08-E01",
+        "AQ-T08-V12",
       ]),
     );
   });
@@ -249,6 +251,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Cuánta cuesta la entrada?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for por qué", () => {
+    expect(ids("AQ-T08-E")).toEqual([
+      "AQ-T08-E01",
+      "AQ-T08-E02",
+      "AQ-T08-E03",
+      "AQ-T08-E04",
+      "AQ-T08-E05",
+      "AQ-T08-E06",
+    ]);
+
+    expect(ids("AQ-T08-V")).toHaveLength(12);
+  });
+
+  it("accepts por qué, notes a missing accent and rejects the reply connector porque", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T08-V01")!;
+
+    expect([isCorrect(q, "Por qué"), isCorrect(q, "porque")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "por que")).toBe("por qué");
+  });
+
+  it("accepts the typed por qué question and rejects one that asks for a time", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T08-V11")!;
+
+    expect(isCorrect(q, "¿Por qué viene Luis mañana?")).toBe(true);
+    expect(isCorrect(q, "¿Cuándo viene Luis mañana?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -274,6 +303,9 @@ describe("asking questions content", () => {
       "AQ-T07-E05",
       "AQ-T07-V06",
       "AQ-T07-V12",
+      "AQ-T08-E05",
+      "AQ-T08-V06",
+      "AQ-T08-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -302,6 +334,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T07-V02")?.pronunciation).toBe(
       "¿Cuánta leche quiere Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T08-V02")?.pronunciation).toBe(
+      "¿Por qué estudia Pablo en casa?",
     );
   });
 });

@@ -347,10 +347,95 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01, and unit 2 with L05 to L07", () => {
+  it("opens L08 on the recalled cuántas item, then por qué's introduction, base items and variations", () => {
+    const lesson = askingLesson("aq-l08", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({
+      id: "aq-l08",
+      title: "Asking why",
+      subtitle: "Learn one new question word",
+    });
+
+    expect(ids.slice(0, 8)).toEqual([
+      "AQ-T07-E04",
+      "AQ-T08-INTRO",
+      "AQ-T08-E01",
+      "AQ-T08-E02",
+      "AQ-T08-E03",
+      "AQ-T08-E04",
+      "AQ-T08-E05",
+      "AQ-T08-E06",
+    ]);
+
+    expect(lesson.questions[1]).toMatchObject({
+      kind: "teach",
+      prompt: "New question word: por qué",
+      explanation: expect.stringContaining("Example: ¿Por qué estudias español?"),
+    });
+
+    expect([...ids.slice(8)].sort()).toEqual(variations.map((id) => id.replace("T01", "T08")));
+  });
+
+  it("draws a new L08 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-l08", randomFrom(seed))
+        .questions.slice(8)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("opens R02 on unit 2's base items, without an introduction, then eight variations", () => {
+    const lesson = askingLesson("aq-r02", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({
+      id: "aq-r02",
+      title: "Review: unit 2",
+      subtitle: "Review lessons 5–8",
+    });
+
+    expect(ids.slice(0, 8)).toEqual([
+      "AQ-T05-E04",
+      "AQ-T06-E04",
+      "AQ-T07-E04",
+      "AQ-T08-E04",
+      "AQ-T05-E06",
+      "AQ-T06-E06",
+      "AQ-T07-E06",
+      "AQ-T08-E06",
+    ]);
+
+    expect([...ids.slice(8)].sort()).toEqual([
+      "AQ-T05-V04",
+      "AQ-T05-V10",
+      "AQ-T06-V04",
+      "AQ-T06-V10",
+      "AQ-T07-V04",
+      "AQ-T07-V10",
+      "AQ-T08-V04",
+      "AQ-T08-V10",
+    ]);
+  });
+
+  it("draws a new R02 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-r02", randomFrom(seed))
+        .questions.slice(8)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 to L04 and R01, and unit 2 with L05 to L08 and R02", () => {
     expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
-      ["Unit 2", ["aq-l05", "aq-l06", "aq-l07"]],
+      ["Unit 2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
       ["Unit 3", []],
       ["Unit 4", []],
     ]);

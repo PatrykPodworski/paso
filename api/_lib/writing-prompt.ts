@@ -41,10 +41,11 @@ const passRules = {
   ],
 };
 
+// ADR 0010: a missing accent or ¿ ? is shown as a mistake but does not fail the answer.
 const questionRules = [
   "The answer is one Spanish question for the situation in the task. Judge its meaning against the points, not one exact wording: accept natural alternative wording and valid word orders.",
-  "A missing ¿ or ? is not a mistake: do not list it as a correction.",
-  "A missing written accent is a spelling mistake: list it as a correction.",
+  "A missing ¿ or ? is a punctuation mistake. List it as a correction. It does not lower the result.",
+  "A missing written accent is a spelling mistake. List it as a correction. It does not lower the result.",
 ];
 
 const practiceOf = (task: WritingTask) => [

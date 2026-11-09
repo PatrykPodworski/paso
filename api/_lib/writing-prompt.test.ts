@@ -135,8 +135,16 @@ describe("writing prompt", () => {
     );
 
     expect(system.content).toContain("accept natural alternative wording and valid word orders");
-    expect(system.content).toContain("A missing ¿ or ? is not a mistake");
-    expect(system.content).toContain("A missing written accent is a spelling mistake");
+
+    expect(system.content).toContain(
+      "A missing ¿ or ? is a punctuation mistake. List it as a correction. It does not lower the result.",
+    );
+
+    expect(system.content).toContain(
+      "A missing written accent is a spelling mistake. List it as a correction. It does not lower the result.",
+    );
+
+    expect(system.content).not.toContain("is not a mistake");
     expect(system.content).toContain("failed: the answer is blank, off-topic");
 
     for (const letterRule of ["letter", "all but one", "minimum", "band"]) {
@@ -147,6 +155,7 @@ describe("writing prompt", () => {
   it("gives the question rules to a single question only", () => {
     for (const task of [lesson, writingTaskOf("form-practice")!]) {
       expect(messagesOf(task, answer, 9)[0].content).not.toContain("A missing ¿ or ?");
+      expect(messagesOf(task, answer, 9)[0].content).not.toContain("A missing written accent");
     }
   });
 });

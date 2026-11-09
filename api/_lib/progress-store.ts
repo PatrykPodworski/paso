@@ -20,6 +20,7 @@ const RECENT = 20;
 const DAYS = 400;
 const QUESTION_XP = 5;
 const LESSON_XP = 20;
+const VOCABULARY_XP = 2;
 const TOP_LEVEL = REVIEW_WINDOWS.length - 1;
 
 const q = (text: string, ...params: unknown[]): Query => ({ text, params });
@@ -336,6 +337,8 @@ export const saveDraft = async (db: Db, learner: string, questionId: string, tex
     ])
   ).snapshot;
 
+// +2 XP per review, right or wrong. A word added without a review earns nothing, and a
+// review whose time is already stored is a resend, so it earns nothing again.
 export const saveVocabulary = async (
   db: Db,
   learner: string,
@@ -345,12 +348,23 @@ export const saveVocabulary = async (
     await write(db, learner, [
       ensureLearner(learner),
       q(
-        `INSERT INTO vocabulary_reviews (learner_id, word, level, reviewed_at, next_at)
-         SELECT $1, key, (value->>'level')::int, (value->>'reviewedAt')::timestamptz,
-           (value->>'nextAt')::timestamptz
-         FROM jsonb_each($2::jsonb)
-         ON CONFLICT (learner_id, word) DO UPDATE SET
-           level = excluded.level, reviewed_at = excluded.reviewed_at, next_at = excluded.next_at`,
+        `WITH incoming AS (
+           SELECT key AS word, (value->>'level')::int AS level,
+             (value->>'reviewedAt')::timestamptz AS reviewed_at,
+             (value->>'nextAt')::timestamptz AS next_at
+           FROM jsonb_each($2::jsonb)
+         ), reviewed AS (
+           SELECT i.word FROM incoming i
+           LEFT JOIN vocabulary_reviews v ON v.learner_id = $1 AND v.word = i.word
+           WHERE i.reviewed_at IS NOT NULL AND v.reviewed_at IS DISTINCT FROM i.reviewed_at
+         ), saved AS (
+           INSERT INTO vocabulary_reviews (learner_id, word, level, reviewed_at, next_at)
+           SELECT $1, word, level, reviewed_at, next_at FROM incoming
+           ON CONFLICT (learner_id, word) DO UPDATE SET
+             level = excluded.level, reviewed_at = excluded.reviewed_at, next_at = excluded.next_at
+         )
+         UPDATE learners SET xp = xp + ${VOCABULARY_XP} * (SELECT count(*) FROM reviewed)
+         WHERE id = $1 AND EXISTS (SELECT 1 FROM reviewed)`,
         learner,
         JSON.stringify(reviews),
       ),

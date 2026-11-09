@@ -727,7 +727,7 @@ it("renders a truthful fresh dashboard and the full learning path", async () => 
   await settle();
 
   expect(
-    screen.getByText("12 units · 48 lessons · 264 exercises. Explore freely, or follow the path."),
+    screen.getByText("12 units · 48 lessons · 281 exercises. Explore freely, or follow the path."),
   ).toBeInTheDocument();
 
   expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();

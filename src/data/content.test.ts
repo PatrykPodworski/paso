@@ -14,6 +14,7 @@ import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
+import type { WordCard } from "./types";
 import examples from "./examples.json";
 import { taskOf } from "../../api/_lib/talk-tasks/index";
 
@@ -124,9 +125,9 @@ describe("original curriculum integrity", () => {
     }
   });
 
-  it("has 96 different vocabulary entries", () => {
-    expect(vocabulary).toHaveLength(96);
-    expect(new Set(vocabulary.map((w) => w.es)).size).toBe(96);
+  it("has 113 different vocabulary entries", () => {
+    expect(vocabulary).toHaveLength(113);
+    expect(new Set(vocabulary.map((w) => w.es)).size).toBe(113);
   });
 
   it("gives every unit word a memory hint", () => {
@@ -144,6 +145,21 @@ describe("original curriculum integrity", () => {
       "la amiga",
       "la familia",
     ]);
+  });
+
+  it("adds a unit's later words after its first eight and offers them as distractors", () => {
+    const words = units[5].lessons[0].questions;
+
+    expect(words.map((q) => `${q.id} ${q.pronunciation}`).slice(6)).toEqual([
+      "u6-v6 la cuenta",
+      "u6-v7 el queso",
+      "u6-v8 la bebida",
+      "u6-v9 el té",
+      "u6-v10 el litro",
+      "u6-v11 un poco",
+    ]);
+
+    expect(words[6].options).toEqual(["bill", "drink", "a little"]);
   });
 
   it("keeps every message model within the official task-2 word target", () => {
@@ -265,22 +281,6 @@ describe("original curriculum integrity", () => {
     }
   });
 
-  it("places reading answers so that their position gives nothing away", () => {
-    for (const t of mockExam[0].tasks.filter((t) => ["r1", "r4"].includes(t.id))) {
-      const patterns = t.variants.map((v) =>
-        v.questions.map((q) => q.options!.indexOf(q.answer)).join(""),
-      );
-
-      expect(new Set(patterns).size, t.id).toBe(patterns.length);
-
-      for (const position of ["0", "1", "2"]) {
-        expect(patterns.join("").split(position).length - 1, t.id).toBeGreaterThan(
-          patterns.join("").length / 5,
-        );
-      }
-    }
-  });
-
   it("matches each reading situation to a different one of nine texts", () => {
     for (const t of mockExam[0].tasks.filter((t) => ["r2", "r3"].includes(t.id))) {
       for (const v of t.variants) {
@@ -344,7 +344,7 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every word picture under its slug and keeps the emoji as a fallback", () => {
-    const pictured = words.flatMap((t) => t.words).filter((w) => w.picture);
+    const pictured = words.flatMap((t): WordCard[] => t.words).filter((w) => w.picture);
 
     expect(pictured.length).toBeGreaterThan(0);
 

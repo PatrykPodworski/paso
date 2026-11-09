@@ -14,6 +14,7 @@ const KIND: Record<QuestionKind, string> = {
   write: "Writing",
   form: "Form",
   live: "Live talk",
+  teach: "Teaching card",
 };
 
 const ROW =

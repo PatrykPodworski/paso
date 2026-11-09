@@ -3,7 +3,7 @@ import { expect, it } from "vitest";
 import { imageAssets } from "./imageAssets";
 
 it("lists every unit word with its picture file", () => {
-  expect(imageAssets).toHaveLength(96);
+  expect(imageAssets).toHaveLength(113);
 
   expect(imageAssets[0]).toEqual({
     id: "image:hola.webp",

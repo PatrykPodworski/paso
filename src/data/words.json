@@ -274,6 +274,22 @@
         "unitOrder": 8,
         "visual": "🔁",
         "picture": "repetir"
+      },
+      {
+        "es": "el móvil",
+        "en": "mobile phone",
+        "unit": 2,
+        "unitOrder": 9,
+        "visual": "📱",
+        "picture": "el-movil"
+      },
+      {
+        "es": "un poco",
+        "en": "a little",
+        "unit": 6,
+        "unitOrder": 12,
+        "visual": "🤏",
+        "picture": "un-poco"
       }
     ]
   },
@@ -367,7 +383,11 @@
       },
       {
         "es": "comprar",
-        "en": "to buy"
+        "en": "to buy",
+        "unit": 8,
+        "unitOrder": 9,
+        "visual": "🛍️",
+        "picture": "comprar"
       },
       {
         "es": "vender",
@@ -412,6 +432,14 @@
       {
         "es": "hacer",
         "en": "to do, make"
+      },
+      {
+        "es": "usar",
+        "en": "to use",
+        "unit": 5,
+        "unitOrder": 11,
+        "visual": "🛠️",
+        "picture": "usar"
       }
     ]
   },
@@ -527,6 +555,22 @@
       {
         "es": "frío/a",
         "en": "cold"
+      },
+      {
+        "es": "barato",
+        "en": "cheap",
+        "unit": 8,
+        "unitOrder": 10,
+        "visual": "🏷️",
+        "picture": "barato"
+      },
+      {
+        "es": "otro",
+        "en": "other, another",
+        "unit": 8,
+        "unitOrder": 13,
+        "visual": "➕",
+        "picture": "otro"
       }
     ]
   },
@@ -633,6 +677,14 @@
       {
         "es": "después",
         "en": "after, afterwards"
+      },
+      {
+        "es": "cada",
+        "en": "every, each",
+        "unit": 5,
+        "unitOrder": 12,
+        "visual": "🔄",
+        "picture": "cada"
       }
     ]
   },
@@ -789,6 +841,14 @@
       {
         "es": "el tofu",
         "en": "tofu"
+      },
+      {
+        "es": "el litro",
+        "en": "litre",
+        "unit": 6,
+        "unitOrder": 11,
+        "visual": "🫗",
+        "picture": "el-litro"
       }
     ]
   },
@@ -1156,7 +1216,11 @@
       },
       {
         "es": "el té",
-        "en": "tea"
+        "en": "tea",
+        "unit": 6,
+        "unitOrder": 10,
+        "visual": "🍵",
+        "picture": "el-te"
       },
       {
         "es": "la cerveza",
@@ -1189,6 +1253,14 @@
       {
         "es": "la infusión",
         "en": "herbal tea"
+      },
+      {
+        "es": "la bebida",
+        "en": "drink",
+        "unit": 6,
+        "unitOrder": 9,
+        "visual": "🥤",
+        "picture": "la-bebida"
       }
     ]
   },
@@ -1527,6 +1599,14 @@
       {
         "es": "en medio de",
         "en": "in the middle of"
+      },
+      {
+        "es": "aquí",
+        "en": "here",
+        "unit": 7,
+        "unitOrder": 9,
+        "visual": "👇",
+        "picture": "aqui"
       }
     ]
   },
@@ -1838,7 +1918,11 @@
     "words": [
       {
         "es": "la camiseta",
-        "en": "T-shirt"
+        "en": "T-shirt",
+        "unit": 8,
+        "unitOrder": 12,
+        "visual": "👕",
+        "picture": "la-camiseta"
       },
       {
         "es": "el pantalón/los pantalones",
@@ -2034,7 +2118,11 @@
       },
       {
         "es": "la reunión",
-        "en": "meeting"
+        "en": "meeting",
+        "unit": 5,
+        "unitOrder": 9,
+        "visual": "👥",
+        "picture": "la-reunion"
       },
       {
         "es": "el horario",
@@ -2075,6 +2163,14 @@
       {
         "es": "el desempleo",
         "en": "unemployment"
+      },
+      {
+        "es": "la sala",
+        "en": "room, hall",
+        "unit": 5,
+        "unitOrder": 10,
+        "visual": "🏢",
+        "picture": "la-sala"
       }
     ]
   },
@@ -2803,7 +2899,11 @@
       },
       {
         "es": "la mochila",
-        "en": "backpack"
+        "en": "backpack",
+        "unit": 10,
+        "unitOrder": 9,
+        "visual": "🎒",
+        "picture": "la-mochila"
       },
       {
         "es": "la reserva",
@@ -3070,6 +3170,15 @@
         "unitOrder": 7,
         "visual": "🧾",
         "picture": "la-cuenta"
+      },
+      {
+        "es": "la bolsa",
+        "key": "la bolsa (bag)",
+        "en": "bag",
+        "unit": 8,
+        "unitOrder": 11,
+        "visual": "👜",
+        "picture": "la-bolsa-(bag)"
       }
     ]
   },
@@ -3594,7 +3703,11 @@
       },
       {
         "es": "el museo",
-        "en": "museum"
+        "en": "museum",
+        "unit": 9,
+        "unitOrder": 9,
+        "visual": "🏛️",
+        "picture": "el-museo"
       },
       {
         "es": "la escultura",

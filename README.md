@@ -37,7 +37,7 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
 - **12 units, 48 lessons.** Each unit covers reading, listening, writing and
   speaking. Alongside the learning path there are foundation checks, picture
   questions, a personal information form and a full 55-item exam rehearsal.
-- **96 vocabulary cards** you can search, flip and hear, each with its own
+- **113 vocabulary cards** you can search, flip and hear, each with its own
   memory hint: a familiar English word, a useful translated phrase, a breakdown
   of the word, or a distinction from a Spanish word it gets confused with. The
   house style for writing them is in

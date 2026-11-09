@@ -99,7 +99,7 @@ The following learning sequence, original questions and teaching explanations ar
 | 11   | Weather and feelings        | Weather expressions, physical needs, appointments |
 | 12   | Integration                 | Exam communication, spelling, detail and negation |
 
-Each unit contains vocabulary/listening, grammar, real-life reading/listening, and sentence-building/writing/speaking lessons. This gives **48 lessons and 264 learning-path exercises**. The studio adds **24 foundation checks, six illustrated questions and a personal form**. The rehearsal adds **55 questions and productive tasks**, for **350 original exercises and tasks in total**. The app also includes 96 vocabulary cards and 169 locally bundled Spanish speech clips.
+Each unit contains vocabulary/listening, grammar, real-life reading/listening, and sentence-building/writing/speaking lessons. This gives **48 lessons and 281 learning-path exercises**. The studio adds **24 foundation checks, six illustrated questions and a personal form**. The rehearsal adds **55 questions and productive tasks**, for **367 original exercises and tasks in total**. The app also includes 113 vocabulary cards and 169 locally bundled Spanish speech clips.
 
 Errors in objective questions receive a correction and explanation. They are saved immediately to a review queue; an unassisted correct retry clears them. A revealed transcript remains flagged as assistance even when hidden again. Practice mixes prioritize untried and older questions. Progress, preferences, drafts, self-assessment checks and rehearsal state are stored locally.
 

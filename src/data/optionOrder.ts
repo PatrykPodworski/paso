@@ -1,3 +1,4 @@
+import { isCorrect } from "./progress.ts";
 import { hash, randomFrom, shuffle } from "./random.ts";
 import type { Question } from "./types.ts";
 
@@ -12,3 +13,28 @@ export const shownOptions = (options: string[], seed: number) =>
 
 export const withShownOptions = (q: Question, seed: number): Question =>
   q.options ? { ...q, options: shownOptions(q.options, seed) } : q;
+
+const DRAWS = 10;
+
+// The word bank's tiles in the order one attempt shows them, from the attempt's seed like the
+// options. A drawn order that already reads as a correct sentence is drawn again from the next
+// seed; the last draw is rotated by one instead. One tile, or identical tiles, stay as they are.
+export const shownTokens = (q: Question, seed: number) => {
+  const tokens = q.tokens!;
+  const salt = hash(JSON.stringify(tokens));
+  const solved = (order: string[]) => isCorrect(q, order.join(" "));
+  let order = tokens;
+
+  for (let draw = 0; draw < DRAWS; draw++) {
+    order = shuffle(tokens, randomFrom((seed + draw) ^ salt));
+
+    if (!solved(order)) {
+      return order;
+    }
+  }
+
+  return [...order.slice(1), order[0]];
+};
+
+export const withShownTokens = (q: Question, seed: number): Question =>
+  q.tokens ? { ...q, tokens: shownTokens(q, seed) } : q;

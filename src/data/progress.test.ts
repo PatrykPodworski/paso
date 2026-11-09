@@ -1,11 +1,14 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  accentMistakes,
+  accentOnlyAnswer,
   answerWords,
   clipText,
   countWords,
   dailyAnswers,
   isCorrect,
   localDate,
+  missingQuestionMarks,
   nextReviewAt,
   nextReviewLevel,
   normalize,
@@ -241,6 +244,90 @@ describe("progress contracts", () => {
   ])("requires BOTH groups at the boundary %s/%s/%s/%s", (r, w, l, s, pass) =>
     expect(passingGroups(r, w, l, s)).toEqual({ group1: r + w, group2: l + s, pass }),
   );
+});
+
+describe("accent-only answers", () => {
+  const typed = (answer: string, accepted?: string[]) =>
+    ({ kind: "type", answer, accepted }) as Question;
+
+  const who = typed("¿Quién eres?", ["¿Y tú quién eres?"]);
+
+  it.each([
+    ["esta", typed("está"), "está"],
+    ["quien eres", who, "¿Quién eres?"],
+    ["Y tu quien eres", who, "¿Y tú quién eres?"],
+    ["Que quieres", typed("¿Qué quieres?"), "¿Qué quieres?"],
+    ["Qué tengas un buen día", typed("Que tengas un buen día."), "Que tengas un buen día."],
+    ["pinguino", typed("pingüino"), "pingüino"],
+    ["Quien eres", typed("¿Quie\u0301n eres?"), "¿Quie\u0301n eres?"],
+    ["quie\u0301n", typed("quien"), "quien"],
+    ["quién", typed("quien"), "quien"],
+    ["por que", typed("por qué"), "por qué"],
+  ])("accepts %s and returns the answer it misses only by accents", (answer, q, expected) => {
+    expect(isCorrect(q, answer)).toBe(true);
+    expect(accentOnlyAnswer(q, answer)).toBe(expected);
+  });
+
+  it.each([
+    ["espanol", typed("español")],
+    ["nino", typed("niño")],
+    ["niño", typed("nino")],
+    ["nin\u0303o", typed("nino")],
+    ["porque", typed("por qué")],
+    ["porque estudias español", typed("¿Por qué estudias español?")],
+    ["quien es", who],
+  ])("marks %s wrong and gives it no accent answer", (answer, q) => {
+    expect(isCorrect(q, answer)).toBe(false);
+    expect(accentOnlyAnswer(q, answer)).toBeUndefined();
+  });
+
+  it("gives an exact answer no accent answer", () => {
+    expect(isCorrect(who, "¿quién eres")).toBe(true);
+    expect(accentOnlyAnswer(who, "¿quién eres")).toBeUndefined();
+    expect(accentOnlyAnswer(who, "quien eres")).toBe("¿Quién eres?");
+  });
+
+  it("keeps a chosen option strict, since the options differ by their accents", () => {
+    const choice = { ...typed("¿Dónde vives?"), kind: "choice" } as Question;
+
+    expect(isCorrect(choice, "¿Donde vives?")).toBe(false);
+    expect(accentOnlyAnswer(choice, "¿Donde vives?")).toBeUndefined();
+    expect(isCorrect(choice, "¿Dónde vives?")).toBe(true);
+  });
+
+  it.each([
+    ["está", "esta", ["á"], []],
+    ["¿Y tú quién eres?", "Y tu quien eres", ["ú", "é"], []],
+    ["¿Y tú quién eres?", "Y tú quien eres", ["é"], []],
+    ["él dijo él", "el dijo el", ["é"], []],
+    ["pingüino", "pinguino", ["ü"], []],
+    ["Que tengas un buen día.", "Qué tengas un buen día", [], ["é"]],
+    ["¿Dónde está la estación?", "¿Dóndé está la estación?", [], ["é"]],
+    ["¿Dónde está?", "Dondé esta", ["ó", "á"], ["é"]],
+    ["pingüino", "pingúino", ["ü"], ["ú"]],
+  ])("compares the accents of %s with %s", (accepted, answer, missing, extra) =>
+    expect(accentMistakes(accepted, answer)).toEqual({ missing, extra }),
+  );
+});
+
+describe("missing question marks", () => {
+  const flagged = { answer: "¿Qué quieres?", questionMarks: true } as Question;
+
+  it.each([
+    ["Qué quieres", true],
+    ["¿Qué quieres", true],
+    ["Qué quieres?", true],
+    ["¿Qué quieres?", false],
+    ["  ¿qué quieres?  ", false],
+  ])("flags %s as %s on a full Spanish question", (answer, expected) =>
+    expect(missingQuestionMarks(flagged, answer)).toBe(expected),
+  );
+
+  it("ignores the marks on an unflagged question", () => {
+    expect(missingQuestionMarks({ ...flagged, questionMarks: undefined }, "Qué quieres")).toBe(
+      false,
+    );
+  });
 });
 
 it("does not accidentally accept an undeclared fallback answer", () => {

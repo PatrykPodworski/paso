@@ -1,6 +1,7 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../ui/button";
+import { accentMistakes, accentOnlyAnswer, missingQuestionMarks } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
@@ -63,6 +64,24 @@ const FeedbackHeading = ({ correct, productive }: FeedbackHeadingProps) => {
             : "A good moment to learn."}
       </h3>
     </div>
+  );
+};
+
+type AccentNoteProps = { accepted: string; value: string };
+
+const accentPhrase = (kind: string, letters: string[]) =>
+  letters.length === 0
+    ? []
+    : [`${kind} accent${letters.length > 1 ? "s" : ""} on ${letters.join(", ")}`];
+
+const AccentNote = ({ accepted, value }: AccentNoteProps) => {
+  const { missing, extra } = accentMistakes(accepted, value);
+  const label = [...accentPhrase("missing", missing), ...accentPhrase("extra", extra)].join("; ");
+
+  return (
+    <FieldNote className="mt-3">
+      {label.charAt(0).toUpperCase() + label.slice(1)}: <span lang="es">{accepted}</span>
+    </FieldNote>
   );
 };
 
@@ -143,6 +162,8 @@ export const QuestionFeedback = ({
   const needsWork = correct === false;
   const tone = needsWork ? TONE.needsWork : TONE.success;
   const paragraph = `text-sm leading-relaxed mt-3 ${tone.paragraph}`;
+  const typed = q.kind === "type";
+  const accentAnswer = accentOnlyAnswer(q, value);
 
   return (
     <div className={`${PANEL} ${tone.box}`} role="status">
@@ -155,6 +176,12 @@ export const QuestionFeedback = ({
         </p>
       )}
       <p className={paragraph}>{q.explanation}</p>
+      {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}
+      {correct && typed && missingQuestionMarks(q, value) && (
+        <FieldNote className="mt-3">
+          Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>
+        </FieldNote>
+      )}
       <MemoryHint text={q.memoryHint} />
       {productive && <PracticeReview q={q} checked={checked} />}
       {q.audio && (

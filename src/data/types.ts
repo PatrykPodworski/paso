@@ -2,7 +2,30 @@ import type { MockTopic } from "./mock.ts";
 
 export type Skill = "reading" | "listening" | "writing" | "speaking";
 
-export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "form" | "live";
+// A card in words.json. TypeScript infers a different shape per topic from the JSON, and
+// flattening the topics fails once a card mixes key, unit and picture, so the shape is declared.
+export type WordCard = {
+  es: string;
+  en: string;
+  key?: string;
+  unit?: number;
+  unitOrder?: number;
+  visual?: string;
+  picture?: string;
+};
+
+export type UnitWordCard = WordCard & { unit: number; unitOrder: number; visual: string };
+
+export type QuestionKind =
+  | "choice"
+  | "listen"
+  | "type"
+  | "order"
+  | "write"
+  | "form"
+  | "live"
+  // An unscored teaching card: `prompt` is its heading and `explanation` its body.
+  | "teach";
 
 export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
@@ -34,6 +57,8 @@ export interface Question {
   answer: string;
   explanation: string;
   memoryHint?: string;
+  // Shown one at a time before checking; the step after the last one reveals the answer.
+  hints?: string[];
   options?: string[];
   accepted?: string[];
   passage?: string;
@@ -54,6 +79,8 @@ export interface Question {
   task?: string;
   // The server-side talk task a live question runs.
   talk?: string;
+  // The answer is a full Spanish question, so a correct typed answer without ¿ and ? gets a note.
+  questionMarks?: true;
 }
 
 export interface Lesson {

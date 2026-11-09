@@ -67,8 +67,54 @@ export const normalize = (s: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
+const acceptedAnswers = (q: Question) => [q.answer, ...(q.accepted || [])];
+
+const ACCENT = /[\u0301\u0308]/g;
+
+// Only the acute accent and the diaeresis go: the tilde makes ñ a letter of its own.
+const withoutAccents = (s: string) =>
+  normalize(s).normalize("NFD").replace(ACCENT, "").normalize("NFC");
+
+const exactMatch = (q: Question, answer: string) =>
+  acceptedAnswers(q).some((a) => normalize(a) === normalize(answer));
+
+// Only a typed answer passes without its accents: options and tiles can differ by accents alone.
+const accentMatch = (q: Question, answer: string) =>
+  q.kind === "type"
+    ? acceptedAnswers(q).find((a) => withoutAccents(a) === withoutAccents(answer))
+    : undefined;
+
 export const isCorrect = (q: Question, answer: string) =>
-  [q.answer, ...(q.accepted || [])].some((a) => normalize(a) === normalize(answer));
+  exactMatch(q, answer) || accentMatch(q, answer) !== undefined;
+
+// The accepted answer, as written, that a correct answer matches only once accents are ignored.
+export const accentOnlyAnswer = (q: Question, answer: string) =>
+  exactMatch(q, answer) ? undefined : accentMatch(q, answer);
+
+// The accented letters of one text where the other has a different letter.
+const accentedDifferences = (text: string, other: string) => {
+  const letters = [...normalize(other)];
+
+  return [
+    ...new Set(
+      [...normalize(text)].filter(
+        (letter, i) => letter !== letters[i] && letter.normalize("NFD").search(ACCENT) >= 0,
+      ),
+    ),
+  ];
+};
+
+// The accents an answer leaves out of the accepted answer, and the ones it adds.
+export const accentMistakes = (accepted: string, answer: string) => ({
+  missing: accentedDifferences(accepted, answer),
+  extra: accentedDifferences(answer, accepted),
+});
+
+export const missingQuestionMarks = (q: Question, answer: string) => {
+  const text = answer.trim();
+
+  return !!q.questionMarks && !(text.startsWith("¿") && text.endsWith("?"));
+};
 
 export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;

@@ -91,18 +91,24 @@ export const isCorrect = (q: Question, answer: string) =>
 export const accentOnlyAnswer = (q: Question, answer: string) =>
   exactMatch(q, answer) ? undefined : accentMatch(q, answer);
 
-// The accented letters of the accepted answer that the answer writes without their accent.
-export const missingAccents = (accepted: string, answer: string) => {
-  const letters = [...normalize(answer)];
+// The accented letters of one text where the other has a different letter.
+const accentedDifferences = (text: string, other: string) => {
+  const letters = [...normalize(other)];
 
   return [
     ...new Set(
-      [...normalize(accepted)].filter(
+      [...normalize(text)].filter(
         (letter, i) => letter !== letters[i] && letter.normalize("NFD").search(ACCENT) >= 0,
       ),
     ),
   ];
 };
+
+// The accents an answer leaves out of the accepted answer, and the ones it adds.
+export const accentMistakes = (accepted: string, answer: string) => ({
+  missing: accentedDifferences(accepted, answer),
+  extra: accentedDifferences(answer, accepted),
+});
 
 export const missingQuestionMarks = (q: Question, answer: string) => {
   const text = answer.trim();

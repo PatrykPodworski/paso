@@ -1509,7 +1509,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
           "¿Puede hablar más lentamente?",
         ],
       ][ui],
-      explanation: `One correct answer is “${s.translate[1]}”. ${s.tip} Capitalization and punctuation are flexible here; accents and ñ matter.`,
+      explanation: `One correct answer is “${s.translate[1]}”. ${s.tip} Capitalization and punctuation are flexible here. Accent mistakes are noted but still pass; ñ must be right.`,
     },
     {
       id: `${uid}-o2`,

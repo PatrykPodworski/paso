@@ -14,14 +14,24 @@ const tutor = [
 ];
 
 const scale = [
-  "Give one holistic DELE A1 mark (band) from 0 to 3 with a one-line reason: 3 is comfortably above A1, 2 is at A1 level, 1 has not reached A1, 0 is a fail.",
+  "Give one holistic DELE A1 mark (band) from 0 to 3 with a one-line reason. Judge the range of the language, not only its accuracy.",
+  "3 is comfortably above A1: beyond answering the points, the answer adds detail the task does not ask for and links ideas into longer sentences (así que, primero… después, delante de), with less common vocabulary.",
+  "2 is at A1 level: the answer is correct and complete, but each point gets a short, simple answer in basic vocabulary. A clause that only answers a point, such as a porque that gives a requested reason, a question the task asks for or a list of short facts for one point, is band 2 language. A correct, complete answer inside the word range is band 2 unless it goes beyond the points like this.",
+  "1 has not reached A1: the answer is understandable, but fields or points are empty or wrong, mistakes get in the way, or it has too few words. 0 is a fail.",
   "A blank, off-topic or illegible answer is band 0.",
 ];
 
 const taskScale = {
-  form: "This is task 1, a form of 15–25 words across all fields.",
-  write:
+  form: [
+    "This is task 1, a form of 15–25 words across all fields.",
+    "Band 2 fields: 'Profesión: camarero' and 'Aficiones: leer y el cine'.",
+    "Band 3 fields: 'Profesión: camarero en un bar del centro' and 'Aficiones: leer novelas policíacas, ir al cine y salir con mi hermano'.",
+  ],
+  write: [
     "This is task 2, a short message of 30–40 words: an email, a letter, a note or a postcard. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
+    "Band 2 message: 'Hola, Ana. Sí, el sábado puedo ir. Nos vemos a las cinco en el parque. Después vamos al cine y comemos una pizza. Me gusta mucho el cine. Hasta el sábado. Un beso, Eva.'",
+    "Band 3 message: '¡Hola, Ana! El sábado estoy libre, así que podemos vernos a las cinco delante del cine. Primero vemos la película y después cenamos en un bar de mi barrio, porque allí hacen unas tapas buenísimas. Un beso, Eva.'",
+  ],
 };
 
 // Follows the exam standard, which penalises a short letter but not a long one.
@@ -67,7 +77,7 @@ const instructionsOf = (task: WritingTask) =>
   [
     ...tutor,
     ...(task.exam && task.kind !== "question"
-      ? [...scale, taskScale[task.kind]]
+      ? [...scale, ...taskScale[task.kind]]
       : practiceOf(task)),
     ...defences,
   ].join("\n");

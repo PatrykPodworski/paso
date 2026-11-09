@@ -14,25 +14,7 @@ it("lists every unit word with its picture file", () => {
     src: "/illustrations/words/hola.webp",
   });
 
-  expect(imageAssets.filter((a) => !a.src).map((a) => a.word)).toEqual([
-    "el móvil",
-    "la reunión",
-    "la sala",
-    "usar",
-    "cada",
-    "la bebida",
-    "el té",
-    "el litro",
-    "un poco",
-    "aquí",
-    "comprar",
-    "barato",
-    "la bolsa",
-    "la camiseta",
-    "otro",
-    "el museo",
-    "la mochila",
-  ]);
+  expect(imageAssets.filter((a) => !a.src).map((a) => a.word)).toEqual([]);
 });
 
 it("covers every word picture in the repo", () => {

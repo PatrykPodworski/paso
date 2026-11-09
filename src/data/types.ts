@@ -2,6 +2,20 @@ import type { MockTopic } from "./mock.ts";
 
 export type Skill = "reading" | "listening" | "writing" | "speaking";
 
+// A card in words.json. TypeScript infers a different shape per topic from the JSON, and
+// flattening the topics fails once a card mixes key, unit and picture, so the shape is declared.
+export type WordCard = {
+  es: string;
+  en: string;
+  key?: string;
+  unit?: number;
+  unitOrder?: number;
+  visual?: string;
+  picture?: string;
+};
+
+export type UnitWordCard = WordCard & { unit: number; unitOrder: number; visual: string };
+
 export type QuestionKind =
   | "choice"
   | "listen"

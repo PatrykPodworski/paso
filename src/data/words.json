@@ -280,14 +280,16 @@
         "en": "mobile phone",
         "unit": 2,
         "unitOrder": 9,
-        "visual": "📱"
+        "visual": "📱",
+        "picture": "el-movil"
       },
       {
         "es": "un poco",
         "en": "a little",
         "unit": 6,
         "unitOrder": 12,
-        "visual": "🤏"
+        "visual": "🤏",
+        "picture": "un-poco"
       }
     ]
   },
@@ -384,7 +386,8 @@
         "en": "to buy",
         "unit": 8,
         "unitOrder": 9,
-        "visual": "🛍️"
+        "visual": "🛍️",
+        "picture": "comprar"
       },
       {
         "es": "vender",
@@ -435,7 +438,8 @@
         "en": "to use",
         "unit": 5,
         "unitOrder": 11,
-        "visual": "🛠️"
+        "visual": "🛠️",
+        "picture": "usar"
       }
     ]
   },
@@ -557,14 +561,16 @@
         "en": "cheap",
         "unit": 8,
         "unitOrder": 10,
-        "visual": "🏷️"
+        "visual": "🏷️",
+        "picture": "barato"
       },
       {
         "es": "otro",
         "en": "other, another",
         "unit": 8,
         "unitOrder": 13,
-        "visual": "➕"
+        "visual": "➕",
+        "picture": "otro"
       }
     ]
   },
@@ -677,7 +683,8 @@
         "en": "every, each",
         "unit": 5,
         "unitOrder": 12,
-        "visual": "🔄"
+        "visual": "🔄",
+        "picture": "cada"
       }
     ]
   },
@@ -840,7 +847,8 @@
         "en": "litre",
         "unit": 6,
         "unitOrder": 11,
-        "visual": "🫗"
+        "visual": "🫗",
+        "picture": "el-litro"
       }
     ]
   },
@@ -1211,7 +1219,8 @@
         "en": "tea",
         "unit": 6,
         "unitOrder": 10,
-        "visual": "🍵"
+        "visual": "🍵",
+        "picture": "el-te"
       },
       {
         "es": "la cerveza",
@@ -1250,7 +1259,8 @@
         "en": "drink",
         "unit": 6,
         "unitOrder": 9,
-        "visual": "🥤"
+        "visual": "🥤",
+        "picture": "la-bebida"
       }
     ]
   },
@@ -1595,7 +1605,8 @@
         "en": "here",
         "unit": 7,
         "unitOrder": 9,
-        "visual": "👇"
+        "visual": "👇",
+        "picture": "aqui"
       }
     ]
   },
@@ -1910,7 +1921,8 @@
         "en": "T-shirt",
         "unit": 8,
         "unitOrder": 12,
-        "visual": "👕"
+        "visual": "👕",
+        "picture": "la-camiseta"
       },
       {
         "es": "el pantalón/los pantalones",
@@ -2109,7 +2121,8 @@
         "en": "meeting",
         "unit": 5,
         "unitOrder": 9,
-        "visual": "👥"
+        "visual": "👥",
+        "picture": "la-reunion"
       },
       {
         "es": "el horario",
@@ -2156,7 +2169,8 @@
         "en": "room, hall",
         "unit": 5,
         "unitOrder": 10,
-        "visual": "🏢"
+        "visual": "🏢",
+        "picture": "la-sala"
       }
     ]
   },
@@ -2888,7 +2902,8 @@
         "en": "backpack",
         "unit": 10,
         "unitOrder": 9,
-        "visual": "🎒"
+        "visual": "🎒",
+        "picture": "la-mochila"
       },
       {
         "es": "la reserva",
@@ -3162,7 +3177,8 @@
         "en": "bag",
         "unit": 8,
         "unitOrder": 11,
-        "visual": "👜"
+        "visual": "👜",
+        "picture": "la-bolsa-(bag)"
       }
     ]
   },
@@ -3690,7 +3706,8 @@
         "en": "museum",
         "unit": 9,
         "unitOrder": 9,
-        "visual": "🏛️"
+        "visual": "🏛️",
+        "picture": "el-museo"
       },
       {
         "es": "la escultura",

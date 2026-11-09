@@ -300,10 +300,57 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01, and unit 2 with L05 and L06", () => {
+  it("opens L07 on the recalled cuál item, then cuánto's introduction, base items with three form cards, and variations", () => {
+    const lesson = askingLesson("aq-l07", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({ id: "aq-l07", title: "Asking how much and how many" });
+
+    expect(ids.slice(0, 11)).toEqual([
+      "AQ-T06-E04",
+      "AQ-T07-INTRO",
+      "AQ-T07-E01",
+      "AQ-T07-E02-FORM",
+      "AQ-T07-E02",
+      "AQ-T07-E03-FORM",
+      "AQ-T07-E03",
+      "AQ-T07-E04-FORM",
+      "AQ-T07-E04",
+      "AQ-T07-E05",
+      "AQ-T07-E06",
+    ]);
+
+    expect(lesson.questions[1]).toMatchObject({
+      kind: "teach",
+      explanation: expect.stringContaining(
+        "Example: ¿Cuánto cuesta? / ¿Cuánta agua quieres? / ¿Cuántos libros tienes? / ¿Cuántas entradas quieres?",
+      ),
+    });
+
+    expect([3, 5, 7].map((i) => lesson.questions[i])).toMatchObject([
+      { kind: "teach", prompt: "New form: cuánta" },
+      { kind: "teach", prompt: "New form: cuántos" },
+      { kind: "teach", prompt: "New form: cuántas" },
+    ]);
+
+    expect([...ids.slice(11)].sort()).toEqual(variations.map((id) => id.replace("T01", "T07")));
+  });
+
+  it("draws a new L07 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-l07", randomFrom(seed))
+        .questions.slice(11)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 to L04 and R01, and unit 2 with L05 to L07", () => {
     expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
-      ["Unit 2", ["aq-l05", "aq-l06"]],
+      ["Unit 2", ["aq-l05", "aq-l06", "aq-l07"]],
       ["Unit 3", []],
       ["Unit 4", []],
     ]);

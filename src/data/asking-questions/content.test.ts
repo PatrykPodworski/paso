@@ -26,6 +26,8 @@ describe("asking questions content", () => {
         "AQ-T05-V12",
         "AQ-T06-E01",
         "AQ-T06-V12",
+        "AQ-T07-E01",
+        "AQ-T07-V12",
       ]),
     );
   });
@@ -214,6 +216,39 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Cuál de estos tres quiere Pablo?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for cuánto / cuánta / cuántos / cuántas", () => {
+    expect(ids("AQ-T07-E")).toEqual([
+      "AQ-T07-E01",
+      "AQ-T07-E02",
+      "AQ-T07-E03",
+      "AQ-T07-E04",
+      "AQ-T07-E05",
+      "AQ-T07-E06",
+    ]);
+
+    expect(ids("AQ-T07-V")).toHaveLength(12);
+  });
+
+  it("accepts cuánta for a feminine mass noun, notes a missing accent and rejects cuánto", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T07-E02")!;
+
+    expect([isCorrect(q, "Cuánta"), isCorrect(q, "cuánto")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "cuanta")).toBe("cuánta");
+  });
+
+  it("keeps the price cuánto invariant before a plural verb", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T07-V07")!;
+
+    expect([isCorrect(q, "cuánto"), isCorrect(q, "cuántas")]).toEqual([true, false]);
+  });
+
+  it("accepts the typed price question and rejects one that agrees with entrada", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T07-V05")!;
+
+    expect(isCorrect(q, "¿Cuánto cuesta la entrada?")).toBe(true);
+    expect(isCorrect(q, "¿Cuánta cuesta la entrada?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -236,6 +271,9 @@ describe("asking questions content", () => {
       "AQ-T06-E05",
       "AQ-T06-V06",
       "AQ-T06-V12",
+      "AQ-T07-E05",
+      "AQ-T07-V06",
+      "AQ-T07-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -260,6 +298,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T06-V08")?.pronunciation).toBe(
       "¿Cuáles de estas tres quiere Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T07-V02")?.pronunciation).toBe(
+      "¿Cuánta leche quiere Pablo?",
     );
   });
 });

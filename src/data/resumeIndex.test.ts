@@ -2,6 +2,7 @@ import { expect, it } from "vitest";
 import { resumeIndex } from "./resumeIndex";
 import { allLessons } from "./curriculum";
 import { emptySnapshot, questionState } from "../test/progress";
+import type { Question } from "./types";
 
 const lesson = { ...allLessons[0], questions: allLessons[0].questions.slice(0, 4) };
 
@@ -41,4 +42,25 @@ it("starts a finished lesson over", () => {
 
 it("starts a practice session from its first exercise", () => {
   expect(resumeIndex({ ...lesson, id: "practice-all" }, answered(3))).toBe(0);
+});
+
+it("reopens at the teaching cards just before the first exercise without a stored answer", () => {
+  const card = (id: string): Question => ({
+    id,
+    kind: "teach",
+    skill: "reading",
+    prompt: "A new form",
+    answer: "",
+    explanation: "How the form works.",
+  });
+
+  const [a, b, c] = lesson.questions;
+  const taught = { ...lesson, questions: [card("intro"), a, card("form"), b, c] };
+  const progress = answered(1);
+
+  expect(resumeIndex(taught, progress)).toBe(2);
+  progress.questions[b.id] = questionState();
+  expect(resumeIndex(taught, progress)).toBe(4);
+  expect(resumeIndex(taught, answered(0))).toBe(0);
+  expect(resumeIndex(taught, answered(4))).toBe(0);
 });

@@ -16,7 +16,16 @@ export type WordCard = {
 
 export type UnitWordCard = WordCard & { unit: number; unitOrder: number; visual: string };
 
-export type QuestionKind = "choice" | "listen" | "type" | "order" | "write" | "form" | "live";
+export type QuestionKind =
+  | "choice"
+  | "listen"
+  | "type"
+  | "order"
+  | "write"
+  | "form"
+  | "live"
+  // An unscored teaching card: `prompt` is its heading and `explanation` its body.
+  | "teach";
 
 export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";

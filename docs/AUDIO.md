@@ -76,6 +76,9 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   "quieres"). Two tiles are read in a form that make-words can cut from its list:
   _¿Qué_ as "¿Qué?" and _te_ as "té". _el café?_, _el baño?_ and _la clase?_ play
   the topic flashcard clips of the same words.
+- Asking questions, unit 2 (L05–L08 and R02): 72 texts, the questions and their
+  tiles. _quiere Luis_ and _quiere Luis?_ share one clip; _español?_ plays the
+  topic flashcard clip of _español_.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

@@ -282,8 +282,10 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
-    // The asking-questions set is recorded one unit at a time; unit 1 is recorded.
-    const askingRecorded = askingUnits[0].lessons
+    // The asking-questions set is recorded one unit at a time; units 1 and 2 are recorded.
+    const askingRecorded = askingUnits
+      .slice(0, 2)
+      .flatMap((u) => u.lessons)
       .flatMap((l) => askingLesson(l.id).questions)
       .filter((q) => q.kind !== "teach");
 

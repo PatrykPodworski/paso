@@ -44,6 +44,8 @@ describe("asking questions content", () => {
         "AQ-T14-V12",
         "AQ-T15-E01",
         "AQ-T15-V12",
+        "AQ-T16-E01",
+        "AQ-T16-V12",
       ]),
     );
   });
@@ -520,6 +522,53 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Desde cuándo trabajas hoy?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for cada cuánto", () => {
+    expect(ids("AQ-T16-E")).toEqual([
+      "AQ-T16-E01",
+      "AQ-T16-E02",
+      "AQ-T16-E03",
+      "AQ-T16-E04",
+      "AQ-T16-E05",
+      "AQ-T16-E06",
+    ]);
+
+    expect(ids("AQ-T16-V")).toHaveLength(12);
+  });
+
+  it("accepts cada cuánto with or without tiempo in every cada cuánto cloze and rejects cuándo", () => {
+    for (const id of ["AQ-T16-E02", "AQ-T16-V01", "AQ-T16-V02", "AQ-T16-V07", "AQ-T16-V08"]) {
+      const q = askingQuestions.find((q) => q.id === id)!;
+
+      expect(
+        [isCorrect(q, "Cada cuánto"), isCorrect(q, "cada cuánto tiempo"), isCorrect(q, "cuándo")],
+        id,
+      ).toEqual([true, true, false]);
+    }
+  });
+
+  it("notes a missing accent on either cada cuánto form", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T16-V01")!;
+
+    expect([accentOnlyAnswer(q, "cada cuanto"), accentOnlyAnswer(q, "cada cuanto tiempo")]).toEqual(
+      ["cada cuánto", "cada cuánto tiempo"],
+    );
+  });
+
+  it.each([
+    ["AQ-T16-E04", "¿Cada cuánto tiempo vas al centro?", "¿Cuándo vas al centro?"],
+    ["AQ-T16-V04", "¿Cada cuánto tiempo vas al museo?", "¿Cuándo vas al museo?"],
+    ["AQ-T16-V05", "¿Cada cuánto tiempo estudia Pablo español?", "¿Cuándo estudia Pablo español?"],
+    ["AQ-T16-V10", "¿Cada cuánto tiempo compra Luis leche?", "¿Cuándo compra Luis leche?"],
+    ["AQ-T16-V11", "¿Cada cuánto tiempo tienes clase?", "¿Cuándo tienes clase?"],
+  ])(
+    "accepts the question with tiempo in %s and rejects the one-event cuándo question",
+    (id, longer, once) => {
+      const q = askingQuestions.find((q) => q.id === id)!;
+
+      expect([isCorrect(q, longer), isCorrect(q, once)]).toEqual([true, false]);
+    },
+  );
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -569,6 +618,9 @@ describe("asking questions content", () => {
       "AQ-T15-E05",
       "AQ-T15-V06",
       "AQ-T15-V12",
+      "AQ-T16-E05",
+      "AQ-T16-V06",
+      "AQ-T16-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -629,6 +681,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T15-V07")?.pronunciation).toBe(
       "¿Hasta cuándo están Pablo y Luis en Madrid?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T16-V08")?.pronunciation).toBe(
+      "¿Cada cuánto van Pablo y Luis en autobús?",
     );
   });
 });

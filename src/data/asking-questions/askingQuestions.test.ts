@@ -777,12 +777,60 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L15", () => {
+  it("opens L16 on the recalled hasta cuándo item, then cada cuánto's introduction, base items with the cada cuánto tiempo card, and variations", () => {
+    const lesson = askingLesson("aq-l16", randomFrom(1));
+    const ids = lesson.questions.map((q) => q.id);
+
+    expect(lesson).toMatchObject({
+      id: "aq-l16",
+      title: "Asking how often",
+      subtitle: "Learn one new question word",
+    });
+
+    expect(ids.slice(0, 9)).toEqual([
+      "AQ-T15-E04",
+      "AQ-T16-INTRO",
+      "AQ-T16-E01",
+      "AQ-T16-E02-FORM",
+      "AQ-T16-E02",
+      "AQ-T16-E03",
+      "AQ-T16-E04",
+      "AQ-T16-E05",
+      "AQ-T16-E06",
+    ]);
+
+    expect(lesson.questions[1]).toMatchObject({
+      kind: "teach",
+      prompt: "New question word: cada cuánto",
+      explanation: expect.stringContaining("Example: ¿Cada cuánto vienes?"),
+    });
+
+    expect(lesson.questions[3]).toMatchObject({
+      kind: "teach",
+      prompt: "New form: cada cuánto tiempo",
+      explanation: expect.stringContaining("Example: ¿Cada cuánto tiempo vienes?"),
+    });
+
+    expect([...ids.slice(9)].sort()).toEqual(variations.map((id) => id.replace("T01", "T16")));
+  });
+
+  it("draws a new L16 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      askingLesson("aq-l16", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L16", () => {
     expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
       ["Unit 2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
       ["Unit 3", ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"]],
-      ["Unit 4", ["aq-l13", "aq-l14", "aq-l15"]],
+      ["Unit 4", ["aq-l13", "aq-l14", "aq-l15", "aq-l16"]],
     ]);
   });
 });

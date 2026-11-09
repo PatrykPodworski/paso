@@ -40,6 +40,8 @@ describe("asking questions content", () => {
         "AQ-T12-V12",
         "AQ-T13-E01",
         "AQ-T13-V12",
+        "AQ-T14-E01",
+        "AQ-T14-V12",
       ]),
     );
   });
@@ -462,6 +464,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿De dónde es este libro?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for desde cuándo", () => {
+    expect(ids("AQ-T14-E")).toEqual([
+      "AQ-T14-E01",
+      "AQ-T14-E02",
+      "AQ-T14-E03",
+      "AQ-T14-E04",
+      "AQ-T14-E05",
+      "AQ-T14-E06",
+    ]);
+
+    expect(ids("AQ-T14-V")).toHaveLength(12);
+  });
+
+  it("accepts desde cuándo, notes a missing accent and rejects cuándo without desde", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T14-V01")!;
+
+    expect([isCorrect(q, "Desde cuándo"), isCorrect(q, "cuándo")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "desde cuando")).toBe("desde cuándo");
+  });
+
+  it("accepts the typed start-point question and rejects one that asks when", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T14-E04")!;
+
+    expect(isCorrect(q, "¿Desde cuándo trabajas aquí?")).toBe(true);
+    expect(isCorrect(q, "¿Cuándo trabajas aquí?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -505,6 +534,9 @@ describe("asking questions content", () => {
       "AQ-T13-E05",
       "AQ-T13-V06",
       "AQ-T13-V12",
+      "AQ-T14-E05",
+      "AQ-T14-V06",
+      "AQ-T14-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -557,6 +589,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T13-V02")?.pronunciation).toBe(
       "¿De quién son estas entradas?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T14-V01")?.pronunciation).toBe(
+      "¿Desde cuándo vive Pablo en Madrid?",
     );
   });
 });

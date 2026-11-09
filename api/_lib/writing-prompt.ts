@@ -14,14 +14,24 @@ const tutor = [
 ];
 
 const scale = [
-  "Give one holistic DELE A1 mark (band) from 0 to 3 with a one-line reason: 3 is comfortably above A1, 2 is at A1 level, 1 has not reached A1, 0 is a fail.",
+  "Give one holistic DELE A1 mark (band) from 0 to 3 with a one-line reason. Judge the range of the language, not only its accuracy.",
+  "3 is comfortably above A1: the language is varied and richer than the points need, with ideas linked into longer sentences or phrases (así que, primero… después, delante de) and less common vocabulary.",
+  "2 is at A1 level: the answer is correct and complete, but its sentences are short and simple and its vocabulary is basic. Extra facts in short, simple sentences are still band 2, and so is a clause that only answers a point, such as a porque that gives a requested reason, a question the task asks for or a list of short facts for one point. A correct, complete answer inside the word range is band 2 unless its language is varied and richer like this.",
+  "1 has not reached A1: the answer is understandable, but fields or points are empty or wrong, mistakes get in the way, or it has too few words. 0 is a fail.",
   "A blank, off-topic or illegible answer is band 0.",
 ];
 
 const taskScale = {
-  form: "This is task 1, a form of 15–25 words across all fields.",
-  write:
+  form: [
+    "This is task 1, a form of 15–25 words across all fields.",
+    "Band 2 fields: 'Profesión: camarero' and 'Aficiones: leer y el cine'.",
+    "Band 3 fields: 'Profesión: camarero en un bar del centro' and 'Aficiones: leer novelas policíacas, ir al cine y salir con mi hermano'.",
+  ],
+  write: [
     "This is task 2, a short message of 30–40 words: an email, a letter, a note or a postcard. 20–29 words points to band 1. One missed point is still band 2; more than one missed point points to band 1.",
+    "Band 2 message: 'Hola, Ana. Sí, el sábado puedo ir. Nos vemos a las cinco en el parque. Después vamos al cine y comemos una pizza. Me gusta mucho el cine. Hasta el sábado. Un beso, Eva.'",
+    "Band 3 message: '¡Hola, Ana! El sábado estoy libre, así que podemos vernos a las cinco delante del cine. Primero vemos la película y después cenamos en un bar de mi barrio, porque allí hacen unas tapas buenísimas. Un beso, Eva.'",
+  ],
 };
 
 // Follows the exam standard, which penalises a short letter but not a long one.
@@ -67,7 +77,7 @@ const instructionsOf = (task: WritingTask) =>
   [
     ...tutor,
     ...(task.exam && task.kind !== "question"
-      ? [...scale, taskScale[task.kind]]
+      ? [...scale, ...taskScale[task.kind]]
       : practiceOf(task)),
     ...defences,
   ].join("\n");

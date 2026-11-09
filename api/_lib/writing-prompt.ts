@@ -15,8 +15,8 @@ const tutor = [
 
 const scale = [
   "Give one holistic DELE A1 mark (band) from 0 to 3 with a one-line reason. Judge the range of the language, not only its accuracy.",
-  "3 is comfortably above A1: beyond answering the points, the answer adds detail the task does not ask for and links ideas into longer sentences (así que, primero… después, delante de), with less common vocabulary.",
-  "2 is at A1 level: the answer is correct and complete, but each point gets a short, simple answer in basic vocabulary. A clause that only answers a point, such as a porque that gives a requested reason, a question the task asks for or a list of short facts for one point, is band 2 language. A correct, complete answer inside the word range is band 2 unless it goes beyond the points like this.",
+  "3 is comfortably above A1: the language is varied and richer than the points need, with ideas linked into longer sentences or phrases (así que, primero… después, delante de) and less common vocabulary.",
+  "2 is at A1 level: the answer is correct and complete, but its sentences are short and simple and its vocabulary is basic. Extra facts in short, simple sentences are still band 2, and so is a clause that only answers a point, such as a porque that gives a requested reason, a question the task asks for or a list of short facts for one point. A correct, complete answer inside the word range is band 2 unless its language is varied and richer like this.",
   "1 has not reached A1: the answer is understandable, but fields or points are empty or wrong, mistakes get in the way, or it has too few words. 0 is a fail.",
   "A blank, off-topic or illegible answer is band 0.",
 ];

@@ -1,11 +1,15 @@
+import { askingLessons } from "./asking-questions/askingQuestions";
 import { lessonPlace } from "./lessonPlace";
 import type { Lesson, ProgressSnapshot } from "./types";
 
-// The exercise an unfinished path lesson reopens at: the first one without a stored answer,
-// or the teaching cards just before it. Finished lessons, practice sessions and lessons with
-// every exercise answered start over.
+const resumable = (lessonId: string) =>
+  Boolean(lessonPlace(lessonId)) || askingLessons.some((l) => l.id === lessonId);
+
+// The exercise an unfinished path or set lesson reopens at: the first one without a stored
+// answer, or the teaching cards just before it. Finished lessons, practice sessions and lessons
+// with every exercise answered start over.
 export const resumeIndex = (lesson: Lesson, progress: ProgressSnapshot) => {
-  if (!lessonPlace(lesson.id) || progress.completed[lesson.id]) {
+  if (!resumable(lesson.id) || progress.completed[lesson.id]) {
     return 0;
   }
 

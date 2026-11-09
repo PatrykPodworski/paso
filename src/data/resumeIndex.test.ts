@@ -1,6 +1,7 @@
-import { expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { resumeIndex } from "./resumeIndex";
 import { allLessons } from "./curriculum";
+import { askingLesson } from "./asking-questions/askingQuestions";
 import { emptySnapshot, questionState } from "../test/progress";
 import type { Question } from "./types";
 
@@ -63,4 +64,50 @@ it("reopens at the teaching cards just before the first exercise without a store
   expect(resumeIndex(taught, progress)).toBe(4);
   expect(resumeIndex(taught, answered(0))).toBe(0);
   expect(resumeIndex(taught, answered(4))).toBe(0);
+});
+
+describe("a lesson from the asking-questions set", () => {
+  // L01 opens with its teaching card, then E01, E02 …
+  const setLesson = askingLesson("aq-l01", () => 0);
+
+  const answeredIds = (...ids: string[]) => {
+    const progress = emptySnapshot();
+
+    for (const id of ids) {
+      progress.questions[id] = questionState();
+    }
+
+    return progress;
+  };
+
+  it("reopens an unfinished set lesson at its first exercise without a stored answer", () => {
+    expect(resumeIndex(setLesson, answeredIds("AQ-T01-E01"))).toBe(2);
+    expect(setLesson.questions[2].id).toBe("AQ-T01-E02");
+  });
+
+  it("reopens at the teaching card when only the card was passed", () => {
+    expect(resumeIndex(setLesson, answeredIds())).toBe(0);
+    expect(setLesson.questions[0].kind).toBe("teach");
+  });
+
+  it("starts a finished set lesson over", () => {
+    const progress = answeredIds("AQ-T01-E01");
+
+    expect(resumeIndex(setLesson, progress)).toBe(2);
+    progress.completed[setLesson.id] = { score: 18, total: 18, at: "2026-11-09T08:00:00.000Z" };
+    expect(resumeIndex(setLesson, progress)).toBe(0);
+  });
+
+  it("starts a practice session made of set questions from its first exercise", () => {
+    const progress = answeredIds("AQ-T01-E01");
+
+    const session = {
+      ...setLesson,
+      id: "practice-mistakes",
+      questions: setLesson.questions.slice(1, 4),
+    };
+
+    expect(resumeIndex(setLesson, progress)).toBe(2);
+    expect(resumeIndex(session, progress)).toBe(0);
+  });
 });

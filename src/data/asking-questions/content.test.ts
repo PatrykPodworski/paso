@@ -42,6 +42,8 @@ describe("asking questions content", () => {
         "AQ-T13-V12",
         "AQ-T14-E01",
         "AQ-T14-V12",
+        "AQ-T15-E01",
+        "AQ-T15-V12",
       ]),
     );
   });
@@ -491,6 +493,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Cuándo trabajas aquí?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for hasta cuándo", () => {
+    expect(ids("AQ-T15-E")).toEqual([
+      "AQ-T15-E01",
+      "AQ-T15-E02",
+      "AQ-T15-E03",
+      "AQ-T15-E04",
+      "AQ-T15-E05",
+      "AQ-T15-E06",
+    ]);
+
+    expect(ids("AQ-T15-V")).toHaveLength(12);
+  });
+
+  it("accepts hasta cuándo, notes a missing accent and rejects desde cuándo", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T15-V01")!;
+
+    expect([isCorrect(q, "Hasta cuándo"), isCorrect(q, "desde cuándo")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "hasta cuando")).toBe("hasta cuándo");
+  });
+
+  it("accepts the typed end-point question and rejects one that asks the start", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T15-E04")!;
+
+    expect(isCorrect(q, "¿Hasta cuándo trabajas hoy?")).toBe(true);
+    expect(isCorrect(q, "¿Desde cuándo trabajas hoy?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -537,6 +566,9 @@ describe("asking questions content", () => {
       "AQ-T14-E05",
       "AQ-T14-V06",
       "AQ-T14-V12",
+      "AQ-T15-E05",
+      "AQ-T15-V06",
+      "AQ-T15-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -593,6 +625,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T14-V01")?.pronunciation).toBe(
       "¿Desde cuándo vive Pablo en Madrid?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T15-V07")?.pronunciation).toBe(
+      "¿Hasta cuándo están Pablo y Luis en Madrid?",
     );
   });
 });

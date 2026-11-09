@@ -30,6 +30,8 @@ describe("asking questions content", () => {
         "AQ-T07-V12",
         "AQ-T08-E01",
         "AQ-T08-V12",
+        "AQ-T09-E01",
+        "AQ-T09-V12",
       ]),
     );
   });
@@ -278,6 +280,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Cuándo viene Luis mañana?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for a qué hora", () => {
+    expect(ids("AQ-T09-E")).toEqual([
+      "AQ-T09-E01",
+      "AQ-T09-E02",
+      "AQ-T09-E03",
+      "AQ-T09-E04",
+      "AQ-T09-E05",
+      "AQ-T09-E06",
+    ]);
+
+    expect(ids("AQ-T09-V")).toHaveLength(12);
+  });
+
+  it("accepts a qué hora, notes a missing accent and rejects qué alone", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T09-V01")!;
+
+    expect([isCorrect(q, "A qué hora"), isCorrect(q, "qué")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "a que hora")).toBe("a qué hora");
+  });
+
+  it("accepts the typed a qué hora question and rejects the broader cuándo one", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T09-E04")!;
+
+    expect(isCorrect(q, "¿A qué hora sale el tren?")).toBe(true);
+    expect(isCorrect(q, "¿Cuándo sale el tren?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -306,6 +335,9 @@ describe("asking questions content", () => {
       "AQ-T08-E05",
       "AQ-T08-V06",
       "AQ-T08-V12",
+      "AQ-T09-E05",
+      "AQ-T09-V06",
+      "AQ-T09-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -338,6 +370,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T08-V02")?.pronunciation).toBe(
       "¿Por qué estudia Pablo en casa?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T09-V02")?.pronunciation).toBe(
+      "¿A qué hora viene Pablo?",
     );
   });
 });

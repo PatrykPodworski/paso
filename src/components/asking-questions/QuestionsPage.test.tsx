@@ -10,6 +10,7 @@ it("lists the units that have lessons, each lesson with its exercise count", () 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 1",
     "Unit 2",
+    "Unit 3",
   ]);
 
   expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(

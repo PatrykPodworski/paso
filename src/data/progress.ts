@@ -116,6 +116,22 @@ export const missingQuestionMarks = (q: Question, answer: string) => {
   return !!q.questionMarks && !(text.startsWith("¿") && text.endsWith("?"));
 };
 
+// A correct typed answer that gets an accent or ¿ ? note.
+export const notedAnswer = (q: Question, answer: string) =>
+  accentOnlyAnswer(q, answer) !== undefined ||
+  (q.kind === "type" && isCorrect(q, answer) && missingQuestionMarks(q, answer));
+
+const lowered = (s: string) =>
+  s.normalize("NFC").toLocaleLowerCase("es").replace(/\s+/g, " ").trim();
+
+const withoutAccentsOrQuestionMarks = (s: string) =>
+  lowered(s.normalize("NFD").replace(ACCENT, "").replace(/[¿?]/g, ""));
+
+// The case may change along with them, as a sentence that gains its ¿ gains a capital letter.
+export const changesOnlyAccentsOrQuestionMarks = (original: string, corrected: string) =>
+  lowered(original) !== lowered(corrected) &&
+  withoutAccentsOrQuestionMarks(original) === withoutAccentsOrQuestionMarks(corrected);
+
 export const countWords = (s: string) =>
   s.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length || 0;
 

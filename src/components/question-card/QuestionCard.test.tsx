@@ -146,7 +146,7 @@ it("selecting a listening answer keeps the original playback running without res
   render(<QuestionCard q={q} onSubmit={vi.fn()} onEvaluated={evaluated} />);
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
   fireEvent.click(screen.getByRole("button", { name: q.answer }));
-  expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false);
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false, undefined, false);
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
   expect(HTMLMediaElement.prototype.pause).not.toHaveBeenCalled();
   expect(screen.getByRole("button", { name: "Pause audio" })).toBeInTheDocument();
@@ -173,7 +173,7 @@ it("records feedback immediately so closing it cannot lose a mistake", () => {
 
   render(<QuestionCard q={q} onSubmit={vi.fn()} onEvaluated={evaluated} />);
   fireEvent.click(screen.getByRole("button", { name: q.options![1] }));
-  expect(evaluated).toHaveBeenCalledWith(q.options![1], false, false);
+  expect(evaluated).toHaveBeenCalledWith(q.options![1], false, false, undefined, false);
 });
 
 it("shows the options in the attempt's order and checks the picked one by its text", () => {
@@ -189,7 +189,7 @@ it("shows the options in the attempt's order and checks the picked one by its te
   rerender(<QuestionCard q={q} seed={7} onSubmit={vi.fn()} onEvaluated={evaluated} />);
   expect(shownTexts()).toEqual(shownOptions(q.options!, 7));
   fireEvent.keyDown(window, { key: String(shownTexts().indexOf(q.answer) + 1) });
-  expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false);
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(q.answer, true, false, undefined, false);
 });
 
 it("keeps one order through re-renders when no attempt seed is given", () => {
@@ -213,7 +213,15 @@ it("checks the numbered choice option when its digit is pressed", () => {
   fireEvent.keyDown(window, { key: "1", metaKey: true });
   expect(evaluated).not.toHaveBeenCalled();
   fireEvent.keyDown(window, { key: "1" });
-  expect(evaluated).toHaveBeenCalledExactlyOnceWith(first, first === q.answer, false);
+
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(
+    first,
+    first === q.answer,
+    false,
+    undefined,
+    false,
+  );
+
   fireEvent.keyDown(window, { key: "2" });
   expect(evaluated).toHaveBeenCalledOnce();
 });

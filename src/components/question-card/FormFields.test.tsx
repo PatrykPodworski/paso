@@ -52,6 +52,7 @@ it("preserves form labels and refuses whitespace-only fields", async () => {
     true,
     false,
     "perfect",
+    false,
   ]);
 
   expect(JSON.parse(onDraft.mock.calls.at(-1)![0])[f.label]).toBe("Bruno");

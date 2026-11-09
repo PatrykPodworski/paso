@@ -54,7 +54,7 @@ it("walks the ladder by keyboard and marks the attempt as assisted", async () =>
   expect(screen.getByRole("textbox")).toHaveFocus();
   await user.keyboard("¿Dónde vives?{Enter}");
 
-  expect(evaluated).toHaveBeenCalledWith("¿Dónde vives?", true, true);
+  expect(evaluated).toHaveBeenCalledWith("¿Dónde vives?", true, true, undefined, false);
   expect(screen.getByText("Ask about a place.")).toBeVisible();
   expect(screen.getByText("Start with dónde.")).toBeVisible();
   expect(screen.queryByRole("button", { name: /Show/ })).not.toBeInTheDocument();
@@ -67,7 +67,7 @@ it("leaves the attempt unassisted when no hint is used", async () => {
   render(<QuestionCard q={hinted} onSubmit={vi.fn()} onEvaluated={evaluated} />);
   await user.type(screen.getByRole("textbox"), "¿Dónde vives?{Enter}");
 
-  expect(evaluated).toHaveBeenCalledWith("¿Dónde vives?", true, false);
+  expect(evaluated).toHaveBeenCalledWith("¿Dónde vives?", true, false, undefined, false);
 });
 
 it("offers hints only for a practice question that has them", () => {

@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by 0011
 ---
 
 # 0010. A typed answer that misses only its accents passes with a note

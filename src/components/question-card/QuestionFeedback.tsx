@@ -1,7 +1,12 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../ui/button";
-import { accentMistakes, accentOnlyAnswer, missingQuestionMarks } from "../../data/progress";
+import {
+  accentMistakes,
+  accentOnlyAnswer,
+  missingQuestionMarks,
+  notedAnswer,
+} from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
@@ -86,7 +91,8 @@ const AccentNote = ({ accepted, value }: AccentNoteProps) => {
 };
 
 type FeedbackBottomProps = {
-  correct: boolean | null;
+  // Wrong, or correct with an accent or ¿ ? note.
+  toReview: boolean;
   productive: boolean;
   assisted: boolean;
   onRevise: () => void;
@@ -94,7 +100,7 @@ type FeedbackBottomProps = {
 };
 
 const FeedbackBottom = ({
-  correct,
+  toReview,
   productive,
   assisted,
   onRevise,
@@ -102,7 +108,7 @@ const FeedbackBottom = ({
 }: FeedbackBottomProps) => (
   <div className="flex items-center justify-between gap-5 mt-5 max-md:flex-wrap max-md:gap-3.5">
     <small className="text-xs leading-relaxed text-muted-foreground">
-      {correct === false
+      {toReview
         ? "Added to your mistake review."
         : productive
           ? "Your practice is saved."
@@ -151,7 +157,7 @@ export const QuestionFeedback = ({
 }: Props) => {
   const bottom = (
     <FeedbackBottom
-      correct={correct}
+      toReview={correct === false || notedAnswer(q, value)}
       productive={productive}
       assisted={assisted}
       onRevise={onRevise}

@@ -114,7 +114,9 @@ export const attemptOf = (value: unknown): Attempt | null => {
     !isText(value.answer) ||
     !isInstant(value.at) ||
     !(value.assisted == null || typeof value.assisted === "boolean") ||
-    !(value.grade == null || GRADES.includes(value.grade as Grade))
+    !(value.grade == null || GRADES.includes(value.grade as Grade)) ||
+    // Only a correct answer gets a note.
+    !(value.noted == null || value.noted === false || (value.noted === true && value.correct))
   ) {
     return null;
   }
@@ -128,6 +130,7 @@ export const attemptOf = (value: unknown): Attempt | null => {
     at: value.at,
     ...(value.assisted ? { assisted: true } : {}),
     ...(value.grade ? { grade: value.grade as Grade } : {}),
+    ...(value.noted ? { noted: true } : {}),
   };
 };
 

@@ -30,7 +30,15 @@ export type QuestionKind =
 export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
 export type LiveScoreItem = { id: string; label: string; level: LiveItem };
-export type Correction = { original: string; corrected: string; explanation: string };
+
+export type Correction = {
+  original: string;
+  corrected: string;
+  explanation: string;
+  // Set by the writing review when the correction changes only accents or ¿ ?.
+  accentOnly?: true;
+};
+
 // corrections is absent when the learner said nothing, so there was nothing to check.
 export type LiveScore = { grade: Grade; items: LiveScoreItem[]; corrections?: Correction[] };
 export type TalkTurn = { role: "examiner" | "student"; text: string };
@@ -113,6 +121,8 @@ export interface Attempt {
   at: string;
   assisted?: boolean;
   grade?: Grade;
+  // A correct answer with an accent or ¿ ? mistake: it still joins the mistakes (ADR 0011).
+  noted?: boolean;
 }
 
 export type ReviewState = {

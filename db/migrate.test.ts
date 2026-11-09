@@ -92,6 +92,7 @@ describe("migrations", () => {
       "005_mock_result_sections.sql",
       "006_mock_result_productive.sql",
       "007_mock_result_responses.sql",
+      "008_attempt_notes.sql",
     ]);
 
     expect(await tables(pg)).toEqual([

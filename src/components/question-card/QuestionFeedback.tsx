@@ -1,7 +1,7 @@
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { FieldNote } from "../../design-system/FieldNote";
 import { Button } from "../ui/button";
-import { accentOnlyAnswer, missingQuestionMarks } from "../../data/progress";
+import { accentOnlyAnswer, missingAccents, missingQuestionMarks } from "../../data/progress";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
@@ -64,6 +64,23 @@ const FeedbackHeading = ({ correct, productive }: FeedbackHeadingProps) => {
             : "A good moment to learn."}
       </h3>
     </div>
+  );
+};
+
+type AccentNoteProps = { accepted: string; value: string };
+
+const AccentNote = ({ accepted, value }: AccentNoteProps) => {
+  const letters = missingAccents(accepted, value);
+
+  const label =
+    letters.length === 0
+      ? "Written without an accent"
+      : `Missing accent${letters.length > 1 ? "s" : ""} on ${letters.join(", ")}`;
+
+  return (
+    <FieldNote className="mt-3">
+      {label}: <span lang="es">{accepted}</span>
+    </FieldNote>
   );
 };
 
@@ -145,7 +162,7 @@ export const QuestionFeedback = ({
   const tone = needsWork ? TONE.needsWork : TONE.success;
   const paragraph = `text-sm leading-relaxed mt-3 ${tone.paragraph}`;
   const typed = q.kind === "type";
-  const accentAnswer = needsWork && typed ? accentOnlyAnswer(q, value) : undefined;
+  const accentAnswer = accentOnlyAnswer(q, value);
 
   return (
     <div className={`${PANEL} ${tone.box}`} role="status">
@@ -157,13 +174,8 @@ export const QuestionFeedback = ({
           Correct answer: <strong lang="es">{q.answer}</strong>
         </p>
       )}
-      {accentAnswer ? (
-        <p className={paragraph}>
-          Only the accents differ: <strong lang="es">{accentAnswer}</strong>
-        </p>
-      ) : (
-        <p className={paragraph}>{q.explanation}</p>
-      )}
+      <p className={paragraph}>{q.explanation}</p>
+      {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}
       {correct && typed && missingQuestionMarks(q, value) && (
         <FieldNote className="mt-3">
           Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>

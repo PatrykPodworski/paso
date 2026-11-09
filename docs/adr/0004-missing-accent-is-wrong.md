@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by 0010
 ---
 
 # 0004. A missing written accent makes a typed answer wrong

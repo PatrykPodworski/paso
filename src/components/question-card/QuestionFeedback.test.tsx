@@ -95,22 +95,47 @@ const typeQuestion = (answer: string, extra: Partial<Question> = {}): Question =
   ...extra,
 });
 
-it("explains a typed answer that is wrong only by its accents", () => {
+it("passes a typed answer that misses only its accents and notes the accents", () => {
   const status = typed(typeQuestion("¿Quién eres?"), "quien eres");
 
-  expect(status).toHaveTextContent("Only the accents differ: ¿Quién eres?");
-  expect(status).not.toHaveTextContent("The generic explanation.");
-  expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
+  expect(status).toHaveTextContent("¡Muy bien!");
+  expect(status).toHaveTextContent("The generic explanation.");
+  expect(status).toHaveTextContent("Missing accent on é: ¿Quién eres?");
+  expect(status).not.toHaveTextContent("Your answer:");
+  expect(screen.getByText("Keep taking those little steps.")).toBeInTheDocument();
+});
+
+it("names every missing accent", () => {
+  const status = typed(
+    typeQuestion("¿Quién eres?", { accepted: ["¿Y tú quién eres?"] }),
+    "y tu quien eres",
+  );
+
+  expect(status).toHaveTextContent("Missing accents on ú, é: ¿Y tú quién eres?");
+});
+
+it("notes an accent the answer adds", () => {
+  const status = typed(typeQuestion("Que tengas un buen día."), "Qué tengas un buen día");
+
+  expect(status).toHaveTextContent("¡Muy bien!");
+  expect(status).toHaveTextContent("Written without an accent: Que tengas un buen día.");
+});
+
+it("leaves the accent note off an exact answer", () => {
+  const status = typed(typeQuestion("¿Quién eres?"), "Quién eres");
+
+  expect(status).toHaveTextContent("¡Muy bien!");
+  expect(status).not.toHaveTextContent("Missing accent");
 });
 
 it.each([
   ["nino", "niño"],
   ["porque estudias español", "¿Por qué estudias español?"],
-])("gives %s the generic explanation", (answer, expected) => {
+])("marks %s wrong with the generic explanation", (answer, expected) => {
   const status = typed(typeQuestion(expected), answer);
 
   expect(status).toHaveTextContent("The generic explanation.");
-  expect(status).not.toHaveTextContent("Only the accents differ");
+  expect(status).not.toHaveTextContent("Missing accent");
   expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
 });
 
@@ -129,7 +154,7 @@ it("leaves the ¿ ? note off an unflagged question", () => {
   expect(status).not.toHaveTextContent("Spanish questions open with");
 });
 
-it("gives a wrong choice that differs only by accents the generic explanation", () => {
+it("marks a chosen option that differs only by accents wrong", () => {
   render(
     <QuestionCard
       q={typeQuestion("Él", { kind: "choice", options: ["Él", "El"] })}
@@ -140,13 +165,22 @@ it("gives a wrong choice that differs only by accents the generic explanation", 
   click("El");
 
   expect(screen.getByRole("status")).toHaveTextContent("The generic explanation.");
-  expect(screen.getByRole("status")).not.toHaveTextContent("Only the accents differ");
+  expect(screen.getByRole("status")).not.toHaveTextContent("Missing accent");
+  expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
+});
+
+it("notes both the accent and the ¿ ? on a full Spanish question", () => {
+  const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Que quieres");
+
+  expect(status).toHaveTextContent("¡Muy bien!");
+  expect(status).toHaveTextContent("Missing accent on é: ¿Qué quieres?");
+  expect(status).toHaveTextContent("Spanish questions open with ¿ and close with ?: ¿Qué quieres?");
 });
 
 it("leaves the ¿ ? note off a wrong answer to a full Spanish question", () => {
-  const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Que quieres");
+  const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Que quiere");
 
-  expect(status).toHaveTextContent("Only the accents differ: ¿Qué quieres?");
+  expect(status).toHaveTextContent("A good moment to learn.");
   expect(status).not.toHaveTextContent("Spanish questions open with");
 });
 

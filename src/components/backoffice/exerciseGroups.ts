@@ -1,3 +1,4 @@
+import { askingUnits, lessonItems } from "../../data/asking-questions/askingQuestions";
 import { units } from "../../data/curriculum";
 import { mockExam } from "../../data/mock";
 import type { Question } from "../../data/types";
@@ -10,6 +11,15 @@ export const exerciseGroups: Group[] = [
     title: `Unit ${i + 1} · ${u.title}`,
     rows: u.lessons.flatMap((l) => l.questions.map((question) => ({ question, context: l.title }))),
   })),
+  ...askingUnits
+    .filter((u) => u.lessons.length)
+    .map((u) => ({
+      id: u.id,
+      title: `Asking questions · ${u.title}`,
+      rows: u.lessons.flatMap((l) =>
+        lessonItems(l).map((question) => ({ question, context: l.title })),
+      ),
+    })),
   {
     id: "mock",
     title: "Mock exam",

@@ -1,20 +1,36 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { expect, it } from "vitest";
+import { askingLessons } from "../../data/asking-questions/askingQuestions";
 import { allLessons, units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
 
-it("lists every question of every unit and of the mock exam, grouped by unit", () => {
+// A set lesson lists its introduction, form cards, base items and variations.
+const setRows = askingLessons.flatMap((l) => [
+  l.introduction,
+  ...l.formCards,
+  ...l.base,
+  ...l.variations,
+]).length;
+
+it("lists every question of every unit, the asking-questions set and the mock exam, grouped by unit", () => {
   render(<BackofficePage setSession={() => {}} />);
   const groups = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
 
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
-  expect(groups).toHaveLength(units.length + 1);
-  expect(groups.at(-1)).toBe("Mock exam");
+  expect(groups).toHaveLength(units.length + 2);
+
+  expect(groups.slice(-3)).toEqual([
+    "Unit 12 · Ready for your next chapter",
+    "Asking questions · Unit 1",
+    "Mock exam",
+  ]);
 
   expect(screen.getAllByRole("button")).toHaveLength(
-    units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length + mockQuestions.length,
+    units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length +
+      setRows +
+      mockQuestions.length,
   );
 
   const mock = within(screen.getByRole("region", { name: "Mock exam" }));
@@ -51,4 +67,26 @@ it("labels unit 1's live talk and opens it alone, off the learning path", () => 
   expect(lesson?.questions.map((q) => q.id)).toEqual(["u1-o3"]);
   expect(lesson?.title).toBe("Make it your own");
   expect(allLessons.some((l) => l.id === lesson?.id)).toBe(false);
+});
+
+it("lists the set's lessons in written order, teaching cards included, and opens a card alone", () => {
+  let lesson: Lesson | undefined;
+
+  render(<BackofficePage setSession={(l) => (lesson = l)} />);
+  const set = within(screen.getByRole("region", { name: "Asking questions · Unit 1" }));
+  const rows = set.getAllByRole("button");
+
+  expect(rows).toHaveLength(18);
+  expect(rows[0]).toHaveTextContent(/^Teaching cardNew question word: quéAsking for things$/);
+
+  expect(rows[1]).toHaveTextContent(
+    "Multiple choice¿Qué quieres? Choose the information the speaker wants.Asking for things · A thing the listener wants",
+  );
+
+  expect(rows.at(-1)).toHaveTextContent(/Ask Luis what Pablo eats/);
+
+  fireEvent.click(rows[0]);
+  expect(lesson?.questions.map((q) => q.id)).toEqual(["AQ-T01-INTRO"]);
+  expect(lesson?.title).toBe("Asking for things");
+  expect(lesson?.subtitle).toBe("Asking questions · Unit 1");
 });

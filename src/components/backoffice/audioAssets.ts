@@ -1,5 +1,6 @@
 import sources from "../../data/audio-sources.json";
 import { audioKey, spokenText } from "../../data/audio";
+import { askingUnits, lessonItems } from "../../data/asking-questions/askingQuestions";
 import { foundations, units, vocabulary, visualQuestions } from "../../data/curriculum";
 import examples from "../../data/examples.json";
 import { formPractice, mockQuestions } from "../../data/mock";
@@ -27,6 +28,12 @@ const collections: [string, (string | undefined)[]][] = [
       ...questionTexts(u.lessons.flatMap((l) => l.questions)),
     ],
   ]),
+  ...askingUnits
+    .filter((u) => u.lessons.length)
+    .map((u): [string, (string | undefined)[]] => [
+      `Asking questions · ${u.title}`,
+      questionTexts(u.lessons.flatMap(lessonItems)),
+    ]),
   ["Mock exam", questionTexts(mockQuestions)],
   ["Foundations", questionTexts([...foundations, ...visualQuestions, formPractice])],
   [

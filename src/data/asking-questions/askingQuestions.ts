@@ -27,31 +27,37 @@ const byId = new Map(askingQuestions.map((q) => [q.id, q]));
 export const exerciseCount = (l: SetLesson) =>
   l.recalled.length + l.base.length + l.variations.length;
 
-export const lessonFrom = (l: SetLesson, random: () => number): Lesson => {
-  const base = l.base.flatMap((id) => {
+const baseOf = (l: SetLesson) =>
+  l.base.flatMap((id) => {
     const card = l.formCards.find((c) => c.before === id);
     const q = byId.get(id)!;
 
     return card ? [teachingCard(`${id}-FORM`, card.heading, card.text), q] : [q];
   });
 
-  return {
-    id: l.id,
-    title: l.title,
-    subtitle: l.subtitle,
-    minutes: Math.ceil(exerciseCount(l) / 2),
-    icon: "spark",
-    questions: [
-      ...l.recalled.map((id) => byId.get(id)!),
-      l.introduction,
-      ...base,
-      ...shuffle(
-        l.variations.map((id) => byId.get(id)!),
-        random,
-      ),
-    ],
-  };
-};
+// The lesson's own questions in written order; its recalled items belong to earlier lessons.
+export const lessonItems = (l: SetLesson) => [
+  l.introduction,
+  ...baseOf(l),
+  ...l.variations.map((id) => byId.get(id)!),
+];
+
+export const lessonFrom = (l: SetLesson, random: () => number): Lesson => ({
+  id: l.id,
+  title: l.title,
+  subtitle: l.subtitle,
+  minutes: Math.ceil(exerciseCount(l) / 2),
+  icon: "spark",
+  questions: [
+    ...l.recalled.map((id) => byId.get(id)!),
+    l.introduction,
+    ...baseOf(l),
+    ...shuffle(
+      l.variations.map((id) => byId.get(id)!),
+      random,
+    ),
+  ],
+});
 
 export const askingLesson = (id: string, random = randomFrom(randomSeed())) =>
   lessonFrom(

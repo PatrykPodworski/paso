@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import sources from "../../data/audio-sources.json";
-import { audioAssets } from "./audioAssets";
+import { audioAssets, audioSourceNames } from "./audioAssets";
 
 it("lists every generated clip once, under the unit or collection that speaks it", () => {
   expect(audioAssets).toHaveLength(Object.keys(sources).length);
@@ -46,5 +46,13 @@ it("orders the clips by unit, then the mock exam, foundations and topic flashcar
     "Foundations",
     "Topic flashcards",
     "Other",
+  ]);
+});
+
+it("offers the asking-questions set's units after the course units", () => {
+  expect(audioSourceNames.slice(11, 14)).toEqual([
+    "Unit 12",
+    "Asking questions · Unit 1",
+    "Mock exam",
   ]);
 });

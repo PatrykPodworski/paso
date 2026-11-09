@@ -38,6 +38,8 @@ describe("asking questions content", () => {
         "AQ-T11-V12",
         "AQ-T12-E01",
         "AQ-T12-V12",
+        "AQ-T13-E01",
+        "AQ-T13-V12",
       ]),
     );
   });
@@ -421,6 +423,45 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Quién va?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for de quién", () => {
+    expect(ids("AQ-T13-E")).toEqual([
+      "AQ-T13-E01",
+      "AQ-T13-E02",
+      "AQ-T13-E03",
+      "AQ-T13-E04",
+      "AQ-T13-E05",
+      "AQ-T13-E06",
+    ]);
+
+    expect(ids("AQ-T13-V")).toHaveLength(12);
+  });
+
+  it("accepts de quién, notes a missing accent and rejects quién without de", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T13-V01")!;
+
+    expect([isCorrect(q, "De quién"), isCorrect(q, "quién")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "de quien")).toBe("de quién");
+  });
+
+  it("keeps de quién for one owner of plural objects and de quiénes for several owners", () => {
+    const one = askingQuestions.find((q) => q.id === "AQ-T13-V02")!;
+    const several = askingQuestions.find((q) => q.id === "AQ-T13-V07")!;
+
+    expect([isCorrect(one, "de quién"), isCorrect(one, "de quiénes")]).toEqual([true, false]);
+
+    expect([isCorrect(several, "de quiénes"), isCorrect(several, "de quién")]).toEqual([
+      true,
+      false,
+    ]);
+  });
+
+  it("accepts the typed ownership question and rejects one that asks for origin", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T13-E04")!;
+
+    expect(isCorrect(q, "¿De quién es este libro?")).toBe(true);
+    expect(isCorrect(q, "¿De dónde es este libro?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -461,6 +502,9 @@ describe("asking questions content", () => {
       "AQ-T12-E05",
       "AQ-T12-V06",
       "AQ-T12-V12",
+      "AQ-T13-E05",
+      "AQ-T13-V06",
+      "AQ-T13-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -509,6 +553,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T12-V01")?.pronunciation).toBe(
       "¿Con quién va Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T13-V02")?.pronunciation).toBe(
+      "¿De quién son estas entradas?",
     );
   });
 });

@@ -34,6 +34,8 @@ describe("asking questions content", () => {
         "AQ-T09-V12",
         "AQ-T10-E01",
         "AQ-T10-V12",
+        "AQ-T11-E01",
+        "AQ-T11-V12",
       ]),
     );
   });
@@ -336,6 +338,54 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Dónde estás?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for adónde", () => {
+    expect(ids("AQ-T11-E")).toEqual([
+      "AQ-T11-E01",
+      "AQ-T11-E02",
+      "AQ-T11-E03",
+      "AQ-T11-E04",
+      "AQ-T11-E05",
+      "AQ-T11-E06",
+    ]);
+
+    expect(ids("AQ-T11-V")).toHaveLength(12);
+  });
+
+  it("accepts both destination spellings in every adónde cloze and rejects de dónde", () => {
+    for (const id of ["AQ-T11-E02", "AQ-T11-V01", "AQ-T11-V02", "AQ-T11-V07", "AQ-T11-V08"]) {
+      const q = askingQuestions.find((q) => q.id === id)!;
+
+      expect(
+        [isCorrect(q, "Adónde"), isCorrect(q, "a dónde"), isCorrect(q, "de dónde")],
+        id,
+      ).toEqual([true, true, false]);
+    }
+  });
+
+  it("notes a missing accent on either destination spelling", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T11-V01")!;
+
+    expect([accentOnlyAnswer(q, "adonde"), accentOnlyAnswer(q, "a donde")]).toEqual([
+      "adónde",
+      "a dónde",
+    ]);
+  });
+
+  it.each([
+    ["AQ-T11-E04", "¿A dónde vas?", "¿De dónde vas?"],
+    ["AQ-T11-V04", "¿A dónde vas?", "¿De dónde vas?"],
+    ["AQ-T11-V05", "¿A dónde va Pablo?", "¿De dónde va Pablo?"],
+    ["AQ-T11-V10", "¿A dónde va el tren?", "¿De dónde va el tren?"],
+    ["AQ-T11-V11", "¿A dónde vas en autobús?", "¿De dónde vas en autobús?"],
+  ])(
+    "accepts the two-word destination question in %s and rejects the origin one",
+    (id, two, origin) => {
+      const q = askingQuestions.find((q) => q.id === id)!;
+
+      expect([isCorrect(q, two), isCorrect(q, origin)]).toEqual([true, false]);
+    },
+  );
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -370,6 +420,9 @@ describe("asking questions content", () => {
       "AQ-T10-E05",
       "AQ-T10-V06",
       "AQ-T10-V12",
+      "AQ-T11-E05",
+      "AQ-T11-V06",
+      "AQ-T11-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -410,6 +463,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T10-V01")?.pronunciation).toBe(
       "¿De dónde es Pablo?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T11-V01")?.pronunciation).toBe(
+      "¿Adónde va Pablo?",
     );
   });
 });

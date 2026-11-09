@@ -48,6 +48,8 @@ describe("asking questions content", () => {
         "AQ-T16-V12",
         "AQ-T17-E01",
         "AQ-T17-V12",
+        "AQ-T18-E01",
+        "AQ-T18-V12",
       ]),
     );
   });
@@ -598,6 +600,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Por qué usas este libro?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for por dónde", () => {
+    expect(ids("AQ-T18-E")).toEqual([
+      "AQ-T18-E01",
+      "AQ-T18-E02",
+      "AQ-T18-E03",
+      "AQ-T18-E04",
+      "AQ-T18-E05",
+      "AQ-T18-E06",
+    ]);
+
+    expect(ids("AQ-T18-V")).toHaveLength(12);
+  });
+
+  it("accepts por dónde, notes a missing accent and rejects adónde", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T18-V01")!;
+
+    expect([isCorrect(q, "Por dónde"), isCorrect(q, "adónde")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "por donde")).toBe("por dónde");
+  });
+
+  it("accepts the typed route question and rejects the destination question", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T18-E04")!;
+
+    expect(isCorrect(q, "¿Por dónde vas al hotel?")).toBe(true);
+    expect(isCorrect(q, "¿Adónde vas al hotel?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -653,6 +682,9 @@ describe("asking questions content", () => {
       "AQ-T17-E05",
       "AQ-T17-V06",
       "AQ-T17-V12",
+      "AQ-T18-E05",
+      "AQ-T18-V06",
+      "AQ-T18-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -721,6 +753,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T17-V08")?.pronunciation).toBe(
       "¿Para qué usan Pablo y Luis esta sala?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T18-V07")?.pronunciation).toBe(
+      "¿Por dónde van Pablo y Luis al hotel?",
     );
   });
 });

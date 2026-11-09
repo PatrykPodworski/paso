@@ -282,21 +282,19 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
-    // The asking-questions set is recorded one unit at a time; units 1 to 3 are recorded.
-    const askingRecorded = askingUnits
-      .slice(0, 3)
+    const askingItems = askingUnits
       .flatMap((u) => u.lessons)
       .flatMap((l) => askingLesson(l.id).questions)
       .filter((q) => q.kind !== "teach");
 
     const phrases = [
       ...new Set(
-        [...questions, ...askingRecorded]
+        [...questions, ...askingItems]
           .flatMap((q) => [q.audio, ...(q.kind === "order" ? [q.answer] : []), ...(q.tokens ?? [])])
           .filter((x): x is string => !!x)
           .concat(
             // Writing tasks play no audio, not even their model answer.
-            [...allQuestions, ...foundations, ...visualQuestions, ...askingRecorded]
+            [...allQuestions, ...foundations, ...visualQuestions, ...askingItems]
               .filter((q) => !["live", "write", "form"].includes(q.kind))
               .map(spokenText),
             vocabulary.map((w) => w.es),

@@ -83,6 +83,10 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   tiles. _¿Adónde_ and _¿A dónde_ share the clip of "A dónde"; _¿Con quién_ and
   _¿Con quiénes_ are read as "¿Con quién?" and "¿Con quiénes?". _el tren?_ and
   _el museo?_ play the topic flashcard clips of the same words.
+- Asking questions, unit 4 (L13–L18 and R04): 99 texts, the questions and
+  their tiles. _¿De quiénes_ and _¿Por dónde_ are read as "¿De quiénes?" and
+  "¿Por dónde?". _son_, _vas_, _el libro?_ and _la mochila?_ play existing clips
+  of the same words.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

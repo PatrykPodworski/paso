@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T02, cómo: asks about manner or state, and forms the everyday name question.
 const recall: [string, string] = [

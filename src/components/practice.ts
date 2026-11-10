@@ -1,6 +1,6 @@
 import { allQuestions, foundations, visualQuestions } from "../data/curriculum";
-import { askingQuestions } from "../data/asking-questions/askingQuestions";
 import { formPractice } from "../data/mock";
+import { setQuestions } from "../data/practice-sets/index";
 import type { Lesson, Skill } from "../data/types";
 
 export const exerciseBank = [
@@ -8,7 +8,7 @@ export const exerciseBank = [
   ...foundations,
   formPractice,
   ...visualQuestions,
-  ...askingQuestions,
+  ...setQuestions,
 ];
 
 export const SKILL_TINT: Record<Skill, string> = {

@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T01, qué: asks for a thing, an activity or, before a noun, a category.
 const recall: [string, string] = [

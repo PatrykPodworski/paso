@@ -21,8 +21,11 @@ const setRows = rowsOf(setLessons);
 const setUnits = practiceSets.flatMap((s) => s.units).filter((u) => u.lessons.length).length;
 
 it("lists every question of every unit, every practice set and the mock exam, grouped by unit", () => {
-  render(<BackofficePage setSession={() => {}} />);
-  const groups = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
+  const { container } = render(<BackofficePage setSession={() => {}} />);
+
+  // Role queries scan every element of this page of 1,000+ rows and time out on CI, so the
+  // whole-page counts use tag queries.
+  const groups = [...container.querySelectorAll("section h2")].map((h) => h.textContent);
 
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
   expect(groups).toHaveLength(units.length + setUnits + 1);
@@ -37,14 +40,15 @@ it("lists every question of every unit, every practice set and the mock exam, gr
     "Mock exam",
   ]);
 
-  expect(screen.getAllByRole("button")).toHaveLength(
+  expect(container.querySelectorAll("section li > button")).toHaveLength(
     units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length +
       setRows +
       mockQuestions.length,
   );
 
   const mock = within(screen.getByRole("region", { name: "Mock exam" }));
-  const row = within(mock.getByRole("button", { name: /Task 1 · Personal presentation/ }));
+  const task = mock.getByText("Task 1 · Personal presentation · 1–2 min");
+  const row = within(task.closest("button")!);
 
   expect(row.getByText("Live talk")).toBeInTheDocument();
   expect(row.getByText("Speaking")).toBeInTheDocument();

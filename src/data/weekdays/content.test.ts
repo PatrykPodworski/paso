@@ -13,7 +13,16 @@ describe("weekdays content", () => {
     const bank = exerciseBank.map((q) => q.id);
 
     expect(new Set(bank).size).toBe(bank.length);
-    expect(bank).toEqual(expect.arrayContaining(["WD-T01-E01", "WD-T01-E06", "WD-T01-V12"]));
+
+    expect(bank).toEqual(
+      expect.arrayContaining([
+        "WD-T01-E01",
+        "WD-T01-V12",
+        "WD-T02-E01",
+        "WD-T02-E06",
+        "WD-T02-V12",
+      ]),
+    );
   });
 
   it("names only authored exercises in its lessons", () => {
@@ -29,7 +38,7 @@ describe("weekdays content", () => {
   it("offers each choice's answer once among unique options", () => {
     const choices = weekdaysQuestions.filter((q) => q.kind === "choice");
 
-    expect(choices.map((q) => q.id)).toEqual(["WD-T01-E01"]);
+    expect(choices.map((q) => q.id)).toEqual(["WD-T01-E01", "WD-T02-E01"]);
 
     for (const q of choices) {
       const answers = q.options!.filter((o) => o === q.answer);
@@ -51,12 +60,29 @@ describe("weekdays content", () => {
   it("gives every exercise but a written sentence its Spanish to hear", () => {
     const silent = weekdaysQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
-    expect(silent).toEqual(["WD-T01-E06", "WD-T01-V10", "WD-T01-V12"]);
-    expect(silent.map((id) => question(id).kind)).toEqual(["write", "write", "write"]);
+    expect(silent).toEqual([
+      "WD-T01-E06",
+      "WD-T01-V10",
+      "WD-T01-V12",
+      "WD-T02-E06",
+      "WD-T02-V10",
+      "WD-T02-V12",
+    ]);
+
+    expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
 
     expect(
-      ["WD-T01-E01", "WD-T01-E04", "WD-T01-V08"].map((id) => question(id).pronunciation),
-    ).toEqual(["lunes", "Hoy es lunes.", "Tu visita es el lunes."]);
+      ["WD-T01-E01", "WD-T01-E04", "WD-T01-V08", "WD-T02-E01", "WD-T02-E04", "WD-T02-V02"].map(
+        (id) => question(id).pronunciation,
+      ),
+    ).toEqual([
+      "lunes",
+      "Hoy es lunes.",
+      "Tu visita es el lunes.",
+      "martes",
+      "La clase es el martes.",
+      "Pablo tiene una reunión el martes.",
+    ]);
   });
 
   it("authors six base items and twelve variations for lunes", () => {
@@ -72,10 +98,23 @@ describe("weekdays content", () => {
     expect(ids("WD-T01-V")).toHaveLength(12);
   });
 
+  it("authors six base items and twelve variations for martes", () => {
+    expect(ids("WD-T02-E")).toEqual([
+      "WD-T02-E01",
+      "WD-T02-E02",
+      "WD-T02-E03",
+      "WD-T02-E04",
+      "WD-T02-E05",
+      "WD-T02-E06",
+    ]);
+
+    expect(ids("WD-T02-V")).toHaveLength(12);
+  });
+
   it("asks for every day so far as the answer of a typed Spanish item", () => {
     const typed = weekdaysQuestions.filter((q) => q.kind === "type").map((q) => q.answer);
 
-    expect(typed).toEqual(expect.arrayContaining(["lunes"]));
+    expect(typed).toEqual(expect.arrayContaining(["lunes", "martes"]));
   });
 
   it("accepts the full sentence without a capital or a full stop", () => {
@@ -86,5 +125,10 @@ describe("weekdays content", () => {
   it("rejects another day in the lunes gap", () => {
     expect(isCorrect(question("WD-T01-E04"), "martes")).toBe(false);
     expect(isCorrect(question("WD-T01-E04"), "Lunes")).toBe(true);
+  });
+
+  it("rejects another day in the martes gap", () => {
+    expect(isCorrect(question("WD-T02-E04"), "lunes")).toBe(false);
+    expect(isCorrect(question("WD-T02-E04"), "Martes")).toBe(true);
   });
 });

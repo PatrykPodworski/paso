@@ -140,6 +140,19 @@ describe("writing tasks", () => {
     });
 
     expect(writingTaskOf("WD-T01-E05")).toBeUndefined();
+
+    expect(writingTaskOf("WD-T02-V10")).toEqual({
+      id: "WD-T02-V10",
+      kind: "sentence",
+      exam: false,
+      prompt:
+        "I work on Tuesdays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
+      points: [
+        "Uses los martes for every Tuesday",
+        "Keeps the fact and the people of the situation",
+      ],
+      wordRange: [2, 15],
+    });
   });
 
   it("knows only writing tasks", () => {

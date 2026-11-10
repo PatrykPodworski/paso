@@ -1,8 +1,15 @@
 import { allQuestions, foundations, visualQuestions } from "../data/curriculum";
+import { askingQuestions } from "../data/asking-questions/askingQuestions";
 import { formPractice } from "../data/mock";
 import type { Lesson, Skill } from "../data/types";
 
-export const exerciseBank = [...allQuestions, ...foundations, formPractice, ...visualQuestions];
+export const exerciseBank = [
+  ...allQuestions,
+  ...foundations,
+  formPractice,
+  ...visualQuestions,
+  ...askingQuestions,
+];
 
 export const SKILL_TINT: Record<Skill, string> = {
   reading: "bg-skill-reading/10 text-skill-reading",

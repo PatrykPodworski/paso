@@ -1,3 +1,4 @@
+import { askingQuestions } from "../../src/data/asking-questions/askingQuestions.ts";
 import { allQuestions } from "../../src/data/curriculum.ts";
 import { formPractice, mockQuestions } from "../../src/data/mock.ts";
 import type { Question } from "../../src/data/types.ts";
@@ -27,7 +28,7 @@ export const taskOf = (q: Question, exam: boolean): WritingTask => ({
 });
 
 // The lesson and practice questions the review knows. A practice set adds its questions here.
-const practiceQuestions = [...allQuestions, formPractice];
+const practiceQuestions = [...allQuestions, formPractice, ...askingQuestions];
 
 const TASKS = new Map(
   [

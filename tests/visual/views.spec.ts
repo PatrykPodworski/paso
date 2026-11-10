@@ -245,6 +245,14 @@ test("recent answers and the previous attempt", async ({ page }) => {
   await shot(page, "question-last-time");
 });
 
+test("asking questions: the set page and L01 on its introduction card", async ({ page }) => {
+  await page.goto("/practice/questions");
+  await shot(page, "practice-questions");
+  await page.getByRole("button", { name: /Asking for things/ }).click();
+  await expect(page.getByRole("heading", { name: "New question word: qué" })).toBeVisible();
+  await shot(page, "practice-questions-l01-intro");
+});
+
 test("lesson completion", async ({ page }) => {
   const l = await openLesson(page, 0);
 

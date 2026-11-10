@@ -370,7 +370,7 @@ test("writing keeps its draft and is graded by the AI review from Review my prac
   await expect(page.getByRole("button", { name: "Start the talk" })).toBeVisible();
 });
 
-test("a failed writing review keeps the answer editable, and a red result goes to mistakes", async ({
+test("a failed writing review sends the same answer again, and a red result goes to mistakes", async ({
   page,
 }) => {
   const lesson = allLessons[3];
@@ -396,18 +396,19 @@ test("a failed writing review keeps the answer editable, and a red result goes t
 
   const input = page.getByRole("textbox", { name: "Your answer in Spanish" });
 
-  await input.fill("Me llamo Bruno. Soy veinte años.");
+  await input.fill("Me llamo Bruno. Tengo veinte años.");
   await page.getByRole("button", { name: "Review my practice" }).click();
 
   await expect(
     page.getByText("Feedback is not available right now. Your answer is saved; try again later."),
   ).toBeVisible();
 
-  await expect(input).toBeEnabled();
+  await expect(input).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Review my practice" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Save without feedback" })).toBeEnabled();
   await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeHidden();
   expect((await saved(page)).questions[writing.id]).toBeUndefined();
-  await input.fill("Me llamo Bruno. Tengo veinte años.");
-  await page.getByRole("button", { name: "Review my practice" }).click();
+  await page.getByRole("button", { name: "Try again" }).click();
 
   await expect(page.getByRole("heading", { name: "Not passed yet" })).toBeVisible();
   await expect(page.getByText("Added to your mistake review.")).toBeVisible();

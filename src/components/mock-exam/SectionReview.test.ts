@@ -144,6 +144,7 @@ it("keeps one task's mark when the other cannot be reviewed, and sends a blank t
 
   expect(screen.queryByText(/out of 25 for writing/)).not.toBeInTheDocument();
   expect(JSON.parse(String(api.mock.calls[0][1].body)).answer).toBe("");
+  expect(screen.getByRole("button", { name: "Try again" })).toBeEnabled();
 });
 
 it("asks for the passcode before marking the writing", async () => {

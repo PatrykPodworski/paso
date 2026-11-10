@@ -5,7 +5,7 @@ import { Notice } from "../../design-system/Notice";
 import type { Grade, Question, WritingReview } from "../../data/types";
 import { Button } from "../ui/button";
 import { PasscodeField } from "../writing-review/PasscodeField";
-import { problemOf, type ReviewResult } from "../writing-review/requestReview";
+import { problemOf, retryable, type ReviewResult } from "../writing-review/requestReview";
 import { useWritingReviews } from "../writing-review/useWritingReviews";
 import { WritingFeedback } from "../writing-review/WritingFeedback";
 import { QuestionFooter } from "./QuestionFooter";
@@ -87,6 +87,8 @@ type RequestProps = {
   error?: string;
   // After an error, focus goes to the passcode field when the review cannot be asked again yet.
   focusPasscode: boolean;
+  // Sends the same answer again after a problem a new passcode does not fix.
+  onRetry?: () => void;
 };
 
 const WritingRequest = ({
@@ -95,6 +97,7 @@ const WritingRequest = ({
   onPasscode,
   error,
   focusPasscode,
+  onRetry,
 }: RequestProps) => (
   <div className={`${BOX} border-border bg-card`}>
     <FieldNote>
@@ -109,6 +112,18 @@ const WritingRequest = ({
       <Notice as="p" role="alert">
         {problemOf(error)}
       </Notice>
+    )}
+    {onRetry && (
+      <Button
+        type="button"
+        variant="outline"
+        size="lg"
+        className="self-start max-sm:self-stretch"
+        autoFocus
+        onClick={onRetry}
+      >
+        Try again
+      </Button>
     )}
   </div>
 );
@@ -141,7 +156,8 @@ type Props = {
 
 // A lesson or practice writing task: the AI tutor's review is its result, recorded like a
 // live talk's grade. The answer stays locked while the review loads and once it arrives.
-// Without a passcode the answer can be saved ungraded instead (ADR 0005).
+// Without a passcode, or after a failed review, the answer can be saved ungraded instead
+// (ADR 0005). A failed review keeps the answer locked, so trying again sends the same answer.
 export const WritingCheck = ({
   q,
   answer,
@@ -172,7 +188,7 @@ export const WritingCheck = ({
         next.grade,
         notedReview(next.review, next.grade),
       );
-    } else {
+    } else if (!retryable(errorOf(reviewed[q.id]) ?? "")) {
       onLock(false);
     }
   };
@@ -196,6 +212,7 @@ export const WritingCheck = ({
   }
 
   const error = errorOf(results[q.id]);
+  const failed = !!error && retryable(error);
   const ready = !!canSubmit && !!passcode.trim();
 
   const saveWithoutFeedback = () => {
@@ -211,16 +228,19 @@ export const WritingCheck = ({
         onPasscode={setPasscode}
         error={error}
         focusPasscode={!!error && !ready}
+        onRetry={failed ? request : undefined}
       />
       <QuestionFooter
         exam={false}
         productive
         kind={q.kind}
-        canSubmit={ready}
-        autoFocus={!!error && ready}
+        canSubmit={ready && !failed}
+        autoFocus={!!error && ready && !failed}
         onCheck={request}
         saveWithoutFeedback={
-          passcode.trim() ? undefined : { enabled: !!canSubmit, onSave: saveWithoutFeedback }
+          passcode.trim() && !failed
+            ? undefined
+            : { enabled: !!canSubmit, onSave: saveWithoutFeedback }
         }
       />
     </>

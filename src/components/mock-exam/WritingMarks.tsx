@@ -42,7 +42,11 @@ export const WritingMarks = ({ questions, answers, onMarks }: Props) => {
         disabled={loading || !passcode.trim()}
         onClick={() => check(Object.fromEntries(questions.map((q) => [q.id, answers[q.id] ?? ""])))}
       >
-        {loading ? "Getting feedback…" : "Get feedback on my writing"}
+        {loading
+          ? "Getting feedback…"
+          : Object.values(results).some((r) => "error" in r)
+            ? "Try again"
+            : "Get feedback on my writing"}
       </Button>
       {bands.length === questions.length && (
         <p className="font-heading text-2xl font-semibold tracking-tight">

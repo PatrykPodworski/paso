@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { shownTokens } from "../optionOrder";
 import { randomFrom } from "../random";
 import { weekdaysLesson, weekdaysUnits } from "./weekdays";
 
@@ -377,11 +378,57 @@ describe("weekdays lessons", () => {
     expect(lesson.questions.map((q) => q.id)).toEqual(["WD-T04-V04", "WD-T05-V04", "WD-T06-V04"]);
   });
 
-  it("lists unit 1 with L01 to L03 and R01, unit 2 with L04 to L06 and R02, and unit 3 with L07, the only lessons so far", () => {
+  it.each([1, 2, 3])(
+    "runs R03 as Sunday's V04 sentence, then the calendar items in order (seed %i)",
+    (seed) => {
+      const lesson = weekdaysLesson("wd-r03", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "wd-r03",
+        title: "Review: the whole week",
+        subtitle: "Review lessons 1–7",
+      });
+
+      expect(lesson.questions.map((q) => q.id)).toEqual([
+        "WD-T07-V04",
+        "WD-G01-C01",
+        "WD-G01-C02",
+        "WD-G01-C03",
+        "WD-G01-C04",
+        "WD-G01-C05",
+        "WD-G01-C06",
+        "WD-G01-C07",
+        "WD-G02-C01",
+        "WD-G02-C02",
+        "WD-G02-C03",
+        "WD-G02-C04",
+        "WD-G02-C05",
+        "WD-G02-C06",
+        "WD-G02-C07",
+        "WD-G03",
+        "WD-G04-C01",
+        "WD-G04-C02",
+      ]);
+    },
+  );
+
+  it("shows the R03 week tiles in another order on each attempt, never already in order", () => {
+    const g03 = weekdaysLesson("wd-r03", randomFrom(1)).questions.find((q) => q.id === "WD-G03")!;
+    const [first, second] = [1, 2].map((seed) => shownTokens(g03, seed).join(" "));
+
+    expect(first).not.toBe(second);
+
+    for (const shown of [first, second]) {
+      expect(shown).not.toBe("lunes martes miércoles jueves viernes sábado domingo");
+      expect(shown.split(" ").toSorted()).toEqual(g03.answer.split(" ").toSorted());
+    }
+  });
+
+  it("lists unit 1 with L01 to L03 and R01, unit 2 with L04 to L06 and R02, and unit 3 with L07 and R03", () => {
     expect(weekdaysUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
       ["Unit 1", ["wd-l01", "wd-l02", "wd-l03", "wd-r01"]],
       ["Unit 2", ["wd-l04", "wd-l05", "wd-l06", "wd-r02"]],
-      ["Unit 3", ["wd-l07"]],
+      ["Unit 3", ["wd-l07", "wd-r03"]],
     ]);
   });
 });

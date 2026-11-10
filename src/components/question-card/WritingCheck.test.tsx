@@ -300,6 +300,8 @@ it("says when there were too many wrong passcodes", async () => {
   click("Review my practice");
 
   expect(await screen.findByText("Too many wrong passcodes today.")).toBeInTheDocument();
+  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(screen.queryByRole("button", { name: "Try again" })).not.toBeInTheDocument();
 });
 
 it.each([

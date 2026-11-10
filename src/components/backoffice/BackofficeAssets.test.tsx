@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { readdirSync } from "node:fs";
+import { askingLessons } from "../../data/asking-questions/askingQuestions";
 import sources from "../../data/audio-sources.json";
 import { units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
@@ -34,11 +35,21 @@ const filter = (unit: string, search: string) => {
   });
 };
 
+// A set lesson lists its introduction, form cards, base items and variations.
+const setRows = askingLessons.flatMap((l) => [
+  l.introduction,
+  ...l.formCards,
+  ...l.base,
+  ...l.variations,
+]).length;
+
 it("counts the assets of each kind on its tab", () => {
   render(<BackofficePage setSession={() => {}} />);
 
   const exercises =
-    units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length + mockQuestions.length;
+    units.flatMap((u) => u.lessons.flatMap((l) => l.questions)).length +
+    setRows +
+    mockQuestions.length;
 
   expect(screen.getAllByRole("tab").map((t) => t.textContent)).toEqual([
     `Exercises${exercises}`,

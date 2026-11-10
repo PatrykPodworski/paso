@@ -53,7 +53,13 @@ export const ExerciseList = ({ setSession }: Props) =>
                     {question.task || question.prompt}
                   </strong>
                   <small className="text-muted-foreground text-xs line-clamp-1">
-                    <span>{context}</span> · <span>{question.answer}</span>
+                    <span>{context}</span>
+                    {question.answer && (
+                      <>
+                        {" "}
+                        · <span>{question.answer}</span>
+                      </>
+                    )}
                   </small>
                 </span>
               </button>

@@ -186,7 +186,7 @@ export const t02Items: Item[] = [
 const t02Introduction = teachingCard(
   "AQ-T02-INTRO",
   "New question word: cómo",
-  "Cómo asks how. Learn the everyday name formula ¿Cómo te llamas? and the state question ¿Cómo estás? Contrast with qué for a thing.\n\nExample: ¿Cómo te llamas?",
+  "Cómo asks how. Use it for names and for how someone is: ¿Cómo estás? Contrast with qué for a thing.\n\nExample: ¿Cómo te llamas?",
 );
 
 const variations = t02Items.map((i) => i.id).filter((id) => id.startsWith("AQ-T02-V"));

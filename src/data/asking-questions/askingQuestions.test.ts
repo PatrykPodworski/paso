@@ -172,6 +172,19 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
+  it.each([
+    ["aq-l01", "¿Qué quieres?"],
+    ["aq-l02", "¿Cómo te llamas?"],
+    ["aq-l03", "¿Dónde está el baño?"],
+    ["aq-l04", "¿Cuándo empieza la clase?"],
+  ])("gives %s's introduction its example sentence only once", (lessonId, example) => {
+    const introduction = askingLesson(lessonId, randomFrom(1)).questions.find(
+      (q) => q.kind === "teach",
+    );
+
+    expect(introduction?.explanation?.split(example)).toHaveLength(2);
+  });
+
   it("opens R01 on unit 1's base items, without an introduction, then eight variations", () => {
     const lesson = askingLesson("aq-r01", randomFrom(1));
     const ids = lesson.questions.map((q) => q.id);

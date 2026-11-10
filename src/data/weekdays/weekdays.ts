@@ -10,6 +10,7 @@ import { l03, r01, t03Items } from "./t03.ts";
 import { l04, t04Items } from "./t04.ts";
 import { l05, t05Items } from "./t05.ts";
 import { l06, r02, t06Items } from "./t06.ts";
+import { l07, t07Items } from "./t07.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const weekdaysQuestions: Question[] = [
@@ -19,9 +20,10 @@ export const weekdaysQuestions: Question[] = [
   ...t04Items,
   ...t05Items,
   ...t06Items,
+  ...t07Items,
 ].map(questionOf);
 
-export const weekdaysLessons: SetLesson[] = [l01, l02, l03, r01, l04, l05, l06, r02];
+export const weekdaysLessons: SetLesson[] = [l01, l02, l03, r01, l04, l05, l06, r02, l07];
 
 const UNITS = [
   ["wd-l01", "wd-l02", "wd-l03", "wd-r01"],

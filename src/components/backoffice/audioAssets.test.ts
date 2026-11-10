@@ -54,7 +54,7 @@ it("orders the clips by unit, then the asking-questions set, the mock exam, foun
 });
 
 it("offers every practice set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 19)).toEqual([
+  expect(audioSourceNames.slice(11, 20)).toEqual([
     "Unit 12",
     "Asking questions · Unit 1",
     "Asking questions · Unit 2",
@@ -62,6 +62,7 @@ it("offers every practice set's units after the course units", () => {
     "Asking questions · Unit 4",
     "Weekdays · Unit 1",
     "Weekdays · Unit 2",
+    "Weekdays · Unit 3",
     "Mock exam",
   ]);
 });

@@ -33,6 +33,9 @@ describe("weekdays content", () => {
         "WD-T06-E01",
         "WD-T06-E06",
         "WD-T06-V12",
+        "WD-T07-E01",
+        "WD-T07-E06",
+        "WD-T07-V12",
       ]),
     );
   });
@@ -57,6 +60,7 @@ describe("weekdays content", () => {
       "WD-T04-E01",
       "WD-T05-E01",
       "WD-T06-E01",
+      "WD-T07-E01",
     ]);
 
     for (const q of choices) {
@@ -98,6 +102,9 @@ describe("weekdays content", () => {
       "WD-T06-E06",
       "WD-T06-V10",
       "WD-T06-V12",
+      "WD-T07-E06",
+      "WD-T07-V10",
+      "WD-T07-V12",
     ]);
 
     expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
@@ -122,6 +129,9 @@ describe("weekdays content", () => {
         "WD-T06-E01",
         "WD-T06-E04",
         "WD-T06-V11",
+        "WD-T07-E01",
+        "WD-T07-E04",
+        "WD-T07-V05",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "lunes",
@@ -142,6 +152,9 @@ describe("weekdays content", () => {
       "sábado",
       "Hoy es sábado.",
       "La tienda abre los sábados.",
+      "domingo",
+      "Hoy es domingo.",
+      "Luis tiene una reunión el domingo.",
     ]);
   });
 
@@ -223,11 +236,32 @@ describe("weekdays content", () => {
     expect(ids("WD-T06-V")).toHaveLength(12);
   });
 
+  it("authors six base items and twelve variations for domingo", () => {
+    expect(ids("WD-T07-E")).toEqual([
+      "WD-T07-E01",
+      "WD-T07-E02",
+      "WD-T07-E03",
+      "WD-T07-E04",
+      "WD-T07-E05",
+      "WD-T07-E06",
+    ]);
+
+    expect(ids("WD-T07-V")).toHaveLength(12);
+  });
+
   it("asks for every day so far as the answer of a typed Spanish item", () => {
     const typed = weekdaysQuestions.filter((q) => q.kind === "type").map((q) => q.answer);
 
     expect(typed).toEqual(
-      expect.arrayContaining(["lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]),
+      expect.arrayContaining([
+        "lunes",
+        "martes",
+        "miércoles",
+        "jueves",
+        "viernes",
+        "sábado",
+        "domingo",
+      ]),
     );
   });
 
@@ -259,6 +293,16 @@ describe("weekdays content", () => {
   it("takes sábados, not sábado, for every Saturday", () => {
     expect(isCorrect(question("WD-T06-V09"), "sábados")).toBe(true);
     expect(isCorrect(question("WD-T06-V09"), "sábado")).toBe(false);
+  });
+
+  it("rejects another day in the domingo gap", () => {
+    expect(isCorrect(question("WD-T07-E04"), "sábado")).toBe(false);
+    expect(isCorrect(question("WD-T07-E04"), "Domingo")).toBe(true);
+  });
+
+  it("takes domingos, not domingo, for every Sunday", () => {
+    expect(isCorrect(question("WD-T07-V09"), "domingos")).toBe(true);
+    expect(isCorrect(question("WD-T07-V09"), "domingo")).toBe(false);
   });
 
   it("passes miercoles for the miércoles word and notes the missing é", () => {

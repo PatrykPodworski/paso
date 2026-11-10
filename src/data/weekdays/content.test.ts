@@ -27,6 +27,9 @@ describe("weekdays content", () => {
         "WD-T04-E01",
         "WD-T04-E06",
         "WD-T04-V12",
+        "WD-T05-E01",
+        "WD-T05-E06",
+        "WD-T05-V12",
       ]),
     );
   });
@@ -49,6 +52,7 @@ describe("weekdays content", () => {
       "WD-T02-E01",
       "WD-T03-E01",
       "WD-T04-E01",
+      "WD-T05-E01",
     ]);
 
     for (const q of choices) {
@@ -84,6 +88,9 @@ describe("weekdays content", () => {
       "WD-T04-E06",
       "WD-T04-V10",
       "WD-T04-V12",
+      "WD-T05-E06",
+      "WD-T05-V10",
+      "WD-T05-V12",
     ]);
 
     expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
@@ -102,6 +109,9 @@ describe("weekdays content", () => {
         "WD-T04-E01",
         "WD-T04-E04",
         "WD-T04-V05",
+        "WD-T05-E01",
+        "WD-T05-E04",
+        "WD-T05-V05",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "lunes",
@@ -116,6 +126,9 @@ describe("weekdays content", () => {
       "jueves",
       "La visita es el jueves.",
       "Luis tiene una reunión el jueves.",
+      "viernes",
+      "La cita es el viernes.",
+      "El curso de Luis empieza el viernes.",
     ]);
   });
 
@@ -171,10 +184,25 @@ describe("weekdays content", () => {
     expect(ids("WD-T04-V")).toHaveLength(12);
   });
 
+  it("authors six base items and twelve variations for viernes", () => {
+    expect(ids("WD-T05-E")).toEqual([
+      "WD-T05-E01",
+      "WD-T05-E02",
+      "WD-T05-E03",
+      "WD-T05-E04",
+      "WD-T05-E05",
+      "WD-T05-E06",
+    ]);
+
+    expect(ids("WD-T05-V")).toHaveLength(12);
+  });
+
   it("asks for every day so far as the answer of a typed Spanish item", () => {
     const typed = weekdaysQuestions.filter((q) => q.kind === "type").map((q) => q.answer);
 
-    expect(typed).toEqual(expect.arrayContaining(["lunes", "martes", "miércoles", "jueves"]));
+    expect(typed).toEqual(
+      expect.arrayContaining(["lunes", "martes", "miércoles", "jueves", "viernes"]),
+    );
   });
 
   it("accepts the full sentence without a capital or a full stop", () => {
@@ -195,6 +223,11 @@ describe("weekdays content", () => {
   it("rejects another day in the jueves gap", () => {
     expect(isCorrect(question("WD-T04-E04"), "miércoles")).toBe(false);
     expect(isCorrect(question("WD-T04-E04"), "Jueves")).toBe(true);
+  });
+
+  it("rejects another day in the viernes gap", () => {
+    expect(isCorrect(question("WD-T05-E04"), "jueves")).toBe(false);
+    expect(isCorrect(question("WD-T05-E04"), "Viernes")).toBe(true);
   });
 
   it("passes miercoles for the miércoles word and notes the missing é", () => {

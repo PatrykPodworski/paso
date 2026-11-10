@@ -1,4 +1,4 @@
-import { pathLessons } from "./path";
+import { pathLessons, pathUnits } from "./path";
 import type { ProgressSnapshot } from "./types";
 
 const unfinished = (progress: ProgressSnapshot) =>
@@ -10,3 +10,10 @@ export const journeyLesson = (progress: ProgressSnapshot) =>
   unfinished(progress).find((l) => l.lesson().questions.some((q) => !progress.questions[q.id])) ||
   unfinished(progress)[0] ||
   pathLessons[0];
+
+// The unit that holds the lesson Continue my journey opens.
+export const currentUnit = (progress: ProgressSnapshot) => {
+  const lesson = journeyLesson(progress);
+
+  return pathUnits.find((u) => u.lessons.includes(lesson))!;
+};

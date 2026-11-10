@@ -1,6 +1,5 @@
 import { units } from "./curriculum";
-import { journeyLesson } from "./journeyLesson";
-import type { Lesson, ProgressSnapshot } from "./types";
+import type { Lesson } from "./types";
 
 // A lesson as the learning path shows it. `lesson()` gives the lesson to run.
 export type PathLesson = {
@@ -75,10 +74,3 @@ const unitNumbers: Record<string, number> = Object.fromEntries(
 // The displayed number of a course unit, given its course index from 1, as words.json stores it.
 // Every course unit is on the path.
 export const courseUnitNumber = (courseUnit: number) => unitNumbers[units[courseUnit - 1].id];
-
-// The unit that holds the lesson Continue my journey opens.
-export const currentUnit = (progress: ProgressSnapshot) => {
-  const lesson = journeyLesson(progress);
-
-  return pathUnits.find((u) => u.lessons.includes(lesson))!;
-};

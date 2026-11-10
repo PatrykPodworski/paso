@@ -1,8 +1,8 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
-import { journeyLesson } from "./data/journeyLesson";
-import { currentUnit, pathLessons } from "./data/path";
+import { currentUnit, journeyLesson } from "./data/journeyLesson";
+import { pathLessons } from "./data/path";
 import { practiceSets, setLessons } from "./data/practice-sets/index";
 import type { Lesson, Skill } from "./data/types";
 import { BackofficePage } from "./components/backoffice/BackofficePage";

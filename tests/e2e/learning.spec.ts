@@ -732,7 +732,7 @@ test("talk to Lucía live, get scored and pass unit 1's speaking", async ({ page
   expect(await stored(page, "paso-live-v1")).toEqual({ freeUsed: true, passcode: "olé" });
 });
 
-test("the lesson header names the unit and lesson, and a practice session as practice", async ({
+test("the lesson header names the path unit and lesson, for a set lesson too, and a practice session as practice", async ({
   page,
 }) => {
   const lesson = await openLesson(page, 13);
@@ -740,6 +740,11 @@ test("the lesson header names the unit and lesson, and a practice session as pra
 
   await expect(header.getByText("UNIT 4 · LESSON 2", { exact: true })).toBeVisible();
   await expect(header.getByRole("heading", { name: lesson.title, exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Close lesson" }).click();
+
+  await page.goto("/practice/questions");
+  await page.getByRole("button", { name: /Asking for things/ }).click();
+  await expect(header.getByText("UNIT 12 · LESSON 1", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Close lesson" }).click();
 
   await page.goto("/practice");

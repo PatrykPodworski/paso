@@ -20,14 +20,15 @@ export const weekdaysQuestions: Question[] = [
 export const weekdaysLessons: SetLesson[] = [l01, l02, l03, r01, l04];
 
 const UNITS = [
-  ["wd-l01", "wd-l02", "wd-l03", "wd-r01"],
-  ["wd-l04", "wd-l05", "wd-l06", "wd-r02"],
-  ["wd-l07", "wd-r03"],
+  { after: 5, subtitle: "lunes, martes, miércoles", ids: ["wd-l01", "wd-l02", "wd-l03", "wd-r01"] },
+  { after: 5, subtitle: "jueves, viernes, sábado", ids: ["wd-l04", "wd-l05", "wd-l06", "wd-r02"] },
+  { after: 5, subtitle: "domingo and the whole week", ids: ["wd-l07", "wd-r03"] },
 ];
 
-export const weekdaysUnits = UNITS.map((ids, i) => ({
+export const weekdaysUnits = UNITS.map(({ after, subtitle, ids }, i) => ({
   id: `wd-u${i + 1}`,
-  title: `Unit ${i + 1}`,
+  after,
+  subtitle,
   lessons: weekdaysLessons.filter((l) => ids.includes(l.id)),
 }));
 

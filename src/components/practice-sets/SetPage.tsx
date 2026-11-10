@@ -1,3 +1,4 @@
+import { pathUnitNumber } from "../../data/path";
 import type { PracticeSet } from "../../data/practice-sets/practiceSet";
 import type { ProgressSnapshot } from "../../data/types";
 import { Eyebrow } from "../../design-system/Eyebrow";
@@ -24,9 +25,10 @@ export const SetPage = ({ set, progress, setSession }: Props) => (
         .filter((u) => u.lessons.length)
         .map((u) => (
           <section key={u.id} aria-labelledby={`${u.id}-title`}>
-            <h2 id={`${u.id}-title`} className="mbe-3 text-lg font-semibold tracking-tight">
-              {u.title}
+            <h2 id={`${u.id}-title`} className="text-lg font-semibold tracking-tight">
+              Unit {pathUnitNumber(u.id)}
             </h2>
+            <p className="mbe-3 text-sm text-muted-foreground">{u.subtitle}</p>
             <Panel className="flex flex-col p-2">
               {u.lessons.map((l) => (
                 <SetLessonRow

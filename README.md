@@ -34,9 +34,11 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
 
 ## What is in it
 
-- **12 units, 48 lessons.** Each unit covers reading, listening, writing and
-  speaking. Alongside the learning path there are foundation checks, picture
-  questions, a personal information form and a full 55-item exam rehearsal.
+- **One learning path.** 12 course units of 4 lessons each, with the practice-set
+  units placed between them, each after the course unit it builds on. Each course
+  unit covers reading, listening, writing and speaking. Alongside the learning path
+  there are foundation checks, picture questions, a personal information form and
+  a full 55-item exam rehearsal.
 - **Asking questions**, a practice set in the practice studio: forming and asking
   questions in Spanish, one new question word per lesson, with a teaching card,
   typed and built questions, and short dialogues the AI tutor reviews.

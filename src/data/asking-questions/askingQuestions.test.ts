@@ -191,8 +191,8 @@ describe("asking questions lessons", () => {
 
     expect(lesson).toMatchObject({
       id: "aq-r01",
-      title: "Review: unit 1",
-      subtitle: "Review lessons 1–4",
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
     });
 
     expect(ids.slice(0, 8)).toEqual([
@@ -407,8 +407,8 @@ describe("asking questions lessons", () => {
 
     expect(lesson).toMatchObject({
       id: "aq-r02",
-      title: "Review: unit 2",
-      subtitle: "Review lessons 5–8",
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
     });
 
     expect(ids.slice(0, 8)).toEqual([
@@ -622,8 +622,8 @@ describe("asking questions lessons", () => {
 
     expect(lesson).toMatchObject({
       id: "aq-r03",
-      title: "Review: unit 3",
-      subtitle: "Review lessons 9–12",
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
     });
 
     expect(ids.slice(0, 8)).toEqual([
@@ -926,8 +926,8 @@ describe("asking questions lessons", () => {
 
     expect(lesson).toMatchObject({
       id: "aq-r04",
-      title: "Review: unit 4",
-      subtitle: "Review lessons 13–18",
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
     });
 
     expect(ids.slice(0, 12)).toEqual([
@@ -973,11 +973,11 @@ describe("asking questions lessons", () => {
   });
 
   it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L18 and R04", () => {
-    expect(askingUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
-      ["Unit 1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
-      ["Unit 2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
-      ["Unit 3", ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"]],
-      ["Unit 4", ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17", "aq-l18", "aq-r04"]],
+    expect(askingUnits.map((u) => [u.id, u.lessons.map((l) => l.id)])).toEqual([
+      ["aq-u1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
+      ["aq-u2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
+      ["aq-u3", ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"]],
+      ["aq-u4", ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17", "aq-l18", "aq-r04"]],
     ]);
   });
 });

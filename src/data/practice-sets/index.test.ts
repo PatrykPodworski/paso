@@ -49,4 +49,35 @@ describe("practice sets", () => {
 
     expect(setOf(allLessons[0].id)).toBeUndefined();
   });
+
+  it("places every set unit after a course unit, never before an earlier unit of the set", () => {
+    expect(practiceSets.map((s) => s.units.map((u) => u.after))).toEqual([
+      [9, 9, 10, 11],
+      [5, 5, 5],
+    ]);
+
+    for (const set of practiceSets) {
+      const afters = set.units.map((u) => u.after);
+
+      expect(
+        afters.every((a) => a >= 1 && a <= 12),
+        set.id,
+      ).toBe(true);
+
+      expect(afters, set.id).toEqual([...afters].sort((a, b) => a - b));
+    }
+  });
+
+  it("names no unit or lesson number in a set lesson's title or subtitle", () => {
+    const numbered = setLessons
+      .flatMap((l) => [l.title, l.subtitle])
+      .filter((text) => /\bunit \d|\blessons? \d/i.test(text));
+
+    expect(setLessons.find((l) => l.id === "aq-r01")).toMatchObject({
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
+    });
+
+    expect(numbered).toEqual([]);
+  });
 });

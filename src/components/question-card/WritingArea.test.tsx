@@ -43,7 +43,7 @@ it("requires non-whitespace typed text and Enter checks exactly once", () => {
   expect(evaluated).not.toHaveBeenCalled();
   fireEvent.keyDown(input, { key: "Enter" });
   fireEvent.keyDown(input, { key: "Enter" });
-  expect(evaluated).toHaveBeenCalledExactlyOnceWith(type.answer, true, false);
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(type.answer, true, false, undefined, false);
   expect(input).toBeDisabled();
 });
 
@@ -55,7 +55,7 @@ it("Enter that checks a typed answer cancels its default action", () => {
 
   fireEvent.change(input, { target: { value: type.answer } });
   expect(fireEvent.keyDown(input, { key: "Enter" })).toBe(false);
-  expect(evaluated).toHaveBeenCalledExactlyOnceWith(type.answer, true, false);
+  expect(evaluated).toHaveBeenCalledExactlyOnceWith(type.answer, true, false, undefined, false);
 });
 
 it("inserts accents at the selected text and restores cursor focus", async () => {

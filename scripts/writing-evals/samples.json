@@ -221,7 +221,7 @@
     "questionId": "AQ-T01-E05",
     "answer": "Qué bebida quieres",
     "expected": "passed",
-    "rationale": "Without ¿ and ? the question still meets every point: the marks are listed as a correction and do not lower the result (ADR 0010)."
+    "rationale": "Without ¿ and ? the question still meets every point: the marks are listed as a correction and do not lower the result (ADR 0011)."
   },
   {
     "id": "question-other-information",
@@ -235,6 +235,6 @@
     "questionId": "AQ-T01-E05",
     "answer": "¿Que bebida quieres?",
     "expected": "passed",
-    "rationale": "Every point met in understandable Spanish: the missing accent on qué is listed as a correction and does not lower the result (ADR 0010)."
+    "rationale": "Every point met in understandable Spanish: the missing accent on qué is listed as a correction and does not lower the result (ADR 0011)."
   }
 ]

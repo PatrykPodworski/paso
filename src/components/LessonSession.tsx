@@ -163,7 +163,7 @@ export const LessonSession = ({
             onSkip={skip}
             onContinue={() => moveOn(results)}
             onSubmit={submit}
-            onEvaluated={(answer, correct, assisted, grade) => {
+            onEvaluated={(answer, correct, assisted, grade, noted) => {
               const q = lesson.questions[index];
 
               setAnswered(index);
@@ -176,6 +176,7 @@ export const LessonSession = ({
                 correct,
                 assisted,
                 ...(grade && { grade }),
+                ...(noted && { noted }),
                 at: new Date().toISOString(),
               });
             }}

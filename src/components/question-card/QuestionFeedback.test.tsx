@@ -102,7 +102,23 @@ it("passes a typed answer that misses only its accents and notes the accents", (
   expect(status).toHaveTextContent("The generic explanation.");
   expect(status).toHaveTextContent("Missing accent on é: ¿Quién eres?");
   expect(status).not.toHaveTextContent("Your answer:");
-  expect(screen.getByText("Keep taking those little steps.")).toBeInTheDocument();
+  expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
+});
+
+it.each([
+  ["quien eres", true],
+  ["Quién eres", false],
+])("reports %s as passed, with a note: %s", (answer, noted) => {
+  const onEvaluated = vi.fn();
+
+  render(
+    <QuestionCard q={typeQuestion("¿Quién eres?")} onSubmit={vi.fn()} onEvaluated={onEvaluated} />,
+  );
+
+  fireEvent.change(screen.getByLabelText("Your answer in Spanish"), { target: { value: answer } });
+  fireEvent.keyDown(screen.getByLabelText("Your answer in Spanish"), { key: "Enter" });
+
+  expect(onEvaluated.mock.calls).toEqual([[answer, true, false, undefined, noted]]);
 });
 
 it("names every missing accent", () => {
@@ -142,6 +158,7 @@ it("leaves the accent note off an exact answer", () => {
 
   expect(status).toHaveTextContent("¡Muy bien!");
   expect(status).not.toHaveTextContent("Missing accent");
+  expect(screen.getByText("Keep taking those little steps.")).toBeInTheDocument();
 });
 
 it.each([
@@ -161,6 +178,7 @@ it("notes the missing ¿ ? on a correct answer to a full Spanish question", () =
   expect(status).toHaveTextContent("¡Muy bien!");
 
   expect(status).toHaveTextContent("Spanish questions open with ¿ and close with ?: ¿Qué quieres?");
+  expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
 });
 
 it("leaves the ¿ ? note off an unflagged question", () => {
@@ -168,6 +186,7 @@ it("leaves the ¿ ? note off an unflagged question", () => {
 
   expect(status).toHaveTextContent("¡Muy bien!");
   expect(status).not.toHaveTextContent("Spanish questions open with");
+  expect(screen.getByText("Keep taking those little steps.")).toBeInTheDocument();
 });
 
 it("marks a chosen option that differs only by accents wrong", () => {

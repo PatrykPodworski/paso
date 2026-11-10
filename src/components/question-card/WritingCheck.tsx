@@ -34,6 +34,12 @@ const FLAGS = {
   },
 };
 
+// A passed review whose every correction changes only accents or ¿ ? (ADR 0011).
+const notedReview = (review: WritingReview, grade: Grade) =>
+  grade === "perfect" &&
+  review.corrections.length > 0 &&
+  review.corrections.every((c) => c.accentOnly);
+
 type ResultProps = { q: Question; review: WritingReview; grade: Grade; onContinue: () => void };
 
 const WritingResult = ({ q, review, grade, onContinue }: ResultProps) => {
@@ -54,7 +60,9 @@ const WritingResult = ({ q, review, grade, onContinue }: ResultProps) => {
       <WritingFeedback review={review} minWords={q.minWords} maxWords={q.maxWords} />
       <div className="flex items-center justify-between gap-5 mt-1 max-md:flex-wrap max-md:gap-3.5">
         <small className="text-xs leading-relaxed text-muted-foreground">
-          {grade === "bad" ? "Added to your mistake review." : "Your practice is saved."}
+          {grade === "bad" || notedReview(review, grade)
+            ? "Added to your mistake review."
+            : "Your practice is saved."}
         </small>
         <Button
           type="button"
@@ -121,7 +129,13 @@ type Props = {
   assisted: boolean;
   onLock: (locked: boolean) => void;
   // `correct` is null, with no grade, when the answer is saved without feedback.
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
+  onEvaluated?: (
+    answer: string,
+    correct: boolean | null,
+    assisted: boolean,
+    grade?: Grade,
+    noted?: boolean,
+  ) => void;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
 };
 
@@ -151,7 +165,13 @@ export const WritingCheck = ({
     const next = gradedOf(reviewed[q.id]);
 
     if (next) {
-      onEvaluated?.(answer, next.grade !== "bad", assisted, next.grade);
+      onEvaluated?.(
+        answer,
+        next.grade !== "bad",
+        assisted,
+        next.grade,
+        notedReview(next.review, next.grade),
+      );
     } else {
       onLock(false);
     }

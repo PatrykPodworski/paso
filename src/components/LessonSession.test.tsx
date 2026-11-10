@@ -554,6 +554,45 @@ it("saves a writing task without feedback when no passcode is entered, outside t
   vi.unstubAllGlobals();
 });
 
+it("records a typed answer that misses only its accents as correct, with a note", () => {
+  const attempt = vi.fn();
+  const done = vi.fn();
+
+  render(
+    <LessonSession
+      lesson={{
+        id: "test",
+        title: "Test",
+        subtitle: "",
+        icon: "book",
+        minutes: 2,
+        questions: [
+          { ...type, id: "accent", answer: "Está aquí", accepted: [] },
+          { ...type, id: "exact", answer: "Está aquí", accepted: [] },
+        ],
+      }}
+      progress={emptySnapshot()}
+      onClose={vi.fn()}
+      onAttempt={attempt}
+      onComplete={done}
+      onDraft={vi.fn()}
+    />,
+  );
+
+  for (const answer of ["esta aqui", "está aquí"]) {
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: answer } });
+    click("Check answer");
+    click("Continue");
+  }
+
+  expect(attempt.mock.calls.map(([a]) => [a.questionId, a.correct, a.noted])).toEqual([
+    ["accent", true, true],
+    ["exact", true, undefined],
+  ]);
+
+  expect(done).toHaveBeenCalledExactlyOnceWith(2, 2);
+});
+
 it("stops offering the skip once a passed exercise is answered again", () => {
   const [seen] = allQuestions.filter((q) => q.options);
   const progress = emptySnapshot();

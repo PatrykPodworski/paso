@@ -92,6 +92,34 @@ describe("parsing the model's review", () => {
     });
   });
 
+  it("tags the corrections that change only accents or ¿ ?", () => {
+    const corrections = [
+      { original: "Que bebida", corrected: "Qué bebida", explanation: "Qué takes an accent." },
+      { original: "quieres", corrected: "quieres?", explanation: "Close the question." },
+      { original: "Donde esta", corrected: "¿Dónde está", explanation: "Open it and add accents." },
+      { original: "Hola.", corrected: "¡Hola!", explanation: "Use exclamation marks." },
+      { original: "Soy veinte años", corrected: "Tengo veinte años", explanation: "Use tener." },
+      { original: "nino", corrected: "niño", explanation: "Write ñ." },
+      { original: "polonia", corrected: "Polonia", explanation: "Capitalise the country." },
+    ];
+
+    expect(
+      parseReview(
+        question,
+        4,
+        output({ coverage: coverage(question, 0), corrections, result: "passed" }),
+      )?.corrections,
+    ).toEqual([
+      { ...corrections[0], accentOnly: true },
+      { ...corrections[1], accentOnly: true },
+      { ...corrections[2], accentOnly: true },
+      corrections[3],
+      corrections[4],
+      corrections[5],
+      corrections[6],
+    ]);
+  });
+
   it("collapses a repeated or shorter quote of a missed point and keeps a different mistake", () => {
     const fix = fixOf(0);
 

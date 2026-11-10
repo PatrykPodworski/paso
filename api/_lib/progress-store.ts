@@ -225,13 +225,16 @@ const ensureLearner = (learner: string) =>
 export const readProgress = async (db: Db, learner: string) =>
   snapshotOf(await db.transaction(reads(learner)));
 
-// The attempt rules: a wrong answer goes to the mistakes, due at once. An unassisted
-// correct answer to a tracked question leaves the mistakes and moves one review window
-// up, or leaves the reviews for good when it is graded (a live talk or a writing review). +5 XP when the
-// question is new. An attempt id already stored changes nothing.
+// The attempt rules: a wrong answer, or a correct one with an accent or ¿ ? note, goes to
+// the mistakes, due at once. An unassisted correct answer without a note to a tracked
+// question leaves the mistakes and moves one review window up, or leaves the reviews for good
+// when it is graded (a live talk or a writing review). +5 XP when the question is new. An attempt id already stored changes nothing.
 export const saveAttempt = async (db: Db, learner: string, a: Attempt, timeZone: string) => {
   const recovers =
     "(excluded.correct AND NOT excluded.assisted AND (s.in_mistakes OR s.review_level IS NOT NULL))";
+
+  // $11 is the attempt's note; the update below cannot read the inserted row.
+  const missed = (correct: string) => `(${correct} IS FALSE OR $11::boolean)`;
 
   const next = `LEAST(GREATEST(COALESCE(s.review_level, 0), 0) + 1, ${TOP_LEVEL})`;
   const windows = `ARRAY[${REVIEW_WINDOWS.join(", ")}]`;
@@ -242,17 +245,19 @@ export const saveAttempt = async (db: Db, learner: string, a: Attempt, timeZone:
       q(
         `WITH inserted AS (
            INSERT INTO attempts
-             (learner_id, id, question_id, skill, correct, answer, at, local_day, assisted, grade)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, ($7::timestamptz AT TIME ZONE $8::text)::date, $9, $10)
+             (learner_id, id, question_id, skill, correct, answer, at, local_day, assisted, grade,
+              noted)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, ($7::timestamptz AT TIME ZONE $8::text)::date, $9, $10,
+             $11)
            ON CONFLICT (learner_id, id) DO NOTHING
            RETURNING *
          ), state AS (
            INSERT INTO question_states AS s (learner_id, question_id, skill, last_attempt_id,
              last_at, correct, answer, assisted, grade, in_mistakes, review_level, review_next_at)
            SELECT learner_id, question_id, skill, id, at, correct, answer, assisted, grade,
-             correct IS FALSE,
-             CASE WHEN correct IS FALSE THEN 0 END,
-             CASE WHEN correct IS FALSE THEN at END
+             ${missed("correct")},
+             CASE WHEN ${missed("correct")} THEN 0 END,
+             CASE WHEN ${missed("correct")} THEN at END
            FROM inserted
            ON CONFLICT (learner_id, question_id) DO UPDATE SET
              skill = excluded.skill,
@@ -263,16 +268,16 @@ export const saveAttempt = async (db: Db, learner: string, a: Attempt, timeZone:
              assisted = excluded.assisted,
              grade = excluded.grade,
              in_mistakes = CASE
-               WHEN excluded.correct IS FALSE THEN true
+               WHEN ${missed("excluded.correct")} THEN true
                WHEN ${recovers} THEN false
                ELSE s.in_mistakes END,
              review_level = CASE
-               WHEN excluded.correct IS FALSE THEN 0
+               WHEN ${missed("excluded.correct")} THEN 0
                WHEN ${recovers} AND excluded.grade IS NOT NULL THEN NULL
                WHEN ${recovers} THEN ${next}
                ELSE s.review_level END,
              review_next_at = CASE
-               WHEN excluded.correct IS FALSE THEN excluded.last_at
+               WHEN ${missed("excluded.correct")} THEN excluded.last_at
                WHEN ${recovers} AND excluded.grade IS NOT NULL THEN NULL
                WHEN ${recovers} THEN
                  excluded.last_at + make_interval(hours => 24 * (${windows})[${next} + 1])
@@ -291,6 +296,7 @@ export const saveAttempt = async (db: Db, learner: string, a: Attempt, timeZone:
         timeZone,
         a.assisted ?? false,
         a.grade ?? null,
+        a.noted ?? false,
       ),
     ])
   ).snapshot;

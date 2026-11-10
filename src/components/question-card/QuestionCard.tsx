@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Grade, Question } from "../../data/types";
-import { isCorrect } from "../../data/progress";
+import { isCorrect, notedAnswer } from "../../data/progress";
 import { AnswerInput } from "./AnswerInput";
 import { cardPadding } from "./cardPadding";
 import { preloadClips } from "../audio/clipCache";
@@ -21,7 +21,14 @@ import type { LastAttempt } from "../history/LastTime";
 type Props = {
   q: Question;
   onSubmit: (answer: string, correct: boolean | null, assisted: boolean) => void;
-  onEvaluated?: (answer: string, correct: boolean | null, assisted: boolean, grade?: Grade) => void;
+  // `noted` is a correct answer with an accent or ¿ ? mistake, which joins the mistake review.
+  onEvaluated?: (
+    answer: string,
+    correct: boolean | null,
+    assisted: boolean,
+    grade?: Grade,
+    noted?: boolean,
+  ) => void;
   exam?: boolean;
   draft?: string;
   onDraft?: (text: string) => void;
@@ -71,7 +78,7 @@ const QuestionCardBody = ({
       return;
     }
 
-    onEvaluated?.(submitted, result, assisted);
+    onEvaluated?.(submitted, result, assisted, undefined, notedAnswer(q, submitted));
     setFeedback(true);
 
     // Keep the player mounted so playback starts inside the answer gesture.

@@ -43,7 +43,15 @@ it.each(["first name", "address"])(
 
     fireEvent.click(option);
     fireEvent.click(option);
-    expect(evaluated).toHaveBeenCalledExactlyOnceWith(choice, choice === "first name", false);
+
+    expect(evaluated).toHaveBeenCalledExactlyOnceWith(
+      choice,
+      choice === "first name",
+      false,
+      undefined,
+      false,
+    );
+
     expect(submit).not.toHaveBeenCalled();
     expect(option).toBeDisabled();
     const plays = vi.mocked(HTMLMediaElement.prototype.play);

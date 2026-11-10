@@ -8,6 +8,7 @@ import {
   MAX_CORRECTIONS,
   mergedCorrections,
 } from "./corrections.ts";
+import { changesOnlyAccentsOrQuestionMarks } from "../../src/data/progress.ts";
 import { messagesOf } from "./writing-prompt.ts";
 import type { WritingTask } from "./writing-tasks.ts";
 
@@ -151,6 +152,10 @@ export const parseReview = (
       coverage.filter((c) => !c.met).map((c) => c.fix),
       corrections,
       MAX_CORRECTIONS,
+    ).map((c) =>
+      changesOnlyAccentsOrQuestionMarks(c.original, c.corrected)
+        ? { ...c, accentOnly: true as const }
+        : c,
     ),
     revised,
   };

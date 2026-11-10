@@ -9,4 +9,5 @@
 - [0007. Exercise content is hand-written TypeScript](0007-exercise-content-is-typescript.md) — accepted
 - [0008. New Spanish audio uses the local male VoxCPM2 voice](0008-local-male-voxcpm2-audio.md) — accepted
 - [0009. Content names are male](0009-content-names-are-male.md) — accepted
-- [0010. A typed answer that misses only its accents passes with a note](0010-accent-only-answer-passes-with-a-note.md) — accepted
+- [0010. A typed answer that misses only its accents passes with a note](0010-accent-only-answer-passes-with-a-note.md) — superseded by 0011
+- [0011. An accent or ¿ ? mistake passes with a note and joins the mistake review](0011-accent-mistake-joins-the-mistake-review.md) — accepted

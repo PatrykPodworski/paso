@@ -80,5 +80,5 @@ it("remembers transcript assistance even after hiding the transcript", () => {
   fireEvent.click(screen.getByRole("button", { name: "Need a hand? Show transcript" }));
   fireEvent.click(screen.getByRole("button", { name: "Hide transcript" }));
   fireEvent.click(screen.getByRole("button", { name: q.answer }));
-  expect(evaluated).toHaveBeenCalledWith(q.answer, true, true);
+  expect(evaluated).toHaveBeenCalledWith(q.answer, true, true, undefined, false);
 });

@@ -209,13 +209,51 @@ it.each([
 
     expect(await screen.findByRole("heading", { name: heading })).toBeInTheDocument();
     expect(screen.getByText(note)).toBeInTheDocument();
-    expect(onEvaluated.mock.calls).toEqual([[answer, correct, false, grade]]);
+    expect(onEvaluated.mock.calls).toEqual([[answer, correct, false, grade, false]]);
     expect(onSubmit).not.toHaveBeenCalled();
     click("Continue");
     expect(onSubmit.mock.calls).toEqual([[answer, correct, false]]);
     expect(onEvaluated).toHaveBeenCalledOnce();
   },
 );
+
+const accentOnly = [
+  {
+    original: "Como te llamas",
+    corrected: "¿Cómo te llamas?",
+    explanation: "Add the accent and ¿ ?.",
+    accentOnly: true,
+  },
+];
+
+it.each([
+  ["perfect", "Passed", true, "Added to your mistake review."],
+  ["good", "Partly passed", false, "Your practice is saved."],
+] as const)(
+  "sends a %s review with only accent corrections to the mistake review when it passed: %s",
+  async (grade, heading, noted, note) => {
+    storePasscode();
+    api.mockResolvedValue(Response.json({ ...review(grade), corrections: accentOnly }));
+    const { onEvaluated } = mount();
+
+    click("Review my practice");
+
+    expect(await screen.findByRole("heading", { name: heading })).toBeInTheDocument();
+    expect(screen.getByText(note)).toBeInTheDocument();
+    expect(onEvaluated.mock.calls).toEqual([[answer, true, false, grade, noted]]);
+  },
+);
+
+it("keeps a passed review with no corrections out of the mistake review", async () => {
+  storePasscode();
+  api.mockResolvedValue(Response.json({ ...review("perfect"), corrections: [] }));
+  const { onEvaluated } = mount();
+
+  click("Review my practice");
+
+  expect(await screen.findByText("Your practice is saved.")).toBeInTheDocument();
+  expect(onEvaluated.mock.calls).toEqual([[answer, true, false, "perfect", false]]);
+});
 
 it("sends a form as its labelled fields", async () => {
   storePasscode();
@@ -286,7 +324,7 @@ it.each([
 
   expect(await screen.findByRole("heading", { name: "Passed" })).toBeInTheDocument();
   expect(JSON.parse(api.mock.calls[1][1].body).answer).toBe(`${answer} Adiós.`);
-  expect(onEvaluated.mock.calls).toEqual([[`${answer} Adiós.`, true, false, "perfect"]]);
+  expect(onEvaluated.mock.calls).toEqual([[`${answer} Adiós.`, true, false, "perfect", false]]);
 });
 
 it("drops a review that arrives after the card closed", async () => {

@@ -256,6 +256,40 @@ describe("the mistake and review rules", () => {
     });
   });
 
+  it("puts a correct answer with an accent or ¿ ? note in the mistakes until an exact answer", async () => {
+    const me = learner();
+
+    expect((await answer(me, { id: "a1", noted: true })).questions["u1-v0"]).toMatchObject({
+      correct: true,
+      inMistakes: true,
+      review: { level: 0, nextAt: T },
+    });
+
+    expect((await answer(me, { id: "a2", noted: true })).questions["u1-v0"]).toMatchObject({
+      inMistakes: true,
+      review: { level: 0, nextAt: T },
+    });
+
+    expect((await answer(me, { id: "a3" })).questions["u1-v0"]).toMatchObject({
+      inMistakes: false,
+      review: { level: 1, nextAt: "2026-09-10T12:00:00.000Z" },
+    });
+  });
+
+  it("puts a passed writing review with only accent corrections in the mistakes", async () => {
+    const me = learner();
+    const writing = { questionId: "u1-o2", skill: "writing" as const, grade: "perfect" as const };
+
+    expect(
+      (await answer(me, { ...writing, id: "a1", noted: true })).questions["u1-o2"],
+    ).toMatchObject({ inMistakes: true, review: { level: 0, nextAt: T } });
+
+    const p = await answer(me, { ...writing, id: "a2" });
+
+    expect(p.questions["u1-o2"]).toMatchObject({ inMistakes: false });
+    expect(p.questions["u1-o2"].review).toBeUndefined();
+  });
+
   it("steps through the review windows and stops at the longest", async () => {
     const me = learner();
     const reviews = [];
@@ -1003,6 +1037,18 @@ describe("requests", () => {
       "an attempt with no grade",
       me,
       { action: "attempt", attempt: { ...attempt(), grade: "A" } },
+      "attempt",
+    ],
+    [
+      "a wrong attempt with a note",
+      me,
+      { action: "attempt", attempt: attempt({ correct: false, noted: true }) },
+      "attempt",
+    ],
+    [
+      "an attempt with a note that is not true or false",
+      me,
+      { action: "attempt", attempt: { ...attempt(), noted: "yes" } },
       "attempt",
     ],
     [

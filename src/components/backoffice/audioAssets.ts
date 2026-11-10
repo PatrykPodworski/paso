@@ -3,6 +3,7 @@ import { audioKey, spokenText } from "../../data/audio";
 import { foundations, units, vocabulary, visualQuestions } from "../../data/curriculum";
 import examples from "../../data/examples.json";
 import { formPractice, mockQuestions } from "../../data/mock";
+import { courseUnitNumber } from "../../data/path";
 import { practiceSets } from "../../data/practice-sets/index";
 import { lessonBuilder } from "../../data/practice-sets/lesson";
 import type { Question } from "../../data/types";
@@ -22,7 +23,7 @@ const questionTexts = (questions: Question[]) =>
 
 const collections: [string, (string | undefined)[]][] = [
   ...units.map((u, i): [string, (string | undefined)[]] => [
-    `Unit ${i + 1}`,
+    `Unit ${courseUnitNumber(i + 1)}`,
     [
       ...vocabulary.filter((w) => w.unit === i + 1).map((w) => w.es),
       u.example,

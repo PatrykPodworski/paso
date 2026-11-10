@@ -10,7 +10,7 @@ import { ProgressTrack } from "../design-system/ProgressTrack";
 import { LessonStep } from "./LessonStep";
 import { LessonComplete } from "./LessonComplete";
 import { stopAudio } from "./audio/playback";
-import { lessonPlace } from "../data/lessonPlace";
+import { pathPlace } from "../data/path";
 import { usePreloadPictures } from "./usePreloadPictures";
 import { resumeIndex } from "../data/resumeIndex";
 import { sharesRecording } from "../data/sharesRecording";
@@ -51,7 +51,7 @@ export const LessonSession = ({
   const [assisted, setAssisted] = useState(() => skipped.filter((a) => a.assisted).length);
   const [answered, setAnswered] = useState<number | null>(null);
   const question = lesson.questions[index];
-  const place = lessonPlace(lesson.id);
+  const place = pathPlace(lesson.id);
   const done = before[question.id]?.correct === true && answered !== index;
 
   usePreloadPictures(lesson.questions);

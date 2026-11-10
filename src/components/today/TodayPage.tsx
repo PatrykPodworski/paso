@@ -3,8 +3,8 @@ import { Eyebrow } from "../../design-system/Eyebrow";
 import { SectionHeading } from "../../design-system/SectionHeading";
 import { TextLink } from "../../design-system/TextLink";
 import { ProgressTrack } from "../../design-system/ProgressTrack";
-import { allLessons, units } from "../../data/curriculum";
-import type { Lesson, ProgressSnapshot } from "../../data/types";
+import { pathLessons, pathUnits, type PathLesson } from "../../data/path";
+import type { ProgressSnapshot } from "../../data/types";
 import { JourneyArt } from "../Art";
 import { AudioButton } from "../audio/AudioButton";
 import { DailyGoal } from "./DailyGoal";
@@ -21,7 +21,7 @@ const TODAY_UNITS = 3;
 
 type Props = {
   progress: ProgressSnapshot;
-  nextLesson: Lesson;
+  nextLesson: PathLesson;
   completed: number;
   progressPercent: number;
   mistakeCount: number;
@@ -67,7 +67,7 @@ export const TodayPage = ({
               variant="primary"
               size="compact"
               className="max-sm:mt-1 max-sm:relative max-sm:z-3"
-              onClick={() => setSession(nextLesson)}
+              onClick={() => setSession(nextLesson.lesson())}
             >
               {completed ? "Continue my journey" : "Let’s take the first step"}
               <Icon name="arrow" size={19} />
@@ -98,18 +98,17 @@ export const TodayPage = ({
         </SectionHeading>
         <div className="flex items-center gap-3 max-sm:gap-2 mb-4 text-xs max-sm:text-2xs text-muted-foreground">
           <span className="whitespace-nowrap">
-            <b className="font-medium text-foreground">{completed}</b> of {allLessons.length}{" "}
+            <b className="font-medium text-foreground">{completed}</b> of {pathLessons.length}{" "}
             lessons complete
           </span>
           <ProgressTrack value={progressPercent} className="flex-1" />
           <b className="font-medium text-xs">{progressPercent}%</b>
         </div>
         <div className="flex flex-col gap-3">
-          {units.slice(0, TODAY_UNITS).map((u, i) => (
+          {pathUnits.slice(0, TODAY_UNITS).map((u) => (
             <UnitCard
               key={u.id}
               unit={u}
-              index={i}
               progress={progress}
               start={setSession}
               expanded={expanded === u.id}
@@ -121,7 +120,7 @@ export const TodayPage = ({
           className={`${PRESSABLE} flex items-center justify-center w-full gap-2 border-0 bg-transparent p-4 max-sm:py-3.5 max-sm:px-0 text-xs max-sm:text-2xs text-muted-foreground hover:text-foreground`}
           onClick={() => navigate("path")}
         >
-          Home, cafés, adventures & {units.length - TODAY_UNITS} more chapters
+          Home, cafés, adventures & {pathUnits.length - TODAY_UNITS} more chapters
           <Icon name="arrow" size={16} />
         </button>
         <SectionHeading title="A little change of pace">

@@ -18,7 +18,7 @@ it("opens the first unfinished lesson", () => {
 
   expect(journeyLesson(progress).id).toBe(allLessons[0].id);
   finish(progress, 0);
-  expect(journeyLesson(progress).id).toBe(allLessons[1].id);
+  expect(journeyLesson(progress).lesson()).toBe(allLessons[1]);
 });
 
 it("passes over an unfinished lesson whose every exercise is already answered", () => {
@@ -47,5 +47,5 @@ it("starts over at the first lesson when the path is finished", () => {
   const progress = emptySnapshot();
 
   allLessons.forEach((_, i) => finish(progress, i));
-  expect(journeyLesson(progress).id).toBe(allLessons[0].id);
+  expect(journeyLesson(progress).lesson()).toBe(allLessons[0]);
 });

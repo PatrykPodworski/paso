@@ -54,7 +54,7 @@ it("opens a lesson with its variations in a new order each time", () => {
   expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBeGreaterThan(1);
 });
 
-it("lists only the weekdays units that have lessons", () => {
+it("lists the three weekdays units", () => {
   render(<SetPage set={weekdaysSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Weekdays.");
@@ -62,6 +62,7 @@ it("lists only the weekdays units that have lessons", () => {
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 1",
     "Unit 2",
+    "Unit 3",
   ]);
 
   expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent(

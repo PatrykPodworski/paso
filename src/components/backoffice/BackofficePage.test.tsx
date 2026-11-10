@@ -30,13 +30,14 @@ it("lists every question of every unit, every practice set and the mock exam, gr
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
   expect(groups).toHaveLength(units.length + setUnits + 1);
 
-  expect(groups.slice(-7)).toEqual([
+  expect(groups.slice(-8)).toEqual([
     "Unit 12 · Ready for your next chapter",
     "Asking questions · Unit 1",
     "Asking questions · Unit 2",
     "Asking questions · Unit 3",
     "Asking questions · Unit 4",
     "Weekdays · Unit 1",
+    "Weekdays · Unit 2",
     "Mock exam",
   ]);
 

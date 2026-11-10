@@ -61,6 +61,7 @@ it("lists only the weekdays units that have lessons", () => {
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 1",
+    "Unit 2",
   ]);
 
   expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent(

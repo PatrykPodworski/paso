@@ -24,6 +24,9 @@ describe("weekdays content", () => {
         "WD-T03-E01",
         "WD-T03-E06",
         "WD-T03-V12",
+        "WD-T04-E01",
+        "WD-T04-E06",
+        "WD-T04-V12",
       ]),
     );
   });
@@ -41,7 +44,12 @@ describe("weekdays content", () => {
   it("offers each choice's answer once among unique options", () => {
     const choices = weekdaysQuestions.filter((q) => q.kind === "choice");
 
-    expect(choices.map((q) => q.id)).toEqual(["WD-T01-E01", "WD-T02-E01", "WD-T03-E01"]);
+    expect(choices.map((q) => q.id)).toEqual([
+      "WD-T01-E01",
+      "WD-T02-E01",
+      "WD-T03-E01",
+      "WD-T04-E01",
+    ]);
 
     for (const q of choices) {
       const answers = q.options!.filter((o) => o === q.answer);
@@ -73,6 +81,9 @@ describe("weekdays content", () => {
       "WD-T03-E06",
       "WD-T03-V10",
       "WD-T03-V12",
+      "WD-T04-E06",
+      "WD-T04-V10",
+      "WD-T04-V12",
     ]);
 
     expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
@@ -88,6 +99,9 @@ describe("weekdays content", () => {
         "WD-T03-E01",
         "WD-T03-E04",
         "WD-T03-V11",
+        "WD-T04-E01",
+        "WD-T04-E04",
+        "WD-T04-V05",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "lunes",
@@ -99,6 +113,9 @@ describe("weekdays content", () => {
       "miércoles",
       "La reunión es el miércoles.",
       "Pablo va al museo los miércoles.",
+      "jueves",
+      "La visita es el jueves.",
+      "Luis tiene una reunión el jueves.",
     ]);
   });
 
@@ -141,10 +158,23 @@ describe("weekdays content", () => {
     expect(ids("WD-T03-V")).toHaveLength(12);
   });
 
+  it("authors six base items and twelve variations for jueves", () => {
+    expect(ids("WD-T04-E")).toEqual([
+      "WD-T04-E01",
+      "WD-T04-E02",
+      "WD-T04-E03",
+      "WD-T04-E04",
+      "WD-T04-E05",
+      "WD-T04-E06",
+    ]);
+
+    expect(ids("WD-T04-V")).toHaveLength(12);
+  });
+
   it("asks for every day so far as the answer of a typed Spanish item", () => {
     const typed = weekdaysQuestions.filter((q) => q.kind === "type").map((q) => q.answer);
 
-    expect(typed).toEqual(expect.arrayContaining(["lunes", "martes", "miércoles"]));
+    expect(typed).toEqual(expect.arrayContaining(["lunes", "martes", "miércoles", "jueves"]));
   });
 
   it("accepts the full sentence without a capital or a full stop", () => {
@@ -160,6 +190,11 @@ describe("weekdays content", () => {
   it("rejects another day in the martes gap", () => {
     expect(isCorrect(question("WD-T02-E04"), "lunes")).toBe(false);
     expect(isCorrect(question("WD-T02-E04"), "Martes")).toBe(true);
+  });
+
+  it("rejects another day in the jueves gap", () => {
+    expect(isCorrect(question("WD-T04-E04"), "miércoles")).toBe(false);
+    expect(isCorrect(question("WD-T04-E04"), "Jueves")).toBe(true);
   });
 
   it("passes miercoles for the miércoles word and notes the missing é", () => {

@@ -281,6 +281,7 @@ it("forgets a wrong passcode, records nothing and unlocks the answer", async () 
   expect(screen.getByLabelText("Passcode")).toHaveValue("");
   expect(screen.getByLabelText("Passcode")).toHaveFocus();
   expect(reviewButton()).toBeDisabled();
+  expect(screen.queryByRole("button", { name: "Try again" })).not.toBeInTheDocument();
   expect(screen.getByRole("textbox")).toBeEnabled();
   expect(screen.getByRole("textbox")).toHaveValue(answer);
   expect(screen.queryByRole("button", { name: "Continue" })).not.toBeInTheDocument();
@@ -299,12 +300,14 @@ it("says when there were too many wrong passcodes", async () => {
   click("Review my practice");
 
   expect(await screen.findByText("Too many wrong passcodes today.")).toBeInTheDocument();
+  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(screen.queryByRole("button", { name: "Try again" })).not.toBeInTheDocument();
 });
 
 it.each([
   ["an upstream error", async () => Response.json({ error: "upstream" }, { status: 502 })],
   ["a network failure", async () => Promise.reject(new TypeError("fetch failed"))],
-])("explains %s, keeps the passcode and retries from the same place", async (_, reply) => {
+])("explains %s, keeps the passcode and retries the same answer", async (_, reply) => {
   storePasscode();
   api.mockImplementationOnce(reply).mockResolvedValueOnce(Response.json(review("perfect")));
   const { onEvaluated } = mount();
@@ -315,16 +318,36 @@ it.each([
     "Feedback is not available right now. Your answer is saved; try again later.",
   );
 
-  expect(reviewButton()).toHaveFocus();
+  expect(screen.getByRole("button", { name: "Try again" })).toHaveFocus();
+  expect(reviewButton()).toBeDisabled();
   expect(JSON.parse(localStorage.getItem("paso-live-v1")!).passcode).toBe("olé");
-  expect(screen.getByRole("textbox")).toBeEnabled();
+  expect(screen.getByRole("textbox")).toBeDisabled();
   expect(onEvaluated).not.toHaveBeenCalled();
-  fireEvent.change(screen.getByRole("textbox"), { target: { value: `${answer} Adiós.` } });
-  click("Review my practice");
+  click("Try again");
 
   expect(await screen.findByRole("heading", { name: "Passed" })).toBeInTheDocument();
-  expect(JSON.parse(api.mock.calls[1][1].body).answer).toBe(`${answer} Adiós.`);
-  expect(onEvaluated.mock.calls).toEqual([[`${answer} Adiós.`, true, false, "perfect", false]]);
+
+  expect(JSON.parse(api.mock.calls[1][1].body)).toEqual({
+    questionId: "u1-o2",
+    answer,
+    passcode: "olé",
+  });
+
+  expect(onEvaluated.mock.calls).toEqual([[answer, true, false, "perfect", false]]);
+});
+
+it("saves the answer without feedback after a failed review", async () => {
+  storePasscode();
+  api.mockResolvedValue(Response.json({ error: "upstream" }, { status: 502 }));
+  const { onSubmit, onEvaluated } = mount();
+
+  click("Review my practice");
+  await screen.findByRole("alert");
+  click("Save without feedback");
+
+  expect(onEvaluated.mock.calls).toEqual([[answer, null, false]]);
+  expect(onSubmit.mock.calls).toEqual([[answer, null, false]]);
+  expect(api).toHaveBeenCalledOnce();
 });
 
 it("drops a review that arrives after the card closed", async () => {

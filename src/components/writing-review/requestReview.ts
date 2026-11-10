@@ -10,6 +10,9 @@ const PROBLEMS: Record<string, string> = {
 export const problemOf = (code: string) =>
   PROBLEMS[code] ?? "Feedback is not available right now. Your answer is saved; try again later.";
 
+// A passcode problem needs a new passcode; any other problem may pass when the answer is sent again.
+export const retryable = (code: string) => !Object.hasOwn(PROBLEMS, code);
+
 export const requestReview = async (
   questionId: string,
   answer: string,

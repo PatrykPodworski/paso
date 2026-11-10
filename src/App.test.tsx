@@ -1,7 +1,7 @@
 import { act, cleanup, fireEvent, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { changeUrl, renderApp } from "./test/renderApp";
-import { allLessons, allQuestions } from "./data/curriculum";
+import { allLessons, allQuestions, units } from "./data/curriculum";
 import { exerciseBank } from "./components/practice";
 import type { Attempt, Lesson, MockRunPatch } from "./data/types";
 import { type ProgressSeed, progressSeed } from "../tests/fixtures/progressSeed";
@@ -480,6 +480,51 @@ it("shows the first three units on Today", async () => {
   expect(screen.queryByRole("heading", { name: "A place called home" })).not.toBeInTheDocument();
 });
 
+const finishLessons = (p: ProgressSeed, lessons: Lesson[]) => {
+  for (const lesson of lessons) {
+    p.completed[lesson.id] = { score: 1, total: 1, at: "2026-09-08T12:00:00Z" };
+  }
+
+  return p;
+};
+
+it("starts Your learning path at the current unit, expanded", async () => {
+  await mount(
+    "today",
+    finishLessons(
+      progressSeed(),
+      units.slice(0, 4).flatMap((u) => u.lessons),
+    ),
+  );
+
+  const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
+
+  expect(summaries.map((s) => s.textContent?.slice(0, 7))).toEqual([
+    "UNIT 05",
+    "UNIT 06",
+    "UNIT 07",
+  ]);
+
+  expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
+  expect(screen.getByRole("button", { name: "5 more units on your path" })).toBeInTheDocument();
+});
+
+it("shows only the last unit and the full path link on the last unit", async () => {
+  await mount(
+    "today",
+    finishLessons(
+      progressSeed(),
+      units.slice(0, -1).flatMap((u) => u.lessons),
+    ),
+  );
+
+  expect(screen.getAllByRole("button", { name: /^UNIT \d+/ })).toHaveLength(1);
+  expect(screen.getByRole("button", { name: /^UNIT 12/ })).toHaveAttribute("aria-expanded", "true");
+  click("Your full path");
+  await settle();
+  expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
+});
+
 it("routes help, footer, path links and the brand consistently", async () => {
   await mount();
 
@@ -495,7 +540,7 @@ it("routes help, footer, path links and the brand consistently", async () => {
     await settle();
   }
 
-  for (const name of ["View full path", "Home, cafés, adventures & 9 more chapters"]) {
+  for (const name of ["View full path", "9 more units on your path"]) {
     click(name);
     await settle();
     expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();

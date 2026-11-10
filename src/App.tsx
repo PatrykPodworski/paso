@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
 import { journeyLesson } from "./data/journeyLesson";
-import { pathLessons } from "./data/path";
+import { currentUnit, pathLessons } from "./data/path";
 import { practiceSets, setLessons } from "./data/practice-sets/index";
 import type { Lesson, Skill } from "./data/types";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
@@ -40,7 +40,8 @@ const App = () => {
   const { page, navigate, mobileNav, setMobileNav } = useNavigation();
   const [session, setSession] = useState<Lesson | null>(null);
   const [settings, setSettings] = useState(false);
-  const [expanded, setExpanded] = useState("u1");
+  // null until the learner opens or closes a unit; "" when they closed one.
+  const [expanded, setExpanded] = useState<string | null>(null);
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [toast, setToast] = useToast();
 
@@ -74,7 +75,10 @@ const App = () => {
     setSession(lesson);
   };
 
-  const toggleExpanded = (id: string) => setExpanded((open) => (open === id ? "" : id));
+  const expandedUnit = expanded ?? currentUnit(progress).id;
+
+  const toggleExpanded = (id: string) =>
+    setExpanded((open) => ((open ?? expandedUnit) === id ? "" : id));
 
   const complete = (score: number, total: number) => {
     if (session && [...allLessons, ...setLessons].some((l) => l.id === session.id)) {
@@ -90,7 +94,7 @@ const App = () => {
         completed={completed}
         progressPercent={progressPercent}
         mistakeCount={mistakeQuestions.length}
-        expanded={expanded}
+        expanded={expandedUnit}
         toggleExpanded={toggleExpanded}
         setSession={setSession}
         openSettings={() => setSettings(true)}
@@ -104,7 +108,7 @@ const App = () => {
         nextLesson={nextLesson}
         completed={completed}
         progressPercent={progressPercent}
-        expanded={expanded}
+        expanded={expandedUnit}
         toggleExpanded={toggleExpanded}
         setSession={setSession}
         navigate={navigate}

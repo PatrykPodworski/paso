@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by 0012
 ---
 
 # 0006. Practice sets reuse lessons, questions and attempts

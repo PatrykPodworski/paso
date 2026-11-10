@@ -206,6 +206,55 @@ describe("weekdays lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
+  it.each([1, 2, 3])(
+    "opens L05 on the recalled T04-V04, its introduction, the base items with the form card before E04, then every variation (seed %i)",
+    (seed) => {
+      const lesson = weekdaysLesson("wd-l05", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "wd-l05",
+        title: "Friday",
+        subtitle: "Learn one new day",
+      });
+
+      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
+        ["WD-T04-V04", "type"],
+        ["WD-T05-INTRO", "teach"],
+        ["WD-T05-E01", "choice"],
+        ["WD-T05-E02", "type"],
+        ["WD-T05-E03", "type"],
+        ["WD-T05-E04-FORM", "teach"],
+        ["WD-T05-E04", "type"],
+        ["WD-T05-E05", "type"],
+        ["WD-T05-E06", "write"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(9)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual(variationsOf("T05"));
+    },
+  );
+
+  it("shows viernes on the L05 introduction card and el viernes, los viernes on its form card", () => {
+    const [, intro, , , , form] = weekdaysLesson("wd-l05", randomFrom(1)).questions;
+
+    expect([intro.prompt, form.prompt]).toEqual(["New day: viernes", "el viernes, los viernes"]);
+  });
+
+  it("draws a new L05 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      weekdaysLesson("wd-l05", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
   it.each([1, 2, 3])("runs R01 as the three days' V04 sentences in order (seed %i)", (seed) => {
     const lesson = weekdaysLesson("wd-r01", randomFrom(seed));
 
@@ -218,10 +267,10 @@ describe("weekdays lessons", () => {
     expect(lesson.questions.map((q) => q.id)).toEqual(["WD-T01-V04", "WD-T02-V04", "WD-T03-V04"]);
   });
 
-  it("lists unit 1 with L01 to L03 and R01, unit 2 with L04, the only lessons so far, and leaves unit 3 empty", () => {
+  it("lists unit 1 with L01 to L03 and R01, unit 2 with L04 and L05, the only lessons so far, and leaves unit 3 empty", () => {
     expect(weekdaysUnits.map((u) => [u.id, u.lessons.map((l) => l.id)])).toEqual([
       ["wd-u1", ["wd-l01", "wd-l02", "wd-l03", "wd-r01"]],
-      ["wd-u2", ["wd-l04"]],
+      ["wd-u2", ["wd-l04", "wd-l05"]],
       ["wd-u3", []],
     ]);
   });

@@ -572,14 +572,14 @@ it("counts a set lesson finished in the practice studio on the path", async () =
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/75 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/76 complete · 1% of your path")).toBeInTheDocument();
 });
 
 it("opens the weekdays page from the practice studio and counts L01 on the path", async () => {
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Weekdays/ })).toHaveTextContent(
-    "5 lessons · the seven days, one new day per lesson",
+    "6 lessons · the seven days, one new day per lesson",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Weekdays/ }));
@@ -597,7 +597,7 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/75 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/76 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/weekdays");
   await settle();
@@ -683,7 +683,7 @@ it("counts partial unit completion and path percentage separately", async () => 
   p.completed[allLessons[0].id] = { score: 4, total: 8, at: "2026-09-08T12:00:00Z" };
   await mount("path", p);
   expect(screen.getByText("1/4 lessons")).toBeInTheDocument();
-  expect(screen.getByText("1/75 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/76 complete · 1% of your path")).toBeInTheDocument();
 });
 
 describe("app shell behavior kept through the component split", () => {
@@ -810,7 +810,7 @@ it("renders a truthful fresh dashboard and the full learning path", async () => 
   await settle();
 
   expect(
-    screen.getByText("18 units · 75 lessons · 752 exercises. Explore freely, or follow the path."),
+    screen.getByText("18 units · 76 lessons · 770 exercises. Explore freely, or follow the path."),
   ).toBeInTheDocument();
 
   expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();

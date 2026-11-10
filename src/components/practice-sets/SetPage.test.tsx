@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it } from "vitest";
 import { askingQuestionsSet } from "../../data/asking-questions/askingQuestions";
 import type { Lesson } from "../../data/types";
+import { weekdaysSet } from "../../data/weekdays/weekdays";
 import { emptySnapshot } from "../../test/progress";
 import { SetPage } from "./SetPage";
 
@@ -51,4 +52,18 @@ it("opens a lesson with its variations in a new order each time", () => {
 
   expect(opened.map((l) => l.id)).toEqual(["aq-l01", "aq-l01", "aq-l01", "aq-l01"]);
   expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBeGreaterThan(1);
+});
+
+it("lists only the weekdays units that have lessons", () => {
+  render(<SetPage set={weekdaysSet} progress={emptySnapshot()} setSession={() => {}} />);
+
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Weekdays.");
+
+  expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
+    "Unit 1",
+  ]);
+
+  expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent(
+    "MondayLearn one new day18 exercises",
+  );
 });

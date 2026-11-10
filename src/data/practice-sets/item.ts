@@ -8,8 +8,8 @@ type Base = {
   hints: [string, string];
 };
 
-// One exercise as the specification's manifest writes it. `say` is the Spanish question the
-// learner hears after answering.
+// One exercise as the specification's manifest writes it. `say` is the Spanish the learner
+// hears after answering.
 export type Item = Base &
   (
     | { mode: "choice"; choices: string[]; say: string }
@@ -17,6 +17,7 @@ export type Item = Base &
     | { mode: "order"; chunks: string[] }
     | { mode: "ask"; accepted?: string[] }
     | { mode: "dialogue"; constraints: string[] }
+    | { mode: "sentence"; constraints: string[] }
   );
 
 // A chunk of punctuation alone joins its word: ¿ the next chunk, ? the previous one, so the
@@ -89,6 +90,16 @@ export const questionOf = (item: Item): Question => {
         skill: "writing",
         checklist: item.constraints,
         single: "question",
+        minWords: 2,
+        maxWords: 15,
+      };
+    case "sentence":
+      return {
+        ...common,
+        kind: "write",
+        skill: "writing",
+        checklist: item.constraints,
+        single: "sentence",
         minWords: 2,
         maxWords: 15,
       };

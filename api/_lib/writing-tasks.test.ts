@@ -128,6 +128,20 @@ describe("writing tasks", () => {
     expect(writingTaskOf("AQ-T01-E04")).toBeUndefined();
   });
 
+  it("reviews the weekdays express-naturally items as single sentences", () => {
+    expect(writingTaskOf("WD-T01-E06")).toEqual({
+      id: "WD-T01-E06",
+      kind: "sentence",
+      exam: false,
+      prompt:
+        "A displayed calendar says Monday, not the actual date. Express this fact naturally in Spanish. Use the words you know.",
+      points: ["Uses lunes for Monday", "Keeps the fact and the people of the situation"],
+      wordRange: [2, 15],
+    });
+
+    expect(writingTaskOf("WD-T01-E05")).toBeUndefined();
+  });
+
   it("knows only writing tasks", () => {
     expect(["mock-s1", "u1-v0", "u99-o2", 7, undefined].map(writingTaskOf)).toEqual([
       undefined,

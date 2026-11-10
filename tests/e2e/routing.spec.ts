@@ -5,6 +5,7 @@ const title = {
   path: "Every step has a story.",
   practice: "Your practice studio.",
   "practice/questions": "Asking questions.",
+  "practice/weekdays": "Weekdays.",
   exam: "Meet the exam.",
   guide: "Your guide to DELE A1.",
   backoffice: "Every task, one click away.",

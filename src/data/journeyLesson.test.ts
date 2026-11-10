@@ -1,11 +1,17 @@
 import { expect, it } from "vitest";
-import { journeyLesson } from "./journeyLesson";
+import { currentUnit, journeyLesson } from "./journeyLesson";
 import { allLessons, units } from "./curriculum";
 import { pathLessons } from "./path";
 import { emptySnapshot, questionState } from "../test/progress";
 
 const finish = (progress: ReturnType<typeof emptySnapshot>, index: number) => {
   progress.completed[pathLessons[index].id] = { score: 1, total: 1, at: "2026-09-09T08:00:00Z" };
+};
+
+const finishUnits = (progress: ReturnType<typeof emptySnapshot>, count: number) => {
+  for (const lesson of units.slice(0, count).flatMap((u) => u.lessons)) {
+    progress.completed[lesson.id] = { score: 1, total: 1, at: "2026-09-09T08:00:00Z" };
+  }
 };
 
 const answerAll = (progress: ReturnType<typeof emptySnapshot>, index: number) => {
@@ -57,9 +63,43 @@ it("starts over at the first lesson when the path is finished", () => {
 it("opens the first Weekdays lesson once course units 1 to 5 are finished", () => {
   const progress = emptySnapshot();
 
-  for (const l of units.slice(0, 5).flatMap((u) => u.lessons)) {
-    progress.completed[l.id] = { score: 1, total: 1, at: "2026-11-10T08:00:00Z" };
+  finishUnits(progress, 5);
+  expect(journeyLesson(progress).id).toBe("wd-l01");
+});
+
+it("starts a fresh learner at unit 01", () => {
+  expect(currentUnit(emptySnapshot()).number).toBe(1);
+});
+
+it("moves to the unit after the finished ones", () => {
+  const progress = emptySnapshot();
+
+  finishUnits(progress, 4);
+  expect(currentUnit(progress).number).toBe(5);
+});
+
+it("follows the journey lesson past a unit whose exercises are all answered", () => {
+  const progress = emptySnapshot();
+
+  finishUnits(progress, 1);
+
+  for (const q of units[1].lessons.flatMap((l) => l.questions)) {
+    progress.questions[q.id] = questionState();
   }
 
-  expect(journeyLesson(progress).id).toBe("wd-l01");
+  expect(currentUnit(progress).number).toBe(3);
+});
+
+it("returns to unit 01 when the whole path is finished", () => {
+  const progress = emptySnapshot();
+
+  pathLessons.forEach((_, i) => finish(progress, i));
+  expect(currentUnit(progress).number).toBe(1);
+});
+
+it("makes the first Weekdays unit current once course units 1 to 5 are finished", () => {
+  const progress = emptySnapshot();
+
+  finishUnits(progress, 5);
+  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: 6 });
 });

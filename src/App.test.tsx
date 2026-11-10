@@ -219,7 +219,7 @@ describe("app business orchestration", () => {
 
     await mount("path", p);
     expect(screen.getByRole("heading", { name: "The next chapter is yours." })).toBeInTheDocument();
-    expect(screen.getAllByText("Complete")).toHaveLength(18);
+    expect(screen.getAllByText("Complete")).toHaveLength(19);
     click("Meet the exam");
     await settle();
     expect(screen.getByRole("heading", { name: "Meet the exam." })).toBeInTheDocument();
@@ -422,10 +422,10 @@ it("moves from a finished lesson straight to the next one on the path", async ()
 
 it("shows the first Asking questions unit on the path and opens its first lesson", async () => {
   await mount("path");
-  const card = screen.getByRole("button", { name: /UNIT 12 · Part 1 of 4/ });
+  const card = screen.getByRole("button", { name: /UNIT 13 · Part 1 of 4/ });
 
   expect(card).toHaveTextContent(
-    "UNIT 12 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo5 lessons",
+    "UNIT 13 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo5 lessons",
   );
 
   fireEvent.click(card);
@@ -435,7 +435,7 @@ it("shows the first Asking questions unit on the path and opens its first lesson
 
 it("moves from the last lesson of course unit 9 to the first Asking questions lesson", async () => {
   await mount("path");
-  fireEvent.click(screen.getByRole("button", { name: /UNIT 11 · / }));
+  fireEvent.click(screen.getByRole("button", { name: /UNIT 12 · / }));
   fireEvent.click(screen.getByRole("button", { name: new RegExp(units[8].lessons.at(-1)!.title) }));
   act(() => session.onComplete(1, 1));
   act(() => session.onNext!());
@@ -504,6 +504,69 @@ it("shows the first three units on Today", async () => {
   expect(screen.queryByRole("heading", { name: "A place called home" })).not.toBeInTheDocument();
 });
 
+const finishLessons = (p: ProgressSeed, lessons: { id: string }[]) => {
+  for (const lesson of lessons) {
+    p.completed[lesson.id] = { score: 1, total: 1, at: "2026-09-08T12:00:00Z" };
+  }
+
+  return p;
+};
+
+it("starts Your learning path at the current unit, expanded", async () => {
+  await mount(
+    "today",
+    finishLessons(
+      progressSeed(),
+      units.slice(0, 4).flatMap((u) => u.lessons),
+    ),
+  );
+
+  const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
+
+  expect(summaries.map((s) => s.textContent?.slice(0, 7))).toEqual([
+    "UNIT 05",
+    "UNIT 06",
+    "UNIT 07",
+  ]);
+
+  expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
+  expect(screen.getByRole("button", { name: "12 more units on your path" })).toBeInTheDocument();
+});
+
+it("starts Your learning path at a set unit when it holds the journey lesson", async () => {
+  await mount(
+    "today",
+    finishLessons(
+      progressSeed(),
+      units.slice(0, 5).flatMap((u) => u.lessons),
+    ),
+  );
+
+  const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
+
+  expect(summaries.map((s) => s.textContent?.slice(0, 22))).toEqual([
+    "UNIT 06 · Part 1 of 3W",
+    "UNIT 07 · Part 2 of 3W",
+    "UNIT 08 · Part 3 of 3W",
+  ]);
+
+  expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
+  expect(screen.getByRole("button", { name: "11 more units on your path" })).toBeInTheDocument();
+});
+
+it("shows only the last unit and the full path link on the last unit", async () => {
+  await mount(
+    "today",
+    finishLessons(progressSeed(), pathLessons.slice(0, -units.at(-1)!.lessons.length)),
+  );
+
+  expect(screen.getAllByRole("button", { name: /^UNIT \d+/ })).toHaveLength(1);
+  expect(screen.getByRole("button", { name: /^UNIT 19/ })).toHaveAttribute("aria-expanded", "true");
+  click("Your full path");
+  await settle();
+  expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
+});
+
 it("routes help, footer, path links and the brand consistently", async () => {
   await mount();
 
@@ -519,7 +582,7 @@ it("routes help, footer, path links and the brand consistently", async () => {
     await settle();
   }
 
-  for (const name of ["View full path", "Home, cafés, adventures & 15 more chapters"]) {
+  for (const name of ["View full path", "16 more units on your path"]) {
     click(name);
     await settle();
     expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();
@@ -572,14 +635,14 @@ it("counts a set lesson finished in the practice studio on the path", async () =
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/76 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/80 complete · 1% of your path")).toBeInTheDocument();
 });
 
 it("opens the weekdays page from the practice studio and counts L01 on the path", async () => {
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Weekdays/ })).toHaveTextContent(
-    "6 lessons · the seven days, one new day per lesson",
+    "10 lessons · the seven days, one new day per lesson",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Weekdays/ }));
@@ -597,7 +660,7 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/76 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/80 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/weekdays");
   await settle();
@@ -683,7 +746,7 @@ it("counts partial unit completion and path percentage separately", async () => 
   p.completed[allLessons[0].id] = { score: 4, total: 8, at: "2026-09-08T12:00:00Z" };
   await mount("path", p);
   expect(screen.getByText("1/4 lessons")).toBeInTheDocument();
-  expect(screen.getByText("1/76 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/80 complete · 1% of your path")).toBeInTheDocument();
 });
 
 describe("app shell behavior kept through the component split", () => {
@@ -810,7 +873,7 @@ it("renders a truthful fresh dashboard and the full learning path", async () => 
   await settle();
 
   expect(
-    screen.getByText("18 units · 76 lessons · 770 exercises. Explore freely, or follow the path."),
+    screen.getByText("19 units · 80 lessons · 827 exercises. Explore freely, or follow the path."),
   ).toBeInTheDocument();
 
   expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();

@@ -98,13 +98,22 @@ const acknowledgement = [
   answerFirst,
 ];
 
+const learnerHint =
+  "For a point the learner asks, the hint only asks whether they have a question for you, for example «¿Tienes alguna pregunta para mí?». It never names the point, its topic or any word of the learner's question.";
+
+const pointRules =
+  "Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.";
+
+const hintsOf = (task: TaskSpec) =>
+  task.asks.some((ask) => typeof ask !== "string") ? `${pointRules} ${learnerHint}` : pointRules;
+
 const practiceInterview = (task: TaskSpec) => [
   "Cover every point below, in order. This is a conversation, not a checklist.",
   "Ask one short question per turn. Never ask two questions in the same turn.",
   "Where a point puts a question in «», the words outside «» are for you, not a line to speak. The question inside «» is an example: ask one short question for the missing detail, of that kind.",
   ...numbered(task.asks),
   ...acknowledgement,
-  "Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.",
+  hintsOf(task),
   "Stay in your role. If the learner says goodbye or clearly ends the exchange, answer a thank-you if they gave one, then close. A goodbye ends the talk even if a point is still open. Do not ask another question, do not greet them again and do not restart the scene.",
   "If the learner does not answer, or you do not understand, repeat that same question once, more slowly, and then move on.",
   `When every point is covered, or the learner has ended the talk, ${farewell}`,

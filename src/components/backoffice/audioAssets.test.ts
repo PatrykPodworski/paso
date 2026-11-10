@@ -26,7 +26,7 @@ it("lists every generated clip once, under the unit or collection that speaks it
   });
 });
 
-it("orders the clips by unit, then the asking-questions set, the mock exam, foundations and topic flashcards", () => {
+it("orders the clips by unit, then the practice sets, the mock exam, foundations and topic flashcards", () => {
   const order = [...new Set(audioAssets.map((a) => a.source))];
 
   expect(order).toEqual([
@@ -35,17 +35,20 @@ it("orders the clips by unit, then the asking-questions set, the mock exam, foun
     "Unit 3",
     "Unit 4",
     "Unit 5",
-    "Unit 8",
     "Unit 9",
     "Unit 10",
     "Unit 11",
-    "Unit 14",
-    "Unit 16",
-    "Unit 18",
-    "Asking questions · Unit 12",
+    "Unit 12",
+    "Unit 15",
+    "Unit 17",
+    "Unit 19",
     "Asking questions · Unit 13",
-    "Asking questions · Unit 15",
-    "Asking questions · Unit 17",
+    "Asking questions · Unit 14",
+    "Asking questions · Unit 16",
+    "Asking questions · Unit 18",
+    "Weekdays · Unit 6",
+    "Weekdays · Unit 7",
+    "Weekdays · Unit 8",
     "Mock exam",
     "Foundations",
     "Topic flashcards",
@@ -54,14 +57,15 @@ it("orders the clips by unit, then the asking-questions set, the mock exam, foun
 });
 
 it("offers every practice set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 19)).toEqual([
-    "Unit 18",
-    "Asking questions · Unit 12",
+  expect(audioSourceNames.slice(11, 20)).toEqual([
+    "Unit 19",
     "Asking questions · Unit 13",
-    "Asking questions · Unit 15",
-    "Asking questions · Unit 17",
+    "Asking questions · Unit 14",
+    "Asking questions · Unit 16",
+    "Asking questions · Unit 18",
     "Weekdays · Unit 6",
     "Weekdays · Unit 7",
+    "Weekdays · Unit 8",
     "Mock exam",
   ]);
 });

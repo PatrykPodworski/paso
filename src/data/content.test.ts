@@ -17,7 +17,7 @@ import words from "./words.json";
 import type { WordCard } from "./types";
 import examples from "./examples.json";
 import { taskOf } from "../../api/_lib/talk-tasks/index";
-import { askingLesson, askingUnits } from "./asking-questions/askingQuestions";
+import { practiceSets } from "./practice-sets/index";
 
 const questions = [
   ...allQuestions,
@@ -298,19 +298,18 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
-    const askingItems = askingUnits
-      .flatMap((u) => u.lessons)
-      .flatMap((l) => askingLesson(l.id).questions)
+    const setItems = practiceSets
+      .flatMap((s) => s.lessons.flatMap((l) => s.lesson(l.id).questions))
       .filter((q) => q.kind !== "teach");
 
     const phrases = [
       ...new Set(
-        [...questions, ...askingItems]
+        [...questions, ...setItems]
           .flatMap((q) => [q.audio, ...(q.kind === "order" ? [q.answer] : []), ...(q.tokens ?? [])])
           .filter((x): x is string => !!x)
           .concat(
             // Writing tasks play no audio, not even their model answer.
-            [...allQuestions, ...foundations, ...visualQuestions, ...askingItems]
+            [...allQuestions, ...foundations, ...visualQuestions, ...setItems]
               .filter((q) => !["live", "write", "form"].includes(q.kind))
               .map(spokenText),
             vocabulary.map((w) => w.es),

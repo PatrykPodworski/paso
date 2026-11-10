@@ -147,7 +147,7 @@ it("numbers a path lesson by its path unit and its position in that unit", () =>
   expect(pathPlace(units[3].lessons[1].id)).toEqual({ unit: 4, lesson: 2 });
   expect(pathPlace(units[0].lessons[0].id)).toEqual({ unit: 1, lesson: 1 });
   expect(pathPlace("wd-l04")).toEqual({ unit: 7, lesson: 1 });
-  expect(pathPlace("aq-r01")).toEqual({ unit: 12, lesson: 5 });
+  expect(pathPlace("aq-r01")).toEqual({ unit: 13, lesson: 5 });
 });
 
 it("gives a practice session no place on the path", () => {
@@ -157,8 +157,8 @@ it("gives a practice session no place on the path", () => {
 it("shows a course unit under its path number", () => {
   expect(courseUnitNumber(1)).toBe(1);
   expect(courseUnitNumber(5)).toBe(5);
-  expect(courseUnitNumber(6)).toBe(8);
-  expect(courseUnitNumber(12)).toBe(18);
+  expect(courseUnitNumber(6)).toBe(9);
+  expect(courseUnitNumber(12)).toBe(19);
 });
 
 it("counts the set lessons' own exercises and no teaching card", () => {

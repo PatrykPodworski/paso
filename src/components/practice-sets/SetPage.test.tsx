@@ -20,14 +20,14 @@ it("heads each unit with its path number and what it teaches, each lesson with i
   render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 12",
     "Unit 13",
-    "Unit 15",
-    "Unit 17",
+    "Unit 14",
+    "Unit 16",
+    "Unit 18",
   ]);
 
-  expect(screen.getByRole("region", { name: "Unit 15" })).toHaveTextContent(
-    /^Unit 15a qué hora, de dónde, adónde, con quién/,
+  expect(screen.getByRole("region", { name: "Unit 16" })).toHaveTextContent(
+    /^Unit 16a qué hora, de dónde, adónde, con quién/,
   );
 
   expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
@@ -58,7 +58,7 @@ it("opens a lesson with its variations in a new order each time", () => {
   expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBeGreaterThan(1);
 });
 
-it("lists only the weekdays units that have lessons", () => {
+it("lists the three weekdays units", () => {
   render(<SetPage set={weekdaysSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Weekdays.");
@@ -66,6 +66,7 @@ it("lists only the weekdays units that have lessons", () => {
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 6",
     "Unit 7",
+    "Unit 8",
   ]);
 
   expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent(

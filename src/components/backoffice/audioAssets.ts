@@ -3,7 +3,7 @@ import { audioKey, spokenText } from "../../data/audio";
 import { foundations, units, vocabulary, visualQuestions } from "../../data/curriculum";
 import examples from "../../data/examples.json";
 import { formPractice, mockQuestions } from "../../data/mock";
-import { courseUnitNumber } from "../../data/path";
+import { courseUnitNumber, pathUnitNumber } from "../../data/path";
 import { practiceSets } from "../../data/practice-sets/index";
 import { lessonBuilder } from "../../data/practice-sets/lesson";
 import type { Question } from "../../data/types";
@@ -36,7 +36,7 @@ const collections: [string, (string | undefined)[]][] = [
     return s.units
       .filter((u) => u.lessons.length)
       .map((u): [string, (string | undefined)[]] => [
-        `${s.name} · ${u.title}`,
+        `${s.name} · Unit ${pathUnitNumber(u.id)}`,
         questionTexts(u.lessons.flatMap(lessonItems)),
       ]);
   }),

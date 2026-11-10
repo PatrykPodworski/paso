@@ -1,6 +1,6 @@
 import { units } from "../../data/curriculum";
 import { mockExam } from "../../data/mock";
-import { courseUnitNumber } from "../../data/path";
+import { courseUnitNumber, pathUnitNumber } from "../../data/path";
 import { practiceSets } from "../../data/practice-sets/index";
 import { lessonBuilder } from "../../data/practice-sets/lesson";
 import type { Question } from "../../data/types";
@@ -20,7 +20,7 @@ export const exerciseGroups: Group[] = [
       .filter((u) => u.lessons.length)
       .map((u) => ({
         id: u.id,
-        title: `${s.name} · ${u.title}`,
+        title: `${s.name} · Unit ${pathUnitNumber(u.id)}`,
         rows: u.lessons.flatMap((l) =>
           lessonItems(l).map((question) => ({ question, context: l.title })),
         ),

@@ -359,8 +359,8 @@ describe("weekdays lessons", () => {
 
     expect(lesson).toMatchObject({
       id: "wd-r01",
-      title: "Review: unit 1",
-      subtitle: "Review lessons 1–3",
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
     });
 
     expect(lesson.questions.map((q) => q.id)).toEqual(["WD-T01-V04", "WD-T02-V04", "WD-T03-V04"]);
@@ -371,8 +371,8 @@ describe("weekdays lessons", () => {
 
     expect(lesson).toMatchObject({
       id: "wd-r02",
-      title: "Review: unit 2",
-      subtitle: "Review lessons 4–6",
+      title: "Unit review",
+      subtitle: "Review this unit's lessons",
     });
 
     expect(lesson.questions.map((q) => q.id)).toEqual(["WD-T04-V04", "WD-T05-V04", "WD-T06-V04"]);
@@ -386,7 +386,7 @@ describe("weekdays lessons", () => {
       expect(lesson).toMatchObject({
         id: "wd-r03",
         title: "Review: the whole week",
-        subtitle: "Review lessons 1–7",
+        subtitle: "Review all seven days",
       });
 
       expect(lesson.questions.map((q) => q.id)).toEqual([
@@ -425,10 +425,10 @@ describe("weekdays lessons", () => {
   });
 
   it("lists unit 1 with L01 to L03 and R01, unit 2 with L04 to L06 and R02, and unit 3 with L07 and R03", () => {
-    expect(weekdaysUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
-      ["Unit 1", ["wd-l01", "wd-l02", "wd-l03", "wd-r01"]],
-      ["Unit 2", ["wd-l04", "wd-l05", "wd-l06", "wd-r02"]],
-      ["Unit 3", ["wd-l07", "wd-r03"]],
+    expect(weekdaysUnits.map((u) => [u.id, u.lessons.map((l) => l.id)])).toEqual([
+      ["wd-u1", ["wd-l01", "wd-l02", "wd-l03", "wd-r01"]],
+      ["wd-u2", ["wd-l04", "wd-l05", "wd-l06", "wd-r02"]],
+      ["wd-u3", ["wd-l07", "wd-r03"]],
     ]);
   });
 });

@@ -16,15 +16,19 @@ it("heads the page with the set's title and description", () => {
   ).toBeInTheDocument();
 });
 
-it("lists the units that have lessons, each lesson with its exercise count", () => {
+it("heads each unit with its path number and what it teaches, each lesson with its exercise count", () => {
   render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 1",
-    "Unit 2",
-    "Unit 3",
-    "Unit 4",
+    "Unit 13",
+    "Unit 14",
+    "Unit 16",
+    "Unit 18",
   ]);
+
+  expect(screen.getByRole("region", { name: "Unit 16" })).toHaveTextContent(
+    /^Unit 16a qué hora, de dónde, adónde, con quién/,
+  );
 
   expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
     "Asking for thingsLearn one new question word17 exercises",
@@ -60,9 +64,9 @@ it("lists the three weekdays units", () => {
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Weekdays.");
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 1",
-    "Unit 2",
-    "Unit 3",
+    "Unit 6",
+    "Unit 7",
+    "Unit 8",
   ]);
 
   expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent(

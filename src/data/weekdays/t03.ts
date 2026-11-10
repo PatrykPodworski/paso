@@ -226,8 +226,8 @@ export const l03: SetLesson = {
 // R01 closes unit 1: each day's full sentence again, in the days' order, with no cards.
 export const r01: SetLesson = {
   id: "wd-r01",
-  title: "Review: unit 1",
-  subtitle: "Review lessons 1–3",
+  title: "Unit review",
+  subtitle: "Review this unit's lessons",
   recalled: [],
   base: ["WD-T01-V04", "WD-T02-V04", "WD-T03-V04"],
   formCards: [],

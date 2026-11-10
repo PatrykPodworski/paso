@@ -217,8 +217,8 @@ export const l12: SetLesson = {
 
 export const r03: SetLesson = {
   id: "aq-r03",
-  title: "Review: unit 3",
-  subtitle: "Review lessons 9–12",
+  title: "Unit review",
+  subtitle: "Review this unit's lessons",
   recalled: [],
   base: [
     "AQ-T09-E04",

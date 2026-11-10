@@ -189,7 +189,7 @@ export const calendarItems: Item[] = [
 export const r03: SetLesson = {
   id: "wd-r03",
   title: "Review: the whole week",
-  subtitle: "Review lessons 1–7",
+  subtitle: "Review all seven days",
   recalled: [],
   base: ["WD-T07-V04", ...calendarItems.map((i) => i.id)],
   formCards: [],

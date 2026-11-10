@@ -71,15 +71,32 @@ export const askingLessons: SetLesson[] = [
 ];
 
 const UNITS = [
-  ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"],
-  ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"],
-  ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"],
-  ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17", "aq-l18", "aq-r04"],
+  {
+    after: 9,
+    subtitle: "qué, cómo, dónde, cuándo",
+    ids: ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"],
+  },
+  {
+    after: 9,
+    subtitle: "quién, cuál, cuánto, por qué",
+    ids: ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"],
+  },
+  {
+    after: 10,
+    subtitle: "a qué hora, de dónde, adónde, con quién",
+    ids: ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"],
+  },
+  {
+    after: 11,
+    subtitle: "de quién, desde cuándo, hasta cuándo, cada cuánto, para qué, por dónde",
+    ids: ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17", "aq-l18", "aq-r04"],
+  },
 ];
 
-export const askingUnits = UNITS.map((ids, i) => ({
+export const askingUnits = UNITS.map(({ after, subtitle, ids }, i) => ({
   id: `aq-u${i + 1}`,
-  title: `Unit ${i + 1}`,
+  after,
+  subtitle,
   lessons: askingLessons.filter((l) => ids.includes(l.id)),
 }));
 

@@ -598,6 +598,10 @@ describe("unit 11", () => {
       "Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad.",
     );
 
+    expect(instructions).toContain(
+      "The hint never contains the learner's question, not even in other words.",
+    );
+
     expect(greetingOf(taskOf("u11")!)).toMatch(/Then ask «¿Qué tiempo hace hoy\?» and listen\.$/);
   });
 
@@ -1133,6 +1137,40 @@ describe("conversation constraints", () => {
         "Ahora, pregúntame dónde está el banco y si está lejos de la estación.",
       );
     }
+  });
+
+  it("nudges the learner to ask a point of theirs without saying the question for them", () => {
+    const hint =
+      "A hint for a point the learner asks invites them to ask you about that point's topic: «¿Quieres preguntarme algo sobre …?», with the topic in place of «…», for example «¿Quieres preguntarme algo sobre el tiempo?». The hint never contains the learner's question, not even in other words.";
+
+    const asking = practice.filter((task) => task.asks.some((ask) => typeof ask !== "string"));
+
+    expect(asking.map((task) => task.id)).toEqual([
+      "u2",
+      "u3",
+      "u4",
+      "u5",
+      "u6",
+      "u7",
+      "u8",
+      "u9",
+      "u10",
+      "u11",
+      "u12",
+    ]);
+
+    for (const task of asking) {
+      const instructions = instructionsOf(task);
+
+      expect(instructions, task.id).toContain(
+        `Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list. ${hint}`,
+      );
+
+      expect(instructions, task.id).toContain("Do not say «Ahora, pregúntame…»");
+    }
+
+    expect(instructionsOf(taskOf("u1")!)).not.toContain("A hint for a point the learner asks");
+    expect(instructionsOf(taskOf("mock-s3", "home")!)).not.toContain("A hint for a point");
   });
 
   it("states the mock exam's task and still asks one question when a line is a question", () => {

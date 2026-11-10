@@ -555,7 +555,7 @@ it("opens the weekdays page from the practice studio and records L01 outside the
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Weekdays/ })).toHaveTextContent(
-    "2 lessons · the seven days, one new day per lesson",
+    "4 lessons · the seven days, one new day per lesson",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Weekdays/ }));

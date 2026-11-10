@@ -179,6 +179,19 @@ describe("writing tasks", () => {
       ],
       wordRange: [2, 15],
     });
+
+    expect(writingTaskOf("WD-T05-V10")).toEqual({
+      id: "WD-T05-V10",
+      kind: "sentence",
+      exam: false,
+      prompt:
+        "Pablo has class on Fridays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
+      points: [
+        "Uses los viernes for every Friday",
+        "Keeps the fact and the people of the situation",
+      ],
+      wordRange: [2, 15],
+    });
   });
 
   it("knows only writing tasks", () => {

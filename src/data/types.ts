@@ -79,8 +79,9 @@ export interface Question {
   picture?: string;
   tokens?: string[];
   checklist?: string[];
-  // A write task answered with one question, which the writing review checks against the checklist.
-  singleQuestion?: true;
+  // A write task answered with one question or one sentence, which the writing review checks
+  // against the checklist instead of as a letter.
+  single?: "question" | "sentence";
   minWords?: number;
   maxWords?: number;
   fields?: { label: string; example: string }[];

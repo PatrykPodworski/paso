@@ -13,6 +13,36 @@
     ],
     "minWords": 2,
     "maxWords": 15,
-    "singleQuestion": true
+    "single": "question"
+  },
+  {
+    "id": "sentence-course-mondays",
+    "kind": "write",
+    "skill": "writing",
+    "prompt": "The course starts on Mondays. Express this stated fact naturally in Spanish.",
+    "answer": "El curso empieza los lunes.",
+    "explanation": "Use los lunes for every Monday.",
+    "checklist": [
+      "Uses los lunes for every Monday",
+      "Keeps the fact and the people of the situation"
+    ],
+    "minWords": 2,
+    "maxWords": 15,
+    "single": "sentence"
+  },
+  {
+    "id": "sentence-work-saturdays",
+    "kind": "write",
+    "skill": "writing",
+    "prompt": "I work on Saturdays. Express this stated fact naturally in Spanish.",
+    "answer": "Trabajo los sábados.",
+    "explanation": "Use los sábados for every Saturday.",
+    "checklist": [
+      "Uses los sábados for every Saturday",
+      "Keeps the fact and the people of the situation"
+    ],
+    "minWords": 2,
+    "maxWords": 15,
+    "single": "sentence"
   }
 ]

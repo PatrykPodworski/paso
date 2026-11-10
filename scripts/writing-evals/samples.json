@@ -236,5 +236,33 @@
     "answer": "¿Que bebida quieres?",
     "expected": "passed",
     "rationale": "Every point met in understandable Spanish: the missing accent on qué is listed as a correction and does not lower the result (ADR 0011)."
+  },
+  {
+    "id": "sentence-model",
+    "questionId": "sentence-course-mondays",
+    "answer": "El curso empieza los lunes.",
+    "expected": "passed",
+    "rationale": "States the course starts every Monday with los lunes."
+  },
+  {
+    "id": "sentence-other-order",
+    "questionId": "sentence-course-mondays",
+    "answer": "Los lunes empieza el curso.",
+    "expected": "passed",
+    "rationale": "A valid word order for the same fact, with los lunes."
+  },
+  {
+    "id": "sentence-other-fact",
+    "questionId": "sentence-course-mondays",
+    "answer": "El curso empieza los martes.",
+    "expected": "partly",
+    "rationale": "Understandable, but states Tuesdays, a different fact, and misses los lunes."
+  },
+  {
+    "id": "sentence-missing-accent",
+    "questionId": "sentence-work-saturdays",
+    "answer": "Trabajo los sabados.",
+    "expected": "passed",
+    "rationale": "Every point met in understandable Spanish: the missing accent on sábados is listed as a correction and does not lower the result (ADR 0011)."
   }
 ]

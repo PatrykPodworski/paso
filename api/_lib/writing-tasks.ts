@@ -5,7 +5,7 @@ import type { Question } from "../../src/data/types.ts";
 
 export type WritingTask = {
   id: string;
-  kind: "form" | "write" | "question";
+  kind: "form" | "write" | "question" | "sentence";
   // Exam tasks get a DELE A1 band; lesson and practice tasks get a passed, partly or failed result.
   exam: boolean;
   prompt: string;
@@ -15,8 +15,7 @@ export type WritingTask = {
 
 const isWriting = (q: Question) => q.kind === "write" || q.kind === "form";
 
-const kindOf = (q: Question) =>
-  q.kind === "form" ? "form" : q.singleQuestion ? "question" : "write";
+const kindOf = (q: Question) => (q.kind === "form" ? "form" : (q.single ?? "write"));
 
 export const taskOf = (q: Question, exam: boolean): WritingTask => ({
   id: q.id,

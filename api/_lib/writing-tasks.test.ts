@@ -4,7 +4,7 @@ import { mockExam } from "../../src/data/mock.ts";
 import type { Question } from "../../src/data/types.ts";
 import { writingTaskOf } from "./writing-tasks.ts";
 
-const { dialogue } = vi.hoisted(() => ({
+const { dialogue, sentence } = vi.hoisted(() => ({
   dialogue: {
     id: "fixture-ask-drink",
     kind: "write",
@@ -15,14 +15,29 @@ const { dialogue } = vi.hoisted(() => ({
     checklist: ["Ask about the desired drink", "Include bebida and quieres"],
     minWords: 2,
     maxWords: 15,
-    singleQuestion: true,
+    single: "question",
+  } satisfies Question,
+  sentence: {
+    id: "fixture-state-course",
+    kind: "write",
+    skill: "writing",
+    prompt: "The course starts on Mondays. Express this stated fact naturally in Spanish.",
+    answer: "El curso empieza los lunes.",
+    explanation: "Use los lunes for every Monday.",
+    checklist: [
+      "Uses los lunes for every Monday",
+      "Keeps the fact and the people of the situation",
+    ],
+    minWords: 2,
+    maxWords: 15,
+    single: "sentence",
   } satisfies Question,
 }));
 
 vi.mock("../../src/data/curriculum.ts", async (original) => {
   const curriculum = await original<typeof import("../../src/data/curriculum.ts")>();
 
-  return { ...curriculum, allQuestions: [...curriculum.allQuestions, dialogue] };
+  return { ...curriculum, allQuestions: [...curriculum.allQuestions, dialogue, sentence] };
 });
 
 describe("writing tasks", () => {
@@ -80,6 +95,17 @@ describe("writing tasks", () => {
       exam: false,
       prompt: "You are the server. Ask which drink they want. Use bebida and quieres.",
       points: ["Ask about the desired drink", "Include bebida and quieres"],
+      wordRange: [2, 15],
+    });
+  });
+
+  it("reviews a single written sentence against its points", () => {
+    expect(writingTaskOf("fixture-state-course")).toEqual({
+      id: "fixture-state-course",
+      kind: "sentence",
+      exam: false,
+      prompt: "The course starts on Mondays. Express this stated fact naturally in Spanish.",
+      points: ["Uses los lunes for every Monday", "Keeps the fact and the people of the situation"],
       wordRange: [2, 15],
     });
   });

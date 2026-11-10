@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { courseUnitNumber } from "../../data/path";
 import { Panel } from "../../design-system/Panel";
 import { ALL_UNITS, AssetToolbar } from "./AssetToolbar";
 import { imageAssets, pictureIds } from "./imageAssets";
@@ -8,14 +9,16 @@ import type { Flags } from "./useFlags";
 
 type Props = { flags: Flags };
 
-const unitNames = [...new Set(imageAssets.map((a) => `Unit ${a.unit}`))];
+const unitName = (courseUnit: number) => `Unit ${courseUnitNumber(courseUnit)}`;
+
+const unitNames = [...new Set(imageAssets.map((a) => unitName(a.unit)))];
 
 export const ImagesTab = ({ flags }: Props) => {
   const [unit, setUnit] = useState(ALL_UNITS);
   const [query, setQuery] = useState("");
 
   const visible = imageAssets.filter(
-    (a) => (unit === ALL_UNITS || `Unit ${a.unit}` === unit) && matches(query, a.word, a.english),
+    (a) => (unit === ALL_UNITS || unitName(a.unit) === unit) && matches(query, a.word, a.english),
   );
 
   return (

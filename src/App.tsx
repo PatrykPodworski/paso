@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { allLessons } from "./data/curriculum";
 import { journeyLesson } from "./data/journeyLesson";
+import { pathLessons } from "./data/path";
 import { practiceSets, setLessons } from "./data/practice-sets/index";
 import type { Lesson, Skill } from "./data/types";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
@@ -29,9 +30,9 @@ import { PRESSABLE } from "./design-system/pressable";
 
 // The next lesson on the path, or undefined after the last one or a practice session.
 const lessonAfter = (lesson: Lesson | null) => {
-  const index = allLessons.findIndex((l) => l.id === lesson?.id);
+  const index = pathLessons.findIndex((l) => l.id === lesson?.id);
 
-  return index === -1 ? undefined : allLessons[index + 1];
+  return index === -1 ? undefined : pathLessons[index + 1]?.lesson();
 };
 
 const App = () => {
@@ -55,9 +56,9 @@ const App = () => {
   }
 
   const nextLesson = journeyLesson(progress);
-  // The course progress counts course lessons; practice set lessons record completion too.
-  const completed = allLessons.filter((l) => progress.completed[l.id]).length;
-  const progressPercent = Math.round((completed / allLessons.length) * 100);
+  // The path counts every lesson it shows (ADR 0012); a lesson off the path records completion too.
+  const completed = pathLessons.filter((l) => progress.completed[l.id]).length;
+  const progressPercent = Math.round((completed / pathLessons.length) * 100);
   const mistakeQuestions = mistakeQueue(progress, new Date());
   const lessonAfterSession = lessonAfter(session);
 

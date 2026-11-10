@@ -8,6 +8,8 @@ const ids = (prefix: string) =>
 
 const question = (id: string) => weekdaysQuestions.find((q) => q.id === id)!;
 
+const days = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+
 describe("weekdays content", () => {
   it("joins the exercise bank with ids no other exercise uses", () => {
     const bank = exerciseBank.map((q) => q.id);
@@ -61,6 +63,7 @@ describe("weekdays content", () => {
       "WD-T05-E01",
       "WD-T06-E01",
       "WD-T07-E01",
+      ...ids("WD-G02"),
     ]);
 
     for (const q of choices) {
@@ -249,20 +252,76 @@ describe("weekdays content", () => {
     expect(ids("WD-T07-V")).toHaveLength(12);
   });
 
-  it("asks for every day so far as the answer of a typed Spanish item", () => {
+  it("authors the 17 calendar items of the whole-week review", () => {
+    expect(ids("WD-G").map((id) => [id, question(id).kind])).toEqual([
+      ["WD-G01-C01", "type"],
+      ["WD-G01-C02", "type"],
+      ["WD-G01-C03", "type"],
+      ["WD-G01-C04", "type"],
+      ["WD-G01-C05", "type"],
+      ["WD-G01-C06", "type"],
+      ["WD-G01-C07", "type"],
+      ["WD-G02-C01", "choice"],
+      ["WD-G02-C02", "choice"],
+      ["WD-G02-C03", "choice"],
+      ["WD-G02-C04", "choice"],
+      ["WD-G02-C05", "choice"],
+      ["WD-G02-C06", "choice"],
+      ["WD-G02-C07", "choice"],
+      ["WD-G03", "order"],
+      ["WD-G04-C01", "type"],
+      ["WD-G04-C02", "type"],
+    ]);
+  });
+
+  it("asks for each day once in a G01 gap and once in a G02 choice", () => {
+    const answers = (prefix: string) => ids(prefix).map((id) => question(id).answer);
+
+    expect(answers("WD-G01")).toEqual(days);
+    expect(answers("WD-G02")).toEqual(days);
+  });
+
+  it("offers all seven days in each G02 choice", () => {
+    for (const id of ids("WD-G02")) {
+      expect(question(id).options!.toSorted(), id).toEqual(days.toSorted());
+    }
+  });
+
+  it("builds the week from the seven day tiles of G03", () => {
+    const g03 = question("WD-G03");
+
+    expect(g03.tokens).toEqual(days);
+    expect(g03.answer).toBe("lunes martes miércoles jueves viernes sábado domingo");
+    expect(g03.pronunciation).toBe(g03.answer);
+    expect(isCorrect(g03, g03.tokens!.join(" "))).toBe(true);
+    expect(isCorrect(g03, "domingo lunes martes miércoles jueves viernes sábado")).toBe(false);
+  });
+
+  it("takes lunes after Sunday and domingo before Monday", () => {
+    expect(isCorrect(question("WD-G04-C01"), "lunes")).toBe(true);
+    expect(isCorrect(question("WD-G04-C01"), "martes")).toBe(false);
+    expect(isCorrect(question("WD-G04-C02"), "domingo")).toBe(true);
+    expect(isCorrect(question("WD-G04-C02"), "sábado")).toBe(false);
+  });
+
+  it("asks for every day both as Spanish to produce and as a meaning to recognise", () => {
     const typed = weekdaysQuestions.filter((q) => q.kind === "type").map((q) => q.answer);
 
-    expect(typed).toEqual(
-      expect.arrayContaining([
-        "lunes",
-        "martes",
-        "miércoles",
-        "jueves",
-        "viernes",
-        "sábado",
-        "domingo",
-      ]),
-    );
+    const meanings = weekdaysQuestions
+      .filter((q) => q.prompt.startsWith("Choose the English meaning"))
+      .map((q) => q.answer);
+
+    expect(typed).toEqual(expect.arrayContaining(days));
+
+    expect(meanings).toEqual([
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ]);
   });
 
   it("accepts the full sentence without a capital or a full stop", () => {

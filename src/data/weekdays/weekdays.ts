@@ -4,6 +4,7 @@ import { questionOf } from "../practice-sets/item.ts";
 import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
+import { calendarItems, r03 } from "./calendar.ts";
 import { l01, t01Items } from "./t01.ts";
 import { l02, t02Items } from "./t02.ts";
 import { l03, r01, t03Items } from "./t03.ts";
@@ -21,9 +22,10 @@ export const weekdaysQuestions: Question[] = [
   ...t05Items,
   ...t06Items,
   ...t07Items,
+  ...calendarItems,
 ].map(questionOf);
 
-export const weekdaysLessons: SetLesson[] = [l01, l02, l03, r01, l04, l05, l06, r02, l07];
+export const weekdaysLessons: SetLesson[] = [l01, l02, l03, r01, l04, l05, l06, r02, l07, r03];
 
 const UNITS = [
   ["wd-l01", "wd-l02", "wd-l03", "wd-r01"],

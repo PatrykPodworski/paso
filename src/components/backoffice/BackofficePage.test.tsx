@@ -1,29 +1,35 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { expect, it } from "vitest";
-import { askingLessons } from "../../data/asking-questions/askingQuestions";
+import { askingLessons, askingUnits } from "../../data/asking-questions/askingQuestions";
 import { allLessons, units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
 
-// A set lesson lists its introduction, form cards, base items and variations.
-const setRows = askingLessons.flatMap((l) => [
-  l.introduction,
-  ...l.formCards,
-  ...l.base,
-  ...l.variations,
-]).length;
+// A set lesson lists its introduction (a review has none), form cards, base items and variations.
+const rowsOf = (lessons: typeof askingLessons) =>
+  lessons.flatMap((l) => [
+    ...(l.introduction ? [l.introduction] : []),
+    ...l.formCards,
+    ...l.base,
+    ...l.variations,
+  ]).length;
+
+const setRows = rowsOf(askingLessons);
 
 it("lists every question of every unit, the asking-questions set and the mock exam, grouped by unit", () => {
   render(<BackofficePage setSession={() => {}} />);
   const groups = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
 
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
-  expect(groups).toHaveLength(units.length + 2);
+  expect(groups).toHaveLength(units.length + askingUnits.length + 1);
 
-  expect(groups.slice(-3)).toEqual([
+  expect(groups.slice(-6)).toEqual([
     "Unit 12 · Ready for your next chapter",
     "Asking questions · Unit 1",
+    "Asking questions · Unit 2",
+    "Asking questions · Unit 3",
+    "Asking questions · Unit 4",
     "Mock exam",
   ]);
 
@@ -76,7 +82,7 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   const set = within(screen.getByRole("region", { name: "Asking questions · Unit 1" }));
   const rows = set.getAllByRole("button");
 
-  expect(rows).toHaveLength(setRows);
+  expect(rows).toHaveLength(rowsOf(askingUnits[0].lessons));
   expect(rows[0]).toHaveTextContent(/^Teaching cardNew question word: quéAsking for things$/);
 
   expect(rows[1]).toHaveTextContent(

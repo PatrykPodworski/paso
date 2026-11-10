@@ -26,7 +26,7 @@ it("lists every generated clip once, under the unit or collection that speaks it
   });
 });
 
-it("orders the clips by unit, then the mock exam, foundations and topic flashcards", () => {
+it("orders the clips by unit, then the asking-questions set, the mock exam, foundations and topic flashcards", () => {
   const order = [...new Set(audioAssets.map((a) => a.source))];
 
   expect(order).toEqual([
@@ -42,6 +42,10 @@ it("orders the clips by unit, then the mock exam, foundations and topic flashcar
     "Unit 10",
     "Unit 11",
     "Unit 12",
+    "Asking questions · Unit 1",
+    "Asking questions · Unit 2",
+    "Asking questions · Unit 3",
+    "Asking questions · Unit 4",
     "Mock exam",
     "Foundations",
     "Topic flashcards",
@@ -50,9 +54,12 @@ it("orders the clips by unit, then the mock exam, foundations and topic flashcar
 });
 
 it("offers the asking-questions set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 14)).toEqual([
+  expect(audioSourceNames.slice(11, 17)).toEqual([
     "Unit 12",
     "Asking questions · Unit 1",
+    "Asking questions · Unit 2",
+    "Asking questions · Unit 3",
+    "Asking questions · Unit 4",
     "Mock exam",
   ]);
 });

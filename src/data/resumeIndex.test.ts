@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { resumeIndex } from "./resumeIndex";
 import { allLessons } from "./curriculum";
 import { askingLesson } from "./asking-questions/askingQuestions";
+import { weekdaysLesson } from "./weekdays/weekdays";
 import { emptySnapshot, questionState } from "../test/progress";
 import type { Question } from "./types";
 
@@ -110,4 +111,13 @@ describe("a lesson from the asking-questions set", () => {
     expect(resumeIndex(setLesson, progress)).toBe(2);
     expect(resumeIndex(session, progress)).toBe(0);
   });
+});
+
+it("reopens an unfinished weekdays L01 with E01 answered at E02", () => {
+  const l01 = weekdaysLesson("wd-l01", () => 0);
+  const progress = emptySnapshot();
+
+  progress.questions["WD-T01-E01"] = questionState();
+
+  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("WD-T01-E02");
 });

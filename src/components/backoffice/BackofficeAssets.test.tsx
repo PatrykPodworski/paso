@@ -1,10 +1,10 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { readdirSync } from "node:fs";
-import { askingLessons } from "../../data/asking-questions/askingQuestions";
 import sources from "../../data/audio-sources.json";
 import { units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
+import { setLessons } from "../../data/practice-sets/index";
 import { BackofficePage } from "./BackofficePage";
 
 // Both grow as the audio and picture rollouts land, so they come from the repo.
@@ -36,7 +36,7 @@ const filter = (unit: string, search: string) => {
 };
 
 // A set lesson lists its introduction (a review has none), form cards, base items and variations.
-const setRows = askingLessons.flatMap((l) => [
+const setRows = setLessons.flatMap((l) => [
   ...(l.introduction ? [l.introduction] : []),
   ...l.formCards,
   ...l.base,

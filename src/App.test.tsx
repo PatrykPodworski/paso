@@ -511,6 +511,7 @@ it.each([
   ["exam", "Meet the exam."],
   ["guide", "Your guide to DELE A1."],
   ["practice/questions", "Asking questions."],
+  ["practice/weekdays", "Weekdays."],
 ])("shows exactly one main view for #%s", async (page, title) => {
   const { container } = await mount(page);
 
@@ -548,6 +549,36 @@ it("records a set lesson's completion without counting it in the course progress
   await settle();
 
   expect(screen.getByText(`0/${allLessons.length} complete · 0% of your path`)).toBeInTheDocument();
+});
+
+it("opens the weekdays page from the practice studio and records L01 outside the course progress", async () => {
+  await mount("practice");
+
+  expect(screen.getByRole("button", { name: /Weekdays/ })).toHaveTextContent(
+    "1 lesson · the seven days, one new day per lesson",
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: /Weekdays/ }));
+  await settle();
+
+  expect(window.location.pathname).toBe("/practice/weekdays");
+  fireEvent.click(screen.getByRole("button", { name: /Monday/ }));
+
+  expect(session.lesson.id).toBe("wd-l01");
+  act(() => session.onComplete(16, 18));
+  await settle();
+
+  expect((await saved()).completed).toMatchObject({ "wd-l01": { score: 16, total: 18 } });
+
+  changeUrl("/path");
+  await settle();
+
+  expect(screen.getByText(`0/${allLessons.length} complete · 0% of your path`)).toBeInTheDocument();
+
+  changeUrl("/practice/weekdays");
+  await settle();
+
+  expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent("Last score 16/18");
 });
 
 it("switches pages without retaining a previous main view", async () => {

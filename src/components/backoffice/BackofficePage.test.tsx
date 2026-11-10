@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { askingLessons, askingUnits } from "../../data/asking-questions/askingQuestions";
 import { allLessons, units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
+import { practiceSets, setLessons } from "../../data/practice-sets/index";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
 
@@ -15,21 +16,24 @@ const rowsOf = (lessons: typeof askingLessons) =>
     ...l.variations,
   ]).length;
 
-const setRows = rowsOf(askingLessons);
+const setRows = rowsOf(setLessons);
 
-it("lists every question of every unit, the asking-questions set and the mock exam, grouped by unit", () => {
+const setUnits = practiceSets.flatMap((s) => s.units).filter((u) => u.lessons.length).length;
+
+it("lists every question of every unit, every practice set and the mock exam, grouped by unit", () => {
   render(<BackofficePage setSession={() => {}} />);
   const groups = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
 
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
-  expect(groups).toHaveLength(units.length + askingUnits.length + 1);
+  expect(groups).toHaveLength(units.length + setUnits + 1);
 
-  expect(groups.slice(-6)).toEqual([
+  expect(groups.slice(-7)).toEqual([
     "Unit 12 · Ready for your next chapter",
     "Asking questions · Unit 1",
     "Asking questions · Unit 2",
     "Asking questions · Unit 3",
     "Asking questions · Unit 4",
+    "Weekdays · Unit 1",
     "Mock exam",
   ]);
 

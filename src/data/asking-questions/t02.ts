@@ -183,7 +183,7 @@ export const t02Items: Item[] = [
   },
 ];
 
-export const t02Introduction = teachingCard(
+const t02Introduction = teachingCard(
   "AQ-T02-INTRO",
   "New question word: cómo",
   "Cómo asks how. Learn the everyday name formula ¿Cómo te llamas? and the state question ¿Cómo estás? Contrast with qué for a thing.\n\nExample: ¿Cómo te llamas?",

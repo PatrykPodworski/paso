@@ -99,7 +99,7 @@ const acknowledgement = [
 ];
 
 const learnerHint =
-  "A hint for a point the learner asks invites them to ask you about that point's topic: «¿Quieres preguntarme algo sobre …?», with the topic in place of «…», for example «¿Quieres preguntarme algo sobre el tiempo?». The hint never contains the learner's question, not even in other words.";
+  "For a point the learner asks, the hint only asks whether they have a question for you, for example «¿Tienes alguna pregunta para mí?». It never names the point, its topic or any word of the learner's question.";
 
 const pointRules =
   "Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.";

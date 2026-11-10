@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { randomFrom } from "../random";
 import { weekdaysLesson, weekdaysUnits } from "./weekdays";
 
-const variations = Array.from(
-  { length: 12 },
-  (_, i) => `WD-T01-V${String(i + 1).padStart(2, "0")}`,
-);
+const variationsOf = (day: string) =>
+  Array.from({ length: 12 }, (_, i) => `WD-${day}-V${String(i + 1).padStart(2, "0")}`);
+
+const variations = variationsOf("T01");
 
 describe("weekdays lessons", () => {
   it.each([1, 2, 3])(
@@ -56,9 +56,58 @@ describe("weekdays lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01, the only lesson so far, and leaves units 2 and 3 empty", () => {
+  it.each([1, 2, 3])(
+    "opens L02 on the recalled T01-V04, its introduction, the base items with the form card before E04, then every variation (seed %i)",
+    (seed) => {
+      const lesson = weekdaysLesson("wd-l02", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "wd-l02",
+        title: "Tuesday",
+        subtitle: "Learn one new day",
+      });
+
+      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
+        ["WD-T01-V04", "type"],
+        ["WD-T02-INTRO", "teach"],
+        ["WD-T02-E01", "choice"],
+        ["WD-T02-E02", "type"],
+        ["WD-T02-E03", "type"],
+        ["WD-T02-E04-FORM", "teach"],
+        ["WD-T02-E04", "type"],
+        ["WD-T02-E05", "type"],
+        ["WD-T02-E06", "write"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(9)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual(variationsOf("T02"));
+    },
+  );
+
+  it("shows martes on the L02 introduction card and el martes, los martes on its form card", () => {
+    const [, intro, , , , form] = weekdaysLesson("wd-l02", randomFrom(1)).questions;
+
+    expect([intro.prompt, form.prompt]).toEqual(["New day: martes", "el martes, los martes"]);
+  });
+
+  it("draws a new L02 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      weekdaysLesson("wd-l02", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists unit 1 with L01 and L02, the only lessons so far, and leaves units 2 and 3 empty", () => {
     expect(weekdaysUnits.map((u) => [u.title, u.lessons.map((l) => l.id)])).toEqual([
-      ["Unit 1", ["wd-l01"]],
+      ["Unit 1", ["wd-l01", "wd-l02"]],
       ["Unit 2", []],
       ["Unit 3", []],
     ]);

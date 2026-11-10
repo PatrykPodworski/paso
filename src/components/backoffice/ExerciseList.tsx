@@ -29,7 +29,8 @@ export const ExerciseList = ({ setSession }: Props) =>
       <Panel className="overflow-clip">
         <ul className="divide-y divide-border">
           {g.rows.map(({ question, context }) => (
-            <li key={question.id}>
+            // A review lesson repeats earlier lessons' items, so the id alone is not unique.
+            <li key={`${context}-${question.id}`}>
               <button
                 type="button"
                 className={`${PRESSABLE} ${ROW}`}

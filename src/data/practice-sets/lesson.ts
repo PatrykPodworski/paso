@@ -18,10 +18,13 @@ export const lessonBuilder = (questions: Question[]) => {
       return card ? [teachingCard(`${id}-FORM`, card.heading, card.text), q] : [q];
     });
 
+  // A review lesson has no introduction card.
+  const introOf = (l: SetLesson) => (l.introduction ? [l.introduction] : []);
+
   return {
     // The lesson's own questions in written order; its recalled items belong to earlier lessons.
     lessonItems: (l: SetLesson) => [
-      l.introduction,
+      ...introOf(l),
       ...baseOf(l),
       ...l.variations.map((id) => byId.get(id)!),
     ],
@@ -33,7 +36,7 @@ export const lessonBuilder = (questions: Question[]) => {
       icon: "spark",
       questions: [
         ...l.recalled.map((id) => byId.get(id)!),
-        l.introduction,
+        ...introOf(l),
         ...baseOf(l),
         ...shuffle(
           l.variations.map((id) => byId.get(id)!),

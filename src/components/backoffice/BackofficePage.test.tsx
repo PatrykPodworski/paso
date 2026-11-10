@@ -6,9 +6,9 @@ import { mockQuestions } from "../../data/mock";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
 
-// A set lesson lists its introduction, form cards, base items and variations.
+// A set lesson lists its introduction (a review has none), form cards, base items and variations.
 const setRows = askingLessons.flatMap((l) => [
-  l.introduction,
+  ...(l.introduction ? [l.introduction] : []),
   ...l.formCards,
   ...l.base,
   ...l.variations,

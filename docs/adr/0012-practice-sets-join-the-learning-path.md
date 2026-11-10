@@ -1,0 +1,7 @@
+---
+status: accepted
+---
+
+# 0012. Practice sets join the learning path and count toward it
+
+A dedicated practice set, such as asking questions ([#613](https://github.com/PatrykPodworski/paso/issues/613)) or weekdays ([#605](https://github.com/PatrykPodworski/paso/issues/605)), is a list of `Lesson`s of `Question`s run by the normal lesson session. Its progress uses what the course uses: attempts, lesson completions, the mistakes queue and the review windows. Its exercises join the exercise bank. A set adds no API, no scoring of its own, no mastery tiers and no lesson locking, so there is one progress model to test and to read. Each set unit also sits on the one learning path, right after the course unit that teaches the question words, verbs and grammar its exercises need. A noun the course teaches later is allowed when the exercise prompt names it. The path numbers every unit it shows in path order, course units included, and counts every lesson it shows: the lesson total, the share complete, Continue my journey and the next lesson after a lesson. A set also stays open from the Practice studio. Stored ids never carry the displayed unit number. Richer answer history belongs to [#614](https://github.com/PatrykPodworski/paso/issues/614). Revisit when a set needs evidence the shared attempts cannot hold. This supersedes [0006](0006-practice-sets-reuse-lessons.md); the decision is recorded in [#695](https://github.com/PatrykPodworski/paso/issues/695).

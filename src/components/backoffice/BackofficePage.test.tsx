@@ -76,14 +76,15 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   const set = within(screen.getByRole("region", { name: "Asking questions · Unit 1" }));
   const rows = set.getAllByRole("button");
 
-  expect(rows).toHaveLength(18);
+  expect(rows).toHaveLength(setRows);
   expect(rows[0]).toHaveTextContent(/^Teaching cardNew question word: quéAsking for things$/);
 
   expect(rows[1]).toHaveTextContent(
     "Multiple choice¿Qué quieres? Choose the information the speaker wants.Asking for things · A thing the listener wants",
   );
 
-  expect(rows.at(-1)).toHaveTextContent(/Ask Luis what Pablo eats/);
+  // Row 17 closes L01, the first lesson.
+  expect(rows[17]).toHaveTextContent(/Ask Luis what Pablo eats/);
 
   fireEvent.click(rows[0]);
   expect(lesson?.questions.map((q) => q.id)).toEqual(["AQ-T01-INTRO"]);

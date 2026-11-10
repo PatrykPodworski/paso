@@ -87,6 +87,8 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   their tiles. _¿De quiénes_ and _¿Por dónde_ are read as "¿De quiénes?" and
   "¿Por dónde?". _son_, _vas_, _el libro?_ and _la mochila?_ play existing clips
   of the same words.
+- Weekdays (L01–L07 and R01–R03): 57 texts, the seven day words, which are also
+  the tiles of the week-order task, 49 sentences and the week in order.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

@@ -88,7 +88,7 @@ export const questionOf = (item: Item): Question => {
         kind: "write",
         skill: "writing",
         checklist: item.constraints,
-        singleQuestion: true,
+        single: "question",
         minWords: 2,
         maxWords: 15,
       };

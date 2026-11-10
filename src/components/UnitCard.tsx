@@ -1,15 +1,15 @@
 import { TINT } from "./tone";
 import { Eyebrow } from "../design-system/Eyebrow";
-import type { Lesson, ProgressSnapshot, Unit } from "../data/types";
+import type { PathUnit } from "../data/path";
+import type { Lesson, ProgressSnapshot } from "../data/types";
 import { AudioButton } from "./audio/AudioButton";
 import { Icon } from "../design-system/Icon";
 import { ResultMark } from "../design-system/ResultMark";
 import { PRESSABLE } from "../design-system/pressable";
 
 type Props = {
-  unit: Unit;
+  unit: PathUnit;
   onPath?: boolean;
-  index: number;
   progress: ProgressSnapshot;
   start: (l: Lesson) => void;
   expanded: boolean;
@@ -102,16 +102,9 @@ const PLACE = {
   },
 };
 
-export const UnitCard = ({
-  unit,
-  onPath = false,
-  index,
-  progress,
-  start,
-  expanded,
-  onExpand,
-}: Props) => {
+export const UnitCard = ({ unit, onPath = false, progress, start, expanded, onExpand }: Props) => {
   const done = unit.lessons.filter((l) => progress.completed[l.id]).length;
+  const total = unit.lessons.length;
   const at = PLACE[onPath ? "path" : "today"];
 
   return (
@@ -129,23 +122,23 @@ export const UnitCard = ({
         </div>
         <div className="flex-1 min-w-0">
           <Eyebrow variant={at.eyebrow}>
-            UNIT {String(index + 1).padStart(2, "0")} <i className="not-italic px-1">·</i>{" "}
-            {unit.spanish}
+            UNIT {String(unit.number).padStart(2, "0")} <i className="not-italic px-1">·</i>{" "}
+            {unit.eyebrow}
           </Eyebrow>
           <h3 className={`font-semibold tracking-tight ${TITLE} ${at.title}`}>{unit.title}</h3>
           <p className={`leading-relaxed ${SUBTITLE} ${at.subtitle}`}>{unit.subtitle}</p>
         </div>
         <div className={`${STATUS} ${at.status}`}>
           <span className="flex items-center gap-1 whitespace-nowrap max-xl:text-2xs max-lg:text-xs max-md:hidden">
-            {done === 4 ? (
+            {done === total ? (
               <>
                 <Icon name="check" size={14} />
                 Complete
               </>
             ) : done ? (
-              `${done}/4 lessons`
+              `${done}/${total} lessons`
             ) : (
-              "4 lessons"
+              `${total} lessons`
             )}
           </span>
           <Icon name={expanded ? "down" : "chevron"} size={17} />
@@ -153,17 +146,19 @@ export const UnitCard = ({
       </button>
       {expanded && (
         <div className={`${EXPANDED} ${at.expanded}`}>
-          <div className={`${GOALS} ${at.goals}`}>
-            {unit.goals.map((g) => (
-              <span
-                key={g}
-                className="inline-flex items-center gap-1 text-muted-foreground text-2xs"
-              >
-                <Icon name="check" size={13} className="w-2.5 text-muted-foreground" />
-                {g}
-              </span>
-            ))}
-          </div>
+          {unit.goals.length > 0 && (
+            <div className={`${GOALS} ${at.goals}`}>
+              {unit.goals.map((g) => (
+                <span
+                  key={g}
+                  className="inline-flex items-center gap-1 text-muted-foreground text-2xs"
+                >
+                  <Icon name="check" size={13} className="w-2.5 text-muted-foreground" />
+                  {g}
+                </span>
+              ))}
+            </div>
+          )}
           <div className={`${LESSON_LIST} ${at.list}`}>
             {unit.lessons.map((l, i) => {
               const completed = !!progress.completed[l.id];
@@ -174,7 +169,7 @@ export const UnitCard = ({
                   type="button"
                   key={l.id}
                   className={`${PRESSABLE} ${ROW} ${at.row}`}
-                  onClick={() => start(l)}
+                  onClick={() => start(l.lesson())}
                 >
                   <div className={`${NODE} ${NODE_STATE[state]} ${at.node}`}>
                     {completed ? (
@@ -199,16 +194,23 @@ export const UnitCard = ({
               );
             })}
           </div>
-          <details className="mt-2.5 xl:mt-3.5 border-t border-t-border pt-2.5 xl:pt-3.5 text-muted-foreground">
-            <summary className="flex items-center gap-1.5 cursor-pointer list-none text-2xs max-lg:text-xs max-sm:text-2xs">
-              <Icon name="spark" size={15} />A little pattern to remember
-            </summary>
-            <p className="leading-relaxed text-xs my-2 text-muted-foreground">{unit.tip}</p>
-            <div lang="es" className="flex items-center justify-between text-sm text-foreground">
-              {unit.example}
-              <AudioButton compact text={unit.example} label="Listen to the unit example" />
-            </div>
-          </details>
+          {unit.tip && (
+            <details className="mt-2.5 xl:mt-3.5 border-t border-t-border pt-2.5 xl:pt-3.5 text-muted-foreground">
+              <summary className="flex items-center gap-1.5 cursor-pointer list-none text-2xs max-lg:text-xs max-sm:text-2xs">
+                <Icon name="spark" size={15} />A little pattern to remember
+              </summary>
+              <p className="leading-relaxed text-xs my-2 text-muted-foreground">{unit.tip}</p>
+              {unit.example && (
+                <div
+                  lang="es"
+                  className="flex items-center justify-between text-sm text-foreground"
+                >
+                  {unit.example}
+                  <AudioButton compact text={unit.example} label="Listen to the unit example" />
+                </div>
+              )}
+            </details>
+          )}
         </div>
       )}
     </article>

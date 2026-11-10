@@ -1,3 +1,4 @@
+import { courseUnitNumber } from "../../data/path";
 import { Badge } from "../ui/badge";
 import { FlawedCheckbox } from "./FlawedCheckbox";
 import type { ImageAsset } from "./imageAssets";
@@ -37,7 +38,8 @@ export const ImageRow = ({ asset, flags }: Props) => (
         {asset.word} <span className="font-normal text-muted-foreground">· {asset.english}</span>
       </strong>
       <small className="block text-xs text-muted-foreground break-all">
-        Unit {asset.unit} · {asset.id ? `${asset.id} · ${asset.src}` : "no picture file"}
+        Unit {courseUnitNumber(asset.unit)} ·{" "}
+        {asset.id ? `${asset.id} · ${asset.src}` : "no picture file"}
       </small>
     </span>
     {asset.id ? (

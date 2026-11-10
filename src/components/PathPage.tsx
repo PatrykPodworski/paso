@@ -4,8 +4,8 @@ import { Button } from "../design-system/Button";
 import { Eyebrow } from "../design-system/Eyebrow";
 import { PageHeading } from "../design-system/PageHeading";
 import { Panel } from "../design-system/Panel";
-import { allLessons, allQuestions, units } from "../data/curriculum";
-import type { Lesson, ProgressSnapshot } from "../data/types";
+import { pathExerciseCount, pathLessons, pathUnits, type PathLesson } from "../data/path";
+import type { ProgressSnapshot } from "../data/types";
 import { Stamp } from "./Art";
 import { Icon } from "../design-system/Icon";
 import type { Page } from "./navigation";
@@ -17,7 +17,7 @@ const PATH_NUMBER =
 
 type Props = {
   progress: ProgressSnapshot;
-  nextLesson: Lesson;
+  nextLesson: PathLesson;
   completed: number;
   progressPercent: number;
   expanded: string;
@@ -36,7 +36,7 @@ export const PathPage = ({
   setSession,
   navigate,
 }: Props) => {
-  const nextUnit = units.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
+  const nextUnit = pathUnits.find((u) => u.lessons.some((l) => l.id === nextLesson.id))!;
 
   return (
     <>
@@ -49,7 +49,7 @@ export const PathPage = ({
         title="Every step has a story."
         description={
           <>
-            {units.length} units · {allLessons.length} lessons · {allQuestions.length} exercises.
+            {pathUnits.length} units · {pathLessons.length} lessons · {pathExerciseCount} exercises.
             Explore freely, or follow the path.
           </>
         }
@@ -70,13 +70,13 @@ export const PathPage = ({
             {nextUnit.title} · {nextLesson.title}
           </h3>
           <p className="leading-relaxed mt-1.5 text-sm text-muted-foreground">
-            {completed}/{allLessons.length} complete · {progressPercent}% of your path
+            {completed}/{pathLessons.length} complete · {progressPercent}% of your path
           </p>
         </div>
         <Button
           variant="primary"
           className="md:max-lg:ml-16"
-          onClick={() => setSession(nextLesson)}
+          onClick={() => setSession(nextLesson.lesson())}
         >
           Continue learning
           <Icon name="arrow" />
@@ -84,7 +84,7 @@ export const PathPage = ({
       </Panel>
       <div className="flex gap-7 max-xl:gap-5 max-lg:flex-col">
         <div className="relative flex-1 min-w-0 before:absolute before:top-5 before:bottom-16 before:left-3.5 max-md:before:left-3 before:border-l before:border-dashed before:border-border">
-          {units.map((u, i) => {
+          {pathUnits.map((u) => {
             const done = u.lessons.every((l) => progress.completed[l.id]);
 
             return (
@@ -92,12 +92,11 @@ export const PathPage = ({
                 <span
                   className={`${PATH_NUMBER} ${done ? "bg-success text-success-foreground" : "bg-background text-muted-foreground"}`}
                 >
-                  {done ? <Icon name="check" size={16} /> : String(i + 1).padStart(2, "0")}
+                  {done ? <Icon name="check" size={16} /> : String(u.number).padStart(2, "0")}
                 </span>
                 <UnitCard
                   onPath
                   unit={u}
-                  index={i}
                   progress={progress}
                   start={setSession}
                   expanded={expanded === u.id}

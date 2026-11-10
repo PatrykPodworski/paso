@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T17, para qué: asks for purpose or intended use.
 const recall: [string, string] = [

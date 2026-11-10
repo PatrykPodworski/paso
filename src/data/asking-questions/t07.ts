@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T07, cuánto / cuánta / cuántos / cuántas: asks for an amount, a count, or a price.
 const recall: [string, string] = [

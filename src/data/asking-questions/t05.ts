@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T05, quién / quiénes: asks who one person or several people are.
 const recall: [string, string] = [

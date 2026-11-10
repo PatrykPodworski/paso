@@ -2,13 +2,13 @@ export type Page =
   | "today"
   | "path"
   | "practice"
-  | "practice/questions"
+  | `practice/${string}`
   | "exam"
   | "guide"
   | "backoffice";
 
 // The sidebar entry a page sits under: a practice set page is part of the practice studio.
-export const sectionOf = (page: Page) => (page === "practice/questions" ? "practice" : page);
+export const sectionOf = (page: Page) => (page.startsWith("practice/") ? "practice" : page);
 
 export const navigation: { id: Page; label: string; icon: string }[] = [
   { id: "today", label: "My learning space", icon: "home" },

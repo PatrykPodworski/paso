@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T03, dónde: asks where something or someone is, not where it comes from or goes to.
 const recall: [string, string] = ["Recall the meaning: Ask for a stationary location.", "dónde"];

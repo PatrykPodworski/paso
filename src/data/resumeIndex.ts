@@ -1,9 +1,8 @@
-import { askingLessons } from "./asking-questions/askingQuestions";
 import { lessonPlace } from "./lessonPlace";
+import { setOf } from "./practice-sets/index";
 import type { Lesson, ProgressSnapshot } from "./types";
 
-const resumable = (lessonId: string) =>
-  Boolean(lessonPlace(lessonId)) || askingLessons.some((l) => l.id === lessonId);
+const resumable = (lessonId: string) => Boolean(lessonPlace(lessonId)) || Boolean(setOf(lessonId));
 
 // The exercise an unfinished path or set lesson reopens at: the first one without a stored
 // answer, or the teaching cards just before it. Finished lessons, practice sessions and lessons

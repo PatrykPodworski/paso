@@ -1,5 +1,5 @@
-import { exerciseCount } from "../../data/asking-questions/askingQuestions";
-import type { SetLesson } from "../../data/asking-questions/setLesson";
+import { exerciseCount } from "../../data/practice-sets/lesson";
+import type { SetLesson } from "../../data/practice-sets/setLesson";
 import type { ProgressSnapshot } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { PRESSABLE } from "../../design-system/pressable";

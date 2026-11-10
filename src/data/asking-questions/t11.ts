@@ -1,5 +1,5 @@
-import { teachingCard, type Item } from "./item.ts";
-import type { SetLesson } from "./setLesson.ts";
+import { teachingCard, type Item } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // T11, adónde / a dónde: asks for a destination.
 const recall: [string, string] = ["Recall the meaning: Ask for a destination.", "adónde / a dónde"];

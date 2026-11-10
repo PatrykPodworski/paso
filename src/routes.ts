@@ -1,6 +1,7 @@
 import { createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
 import App from "./App";
 import type { Page } from "./components/navigation";
+import { practiceSets } from "./data/practice-sets/index";
 import Gallery from "./design-system/Gallery";
 
 declare module "@tanstack/react-router" {
@@ -26,7 +27,7 @@ const routeTree = rootRoute.addChildren([
     pageRoute("today"),
     pageRoute("path"),
     pageRoute("practice"),
-    pageRoute("practice/questions"),
+    ...practiceSets.map((s) => pageRoute(s.route)),
     pageRoute("exam"),
     pageRoute("guide"),
     pageRoute("backoffice"),

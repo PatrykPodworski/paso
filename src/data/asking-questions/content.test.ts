@@ -20,6 +20,8 @@ describe("asking questions content", () => {
         "AQ-T02-V12",
         "AQ-T03-E01",
         "AQ-T03-V12",
+        "AQ-T04-E01",
+        "AQ-T04-V12",
       ]),
     );
   });
@@ -127,6 +129,33 @@ describe("asking questions content", () => {
     expect(isCorrect(q, "¿Qué está la mochila?")).toBe(false);
   });
 
+  it("authors six base items and twelve variations for cuándo", () => {
+    expect(ids("AQ-T04-E")).toEqual([
+      "AQ-T04-E01",
+      "AQ-T04-E02",
+      "AQ-T04-E03",
+      "AQ-T04-E04",
+      "AQ-T04-E05",
+      "AQ-T04-E06",
+    ]);
+
+    expect(ids("AQ-T04-V")).toHaveLength(12);
+  });
+
+  it("accepts cuándo, notes a missing accent and rejects dónde in a cuándo cloze", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T04-V01")!;
+
+    expect([isCorrect(q, "Cuándo"), isCorrect(q, "dónde")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "cuando")).toBe("cuándo");
+  });
+
+  it("accepts the typed cuándo question and rejects one that asks for a place", () => {
+    const q = askingQuestions.find((q) => q.id === "AQ-T04-V10")!;
+
+    expect(isCorrect(q, "¿Cuándo empieza la visita?")).toBe(true);
+    expect(isCorrect(q, "¿Dónde empieza la visita?")).toBe(false);
+  });
+
   it("gives every exercise but a written dialogue its Spanish question to hear", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
@@ -140,6 +169,9 @@ describe("asking questions content", () => {
       "AQ-T03-E05",
       "AQ-T03-V06",
       "AQ-T03-V12",
+      "AQ-T04-E05",
+      "AQ-T04-V06",
+      "AQ-T04-V12",
     ]);
 
     expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
@@ -152,6 +184,10 @@ describe("asking questions content", () => {
 
     expect(askingQuestions.find((q) => q.id === "AQ-T03-V01")?.pronunciation).toBe(
       "¿Dónde está la entrada?",
+    );
+
+    expect(askingQuestions.find((q) => q.id === "AQ-T04-V02")?.pronunciation).toBe(
+      "¿Cuándo viene Pablo?",
     );
   });
 });

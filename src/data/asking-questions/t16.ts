@@ -198,7 +198,7 @@ export const t16Items: Item[] = [
   },
 ];
 
-export const t16Introduction = teachingCard(
+const t16Introduction = teachingCard(
   "AQ-T16-INTRO",
   "New question word: cada cuánto",
   "Cada cuánto asks the interval between repeated events. Cada cuánto tiempo is also accepted. Cuándo alone does not explicitly ask recurrence.\n\nExample: ¿Cada cuánto vienes?",

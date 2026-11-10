@@ -197,7 +197,7 @@ export const t06Items: Item[] = [
   },
 ];
 
-export const t06Introduction = teachingCard(
+const t06Introduction = teachingCard(
   "AQ-T06-INTRO",
   "New question word: cuál / cuáles",
   "Cuál de… selects one option in a stated set; cuáles de… selects several. Use qué before a noun for an unrestricted category. The person addressed still controls quieres.\n\nExample: ¿Cuál de estos dos quieres?",

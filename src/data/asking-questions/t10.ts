@@ -181,7 +181,7 @@ export const t10Items: Item[] = [
   },
 ];
 
-export const t10Introduction = teachingCard(
+const t10Introduction = teachingCard(
   "AQ-T10-INTRO",
   "New question word: de dónde",
   "De dónde asks for origin. Contrast ¿De dónde eres? with ¿Dónde estás? for current location.\n\nExample: ¿De dónde eres?",

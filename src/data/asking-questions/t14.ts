@@ -195,7 +195,7 @@ export const t14Items: Item[] = [
   },
 ];
 
-export const t14Introduction = teachingCard(
+const t14Introduction = teachingCard(
   "AQ-T14-INTRO",
   "New question word: desde cuándo",
   "Desde cuándo asks for the start of a situation that continues now. Reply with a starting point, such as desde enero.\n\nExample: ¿Desde cuándo vives aquí?",

@@ -687,76 +687,31 @@ describe("asking questions content", () => {
       "AQ-T18-V12",
     ]);
 
-    expect(askingQuestions.find((q) => q.id === "AQ-T01-V08")?.pronunciation).toBe(
-      "¿Qué bebida quiere Luis?",
-    );
+    const pronunciation = new Map(askingQuestions.map((q) => [q.id, q.pronunciation]));
 
-    expect(askingQuestions.find((q) => q.id === "AQ-T02-V08")?.pronunciation).toBe(
-      "¿Cómo va Luis al centro?",
-    );
+    const spoken = {
+      "AQ-T01-V08": "¿Qué bebida quiere Luis?",
+      "AQ-T02-V08": "¿Cómo va Luis al centro?",
+      "AQ-T03-V01": "¿Dónde está la entrada?",
+      "AQ-T04-V02": "¿Cuándo viene Pablo?",
+      "AQ-T05-V08": "¿Quiénes estudian español?",
+      "AQ-T06-V08": "¿Cuáles de estas tres quiere Pablo?",
+      "AQ-T07-V02": "¿Cuánta leche quiere Pablo?",
+      "AQ-T08-V02": "¿Por qué estudia Pablo en casa?",
+      "AQ-T09-V02": "¿A qué hora viene Pablo?",
+      "AQ-T10-V01": "¿De dónde es Pablo?",
+      "AQ-T11-V01": "¿Adónde va Pablo?",
+      "AQ-T12-V01": "¿Con quién va Pablo?",
+      "AQ-T13-V02": "¿De quién son estas entradas?",
+      "AQ-T14-V01": "¿Desde cuándo vive Pablo en Madrid?",
+      "AQ-T15-V07": "¿Hasta cuándo están Pablo y Luis en Madrid?",
+      "AQ-T16-V08": "¿Cada cuánto van Pablo y Luis en autobús?",
+      "AQ-T17-V08": "¿Para qué usan Pablo y Luis esta sala?",
+      "AQ-T18-V07": "¿Por dónde van Pablo y Luis al hotel?",
+    };
 
-    expect(askingQuestions.find((q) => q.id === "AQ-T03-V01")?.pronunciation).toBe(
-      "¿Dónde está la entrada?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T04-V02")?.pronunciation).toBe(
-      "¿Cuándo viene Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T05-V08")?.pronunciation).toBe(
-      "¿Quiénes estudian español?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T06-V08")?.pronunciation).toBe(
-      "¿Cuáles de estas tres quiere Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T07-V02")?.pronunciation).toBe(
-      "¿Cuánta leche quiere Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T08-V02")?.pronunciation).toBe(
-      "¿Por qué estudia Pablo en casa?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T09-V02")?.pronunciation).toBe(
-      "¿A qué hora viene Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T10-V01")?.pronunciation).toBe(
-      "¿De dónde es Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T11-V01")?.pronunciation).toBe(
-      "¿Adónde va Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T12-V01")?.pronunciation).toBe(
-      "¿Con quién va Pablo?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T13-V02")?.pronunciation).toBe(
-      "¿De quién son estas entradas?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T14-V01")?.pronunciation).toBe(
-      "¿Desde cuándo vive Pablo en Madrid?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T15-V07")?.pronunciation).toBe(
-      "¿Hasta cuándo están Pablo y Luis en Madrid?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T16-V08")?.pronunciation).toBe(
-      "¿Cada cuánto van Pablo y Luis en autobús?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T17-V08")?.pronunciation).toBe(
-      "¿Para qué usan Pablo y Luis esta sala?",
-    );
-
-    expect(askingQuestions.find((q) => q.id === "AQ-T18-V07")?.pronunciation).toBe(
-      "¿Por dónde van Pablo y Luis al hotel?",
-    );
+    expect(
+      Object.fromEntries(Object.keys(spoken).map((id) => [id, pronunciation.get(id)])),
+    ).toEqual(spoken);
   });
 });

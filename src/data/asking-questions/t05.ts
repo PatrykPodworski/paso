@@ -184,7 +184,7 @@ export const t05Items: Item[] = [
   },
 ];
 
-export const t05Introduction = teachingCard(
+const t05Introduction = teachingCard(
   "AQ-T05-INTRO",
   "New question word: quién / quiénes",
   "Quién asks for one person’s identity. Quiénes asks for several identities. Use quién es and quiénes son in these frames.\n\nExample: ¿Quién es? / ¿Quiénes son?",

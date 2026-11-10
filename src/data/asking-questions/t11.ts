@@ -203,7 +203,7 @@ export const t11Items: Item[] = [
   },
 ];
 
-export const t11Introduction = teachingCard(
+const t11Introduction = teachingCard(
   "AQ-T11-INTRO",
   "New question word: adónde / a dónde",
   "Adónde asks for a destination. A dónde is an equally correct spelling. Dónde with vas is also natural, but this lesson practises the explicit destination form.\n\nExample: ¿Adónde vas?",

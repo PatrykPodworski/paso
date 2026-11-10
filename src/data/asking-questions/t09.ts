@@ -196,7 +196,7 @@ export const t09Items: Item[] = [
   },
 ];
 
-export const t09Introduction = teachingCard(
+const t09Introduction = teachingCard(
   "AQ-T09-INTRO",
   "New question word: a qué hora",
   "A qué hora explicitly asks a clock time. Cuándo is broader and can also receive a clock-time answer.\n\nExample: ¿A qué hora empieza la clase?",

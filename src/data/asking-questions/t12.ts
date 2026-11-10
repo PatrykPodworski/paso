@@ -190,7 +190,7 @@ export const t12Items: Item[] = [
   },
 ];
 
-export const t12Introduction = teachingCard(
+const t12Introduction = teachingCard(
   "AQ-T12-INTRO",
   "New question word: con quién / con quiénes",
   "Con quién asks for a companion. Con quiénes asks for several companions. With one listener, vas stays singular even when there are several companions.\n\nExample: ¿Con quién vas?",

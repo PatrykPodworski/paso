@@ -198,7 +198,7 @@ export const t17Items: Item[] = [
   },
 ];
 
-export const t17Introduction = teachingCard(
+const t17Introduction = teachingCard(
   "AQ-T17-INTRO",
   "New question word: para qué",
   "Para qué asks about purpose or intended use. Por qué asks a broader reason and may also elicit a goal. The two can overlap in real conversations.\n\nExample: ¿Para qué usas el móvil?",

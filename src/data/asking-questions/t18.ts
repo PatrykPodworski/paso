@@ -189,7 +189,7 @@ export const t18Items: Item[] = [
   },
 ];
 
-export const t18Introduction = teachingCard(
+const t18Introduction = teachingCard(
   "AQ-T18-INTRO",
   "New question word: por dónde",
   "Por dónde asks the route. Contrast por la calle Mayor, a route, with al hotel, a destination.\n\nExample: ¿Por dónde vas al centro?",

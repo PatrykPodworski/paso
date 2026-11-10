@@ -185,7 +185,7 @@ export const t13Items: Item[] = [
   },
 ];
 
-export const t13Introduction = teachingCard(
+const t13Introduction = teachingCard(
   "AQ-T13-INTRO",
   "New question word: de quién / de quiénes",
   "De quién asks who owns something. De quiénes asks about several owners. Es or son agrees with the owned object, not the number of owners.\n\nExample: ¿De quién es este libro?",

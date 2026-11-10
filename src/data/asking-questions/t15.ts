@@ -189,7 +189,7 @@ export const t15Items: Item[] = [
   },
 ];
 
-export const t15Introduction = teachingCard(
+const t15Introduction = teachingCard(
   "AQ-T15-INTRO",
   "New question word: hasta cuándo",
   "Hasta cuándo asks for the end point. Contrast hasta el lunes with desde enero for a starting point.\n\nExample: ¿Hasta cuándo estás en Madrid?",

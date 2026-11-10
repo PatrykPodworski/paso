@@ -180,7 +180,7 @@ export const t04Items: Item[] = [
   },
 ];
 
-export const t04Introduction = teachingCard(
+const t04Introduction = teachingCard(
   "AQ-T04-INTRO",
   "New question word: cuándo",
   "Cuándo asks when something happens. A day, date, or clock time can answer it.\n\nExample: ¿Cuándo empieza la clase?",

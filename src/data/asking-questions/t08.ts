@@ -183,7 +183,7 @@ export const t08Items: Item[] = [
   },
 ];
 
-export const t08Introduction = teachingCard(
+const t08Introduction = teachingCard(
   "AQ-T08-INTRO",
   "New question word: por qué",
   "Por qué asks for a reason. Use two words in a question; porque introduces a reply reason.\n\nExample: ¿Por qué estudias español?",

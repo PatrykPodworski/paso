@@ -180,7 +180,7 @@ export const t07Items: Item[] = [
   },
 ];
 
-export const t07Introduction = teachingCard(
+const t07Introduction = teachingCard(
   "AQ-T07-INTRO",
   "New question word: cuánto / cuánta / cuántos / cuántas",
   "Cuánto asks an amount or a price. Before a noun, match its gender and number: cuánta agua, cuántos libros, cuántas entradas. Use cuánto cuesta for a price.\n\nExample: ¿Cuánto cuesta? / ¿Cuánta agua quieres? / ¿Cuántos libros tienes? / ¿Cuántas entradas quieres?",

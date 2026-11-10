@@ -1,11 +1,22 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it } from "vitest";
+import { askingQuestionsSet } from "../../data/asking-questions/askingQuestions";
 import type { Lesson } from "../../data/types";
 import { emptySnapshot } from "../../test/progress";
-import { QuestionsPage } from "./QuestionsPage";
+import { SetPage } from "./SetPage";
+
+it("heads the page with the set's title and description", () => {
+  render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
+
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Asking questions.");
+
+  expect(
+    screen.getByText("Form and ask questions in Spanish, one new question word per lesson."),
+  ).toBeInTheDocument();
+});
 
 it("lists the units that have lessons, each lesson with its exercise count", () => {
-  render(<QuestionsPage progress={emptySnapshot()} setSession={() => {}} />);
+  render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 1",
@@ -19,7 +30,13 @@ it("lists the units that have lessons, each lesson with its exercise count", () 
 it("opens a lesson with its variations in a new order each time", () => {
   const opened: Lesson[] = [];
 
-  render(<QuestionsPage progress={emptySnapshot()} setSession={(l) => opened.push(l)} />);
+  render(
+    <SetPage
+      set={askingQuestionsSet}
+      progress={emptySnapshot()}
+      setSession={(l) => opened.push(l)}
+    />,
+  );
 
   for (let i = 0; i < 4; i++) {
     fireEvent.click(screen.getByRole("button", { name: /Asking for things/ }));

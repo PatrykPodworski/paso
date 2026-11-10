@@ -2,9 +2,9 @@ import { TINT } from "../tone";
 import { Button } from "../../design-system/Button";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { Panel } from "../../design-system/Panel";
-import { askingLessons } from "../../data/asking-questions/askingQuestions";
 import { foundations, visualQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
+import { practiceSets } from "../../data/practice-sets/index";
 import { skillStats } from "../../data/progress";
 import type { ProgressSnapshot, Skill } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
@@ -71,14 +71,14 @@ export const SkillPractice = ({ progress, filter, setSession, navigate, practice
       icon: session.icon,
       open: () => setSession(session),
     })),
-    {
-      id: "questions",
+    ...practiceSets.map((s) => ({
+      id: s.id,
       icon: "people",
       tone: TINT,
-      name: "Asking questions",
-      note: `${lessons(askingLessons.length)} · one new question word per lesson`,
-      open: () => navigate("practice/questions"),
-    },
+      name: s.name,
+      note: `${lessons(s.lessons.length)} · ${s.note}`,
+      open: () => navigate(s.route),
+    })),
   ];
 
   return (

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { askingLessons } from "./data/asking-questions/askingQuestions";
 import { allLessons } from "./data/curriculum";
 import { journeyLesson } from "./data/journeyLesson";
+import { practiceSets, setLessons } from "./data/practice-sets/index";
 import type { Lesson, Skill } from "./data/types";
-import { QuestionsPage } from "./components/asking-questions/QuestionsPage";
 import { BackofficePage } from "./components/backoffice/BackofficePage";
 import { Guide } from "./components/Guide";
 import { Icon } from "./design-system/Icon";
@@ -15,6 +14,7 @@ import { sectionOf, type Page } from "./components/navigation";
 import { PathPage } from "./components/PathPage";
 import { practiceLesson } from "./components/practiceLesson";
 import { PracticePage } from "./components/practice/PracticePage";
+import { SetPage } from "./components/practice-sets/SetPage";
 import { ProgressLoading } from "./components/progress/ProgressLoading";
 import { SaveFailed } from "./components/progress/SaveFailed";
 import { useProgress } from "./components/progress/useProgress";
@@ -76,7 +76,7 @@ const App = () => {
   const toggleExpanded = (id: string) => setExpanded((open) => (open === id ? "" : id));
 
   const complete = (score: number, total: number) => {
-    if (session && [...allLessons, ...askingLessons].some((l) => l.id === session.id)) {
+    if (session && [...allLessons, ...setLessons].some((l) => l.id === session.id)) {
       actions.complete(session.id, score, total);
     }
   };
@@ -121,7 +121,12 @@ const App = () => {
         practice={practice}
       />
     ),
-    "practice/questions": <QuestionsPage progress={progress} setSession={setSession} />,
+    ...Object.fromEntries(
+      practiceSets.map((s) => [
+        s.route,
+        <SetPage key={s.id} set={s} progress={progress} setSession={setSession} />,
+      ]),
+    ),
     exam: (
       <MockExam
         progress={progress}

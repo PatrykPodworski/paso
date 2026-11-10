@@ -73,7 +73,7 @@ export const SkillPractice = ({ progress, filter, setSession, navigate, practice
     })),
     ...practiceSets.map((s) => ({
       id: s.id,
-      icon: "people",
+      icon: s.icon,
       tone: TINT,
       name: s.name,
       note: `${lessons(s.lessons.length)} · ${s.note}`,

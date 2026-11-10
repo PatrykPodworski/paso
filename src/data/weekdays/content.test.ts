@@ -30,6 +30,9 @@ describe("weekdays content", () => {
         "WD-T05-E01",
         "WD-T05-E06",
         "WD-T05-V12",
+        "WD-T06-E01",
+        "WD-T06-E06",
+        "WD-T06-V12",
       ]),
     );
   });
@@ -53,6 +56,7 @@ describe("weekdays content", () => {
       "WD-T03-E01",
       "WD-T04-E01",
       "WD-T05-E01",
+      "WD-T06-E01",
     ]);
 
     for (const q of choices) {
@@ -91,6 +95,9 @@ describe("weekdays content", () => {
       "WD-T05-E06",
       "WD-T05-V10",
       "WD-T05-V12",
+      "WD-T06-E06",
+      "WD-T06-V10",
+      "WD-T06-V12",
     ]);
 
     expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
@@ -112,6 +119,9 @@ describe("weekdays content", () => {
         "WD-T05-E01",
         "WD-T05-E04",
         "WD-T05-V05",
+        "WD-T06-E01",
+        "WD-T06-E04",
+        "WD-T06-V11",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "lunes",
@@ -129,6 +139,9 @@ describe("weekdays content", () => {
       "viernes",
       "La cita es el viernes.",
       "El curso de Luis empieza el viernes.",
+      "sábado",
+      "Hoy es sábado.",
+      "La tienda abre los sábados.",
     ]);
   });
 
@@ -197,11 +210,24 @@ describe("weekdays content", () => {
     expect(ids("WD-T05-V")).toHaveLength(12);
   });
 
+  it("authors six base items and twelve variations for sábado", () => {
+    expect(ids("WD-T06-E")).toEqual([
+      "WD-T06-E01",
+      "WD-T06-E02",
+      "WD-T06-E03",
+      "WD-T06-E04",
+      "WD-T06-E05",
+      "WD-T06-E06",
+    ]);
+
+    expect(ids("WD-T06-V")).toHaveLength(12);
+  });
+
   it("asks for every day so far as the answer of a typed Spanish item", () => {
     const typed = weekdaysQuestions.filter((q) => q.kind === "type").map((q) => q.answer);
 
     expect(typed).toEqual(
-      expect.arrayContaining(["lunes", "martes", "miércoles", "jueves", "viernes"]),
+      expect.arrayContaining(["lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]),
     );
   });
 
@@ -230,6 +256,11 @@ describe("weekdays content", () => {
     expect(isCorrect(question("WD-T05-E04"), "Viernes")).toBe(true);
   });
 
+  it("takes sábados, not sábado, for every Saturday", () => {
+    expect(isCorrect(question("WD-T06-V09"), "sábados")).toBe(true);
+    expect(isCorrect(question("WD-T06-V09"), "sábado")).toBe(false);
+  });
+
   it("passes miercoles for the miércoles word and notes the missing é", () => {
     const e03 = question("WD-T03-E03");
 
@@ -243,5 +274,20 @@ describe("weekdays content", () => {
 
     expect(accentOnlyAnswer(e03, "miércoles")).toBeUndefined();
     expect(isCorrect(e03, "martes")).toBe(false);
+  });
+
+  it("passes sabado for the sábado word and notes the missing á", () => {
+    const e03 = question("WD-T06-E03");
+
+    expect(isCorrect(e03, "sabado")).toBe(true);
+    expect(accentOnlyAnswer(e03, "sabado")).toBe("sábado");
+
+    expect(accentMistakes(accentOnlyAnswer(e03, "sabado")!, "sabado")).toEqual({
+      missing: ["á"],
+      extra: [],
+    });
+
+    expect(accentOnlyAnswer(e03, "sábado")).toBeUndefined();
+    expect(isCorrect(e03, "viernes")).toBe(false);
   });
 });

@@ -9,8 +9,9 @@ export type TaskItem = {
 };
 
 // A line Lucía may say, or a point only the learner can raise. Words outside «» are a
-// note to her: she says the one question inside the marks, not the note.
-export type Ask = string | { learner: string };
+// note to her: she says the one question inside the marks, not the note. A role swap is
+// a line that tells the learner to ask her; she says it, then waits for their questions.
+export type Ask = string | { learner: string } | { roleSwap: string };
 
 export type TaskSpec = {
   id: string;

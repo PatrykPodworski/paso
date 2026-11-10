@@ -60,14 +60,24 @@ export const taskOf = (id: unknown, topic?: unknown) => {
 const COUNTS = ["one", "two", "three", "four", "five", "six"];
 const LEVELS = ["correct", "understandable", "missing"];
 
-const lineOf = (ask: Ask) =>
-  typeof ask === "string"
-    ? ask
-    : `The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: ${ask.learner} If they do not ask it, give one short hint for this point only.`;
+const lineOf = (ask: Ask) => {
+  if (typeof ask === "string") {
+    return ask;
+  }
+
+  if ("roleSwap" in ask) {
+    return `Tell the learner this line, word for word, as its own turn: «${ask.roleSwap}» Then wait. Answer each question the learner asks with one short sentence. Never ask these questions yourself and never answer them before the learner asks. If the learner does not ask, say the line once more. When the learner has asked, go to the next point, or say goodbye after the last point.`;
+  }
+
+  return `The learner asks this. Do not ask it yourself, do not answer it before they ask, and do not say it as an instruction: ${ask.learner} If they do not ask it, give one short hint for this point only.`;
+};
+
+const swapsRoles = (task: TaskSpec) =>
+  task.asks.some((ask) => typeof ask !== "string" && "roleSwap" in ask);
 
 const numbered = (asks: readonly Ask[]) => asks.map((ask, i) => `${i + 1}. ${lineOf(ask)}`);
 
-// The Spanish Lucía may say for one point. A note's question is the part inside «».
+// The questions Lucía may ask for one point. A note's question is the part inside «».
 export const linesOf = (task: TaskSpec) =>
   task.asks.flatMap((ask) => {
     if (typeof ask !== "string") {
@@ -104,7 +114,9 @@ const practiceInterview = (task: TaskSpec) => [
   "Where a point puts a question in «», the words outside «» are for you, not a line to speak. The question inside «» is an example: ask one short question for the missing detail, of that kind.",
   ...numbered(task.asks),
   ...acknowledgement,
-  "Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.",
+  swapsRoles(task)
+    ? "Apart from the line you tell the learner, do not read the points aloud as instructions."
+    : "Do not say «Ahora, pregúntame…», «Ahora, hazme…» or «Ahora, invítame…». Do not read the points aloud as instructions. One hint is one short question about one missing point, never a list.",
   "Stay in your role. If the learner says goodbye or clearly ends the exchange, answer a thank-you if they gave one, then close. A goodbye ends the talk even if a point is still open. Do not ask another question, do not greet them again and do not restart the scene.",
   "If the learner does not answer, or you do not understand, repeat that same question once, more slowly, and then move on.",
   `When every point is covered, or the learner has ended the talk, ${farewell}`,

@@ -32,4 +32,4 @@ export const exerciseGroups: Group[] = [
   },
 ];
 
-export const exerciseCount = exerciseGroups.reduce((n, g) => n + g.rows.length, 0);
+export const exerciseRowCount = exerciseGroups.reduce((n, g) => n + g.rows.length, 0);

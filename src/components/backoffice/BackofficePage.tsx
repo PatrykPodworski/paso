@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import type { Session } from "../practice";
 import { audioAssets } from "./audioAssets";
 import { AudioTab } from "./AudioTab";
-import { exerciseCount } from "./exerciseGroups";
+import { exerciseRowCount } from "./exerciseGroups";
 import { ExerciseList } from "./ExerciseList";
 import { pictureIds } from "./imageAssets";
 import { ImagesTab } from "./ImagesTab";
@@ -17,7 +17,7 @@ export const BackofficePage = ({ setSession }: Props) => {
   const flags = useFlags();
 
   const tabs = [
-    { value: "exercises", label: "Exercises", count: exerciseCount },
+    { value: "exercises", label: "Exercises", count: exerciseRowCount },
     { value: "audio", label: "Audio", count: audioAssets.length },
     { value: "images", label: "Images", count: pictureIds.length },
   ];

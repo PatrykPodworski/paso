@@ -67,7 +67,10 @@ export const pathPlace = (lessonId: string) => {
   return undefined;
 };
 
+const unitNumbers: Record<string, number> = Object.fromEntries(
+  pathUnits.map((u) => [u.id, u.number]),
+);
+
 // The displayed number of a course unit, given its course index from 1, as words.json stores it.
 // Every course unit is on the path.
-export const courseUnitNumber = (courseUnit: number) =>
-  pathUnits.find((u) => u.id === units[courseUnit - 1].id)!.number;
+export const courseUnitNumber = (courseUnit: number) => unitNumbers[units[courseUnit - 1].id];

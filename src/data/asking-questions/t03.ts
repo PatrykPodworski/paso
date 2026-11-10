@@ -175,7 +175,7 @@ export const t03Items: Item[] = [
   },
 ];
 
-export const t03Introduction = teachingCard(
+const t03Introduction = teachingCard(
   "AQ-T03-INTRO",
   "New question word: dónde",
   "Dónde asks for a location. Use ¿Dónde está el baño? to find a place.\n\nExample: ¿Dónde está el baño?",

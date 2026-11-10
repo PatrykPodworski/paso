@@ -9,7 +9,8 @@ export const u7: TaskSpec = {
     "¿Dónde está tu barrio?",
     "¿Qué hay en tu barrio?",
     "¿Qué te gusta de tu barrio?",
-    { roleSwap: "Ahora, pregúntame dónde está el banco y si está lejos de la estación." },
+    { learner: "Where the bank is." },
+    { learner: "Whether the bank is far from the station." },
   ],
   items: [
     { id: "location", label: "Where the neighborhood is", example: "Mi barrio está en el centro" },

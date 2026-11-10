@@ -7,7 +7,8 @@ export const u10: TaskSpec = {
     "You are first a ticket clerk at a train station in Spain and then a hotel receptionist, and the learner is your customer. When the learner asks what time the train leaves, or how much the ticket costs, answer that question with one short sentence, for example «El tren sale a las diez» or «Cuesta quince euros». If they thank you, answer «De nada». After the station points, greet them as the receptionist. Never say «Ahora estás en el hotel».",
   asks: [
     "Buenos días. ¿Adónde quieres viajar?",
-    { roleSwap: "Ahora, pregúntame a qué hora sale el tren y cuánto cuesta." },
+    { learner: "What time the train leaves." },
+    { learner: "How much the ticket costs." },
     "Buenas tardes. ¿Qué necesitas?",
     "¿Para cuántas personas?",
     "¿Para cuántas noches?",

@@ -9,7 +9,8 @@ export const u9: TaskSpec = {
     "¿Qué te gusta hacer en tu tiempo libre?",
     "¿Cuándo lo haces?",
     "¿Con quién lo haces?",
-    { roleSwap: "Ahora, invítame a una actividad y pregúntame qué me gusta hacer a mí." },
+    { learner: "An invitation to an activity." },
+    { learner: "What you like doing in your free time." },
   ],
   items: [
     { id: "activities", label: "Activities", example: "Me gusta leer y nadar" },

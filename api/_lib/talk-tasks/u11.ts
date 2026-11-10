@@ -10,7 +10,8 @@ export const u11: TaskSpec = {
     "¿Qué estación del año te gusta más?",
     "¿Cómo estás?",
     "¿Qué necesitas?",
-    { roleSwap: "Ahora, pregúntame cuál es mi estación favorita y qué tiempo hace en mi ciudad." },
+    { learner: "Your favourite season." },
+    { learner: "The weather in your city." },
   ],
   items: [
     { id: "weather", label: "Today's weather", example: "Hoy hace sol y calor" },

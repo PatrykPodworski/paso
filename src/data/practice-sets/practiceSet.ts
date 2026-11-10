@@ -8,6 +8,7 @@ export type PracticeSet = {
   route: `practice/${string}`;
   name: string;
   note: string;
+  icon: string;
   title: string;
   description: string;
   units: { id: string; title: string; lessons: SetLesson[] }[];

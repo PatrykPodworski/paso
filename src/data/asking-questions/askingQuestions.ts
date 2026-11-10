@@ -42,6 +42,7 @@ export const askingQuestionsSet: PracticeSet = {
   route: "practice/questions",
   name: "Asking questions",
   note: "one new question word per lesson",
+  icon: "people",
   title: "Asking questions.",
   description: "Form and ask questions in Spanish, one new question word per lesson.",
   units: askingUnits,

@@ -4,6 +4,7 @@ import { foundations, visualQuestions } from "../../data/curriculum";
 import { formPractice } from "../../data/mock";
 import { emptySnapshot } from "../../test/progress";
 import type { Lesson } from "../../data/types";
+import { Icon } from "../../design-system/Icon";
 import { SkillPractice } from "./SkillPractice";
 
 it("launches each focused practice bank", () => {
@@ -27,6 +28,27 @@ it("launches each focused practice bank", () => {
     fireEvent.click(screen.getByRole("button", { name: new RegExp(title) }));
     expect(lesson?.questions).toEqual(questions);
   }
+});
+
+it("shows the icon the practice set names on its card", () => {
+  const { container: people } = render(<Icon name="people" />);
+
+  render(
+    <SkillPractice
+      progress={emptySnapshot()}
+      filter="all"
+      setSession={vi.fn()}
+      navigate={vi.fn()}
+      practice={vi.fn()}
+    />,
+  );
+
+  const card = screen.getByRole("button", { name: /Asking questions/ });
+
+  expect(card.querySelector("path")).toHaveAttribute(
+    "d",
+    people.querySelector("path")?.getAttribute("d"),
+  );
 });
 
 it.each([

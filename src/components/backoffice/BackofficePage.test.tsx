@@ -3,7 +3,7 @@ import { expect, it } from "vitest";
 import { askingLessons, askingUnits } from "../../data/asking-questions/askingQuestions";
 import { allLessons, units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
-import { setLessons } from "../../data/practice-sets/index";
+import { practiceSets, setLessons } from "../../data/practice-sets/index";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
 
@@ -18,13 +18,14 @@ const rowsOf = (lessons: typeof askingLessons) =>
 
 const setRows = rowsOf(setLessons);
 
+const setUnits = practiceSets.flatMap((s) => s.units).filter((u) => u.lessons.length).length;
+
 it("lists every question of every unit, every practice set and the mock exam, grouped by unit", () => {
   render(<BackofficePage setSession={() => {}} />);
   const groups = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
 
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
-  // The weekdays set has one unit with lessons so far.
-  expect(groups).toHaveLength(units.length + askingUnits.length + 1 + 1);
+  expect(groups).toHaveLength(units.length + setUnits + 1);
 
   expect(groups.slice(-7)).toEqual([
     "Unit 12 · Ready for your next chapter",

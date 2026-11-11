@@ -76,4 +76,14 @@ export const t01Items: Item[] = [
     feedback: "Today is Tuesday. Jorge’s meeting is on Tuesday. So: Reunión de Jorge: hoy.",
     hints,
   },
+  {
+    id: "TM-T01-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Today is Tuesday. Luis’s visit is on Tuesday.",
+    prompt: "Visita de Luis: ___.",
+    answer: "hoy",
+    say: "Visita de Luis: hoy.",
+    feedback: "Today is Tuesday. Luis’s visit is on Tuesday. So: Visita de Luis: hoy.",
+    hints,
+  },
 ];

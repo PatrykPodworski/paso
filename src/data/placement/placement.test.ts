@@ -151,6 +151,50 @@ describe("placement lessons", () => {
     },
   );
 
+  it.each([1, 2, 3])(
+    "opens pl-m04 on its introduction, the base items with the form card before SP-T08-N04, then every variation with three on earlier phrases (seed %i)",
+    (seed) => {
+      const lesson = placementLesson("pl-m04", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "pl-m04",
+        title: "Next to and between",
+        subtitle: "al lado de and entre",
+        minutes: 9,
+      });
+
+      expect(kindsOf("pl-m04", seed, 10)).toEqual([
+        ["SP-M04-INTRO", "teach"],
+        ["SP-T08-N01", "choice"],
+        ["SP-T09-N01", "choice"],
+        ["SP-T08-N02", "type"],
+        ["SP-T09-N02", "type"],
+        ["SP-T08-N03", "type"],
+        ["SP-T09-N03", "type"],
+        ["SP-T08-N04-FORM", "teach"],
+        ["SP-T08-N04", "type"],
+        ["SP-T09-N04", "type"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(10)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual([
+        "SP-M04-X01",
+        "SP-M04-X02",
+        "SP-M04-X03",
+        "SP-T08-N05",
+        "SP-T08-N06",
+        "SP-T08-N07",
+        "SP-T09-N05",
+        "SP-T09-N06",
+        "SP-T09-N07",
+      ]);
+    },
+  );
+
   it("shows pl-m01's three phrases on its introduction card and their el forms on its form card", () => {
     const questions = placementLesson("pl-m01", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[10]];
@@ -196,6 +240,21 @@ describe("placement lessons", () => {
     ]);
   });
 
+  it("shows pl-m04's two phrases on its introduction card and entre next to al lado del on its form card", () => {
+    const questions = placementLesson("pl-m04", randomFrom(1)).questions;
+    const [intro, form] = [questions[0], questions[7]];
+
+    expect([intro.prompt, intro.explanation]).toEqual([
+      "New phrases: al lado de and entre",
+      "al lado de means next to: La mochila está al lado de la cama. entre means between: La bolsa está entre la ventana y la lámpara.",
+    ]);
+
+    expect([form.prompt, form.explanation]).toEqual([
+      "al lado del, entre … y …",
+      "entre takes no de: El móvil está entre el armario y el sofá. Before la, de stays on its own: El billete está al lado de la lámpara. Before el, de + el becomes del: El libro está al lado del armario.",
+    ]);
+  });
+
   it.each([1, 2, 3])(
     "runs pl-mr01 as the five phrases' del gaps, then their la translations, with no cards (seed %i)",
     (seed) => {
@@ -222,10 +281,37 @@ describe("placement lessons", () => {
     },
   );
 
+  it.each([1, 2, 3])(
+    "runs pl-mr02 as the five phrases' del gaps, then their la translations, with no cards (seed %i)",
+    (seed) => {
+      const lesson = placementLesson("pl-mr02", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "pl-mr02",
+        title: "Unit review",
+        subtitle: "Review this unit's lessons",
+      });
+
+      expect(lesson.questions.map((q) => q.id)).toEqual([
+        "SP-T06-N04",
+        "SP-T07-N04",
+        "SP-T14-N04",
+        "SP-T08-N04",
+        "SP-T09-N04",
+        "SP-T06-N05",
+        "SP-T07-N05",
+        "SP-T14-N05",
+        "SP-T08-N05",
+        "SP-T09-N05",
+      ]);
+    },
+  );
+
   it.each([
     ["pl-m01", 14],
     ["pl-m02", 10],
     ["pl-m03", 14],
+    ["pl-m04", 10],
   ])("draws a new variation order each time %s opens", (id, start) => {
     const orders = [1, 2, 3, 4].map((seed) =>
       placementLesson(id, randomFrom(seed))
@@ -237,7 +323,7 @@ describe("placement lessons", () => {
     expect(new Set(orders).size).toBeGreaterThan(1);
   });
 
-  it("lists unit 1 with pl-m01, pl-m02 and pl-mr01, unit 2 with pl-m03, and leaves unit 3 empty", () => {
+  it("lists unit 1 with pl-m01, pl-m02 and pl-mr01, unit 2 with pl-m03, pl-m04 and pl-mr02, and leaves unit 3 empty", () => {
     expect(
       placementUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
     ).toEqual([
@@ -247,7 +333,12 @@ describe("placement lessons", () => {
         "en, dentro de, fuera de, encima de, debajo de",
         ["pl-m01", "pl-m02", "pl-mr01"],
       ],
-      ["pl-u2", 4, "delante de, detrás de, enfrente de, al lado de, entre", ["pl-m03"]],
+      [
+        "pl-u2",
+        4,
+        "delante de, detrás de, enfrente de, al lado de, entre",
+        ["pl-m03", "pl-m04", "pl-mr02"],
+      ],
       ["pl-u3", 4, "cerca de, lejos de, a la izquierda de, a la derecha de", []],
     ]);
   });

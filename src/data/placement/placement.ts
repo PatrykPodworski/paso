@@ -7,13 +7,17 @@ import type { SetLesson } from "../practice-sets/setLesson.ts";
 import { m01, m01Items } from "./m01.ts";
 import { m02, m02Items, mr01 } from "./m02.ts";
 import { m03, m03Items } from "./m03.ts";
+import { m04, m04Items, mr02 } from "./m04.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
-export const placementQuestions: Question[] = [...m01Items, ...m02Items, ...m03Items].map(
-  questionOf,
-);
+export const placementQuestions: Question[] = [
+  ...m01Items,
+  ...m02Items,
+  ...m03Items,
+  ...m04Items,
+].map(questionOf);
 
-export const placementLessons: SetLesson[] = [m01, m02, mr01, m03];
+export const placementLessons: SetLesson[] = [m01, m02, mr01, m03, m04, mr02];
 
 const UNITS = [
   {

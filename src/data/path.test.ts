@@ -9,7 +9,7 @@ import {
   pathUnitNumber,
   pathUnits,
 } from "./path";
-import { placementLessons } from "./placement/placement";
+import { placementLessons, placementSet } from "./placement/placement";
 import { practiceSets, setLessons } from "./practice-sets/index";
 import type { PracticeSet } from "./practice-sets/practiceSet";
 import type { SetLesson } from "./practice-sets/setLesson";
@@ -37,10 +37,8 @@ const weekdaysComplete: PracticeSet = {
 };
 
 const TIME_WORDS = [
-  ["tm-l01", "tm-l02", "tm-l03", "tm-l04", "tm-r01"],
-  ["tm-l05", "tm-l06", "tm-l07", "tm-l08", "tm-r02"],
-  ["tm-l09", "tm-l10", "tm-l11", "tm-l12", "tm-r03"],
-  ["tm-l13", "tm-l14", "tm-l15", "tm-l16", "tm-r04"],
+  ["tm-m01", "tm-m02", "tm-m03", "tm-r01"],
+  ["tm-m04", "tm-m05", "tm-m06", "tm-r02"],
 ];
 
 const timeWordsComplete: PracticeSet = {
@@ -48,21 +46,26 @@ const timeWordsComplete: PracticeSet = {
   units: timeWordsSet.units.map((u, i) => ({ ...u, lessons: TIME_WORDS[i].map(stub) })),
 };
 
-const complete = pathModel(units, [askingQuestionsSet, weekdaysComplete, timeWordsComplete]);
+const complete = pathModel(units, [
+  askingQuestionsSet,
+  weekdaysComplete,
+  placementSet,
+  timeWordsComplete,
+]);
 
-it("puts every set unit right after the course unit it builds on, with Weekdays and Time words complete", () => {
+it("puts every set unit right after the course unit it builds on, with Weekdays and Time words complete and the placement units so far", () => {
   expect(complete.pathUnits.map((u) => [u.number, u.id])).toEqual([
     [1, "u1"],
     [2, "u2"],
     [3, "u3"],
     [4, "u4"],
-    [5, "u5"],
-    [6, "wd-u1"],
-    [7, "wd-u2"],
-    [8, "tm-u1"],
-    [9, "tm-u2"],
-    [10, "tm-u3"],
-    [11, "tm-u4"],
+    [5, "pl-u1"],
+    [6, "pl-u2"],
+    [7, "u5"],
+    [8, "wd-u1"],
+    [9, "wd-u2"],
+    [10, "tm-u1"],
+    [11, "tm-u2"],
     [12, "u6"],
     [13, "u7"],
     [14, "u8"],
@@ -76,20 +79,21 @@ it("puts every set unit right after the course unit it builds on, with Weekdays 
     [22, "u12"],
   ]);
 
-  expect(complete.pathLessons).toHaveLength(95);
+  expect(complete.pathLessons).toHaveLength(87);
+  expect(complete.pathPlace("tm-r02")).toEqual({ unit: 11, lesson: 4 });
   expect(complete.pathPlace("aq-r01")).toEqual({ unit: 16, lesson: 5 });
   expect(complete.courseUnitNumber(6)).toBe(12);
   expect(complete.pathUnitNumber("aq-u3")).toBe(19);
 });
 
-it("puts the time-words unit with L01 right after the Weekdays units", () => {
+it("puts the time-words unit with M01 right after the Weekdays units", () => {
   expect(pathUnits.slice(8, 11).map((u) => [u.number, u.id])).toEqual([
     [9, "wd-u2"],
     [10, "tm-u1"],
     [11, "u6"],
   ]);
 
-  expect(pathPlace("tm-l01")).toEqual({ unit: 10, lesson: 1 });
+  expect(pathPlace("tm-m01")).toEqual({ unit: 10, lesson: 1 });
 });
 
 it("leaves out a set unit without lessons and gives it no number", () => {
@@ -132,9 +136,9 @@ it("shows a set unit with the set's icon and name, its part and what it teaches"
 
   expect(pathUnits.find((u) => u.id === "tm-u1")).toMatchObject({
     icon: "sun",
-    eyebrow: "Part 1 of 4",
+    eyebrow: "Part 1 of 2",
     title: "Time words",
-    subtitle: "hoy, mañana, ayer, ahora",
+    subtitle: "hoy, ahora, antes, temprano and more",
   });
 });
 

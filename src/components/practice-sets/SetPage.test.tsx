@@ -98,14 +98,14 @@ it("lists only the placement units that have lessons", () => {
   );
 });
 
-it("lists the time-words unit with L01 under its path number", () => {
+it("lists the time-words unit with M01 under its path number", () => {
   render(<SetPage set={timeWordsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Time words.");
 
   expect(
     screen.getByText(
-      "Learn sixteen everyday Spanish time words, from hoy to hasta, one per lesson.",
+      "Learn sixteen everyday Spanish time words, from hoy to hasta, two or three per lesson.",
     ),
   ).toBeInTheDocument();
 
@@ -114,6 +114,6 @@ it("lists the time-words unit with L01 under its path number", () => {
   ]);
 
   expect(screen.getByRole("button", { name: /Today/ })).toHaveTextContent(
-    "TodayLearn one new time word18 exercises",
+    "Today, tomorrow, yesterdayhoy, mañana, ayer18 exercises",
   );
 });

@@ -85,11 +85,11 @@ it("lists only the placement units that have lessons", () => {
   ]);
 
   expect(screen.getByRole("region", { name: "Unit 5" })).toHaveTextContent(
-    /^Unit 5en, dentro de, fuera de, encima de/,
+    /^Unit 5en, dentro de, fuera de, encima de, debajo de/,
   );
 
-  expect(screen.getByRole("button", { name: /In or on/ })).toHaveTextContent(
-    "In or onLearn one new phrase18 exercises",
+  expect(screen.getByRole("button", { name: /^In, inside and outside/ })).toHaveTextContent(
+    "In, inside and outsideen, dentro de and fuera de21 exercises",
   );
 });
 

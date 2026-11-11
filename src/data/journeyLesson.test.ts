@@ -71,7 +71,7 @@ it("opens the first placement lesson once course units 1 to 4 are finished", () 
   const progress = emptySnapshot();
 
   finishUnits(progress, 4);
-  expect(journeyLesson(progress).id).toBe("pl-l01");
+  expect(journeyLesson(progress).id).toBe("pl-m01");
 });
 
 it("opens the first Weekdays lesson once course units 1 to 5 and the placement set are finished", () => {

@@ -90,6 +90,11 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   plain text drops the -es.
 - Weekdays (M01–M03 and MR01–MR02): 77 texts, the seven day words, which are also
   the tiles of the week-order task, 69 sentences and the week in order.
+- Time words (M01–M06, R01 and R02): 133 texts, 8 time words and phrases, the
+  tiles _luego_, _Desayuno_ and _trabajo_, 94 sentences, 24 calendar notes such
+  as _Clase de Pablo: hoy._ (read as written) and the four answers in order.
+  _mañana_, _antes_, _después_, _temprano_, _tarde_, _siempre_, _a veces_,
+  _nunca_ and _y_ play the existing clips of the same words.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

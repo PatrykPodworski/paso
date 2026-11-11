@@ -57,6 +57,18 @@ const R01_ORDER = [
   "TM-G02",
 ];
 
+const M04_VARIATIONS = [
+  "TM-T05-V04",
+  "TM-T07-V03",
+  "TM-T08-V03",
+  "TM-T09-E06",
+  "TM-T09-V11",
+  "TM-T10-E06",
+  "TM-T10-V11",
+  "TM-T11-E06",
+  "TM-T11-V11",
+];
+
 describe("time words lessons", () => {
   it.each([1, 2, 3])(
     "opens M01 on its introduction, the three words alternating in the base, then every variation (seed %i)",
@@ -252,7 +264,79 @@ describe("time words lessons", () => {
     },
   );
 
-  it("lists two units after course unit 5, only unit 1 with lessons so far", () => {
+  it.each([1, 2, 3])(
+    "opens M04 on its introduction, the three day parts alternating in the base, then its variations and the mixed-in words of M02 and M03 (seed %i)",
+    (seed) => {
+      const lesson = timeWordsLesson("tm-m04", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "tm-m04",
+        title: "Morning, afternoon, night",
+        subtitle: "por la mañana, por la tarde, por la noche",
+      });
+
+      expect(lesson.questions.slice(0, 15).map((q) => [q.id, q.kind])).toEqual([
+        ["TM-M04-INTRO", "teach"],
+        ["TM-T09-E01", "choice"],
+        ["TM-T10-E01", "choice"],
+        ["TM-T11-E01", "choice"],
+        ["TM-T09-E03", "type"],
+        ["TM-T10-E03", "type"],
+        ["TM-T11-E03", "type"],
+        ["TM-T09-E04-FORM", "teach"],
+        ["TM-T09-E04", "type"],
+        ["TM-T10-E04-FORM", "teach"],
+        ["TM-T10-E04", "type"],
+        ["TM-T11-E04", "type"],
+        ["TM-T09-E05", "type"],
+        ["TM-T10-E05", "type"],
+        ["TM-T11-E05", "type"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(15)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual(M04_VARIATIONS);
+    },
+  );
+
+  it("introduces the three day parts on one card and tells each from the word alone on its form card", () => {
+    const { questions } = timeWordsLesson("tm-m04", randomFrom(1));
+
+    const cards = ["TM-M04-INTRO", "TM-T09-E04-FORM", "TM-T10-E04-FORM"].map((id) =>
+      questions.find((q) => q.id === id)!,
+    );
+
+    expect(cards.map((q) => [q.prompt, q.explanation])).toEqual([
+      [
+        "New words: por la mañana, por la tarde, por la noche",
+        "por la mañana means in the morning. Example: Pablo estudia por la mañana. por la tarde means in the afternoon. Example: Luis trabaja por la tarde. por la noche means at night, in the evening. Example: Diego lee por la noche.",
+      ],
+      [
+        "por la mañana, not mañana",
+        "Keep all three words: por la mañana is in the morning. mañana alone means tomorrow.",
+      ],
+      [
+        "por la tarde, not tarde",
+        "Keep all three words: por la tarde is in the afternoon. tarde alone means late.",
+      ],
+    ]);
+  });
+
+  it("draws a new M04 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      timeWordsLesson("tm-m04", randomFrom(seed))
+        .questions.slice(15)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists two units after course unit 5, unit 2 with its first lesson so far", () => {
     expect(
       timeWordsUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
     ).toEqual([
@@ -262,7 +346,7 @@ describe("time words lessons", () => {
         "hoy, ahora, antes, temprano and more",
         ["tm-m01", "tm-m02", "tm-m03", "tm-r01"],
       ],
-      ["tm-u2", 5, "por la mañana, siempre, desde and more", []],
+      ["tm-u2", 5, "por la mañana, siempre, desde and more", ["tm-m04"]],
     ]);
   });
 });

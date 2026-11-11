@@ -1,0 +1,71 @@
+import type { Item } from "../practice-sets/item.ts";
+
+// T11, por la noche: at night.
+const hints: [string, string] = ["22:00 is at night.", "Three words: por la and noche."];
+
+export const t11Items: Item[] = [
+  {
+    id: "TM-T11-E01",
+    mode: "choice",
+    instruction: "Choose the English meaning",
+    prompt: "por la noche",
+    answer: "at night",
+    choices: ["at night", "in the morning", "in the afternoon"],
+    say: "por la noche",
+    feedback: "por la noche means at night.",
+    hints,
+  },
+  {
+    id: "TM-T11-E03",
+    mode: "cloze",
+    instruction: "Write it in Spanish",
+    prompt: "at night",
+    answer: "por la noche",
+    say: "por la noche",
+    feedback: "At night is por la noche.",
+    hints,
+  },
+  {
+    id: "TM-T11-E04",
+    mode: "cloze",
+    instruction: "Complete the gap. I am in class at 22:00.",
+    prompt: "Yo estoy en clase ___.",
+    answer: "por la noche",
+    say: "Yo estoy en clase por la noche.",
+    feedback: "I am in class at 22:00. So: Yo estoy en clase por la noche.",
+    hints,
+  },
+  {
+    id: "TM-T11-E05",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Pablo reads at 22:00.",
+    prompt: "Pablo reads at night.",
+    answer: "Pablo lee por la noche.",
+    accepted: ["Por la noche Pablo lee.", "Pablo lee de noche.", "De noche Pablo lee."],
+    say: "Pablo lee por la noche.",
+    feedback: "One right answer: Pablo lee por la noche.",
+    hints,
+  },
+  {
+    id: "TM-T11-E06",
+    mode: "choice",
+    instruction: "Which situation fits this sentence?",
+    prompt: "Luis está en casa por la noche.",
+    answer: "Luis is at home at 22:00.",
+    choices: ["Luis is at home at 22:00.", "Luis is at home at 9:00.", "Luis is at home at 16:00."],
+    say: "Luis está en casa por la noche.",
+    feedback: "por la noche means at night: Luis is at home at 22:00.",
+    hints,
+  },
+  {
+    id: "TM-T11-V11",
+    mode: "choice",
+    instruction: "Choose the word for the gap. Diego is at home at 22:00.",
+    prompt: "Diego está en casa ___.",
+    answer: "por la noche",
+    choices: ["por la noche", "por la mañana", "por la tarde"],
+    say: "Diego está en casa por la noche.",
+    feedback: "Diego is at home at 22:00. So: Diego está en casa por la noche.",
+    hints,
+  },
+];

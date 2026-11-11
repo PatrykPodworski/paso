@@ -7,6 +7,9 @@ const question = (id: string) => timeWordsQuestions.find((q) => q.id === id)!;
 
 const wordOf = (id: string) => id.split("-").slice(0, 2).join("-");
 
+// E01 and E03 say the word alone, and a word such as por la mañana holds spaces too.
+const isWordItem = (id: string) => /-E0[13]$/.test(id);
+
 const CORE = ["E01", "E03", "E04", "E05", "E06", "V11"];
 
 const core = (word: string) => CORE.map((item) => `${word}-${item}`);
@@ -39,6 +42,7 @@ describe("time words content", () => {
       "TM-T04-V10",
       ...core("TM-T05"),
       "TM-T05-V03",
+      "TM-T05-V04",
       "TM-T05-V09",
       "TM-T05-V10",
       ...core("TM-T06"),
@@ -46,11 +50,16 @@ describe("time words content", () => {
       "TM-T06-V09",
       "TM-T06-V10",
       ...core("TM-T07"),
+      "TM-T07-V03",
       "TM-T07-V09",
       "TM-T07-V10",
       ...core("TM-T08"),
+      "TM-T08-V03",
       "TM-T08-V09",
       "TM-T08-V10",
+      ...core("TM-T09"),
+      ...core("TM-T10"),
+      ...core("TM-T11"),
       "TM-G01",
       "TM-G02",
     ]);
@@ -97,6 +106,15 @@ describe("time words content", () => {
       "TM-T08-E01",
       "TM-T08-E06",
       "TM-T08-V11",
+      "TM-T09-E01",
+      "TM-T09-E06",
+      "TM-T09-V11",
+      "TM-T10-E01",
+      "TM-T10-E06",
+      "TM-T10-V11",
+      "TM-T11-E01",
+      "TM-T11-E06",
+      "TM-T11-V11",
     ]);
 
     for (const q of choices) {
@@ -133,6 +151,8 @@ describe("time words content", () => {
         "TM-T05-E04",
         "TM-T06-E05",
         "TM-T08-E04",
+        "TM-T11-E04",
+        "TM-T09-E05",
         "TM-G01",
       ].map((id) => {
         const q = question(id);
@@ -176,6 +196,16 @@ describe("time words content", () => {
         "Hoy Pablo desayuna ___.",
         "Hoy Pablo desayuna tarde.",
       ],
+      [
+        "Complete the gap. I am in class at 22:00.",
+        "Yo estoy en clase ___.",
+        "Yo estoy en clase por la noche.",
+      ],
+      [
+        "Translate into Spanish. Diego reads at 9:00.",
+        "Diego reads in the morning.",
+        "Diego lee por la mañana.",
+      ],
       ["Put the words in time order", "From the earliest day to the latest", "ayer hoy mañana"],
     ]);
   });
@@ -183,7 +213,8 @@ describe("time words content", () => {
   it("uses each Spanish sentence once in a lesson", () => {
     for (const l of timeWordsLessons) {
       const sentences = timeWordsLesson(l.id)
-        .questions.map((q) => q.pronunciation)
+        .questions.filter((q) => !isWordItem(q.id))
+        .map((q) => q.pronunciation)
         .filter((text): text is string => !!text?.includes(" "));
 
       const repeated = sentences.filter((s, i) => sentences.indexOf(s) !== i);
@@ -209,6 +240,7 @@ describe("time words content", () => {
       "TM-T04-E05",
       "TM-T04-V10",
       "TM-T05-E05",
+      "TM-T05-V04",
       "TM-T05-V10",
       "TM-T06-E05",
       "TM-T06-V10",
@@ -216,6 +248,9 @@ describe("time words content", () => {
       "TM-T07-V10",
       "TM-T08-E05",
       "TM-T08-V10",
+      "TM-T09-E05",
+      "TM-T10-E05",
+      "TM-T11-E05",
     ]);
 
     for (const q of translations) {
@@ -229,7 +264,7 @@ describe("time words content", () => {
   it("mixes words in every lesson", () => {
     const learning = timeWordsLessons.filter((l) => l.introduction);
 
-    expect(learning.map((l) => l.id)).toEqual(["tm-m01", "tm-m02", "tm-m03"]);
+    expect(learning.map((l) => l.id)).toEqual(["tm-m01", "tm-m02", "tm-m03", "tm-m04"]);
 
     for (const l of learning) {
       const words = new Set(l.base.map(wordOf));
@@ -310,6 +345,36 @@ describe("time words content", () => {
     ).toEqual([
       [true, true, false],
       [true, true, false],
+    ]);
+  });
+
+  it("accepts the day part at either end and de noche for por la noche, not another day part", () => {
+    expect(
+      [
+        ["TM-T09-E05", "Por la mañana Diego lee."],
+        ["TM-T09-E05", "Diego lee por la tarde."],
+        ["TM-T10-E05", "Por la tarde Luis lee."],
+        ["TM-T10-E05", "Luis lee tarde."],
+        ["TM-T11-E05", "Pablo lee de noche."],
+        ["TM-T11-E05", "De noche Pablo lee."],
+        ["TM-T11-E05", "Pablo lee por la mañana."],
+      ].map(([id, answer]) => isCorrect(question(id), answer)),
+    ).toEqual([true, false, true, false, true, true, false]);
+  });
+
+  it("offers mañana and tarde alone among the day parts, and marks them wrong", () => {
+    expect(
+      [
+        ["TM-T09-V11", "mañana"],
+        ["TM-T10-V11", "tarde"],
+      ].map(([id, word]) => [
+        question(id).options!.includes(word),
+        isCorrect(question(id), word),
+        isCorrect(question(id), question(id).answer),
+      ]),
+    ).toEqual([
+      [true, false, true],
+      [true, false, true],
     ]);
   });
 

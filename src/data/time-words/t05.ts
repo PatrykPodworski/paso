@@ -86,6 +86,17 @@ export const t05Items: Item[] = [
     hints,
   },
   {
+    id: "TM-T05-V04",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Luis studies at 18:00. Pablo studies at 17:00.",
+    prompt: "Pablo studies earlier.",
+    answer: "Pablo estudia antes.",
+    accepted: ["Pablo estudia más temprano.", "Pablo estudia más pronto."],
+    say: "Luis estudia a las seis. Pablo estudia antes.",
+    feedback: "One right answer: Pablo estudia antes.",
+    hints,
+  },
+  {
     id: "TM-T05-V09",
     mode: "cloze",
     instruction: "Complete the gap. Diego has breakfast at 8:00. Luis has breakfast at 7:00.",

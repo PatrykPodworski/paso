@@ -257,23 +257,25 @@ describe("app business orchestration", () => {
     },
   );
 
+  // Every question of the skill must have an attempt, and the seed writes one per question.
+  // Practice sets add reading and writing questions only, so listening keeps the seed small.
   it("revisits the least recently practised questions after all have been seen", async () => {
     const p = progressSeed();
 
-    const bank = exerciseBank.filter((q) => q.skill === "reading");
+    const bank = exerciseBank.filter((q) => q.skill === "listening");
 
     p.attempts = bank.map((q, i) => ({
       id: String(i),
       questionId: q.id,
       answer: "old",
       correct: true,
-      skill: "reading",
+      skill: "listening",
       at: i === 3 ? "2026-09-01T00:00:00Z" : "2026-09-08T00:00:00Z",
     }));
 
     await mount("practice", p);
-    click("Reading");
-    click("Start reading practice");
+    click("Listening");
+    click("Start listening practice");
     expect(session.lesson.questions[0].id).toBe(bank[3].id);
   });
 

@@ -8,6 +8,7 @@ import { m01, m01Items } from "./m01.ts";
 import { m02, m02Items, mr01 } from "./m02.ts";
 import { m03, m03Items } from "./m03.ts";
 import { m04, m04Items, mr02 } from "./m04.ts";
+import { m05, m05Items } from "./m05.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const placementQuestions: Question[] = [
@@ -15,9 +16,10 @@ export const placementQuestions: Question[] = [
   ...m02Items,
   ...m03Items,
   ...m04Items,
+  ...m05Items,
 ].map(questionOf);
 
-export const placementLessons: SetLesson[] = [m01, m02, mr01, m03, m04, mr02];
+export const placementLessons: SetLesson[] = [m01, m02, mr01, m03, m04, mr02, m05];
 
 const UNITS = [
   {

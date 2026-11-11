@@ -2,6 +2,7 @@ import { expect, it } from "vitest";
 import { currentUnit, journeyLesson } from "./journeyLesson";
 import { allLessons, units } from "./curriculum";
 import { pathLessons } from "./path";
+import { placementLessons } from "./placement/placement";
 import { emptySnapshot, questionState } from "../test/progress";
 
 const finish = (progress: ReturnType<typeof emptySnapshot>, index: number) => {
@@ -10,6 +11,12 @@ const finish = (progress: ReturnType<typeof emptySnapshot>, index: number) => {
 
 const finishUnits = (progress: ReturnType<typeof emptySnapshot>, count: number) => {
   for (const lesson of units.slice(0, count).flatMap((u) => u.lessons)) {
+    progress.completed[lesson.id] = { score: 1, total: 1, at: "2026-09-09T08:00:00Z" };
+  }
+};
+
+const finishPlacement = (progress: ReturnType<typeof emptySnapshot>) => {
+  for (const lesson of placementLessons) {
     progress.completed[lesson.id] = { score: 1, total: 1, at: "2026-09-09T08:00:00Z" };
   }
 };
@@ -60,10 +67,18 @@ it("starts over at the first lesson when the path is finished", () => {
   expect(journeyLesson(progress).lesson()).toBe(allLessons[0]);
 });
 
-it("opens the first Weekdays lesson once course units 1 to 5 are finished", () => {
+it("opens the first placement lesson once course units 1 to 4 are finished", () => {
+  const progress = emptySnapshot();
+
+  finishUnits(progress, 4);
+  expect(journeyLesson(progress).id).toBe("pl-l01");
+});
+
+it("opens the first Weekdays lesson once course units 1 to 5 and the placement set are finished", () => {
   const progress = emptySnapshot();
 
   finishUnits(progress, 5);
+  finishPlacement(progress);
   expect(journeyLesson(progress).id).toBe("wd-l01");
 });
 
@@ -97,9 +112,17 @@ it("returns to unit 01 when the whole path is finished", () => {
   expect(currentUnit(progress).number).toBe(1);
 });
 
-it("makes the first Weekdays unit current once course units 1 to 5 are finished", () => {
+it("makes the first placement unit current once course units 1 to 4 are finished", () => {
+  const progress = emptySnapshot();
+
+  finishUnits(progress, 4);
+  expect(currentUnit(progress)).toMatchObject({ id: "pl-u1", number: 5 });
+});
+
+it("makes the first Weekdays unit current once course units 1 to 5 and the placement set are finished", () => {
   const progress = emptySnapshot();
 
   finishUnits(progress, 5);
-  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: 6 });
+  finishPlacement(progress);
+  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: 7 });
 });

@@ -220,6 +220,20 @@ describe("writing tasks", () => {
     });
   });
 
+  it("reviews the placement open sentences as single sentences", () => {
+    expect(writingTaskOf("SP-T01-E06")).toEqual({
+      id: "SP-T01-E06",
+      kind: "sentence",
+      exam: false,
+      prompt:
+        "The cup is in the box. Say in one Spanish sentence where the cup is. Words: cup = la taza; box = la caja.",
+      points: ["Uses en for in or on", "Keeps the things and their places as stated"],
+      wordRange: [2, 15],
+    });
+
+    expect(writingTaskOf("SP-T01-E05")).toBeUndefined();
+  });
+
   it("knows only writing tasks", () => {
     expect(["mock-s1", "u1-v0", "u99-o2", 7, undefined].map(writingTaskOf)).toEqual([
       undefined,

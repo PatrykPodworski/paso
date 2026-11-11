@@ -637,7 +637,7 @@ it("counts a set lesson finished in the practice studio on the path", async () =
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/81 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/82 complete · 1% of your path")).toBeInTheDocument();
 });
 
 it("opens the weekdays page from the practice studio and counts L01 on the path", async () => {
@@ -662,7 +662,7 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/81 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/82 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/weekdays");
   await settle();
@@ -674,7 +674,7 @@ it("opens the placement page from the practice studio and counts L01 on the path
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Where things are/ })).toHaveTextContent(
-    "1 lesson · 14 place phrases, one new phrase per lesson",
+    "2 lessons · 14 place phrases, one new phrase per lesson",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Where things are/ }));
@@ -693,7 +693,7 @@ it("opens the placement page from the practice studio and counts L01 on the path
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/81 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/82 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/placement");
   await settle();
@@ -779,7 +779,7 @@ it("counts partial unit completion and path percentage separately", async () => 
   p.completed[allLessons[0].id] = { score: 4, total: 8, at: "2026-09-08T12:00:00Z" };
   await mount("path", p);
   expect(screen.getByText("1/4 lessons")).toBeInTheDocument();
-  expect(screen.getByText("1/81 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/82 complete · 1% of your path")).toBeInTheDocument();
 });
 
 describe("app shell behavior kept through the component split", () => {
@@ -906,7 +906,7 @@ it("renders a truthful fresh dashboard and the full learning path", async () => 
   await settle();
 
   expect(
-    screen.getByText("20 units · 81 lessons · 845 exercises. Explore freely, or follow the path."),
+    screen.getByText("20 units · 82 lessons · 863 exercises. Explore freely, or follow the path."),
   ).toBeInTheDocument();
 
   expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();

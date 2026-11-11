@@ -29,7 +29,7 @@ it("heads each unit with its path number and what it teaches, each lesson with i
   ]);
 
   expect(screen.getByRole("region", { name: "Unit 19" })).toHaveTextContent(
-    /^Unit 19a qué hora, de dónde, adónde, con quién/,
+    /^Unit 19de dónde, adónde, a qué hora, con quién/,
   );
 
   expect(screen.getByRole("button", { name: /What and how/ })).toHaveTextContent(

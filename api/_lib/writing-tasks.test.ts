@@ -217,51 +217,12 @@ describe("writing tasks", () => {
     });
   });
 
-  it("reviews the placement open sentences as single sentences", () => {
-    expect(writingTaskOf("SP-T01-E06")).toEqual({
-      id: "SP-T01-E06",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "The cup is in the box. Say in one Spanish sentence where the cup is. Words: cup = la taza; box = la caja.",
-      points: ["Uses en for in or on", "Keeps the things and their places as stated"],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("SP-T02-V11")).toEqual({
-      id: "SP-T02-V11",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "The bag is inside the suitcase. Say in one Spanish sentence where the bag is. Words: bag = la bolsa; suitcase = la maleta.",
-      points: ["Uses dentro de for inside", "Keeps the things and their places as stated"],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("SP-T03-V11")).toEqual({
-      id: "SP-T03-V11",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "The bag is outside the suitcase. Say in one Spanish sentence where the bag is. Words: bag = la bolsa; suitcase = la maleta.",
-      points: ["Uses fuera de for outside", "Keeps the things and their places as stated"],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("SP-T04-V11")).toEqual({
-      id: "SP-T04-V11",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "The bag is above the door, not touching it. Say in one Spanish sentence where the bag is. Words: bag = la bolsa; door = la puerta.",
-      points: [
-        "Uses encima de for on top of or above",
-        "Keeps the things and their places as stated",
-      ],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("SP-T01-E05")).toBeUndefined();
+  it("reviews no placement exercise, old or new", () => {
+    expect(
+      ["SP-T01-E06", "SP-T02-V11", "SP-T03-V11", "SP-T04-V11", "SP-T01-N05", "SP-M02-X01"].map(
+        writingTaskOf,
+      ),
+    ).toEqual([undefined, undefined, undefined, undefined, undefined, undefined]);
   });
 
   it("knows only writing tasks", () => {

@@ -2,222 +2,163 @@ import { describe, expect, it } from "vitest";
 import { randomFrom } from "../random";
 import { placementLesson, placementUnits } from "./placement";
 
-const variationsOf = (t: string) =>
-  Array.from({ length: 12 }, (_, i) => `${t}-V${String(i + 1).padStart(2, "0")}`);
+const kindsOf = (id: string, seed: number, count: number) =>
+  placementLesson(id, randomFrom(seed))
+    .questions.slice(0, count)
+    .map((q) => [q.id, q.kind]);
 
 describe("placement lessons", () => {
   it.each([1, 2, 3])(
-    "opens L01 on its introduction, the base items with the form card before E05, then every variation (seed %i)",
+    "opens pl-m01 on its introduction, the base items with the form card before SP-T01-N04, then every variation (seed %i)",
     (seed) => {
-      const lesson = placementLesson("pl-l01", randomFrom(seed));
+      const lesson = placementLesson("pl-m01", randomFrom(seed));
 
       expect(lesson).toMatchObject({
-        id: "pl-l01",
-        title: "In or on",
-        subtitle: "Learn one new phrase",
+        id: "pl-m01",
+        title: "In, inside and outside",
+        subtitle: "en, dentro de and fuera de",
+        minutes: 11,
       });
 
-      expect(lesson.questions.slice(0, 8).map((q) => [q.id, q.kind])).toEqual([
-        ["SP-T01-INTRO", "teach"],
-        ["SP-T01-E01", "choice"],
-        ["SP-T01-E02", "type"],
-        ["SP-T01-E03", "type"],
-        ["SP-T01-E04", "type"],
-        ["SP-T01-E05-FORM", "teach"],
-        ["SP-T01-E05", "type"],
-        ["SP-T01-E06", "write"],
+      expect(kindsOf("pl-m01", seed, 14)).toEqual([
+        ["SP-M01-INTRO", "teach"],
+        ["SP-T01-N01", "choice"],
+        ["SP-T02-N01", "choice"],
+        ["SP-T03-N01", "choice"],
+        ["SP-T01-N02", "type"],
+        ["SP-T02-N02", "type"],
+        ["SP-T03-N02", "type"],
+        ["SP-T01-N03", "type"],
+        ["SP-T02-N03", "type"],
+        ["SP-T03-N03", "type"],
+        ["SP-T01-N04-FORM", "teach"],
+        ["SP-T01-N04", "type"],
+        ["SP-T02-N04", "type"],
+        ["SP-T03-N04", "type"],
       ]);
 
       expect(
         lesson.questions
-          .slice(8)
+          .slice(14)
           .map((q) => q.id)
           .sort(),
-      ).toEqual(variationsOf("SP-T01"));
+      ).toEqual([
+        "SP-T01-N05",
+        "SP-T01-N06",
+        "SP-T01-N07",
+        "SP-T02-N05",
+        "SP-T02-N06",
+        "SP-T02-N07",
+        "SP-T03-N05",
+        "SP-T03-N06",
+        "SP-T03-N07",
+      ]);
     },
   );
 
   it.each([1, 2, 3])(
-    "opens L02 on T01's recalled V09, its introduction, the base items with the form card before E05, then every variation (seed %i)",
+    "opens pl-m02 on its introduction, the base items with the form card before SP-T04-N04, then every variation with three on unit 1's first phrases (seed %i)",
     (seed) => {
-      const lesson = placementLesson("pl-l02", randomFrom(seed));
+      const lesson = placementLesson("pl-m02", randomFrom(seed));
 
       expect(lesson).toMatchObject({
-        id: "pl-l02",
-        title: "Inside",
-        subtitle: "Learn one new phrase",
+        id: "pl-m02",
+        title: "On top of and under",
+        subtitle: "encima de and debajo de",
+        minutes: 9,
       });
 
-      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
-        ["SP-T01-V09", "type"],
-        ["SP-T02-INTRO", "teach"],
-        ["SP-T02-E01", "choice"],
-        ["SP-T02-E02", "type"],
-        ["SP-T02-E03", "type"],
-        ["SP-T02-E04", "type"],
-        ["SP-T02-E05-FORM", "teach"],
-        ["SP-T02-E05", "type"],
-        ["SP-T02-E06", "write"],
+      expect(kindsOf("pl-m02", seed, 10)).toEqual([
+        ["SP-M02-INTRO", "teach"],
+        ["SP-T04-N01", "choice"],
+        ["SP-T05-N01", "choice"],
+        ["SP-T04-N02", "type"],
+        ["SP-T05-N02", "type"],
+        ["SP-T04-N03", "type"],
+        ["SP-T05-N03", "type"],
+        ["SP-T04-N04-FORM", "teach"],
+        ["SP-T04-N04", "type"],
+        ["SP-T05-N04", "type"],
       ]);
 
       expect(
         lesson.questions
-          .slice(9)
+          .slice(10)
           .map((q) => q.id)
           .sort(),
-      ).toEqual(variationsOf("SP-T02"));
+      ).toEqual([
+        "SP-M02-X01",
+        "SP-M02-X02",
+        "SP-M02-X03",
+        "SP-T04-N05",
+        "SP-T04-N06",
+        "SP-T04-N07",
+        "SP-T05-N05",
+        "SP-T05-N06",
+        "SP-T05-N07",
+      ]);
     },
   );
 
-  it("shows dentro de on the L02 introduction card and dentro de la, dentro del on its form card", () => {
-    const [, intro, , , , , form] = placementLesson("pl-l02", randomFrom(1)).questions;
+  it("shows pl-m01's three phrases on its introduction card and their el forms on its form card", () => {
+    const questions = placementLesson("pl-m01", randomFrom(1)).questions;
+    const [intro, form] = [questions[0], questions[10]];
 
     expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrase: dentro de",
-      "dentro de means inside. Example: La bolsa está dentro de la maleta.",
+      "New phrases: en, dentro de and fuera de",
+      "en means in or on: El libro está en la caja. dentro de means inside: El móvil está dentro de la bolsa. fuera de means outside: La taza está fuera de la maleta.",
     ]);
 
     expect([form.prompt, form.explanation]).toEqual([
-      "dentro de la, dentro del",
-      "Before la, de stays on its own: El móvil está dentro de la bolsa. Before el, de + el becomes del: La mochila está dentro del armario.",
+      "en el, dentro del, fuera del",
+      "en never joins el: El libro está en el armario. Before la, de stays on its own: El billete está dentro de la mochila. Before el, de + el becomes del: El móvil está dentro del bolsillo. La taza está fuera del cajón.",
+    ]);
+  });
+
+  it("shows pl-m02's two phrases on its introduction card and their del forms on its form card", () => {
+    const questions = placementLesson("pl-m02", randomFrom(1)).questions;
+    const [intro, form] = [questions[0], questions[7]];
+
+    expect([intro.prompt, intro.explanation]).toEqual([
+      "New phrases: encima de and debajo de",
+      "encima de means on top of or above: La mochila está encima de la puerta. debajo de means under: La bolsa está debajo de la mesa.",
+    ]);
+
+    expect([form.prompt, form.explanation]).toEqual([
+      "encima del, debajo del",
+      "Before la, de stays on its own: El libro está encima de la ventana. Before el, de + el becomes del: El móvil está encima del sofá. La mochila está debajo del banco.",
     ]);
   });
 
   it.each([1, 2, 3])(
-    "opens L03 on T02's recalled V09, its introduction, the base items with the form card before E05, then every variation (seed %i)",
+    "runs pl-mr01 as the five phrases' del gaps, then their la translations, with no cards (seed %i)",
     (seed) => {
-      const lesson = placementLesson("pl-l03", randomFrom(seed));
+      const lesson = placementLesson("pl-mr01", randomFrom(seed));
 
       expect(lesson).toMatchObject({
-        id: "pl-l03",
-        title: "Outside",
-        subtitle: "Learn one new phrase",
-      });
-
-      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
-        ["SP-T02-V09", "type"],
-        ["SP-T03-INTRO", "teach"],
-        ["SP-T03-E01", "choice"],
-        ["SP-T03-E02", "type"],
-        ["SP-T03-E03", "type"],
-        ["SP-T03-E04", "type"],
-        ["SP-T03-E05-FORM", "teach"],
-        ["SP-T03-E05", "type"],
-        ["SP-T03-E06", "write"],
-      ]);
-
-      expect(
-        lesson.questions
-          .slice(9)
-          .map((q) => q.id)
-          .sort(),
-      ).toEqual(variationsOf("SP-T03"));
-    },
-  );
-
-  it("shows fuera de on the L03 introduction card and fuera de la, fuera del on its form card", () => {
-    const [, intro, , , , , form] = placementLesson("pl-l03", randomFrom(1)).questions;
-
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrase: fuera de",
-      "fuera de means outside. Example: La bolsa está fuera de la maleta.",
-    ]);
-
-    expect([form.prompt, form.explanation]).toEqual([
-      "fuera de la, fuera del",
-      "Before la, de stays on its own: El móvil está fuera de la bolsa. Before el, de + el becomes del: La mochila está fuera del armario.",
-    ]);
-  });
-
-  it.each([1, 2, 3])(
-    "opens L04 on T03's recalled V09, its introduction, the base items with the form card before E05, then every variation (seed %i)",
-    (seed) => {
-      const lesson = placementLesson("pl-l04", randomFrom(seed));
-
-      expect(lesson).toMatchObject({
-        id: "pl-l04",
-        title: "On top of or above",
-        subtitle: "Learn one new phrase",
-      });
-
-      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
-        ["SP-T03-V09", "type"],
-        ["SP-T04-INTRO", "teach"],
-        ["SP-T04-E01", "choice"],
-        ["SP-T04-E02", "type"],
-        ["SP-T04-E03", "type"],
-        ["SP-T04-E04", "type"],
-        ["SP-T04-E05-FORM", "teach"],
-        ["SP-T04-E05", "type"],
-        ["SP-T04-E06", "write"],
-      ]);
-
-      expect(
-        lesson.questions
-          .slice(9)
-          .map((q) => q.id)
-          .sort(),
-      ).toEqual(variationsOf("SP-T04"));
-    },
-  );
-
-  it("shows encima de on the L04 introduction card and encima de la, encima del on its form card", () => {
-    const [, intro, , , , , form] = placementLesson("pl-l04", randomFrom(1)).questions;
-
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrase: encima de",
-      "encima de means on top of or above. Example: La bolsa está encima de la puerta.",
-    ]);
-
-    expect([form.prompt, form.explanation]).toEqual([
-      "encima de la, encima del",
-      "Before la, de stays on its own: El móvil está encima de la mesa. Before el, de + el becomes del: La taza está encima del armario.",
-    ]);
-  });
-
-  it.each([1, 2, 3])(
-    "runs R01 as the four phrases' V09 gaps, then their V10 sentences in reverse, with no cards (seed %i)",
-    (seed) => {
-      const lesson = placementLesson("pl-r01", randomFrom(seed));
-
-      expect(lesson).toMatchObject({
-        id: "pl-r01",
+        id: "pl-mr01",
         title: "Unit review",
         subtitle: "Review this unit's lessons",
       });
 
       expect(lesson.questions.map((q) => q.id)).toEqual([
-        "SP-T01-V09",
-        "SP-T02-V09",
-        "SP-T03-V09",
-        "SP-T04-V09",
-        "SP-T04-V10",
-        "SP-T03-V10",
-        "SP-T02-V10",
-        "SP-T01-V10",
+        "SP-T01-N04",
+        "SP-T02-N04",
+        "SP-T03-N04",
+        "SP-T04-N04",
+        "SP-T05-N04",
+        "SP-T01-N05",
+        "SP-T02-N05",
+        "SP-T03-N05",
+        "SP-T04-N05",
+        "SP-T05-N05",
       ]);
     },
   );
 
-  it("shows en on the introduction card and en la, en el on the form card", () => {
-    const [intro, , , , , form] = placementLesson("pl-l01", randomFrom(1)).questions;
-
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrase: en",
-      "en means in or on. Example: La bolsa está en la maleta.",
-    ]);
-
-    expect([form.prompt, form.explanation]).toEqual([
-      "en la, en el",
-      "en never joins the article: El móvil está en la mesa. La mochila está en el armario.",
-    ]);
-  });
-
   it.each([
-    ["pl-l01", 8],
-    ["pl-l02", 9],
-    ["pl-l03", 9],
-    ["pl-l04", 9],
+    ["pl-m01", 14],
+    ["pl-m02", 10],
   ])("draws a new variation order each time %s opens", (id, start) => {
     const orders = [1, 2, 3, 4].map((seed) =>
       placementLesson(id, randomFrom(seed))
@@ -229,12 +170,18 @@ describe("placement lessons", () => {
     expect(new Set(orders).size).toBeGreaterThan(1);
   });
 
-  it("lists unit 1 with L01 to L04 and R01 and leaves the units without lessons empty", () => {
-    expect(placementUnits.map((u) => [u.id, u.after, u.lessons.map((l) => l.id)])).toEqual([
-      ["pl-u1", 4, ["pl-l01", "pl-l02", "pl-l03", "pl-l04", "pl-r01"]],
-      ["pl-u2", 4, []],
-      ["pl-u3", 4, []],
-      ["pl-u4", 4, []],
+  it("lists unit 1 with pl-m01, pl-m02 and pl-mr01 and leaves the units without lessons empty", () => {
+    expect(
+      placementUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
+    ).toEqual([
+      [
+        "pl-u1",
+        4,
+        "en, dentro de, fuera de, encima de, debajo de",
+        ["pl-m01", "pl-m02", "pl-mr01"],
+      ],
+      ["pl-u2", 4, "delante de, detrás de, enfrente de, al lado de, entre", []],
+      ["pl-u3", 4, "cerca de, lejos de, a la izquierda de, a la derecha de", []],
     ]);
   });
 });

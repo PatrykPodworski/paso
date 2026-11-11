@@ -19,8 +19,40 @@ describe("time words content", () => {
 
     expect(timeWordsQuestions.map((q) => q.id)).toEqual([
       ...core("TM-T01"),
+      "TM-T01-V03",
+      "TM-T01-V04",
+      "TM-T01-V09",
+      "TM-T01-V10",
       ...core("TM-T02"),
+      "TM-T02-V03",
+      "TM-T02-V04",
+      "TM-T02-V09",
+      "TM-T02-V10",
       ...core("TM-T03"),
+      "TM-T03-V03",
+      "TM-T03-V04",
+      "TM-T03-V09",
+      "TM-T03-V10",
+      ...core("TM-T04"),
+      "TM-T04-V03",
+      "TM-T04-V09",
+      "TM-T04-V10",
+      ...core("TM-T05"),
+      "TM-T05-V03",
+      "TM-T05-V09",
+      "TM-T05-V10",
+      ...core("TM-T06"),
+      "TM-T06-V03",
+      "TM-T06-V09",
+      "TM-T06-V10",
+      ...core("TM-T07"),
+      "TM-T07-V09",
+      "TM-T07-V10",
+      ...core("TM-T08"),
+      "TM-T08-V09",
+      "TM-T08-V10",
+      "TM-G01",
+      "TM-G02",
     ]);
 
     expect(bank).toEqual(expect.arrayContaining(timeWordsQuestions.map((q) => q.id)));
@@ -50,6 +82,21 @@ describe("time words content", () => {
       "TM-T03-E01",
       "TM-T03-E06",
       "TM-T03-V11",
+      "TM-T04-E01",
+      "TM-T04-E06",
+      "TM-T04-V11",
+      "TM-T05-E01",
+      "TM-T05-E06",
+      "TM-T05-V11",
+      "TM-T06-E01",
+      "TM-T06-E06",
+      "TM-T06-V11",
+      "TM-T07-E01",
+      "TM-T07-E06",
+      "TM-T07-V11",
+      "TM-T08-E01",
+      "TM-T08-E06",
+      "TM-T08-V11",
     ]);
 
     for (const q of choices) {
@@ -77,7 +124,17 @@ describe("time words content", () => {
     expect(missing).toEqual([]);
 
     expect(
-      ["TM-T01-E01", "TM-T01-E04", "TM-T02-E05", "TM-T03-V11"].map((id) => {
+      [
+        "TM-T01-E01",
+        "TM-T01-E04",
+        "TM-T02-E05",
+        "TM-T03-V11",
+        "TM-T02-V03",
+        "TM-T05-E04",
+        "TM-T06-E05",
+        "TM-T08-E04",
+        "TM-G01",
+      ].map((id) => {
         const q = question(id);
 
         return [q.instruction, q.prompt, q.pronunciation];
@@ -99,6 +156,27 @@ describe("time words content", () => {
         "Desayuno con Tomás: ___.",
         "Desayuno con Tomás: ayer.",
       ],
+      [
+        "Complete the gap. Today is Tuesday. Coffee with Luis is on Wednesday.",
+        "Café con Luis: ___.",
+        "Café con Luis: mañana.",
+      ],
+      [
+        "Complete the gap. Tomás has breakfast at 8:00. Pablo has breakfast at 7:00.",
+        "Tomás desayuna a las ocho. Pablo desayuna ___.",
+        "Tomás desayuna a las ocho. Pablo desayuna antes.",
+      ],
+      [
+        "Translate into Spanish. Luis has breakfast at 8:00. Pablo has breakfast at 9:00.",
+        "Pablo has breakfast later.",
+        "Luis desayuna a las ocho. Pablo desayuna después.",
+      ],
+      [
+        "Complete the gap. Pablo usually has breakfast at 9:00. Today he has breakfast at 12:00.",
+        "Hoy Pablo desayuna ___.",
+        "Hoy Pablo desayuna tarde.",
+      ],
+      ["Put the words in time order", "From the earliest day to the latest", "ayer hoy mañana"],
     ]);
   });
 
@@ -118,7 +196,27 @@ describe("time words content", () => {
   it("keeps a translation's answer out of its task", () => {
     const translations = timeWordsQuestions.filter((q) => q.instruction?.startsWith("Translate"));
 
-    expect(translations.map((q) => q.id)).toEqual(["TM-T01-E05", "TM-T02-E05", "TM-T03-E05"]);
+    expect(translations.map((q) => q.id)).toEqual([
+      "TM-T01-E05",
+      "TM-T01-V04",
+      "TM-T01-V10",
+      "TM-T02-E05",
+      "TM-T02-V04",
+      "TM-T02-V10",
+      "TM-T03-E05",
+      "TM-T03-V04",
+      "TM-T03-V10",
+      "TM-T04-E05",
+      "TM-T04-V10",
+      "TM-T05-E05",
+      "TM-T05-V10",
+      "TM-T06-E05",
+      "TM-T06-V10",
+      "TM-T07-E05",
+      "TM-T07-V10",
+      "TM-T08-E05",
+      "TM-T08-V10",
+    ]);
 
     for (const q of translations) {
       const task = normalize(`${q.instruction} ${q.prompt}`);
@@ -131,7 +229,7 @@ describe("time words content", () => {
   it("mixes words in every lesson", () => {
     const learning = timeWordsLessons.filter((l) => l.introduction);
 
-    expect(learning.map((l) => l.id)).toEqual(["tm-m01"]);
+    expect(learning.map((l) => l.id)).toEqual(["tm-m01", "tm-m02", "tm-m03"]);
 
     for (const l of learning) {
       const words = new Set(l.base.map(wordOf));
@@ -150,6 +248,85 @@ describe("time words content", () => {
     expect(isCorrect(question("TM-T02-E05"), "café con diego: hoy")).toBe(false);
     expect(isCorrect(question("TM-T03-E05"), "El desayuno con Diego fue ayer.")).toBe(true);
     expect(isCorrect(question("TM-T03-E05"), "El desayuno con Diego es ayer.")).toBe(false);
+  });
+
+  it("accepts the progressive with ahora and más temprano for antes, not another time word", () => {
+    expect(isCorrect(question("TM-T04-E05"), "Ahora Diego está trabajando.")).toBe(true);
+    expect(isCorrect(question("TM-T04-E05"), "Diego trabaja hoy.")).toBe(false);
+    expect(isCorrect(question("TM-T05-E05"), "Luis estudia más temprano.")).toBe(true);
+    expect(isCorrect(question("TM-T05-E05"), "Luis estudia después.")).toBe(false);
+  });
+
+  it("accepts después and luego in every typed T06 item, and más tarde in its translation", () => {
+    expect(
+      ["TM-T06-E03", "TM-T06-E04"].map((id) => [
+        isCorrect(question(id), "después"),
+        isCorrect(question(id), "luego"),
+        isCorrect(question(id), "antes"),
+      ]),
+    ).toEqual([
+      [true, true, false],
+      [true, true, false],
+    ]);
+
+    expect(
+      ["Pablo desayuna después.", "Pablo desayuna luego.", "Pablo desayuna más tarde."].map(
+        (answer) => isCorrect(question("TM-T06-E05"), answer),
+      ),
+    ).toEqual([true, true, true]);
+
+    expect(isCorrect(question("TM-T06-E05"), "Pablo desayuna antes.")).toBe(false);
+  });
+
+  it("accepts pronto and más temprano in every T07 translation, not tarde", () => {
+    expect(
+      [
+        ["TM-T07-E05", "Diego se acuesta"],
+        ["TM-T07-V10", "Luis come"],
+      ].map(([id, sentence]) =>
+        [
+          `Hoy ${sentence} temprano.`,
+          `Hoy ${sentence} pronto.`,
+          `${sentence} más temprano hoy.`,
+          `Hoy ${sentence} tarde.`,
+        ].map((answer) => isCorrect(question(id), answer)),
+      ),
+    ).toEqual([
+      [true, true, true, false],
+      [true, true, true, false],
+    ]);
+  });
+
+  it("accepts más tarde in every T08 translation, not temprano", () => {
+    expect(
+      [
+        ["TM-T08-E05", "Luis se acuesta"],
+        ["TM-T08-V10", "Diego se acuesta"],
+      ].map(([id, sentence]) =>
+        [`Hoy ${sentence} tarde.`, `${sentence} más tarde hoy.`, `Hoy ${sentence} temprano.`].map(
+          (answer) => isCorrect(question(id), answer),
+        ),
+      ),
+    ).toEqual([
+      [true, true, false],
+      [true, true, false],
+    ]);
+  });
+
+  it("builds each order item's answer from its tiles, authored out of order", () => {
+    expect(
+      ["TM-G01", "TM-G02"].map((id) => {
+        const q = question(id);
+
+        return [q.kind, q.tokens, q.answer, isCorrect(q, q.tokens!.join(" "))];
+      }),
+    ).toEqual([
+      ["order", ["mañana", "ayer", "hoy"], "ayer hoy mañana", false],
+      ["order", ["luego", "Desayuno", "trabajo", "y"], "Desayuno y luego trabajo", false],
+    ]);
+
+    expect(isCorrect(question("TM-G01"), "ayer hoy mañana")).toBe(true);
+    expect(isCorrect(question("TM-G02"), "Desayuno y luego trabajo")).toBe(true);
   });
 
   it("rejects another time word in a gap", () => {

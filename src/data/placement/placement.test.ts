@@ -100,6 +100,57 @@ describe("placement lessons", () => {
     },
   );
 
+  it.each([1, 2, 3])(
+    "opens pl-m03 on its introduction, the base items with the form card before SP-T06-N04, then every variation with three on unit 1's phrases (seed %i)",
+    (seed) => {
+      const lesson = placementLesson("pl-m03", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "pl-m03",
+        title: "In front, behind and opposite",
+        subtitle: "delante de, detrás de and enfrente de",
+        minutes: 12,
+      });
+
+      expect(kindsOf("pl-m03", seed, 14)).toEqual([
+        ["SP-M03-INTRO", "teach"],
+        ["SP-T06-N01", "choice"],
+        ["SP-T07-N01", "choice"],
+        ["SP-T14-N01", "choice"],
+        ["SP-T06-N02", "type"],
+        ["SP-T07-N02", "type"],
+        ["SP-T14-N02", "type"],
+        ["SP-T06-N03", "type"],
+        ["SP-T07-N03", "type"],
+        ["SP-T14-N03", "type"],
+        ["SP-T06-N04-FORM", "teach"],
+        ["SP-T06-N04", "type"],
+        ["SP-T07-N04", "type"],
+        ["SP-T14-N04", "type"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(14)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual([
+        "SP-M03-X01",
+        "SP-M03-X02",
+        "SP-M03-X03",
+        "SP-T06-N05",
+        "SP-T06-N06",
+        "SP-T06-N07",
+        "SP-T07-N05",
+        "SP-T07-N06",
+        "SP-T07-N07",
+        "SP-T14-N05",
+        "SP-T14-N06",
+        "SP-T14-N07",
+      ]);
+    },
+  );
+
   it("shows pl-m01's three phrases on its introduction card and their el forms on its form card", () => {
     const questions = placementLesson("pl-m01", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[10]];
@@ -127,6 +178,21 @@ describe("placement lessons", () => {
     expect([form.prompt, form.explanation]).toEqual([
       "encima del, debajo del",
       "Before la, de stays on its own: El libro está encima de la ventana. Before el, de + el becomes del: El móvil está encima del sofá. La mochila está debajo del banco.",
+    ]);
+  });
+
+  it("shows pl-m03's three phrases and where you stand on its introduction card and their del forms on its form card", () => {
+    const questions = placementLesson("pl-m03", randomFrom(1)).questions;
+    const [intro, form] = [questions[0], questions[10]];
+
+    expect([intro.prompt, intro.explanation]).toEqual([
+      "New phrases: delante de, detrás de and enfrente de",
+      "delante de means in front of: El libro está delante de la lámpara. detrás de means behind: El móvil está detrás de la lámpara. enfrente de means opposite: La farmacia está enfrente de la tienda. Front, behind, left and right depend on where you stand: the instructions always say it.",
+    ]);
+
+    expect([form.prompt, form.explanation]).toEqual([
+      "delante del, detrás del, enfrente del",
+      "Before la, de stays on its own: La taza está delante de la puerta. Before el, de + el becomes del: La bolsa está delante del banco. El billete está detrás del armario. El banco está enfrente del café.",
     ]);
   });
 
@@ -159,6 +225,7 @@ describe("placement lessons", () => {
   it.each([
     ["pl-m01", 14],
     ["pl-m02", 10],
+    ["pl-m03", 14],
   ])("draws a new variation order each time %s opens", (id, start) => {
     const orders = [1, 2, 3, 4].map((seed) =>
       placementLesson(id, randomFrom(seed))
@@ -170,7 +237,7 @@ describe("placement lessons", () => {
     expect(new Set(orders).size).toBeGreaterThan(1);
   });
 
-  it("lists unit 1 with pl-m01, pl-m02 and pl-mr01 and leaves the units without lessons empty", () => {
+  it("lists unit 1 with pl-m01, pl-m02 and pl-mr01, unit 2 with pl-m03, and leaves unit 3 empty", () => {
     expect(
       placementUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
     ).toEqual([
@@ -180,7 +247,7 @@ describe("placement lessons", () => {
         "en, dentro de, fuera de, encima de, debajo de",
         ["pl-m01", "pl-m02", "pl-mr01"],
       ],
-      ["pl-u2", 4, "delante de, detrás de, enfrente de, al lado de, entre", []],
+      ["pl-u2", 4, "delante de, detrás de, enfrente de, al lado de, entre", ["pl-m03"]],
       ["pl-u3", 4, "cerca de, lejos de, a la izquierda de, a la derecha de", []],
     ]);
   });

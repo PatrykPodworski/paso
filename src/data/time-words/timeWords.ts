@@ -5,16 +5,32 @@ import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
 import { m01 } from "./m01.ts";
+import { m02 } from "./m02.ts";
+import { m03 } from "./m03.ts";
+import { r01, review1Items } from "./review1.ts";
 import { t01Items } from "./t01.ts";
 import { t02Items } from "./t02.ts";
 import { t03Items } from "./t03.ts";
+import { t04Items } from "./t04.ts";
+import { t05Items } from "./t05.ts";
+import { t06Items } from "./t06.ts";
+import { t07Items } from "./t07.ts";
+import { t08Items } from "./t08.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
-export const timeWordsQuestions: Question[] = [...t01Items, ...t02Items, ...t03Items].map(
-  questionOf,
-);
+export const timeWordsQuestions: Question[] = [
+  ...t01Items,
+  ...t02Items,
+  ...t03Items,
+  ...t04Items,
+  ...t05Items,
+  ...t06Items,
+  ...t07Items,
+  ...t08Items,
+  ...review1Items,
+].map(questionOf);
 
-export const timeWordsLessons: SetLesson[] = [m01];
+export const timeWordsLessons: SetLesson[] = [m01, m02, m03, r01];
 
 const UNITS = [
   {

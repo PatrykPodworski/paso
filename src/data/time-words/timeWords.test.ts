@@ -2,10 +2,8 @@ import { describe, expect, it } from "vitest";
 import { randomFrom } from "../random";
 import { timeWordsLesson, timeWordsUnits } from "./timeWords";
 
-const variations = Array.from(
-  { length: 12 },
-  (_, i) => `TM-T01-V${String(i + 1).padStart(2, "0")}`,
-);
+const variationsOf = (word: string) =>
+  Array.from({ length: 12 }, (_, i) => `TM-${word}-V${String(i + 1).padStart(2, "0")}`);
 
 describe("time words lessons", () => {
   it.each([1, 2, 3])(
@@ -34,7 +32,7 @@ describe("time words lessons", () => {
           .slice(7)
           .map((q) => q.id)
           .sort(),
-      ).toEqual(variations);
+      ).toEqual(variationsOf("T01"));
     },
   );
 
@@ -58,11 +56,65 @@ describe("time words lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists four units after course unit 5, only unit 1 with a lesson so far", () => {
+  it.each([1, 2, 3])(
+    "opens L02 on the recalled T01-V09, its introduction, the base items with the form card before E04, then every variation (seed %i)",
+    (seed) => {
+      const lesson = timeWordsLesson("tm-l02", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "tm-l02",
+        title: "Tomorrow",
+        subtitle: "Learn one new time word",
+      });
+
+      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
+        ["TM-T01-V09", "type"],
+        ["TM-T02-INTRO", "teach"],
+        ["TM-T02-E01", "choice"],
+        ["TM-T02-E02", "choice"],
+        ["TM-T02-E03", "type"],
+        ["TM-T02-E04-FORM", "teach"],
+        ["TM-T02-E04", "type"],
+        ["TM-T02-E05", "type"],
+        ["TM-T02-E06", "choice"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(9)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual(variationsOf("T02"));
+    },
+  );
+
+  it("shows mañana on the L02 introduction card and tells it from la mañana on its form card", () => {
+    const [, intro, , , , form] = timeWordsLesson("tm-l02", randomFrom(1)).questions;
+
+    expect([intro.prompt, intro.explanation, form.prompt, form.explanation]).toEqual([
+      "New word: mañana",
+      "mañana means tomorrow. Example: Reunión de Luis: mañana.",
+      "mañana and la mañana",
+      "mañana alone means tomorrow. With la, la mañana is the morning. In these exercises mañana means tomorrow.",
+    ]);
+  });
+
+  it("draws a new L02 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      timeWordsLesson("tm-l02", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists four units after course unit 5, only unit 1 with lessons so far", () => {
     expect(
       timeWordsUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
     ).toEqual([
-      ["tm-u1", 5, "hoy, mañana, ayer, ahora", ["tm-l01"]],
+      ["tm-u1", 5, "hoy, mañana, ayer, ahora", ["tm-l01", "tm-l02"]],
       ["tm-u2", 5, "antes, después, temprano, tarde", []],
       ["tm-u3", 5, "por la mañana, por la tarde, por la noche, siempre", []],
       ["tm-u4", 5, "a veces, nunca, desde, hasta", []],

@@ -257,23 +257,25 @@ describe("app business orchestration", () => {
     },
   );
 
+  // Every question of the skill must have an attempt, and the seed writes one per question.
+  // Practice sets add reading and writing questions only, so listening keeps the seed small.
   it("revisits the least recently practised questions after all have been seen", async () => {
     const p = progressSeed();
 
-    const bank = exerciseBank.filter((q) => q.skill === "reading");
+    const bank = exerciseBank.filter((q) => q.skill === "listening");
 
     p.attempts = bank.map((q, i) => ({
       id: String(i),
       questionId: q.id,
       answer: "old",
       correct: true,
-      skill: "reading",
+      skill: "listening",
       at: i === 3 ? "2026-09-01T00:00:00Z" : "2026-09-08T00:00:00Z",
     }));
 
     await mount("practice", p);
-    click("Reading");
-    click("Start reading practice");
+    click("Listening");
+    click("Start listening practice");
     expect(session.lesson.questions[0].id).toBe(bank[3].id);
   });
 
@@ -638,7 +640,7 @@ it("counts a set lesson finished in the practice studio on the path", async () =
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/86 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/87 complete · 1% of your path")).toBeInTheDocument();
 });
 
 it("opens the weekdays page from the practice studio and counts L01 on the path", async () => {
@@ -663,7 +665,7 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/86 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/87 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/weekdays");
   await settle();
@@ -694,7 +696,7 @@ it("opens the placement page from the practice studio and counts L01 on the path
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/86 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/87 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/placement");
   await settle();
@@ -706,7 +708,7 @@ it("opens the time-words page from the practice studio and counts L01 on the pat
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Time words/ })).toHaveTextContent(
-    "1 lesson · hoy, luego, siempre: one new time word per lesson",
+    "2 lessons · hoy, luego, siempre: one new time word per lesson",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Time words/ }));
@@ -724,7 +726,7 @@ it("opens the time-words page from the practice studio and counts L01 on the pat
   changeUrl("/path");
   await settle();
 
-  expect(screen.getByText("1/86 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/87 complete · 1% of your path")).toBeInTheDocument();
 
   changeUrl("/practice/time-words");
   await settle();
@@ -810,7 +812,7 @@ it("counts partial unit completion and path percentage separately", async () => 
   p.completed[allLessons[0].id] = { score: 4, total: 8, at: "2026-09-08T12:00:00Z" };
   await mount("path", p);
   expect(screen.getByText("1/4 lessons")).toBeInTheDocument();
-  expect(screen.getByText("1/86 complete · 1% of your path")).toBeInTheDocument();
+  expect(screen.getByText("1/87 complete · 1% of your path")).toBeInTheDocument();
 });
 
 describe("app shell behavior kept through the component split", () => {
@@ -937,7 +939,7 @@ it("renders a truthful fresh dashboard and the full learning path", async () => 
   await settle();
 
   expect(
-    screen.getByText("21 units · 86 lessons · 925 exercises. Explore freely, or follow the path."),
+    screen.getByText("21 units · 87 lessons · 943 exercises. Explore freely, or follow the path."),
   ).toBeInTheDocument();
 
   expect(screen.getByRole("heading", { name: "Ready for your next chapter" })).toBeInTheDocument();

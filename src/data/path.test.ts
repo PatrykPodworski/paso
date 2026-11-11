@@ -173,8 +173,8 @@ it("puts the first placement unit right after course unit 4 and adds its lesson 
   });
 
   expect(pathPlace("pl-l01")).toEqual({ unit: 5, lesson: 1 });
-  expect(withoutPlacement.pathLessons).toHaveLength(81);
-  expect(pathLessons).toHaveLength(86);
+  expect(withoutPlacement.pathLessons).toHaveLength(82);
+  expect(pathLessons).toHaveLength(87);
 });
 
 it("numbers the units on the path from 1 without gaps", () => {

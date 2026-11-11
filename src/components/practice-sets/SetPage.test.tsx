@@ -22,14 +22,14 @@ it("heads each unit with its path number and what it teaches, each lesson with i
   render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 15",
     "Unit 16",
-    "Unit 18",
-    "Unit 20",
+    "Unit 17",
+    "Unit 19",
+    "Unit 21",
   ]);
 
-  expect(screen.getByRole("region", { name: "Unit 18" })).toHaveTextContent(
-    /^Unit 18a qué hora, de dónde, adónde, con quién/,
+  expect(screen.getByRole("region", { name: "Unit 19" })).toHaveTextContent(
+    /^Unit 19a qué hora, de dónde, adónde, con quién/,
   );
 
   expect(screen.getByRole("button", { name: /What and how/ })).toHaveTextContent(
@@ -66,8 +66,8 @@ it("lists the two weekdays units", () => {
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Weekdays.");
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 8",
     "Unit 9",
+    "Unit 10",
   ]);
 
   expect(screen.getByRole("button", { name: /^Monday to Wednesday/ })).toHaveTextContent(
@@ -83,6 +83,7 @@ it("lists only the placement units that have lessons", () => {
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 5",
     "Unit 6",
+    "Unit 7",
   ]);
 
   expect(screen.getByRole("region", { name: "Unit 5" })).toHaveTextContent(
@@ -91,6 +92,10 @@ it("lists only the placement units that have lessons", () => {
 
   expect(screen.getByRole("region", { name: "Unit 6" })).toHaveTextContent(
     /^Unit 6delante de, detrás de, enfrente de, al lado de, entre/,
+  );
+
+  expect(screen.getByRole("region", { name: "Unit 7" })).toHaveTextContent(
+    /^Unit 7cerca de, lejos de, a la izquierda de, a la derecha de/,
   );
 
   expect(screen.getByRole("button", { name: /^In, inside and outside/ })).toHaveTextContent(
@@ -110,7 +115,7 @@ it("lists the time-words unit with M01 under its path number", () => {
   ).toBeInTheDocument();
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 10",
+    "Unit 11",
   ]);
 
   expect(screen.getByRole("button", { name: /Today/ })).toHaveTextContent(

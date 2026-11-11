@@ -428,10 +428,10 @@ it("moves from a finished lesson straight to the next one on the path", async ()
 
 it("shows the first Asking questions unit on the path and opens its first lesson", async () => {
   await mount("path");
-  const card = screen.getByRole("button", { name: /UNIT 15 · Part 1 of 4/ });
+  const card = screen.getByRole("button", { name: /UNIT 16 · Part 1 of 4/ });
 
   expect(card).toHaveTextContent(
-    "UNIT 15 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons",
+    "UNIT 16 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons",
   );
 
   fireEvent.click(card);
@@ -441,7 +441,7 @@ it("shows the first Asking questions unit on the path and opens its first lesson
 
 it("moves from the last lesson of course unit 9 to the first Asking questions lesson", async () => {
   await mount("path");
-  fireEvent.click(screen.getByRole("button", { name: /UNIT 14 · / }));
+  fireEvent.click(screen.getByRole("button", { name: /UNIT 15 · / }));
   fireEvent.click(screen.getByRole("button", { name: new RegExp(units[8].lessons.at(-1)!.title) }));
   act(() => session.onComplete(1, 1));
   act(() => session.onNext!());
@@ -554,15 +554,15 @@ it("starts Your learning path at a set unit when it holds the journey lesson", a
   const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
 
   expect(summaries.map((s) => s.textContent?.slice(0, 22))).toEqual([
-    "UNIT 08 · Part 1 of 2W",
-    "UNIT 09 · Part 2 of 2W",
-    "UNIT 10 · Part 1 of 2T",
+    "UNIT 09 · Part 1 of 2W",
+    "UNIT 10 · Part 2 of 2W",
+    "UNIT 11 · Part 1 of 2T",
   ]);
 
   expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
 
   expect(
-    screen.getByRole("button", { name: `${pathUnits.length - 10} more units on your path` }),
+    screen.getByRole("button", { name: `${pathUnits.length - 11} more units on your path` }),
   ).toBeInTheDocument();
 });
 

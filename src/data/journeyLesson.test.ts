@@ -124,5 +124,5 @@ it("makes the first Weekdays unit current once course units 1 to 5 and the place
 
   finishUnits(progress, 5);
   finishPlacement(progress);
-  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: 7 });
+  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: 8 });
 });

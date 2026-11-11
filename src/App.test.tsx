@@ -599,7 +599,7 @@ it("routes help, footer, path links and the brand consistently", async () => {
     await settle();
   }
 
-  for (const name of ["View full path", "18 more units on your path"]) {
+  for (const name of ["View full path", `${pathUnits.length - 3} more units on your path`]) {
     click(name);
     await settle();
     expect(screen.getByRole("heading", { name: "Every step has a story." })).toBeInTheDocument();

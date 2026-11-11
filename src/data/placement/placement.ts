@@ -5,11 +5,12 @@ import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
 import { l01, t01Items } from "./t01.ts";
+import { l02, t02Items } from "./t02.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
-export const placementQuestions: Question[] = [...t01Items].map(questionOf);
+export const placementQuestions: Question[] = [...t01Items, ...t02Items].map(questionOf);
 
-export const placementLessons: SetLesson[] = [l01];
+export const placementLessons: SetLesson[] = [l01, l02];
 
 const UNITS = [
   {

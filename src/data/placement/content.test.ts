@@ -14,14 +14,23 @@ describe("placement content", () => {
     const bank = exerciseBank.map((q) => q.id);
 
     expect(new Set(bank).size).toBe(bank.length);
-    expect(bank).toEqual(expect.arrayContaining(["SP-T01-E01", "SP-T01-E06", "SP-T01-V12"]));
+
+    expect(bank).toEqual(
+      expect.arrayContaining([
+        "SP-T01-E01",
+        "SP-T01-E06",
+        "SP-T01-V12",
+        "SP-T02-E01",
+        "SP-T02-V12",
+      ]),
+    );
   });
 
   it("names only authored exercises in its lessons", () => {
     const authored = new Set(placementQuestions.map((q) => q.id));
     const named = placementLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
-    expect(named).toHaveLength(18);
+    expect(named).toHaveLength(37);
 
     for (const id of named) {
       expect(authored, id).toContain(id);
@@ -44,7 +53,12 @@ describe("placement content", () => {
   it("offers each choice's answer once among unique options", () => {
     const choices = placementQuestions.filter((q) => q.kind === "choice");
 
-    expect(choices.map((q) => q.id)).toEqual(["SP-T01-E01", "SP-T01-V12"]);
+    expect(choices.map((q) => q.id)).toEqual([
+      "SP-T01-E01",
+      "SP-T01-V12",
+      "SP-T02-E01",
+      "SP-T02-V12",
+    ]);
 
     for (const q of choices) {
       const answers = q.options!.filter((o) => o === q.answer);
@@ -55,7 +69,7 @@ describe("placement content", () => {
   });
 
   it("gives every exercise two hints and feedback", () => {
-    expect(placementQuestions).toHaveLength(18);
+    expect(placementQuestions).toHaveLength(36);
 
     for (const q of placementQuestions) {
       const blank = [...q.hints!, q.explanation].filter((text) => !text.trim());
@@ -68,39 +82,44 @@ describe("placement content", () => {
   it("gives every exercise but a written sentence its Spanish to hear", () => {
     const silent = placementQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
-    expect(silent).toEqual(["SP-T01-E06", "SP-T01-V11"]);
+    expect(silent).toEqual(["SP-T01-E06", "SP-T01-V11", "SP-T02-E06", "SP-T02-V11"]);
     expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
 
     expect(
-      ["SP-T01-E01", "SP-T01-E02", "SP-T01-E04", "SP-T01-V09", "SP-T01-V12"].map(
-        (id) => question(id).pronunciation,
-      ),
+      [
+        "SP-T01-E01",
+        "SP-T01-E02",
+        "SP-T01-E04",
+        "SP-T01-V09",
+        "SP-T01-V12",
+        "SP-T02-E02",
+        "SP-T02-E05",
+        "SP-T02-V12",
+      ].map((id) => question(id).pronunciation),
     ).toEqual([
       "La bolsa está en la maleta.",
       "en",
       "El móvil está en la mesa.",
       "El billete está en el banco.",
       "El billete está en el banco.",
+      "dentro de",
+      "La mochila está dentro del armario.",
+      "El billete está dentro del bolsillo.",
     ]);
   });
 
-  it("authors six base items and twelve variations for en", () => {
-    expect(ids("SP-T01-E")).toEqual([
-      "SP-T01-E01",
-      "SP-T01-E02",
-      "SP-T01-E03",
-      "SP-T01-E04",
-      "SP-T01-E05",
-      "SP-T01-E06",
-    ]);
+  it.each(["SP-T01", "SP-T02"])("authors six base items and twelve variations for %s", (t) => {
+    expect(ids(`${t}-E`)).toEqual(
+      ["E01", "E02", "E03", "E04", "E05", "E06"].map((e) => `${t}-${e}`),
+    );
 
-    expect(ids("SP-T01-V")).toHaveLength(12);
+    expect(ids(`${t}-V`)).toHaveLength(12);
   });
 
   it("names no unit or lesson number in a lesson's title or subtitle", () => {
     const texts = placementLessons.flatMap((l) => [l.title, l.subtitle]);
 
-    expect(texts).toEqual(["In or on", "Learn one new phrase"]);
+    expect(texts).toEqual(["In or on", "Learn one new phrase", "Inside", "Learn one new phrase"]);
     expect(texts.filter((text) => /\bunit \d|\blessons? \d/i.test(text))).toEqual([]);
   });
 
@@ -121,5 +140,13 @@ describe("placement content", () => {
   it("takes en, and not dentro de, in the E03 gap", () => {
     expect(isCorrect(question("SP-T01-E03"), "en")).toBe(true);
     expect(isCorrect(question("SP-T01-E03"), "dentro de")).toBe(false);
+  });
+
+  it("takes dentro del, and not dentro de, in the T02 E05 gap before a masculine noun", () => {
+    const e05 = question("SP-T02-E05");
+
+    expect(isCorrect(e05, "dentro del")).toBe(true);
+    expect(isCorrect(e05, "dentro de")).toBe(false);
+    expect(isCorrect(e05, "dentro de el")).toBe(false);
   });
 });

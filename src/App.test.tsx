@@ -689,25 +689,29 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   );
 });
 
-it("opens the placement page from the practice studio and counts L01 on the path", async () => {
+it("opens the placement page from the practice studio and counts pl-m01 on the path", async () => {
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Where things are/ })).toHaveTextContent(
-    `${placementLessons.length} lessons · 14 place phrases, one new phrase per lesson`,
+    `${placementLessons.length} lessons · 14 place phrases, two or three new phrases per lesson`,
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Where things are/ }));
   await settle();
 
   expect(window.location.pathname).toBe("/practice/placement");
-  expect(screen.getByRole("region", { name: "Unit 5" })).toHaveTextContent("In or on");
-  fireEvent.click(screen.getByRole("button", { name: /In or on/ }));
 
-  expect(session.lesson.id).toBe("pl-l01");
-  act(() => session.onComplete(17, 18));
+  expect(screen.getByRole("region", { name: "Unit 5" })).toHaveTextContent(
+    "In, inside and outside",
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: /In, inside and outside/ }));
+
+  expect(session.lesson.id).toBe("pl-m01");
+  act(() => session.onComplete(20, 21));
   await settle();
 
-  expect((await saved()).completed).toMatchObject({ "pl-l01": { score: 17, total: 18 } });
+  expect((await saved()).completed).toMatchObject({ "pl-m01": { score: 20, total: 21 } });
 
   changeUrl("/path");
   await settle();
@@ -717,7 +721,9 @@ it("opens the placement page from the practice studio and counts L01 on the path
   changeUrl("/practice/placement");
   await settle();
 
-  expect(screen.getByRole("button", { name: /In or on/ })).toHaveTextContent("Last score 17/18");
+  expect(screen.getByRole("button", { name: /In, inside and outside/ })).toHaveTextContent(
+    "Last score 20/21",
+  );
 });
 
 it("opens the time-words page from the practice studio and counts L01 on the path", async () => {

@@ -95,17 +95,17 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   const rows = set.getAllByRole("button");
 
   expect(rows).toHaveLength(rowsOf(askingUnits[0].lessons));
-  expect(rows[0]).toHaveTextContent(/^Teaching cardNew question word: quéAsking for things$/);
+  expect(rows[0]).toHaveTextContent(/^Teaching cardNew question words: qué, cómoWhat and how$/);
 
   expect(rows[1]).toHaveTextContent(
-    "Multiple choice¿Qué quieres? Choose the information the speaker wants.Asking for things · A thing the listener wants",
+    "Multiple choiceChoose what this question asks for¿Qué quieres?What and how · A thing",
   );
 
-  // Row 17 closes L01, the first lesson.
-  expect(rows[17]).toHaveTextContent(/Ask Luis what Pablo eats/);
+  // Row 16 closes M01, the first lesson.
+  expect(rows[16]).toHaveTextContent(/How do you want the coffee\?What and how/);
 
   fireEvent.click(rows[0]);
-  expect(lesson?.questions.map((q) => q.id)).toEqual(["AQ-T01-INTRO"]);
-  expect(lesson?.title).toBe("Asking for things");
+  expect(lesson?.questions.map((q) => q.id)).toEqual(["AQ-M01-INTRO"]);
+  expect(lesson?.title).toBe("What and how");
   expect(lesson?.subtitle).toBe("Asking questions · Unit 15");
 });

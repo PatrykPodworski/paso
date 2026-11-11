@@ -111,6 +111,27 @@ const fillPasscode = async (page: Page, q: Question, exam: boolean) => {
   }
 };
 
+// A tile can hold several words ("tu amigo?"), so the answer is split into the tiles that build it.
+const tilesInAnswerOrder = (q: Question) => {
+  const tiles: string[] = [];
+  const left = [...(q.tokens ?? [])];
+  let rest = q.answer;
+
+  while (rest) {
+    const tile = left.filter((t) => rest.startsWith(t)).sort((a, b) => b.length - a.length)[0];
+
+    if (!tile) {
+      return q.answer.split(" ");
+    }
+
+    tiles.push(tile);
+    left.splice(left.indexOf(tile), 1);
+    rest = rest.slice(tile.length).trimStart();
+  }
+
+  return tiles;
+};
+
 export const answer = async (page: Page, q: Question, exam = false, wrong = false) => {
   if (q.options) {
     await page
@@ -122,10 +143,10 @@ export const answer = async (page: Page, q: Question, exam = false, wrong = fals
 
     return;
   } else if (q.kind === "order") {
-    for (const word of q.answer.split(" ")) {
+    for (const tile of tilesInAnswerOrder(q)) {
       await page
         .locator(".word-bank")
-        .getByRole("button", { name: word, exact: true, disabled: false })
+        .getByRole("button", { name: tile, exact: true, disabled: false })
         .filter({ visible: true })
         .first()
         .click();

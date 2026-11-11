@@ -112,21 +112,18 @@ describe("writing tasks", () => {
   });
 
   it("reviews the asking-questions dialogue items as single questions", () => {
-    expect(writingTaskOf("AQ-T01-E05")).toEqual({
-      id: "AQ-T01-E05",
+    expect(writingTaskOf("AQ-T05-E05")).toEqual({
+      id: "AQ-T05-E05",
       kind: "question",
       exam: false,
       prompt:
-        "You are the server. The customer is ready to order a drink. Ask which drink they want. Use bebida and quieres.",
-      points: [
-        "Ask about the desired drink",
-        "Include bebida and quieres",
-        "Address one person informally",
-      ],
+        "You answer a call from an unknown number. Ask the caller’s identity directly. Use eres, not a name guess.",
+      points: ["Ask for the caller’s identity", "Use eres", "Do not guess a name"],
       wordRange: [2, 15],
     });
 
-    expect(writingTaskOf("AQ-T01-E04")).toBeUndefined();
+    expect(writingTaskOf("AQ-T01-E05")).toBeUndefined();
+    expect(writingTaskOf("AQ-T01-N04")).toBeUndefined();
   });
 
   it("reviews no weekdays item", () => {

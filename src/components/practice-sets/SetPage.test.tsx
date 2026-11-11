@@ -32,12 +32,12 @@ it("heads each unit with its path number and what it teaches, each lesson with i
     /^Unit 18a qué hora, de dónde, adónde, con quién/,
   );
 
-  expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
-    "Asking for thingsLearn one new question word17 exercises",
+  expect(screen.getByRole("button", { name: /What and how/ })).toHaveTextContent(
+    "What and howLearn two question words: qué, cómo16 exercises",
   );
 
   expect(screen.getByRole("button", { name: /^Asking who(?! with|se)/ })).toHaveTextContent(
-    "Asking whoLearn one new question word19 exercises",
+    "Asking whoLearn one new question word18 exercises",
   );
 });
 
@@ -53,10 +53,10 @@ it("opens a lesson with its variations in a new order each time", () => {
   );
 
   for (let i = 0; i < 4; i++) {
-    fireEvent.click(screen.getByRole("button", { name: /Asking for things/ }));
+    fireEvent.click(screen.getByRole("button", { name: /What and how/ }));
   }
 
-  expect(opened.map((l) => l.id)).toEqual(["aq-l01", "aq-l01", "aq-l01", "aq-l01"]);
+  expect(opened.map((l) => l.id)).toEqual(["aq-m01", "aq-m01", "aq-m01", "aq-m01"]);
   expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBeGreaterThan(1);
 });
 

@@ -22,7 +22,7 @@ describe("practice sets", () => {
     const ids = [...allLessons, ...setLessons].map((l) => l.id);
 
     expect(setLessons.map((l) => l.id)).toEqual(
-      expect.arrayContaining(["aq-m01", "aq-m02", "wd-m01", "pl-m01", "tm-l01"]),
+      expect.arrayContaining(["aq-m01", "aq-m02", "wd-m01", "pl-m01", "tm-m01"]),
     );
 
     expect(unique(ids)).toBe(true);
@@ -38,11 +38,11 @@ describe("practice sets", () => {
         "AQ-T01-N01",
         "AQ-T02-N07",
         "WD-T01-E01",
-        "WD-T01-V12",
+        "WD-T01-N08",
         "SP-T01-N01",
         "SP-M02-X03",
         "TM-T01-E01",
-        "TM-T01-V12",
+        "TM-T01-V11",
       ]),
     );
 
@@ -54,7 +54,7 @@ describe("practice sets", () => {
     expect(setOf("aq-m02")?.id).toBe("asking-questions");
     expect(setOf("wd-m01")?.id).toBe("weekdays");
     expect(setOf("pl-m01")?.id).toBe("placement");
-    expect(setOf("tm-l01")?.id).toBe("time-words");
+    expect(setOf("tm-m01")?.id).toBe("time-words");
 
     for (const l of setLessons) {
       expect(setOf(l.id)?.lessons, l.id).toContain(l);
@@ -68,7 +68,7 @@ describe("practice sets", () => {
       [9, 9, 10, 11],
       [5, 5],
       [4, 4, 4],
-      [5, 5, 5, 5],
+      [5, 5],
     ]);
 
     for (const set of practiceSets) {

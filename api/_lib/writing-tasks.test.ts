@@ -2,6 +2,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { mockExam } from "../../src/data/mock.ts";
 import type { Question } from "../../src/data/types.ts";
+import { weekdaysQuestions } from "../../src/data/weekdays/weekdays.ts";
 import { writingTaskOf } from "./writing-tasks.ts";
 
 const { dialogue, sentence } = vi.hoisted(() => ({
@@ -125,96 +126,11 @@ describe("writing tasks", () => {
     expect(writingTaskOf("AQ-T01-N04")).toBeUndefined();
   });
 
-  it("reviews the weekdays express-naturally items as single sentences", () => {
-    expect(writingTaskOf("WD-T01-E06")).toEqual({
-      id: "WD-T01-E06",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "A displayed calendar says Monday, not the actual date. Express this fact naturally in Spanish. Use the words you know.",
-      points: ["Uses lunes for Monday", "Keeps the fact and the people of the situation"],
-      wordRange: [2, 15],
-    });
+  it("reviews no weekdays item", () => {
+    const tasks = weekdaysQuestions.map((q) => writingTaskOf(q.id)).filter(Boolean);
 
-    expect(writingTaskOf("WD-T01-E05")).toBeUndefined();
-
-    expect(writingTaskOf("WD-T02-V10")).toEqual({
-      id: "WD-T02-V10",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "I work on Tuesdays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-      points: [
-        "Uses los martes for every Tuesday",
-        "Keeps the fact and the people of the situation",
-      ],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("WD-T03-V10")).toEqual({
-      id: "WD-T03-V10",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "I study on Wednesdays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-      points: [
-        "Uses los miércoles for every Wednesday",
-        "Keeps the fact and the people of the situation",
-      ],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("WD-T04-V10")).toEqual({
-      id: "WD-T04-V10",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "Pablo works on Thursdays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-      points: [
-        "Uses los jueves for every Thursday",
-        "Keeps the fact and the people of the situation",
-      ],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("WD-T05-V10")).toEqual({
-      id: "WD-T05-V10",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "Pablo has class on Fridays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-      points: [
-        "Uses los viernes for every Friday",
-        "Keeps the fact and the people of the situation",
-      ],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("WD-T06-V10")).toEqual({
-      id: "WD-T06-V10",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "I work on Saturdays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-      points: [
-        "Uses los sábados for every Saturday",
-        "Keeps the fact and the people of the situation",
-      ],
-      wordRange: [2, 15],
-    });
-
-    expect(writingTaskOf("WD-T07-V10")).toEqual({
-      id: "WD-T07-V10",
-      kind: "sentence",
-      exam: false,
-      prompt:
-        "Luis works on Sundays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-      points: [
-        "Uses los domingos for every Sunday",
-        "Keeps the fact and the people of the situation",
-      ],
-      wordRange: [2, 15],
-    });
+    expect(weekdaysQuestions).toHaveLength(107);
+    expect(tasks).toEqual([]);
   });
 
   it("reviews no placement exercise, old or new", () => {

@@ -4,10 +4,8 @@ import { questionOf } from "../practice-sets/item.ts";
 import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
-import { l01, t01Items } from "./t01.ts";
-import { l02, t02Items } from "./t02.ts";
-import { l03, t03Items } from "./t03.ts";
-import { l04, r01, t04Items } from "./t04.ts";
+import { m01, m01Items } from "./m01.ts";
+import { m02, m02Items, mr01 } from "./m02.ts";
 import { l05, t05Items } from "./t05.ts";
 import { l06, t06Items } from "./t06.ts";
 import { l07, t07Items } from "./t07.ts";
@@ -25,10 +23,8 @@ import { l18, r04, t18Items } from "./t18.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const askingQuestions: Question[] = [
-  ...t01Items,
-  ...t02Items,
-  ...t03Items,
-  ...t04Items,
+  ...m01Items,
+  ...m02Items,
   ...t05Items,
   ...t06Items,
   ...t07Items,
@@ -46,11 +42,9 @@ export const askingQuestions: Question[] = [
 ].map(questionOf);
 
 export const askingLessons: SetLesson[] = [
-  l01,
-  l02,
-  l03,
-  l04,
-  r01,
+  m01,
+  m02,
+  mr01,
   l05,
   l06,
   l07,
@@ -74,7 +68,7 @@ const UNITS = [
   {
     after: 9,
     subtitle: "qué, cómo, dónde, cuándo",
-    ids: ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"],
+    ids: ["aq-m01", "aq-m02", "aq-mr01"],
   },
   {
     after: 9,

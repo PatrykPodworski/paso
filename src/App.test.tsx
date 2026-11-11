@@ -432,12 +432,12 @@ it("shows the first Asking questions unit on the path and opens its first lesson
   const card = screen.getByRole("button", { name: /UNIT 14 · Part 1 of 4/ });
 
   expect(card).toHaveTextContent(
-    "UNIT 14 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo5 lessons",
+    "UNIT 14 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons",
   );
 
   fireEvent.click(card);
-  fireEvent.click(screen.getByRole("button", { name: /Asking for things/ }));
-  expect(session.lesson.id).toBe("aq-l01");
+  fireEvent.click(screen.getByRole("button", { name: /What and how/ }));
+  expect(session.lesson.id).toBe("aq-m01");
 });
 
 it("moves from the last lesson of course unit 9 to the first Asking questions lesson", async () => {
@@ -447,7 +447,7 @@ it("moves from the last lesson of course unit 9 to the first Asking questions le
   act(() => session.onComplete(1, 1));
   act(() => session.onNext!());
   await settle();
-  expect(session.lesson.id).toBe("aq-l01");
+  expect(session.lesson.id).toBe("aq-m01");
 });
 
 it("offers no next lesson after the last lesson or a practice session", async () => {
@@ -639,16 +639,16 @@ it("opens the asking-questions page from the practice studio, under Practice stu
 
 it("counts a set lesson finished in the practice studio on the path", async () => {
   await mount("practice/questions");
-  fireEvent.click(screen.getByRole("button", { name: /Asking for things/ }));
+  fireEvent.click(screen.getByRole("button", { name: /What and how/ }));
 
-  expect(session.lesson.id).toBe("aq-l01");
-  act(() => session.onComplete(15, 17));
+  expect(session.lesson.id).toBe("aq-m01");
+  act(() => session.onComplete(14, 16));
   await settle();
 
-  expect((await saved()).completed).toMatchObject({ "aq-l01": { score: 15, total: 17 } });
+  expect((await saved()).completed).toMatchObject({ "aq-m01": { score: 14, total: 16 } });
 
-  expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
-    "Last score 15/17",
+  expect(screen.getByRole("button", { name: /What and how/ })).toHaveTextContent(
+    "Last score 14/16",
   );
 
   changeUrl("/path");

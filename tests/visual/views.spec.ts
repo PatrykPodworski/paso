@@ -245,12 +245,12 @@ test("recent answers and the previous attempt", async ({ page }) => {
   await shot(page, "question-last-time");
 });
 
-test("asking questions: the set page and L01 on its introduction card", async ({ page }) => {
+test("asking questions: the set page and M01 on its introduction card", async ({ page }) => {
   await page.goto("/practice/questions");
   await shot(page, "practice-questions");
-  await page.getByRole("button", { name: /Asking for things/ }).click();
-  await expect(page.getByRole("heading", { name: "New question word: qué" })).toBeVisible();
-  await shot(page, "practice-questions-l01-intro");
+  await page.getByRole("button", { name: /What and how/ }).click();
+  await expect(page.getByRole("heading", { name: "New question words: qué, cómo" })).toBeVisible();
+  await shot(page, "practice-questions-m01-intro");
 });
 
 // No set has an item with an instruction yet, so the dev server's weekday module is rewritten:

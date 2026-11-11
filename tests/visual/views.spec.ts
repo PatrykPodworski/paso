@@ -253,35 +253,22 @@ test("asking questions: the set page and L01 on its introduction card", async ({
   await shot(page, "practice-questions-l01-intro");
 });
 
-// No set has an item with an instruction yet, so the dev server's weekday module is rewritten:
-// a gap item gets a long instruction and a translation item a short one.
+// A gap item with a long instruction and a translation item with a short one.
 const instructionItems = [
   {
     id: "WD-T01-E04",
-    instruction:
-      "A displayed calendar on the kitchen wall says Monday, not the actual date. Complete the gap with the day.",
+    instruction: "Complete the gap. A displayed calendar says Monday, not the actual date.",
     prompt: "Hoy es ___.",
   },
   {
-    id: "WD-T01-E05",
+    id: "WD-T01-N01",
     instruction: "Translate into Spanish",
-    prompt: "A displayed calendar says Monday, not the actual date.",
+    prompt: "My mother works on Monday.",
   },
 ];
 
 for (const { id, instruction, prompt } of instructionItems) {
   test(`practice set: ${id} with its instruction apart from the sentence`, async ({ page }) => {
-    await page.route("**/src/data/weekdays/t01.ts*", async (route) => {
-      const response = await route.fetch();
-
-      const body = (await response.text()).replace(
-        new RegExp(`(id: "${id}",[\\s\\S]*?prompt:\\s*)"[^"]*"`),
-        `$1${JSON.stringify(prompt)}, instruction: ${JSON.stringify(instruction)}`,
-      );
-
-      await route.fulfill({ response, body });
-    });
-
     await page.goto("/backoffice");
     const row = page.getByRole("button", { name: `${instruction} ${prompt}` });
 

@@ -38,7 +38,7 @@ describe("practice sets", () => {
         "AQ-T01-E01",
         "AQ-T02-V12",
         "WD-T01-E01",
-        "WD-T01-V12",
+        "WD-T01-N08",
         "SP-T01-N01",
         "SP-M02-X03",
         "TM-T01-E01",

@@ -29775,18 +29775,6 @@
       "method": "make-sentences"
     }
   },
-  "1ugop5s": {
-    "src": "/audio/voxcpm/2cc948c4099102fd8ab9d615.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Luis tiene una reunión el jueves.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "rluuij": {
     "src": "/audio/voxcpm/621bf8fc446a691b4f721615.mp3",
     "voiceId": "es-male-teacher",
@@ -29835,18 +29823,6 @@
       "method": "make-sentences"
     }
   },
-  "as4rwe": {
-    "src": "/audio/voxcpm/61a87c3b95e5eb2586c58620.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "El curso de Luis empieza el viernes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "chgdcd": {
     "src": "/audio/voxcpm/4cd2f0fbd397c9ca48eb534e.mp3",
     "voiceId": "es-male-teacher",
@@ -29876,18 +29852,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Trabajo los sábados.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1umte5o": {
-    "src": "/audio/voxcpm/09dd32f486bdd65c66a48f7c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Mi visita es el sábado.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -29936,18 +29900,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La visita de Pablo es el domingo.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "qannsf": {
-    "src": "/audio/voxcpm/11fc29685016f5035c3be0ea.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Voy al museo el domingo.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,

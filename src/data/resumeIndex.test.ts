@@ -124,13 +124,13 @@ it("reopens an unfinished weekdays M01 with Monday's E01 answered at Tuesday's E
   expect(l01.questions[resumeIndex(l01, progress)].id).toBe("WD-T02-E01");
 });
 
-it("reopens an unfinished placement L01 with E01 answered at E02", () => {
-  const l01 = placementLesson("pl-l01", () => 0);
+it("reopens an unfinished placement pl-m01 with SP-T01-N01 answered at SP-T02-N01", () => {
+  const l01 = placementLesson("pl-m01", () => 0);
   const progress = emptySnapshot();
 
-  progress.questions["SP-T01-E01"] = questionState();
+  progress.questions["SP-T01-N01"] = questionState();
 
-  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("SP-T01-E02");
+  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("SP-T02-N01");
 });
 
 it("reopens an unfinished time-words M01 with the first E01 answered at the next word's E01", () => {

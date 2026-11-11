@@ -78,7 +78,7 @@ it("puts every set unit right after the course unit it builds on, with Weekdays 
     [21, "u12"],
   ]);
 
-  expect(complete.pathLessons).toHaveLength(88);
+  expect(complete.pathLessons).toHaveLength(86);
   expect(complete.pathPlace("tm-r02")).toEqual({ unit: 10, lesson: 4 });
   expect(complete.pathPlace("aq-r01")).toEqual({ unit: 15, lesson: 5 });
   expect(complete.courseUnitNumber(6)).toBe(11);
@@ -155,7 +155,7 @@ it("shows a set lesson with its own title and minutes, and opens the set's lesso
   expect(lesson.lesson().questions.map((q) => q.id)).toContain("AQ-T01-E01");
 });
 
-it("puts the first placement unit right after course unit 4 and adds its lesson to the path", () => {
+it("puts the first placement unit right after course unit 4 and adds its lessons to the path", () => {
   const withoutPlacement = pathModel(
     units,
     practiceSets.filter((s) => s.id !== "placement"),
@@ -169,12 +169,13 @@ it("puts the first placement unit right after course unit 4 and adds its lesson 
 
   expect(pathUnits.find((u) => u.id === "pl-u1")).toMatchObject({
     icon: "map",
-    eyebrow: "Part 1 of 4",
+    eyebrow: "Part 1 of 3",
     title: "Where things are",
-    subtitle: "en, dentro de, fuera de, encima de",
+    subtitle: "en, dentro de, fuera de, encima de, debajo de",
   });
 
-  expect(pathPlace("pl-l01")).toEqual({ unit: 5, lesson: 1 });
+  expect(pathPlace("pl-m01")).toEqual({ unit: 5, lesson: 1 });
+  expect(pathPlace("pl-mr01")).toEqual({ unit: 5, lesson: 3 });
   expect(pathLessons).toHaveLength(withoutPlacement.pathLessons.length + placementLessons.length);
 });
 

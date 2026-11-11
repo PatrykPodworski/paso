@@ -4,38 +4,30 @@ import { questionOf } from "../practice-sets/item.ts";
 import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
-import { l01, t01Items } from "./t01.ts";
-import { l02, t02Items } from "./t02.ts";
-import { l03, t03Items } from "./t03.ts";
-import { l04, r01, t04Items } from "./t04.ts";
+import { m01, m01Items } from "./m01.ts";
+import { m02, m02Items, mr01 } from "./m02.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
-export const placementQuestions: Question[] = [
-  ...t01Items,
-  ...t02Items,
-  ...t03Items,
-  ...t04Items,
-].map(questionOf);
+export const placementQuestions: Question[] = [...m01Items, ...m02Items].map(questionOf);
 
-export const placementLessons: SetLesson[] = [l01, l02, l03, l04, r01];
+export const placementLessons: SetLesson[] = [m01, m02, mr01];
 
 const UNITS = [
   {
     after: 4,
-    subtitle: "en, dentro de, fuera de, encima de",
-    ids: ["pl-l01", "pl-l02", "pl-l03", "pl-l04", "pl-r01"],
+    subtitle: "en, dentro de, fuera de, encima de, debajo de",
+    ids: ["pl-m01", "pl-m02", "pl-mr01"],
   },
   {
     after: 4,
-    subtitle: "debajo de, delante de, detrás de, al lado de",
-    ids: ["pl-l05", "pl-l06", "pl-l07", "pl-l08", "pl-r02"],
+    subtitle: "delante de, detrás de, enfrente de, al lado de, entre",
+    ids: ["pl-m03", "pl-m04", "pl-mr02"],
   },
   {
     after: 4,
-    subtitle: "entre, cerca de, lejos de, a la izquierda de",
-    ids: ["pl-l09", "pl-l10", "pl-l11", "pl-l12", "pl-r03"],
+    subtitle: "cerca de, lejos de, a la izquierda de, a la derecha de",
+    ids: ["pl-m05", "pl-m06", "pl-mr03"],
   },
-  { after: 4, subtitle: "a la derecha de, enfrente de", ids: ["pl-l13", "pl-l14", "pl-r04"] },
 ];
 
 export const placementUnits = UNITS.map(({ after, subtitle, ids }, i) => ({
@@ -57,10 +49,11 @@ export const placementSet: PracticeSet = {
   id: "placement",
   route: "practice/placement",
   name: "Where things are",
-  note: "14 place phrases, one new phrase per lesson",
+  note: "14 place phrases, two or three new phrases per lesson",
   icon: "map",
   title: "Where things are.",
-  description: "Learn 14 Spanish phrases that say where things are, one new phrase per lesson.",
+  description:
+    "Learn 14 Spanish phrases that say where things are, two or three new phrases per lesson.",
   units: placementUnits,
   lessons: placementLessons,
   questions: placementQuestions,

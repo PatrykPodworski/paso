@@ -99,10 +99,9 @@ export const t01Items: Item[] = [
   {
     id: "SP-T01-V03",
     mode: "cloze",
-    prompt:
-      "The backpack is in the cupboard. Complete only the gap: La mochila está ___ el armario.",
+    prompt: "The cup is in the cupboard. Complete only the gap: La taza está ___ el armario.",
     answer: "en",
-    say: "La mochila está en el armario.",
+    say: "La taza está en el armario.",
     feedback: gap,
     hints: phrase,
   },
@@ -110,10 +109,10 @@ export const t01Items: Item[] = [
     id: "SP-T01-V04",
     mode: "cloze",
     prompt:
-      "The backpack is in the cupboard. Write the full Spanish sentence using exactly this frame: La mochila está ___ el armario.",
-    answer: "La mochila está en el armario.",
-    say: "La mochila está en el armario.",
-    feedback: `${rule} Full sentence: La mochila está en el armario.`,
+      "The cup is in the cupboard. Write the full Spanish sentence using exactly this frame: La taza está ___ el armario.",
+    answer: "La taza está en el armario.",
+    say: "La taza está en el armario.",
+    feedback: `${rule} Full sentence: La taza está en el armario.`,
     hints: phrase,
   },
   {

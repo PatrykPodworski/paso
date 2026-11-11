@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { exerciseBank } from "../../components/practice";
 import { accentMistakes, accentOnlyAnswer, isCorrect } from "../progress";
-import { placementLessons, placementQuestions } from "./placement";
+import { exerciseCount } from "../practice-sets/lesson";
+import { placementLesson, placementLessons, placementQuestions } from "./placement";
 
 const ids = (prefix: string) =>
   placementQuestions.map((q) => q.id).filter((id) => id.startsWith(prefix));
@@ -24,6 +25,19 @@ describe("placement content", () => {
 
     for (const id of named) {
       expect(authored, id).toContain(id);
+    }
+  });
+
+  it("never asks the same exercise twice in one lesson", () => {
+    for (const l of placementLessons) {
+      const keys = placementLesson(l.id)
+        .questions.filter((q) => q.kind !== "teach")
+        .map((q) => `${q.kind} ${q.prompt}`);
+
+      const repeated = keys.filter((key, i) => keys.indexOf(key) !== i);
+
+      expect(keys, l.id).toHaveLength(exerciseCount(l));
+      expect(repeated, l.id).toEqual([]);
     }
   });
 

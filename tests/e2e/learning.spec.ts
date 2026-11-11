@@ -744,7 +744,7 @@ test("the lesson header names the path unit and lesson, for a set lesson too, an
 
   await page.goto("/practice/questions");
   await page.getByRole("button", { name: /What and how/ }).click();
-  await expect(header.getByText("UNIT 14 · LESSON 1", { exact: true })).toBeVisible();
+  await expect(header.getByText("UNIT 15 · LESSON 1", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Close lesson" }).click();
 
   await page.goto("/practice");

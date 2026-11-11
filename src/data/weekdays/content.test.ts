@@ -150,6 +150,31 @@ describe("weekdays content", () => {
     ]);
   });
 
+  it("drops the old lesson ids", () => {
+    const old = [
+      "wd-l01",
+      "wd-l02",
+      "wd-l03",
+      "wd-l04",
+      "wd-l05",
+      "wd-l06",
+      "wd-l07",
+      "wd-r01",
+      "wd-r02",
+      "wd-r03",
+    ];
+
+    expect(weekdaysLessons.map((l) => l.id)).toEqual([
+      "wd-m01",
+      "wd-m02",
+      "wd-mr01",
+      "wd-m03",
+      "wd-mr02",
+    ]);
+
+    expect(weekdaysLessons.filter((l) => old.includes(l.id))).toEqual([]);
+  });
+
   it("puts every exercise in exactly one lesson", () => {
     const owned = weekdaysLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
@@ -159,11 +184,11 @@ describe("weekdays content", () => {
 
   it("sizes the lessons", () => {
     expect(weekdaysLessons.map((l) => [l.id, exerciseCount(l)])).toEqual([
-      ["wd-l01", 21],
-      ["wd-l02", 20],
-      ["wd-r01", 22],
-      ["wd-l03", 21],
-      ["wd-r02", 23],
+      ["wd-m01", 21],
+      ["wd-m02", 20],
+      ["wd-mr01", 22],
+      ["wd-m03", 21],
+      ["wd-mr02", 23],
     ]);
   });
 
@@ -171,9 +196,9 @@ describe("weekdays content", () => {
     const opening = (id: string, length: number) =>
       weekdaysLessons.find((l) => l.id === id)!.base.slice(0, length);
 
-    expect(opening("wd-l01", 3)).toEqual(["WD-T01-E01", "WD-T02-E01", "WD-T03-E01"]);
-    expect(opening("wd-l02", 2)).toEqual(["WD-T04-E01", "WD-T05-E01"]);
-    expect(opening("wd-l03", 2)).toEqual(["WD-T06-E01", "WD-T07-E01"]);
+    expect(opening("wd-m01", 3)).toEqual(["WD-T01-E01", "WD-T02-E01", "WD-T03-E01"]);
+    expect(opening("wd-m02", 2)).toEqual(["WD-T04-E01", "WD-T05-E01"]);
+    expect(opening("wd-m03", 2)).toEqual(["WD-T06-E01", "WD-T07-E01"]);
   });
 
   it("offers each group's days in its E01 choices", () => {

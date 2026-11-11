@@ -670,11 +670,11 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   expect(window.location.pathname).toBe("/practice/weekdays");
   fireEvent.click(screen.getByRole("button", { name: /^Monday to Wednesday/ }));
 
-  expect(session.lesson.id).toBe("wd-l01");
+  expect(session.lesson.id).toBe("wd-m01");
   act(() => session.onComplete(19, 21));
   await settle();
 
-  expect((await saved()).completed).toMatchObject({ "wd-l01": { score: 19, total: 21 } });
+  expect((await saved()).completed).toMatchObject({ "wd-m01": { score: 19, total: 21 } });
 
   changeUrl("/path");
   await settle();

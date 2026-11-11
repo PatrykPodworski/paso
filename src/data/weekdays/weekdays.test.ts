@@ -26,11 +26,11 @@ const calendar = [
 // Each lesson's opening runs in written order; its variations follow in an order drawn anew.
 const lessons = [
   {
-    id: "wd-l01",
+    id: "wd-m01",
     title: "Monday to Wednesday",
     subtitle: "Learn three new days",
     opening: [
-      ["WD-L01-INTRO", "teach"],
+      ["WD-M01-INTRO", "teach"],
       ["WD-T01-E01", "choice"],
       ["WD-T02-E01", "choice"],
       ["WD-T03-E01", "choice"],
@@ -58,11 +58,11 @@ const lessons = [
     ],
   },
   {
-    id: "wd-l02",
+    id: "wd-m02",
     title: "Thursday and Friday",
     subtitle: "Learn two new days, mixed with Monday to Wednesday",
     opening: [
-      ["WD-L02-INTRO", "teach"],
+      ["WD-M02-INTRO", "teach"],
       ["WD-T04-E01", "choice"],
       ["WD-T05-E01", "choice"],
       ["WD-T04-E03", "type"],
@@ -89,7 +89,7 @@ const lessons = [
     ],
   },
   {
-    id: "wd-r01",
+    id: "wd-mr01",
     title: "Monday to Friday",
     subtitle: "Review the five days so far",
     opening: [],
@@ -119,11 +119,11 @@ const lessons = [
     ],
   },
   {
-    id: "wd-l03",
+    id: "wd-m03",
     title: "Saturday and Sunday",
     subtitle: "Learn the weekend, mixed with Monday to Friday",
     opening: [
-      ["WD-L03-INTRO", "teach"],
+      ["WD-M03-INTRO", "teach"],
       ["WD-T06-E01", "choice"],
       ["WD-T07-E01", "choice"],
       ["WD-T06-E03", "type"],
@@ -151,7 +151,7 @@ const lessons = [
     ],
   },
   {
-    id: "wd-r02",
+    id: "wd-mr02",
     title: "The whole week",
     subtitle: "Review all seven days and their order",
     opening: calendar,
@@ -202,21 +202,21 @@ describe("weekdays lessons", () => {
 
   it.each([
     [
-      "wd-l01",
+      "wd-m01",
       "New days: lunes, martes, miércoles",
       "lunes is Monday, from la Luna, the Moon. martes is Tuesday, from Marte, Mars. miércoles is Wednesday, from Mercurio, Mercury: write it with the accent on the é. Example: Hoy es lunes.",
       "el lunes, los lunes",
       "el lunes is one Monday. los lunes is every Monday: lunes, martes and miércoles stay the same. Days are written in lowercase.",
     ],
     [
-      "wd-l02",
+      "wd-m02",
       "New days: jueves, viernes",
       "jueves is Thursday, from Júpiter, Jupiter. viernes is Friday, from Venus. Example: La visita es el jueves.",
       "el jueves, los jueves",
       "jueves and viernes end in -s already, so every Thursday is los jueves and every Friday los viernes.",
     ],
     [
-      "wd-l03",
+      "wd-m03",
       "New days: sábado, domingo",
       "sábado is Saturday, from the Sabbath, the day of rest: write it with the accent on the á. domingo is Sunday, from dies Dominicus, Latin for the Lord’s day. Example: Hoy es sábado.",
       "el sábado, los sábados",
@@ -233,8 +233,8 @@ describe("weekdays lessons", () => {
     },
   );
 
-  it("shows the R02 week tiles in another order on each attempt, never already in order", () => {
-    const g03 = weekdaysLesson("wd-r02", randomFrom(1)).questions.find((q) => q.id === "WD-G03")!;
+  it("shows the MR02 week tiles in another order on each attempt, never already in order", () => {
+    const g03 = weekdaysLesson("wd-mr02", randomFrom(1)).questions.find((q) => q.id === "WD-G03")!;
     const [first, second] = [1, 2].map((seed) => shownTokens(g03, seed).join(" "));
 
     expect(first).not.toBe(second);
@@ -245,10 +245,10 @@ describe("weekdays lessons", () => {
     }
   });
 
-  it("lists unit 1 with L01, L02 and R01, and unit 2 with L03 and R02", () => {
+  it("lists unit 1 with M01, M02 and MR01, and unit 2 with M03 and MR02", () => {
     expect(weekdaysUnits.map((u) => [u.id, u.subtitle, u.lessons.map((l) => l.id)])).toEqual([
-      ["wd-u1", "lunes to viernes", ["wd-l01", "wd-l02", "wd-r01"]],
-      ["wd-u2", "the weekend and the whole week", ["wd-l03", "wd-r02"]],
+      ["wd-u1", "lunes to viernes", ["wd-m01", "wd-m02", "wd-mr01"]],
+      ["wd-u2", "the weekend and the whole week", ["wd-m03", "wd-mr02"]],
     ]);
   });
 });

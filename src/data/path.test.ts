@@ -27,8 +27,8 @@ const stub = (id: string): SetLesson => ({
 });
 
 const WEEKDAYS = [
-  ["wd-l01", "wd-l02", "wd-r01"],
-  ["wd-l03", "wd-r02"],
+  ["wd-m01", "wd-m02", "wd-mr01"],
+  ["wd-m03", "wd-mr02"],
 ];
 
 const weekdaysComplete: PracticeSet = {
@@ -112,7 +112,7 @@ it("leaves out a set unit without lessons and gives it no number", () => {
   ]);
 
   expect(path.pathUnitNumber("wd-u1")).toBeUndefined();
-  expect(path.pathPlace("wd-l03")).toEqual({ unit: 6, lesson: 1 });
+  expect(path.pathPlace("wd-m03")).toEqual({ unit: 6, lesson: 1 });
 });
 
 it("shows a set unit with the set's icon and name, its part and what it teaches", () => {
@@ -202,7 +202,7 @@ it("holds every course and set lesson once", () => {
 it("numbers a path lesson by its path unit and its position in that unit", () => {
   expect(pathPlace(units[3].lessons[1].id)).toEqual({ unit: 4, lesson: 2 });
   expect(pathPlace(units[0].lessons[0].id)).toEqual({ unit: 1, lesson: 1 });
-  expect(pathPlace("wd-l03")).toEqual({ unit: 8, lesson: 1 });
+  expect(pathPlace("wd-m03")).toEqual({ unit: 8, lesson: 1 });
   expect(pathPlace("aq-r01")).toEqual({ unit: 14, lesson: 5 });
 });
 

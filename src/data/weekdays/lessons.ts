@@ -4,12 +4,12 @@ import type { SetLesson } from "../practice-sets/setLesson.ts";
 // Each learning lesson introduces two or three days and practises them against each other; the
 // earlier days come back as items the lesson owns, among its variations.
 export const l01: SetLesson = {
-  id: "wd-l01",
+  id: "wd-m01",
   title: "Monday to Wednesday",
   subtitle: "Learn three new days",
   recalled: [],
   introduction: teachingCard(
-    "WD-L01-INTRO",
+    "WD-M01-INTRO",
     "New days: lunes, martes, miércoles",
     "lunes is Monday, from la Luna, the Moon. martes is Tuesday, from Marte, Mars. miércoles is Wednesday, from Mercurio, Mercury: write it with the accent on the é. Example: Hoy es lunes.",
   ),
@@ -41,12 +41,12 @@ export const l01: SetLesson = {
 };
 
 export const l02: SetLesson = {
-  id: "wd-l02",
+  id: "wd-m02",
   title: "Thursday and Friday",
   subtitle: "Learn two new days, mixed with Monday to Wednesday",
   recalled: [],
   introduction: teachingCard(
-    "WD-L02-INTRO",
+    "WD-M02-INTRO",
     "New days: jueves, viernes",
     "jueves is Thursday, from Júpiter, Jupiter. viernes is Friday, from Venus. Example: La visita es el jueves.",
   ),
@@ -84,7 +84,7 @@ export const l02: SetLesson = {
 };
 
 export const r01: SetLesson = {
-  id: "wd-r01",
+  id: "wd-mr01",
   title: "Monday to Friday",
   subtitle: "Review the five days so far",
   recalled: [],
@@ -117,12 +117,12 @@ export const r01: SetLesson = {
 };
 
 export const l03: SetLesson = {
-  id: "wd-l03",
+  id: "wd-m03",
   title: "Saturday and Sunday",
   subtitle: "Learn the weekend, mixed with Monday to Friday",
   recalled: [],
   introduction: teachingCard(
-    "WD-L03-INTRO",
+    "WD-M03-INTRO",
     "New days: sábado, domingo",
     "sábado is Saturday, from the Sabbath, the day of rest: write it with the accent on the á. domingo is Sunday, from dies Dominicus, Latin for the Lord’s day. Example: Hoy es sábado.",
   ),
@@ -163,7 +163,7 @@ export const l03: SetLesson = {
 // R02 closes the set: the calendar items in their written order, then the weekend's remaining
 // items.
 export const r02: SetLesson = {
-  id: "wd-r02",
+  id: "wd-mr02",
   title: "The whole week",
   subtitle: "Review all seven days and their order",
   recalled: [],

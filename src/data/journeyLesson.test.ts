@@ -79,7 +79,7 @@ it("opens the first Weekdays lesson once course units 1 to 5 and the placement s
 
   finishUnits(progress, 5);
   finishPlacement(progress);
-  expect(journeyLesson(progress).id).toBe("wd-l01");
+  expect(journeyLesson(progress).id).toBe("wd-m01");
 });
 
 it("starts a fresh learner at unit 01", () => {

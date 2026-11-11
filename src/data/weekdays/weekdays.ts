@@ -29,8 +29,8 @@ export const weekdaysQuestions: Question[] = [
 export const weekdaysLessons: SetLesson[] = [l01, l02, r01, l03, r02];
 
 const UNITS = [
-  { after: 5, subtitle: "lunes to viernes", ids: ["wd-l01", "wd-l02", "wd-r01"] },
-  { after: 5, subtitle: "the weekend and the whole week", ids: ["wd-l03", "wd-r02"] },
+  { after: 5, subtitle: "lunes to viernes", ids: ["wd-m01", "wd-m02", "wd-mr01"] },
+  { after: 5, subtitle: "the weekend and the whole week", ids: ["wd-m03", "wd-mr02"] },
 ];
 
 export const weekdaysUnits = UNITS.map(({ after, subtitle, ids }, i) => ({

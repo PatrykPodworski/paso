@@ -115,8 +115,8 @@ describe("a lesson from the asking-questions set", () => {
   });
 });
 
-it("reopens an unfinished weekdays L01 with Monday's E01 answered at Tuesday's E01", () => {
-  const l01 = weekdaysLesson("wd-l01", () => 0);
+it("reopens an unfinished weekdays M01 with Monday's E01 answered at Tuesday's E01", () => {
+  const l01 = weekdaysLesson("wd-m01", () => 0);
   const progress = emptySnapshot();
 
   progress.questions["WD-T01-E01"] = questionState();

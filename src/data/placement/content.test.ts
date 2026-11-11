@@ -57,7 +57,7 @@ describe("placement content", () => {
   });
 
   it("puts every exercise in exactly one learning lesson", () => {
-    expect(placementQuestions).toHaveLength(79);
+    expect(placementQuestions).toHaveLength(113);
 
     const owned = learningLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
@@ -68,7 +68,7 @@ describe("placement content", () => {
     const authored = new Set(placementQuestions.map((q) => q.id));
     const named = placementLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
-    expect(named).toHaveLength(99);
+    expect(named).toHaveLength(141);
 
     for (const id of named) {
       expect(authored, id).toContain(id);
@@ -92,6 +92,8 @@ describe("placement content", () => {
       ["pl-m02", ["SP-M02", "SP-T04", "SP-T05"]],
       ["pl-m03", ["SP-M03", "SP-T06", "SP-T07", "SP-T14"]],
       ["pl-m04", ["SP-M04", "SP-T08", "SP-T09"]],
+      ["pl-m05", ["SP-M05", "SP-T10", "SP-T11"]],
+      ["pl-m06", ["SP-M06", "SP-T12", "SP-T13"]],
     ]);
   });
 
@@ -148,6 +150,18 @@ describe("placement content", () => {
       "SP-T09-N06",
       "SP-M04-X01",
       "SP-M04-X03",
+      "SP-T10-N05",
+      "SP-T11-N05",
+      "SP-T10-N06",
+      "SP-T11-N06",
+      "SP-M05-X01",
+      "SP-M05-X03",
+      "SP-T12-N05",
+      "SP-T13-N05",
+      "SP-T12-N06",
+      "SP-T13-N06",
+      "SP-M06-X01",
+      "SP-M06-X03",
     ]);
 
     for (const q of translations) {
@@ -249,6 +263,14 @@ describe("placement content", () => {
       "SP-T09-N01",
       "SP-T08-N07",
       "SP-T09-N07",
+      "SP-T10-N01",
+      "SP-T11-N01",
+      "SP-T10-N07",
+      "SP-T11-N07",
+      "SP-T12-N01",
+      "SP-T13-N01",
+      "SP-T12-N07",
+      "SP-T13-N07",
     ]);
 
     for (const q of choices) {
@@ -282,6 +304,12 @@ describe("placement content", () => {
       "delante de, detrás de and enfrente de",
       "Next to and between",
       "al lado de and entre",
+      "Unit review",
+      "Review this unit's lessons",
+      "Near and far",
+      "cerca de and lejos de",
+      "Left and right",
+      "a la izquierda de and a la derecha de",
       "Unit review",
       "Review this unit's lessons",
     ]);
@@ -345,6 +373,56 @@ describe("placement content", () => {
     expect(isCorrect(n05, "El billete está al lado de la puerta.")).toBe(true);
     expect(isCorrect(n05, "El billete está junto a la puerta.")).toBe(true);
     expect(isCorrect(n05, "El billete está detrás de la puerta.")).toBe(false);
+  });
+
+  it("takes cerca del, and not cerca de or lejos del, in the gap before a masculine noun", () => {
+    const n04 = question("SP-T10-N04");
+
+    expect(isCorrect(n04, "cerca del")).toBe(true);
+    expect(isCorrect(n04, "cerca de")).toBe(false);
+    expect(isCorrect(n04, "lejos del")).toBe(false);
+  });
+
+  it("takes the near translation with cerca de, and not with lejos de", () => {
+    const n05 = question("SP-T10-N05");
+
+    expect(isCorrect(n05, "El libro está cerca de la mesa.")).toBe(true);
+    expect(isCorrect(n05, "El libro está lejos de la mesa.")).toBe(false);
+  });
+
+  it("names the viewer in every left-or-right gap and translation", () => {
+    const sided = placementQuestions.filter(
+      (q) => q.kind === "type" && /^SP-T1[23]-N0[3-6]$/.test(q.id),
+    );
+
+    expect(
+      sided.map((q) => [q.id, q.instruction!.match(/You are looking at [^.]*\./)?.[0]]),
+    ).toEqual([
+      ["SP-T12-N03", "You are looking at the book and the bed."],
+      ["SP-T13-N03", "You are looking at the book and the box."],
+      ["SP-T12-N04", "You are looking at the ticket and the bench."],
+      ["SP-T13-N04", "You are looking at the phone and the cupboard."],
+      ["SP-T12-N05", "You are looking at the phone and the chair."],
+      ["SP-T13-N05", "You are looking at the backpack and the lamp."],
+      ["SP-T12-N06", "You are looking at the backpack and the sofa."],
+      ["SP-T13-N06", "You are looking at the bag and the cupboard."],
+    ]);
+  });
+
+  it("takes a la izquierda del, and not a la izquierda de or a la derecha del, in the gap before a masculine noun", () => {
+    const n04 = question("SP-T12-N04");
+
+    expect(isCorrect(n04, "a la izquierda del")).toBe(true);
+    expect(isCorrect(n04, "a la izquierda de")).toBe(false);
+    expect(isCorrect(n04, "a la derecha del")).toBe(false);
+  });
+
+  it("takes the left-of translation with móvil or teléfono, and not with a la derecha de", () => {
+    const n05 = question("SP-T12-N05");
+
+    expect(isCorrect(n05, "El móvil está a la izquierda de la silla.")).toBe(true);
+    expect(isCorrect(n05, "El teléfono está a la izquierda de la silla.")).toBe(true);
+    expect(isCorrect(n05, "El móvil está a la derecha de la silla.")).toBe(false);
   });
 
   it("passes a translation without its accents and notes them", () => {

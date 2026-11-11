@@ -111,41 +111,12 @@ describe("writing tasks", () => {
     });
   });
 
-  it("reviews the asking-questions dialogue items as single questions", () => {
-    expect(writingTaskOf("AQ-T13-E05")).toEqual({
-      id: "AQ-T13-E05",
-      kind: "question",
-      exam: false,
-      prompt: "You find one phone on a table. Ask the group who owns it. Use es and este móvil.",
-      points: ["Ask who owns the phone", "Use este móvil and es", "Do not assume multiple owners"],
-      wordRange: [2, 15],
-    });
+  it("has no asking-questions writing task", () => {
+    expect(writingTaskOf("fixture-ask-drink")?.kind).toBe("question");
 
     expect(
-      [
-        "AQ-T01-E05",
-        "AQ-T01-N04",
-        "AQ-T05-E05",
-        "AQ-T06-V12",
-        "AQ-T07-E05",
-        "AQ-T08-V06",
-        "AQ-T09-E05",
-        "AQ-T10-V06",
-        "AQ-T11-V12",
-        "AQ-T12-E05",
-      ].map(writingTaskOf),
-    ).toEqual([
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-    ]);
+      ["AQ-T01-E05", "AQ-T05-E05", "AQ-T09-E05", "AQ-T13-E05", "AQ-T18-V12"].map(writingTaskOf),
+    ).toEqual([undefined, undefined, undefined, undefined, undefined]);
   });
 
   it("reviews no weekdays item", () => {

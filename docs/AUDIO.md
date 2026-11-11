@@ -90,6 +90,10 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   plain text drops the -es.
 - Weekdays (M01–M03 and MR01–MR02): 77 texts, the seven day words, which are also
   the tiles of the week-order task, 69 sentences and the week in order.
+- Where things are (M01–M06 and MR01–MR03): 99 texts, 97 sentences and the
+  phrases _a la izquierda de_ and _a la derecha de_. The other 12 place phrases
+  play their topic flashcard clips, and _La farmacia está enfrente del banco._
+  plays its unit 7 clip.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

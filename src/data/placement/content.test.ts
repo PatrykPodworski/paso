@@ -57,7 +57,7 @@ describe("placement content", () => {
   });
 
   it("puts every exercise in exactly one learning lesson", () => {
-    expect(placementQuestions).toHaveLength(62);
+    expect(placementQuestions).toHaveLength(79);
 
     const owned = learningLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
@@ -68,7 +68,7 @@ describe("placement content", () => {
     const authored = new Set(placementQuestions.map((q) => q.id));
     const named = placementLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
-    expect(named).toHaveLength(72);
+    expect(named).toHaveLength(99);
 
     for (const id of named) {
       expect(authored, id).toContain(id);
@@ -91,6 +91,7 @@ describe("placement content", () => {
       ["pl-m01", ["SP-T01", "SP-T02", "SP-T03"]],
       ["pl-m02", ["SP-M02", "SP-T04", "SP-T05"]],
       ["pl-m03", ["SP-M03", "SP-T06", "SP-T07", "SP-T14"]],
+      ["pl-m04", ["SP-M04", "SP-T08", "SP-T09"]],
     ]);
   });
 
@@ -141,6 +142,12 @@ describe("placement content", () => {
       "SP-T14-N06",
       "SP-M03-X01",
       "SP-M03-X03",
+      "SP-T08-N05",
+      "SP-T09-N05",
+      "SP-T08-N06",
+      "SP-T09-N06",
+      "SP-M04-X01",
+      "SP-M04-X03",
     ]);
 
     for (const q of translations) {
@@ -163,6 +170,7 @@ describe("placement content", () => {
     expect([...new Set(glossed)].sort()).toEqual([
       "armario",
       "banco",
+      "biblioteca",
       "billete",
       "bolsa",
       "caja",
@@ -170,6 +178,7 @@ describe("placement content", () => {
       "farmacia",
       "maleta",
       "mochila",
+      "oficina",
       "taza",
       "teatro",
     ]);
@@ -236,6 +245,10 @@ describe("placement content", () => {
       "SP-T06-N07",
       "SP-T07-N07",
       "SP-T14-N07",
+      "SP-T08-N01",
+      "SP-T09-N01",
+      "SP-T08-N07",
+      "SP-T09-N07",
     ]);
 
     for (const q of choices) {
@@ -267,6 +280,10 @@ describe("placement content", () => {
       "Review this unit's lessons",
       "In front, behind and opposite",
       "delante de, detrás de and enfrente de",
+      "Next to and between",
+      "al lado de and entre",
+      "Unit review",
+      "Review this unit's lessons",
     ]);
 
     expect(texts.filter((text) => /\bunit \d|\blessons? \d/i.test(text))).toEqual([]);
@@ -311,6 +328,23 @@ describe("placement content", () => {
     expect(isCorrect(n05, "El móvil está delante de la puerta.")).toBe(true);
     expect(isCorrect(n05, "El teléfono está delante de la puerta.")).toBe(true);
     expect(isCorrect(n05, "El móvil está detrás de la puerta.")).toBe(false);
+  });
+
+  it("takes al lado del and junto al, and not al lado de, in the gap before a masculine noun", () => {
+    const n04 = question("SP-T08-N04");
+
+    expect(isCorrect(n04, "al lado del")).toBe(true);
+    expect(isCorrect(n04, "junto al")).toBe(true);
+    expect(isCorrect(n04, "al lado de")).toBe(false);
+    expect(isCorrect(n04, "entre")).toBe(false);
+  });
+
+  it("takes the next-to translation with al lado de or junto a, and not with entre", () => {
+    const n05 = question("SP-T08-N05");
+
+    expect(isCorrect(n05, "El billete está al lado de la puerta.")).toBe(true);
+    expect(isCorrect(n05, "El billete está junto a la puerta.")).toBe(true);
+    expect(isCorrect(n05, "El billete está detrás de la puerta.")).toBe(false);
   });
 
   it("passes a translation without its accents and notes them", () => {

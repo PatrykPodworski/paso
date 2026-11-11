@@ -50,6 +50,7 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
     "Weekdays · Unit 9",
     "Where things are · Unit 5",
     "Where things are · Unit 6",
+    "Time words · Unit 10",
     "Mock exam",
     "Foundations",
     "Topic flashcards",

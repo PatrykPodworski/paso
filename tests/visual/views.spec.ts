@@ -253,6 +253,45 @@ test("asking questions: the set page and L01 on its introduction card", async ({
   await shot(page, "practice-questions-l01-intro");
 });
 
+// No set has an item with an instruction yet, so the dev server's weekday module is rewritten:
+// a gap item gets a long instruction and a translation item a short one.
+const instructionItems = [
+  {
+    id: "WD-T01-E04",
+    instruction:
+      "A displayed calendar on the kitchen wall says Monday, not the actual date. Complete the gap with the day.",
+    prompt: "Hoy es ___.",
+  },
+  {
+    id: "WD-T01-E05",
+    instruction: "Translate into Spanish",
+    prompt: "A displayed calendar says Monday, not the actual date.",
+  },
+];
+
+for (const { id, instruction, prompt } of instructionItems) {
+  test(`practice set: ${id} with its instruction apart from the sentence`, async ({ page }) => {
+    await page.route("**/src/data/weekdays/t01.ts*", async (route) => {
+      const response = await route.fetch();
+
+      const body = (await response.text()).replace(
+        new RegExp(`(id: "${id}",[\\s\\S]*?prompt:\\s*)"[^"]*"`),
+        `$1${JSON.stringify(prompt)}, instruction: ${JSON.stringify(instruction)}`,
+      );
+
+      await route.fulfill({ response, body });
+    });
+
+    await page.goto("/backoffice");
+    const row = page.getByRole("button", { name: `${instruction} ${prompt}` });
+
+    await row.click();
+    await expect(page.getByRole("heading", { name: prompt, exact: true })).toBeVisible();
+    await expect(page.getByRole("dialog").getByText(instruction, { exact: true })).toBeVisible();
+    await shot(page, `question-instruction-${id.toLowerCase()}`);
+  });
+}
+
 test("weekdays: the set page and L01 on its introduction card", async ({ page }) => {
   await page.goto("/practice/weekdays");
   await shot(page, "practice-weekdays");

@@ -4,6 +4,7 @@ import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { audioSources } from "../../data/audio-sources";
 import { allQuestions } from "../../data/curriculum";
+import { questionOf } from "../../data/practice-sets/item";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -92,4 +93,31 @@ it("keeps the exam listening player a stop button whose clip outlives its card",
   expect(screen.getByRole("button", { name: "Stop audio" })).toBeInTheDocument();
   unmount();
   expect(HTMLMediaElement.prototype.pause).not.toHaveBeenCalled();
+});
+
+it.each([
+  ["with", "Translate into Spanish", ["Translate into Spanish", "You visit on Monday."]],
+  ["without", undefined, ["You visit on Monday."]],
+])("renders a task %s an instruction above the heading", (_, instruction, lines) => {
+  const q = questionOf({
+    id: "WD-X",
+    mode: "cloze",
+    instruction,
+    prompt: "You visit on Monday.",
+    answer: "Visitas el lunes.",
+    say: "Visitas el lunes.",
+    feedback: "",
+    hints: ["", ""],
+  });
+
+  const { container } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+  const heading = screen.getByRole("heading", { level: 2 });
+  const kind = container.querySelector(".question-kind")!;
+  const between = [];
+
+  for (let el = kind.nextElementSibling; el && !el.contains(heading); el = el.nextElementSibling) {
+    between.push(el.textContent);
+  }
+
+  expect([...between, heading.textContent]).toEqual(lines);
 });

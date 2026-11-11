@@ -2,6 +2,7 @@ import type { Question } from "../types.ts";
 
 type Base = {
   id: string;
+  instruction?: string;
   prompt: string;
   answer: string;
   feedback: string;
@@ -43,6 +44,7 @@ export const tilesOf = (chunks: string[]) => {
 export const questionOf = (item: Item): Question => {
   const common = {
     id: item.id,
+    instruction: item.instruction,
     prompt: item.prompt,
     answer: item.answer,
     explanation: item.feedback,

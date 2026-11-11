@@ -2,6 +2,7 @@ import type { Attempt } from "../../data/types";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { SectionHeading } from "../../design-system/SectionHeading";
 import { exerciseBank } from "../practice";
+import { QuestionInstruction } from "../QuestionInstruction";
 import { SkillDot } from "../SkillDot";
 import { answerResult } from "./answerResult";
 
@@ -44,7 +45,10 @@ export const RecentAnswers = ({ recent }: Props) => {
                 <SkillDot skill={q.skill} />
               </span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm leading-relaxed">{q.prompt}</p>
+                <p className="text-sm leading-relaxed">
+                  <QuestionInstruction instruction={q.instruction} className="text-xs" />
+                  {q.prompt}
+                </p>
                 {a.answer && (
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2 break-words whitespace-pre-line">
                     {a.answer}

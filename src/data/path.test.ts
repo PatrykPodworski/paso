@@ -78,9 +78,10 @@ it("puts every set unit right after the course unit it builds on, with Weekdays 
     [21, "u12"],
   ]);
 
-  expect(complete.pathLessons).toHaveLength(84);
+  expect(complete.pathLessons).toHaveLength(82);
   expect(complete.pathPlace("tm-r02")).toEqual({ unit: 10, lesson: 4 });
   expect(complete.pathPlace("aq-mr01")).toEqual({ unit: 15, lesson: 3 });
+  expect(complete.pathPlace("aq-mr02")).toEqual({ unit: 16, lesson: 3 });
   expect(complete.courseUnitNumber(6)).toBe(11);
   expect(complete.pathUnitNumber("aq-u3")).toBe(18);
 });

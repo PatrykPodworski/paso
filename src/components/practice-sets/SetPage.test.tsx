@@ -36,8 +36,8 @@ it("heads each unit with its path number and what it teaches, each lesson with i
     "What and howLearn two question words: qué, cómo16 exercises",
   );
 
-  expect(screen.getByRole("button", { name: /^Asking who(?! with|se)/ })).toHaveTextContent(
-    "Asking whoLearn one new question word18 exercises",
+  expect(screen.getByRole("button", { name: /Who and which/ })).toHaveTextContent(
+    "Who and whichLearn quién and cuál, mixed with earlier words20 exercises",
   );
 });
 

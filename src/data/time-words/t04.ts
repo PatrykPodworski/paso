@@ -81,4 +81,37 @@ export const t04Items: Item[] = [
     feedback: "It is 12:00 on Tuesday. Diego is eating at this moment. So: Diego come ahora.",
     hints,
   },
+  {
+    id: "TM-T04-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. It is 12:00 on Tuesday. Pablo is at home at this moment.",
+    prompt: "Pablo está en casa ___.",
+    answer: "ahora",
+    say: "Pablo está en casa ahora.",
+    feedback:
+      "It is 12:00 on Tuesday. Pablo is at home at this moment. So: Pablo está en casa ahora.",
+    hints,
+  },
+  {
+    id: "TM-T04-V09",
+    mode: "cloze",
+    instruction: "Complete the gap. It is 12:00 on Tuesday. Pablo is working at this moment.",
+    prompt: "Pablo trabaja ___.",
+    answer: "ahora",
+    say: "Pablo trabaja ahora.",
+    feedback: "It is 12:00 on Tuesday. Pablo is working at this moment. So: Pablo trabaja ahora.",
+    hints,
+  },
+  {
+    id: "TM-T04-V10",
+    mode: "cloze",
+    instruction:
+      "Translate into Spanish. It is 12:00 on Tuesday. Luis is on the bus at this moment.",
+    prompt: "Luis is on the bus now.",
+    answer: "Luis está en el autobús ahora.",
+    accepted: ["Ahora Luis está en el autobús.", "Luis ahora está en el autobús."],
+    say: "Luis está en el autobús ahora.",
+    feedback: "One right answer: Luis está en el autobús ahora.",
+    hints,
+  },
 ];

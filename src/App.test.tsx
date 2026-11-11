@@ -4,6 +4,7 @@ import { changeUrl, renderApp } from "./test/renderApp";
 import { allLessons, allQuestions, units } from "./data/curriculum";
 import { pathExerciseCount, pathLessons, pathUnits } from "./data/path";
 import { placementLessons } from "./data/placement/placement";
+import { timeWordsLessons } from "./data/time-words/timeWords";
 import { weekdaysLessons } from "./data/weekdays/weekdays";
 import { exerciseBank } from "./components/practice";
 import type { Attempt, Lesson, MockRunPatch } from "./data/types";
@@ -729,7 +730,7 @@ it("opens the time-words page from the practice studio and counts M01 on the pat
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Time words/ })).toHaveTextContent(
-    "8 lessons · hoy, luego, siempre: two or three at a time",
+    `${timeWordsLessons.length} lessons · hoy, luego, siempre: two or three at a time`,
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Time words/ }));

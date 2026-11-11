@@ -6,6 +6,7 @@ import { TextLink } from "../../design-system/TextLink";
 import type { Lesson } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
+import { QuestionInstruction } from "../QuestionInstruction";
 import { isWritingTask } from "../question-card/useAnswer";
 import type { Practice, Session } from "../practice";
 
@@ -40,7 +41,10 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
       <details key={q.id} className="border-t border-t-border py-4 px-0">
         <summary className="cursor-pointer text-sm flex items-center gap-2">
           <SkillDot skill={q.skill} />
-          {q.prompt}
+          <span className="min-w-0">
+            <QuestionInstruction instruction={q.instruction} className="text-xs" />
+            {q.prompt}
+          </span>
         </summary>
         <p className="leading-relaxed my-3 text-sm text-muted-foreground">
           {isWritingTask(q) ? "One possible answer" : "Correct answer"}: <strong>{q.answer}</strong>

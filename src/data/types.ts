@@ -61,6 +61,8 @@ export interface Question {
   id: string;
   kind: QuestionKind;
   skill: Skill;
+  // What the learner does with the prompt, shown apart from it, e.g. "Translate into Spanish".
+  instruction?: string;
   prompt: string;
   answer: string;
   explanation: string;

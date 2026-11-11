@@ -7,6 +7,7 @@ import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 import { isSilentTask } from "./useAnswer";
 import { type LastAttempt, LastTime } from "../history/LastTime";
+import { QuestionInstruction } from "../QuestionInstruction";
 
 type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
 
@@ -93,11 +94,15 @@ export const QuestionHeading = ({
   return (
     <>
       <QuestionKind q={q} productive={productive} previous={previous} />
+      <QuestionInstruction
+        instruction={q.instruction}
+        className="mbs-3.5 text-sm leading-relaxed"
+      />
       <div className="question-heading grid grid-cols-1 gap-x-3">
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`font-heading tracking-tight col-start-1 row-start-1 mt-3.5 mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mt-3.5 max-md:mx-0 max-md:mb-5`}
+          className={`font-heading tracking-tight col-start-1 row-start-1 ${q.instruction ? "mbs-1" : "mbs-3.5"} mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mx-0 max-md:mb-5`}
         >
           {q.prompt}
         </h2>

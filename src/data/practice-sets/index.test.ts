@@ -10,6 +10,7 @@ describe("practice sets", () => {
     expect(practiceSets.map((s) => [s.id, s.route])).toEqual([
       ["asking-questions", "practice/questions"],
       ["weekdays", "practice/weekdays"],
+      ["placement", "practice/placement"],
     ]);
 
     expect(unique(practiceSets.map((s) => s.id))).toBe(true);
@@ -20,7 +21,7 @@ describe("practice sets", () => {
     const ids = [...allLessons, ...setLessons].map((l) => l.id);
 
     expect(setLessons.map((l) => l.id)).toEqual(
-      expect.arrayContaining(["aq-l01", "aq-l02", "wd-l01"]),
+      expect.arrayContaining(["aq-l01", "aq-l02", "wd-l01", "pl-l01"]),
     );
 
     expect(unique(ids)).toBe(true);
@@ -32,7 +33,14 @@ describe("practice sets", () => {
     expect(setQuestions.filter((q) => q.kind === "teach")).toEqual([]);
 
     expect(setQuestions.map((q) => q.id)).toEqual(
-      expect.arrayContaining(["AQ-T01-E01", "AQ-T02-V12", "WD-T01-E01", "WD-T01-V12"]),
+      expect.arrayContaining([
+        "AQ-T01-E01",
+        "AQ-T02-V12",
+        "WD-T01-E01",
+        "WD-T01-V12",
+        "SP-T01-E01",
+        "SP-T01-V12",
+      ]),
     );
 
     expect(bank).toEqual(expect.arrayContaining(setQuestions.map((q) => q.id)));
@@ -42,6 +50,7 @@ describe("practice sets", () => {
   it("finds the set of each set lesson and no set for a course lesson", () => {
     expect(setOf("aq-l02")?.id).toBe("asking-questions");
     expect(setOf("wd-l01")?.id).toBe("weekdays");
+    expect(setOf("pl-l01")?.id).toBe("placement");
 
     for (const l of setLessons) {
       expect(setOf(l.id)?.lessons, l.id).toContain(l);
@@ -54,6 +63,7 @@ describe("practice sets", () => {
     expect(practiceSets.map((s) => s.units.map((u) => u.after))).toEqual([
       [9, 9, 10, 11],
       [5, 5, 5],
+      [4, 4, 4, 4],
     ]);
 
     for (const set of practiceSets) {

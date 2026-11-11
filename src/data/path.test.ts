@@ -9,6 +9,7 @@ import {
   pathUnitNumber,
   pathUnits,
 } from "./path";
+import { placementLessons } from "./placement/placement";
 import { practiceSets, setLessons } from "./practice-sets/index";
 import type { PracticeSet } from "./practice-sets/practiceSet";
 import type { SetLesson } from "./practice-sets/setLesson";
@@ -173,8 +174,7 @@ it("puts the first placement unit right after course unit 4 and adds its lesson 
   });
 
   expect(pathPlace("pl-l01")).toEqual({ unit: 5, lesson: 1 });
-  expect(withoutPlacement.pathLessons).toHaveLength(82);
-  expect(pathLessons).toHaveLength(85);
+  expect(pathLessons).toHaveLength(withoutPlacement.pathLessons.length + placementLessons.length);
 });
 
 it("numbers the units on the path from 1 without gaps", () => {

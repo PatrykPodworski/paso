@@ -1,0 +1,98 @@
+import type { Item } from "../practice-sets/item.ts";
+
+// T15, desde: from (a start time).
+const hints: [string, string] = ["The time given is the start.", "It starts with de-."];
+
+export const t15Items: Item[] = [
+  {
+    id: "TM-T15-E01",
+    mode: "choice",
+    instruction: "Choose the English meaning",
+    prompt: "desde",
+    answer: "from (a start time)",
+    choices: ["from (a start time)", "until (an end time)", "before, earlier"],
+    say: "desde",
+    feedback: "desde means from (a start time).",
+    hints,
+  },
+  {
+    id: "TM-T15-E03",
+    mode: "cloze",
+    instruction: "Write it in Spanish",
+    prompt: "from (a start time)",
+    answer: "desde",
+    say: "desde",
+    feedback: "From (a start time) is desde.",
+    hints,
+  },
+  {
+    id: "TM-T15-E04",
+    mode: "cloze",
+    instruction: "Complete the gap. Luis is at the office from 8:00 to 15:00. Say when it starts.",
+    prompt: "Luis está en la oficina ___ las ocho.",
+    answer: "desde",
+    say: "Luis está en la oficina desde las ocho.",
+    feedback:
+      "Luis is at the office from 8:00 to 15:00. So: Luis está en la oficina desde las ocho.",
+    hints,
+  },
+  {
+    id: "TM-T15-E05",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Diego studies from 16:00 to 18:00. Say when it starts.",
+    prompt: "Diego studies from 16:00.",
+    answer: "Diego estudia desde las cuatro.",
+    accepted: ["Desde las cuatro Diego estudia."],
+    say: "Diego estudia desde las cuatro.",
+    feedback: "One right answer: Diego estudia desde las cuatro.",
+    hints,
+  },
+  {
+    id: "TM-T15-E06",
+    mode: "choice",
+    instruction: "Which situation fits this sentence?",
+    prompt: "Tomás está en casa desde las seis.",
+    answer: "Tomás is at home from 18:00 to 21:00.",
+    choices: [
+      "Tomás is at home from 18:00 to 21:00.",
+      "Tomás is at home from 16:00 to 18:00.",
+      "Tomás is at home from 21:00 to 22:00.",
+    ],
+    say: "Tomás está en casa desde las seis.",
+    feedback: "desde means from (a start time): Tomás is at home from 18:00 to 21:00.",
+    hints,
+  },
+  {
+    id: "TM-T15-V11",
+    mode: "choice",
+    instruction:
+      "Choose the word for the gap. Diego is in class from 16:00 to 18:00. Say when it starts.",
+    prompt: "Diego está en clase ___ las cuatro.",
+    answer: "desde",
+    choices: ["desde", "hasta", "antes"],
+    say: "Diego está en clase desde las cuatro.",
+    feedback: "Diego is in class from 16:00 to 18:00. So: Diego está en clase desde las cuatro.",
+    hints,
+  },
+  {
+    id: "TM-T15-V09",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo studies from 9:00 to 17:00. Say when it starts.",
+    prompt: "Pablo estudia ___ las nueve.",
+    answer: "desde",
+    say: "Pablo estudia desde las nueve.",
+    feedback: "Pablo studies from 9:00 to 17:00. So: Pablo estudia desde las nueve.",
+    hints,
+  },
+  {
+    id: "TM-T15-V10",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Luis is at home from 8:00 to 15:00. Say when it starts.",
+    prompt: "Luis is at home from 8:00.",
+    answer: "Luis está en casa desde las ocho.",
+    accepted: ["Desde las ocho Luis está en casa."],
+    say: "Luis está en casa desde las ocho.",
+    feedback: "One right answer: Luis está en casa desde las ocho.",
+    hints,
+  },
+];

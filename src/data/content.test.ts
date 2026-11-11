@@ -28,8 +28,8 @@ const questions = [
 ];
 
 // Practice sets whose clips are still to be generated; each set's audio issue removes its entry.
-// placement: #728.
-const AWAITING_AUDIO = ["placement"];
+// placement: #728, time-words: #745.
+const AWAITING_AUDIO = ["placement", "time-words"];
 
 describe("original curriculum integrity", () => {
   it("contains a substantial learning path with every skill in each unit", () => {

@@ -3,6 +3,7 @@ import { resumeIndex } from "./resumeIndex";
 import { allLessons } from "./curriculum";
 import { askingLesson } from "./asking-questions/askingQuestions";
 import { placementLesson } from "./placement/placement";
+import { timeWordsLesson } from "./time-words/timeWords";
 import { weekdaysLesson } from "./weekdays/weekdays";
 import { emptySnapshot, questionState } from "../test/progress";
 import type { Question } from "./types";
@@ -130,4 +131,13 @@ it("reopens an unfinished placement L01 with E01 answered at E02", () => {
   progress.questions["SP-T01-E01"] = questionState();
 
   expect(l01.questions[resumeIndex(l01, progress)].id).toBe("SP-T01-E02");
+});
+
+it("reopens an unfinished time-words L01 with E01 answered at E02", () => {
+  const l01 = timeWordsLesson("tm-l01", () => 0);
+  const progress = emptySnapshot();
+
+  progress.questions["TM-T01-E01"] = questionState();
+
+  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("TM-T01-E02");
 });

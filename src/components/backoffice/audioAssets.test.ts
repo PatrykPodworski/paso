@@ -35,17 +35,17 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
     "Unit 3",
     "Unit 4",
     "Unit 6",
-    "Unit 10",
     "Unit 11",
     "Unit 12",
     "Unit 13",
-    "Unit 16",
-    "Unit 18",
-    "Unit 20",
-    "Asking questions · Unit 14",
+    "Unit 14",
+    "Unit 17",
+    "Unit 19",
+    "Unit 21",
     "Asking questions · Unit 15",
-    "Asking questions · Unit 17",
-    "Asking questions · Unit 19",
+    "Asking questions · Unit 16",
+    "Asking questions · Unit 18",
+    "Asking questions · Unit 20",
     "Weekdays · Unit 7",
     "Weekdays · Unit 8",
     "Weekdays · Unit 9",
@@ -58,16 +58,17 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
 });
 
 it("offers every practice set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 21)).toEqual([
-    "Unit 20",
-    "Asking questions · Unit 14",
+  expect(audioSourceNames.slice(11, 22)).toEqual([
+    "Unit 21",
     "Asking questions · Unit 15",
-    "Asking questions · Unit 17",
-    "Asking questions · Unit 19",
+    "Asking questions · Unit 16",
+    "Asking questions · Unit 18",
+    "Asking questions · Unit 20",
     "Weekdays · Unit 7",
     "Weekdays · Unit 8",
     "Weekdays · Unit 9",
     "Where things are · Unit 5",
+    "Time words · Unit 10",
     "Mock exam",
   ]);
 });

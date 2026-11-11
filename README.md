@@ -48,6 +48,9 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
 - **Where things are**, a practice set in the practice studio: 14 Spanish phrases
   that say where things are, one new phrase per lesson, with typed phrases and
   sentences, scene choices, and short sentences the AI tutor reviews.
+- **Time words**, a practice set in the practice studio: sixteen everyday time
+  words in Spanish, from hoy to hasta, one new word per lesson, with choices,
+  typed words and sentences.
 - **113 vocabulary cards** you can search, flip and hear, each with its own
   memory hint: a familiar English word, a useful translated phrase, a breakdown
   of the word, or a distinction from a Spanish word it gets confused with. The

@@ -77,4 +77,14 @@ export const t02Items: Item[] = [
     feedback: "Today is Tuesday. Coffee with Tomás is on Wednesday. So: Café con Tomás: mañana.",
     hints,
   },
+  {
+    id: "TM-T02-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Today is Tuesday. Coffee with Luis is on Wednesday.",
+    prompt: "Café con Luis: ___.",
+    answer: "mañana",
+    say: "Café con Luis: mañana.",
+    feedback: "Today is Tuesday. Coffee with Luis is on Wednesday. So: Café con Luis: mañana.",
+    hints,
+  },
 ];

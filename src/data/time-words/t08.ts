@@ -84,6 +84,16 @@ export const t08Items: Item[] = [
     hints,
   },
   {
+    id: "TM-T08-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. I usually read at 21:00. Today I read at 1:00.",
+    prompt: "Hoy leo ___.",
+    answer: "tarde",
+    say: "Hoy leo tarde.",
+    feedback: "I usually read at 21:00. Today I read at 1:00. So: Hoy leo tarde.",
+    hints,
+  },
+  {
     id: "TM-T08-V09",
     mode: "cloze",
     instruction:

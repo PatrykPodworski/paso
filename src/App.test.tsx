@@ -428,10 +428,10 @@ it("moves from a finished lesson straight to the next one on the path", async ()
 
 it("shows the first Asking questions unit on the path and opens its first lesson", async () => {
   await mount("path");
-  const card = screen.getByRole("button", { name: /UNIT 16 · Part 1 of 4/ });
+  const card = screen.getByRole("button", { name: /UNIT 17 · Part 1 of 4/ });
 
   expect(card).toHaveTextContent(
-    "UNIT 16 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons",
+    "UNIT 17 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons",
   );
 
   fireEvent.click(card);
@@ -441,7 +441,7 @@ it("shows the first Asking questions unit on the path and opens its first lesson
 
 it("moves from the last lesson of course unit 9 to the first Asking questions lesson", async () => {
   await mount("path");
-  fireEvent.click(screen.getByRole("button", { name: /UNIT 15 · / }));
+  fireEvent.click(screen.getByRole("button", { name: /UNIT 16 · / }));
   fireEvent.click(screen.getByRole("button", { name: new RegExp(units[8].lessons.at(-1)!.title) }));
   act(() => session.onComplete(1, 1));
   act(() => session.onNext!());
@@ -729,7 +729,7 @@ it("opens the time-words page from the practice studio and counts M01 on the pat
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Time words/ })).toHaveTextContent(
-    "4 lessons · hoy, luego, siempre: two or three at a time",
+    "5 lessons · hoy, luego, siempre: two or three at a time",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Time words/ }));

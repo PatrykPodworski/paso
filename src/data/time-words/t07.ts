@@ -89,6 +89,18 @@ export const t07Items: Item[] = [
     hints,
   },
   {
+    id: "TM-T07-V03",
+    mode: "cloze",
+    instruction:
+      "Complete the gap. Pablo usually has breakfast at 9:00. Today he has breakfast at 7:00.",
+    prompt: "Hoy Pablo desayuna ___.",
+    answer: "temprano",
+    say: "Hoy Pablo desayuna temprano.",
+    feedback:
+      "Pablo usually has breakfast at 9:00. Today he has breakfast at 7:00. So: Hoy Pablo desayuna temprano.",
+    hints,
+  },
+  {
     id: "TM-T07-V09",
     mode: "cloze",
     instruction:

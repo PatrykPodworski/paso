@@ -1,0 +1,78 @@
+import type { Item } from "../practice-sets/item.ts";
+
+// T09, por la mañana: in the morning.
+const hints: [string, string] = [
+  "9:00 is in the morning.",
+  "Three words: por la and the word for morning.",
+];
+
+export const t09Items: Item[] = [
+  {
+    id: "TM-T09-E01",
+    mode: "choice",
+    instruction: "Choose the English meaning",
+    prompt: "por la mañana",
+    answer: "in the morning",
+    choices: ["in the morning", "in the afternoon", "at night"],
+    say: "por la mañana",
+    feedback: "por la mañana means in the morning.",
+    hints,
+  },
+  {
+    id: "TM-T09-E03",
+    mode: "cloze",
+    instruction: "Write it in Spanish",
+    prompt: "in the morning",
+    answer: "por la mañana",
+    say: "por la mañana",
+    feedback: "In the morning is por la mañana.",
+    hints,
+  },
+  {
+    id: "TM-T09-E04",
+    mode: "cloze",
+    instruction: "Complete the gap. Luis works at 9:00.",
+    prompt: "Luis trabaja ___.",
+    answer: "por la mañana",
+    say: "Luis trabaja por la mañana.",
+    feedback: "Luis works at 9:00. So: Luis trabaja por la mañana.",
+    hints,
+  },
+  {
+    id: "TM-T09-E05",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Diego reads at 9:00.",
+    prompt: "Diego reads in the morning.",
+    answer: "Diego lee por la mañana.",
+    accepted: ["Por la mañana Diego lee."],
+    say: "Diego lee por la mañana.",
+    feedback: "One right answer: Diego lee por la mañana.",
+    hints,
+  },
+  {
+    id: "TM-T09-E06",
+    mode: "choice",
+    instruction: "Which situation fits this sentence?",
+    prompt: "Tomás está en casa por la mañana.",
+    answer: "Tomás is at home at 9:00.",
+    choices: [
+      "Tomás is at home at 9:00.",
+      "Tomás is at home at 16:00.",
+      "Tomás is at home at 22:00.",
+    ],
+    say: "Tomás está en casa por la mañana.",
+    feedback: "por la mañana means in the morning: Tomás is at home at 9:00.",
+    hints,
+  },
+  {
+    id: "TM-T09-V11",
+    mode: "choice",
+    instruction: "Choose the word for the gap. Diego eats at 9:00.",
+    prompt: "Diego come ___.",
+    answer: "por la mañana",
+    choices: ["por la mañana", "por la tarde", "por la noche", "mañana"],
+    say: "Diego come por la mañana.",
+    feedback: "Diego eats at 9:00. So: Diego come por la mañana.",
+    hints,
+  },
+];

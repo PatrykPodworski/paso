@@ -261,6 +261,14 @@ test("weekdays: the set page and L01 on its introduction card", async ({ page })
   await shot(page, "practice-weekdays-l01-intro");
 });
 
+test("placement: the set page and L01 on its introduction card", async ({ page }) => {
+  await page.goto("/practice/placement");
+  await shot(page, "practice-placement");
+  await page.getByRole("button", { name: /In or on/ }).click();
+  await expect(page.getByRole("heading", { name: "New phrase: en" })).toBeVisible();
+  await shot(page, "practice-placement-l01-intro");
+});
+
 test("time words: the set page and L01 on its introduction card", async ({ page }) => {
   await page.goto("/practice/time-words");
   await shot(page, "practice-time-words");

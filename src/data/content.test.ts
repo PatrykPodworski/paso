@@ -19,9 +19,6 @@ import examples from "./examples.json";
 import { taskOf } from "../../api/_lib/talk-tasks/index";
 import { practiceSets } from "./practice-sets/index";
 
-// Sets whose clips are not recorded yet. #745 records the time-words clips and removes its id.
-const WITHOUT_AUDIO_YET = ["time-words"];
-
 const questions = [
   ...allQuestions,
   ...foundations,
@@ -29,6 +26,10 @@ const questions = [
   formPractice,
   ...mockQuestions,
 ];
+
+// Practice sets whose clips are still to be generated; each set's audio issue removes its entry.
+// placement: #728, time-words: #745.
+const AWAITING_AUDIO = ["placement", "time-words"];
 
 describe("original curriculum integrity", () => {
   it("contains a substantial learning path with every skill in each unit", () => {
@@ -301,8 +302,10 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
+    expect(practiceSets.map((s) => s.id)).toEqual(expect.arrayContaining(AWAITING_AUDIO));
+
     const setItems = practiceSets
-      .filter((s) => !WITHOUT_AUDIO_YET.includes(s.id))
+      .filter((s) => !AWAITING_AUDIO.includes(s.id))
       .flatMap((s) => s.lessons.flatMap((l) => s.lesson(l.id).questions))
       .filter((q) => q.kind !== "teach");
 

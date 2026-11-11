@@ -45,6 +45,9 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
 - **Weekdays**, a practice set in the practice studio: the seven days of the week
   in Spanish, one new day per lesson, with typed days and sentences, and short
   sentences the AI tutor reviews.
+- **Where things are**, a practice set in the practice studio: 14 Spanish phrases
+  that say where things are, one new phrase per lesson, with typed phrases and
+  sentences, scene choices, and short sentences the AI tutor reviews.
 - **Time words**, a practice set in the practice studio: sixteen everyday time
   words in Spanish, from hoy to hasta, one new word per lesson, with choices,
   typed words and sentences.

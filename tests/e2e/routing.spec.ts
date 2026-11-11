@@ -6,6 +6,7 @@ const title = {
   practice: "Your practice studio.",
   "practice/questions": "Asking questions.",
   "practice/weekdays": "Weekdays.",
+  "practice/placement": "Where things are.",
   "practice/time-words": "Time words.",
   exam: "Meet the exam.",
   guide: "Your guide to DELE A1.",

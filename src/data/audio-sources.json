@@ -26459,54 +26459,6 @@
       "method": "make-words"
     }
   },
-  "z36b7l": {
-    "src": "/audio/voxcpm/004f67fd41eca89266ac9f55.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quién es?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "17vbjyd": {
-    "src": "/audio/voxcpm/5aacf96bcc3c7611b0c93bc8.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quiénes son?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1qvap6q": {
-    "src": "/audio/voxcpm/3a552587a2facc2827d7c7f9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quién viene?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "vxjht2": {
-    "src": "/audio/voxcpm/1f7c36fce1165485b4eb605b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quién estudia aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "452ykj": {
     "src": "/audio/voxcpm/0ee2dce070a813c78a187656.mp3",
     "voiceId": "es-male-teacher",
@@ -26531,66 +26483,6 @@
       "method": "make-sentences"
     }
   },
-  "1u3dzbg": {
-    "src": "/audio/voxcpm/86d0d5186dcba0fc9fbd36b7.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quiénes trabajan aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1p49tev": {
-    "src": "/audio/voxcpm/2ac40a5783fee9639e6a8fcb.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quiénes estudian español?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1plnw0u": {
-    "src": "/audio/voxcpm/0ec8c9ede8cfbab35ee3cb55.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quiénes están aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "y574je": {
-    "src": "/audio/voxcpm/fef8733d1e20922a00ceb986.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quién viene hoy?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "5r9fd2": {
-    "src": "/audio/voxcpm/219661df03a38ed681858a55.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quién compra pan?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "lo4tu5": {
     "src": "/audio/voxcpm/07c257ed0daa59595ac57a2e.mp3",
     "voiceId": "es-male-teacher",
@@ -26603,119 +26495,11 @@
       "method": "make-sentences"
     }
   },
-  "bmuu1r": {
-    "src": "/audio/voxcpm/0933011c67ff04c98a61b7bf.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quiénes vienen mañana?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "18kbgmx": {
     "src": "/audio/voxcpm/f8cd02d9dbd09bb4b9454a10.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cuál de estos dos quieres?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1h8vm11": {
-    "src": "/audio/voxcpm/8026d7f1941a0aa5e2f459fd.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuáles de estos tres quieres?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1rh8sbp": {
-    "src": "/audio/voxcpm/3fd25385f9d6e165aaaca234.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuál de estas dos quiere Luis?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "pwy2jx": {
-    "src": "/audio/voxcpm/17d1c6e6c5ce8b6a2fb6e1c7.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuál de estas tres quiere Luis?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "opcrwm": {
-    "src": "/audio/voxcpm/f02d1bbc3085fa0928d81e7b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuáles de estos tres quiere Pablo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1vadcd2": {
-    "src": "/audio/voxcpm/acdaf1c1720d5dcd7c612129.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuál de estos tres quiere Pablo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "887vjp": {
-    "src": "/audio/voxcpm/36157600622a319e82842d1b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuál de estos tres quieres?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1xbstto": {
-    "src": "/audio/voxcpm/e403df06633909bab7472db3.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuáles de estas tres quiere Pablo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "u0me0r": {
-    "src": "/audio/voxcpm/c92baf505cb7e72f74043743.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuáles de estas tres quieres?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -26747,78 +26531,6 @@
       "method": "make-sentences"
     }
   },
-  "18gfrxr": {
-    "src": "/audio/voxcpm/f14079ea240a0721c7c59f5a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuántos libros tienes?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "i291s0": {
-    "src": "/audio/voxcpm/6b1cef067ab7e1c41eb997ab.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuántas entradas quieres?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "2jsrhs": {
-    "src": "/audio/voxcpm/e5d5011f2b03d41d29c809c9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuántos libros usa Pablo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1sdzfwu": {
-    "src": "/audio/voxcpm/ca57ce39d7490e7fc0e6eaf1.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuántas reuniones tienes hoy?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1mw1nde": {
-    "src": "/audio/voxcpm/0cf5c306b180582c26a93606.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuánta leche quiere Luis?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "xqzq8o": {
-    "src": "/audio/voxcpm/5ac73713141cad278aabbd94.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuántos móviles tiene Pablo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "l88qqx": {
     "src": "/audio/voxcpm/45970da6c5004f2bd70607db.mp3",
     "voiceId": "es-male-teacher",
@@ -26831,59 +26543,11 @@
       "method": "make-sentences"
     }
   },
-  "16r1zai": {
-    "src": "/audio/voxcpm/3ec4e1f53ab4081d812f2645.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuánto cuesta la entrada?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1utp67a": {
     "src": "/audio/voxcpm/1e6d95dfc0aad7528f85dd4b.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cuánto pan quieres?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1go8k5u": {
-    "src": "/audio/voxcpm/15269a1296e31a70b9045622.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuánto cuestan las entradas?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "9a8dod": {
-    "src": "/audio/voxcpm/92f12ee9e4a3b1746726d395.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuánta leche quiere Pablo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1eatyyw": {
-    "src": "/audio/voxcpm/33eb0a401dfe22abb6da6ba9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cuántas camisetas quieres?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -26915,47 +26579,11 @@
       "method": "make-sentences"
     }
   },
-  "1vnn2nf": {
-    "src": "/audio/voxcpm/091d09f521e3b70b2f4369de.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué estudias por la tarde?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1mr7lx7": {
     "src": "/audio/voxcpm/13c2451f21770a41ca57f678.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Por qué estudia Pablo en casa?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "5usxzi": {
-    "src": "/audio/voxcpm/f5a0c8f120ca71cca4cb7da9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué compras dos entradas?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "vtdvrk": {
-    "src": "/audio/voxcpm/7e448cab11162518f6aef87a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué va Luis a pie?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -26975,30 +26603,6 @@
       "method": "make-sentences"
     }
   },
-  "1age1f0": {
-    "src": "/audio/voxcpm/2202bf0a9b53e9e22c168e33.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué estudias español en Madrid?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "xkkxei": {
-    "src": "/audio/voxcpm/1c67d00bc757144af5c66227.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué están aquí Pablo y Luis?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "15lvyy6": {
     "src": "/audio/voxcpm/7339077c3c871d09c88802c9.mp3",
     "voiceId": "es-male-teacher",
@@ -27009,68 +26613,6 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-sentences"
-    }
-  },
-  "1500j88": {
-    "src": "/audio/voxcpm/a3c868dece13f83ed3dc6a24.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué quieres té?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1dmxha1": {
-    "src": "/audio/voxcpm/4ae2f23d096cedf03fa4dc3f.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué usa Pablo el autobús?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "18d7v9h": {
-    "src": "/audio/voxcpm/7e2b75a29c4011fcdf90b0f7.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por qué quiere Luis el móvil?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1wihax0": {
-    "src": "/audio/voxcpm/1b83a7884bc2f118ad00ada8.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Quiénes",
-    "spokenText": "Quiénes",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "fx0i6k": {
-    "src": "/audio/voxcpm/d4d99c47af87698e50facaff.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "son?",
-    "spokenText": "son",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
     }
   },
   "1gcaja8": {
@@ -27124,49 +26666,12 @@
       "method": "make-words"
     }
   },
-  "kl2yxm": {
-    "src": "/audio/voxcpm/ab43176a3353fabd2e8f9842.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "de estos tres",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "60sb4b": {
     "src": "/audio/voxcpm/6e25b858d64fd2505d882215.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Cuál",
     "spokenText": "Cuál",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "rvccs0": {
-    "src": "/audio/voxcpm/8b49784c080db49a42b50dd6.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "de estas dos",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "6876zw": {
-    "src": "/audio/voxcpm/64acd9424a6444ee33026869.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "quiere Luis?",
-    "spokenText": "quiere Luis",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27187,74 +26692,11 @@
       "method": "make-words"
     }
   },
-  "1xedruc": {
-    "src": "/audio/voxcpm/07c553797f41707fd2306a57.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "libros",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "w0aunu": {
-    "src": "/audio/voxcpm/df4cc4dc1f9b9f3334290343.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "tienes?",
-    "spokenText": "tienes",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1tsih24": {
-    "src": "/audio/voxcpm/ae4ab269996d65319d0eb8d2.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "móviles",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "yt6mmb": {
-    "src": "/audio/voxcpm/bfd3fd06239df20fe69ee7fd.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "tiene Pablo?",
-    "spokenText": "tiene Pablo",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "ud3i9i": {
     "src": "/audio/voxcpm/b467e30d515bb6c044213d41.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "días",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1nkghbe": {
-    "src": "/audio/voxcpm/a0986c812013d4f47173adf6.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "trabaja Luis?",
-    "spokenText": "trabaja Luis",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27293,31 +26735,6 @@
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "español?",
     "spokenText": "español",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1ex5qh9": {
-    "src": "/audio/voxcpm/aa0b22e3788a8afdad7d5f60.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "quieres té?",
-    "spokenText": "quieres té",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "xqrnvf": {
-    "src": "/audio/voxcpm/64acd9424a6444ee33026869.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "quiere Luis",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -30529,6 +29946,488 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-sentences"
+    }
+  },
+  "1uf6910": {
+    "src": "/audio/voxcpm/1f059692e136b7b6452258d7.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quién trabaja aquí?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "fiqg0y": {
+    "src": "/audio/voxcpm/11cd6687a225b265e2e77d6a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál quieres?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "uun72w": {
+    "src": "/audio/voxcpm/44c95cb4c7fe7f72b3dbc36a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál es tu móvil?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "fq27ru": {
+    "src": "/audio/voxcpm/bb861f95a77029b9c3b40706.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quiénes vienen hoy?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "10lbnvh": {
+    "src": "/audio/voxcpm/22a5eb1a00aa890917defba8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuáles son tus libros?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1wxvgyh": {
+    "src": "/audio/voxcpm/ea550f3aabbc6f50d5ebe6a3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál es tu número de teléfono?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1qdjuec": {
+    "src": "/audio/voxcpm/80b4af8a0b1d82a646fa89b3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuándo vienes a casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "19d9y9n": {
+    "src": "/audio/voxcpm/55fa4f07de3d8826706aeda6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál quiere Pablo?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "40g9iq": {
+    "src": "/audio/voxcpm/4c0427d0932a08a5f9a9d46d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuáles quieres?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1isnqns": {
+    "src": "/audio/voxcpm/f4f29b18704c06df03652281.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Qué quieres comer?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "cz08b7": {
+    "src": "/audio/voxcpm/1a4fdcca8316c00f16ff2428.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál es tu hotel?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "jhrzoo": {
+    "src": "/audio/voxcpm/feacb27ae5f63a52bd3f12e6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quién es tu profesor?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1xukohh": {
+    "src": "/audio/voxcpm/5d77c20906180280a4bd9be1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quiénes son Pablo y Luis?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "13fzf2n": {
+    "src": "/audio/voxcpm/835e7d34d190c9779627822e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quién estudia español?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1p0sh9": {
+    "src": "/audio/voxcpm/6a43f7ac176bc57ae42fc716.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué vienes hoy?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "dewze1": {
+    "src": "/audio/voxcpm/9adc3751f3284f4730a11471.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánto cuesta el libro?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "14hape9": {
+    "src": "/audio/voxcpm/18be020ab3244d7df474d176.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuántos hermanos tienes?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1m9jo78": {
+    "src": "/audio/voxcpm/4c7171781c9e040c33f603ee.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué vas en autobús?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "esi303": {
+    "src": "/audio/voxcpm/2c28b0da2ebda7c045f0cb4c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quién quiere café?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1duhkfs": {
+    "src": "/audio/voxcpm/53f2f4a72691c60c426eb2b6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuántos libros tiene Pablo?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1vrcd4w": {
+    "src": "/audio/voxcpm/7d36fcf1c89b40b4e09d40f2.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué quieres leche?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "xo6l5j": {
+    "src": "/audio/voxcpm/e5ef2b3d680c821b59ee6a73.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cómo quieres el té?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1h5x64z": {
+    "src": "/audio/voxcpm/9c8422ca678f9e2c2bced47d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Qué hay en la mochila?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1bha7af": {
+    "src": "/audio/voxcpm/4cbf7ad30fe9abbee0c2aad0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué está Pablo en casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1ttpxqu": {
+    "src": "/audio/voxcpm/d56d94690b283cd5411b1bfd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuántas entradas quiere Luis?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "16wsmc9": {
+    "src": "/audio/voxcpm/ee4c174f7198328a51712dd3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál quieres, el té o el café?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1ank45i": {
+    "src": "/audio/voxcpm/ebb9d0903558e0a4d5548016.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánto cuesta el café?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1x4bzmc": {
+    "src": "/audio/voxcpm/e21c3c2c16acb09592b01985.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánto cuesta la camiseta?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1gsfduu": {
+    "src": "/audio/voxcpm/6ee556015550116302e38b5a.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué vas a pie?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1f00g7r": {
+    "src": "/audio/voxcpm/f0c4e6335c9d22a795e810e8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quiénes están en casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "s3cwz6": {
+    "src": "/audio/voxcpm/586f42571e9aa86b6967bdc1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál es tu mochila?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "gxd68c": {
+    "src": "/audio/voxcpm/bcba7f72fd6350652ca38b5d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué estás en casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "9ble30": {
+    "src": "/audio/voxcpm/dced2fd9ab2dbcee57864958.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánta leche quieres?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "11txjah": {
+    "src": "/audio/voxcpm/c459bc5c6ed0c9b4b8fdf06c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quién compra el pan?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "u5qxxg": {
+    "src": "/audio/voxcpm/d5b3944b41ff390219e46705.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Quién es Luis?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "i8v76w": {
+    "src": "/audio/voxcpm/f908163bcefdaf7cc4117cd6.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuáles quiere Luis?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1rc2dvt": {
+    "src": "/audio/voxcpm/e049321ff1fcfcc4c510ea48.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuál es tu libro?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "5s2yog": {
+    "src": "/audio/voxcpm/126cc1a2397a9db428d7cc99.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánto",
+    "spokenText": "¿Cuánto?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "1keat02": {
+    "src": "/audio/voxcpm/c10b5689e77c096657ae5e94.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "cuesta",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "szp3yj": {
+    "src": "/audio/voxcpm/3072c026c5c257ccd087ef54.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "en casa?",
+    "spokenText": "en casa",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
     }
   }
 }

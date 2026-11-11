@@ -6,10 +6,8 @@ import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
 import { m01, m01Items } from "./m01.ts";
 import { m02, m02Items, mr01 } from "./m02.ts";
-import { l05, t05Items } from "./t05.ts";
-import { l06, t06Items } from "./t06.ts";
-import { l07, t07Items } from "./t07.ts";
-import { l08, r02, t08Items } from "./t08.ts";
+import { m03, m03Items } from "./m03.ts";
+import { m04, m04Items, mr02 } from "./m04.ts";
 import { l09, t09Items } from "./t09.ts";
 import { l10, t10Items } from "./t10.ts";
 import { l11, t11Items } from "./t11.ts";
@@ -25,10 +23,8 @@ import { l18, r04, t18Items } from "./t18.ts";
 export const askingQuestions: Question[] = [
   ...m01Items,
   ...m02Items,
-  ...t05Items,
-  ...t06Items,
-  ...t07Items,
-  ...t08Items,
+  ...m03Items,
+  ...m04Items,
   ...t09Items,
   ...t10Items,
   ...t11Items,
@@ -45,11 +41,9 @@ export const askingLessons: SetLesson[] = [
   m01,
   m02,
   mr01,
-  l05,
-  l06,
-  l07,
-  l08,
-  r02,
+  m03,
+  m04,
+  mr02,
   l09,
   l10,
   l11,
@@ -73,7 +67,7 @@ const UNITS = [
   {
     after: 9,
     subtitle: "quién, cuál, cuánto, por qué",
-    ids: ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"],
+    ids: ["aq-m03", "aq-m04", "aq-mr02"],
   },
   {
     after: 10,

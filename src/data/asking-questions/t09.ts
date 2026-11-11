@@ -208,7 +208,7 @@ export const l09: SetLesson = {
   id: "aq-l09",
   title: "Asking what time",
   subtitle: "Learn one new question word",
-  recalled: ["AQ-T08-E04"],
+  recalled: [],
   introduction: t09Introduction,
   base: ["AQ-T09-E01", "AQ-T09-E02", "AQ-T09-E03", "AQ-T09-E04", "AQ-T09-E05", "AQ-T09-E06"],
   formCards: [],

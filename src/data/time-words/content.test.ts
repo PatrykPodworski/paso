@@ -8,7 +8,7 @@ const ids = (prefix: string) =>
 
 const question = (id: string) => timeWordsQuestions.find((q) => q.id === id)!;
 
-const words = ["hoy", "mañana"];
+const words = ["hoy", "mañana", "ayer"];
 
 const DAY_OR_TIME =
   /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b|\b\d{1,2}(:\d{2})?\s?(am|pm|o’clock)\b/;
@@ -27,6 +27,9 @@ describe("time words content", () => {
         "TM-T02-E01",
         "TM-T02-E06",
         "TM-T02-V12",
+        "TM-T03-E01",
+        "TM-T03-E06",
+        "TM-T03-V12",
       ]),
     );
   });
@@ -35,7 +38,7 @@ describe("time words content", () => {
     const authored = new Set(timeWordsQuestions.map((q) => q.id));
     const named = timeWordsLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
-    expect(named).toHaveLength(37);
+    expect(named).toHaveLength(56);
 
     for (const id of named) {
       expect(authored, id).toContain(id);
@@ -56,6 +59,11 @@ describe("time words content", () => {
       "TM-T02-E06",
       "TM-T02-V11",
       "TM-T02-V12",
+      "TM-T03-E01",
+      "TM-T03-E02",
+      "TM-T03-E06",
+      "TM-T03-V11",
+      "TM-T03-V12",
     ]);
 
     for (const q of choices) {
@@ -67,7 +75,7 @@ describe("time words content", () => {
   });
 
   it("gives every exercise two hints and feedback", () => {
-    expect(timeWordsQuestions).toHaveLength(36);
+    expect(timeWordsQuestions).toHaveLength(54);
 
     for (const q of timeWordsQuestions) {
       const blank = [...q.hints!, q.explanation].filter((text) => !text.trim());
@@ -90,6 +98,10 @@ describe("time words content", () => {
         "TM-T02-E04",
         "TM-T02-V09",
         "TM-T02-V11",
+        "TM-T03-E01",
+        "TM-T03-E04",
+        "TM-T03-V09",
+        "TM-T03-V11",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "hoy",
@@ -100,6 +112,10 @@ describe("time words content", () => {
       "Clase de Pablo: mañana.",
       "Desayuno con Jorge: mañana.",
       "Clase de español: mañana.",
+      "ayer",
+      "Clase de Pablo: ayer.",
+      "Desayuno con Jorge: ayer.",
+      "Clase de español: ayer.",
     ]);
   });
 
@@ -129,6 +145,19 @@ describe("time words content", () => {
     expect(ids("TM-T02-V")).toHaveLength(12);
   });
 
+  it("authors six base items and twelve variations for ayer", () => {
+    expect(ids("TM-T03-E")).toEqual([
+      "TM-T03-E01",
+      "TM-T03-E02",
+      "TM-T03-E03",
+      "TM-T03-E04",
+      "TM-T03-E05",
+      "TM-T03-E06",
+    ]);
+
+    expect(ids("TM-T03-V")).toHaveLength(12);
+  });
+
   it("offers morning against tomorrow for mañana in a sentence", () => {
     expect(question("TM-T02-E02")).toMatchObject({
       answer: "tomorrow",
@@ -147,7 +176,7 @@ describe("time words content", () => {
       /Complete only the gap|Write the full Spanish sentence/.test(q.prompt),
     );
 
-    expect(framed).toHaveLength(24);
+    expect(framed).toHaveLength(36);
 
     for (const q of framed) {
       expect(q.prompt, q.id).toMatch(DAY_OR_TIME);
@@ -167,5 +196,10 @@ describe("time words content", () => {
   it("rejects hoy in the mañana gap", () => {
     expect(isCorrect(question("TM-T02-E04"), "hoy")).toBe(false);
     expect(isCorrect(question("TM-T02-E04"), "Mañana")).toBe(true);
+  });
+
+  it("rejects mañana in the ayer gap", () => {
+    expect(isCorrect(question("TM-T03-E04"), "mañana")).toBe(false);
+    expect(isCorrect(question("TM-T03-E04"), "Ayer")).toBe(true);
   });
 });

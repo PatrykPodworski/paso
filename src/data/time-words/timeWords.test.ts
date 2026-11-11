@@ -69,6 +69,19 @@ const M04_VARIATIONS = [
   "TM-T11-V11",
 ];
 
+const M05_VARIATIONS = [
+  "TM-T07-V04",
+  "TM-T09-V03",
+  "TM-T10-V03",
+  "TM-T11-V03",
+  "TM-T12-E06",
+  "TM-T12-V11",
+  "TM-T13-E06",
+  "TM-T13-V11",
+  "TM-T14-E06",
+  "TM-T14-V11",
+];
+
 describe("time words lessons", () => {
   it.each([1, 2, 3])(
     "opens M01 on its introduction, the three words alternating in the base, then every variation (seed %i)",
@@ -336,7 +349,79 @@ describe("time words lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists two units after course unit 5, unit 2 with its first lesson so far", () => {
+  it.each([1, 2, 3])(
+    "opens M05 on its introduction, the three frequency words alternating in the base, then its variations and the mixed-in words of M03 and M04 (seed %i)",
+    (seed) => {
+      const lesson = timeWordsLesson("tm-m05", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "tm-m05",
+        title: "Always, sometimes, never",
+        subtitle: "siempre, a veces, nunca",
+      });
+
+      expect(lesson.questions.slice(0, 15).map((q) => [q.id, q.kind])).toEqual([
+        ["TM-M05-INTRO", "teach"],
+        ["TM-T12-E01", "choice"],
+        ["TM-T13-E01", "choice"],
+        ["TM-T14-E01", "choice"],
+        ["TM-T12-E03", "type"],
+        ["TM-T13-E03", "type"],
+        ["TM-T14-E03", "type"],
+        ["TM-T12-E04-FORM", "teach"],
+        ["TM-T12-E04", "type"],
+        ["TM-T13-E04", "type"],
+        ["TM-T14-E04-FORM", "teach"],
+        ["TM-T14-E04", "type"],
+        ["TM-T12-E05", "type"],
+        ["TM-T13-E05", "type"],
+        ["TM-T14-E05", "type"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(15)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual(M05_VARIATIONS);
+    },
+  );
+
+  it("introduces the three frequency words on one card and places siempre and nunca on their form cards", () => {
+    const { questions } = timeWordsLesson("tm-m05", randomFrom(1));
+
+    const cards = ["TM-M05-INTRO", "TM-T12-E04-FORM", "TM-T14-E04-FORM"].map((id) =>
+      questions.find((q) => q.id === id)!,
+    );
+
+    expect(cards.map((q) => [q.prompt, q.explanation])).toEqual([
+      [
+        "New words: siempre, a veces, nunca",
+        "siempre means always. Example: Pablo siempre estudia en casa. a veces means sometimes. Example: Yo a veces voy en autobús. nunca means never. Example: Tomás nunca trabaja los sábados.",
+      ],
+      [
+        "siempre and the verb",
+        "siempre usually goes before the verb: Pablo siempre estudia en casa. After the verb is right too: Pablo estudia siempre en casa.",
+      ],
+      [
+        "nunca, with or without no",
+        "nunca before the verb is enough: Pablo nunca estudia en casa. With no, nunca goes after the verb: Pablo no estudia nunca en casa.",
+      ],
+    ]);
+  });
+
+  it("draws a new M05 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      timeWordsLesson("tm-m05", randomFrom(seed))
+        .questions.slice(15)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it("lists two units after course unit 5, unit 2 with its first lessons so far", () => {
     expect(
       timeWordsUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
     ).toEqual([
@@ -346,7 +431,7 @@ describe("time words lessons", () => {
         "hoy, ahora, antes, temprano and more",
         ["tm-m01", "tm-m02", "tm-m03", "tm-r01"],
       ],
-      ["tm-u2", 5, "por la mañana, siempre, desde and more", ["tm-m04"]],
+      ["tm-u2", 5, "por la mañana, siempre, desde and more", ["tm-m04", "tm-m05"]],
     ]);
   });
 });

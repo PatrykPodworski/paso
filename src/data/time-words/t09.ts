@@ -75,4 +75,14 @@ export const t09Items: Item[] = [
     feedback: "Diego eats at 9:00. So: Diego come por la mañana.",
     hints,
   },
+  {
+    id: "TM-T09-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo works at 9:00.",
+    prompt: "Pablo trabaja ___.",
+    answer: "por la mañana",
+    say: "Pablo trabaja por la mañana.",
+    feedback: "Pablo works at 9:00. So: Pablo trabaja por la mañana.",
+    hints,
+  },
 ];

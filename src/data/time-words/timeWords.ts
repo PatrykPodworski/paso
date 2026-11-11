@@ -4,37 +4,28 @@ import { questionOf } from "../practice-sets/item.ts";
 import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
-import { l01, t01Items } from "./t01.ts";
-import { l02, t02Items } from "./t02.ts";
-import { l03, t03Items } from "./t03.ts";
+import { m01 } from "./m01.ts";
+import { t01Items } from "./t01.ts";
+import { t02Items } from "./t02.ts";
+import { t03Items } from "./t03.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const timeWordsQuestions: Question[] = [...t01Items, ...t02Items, ...t03Items].map(
   questionOf,
 );
 
-export const timeWordsLessons: SetLesson[] = [l01, l02, l03];
+export const timeWordsLessons: SetLesson[] = [m01];
 
 const UNITS = [
   {
     after: 5,
-    subtitle: "hoy, mañana, ayer, ahora",
-    ids: ["tm-l01", "tm-l02", "tm-l03", "tm-l04", "tm-r01"],
+    subtitle: "hoy, ahora, antes, temprano and more",
+    ids: ["tm-m01", "tm-m02", "tm-m03", "tm-r01"],
   },
   {
     after: 5,
-    subtitle: "antes, después, temprano, tarde",
-    ids: ["tm-l05", "tm-l06", "tm-l07", "tm-l08", "tm-r02"],
-  },
-  {
-    after: 5,
-    subtitle: "por la mañana, por la tarde, por la noche, siempre",
-    ids: ["tm-l09", "tm-l10", "tm-l11", "tm-l12", "tm-r03"],
-  },
-  {
-    after: 5,
-    subtitle: "a veces, nunca, desde, hasta",
-    ids: ["tm-l13", "tm-l14", "tm-l15", "tm-l16", "tm-r04"],
+    subtitle: "por la mañana, siempre, desde and more",
+    ids: ["tm-m04", "tm-m05", "tm-m06", "tm-r02"],
   },
 ];
 
@@ -57,10 +48,11 @@ export const timeWordsSet: PracticeSet = {
   id: "time-words",
   route: "practice/time-words",
   name: "Time words",
-  note: "hoy, luego, siempre: one new time word per lesson",
+  note: "hoy, luego, siempre: two or three at a time",
   icon: "sun",
   title: "Time words.",
-  description: "Learn sixteen everyday Spanish time words, from hoy to hasta, one per lesson.",
+  description:
+    "Learn sixteen everyday Spanish time words, from hoy to hasta, two or three per lesson.",
   units: timeWordsUnits,
   lessons: timeWordsLessons,
   questions: timeWordsQuestions,

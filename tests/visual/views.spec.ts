@@ -312,12 +312,12 @@ test("placement: the set page and L01 on its introduction card", async ({ page }
   await shot(page, "practice-placement-l01-intro");
 });
 
-test("time words: the set page and L01 on its introduction card", async ({ page }) => {
+test("time words: the set page and M01 on its introduction card", async ({ page }) => {
   await page.goto("/practice/time-words");
   await shot(page, "practice-time-words");
   await page.getByRole("button", { name: /Today/ }).click();
-  await expect(page.getByRole("heading", { name: "New word: hoy" })).toBeVisible();
-  await shot(page, "practice-time-words-l01-intro");
+  await expect(page.getByRole("heading", { name: "New words: hoy, mañana, ayer" })).toBeVisible();
+  await shot(page, "practice-time-words-m01-intro");
 });
 
 test("lesson completion", async ({ page }) => {

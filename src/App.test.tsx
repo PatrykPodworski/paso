@@ -4,7 +4,6 @@ import { changeUrl, renderApp } from "./test/renderApp";
 import { allLessons, allQuestions, units } from "./data/curriculum";
 import { pathExerciseCount, pathLessons, pathUnits } from "./data/path";
 import { placementLessons } from "./data/placement/placement";
-import { timeWordsLessons } from "./data/time-words/timeWords";
 import { weekdaysLessons } from "./data/weekdays/weekdays";
 import { exerciseBank } from "./components/practice";
 import type { Attempt, Lesson, MockRunPatch } from "./data/types";
@@ -557,7 +556,7 @@ it("starts Your learning path at a set unit when it holds the journey lesson", a
   expect(summaries.map((s) => s.textContent?.slice(0, 22))).toEqual([
     "UNIT 07 · Part 1 of 2W",
     "UNIT 08 · Part 2 of 2W",
-    "UNIT 09 · Part 1 of 4T",
+    "UNIT 09 · Part 1 of 2T",
   ]);
 
   expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
@@ -657,7 +656,7 @@ it("counts a set lesson finished in the practice studio on the path", async () =
   expect(screen.getByText(oneLessonDone)).toBeInTheDocument();
 });
 
-it("opens the weekdays page from the practice studio and counts L01 on the path", async () => {
+it("opens the weekdays page from the practice studio and counts M01 on the path", async () => {
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Weekdays/ })).toHaveTextContent(
@@ -689,7 +688,7 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   );
 });
 
-it("opens the placement page from the practice studio and counts L01 on the path", async () => {
+it("opens the placement page from the practice studio and counts M01 on the path", async () => {
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Where things are/ })).toHaveTextContent(
@@ -720,11 +719,11 @@ it("opens the placement page from the practice studio and counts L01 on the path
   expect(screen.getByRole("button", { name: /In or on/ })).toHaveTextContent("Last score 17/18");
 });
 
-it("opens the time-words page from the practice studio and counts L01 on the path", async () => {
+it("opens the time-words page from the practice studio and counts M01 on the path", async () => {
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Time words/ })).toHaveTextContent(
-    `${timeWordsLessons.length} lessons · hoy, luego, siempre: one new time word per lesson`,
+    "1 lesson · hoy, luego, siempre: two or three at a time",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Time words/ }));
@@ -733,11 +732,11 @@ it("opens the time-words page from the practice studio and counts L01 on the pat
   expect(window.location.pathname).toBe("/practice/time-words");
   fireEvent.click(screen.getByRole("button", { name: /Today/ }));
 
-  expect(session.lesson.id).toBe("tm-l01");
+  expect(session.lesson.id).toBe("tm-m01");
   act(() => session.onComplete(17, 18));
   await settle();
 
-  expect((await saved()).completed).toMatchObject({ "tm-l01": { score: 17, total: 18 } });
+  expect((await saved()).completed).toMatchObject({ "tm-m01": { score: 17, total: 18 } });
 
   changeUrl("/path");
   await settle();

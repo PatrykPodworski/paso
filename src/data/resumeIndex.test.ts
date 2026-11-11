@@ -70,8 +70,8 @@ it("reopens at the teaching cards just before the first exercise without a store
 });
 
 describe("a lesson from the asking-questions set", () => {
-  // L01 opens with its teaching card, then E01, E02 …
-  const setLesson = askingLesson("aq-l01", () => 0);
+  // M01 opens with its teaching card, then T01-N01, T02-N01 …
+  const setLesson = askingLesson("aq-m01", () => 0);
 
   const answeredIds = (...ids: string[]) => {
     const progress = emptySnapshot();
@@ -84,8 +84,8 @@ describe("a lesson from the asking-questions set", () => {
   };
 
   it("reopens an unfinished set lesson at its first exercise without a stored answer", () => {
-    expect(resumeIndex(setLesson, answeredIds("AQ-T01-E01"))).toBe(2);
-    expect(setLesson.questions[2].id).toBe("AQ-T01-E02");
+    expect(resumeIndex(setLesson, answeredIds("AQ-T01-N01"))).toBe(2);
+    expect(setLesson.questions[2].id).toBe("AQ-T02-N01");
   });
 
   it("reopens at the teaching card when only the card was passed", () => {
@@ -94,7 +94,7 @@ describe("a lesson from the asking-questions set", () => {
   });
 
   it("starts a finished set lesson over", () => {
-    const progress = answeredIds("AQ-T01-E01");
+    const progress = answeredIds("AQ-T01-N01");
 
     expect(resumeIndex(setLesson, progress)).toBe(2);
     progress.completed[setLesson.id] = { score: 18, total: 18, at: "2026-11-09T08:00:00.000Z" };
@@ -102,7 +102,7 @@ describe("a lesson from the asking-questions set", () => {
   });
 
   it("starts a practice session made of set questions from its first exercise", () => {
-    const progress = answeredIds("AQ-T01-E01");
+    const progress = answeredIds("AQ-T01-N01");
 
     const session = {
       ...setLesson,

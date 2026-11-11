@@ -1,242 +1,161 @@
 import { describe, expect, it } from "vitest";
 import { randomFrom } from "../random";
 import { askingLesson, askingUnits, lessonFrom } from "./askingQuestions";
-import { l01 } from "./t01";
+import { m01 } from "./m01";
 
 const variations = Array.from(
   { length: 12 },
   (_, i) => `AQ-T01-V${String(i + 1).padStart(2, "0")}`,
 );
 
+const ordersOf = (id: string, from: number) =>
+  [1, 2, 3].map((seed) =>
+    askingLesson(id, randomFrom(seed))
+      .questions.slice(from)
+      .map((q) => q.id)
+      .join(),
+  );
+
 describe("asking questions lessons", () => {
-  it("opens L01 on its introduction, then the base items in order, then every variation", () => {
-    const lesson = askingLesson("aq-l01", randomFrom(1));
+  it("opens M01 on its introduction, then its base items in order, then its variations", () => {
+    const lesson = askingLesson("aq-m01", randomFrom(1));
     const ids = lesson.questions.map((q) => q.id);
 
     expect(lesson).toMatchObject({
-      id: "aq-l01",
-      title: "Asking for things",
-      subtitle: "Learn one new question word",
+      id: "aq-m01",
+      title: "What and how",
+      subtitle: "Learn two question words: qué, cómo",
     });
 
-    expect(lesson.questions[0].kind).toBe("teach");
+    expect(lesson.questions[0]).toMatchObject({
+      id: "AQ-M01-INTRO",
+      kind: "teach",
+      prompt: "New question words: qué, cómo",
+    });
 
-    expect(ids.slice(1, 6)).toEqual([
-      "AQ-T01-E01",
-      "AQ-T01-E02",
-      "AQ-T01-E03",
-      "AQ-T01-E04",
-      "AQ-T01-E05",
+    expect(ids.slice(1, 9)).toEqual([
+      "AQ-T01-N01",
+      "AQ-T02-N01",
+      "AQ-T01-N02",
+      "AQ-T02-N02",
+      "AQ-T01-N03",
+      "AQ-T02-E02",
+      "AQ-T01-N04",
+      "AQ-T02-N03",
     ]);
 
-    expect([...ids.slice(6)].sort()).toEqual(variations);
-  });
+    expect([...ids.slice(9)].sort()).toEqual([
+      "AQ-T01-N05",
+      "AQ-T01-N06",
+      "AQ-T01-N07",
+      "AQ-T01-N08",
+      "AQ-T02-N04",
+      "AQ-T02-N05",
+      "AQ-T02-N06",
+      "AQ-T02-N07",
+    ]);
 
-  it("draws a new variation order each time the lesson opens", () => {
-    const orders = [1, 2, 3].map((seed) =>
-      askingLesson("aq-l01", randomFrom(seed))
-        .questions.slice(6)
-        .map((q) => q.id)
-        .join(),
-    );
-
-    expect(new Set(orders).size).toBe(3);
+    expect(new Set(ordersOf("aq-m01", 9)).size).toBe(3);
   });
 
   it("shows a form card just before the exercise it introduces", () => {
     const lesson = lessonFrom(
       {
-        ...l01,
-        recalled: ["AQ-T01-E06"],
-        formCards: [{ before: "AQ-T01-E03", heading: "Qué before a noun", text: "¿Qué bebida?" }],
+        ...m01,
+        formCards: [{ before: "AQ-T01-N02", heading: "Qué before a noun", text: "¿Qué bebida?" }],
       },
       randomFrom(1),
     );
 
     expect(lesson.questions.slice(0, 6).map((q) => [q.id, q.kind])).toEqual([
-      ["AQ-T01-E06", "choice"],
-      ["AQ-T01-INTRO", "teach"],
-      ["AQ-T01-E01", "choice"],
-      ["AQ-T01-E02", "type"],
-      ["AQ-T01-E03-FORM", "teach"],
-      ["AQ-T01-E03", "order"],
+      ["AQ-M01-INTRO", "teach"],
+      ["AQ-T01-N01", "choice"],
+      ["AQ-T02-N01", "choice"],
+      ["AQ-T01-N02-FORM", "teach"],
+      ["AQ-T01-N02", "choice"],
+      ["AQ-T02-N02", "choice"],
     ]);
   });
 
-  it("opens L02 on the recalled qué item, then cómo's introduction, base items and variations", () => {
-    const lesson = askingLesson("aq-l02", randomFrom(1));
-    const ids = lesson.questions.map((q) => q.id);
-
-    expect(lesson).toMatchObject({ id: "aq-l02", title: "Asking how" });
-
-    expect(ids.slice(0, 9)).toEqual([
-      "AQ-T01-E04",
-      "AQ-T02-INTRO",
-      "AQ-T02-E01",
-      "AQ-T02-E02",
-      "AQ-T02-E03",
-      "AQ-T02-E04",
-      "AQ-T02-E05",
-      "AQ-T01-E06",
-      "AQ-T02-E06",
-    ]);
-
-    expect(lesson.questions[1]).toMatchObject({
-      kind: "teach",
-      explanation: expect.stringContaining("Example: ¿Cómo te llamas?"),
-    });
-
-    expect([...ids.slice(9)].sort()).toEqual(variations.map((id) => id.replace("T01", "T02")));
-  });
-
-  it("draws a new L02 variation order each time the lesson opens", () => {
-    const orders = [1, 2, 3].map((seed) =>
-      askingLesson("aq-l02", randomFrom(seed))
-        .questions.slice(9)
-        .map((q) => q.id)
-        .join(),
-    );
-
-    expect(new Set(orders).size).toBe(3);
-  });
-
-  it("opens L03 on the recalled cómo item, then dónde's introduction, base items and variations", () => {
-    const lesson = askingLesson("aq-l03", randomFrom(1));
-    const ids = lesson.questions.map((q) => q.id);
-
-    expect(lesson).toMatchObject({ id: "aq-l03", title: "Asking where" });
-
-    expect(ids.slice(0, 8)).toEqual([
-      "AQ-T02-E04",
-      "AQ-T03-INTRO",
-      "AQ-T03-E01",
-      "AQ-T03-E02",
-      "AQ-T03-E03",
-      "AQ-T03-E04",
-      "AQ-T03-E05",
-      "AQ-T03-E06",
-    ]);
-
-    expect(lesson.questions[1]).toMatchObject({
-      kind: "teach",
-      explanation: expect.stringContaining("Example: ¿Dónde está el baño?"),
-    });
-
-    expect([...ids.slice(8)].sort()).toEqual(variations.map((id) => id.replace("T01", "T03")));
-  });
-
-  it("draws a new L03 variation order each time the lesson opens", () => {
-    const orders = [1, 2, 3].map((seed) =>
-      askingLesson("aq-l03", randomFrom(seed))
-        .questions.slice(8)
-        .map((q) => q.id)
-        .join(),
-    );
-
-    expect(new Set(orders).size).toBe(3);
-  });
-
-  it("opens L04 on the recalled dónde item, then cuándo's introduction, base items and variations", () => {
-    const lesson = askingLesson("aq-l04", randomFrom(1));
-    const ids = lesson.questions.map((q) => q.id);
-
-    expect(lesson).toMatchObject({ id: "aq-l04", title: "Asking when" });
-
-    expect(ids.slice(0, 8)).toEqual([
-      "AQ-T03-E04",
-      "AQ-T04-INTRO",
-      "AQ-T04-E01",
-      "AQ-T04-E02",
-      "AQ-T04-E03",
-      "AQ-T04-E04",
-      "AQ-T04-E05",
-      "AQ-T04-E06",
-    ]);
-
-    expect(lesson.questions[1]).toMatchObject({
-      kind: "teach",
-      explanation: expect.stringContaining("Example: ¿Cuándo empieza la clase?"),
-    });
-
-    expect([...ids.slice(8)].sort()).toEqual(variations.map((id) => id.replace("T01", "T04")));
-  });
-
-  it("draws a new L04 variation order each time the lesson opens", () => {
-    const orders = [1, 2, 3].map((seed) =>
-      askingLesson("aq-l04", randomFrom(seed))
-        .questions.slice(8)
-        .map((q) => q.id)
-        .join(),
-    );
-
-    expect(new Set(orders).size).toBe(3);
-  });
-
-  it.each([
-    ["aq-l01", "¿Qué quieres?"],
-    ["aq-l02", "¿Cómo te llamas?"],
-    ["aq-l03", "¿Dónde está el baño?"],
-    ["aq-l04", "¿Cuándo empieza la clase?"],
-  ])("gives %s's introduction its example sentence only once", (lessonId, example) => {
-    const introduction = askingLesson(lessonId, randomFrom(1)).questions.find(
-      (q) => q.kind === "teach",
-    );
-
-    expect(introduction?.explanation?.split(example)).toHaveLength(2);
-  });
-
-  it("opens R01 on unit 1's base items, without an introduction, then eight variations", () => {
-    const lesson = askingLesson("aq-r01", randomFrom(1));
+  it("opens M02 on its introduction, then its base items in order, then its variations", () => {
+    const lesson = askingLesson("aq-m02", randomFrom(1));
     const ids = lesson.questions.map((q) => q.id);
 
     expect(lesson).toMatchObject({
-      id: "aq-r01",
+      id: "aq-m02",
+      title: "Where and when",
+      subtitle: "Learn dónde and cuándo, mixed with qué and cómo",
+    });
+
+    expect(lesson.questions[0]).toMatchObject({
+      id: "AQ-M02-INTRO",
+      kind: "teach",
+      prompt: "New question words: dónde, cuándo",
+    });
+
+    expect(ids.slice(1, 9)).toEqual([
+      "AQ-T03-N01",
+      "AQ-T04-N01",
+      "AQ-T03-N02",
+      "AQ-T04-N02",
+      "AQ-T03-E02",
+      "AQ-T04-V01",
+      "AQ-T03-N03",
+      "AQ-T04-N03",
+    ]);
+
+    expect([...ids.slice(9)].sort()).toEqual([
+      "AQ-M02-X01",
+      "AQ-M02-X02",
+      "AQ-M02-X03",
+      "AQ-M02-X04",
+      "AQ-T03-N04",
+      "AQ-T03-N05",
+      "AQ-T03-N06",
+      "AQ-T03-N07",
+      "AQ-T04-N04",
+      "AQ-T04-N05",
+      "AQ-T04-N06",
+      "AQ-T04-N07",
+    ]);
+
+    expect(new Set(ordersOf("aq-m02", 9)).size).toBe(3);
+  });
+
+  it("opens MR01 without an introduction on its twelve items in a drawn order", () => {
+    const lesson = askingLesson("aq-mr01", randomFrom(1));
+
+    expect(lesson).toMatchObject({
+      id: "aq-mr01",
       title: "Unit review",
       subtitle: "Review this unit's lessons",
     });
 
-    expect(ids.slice(0, 8)).toEqual([
-      "AQ-T01-E04",
-      "AQ-T02-E04",
-      "AQ-T03-E04",
-      "AQ-T04-E04",
-      "AQ-T01-E06",
-      "AQ-T02-E06",
-      "AQ-T03-E06",
-      "AQ-T04-E06",
+    expect(lesson.questions.map((q) => q.id).sort()).toEqual([
+      "AQ-T01-N09",
+      "AQ-T01-N10",
+      "AQ-T01-N11",
+      "AQ-T02-N08",
+      "AQ-T02-N09",
+      "AQ-T02-N10",
+      "AQ-T03-N08",
+      "AQ-T03-N09",
+      "AQ-T03-N10",
+      "AQ-T04-N08",
+      "AQ-T04-N09",
+      "AQ-T04-N10",
     ]);
 
-    expect([...ids.slice(8)].sort()).toEqual([
-      "AQ-T01-V04",
-      "AQ-T01-V10",
-      "AQ-T02-V04",
-      "AQ-T02-V10",
-      "AQ-T03-V04",
-      "AQ-T03-V10",
-      "AQ-T04-V04",
-      "AQ-T04-V10",
-    ]);
+    expect(new Set(ordersOf("aq-mr01", 0)).size).toBe(3);
   });
 
-  it("draws a new R01 variation order each time the lesson opens", () => {
-    const orders = [1, 2, 3].map((seed) =>
-      askingLesson("aq-r01", randomFrom(seed))
-        .questions.slice(8)
-        .map((q) => q.id)
-        .join(),
-    );
-
-    expect(new Set(orders).size).toBe(3);
-  });
-
-  it("opens L05 on the recalled cuándo item, then quién's introduction, base items with the quiénes card, and variations", () => {
+  it("opens L05 on quién's introduction, then base items with the quiénes card, and variations", () => {
     const lesson = askingLesson("aq-l05", randomFrom(1));
     const ids = lesson.questions.map((q) => q.id);
 
     expect(lesson).toMatchObject({ id: "aq-l05", title: "Asking who" });
 
-    expect(ids.slice(0, 9)).toEqual([
-      "AQ-T04-E04",
+    expect(ids.slice(0, 8)).toEqual([
       "AQ-T05-INTRO",
       "AQ-T05-E01",
       "AQ-T05-E02",
@@ -247,23 +166,23 @@ describe("asking questions lessons", () => {
       "AQ-T05-E06",
     ]);
 
-    expect(lesson.questions[1]).toMatchObject({
+    expect(lesson.questions[0]).toMatchObject({
       kind: "teach",
       explanation: expect.stringContaining("Example: ¿Quién es? / ¿Quiénes son?"),
     });
 
-    expect(lesson.questions[4]).toMatchObject({
+    expect(lesson.questions[3]).toMatchObject({
       kind: "teach",
       explanation: expect.stringContaining("Example: ¿Quiénes son?"),
     });
 
-    expect([...ids.slice(9)].sort()).toEqual(variations.map((id) => id.replace("T01", "T05")));
+    expect([...ids.slice(8)].sort()).toEqual(variations.map((id) => id.replace("T01", "T05")));
   });
 
   it("draws a new L05 variation order each time the lesson opens", () => {
     const orders = [1, 2, 3].map((seed) =>
       askingLesson("aq-l05", randomFrom(seed))
-        .questions.slice(9)
+        .questions.slice(8)
         .map((q) => q.id)
         .join(),
     );
@@ -972,9 +891,9 @@ describe("asking questions lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists unit 1 with L01 to L04 and R01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L18 and R04", () => {
+  it("lists unit 1 with M01, M02 and MR01, unit 2 with L05 to L08 and R02, unit 3 with L09 to L12 and R03, and unit 4 with L13 to L18 and R04", () => {
     expect(askingUnits.map((u) => [u.id, u.lessons.map((l) => l.id)])).toEqual([
-      ["aq-u1", ["aq-l01", "aq-l02", "aq-l03", "aq-l04", "aq-r01"]],
+      ["aq-u1", ["aq-m01", "aq-m02", "aq-mr01"]],
       ["aq-u2", ["aq-l05", "aq-l06", "aq-l07", "aq-l08", "aq-r02"]],
       ["aq-u3", ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"]],
       ["aq-u4", ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17", "aq-l18", "aq-r04"]],

@@ -22,7 +22,7 @@ describe("practice sets", () => {
     const ids = [...allLessons, ...setLessons].map((l) => l.id);
 
     expect(setLessons.map((l) => l.id)).toEqual(
-      expect.arrayContaining(["aq-l01", "aq-l02", "wd-m01", "pl-m01", "tm-m01"]),
+      expect.arrayContaining(["aq-m01", "aq-m02", "wd-m01", "pl-m01", "tm-m01"]),
     );
 
     expect(unique(ids)).toBe(true);
@@ -35,8 +35,8 @@ describe("practice sets", () => {
 
     expect(setQuestions.map((q) => q.id)).toEqual(
       expect.arrayContaining([
-        "AQ-T01-E01",
-        "AQ-T02-V12",
+        "AQ-T01-N01",
+        "AQ-T02-N07",
         "WD-T01-E01",
         "WD-T01-N08",
         "SP-T01-N01",
@@ -51,7 +51,7 @@ describe("practice sets", () => {
   });
 
   it("finds the set of each set lesson and no set for a course lesson", () => {
-    expect(setOf("aq-l02")?.id).toBe("asking-questions");
+    expect(setOf("aq-m02")?.id).toBe("asking-questions");
     expect(setOf("wd-m01")?.id).toBe("weekdays");
     expect(setOf("pl-m01")?.id).toBe("placement");
     expect(setOf("tm-m01")?.id).toBe("time-words");
@@ -88,7 +88,7 @@ describe("practice sets", () => {
       .flatMap((l) => [l.title, l.subtitle])
       .filter((text) => /\bunit \d|\blessons? \d/i.test(text));
 
-    expect(setLessons.find((l) => l.id === "aq-r01")).toMatchObject({
+    expect(setLessons.find((l) => l.id === "aq-mr01")).toMatchObject({
       title: "Unit review",
       subtitle: "Review this unit's lessons",
     });

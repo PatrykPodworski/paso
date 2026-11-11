@@ -62,10 +62,10 @@ test("complete the first asking-questions lesson and see its score on the set pa
 }) => {
   await page.goto("/practice");
   await page.getByRole("button", { name: "Asking questions", exact: false }).click();
-  await page.getByRole("button", { name: "Asking for things", exact: false }).click();
+  await page.getByRole("button", { name: "What and how", exact: false }).click();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
 
-  for (let i = 0; i < 17; i++) {
+  for (let i = 0; i < 16; i++) {
     const heading = page.getByRole("dialog").getByRole("heading", { level: 2 }).first();
     const prompt = await heading.textContent();
     const q = askingQuestions.find((q) => q.prompt === prompt)!;
@@ -75,11 +75,11 @@ test("complete the first asking-questions lesson and see its score on the set pa
   }
 
   await expect(page.getByRole("heading", { name: "Look at you go." })).toBeVisible();
-  await expect.poll(async () => (await saved(page)).completed["aq-l01"]?.total).toBe(17);
+  await expect.poll(async () => (await saved(page)).completed["aq-m01"]?.total).toBe(16);
   await page.getByRole("button", { name: "Back to my journey" }).click();
 
-  await expect(page.getByRole("button", { name: "Asking for things", exact: false })).toContainText(
-    "Last score 17/17",
+  await expect(page.getByRole("button", { name: "What and how", exact: false })).toContainText(
+    "Last score 16/16",
   );
 });
 

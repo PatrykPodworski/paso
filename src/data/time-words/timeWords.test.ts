@@ -82,6 +82,40 @@ const M05_VARIATIONS = [
   "TM-T14-V11",
 ];
 
+const M06_VARIATIONS = [
+  "TM-T04-V04",
+  "TM-T08-V04",
+  "TM-T10-V04",
+  "TM-T12-V03",
+  "TM-T13-V03",
+  "TM-T14-V03",
+  "TM-T15-E06",
+  "TM-T15-V11",
+  "TM-T16-E06",
+  "TM-T16-V11",
+];
+
+const R02_ORDER = [
+  "TM-T09-V09",
+  "TM-T10-V09",
+  "TM-T11-V09",
+  "TM-T12-V09",
+  "TM-T13-V09",
+  "TM-T14-V09",
+  "TM-T15-V09",
+  "TM-T16-V09",
+  "TM-T09-V10",
+  "TM-T10-V10",
+  "TM-T11-V10",
+  "TM-T12-V10",
+  "TM-T13-V10",
+  "TM-T14-V10",
+  "TM-T15-V10",
+  "TM-T16-V10",
+  "TM-G03",
+  "TM-G04",
+];
+
 describe("time words lessons", () => {
   it.each([1, 2, 3])(
     "opens M01 on its introduction, the three words alternating in the base, then every variation (seed %i)",
@@ -421,7 +455,74 @@ describe("time words lessons", () => {
     expect(new Set(orders).size).toBe(3);
   });
 
-  it("lists two units after course unit 5, unit 2 with its first lessons so far", () => {
+  it.each([1, 2, 3])(
+    "opens M06 on its introduction, desde and hasta alternating in the base, then its variations and the mixed-in words of earlier lessons (seed %i)",
+    (seed) => {
+      const lesson = timeWordsLesson("tm-m06", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "tm-m06",
+        title: "From and until",
+        subtitle: "desde, hasta",
+      });
+
+      expect(lesson.questions.slice(0, 9).map((q) => [q.id, q.kind])).toEqual([
+        ["TM-M06-INTRO", "teach"],
+        ["TM-T15-E01", "choice"],
+        ["TM-T16-E01", "choice"],
+        ["TM-T15-E03", "type"],
+        ["TM-T16-E03", "type"],
+        ["TM-T15-E04", "type"],
+        ["TM-T16-E04", "type"],
+        ["TM-T15-E05", "type"],
+        ["TM-T16-E05", "type"],
+      ]);
+
+      expect(
+        lesson.questions
+          .slice(9)
+          .map((q) => q.id)
+          .sort(),
+      ).toEqual(M06_VARIATIONS);
+    },
+  );
+
+  it("introduces desde and hasta on one card", () => {
+    const [intro] = timeWordsLesson("tm-m06", randomFrom(1)).questions;
+
+    expect([intro.prompt, intro.explanation]).toEqual([
+      "New words: desde, hasta",
+      "desde means from, and gives the start time. Example: Trabajo desde las nueve. hasta means until, and gives the end time. Example: Trabajo hasta las cinco.",
+    ]);
+  });
+
+  it("draws a new M06 variation order each time the lesson opens", () => {
+    const orders = [1, 2, 3].map((seed) =>
+      timeWordsLesson("tm-m06", randomFrom(seed))
+        .questions.slice(9)
+        .map((q) => q.id)
+        .join(),
+    );
+
+    expect(new Set(orders).size).toBe(3);
+  });
+
+  it.each([1, 2, 3])(
+    "opens R02 without an introduction, in its written order on every opening (seed %i)",
+    (seed) => {
+      const lesson = timeWordsLesson("tm-r02", randomFrom(seed));
+
+      expect(lesson).toMatchObject({
+        id: "tm-r02",
+        title: "Unit review",
+        subtitle: "Review this unit's lessons",
+      });
+
+      expect(lesson.questions.map((q) => q.id)).toEqual(R02_ORDER);
+    },
+  );
+
+  it("lists two units after course unit 5, each with its three lessons and its review", () => {
     expect(
       timeWordsUnits.map((u) => [u.id, u.after, u.subtitle, u.lessons.map((l) => l.id)]),
     ).toEqual([
@@ -431,7 +532,12 @@ describe("time words lessons", () => {
         "hoy, ahora, antes, temprano and more",
         ["tm-m01", "tm-m02", "tm-m03", "tm-r01"],
       ],
-      ["tm-u2", 5, "por la mañana, siempre, desde and more", ["tm-m04", "tm-m05"]],
+      [
+        "tm-u2",
+        5,
+        "por la mañana, siempre, desde and more",
+        ["tm-m04", "tm-m05", "tm-m06", "tm-r02"],
+      ],
     ]);
   });
 });

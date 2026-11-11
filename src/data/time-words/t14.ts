@@ -75,4 +75,37 @@ export const t14Items: Item[] = [
       "Diego works on none of the 4 Saturdays this month. So: Diego nunca trabaja los sábados.",
     hints,
   },
+  {
+    id: "TM-T14-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo studies at home on none of the 7 days this week.",
+    prompt: "Pablo ___ estudia en casa.",
+    answer: "nunca",
+    say: "Pablo nunca estudia en casa.",
+    feedback:
+      "Pablo studies at home on none of the 7 days this week. So: Pablo nunca estudia en casa.",
+    hints,
+  },
+  {
+    id: "TM-T14-V09",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo eats at home on none of the 7 days this week.",
+    prompt: "Pablo ___ come en casa.",
+    answer: "nunca",
+    say: "Pablo nunca come en casa.",
+    feedback: "Pablo eats at home on none of the 7 days this week. So: Pablo nunca come en casa.",
+    hints,
+  },
+  {
+    id: "TM-T14-V10",
+    mode: "cloze",
+    instruction:
+      "Translate into Spanish. Luis has bread for breakfast on none of the 7 days this week.",
+    prompt: "Luis never has bread for breakfast.",
+    answer: "Luis nunca desayuna pan.",
+    accepted: ["Luis no desayuna nunca pan.", "Luis no desayuna pan nunca."],
+    say: "Luis nunca desayuna pan.",
+    feedback: "One right answer: Luis nunca desayuna pan.",
+    hints,
+  },
 ];

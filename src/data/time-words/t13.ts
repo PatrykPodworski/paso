@@ -77,4 +77,37 @@ export const t13Items: Item[] = [
       "Tomás works on 2 of the 4 Saturdays this month. So: Tomás a veces trabaja los sábados.",
     hints,
   },
+  {
+    id: "TM-T13-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. I eat at the office on 2 of the 7 days this week.",
+    prompt: "Yo ___ como en la oficina.",
+    answer: "a veces",
+    say: "Yo a veces como en la oficina.",
+    feedback:
+      "I eat at the office on 2 of the 7 days this week. So: Yo a veces como en la oficina.",
+    hints,
+  },
+  {
+    id: "TM-T13-V09",
+    mode: "cloze",
+    instruction: "Complete the gap. Luis eats at home on 2 of the 7 days this week.",
+    prompt: "Luis ___ come en casa.",
+    answer: "a veces",
+    say: "Luis a veces come en casa.",
+    feedback: "Luis eats at home on 2 of the 7 days this week. So: Luis a veces come en casa.",
+    hints,
+  },
+  {
+    id: "TM-T13-V10",
+    mode: "cloze",
+    instruction:
+      "Translate into Spanish. Diego has bread for breakfast on 2 of the 7 days this week.",
+    prompt: "Diego sometimes has bread for breakfast.",
+    answer: "Diego a veces desayuna pan.",
+    accepted: ["A veces Diego desayuna pan.", "Diego desayuna pan a veces."],
+    say: "Diego a veces desayuna pan.",
+    feedback: "One right answer: Diego a veces desayuna pan.",
+    hints,
+  },
 ];

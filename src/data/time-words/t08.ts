@@ -94,6 +94,22 @@ export const t08Items: Item[] = [
     hints,
   },
   {
+    id: "TM-T08-V04",
+    mode: "cloze",
+    instruction:
+      "Translate into Spanish. Pablo usually goes to bed at 23:00. Today he goes to bed at 2:00.",
+    prompt: "Today Pablo goes to bed late.",
+    answer: "Hoy Pablo se acuesta tarde.",
+    accepted: [
+      "Pablo se acuesta tarde hoy.",
+      "Hoy Pablo se acuesta más tarde.",
+      "Pablo se acuesta más tarde hoy.",
+    ],
+    say: "Hoy Pablo se acuesta tarde.",
+    feedback: "One right answer: Hoy Pablo se acuesta tarde.",
+    hints,
+  },
+  {
     id: "TM-T08-V09",
     mode: "cloze",
     instruction:

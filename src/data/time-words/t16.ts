@@ -1,0 +1,102 @@
+import type { Item } from "../practice-sets/item.ts";
+
+// T16, hasta: until (an end time).
+const hints: [string, string] = [
+  "The time given is the end.",
+  "It starts with an h-, which you do not hear: has-.",
+];
+
+export const t16Items: Item[] = [
+  {
+    id: "TM-T16-E01",
+    mode: "choice",
+    instruction: "Choose the English meaning",
+    prompt: "hasta",
+    answer: "until (an end time)",
+    choices: ["until (an end time)", "from (a start time)", "before, earlier"],
+    say: "hasta",
+    feedback: "hasta means until (an end time).",
+    hints,
+  },
+  {
+    id: "TM-T16-E03",
+    mode: "cloze",
+    instruction: "Write it in Spanish",
+    prompt: "until (an end time)",
+    answer: "hasta",
+    say: "hasta",
+    feedback: "Until (an end time) is hasta.",
+    hints,
+  },
+  {
+    id: "TM-T16-E04",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo is at the office from 7:00 to 9:00. Say when it ends.",
+    prompt: "Pablo está en la oficina ___ las nueve.",
+    answer: "hasta",
+    say: "Pablo está en la oficina hasta las nueve.",
+    feedback:
+      "Pablo is at the office from 7:00 to 9:00. So: Pablo está en la oficina hasta las nueve.",
+    hints,
+  },
+  {
+    id: "TM-T16-E05",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Luis studies from 13:00 to 15:00. Say when it ends.",
+    prompt: "Luis studies until 15:00.",
+    answer: "Luis estudia hasta las tres.",
+    accepted: ["Hasta las tres Luis estudia."],
+    say: "Luis estudia hasta las tres.",
+    feedback: "One right answer: Luis estudia hasta las tres.",
+    hints,
+  },
+  {
+    id: "TM-T16-E06",
+    mode: "choice",
+    instruction: "Which situation fits this sentence?",
+    prompt: "Diego está en casa hasta las cinco.",
+    answer: "Diego is at home from 15:00 to 17:00.",
+    choices: [
+      "Diego is at home from 15:00 to 17:00.",
+      "Diego is at home from 17:00 to 19:00.",
+      "Diego is at home from 12:00 to 13:00.",
+    ],
+    say: "Diego está en casa hasta las cinco.",
+    feedback: "hasta means until (an end time): Diego is at home from 15:00 to 17:00.",
+    hints,
+  },
+  {
+    id: "TM-T16-V11",
+    mode: "choice",
+    instruction:
+      "Choose the word for the gap. Tomás is at home from 18:00 to 21:00. Say when it ends.",
+    prompt: "Tomás está en casa ___ las nueve.",
+    answer: "hasta",
+    choices: ["hasta", "desde", "antes"],
+    say: "Tomás está en casa hasta las nueve.",
+    feedback: "Tomás is at home from 18:00 to 21:00. So: Tomás está en casa hasta las nueve.",
+    hints,
+  },
+  {
+    id: "TM-T16-V09",
+    mode: "cloze",
+    instruction: "Complete the gap. Luis is at the office from 8:00 to 15:00. Say when it ends.",
+    prompt: "Luis está en la oficina ___ las tres.",
+    answer: "hasta",
+    say: "Luis está en la oficina hasta las tres.",
+    feedback:
+      "Luis is at the office from 8:00 to 15:00. So: Luis está en la oficina hasta las tres.",
+    hints,
+  },
+  {
+    id: "TM-T16-V10",
+    mode: "cloze",
+    instruction: "Translate into Spanish. Diego studies from 16:00 to 18:00. Say when it ends.",
+    prompt: "Diego studies until 18:00.",
+    answer: "Diego estudia hasta las seis.",
+    accepted: ["Hasta las seis Diego estudia."],
+    say: "Diego estudia hasta las seis.",
+    feedback: "One right answer: Diego estudia hasta las seis.",
+    hints,
+  },
+];

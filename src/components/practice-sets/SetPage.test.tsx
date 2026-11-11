@@ -22,14 +22,14 @@ it("heads each unit with its path number and what it teaches, each lesson with i
   render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
+    "Unit 14",
     "Unit 15",
-    "Unit 16",
-    "Unit 18",
-    "Unit 20",
+    "Unit 17",
+    "Unit 19",
   ]);
 
-  expect(screen.getByRole("region", { name: "Unit 18" })).toHaveTextContent(
-    /^Unit 18a qué hora, de dónde, adónde, con quién/,
+  expect(screen.getByRole("region", { name: "Unit 17" })).toHaveTextContent(
+    /^Unit 17a qué hora, de dónde, adónde, con quién/,
   );
 
   expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
@@ -60,7 +60,7 @@ it("opens a lesson with its variations in a new order each time", () => {
   expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBeGreaterThan(1);
 });
 
-it("lists the three weekdays units", () => {
+it("lists the two weekdays units", () => {
   render(<SetPage set={weekdaysSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Weekdays.");
@@ -68,11 +68,10 @@ it("lists the three weekdays units", () => {
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     "Unit 7",
     "Unit 8",
-    "Unit 9",
   ]);
 
-  expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent(
-    "MondayLearn one new day18 exercises",
+  expect(screen.getByRole("button", { name: /^Monday to Wednesday/ })).toHaveTextContent(
+    "Monday to WednesdayLearn three new days21 exercises",
   );
 });
 
@@ -106,7 +105,7 @@ it("lists the time-words unit with L01 under its path number", () => {
   ).toBeInTheDocument();
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 10",
+    "Unit 9",
   ]);
 
   expect(screen.getByRole("button", { name: /Today/ })).toHaveTextContent(

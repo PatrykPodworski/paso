@@ -1,5 +1,4 @@
-import { teachingCard, type Item } from "../practice-sets/item.ts";
-import type { SetLesson } from "../practice-sets/setLesson.ts";
+import type { Item } from "../practice-sets/item.ts";
 
 // T01, lunes: Monday, the first day of the Spanish week.
 const meaning: [string, string] = [
@@ -21,7 +20,7 @@ export const t01Items: Item[] = [
     mode: "choice",
     prompt: "Choose the English meaning of “lunes”.",
     answer: "Monday",
-    choices: ["Monday", "Sunday", "Tuesday"],
+    choices: ["Monday", "Tuesday", "Wednesday"],
     say: "lunes",
     feedback: "lunes means Monday.",
     hints: meaning,
@@ -122,35 +121,6 @@ export const t01Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T01-V06",
-    mode: "cloze",
-    prompt:
-      "Luis has an appointment on Monday. Write the full Spanish sentence using exactly this frame: Luis tiene una cita el ___.",
-    answer: "Luis tiene una cita el lunes.",
-    say: "Luis tiene una cita el lunes.",
-    feedback: `${inFrame} Full example: Luis tiene una cita el lunes.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T01-V07",
-    mode: "cloze",
-    prompt: "You visit on Monday. Complete only the gap: Tu visita es el ___.",
-    answer: "lunes",
-    say: "Tu visita es el lunes.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T01-V08",
-    mode: "cloze",
-    prompt:
-      "You visit on Monday. Write the full Spanish sentence using exactly this frame: Tu visita es el ___.",
-    answer: "Tu visita es el lunes.",
-    say: "Tu visita es el lunes.",
-    feedback: `${inFrame} Full example: Tu visita es el lunes.`,
-    hints: spanish,
-  },
-  {
     id: "WD-T01-V09",
     mode: "cloze",
     prompt: "The course starts on Mondays. Complete only the gap: El curso empieza los ___.",
@@ -173,15 +143,6 @@ export const t01Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T01-V11",
-    mode: "cloze",
-    prompt: "The museum opens on Mondays. Complete only the gap: El museo abre los ___.",
-    answer: "lunes",
-    say: "El museo abre los lunes.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
     id: "WD-T01-V12",
     mode: "sentence",
     prompt:
@@ -195,28 +156,3 @@ export const t01Items: Item[] = [
     hints: spanish,
   },
 ];
-
-const t01Introduction = teachingCard(
-  "WD-T01-INTRO",
-  "New day: lunes",
-  "lunes means Monday. It comes from la Luna, the Moon. Example: Hoy es lunes.",
-);
-
-const variations = t01Items.map((i) => i.id).filter((id) => id.startsWith("WD-T01-V"));
-
-export const l01: SetLesson = {
-  id: "wd-l01",
-  title: "Monday",
-  subtitle: "Learn one new day",
-  recalled: [],
-  introduction: t01Introduction,
-  base: ["WD-T01-E01", "WD-T01-E02", "WD-T01-E03", "WD-T01-E04", "WD-T01-E05", "WD-T01-E06"],
-  formCards: [
-    {
-      before: "WD-T01-E04",
-      heading: "el lunes, los lunes",
-      text: "el lunes is one Monday. los lunes is every Monday: the word stays the same. Days are written in lowercase.",
-    },
-  ],
-  variations,
-};

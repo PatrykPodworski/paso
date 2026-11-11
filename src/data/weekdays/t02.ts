@@ -1,5 +1,4 @@
-import { teachingCard, type Item } from "../practice-sets/item.ts";
-import type { SetLesson } from "../practice-sets/setLesson.ts";
+import type { Item } from "../practice-sets/item.ts";
 
 // T02, martes: Tuesday, the second day of the Spanish week.
 const meaning: [string, string] = [
@@ -121,44 +120,6 @@ export const t02Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T02-V06",
-    mode: "cloze",
-    prompt:
-      "Luis comes on Tuesday. Write the full Spanish sentence using exactly this frame: Luis viene el ___.",
-    answer: "Luis viene el martes.",
-    say: "Luis viene el martes.",
-    feedback: `${inFrame} Full example: Luis viene el martes.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T02-V07",
-    mode: "cloze",
-    prompt: "Your appointment is Tuesday. Complete only the gap: Tu cita es el ___.",
-    answer: "martes",
-    say: "Tu cita es el martes.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T02-V08",
-    mode: "cloze",
-    prompt:
-      "Your appointment is Tuesday. Write the full Spanish sentence using exactly this frame: Tu cita es el ___.",
-    answer: "Tu cita es el martes.",
-    say: "Tu cita es el martes.",
-    feedback: `${inFrame} Full example: Tu cita es el martes.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T02-V09",
-    mode: "cloze",
-    prompt: "I work on Tuesdays. Complete only the gap: Trabajo los ___.",
-    answer: "martes",
-    say: "Trabajo los martes.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
     id: "WD-T02-V10",
     mode: "sentence",
     prompt:
@@ -194,28 +155,3 @@ export const t02Items: Item[] = [
     hints: spanish,
   },
 ];
-
-const t02Introduction = teachingCard(
-  "WD-T02-INTRO",
-  "New day: martes",
-  "martes means Tuesday. It comes from Marte, Mars. Example: La clase es el martes.",
-);
-
-const variations = t02Items.map((i) => i.id).filter((id) => id.startsWith("WD-T02-V"));
-
-export const l02: SetLesson = {
-  id: "wd-l02",
-  title: "Tuesday",
-  subtitle: "Learn one new day",
-  recalled: ["WD-T01-V04"],
-  introduction: t02Introduction,
-  base: ["WD-T02-E01", "WD-T02-E02", "WD-T02-E03", "WD-T02-E04", "WD-T02-E05", "WD-T02-E06"],
-  formCards: [
-    {
-      before: "WD-T02-E04",
-      heading: "el martes, los martes",
-      text: "el martes is one Tuesday. los martes is every Tuesday: the word stays the same. Days are written in lowercase.",
-    },
-  ],
-  variations,
-};

@@ -22,7 +22,7 @@ describe("practice sets", () => {
     const ids = [...allLessons, ...setLessons].map((l) => l.id);
 
     expect(setLessons.map((l) => l.id)).toEqual(
-      expect.arrayContaining(["aq-l01", "aq-l02", "wd-l01", "pl-l01", "tm-l01"]),
+      expect.arrayContaining(["aq-l01", "aq-l02", "wd-m01", "pl-l01", "tm-l01"]),
     );
 
     expect(unique(ids)).toBe(true);
@@ -52,7 +52,7 @@ describe("practice sets", () => {
 
   it("finds the set of each set lesson and no set for a course lesson", () => {
     expect(setOf("aq-l02")?.id).toBe("asking-questions");
-    expect(setOf("wd-l01")?.id).toBe("weekdays");
+    expect(setOf("wd-m01")?.id).toBe("weekdays");
     expect(setOf("pl-l01")?.id).toBe("placement");
     expect(setOf("tm-l01")?.id).toBe("time-words");
 
@@ -66,7 +66,7 @@ describe("practice sets", () => {
   it("places every set unit after a course unit, never before an earlier unit of the set", () => {
     expect(practiceSets.map((s) => s.units.map((u) => u.after))).toEqual([
       [9, 9, 10, 11],
-      [5, 5, 5],
+      [5, 5],
       [4, 4, 4, 4],
       [5, 5, 5, 5],
     ]);

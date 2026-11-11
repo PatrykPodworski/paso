@@ -1,5 +1,4 @@
-import { teachingCard, type Item } from "../practice-sets/item.ts";
-import type { SetLesson } from "../practice-sets/setLesson.ts";
+import type { Item } from "../practice-sets/item.ts";
 
 // T06, sábado: Saturday, the sixth day of the Spanish week.
 const meaning: [string, string] = [
@@ -29,7 +28,7 @@ export const t06Items: Item[] = [
     mode: "choice",
     prompt: "Choose the English meaning of “sábado”.",
     answer: "Saturday",
-    choices: ["Saturday", "Friday", "Sunday"],
+    choices: ["Saturday", "Sunday", "Friday"],
     say: "sábado",
     feedback: "sábado means Saturday.",
     hints: meaning,
@@ -91,25 +90,6 @@ export const t06Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T06-V02",
-    mode: "cloze",
-    prompt:
-      "Pablo goes to the museum Saturday. Write the full Spanish sentence using exactly this frame: Pablo va al museo el ___.",
-    answer: "Pablo va al museo el sábado.",
-    say: "Pablo va al museo el sábado.",
-    feedback: `${inFrame} Full example: Pablo va al museo el sábado.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T06-V03",
-    mode: "cloze",
-    prompt: "My visit is Saturday. Complete only the gap: Mi visita es el ___.",
-    answer: "sábado",
-    say: "Mi visita es el sábado.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
     id: "WD-T06-V04",
     mode: "cloze",
     prompt:
@@ -117,44 +97,6 @@ export const t06Items: Item[] = [
     answer: "Mi visita es el sábado.",
     say: "Mi visita es el sábado.",
     feedback: `${inFrame} Full example: Mi visita es el sábado.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T06-V05",
-    mode: "cloze",
-    prompt: "Luis has an appointment Saturday. Complete only the gap: Luis tiene una cita el ___.",
-    answer: "sábado",
-    say: "Luis tiene una cita el sábado.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T06-V06",
-    mode: "cloze",
-    prompt:
-      "Luis has an appointment Saturday. Write the full Spanish sentence using exactly this frame: Luis tiene una cita el ___.",
-    answer: "Luis tiene una cita el sábado.",
-    say: "Luis tiene una cita el sábado.",
-    feedback: `${inFrame} Full example: Luis tiene una cita el sábado.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T06-V07",
-    mode: "cloze",
-    prompt: "You have class Saturday. Complete only the gap: Tienes clase el ___.",
-    answer: "sábado",
-    say: "Tienes clase el sábado.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T06-V08",
-    mode: "cloze",
-    prompt:
-      "You have class Saturday. Write the full Spanish sentence using exactly this frame: Tienes clase el ___.",
-    answer: "Tienes clase el sábado.",
-    say: "Tienes clase el sábado.",
-    feedback: `${inFrame} Full example: Tienes clase el sábado.`,
     hints: spanish,
   },
   {
@@ -179,62 +121,4 @@ export const t06Items: Item[] = [
     feedback: "Model answer: Trabajo los sábados. Other wording can be right too.",
     hints: everySaturday,
   },
-  {
-    id: "WD-T06-V11",
-    mode: "cloze",
-    prompt: "The shop opens on Saturdays. Complete only the gap: La tienda abre los ___.",
-    answer: "sábados",
-    say: "La tienda abre los sábados.",
-    feedback: inFrameEvery,
-    hints: everySaturday,
-  },
-  {
-    id: "WD-T06-V12",
-    mode: "sentence",
-    prompt:
-      "The shop opens on Saturdays. Express this stated fact naturally in Spanish. Keep the speaker and reference person as stated.",
-    answer: "La tienda abre los sábados.",
-    constraints: [
-      "Uses los sábados for every Saturday",
-      "Keeps the fact and the people of the situation",
-    ],
-    feedback: "Model answer: La tienda abre los sábados. Other wording can be right too.",
-    hints: everySaturday,
-  },
 ];
-
-const t06Introduction = teachingCard(
-  "WD-T06-INTRO",
-  "New day: sábado",
-  "sábado means Saturday. It comes from the Sabbath, the day of rest. Example: Hoy es sábado. Write it with the accent on the á.",
-);
-
-const variations = t06Items.map((i) => i.id).filter((id) => id.startsWith("WD-T06-V"));
-
-export const l06: SetLesson = {
-  id: "wd-l06",
-  title: "Saturday",
-  subtitle: "Learn one new day",
-  recalled: ["WD-T05-V04"],
-  introduction: t06Introduction,
-  base: ["WD-T06-E01", "WD-T06-E02", "WD-T06-E03", "WD-T06-E04", "WD-T06-E05", "WD-T06-E06"],
-  formCards: [
-    {
-      before: "WD-T06-E04",
-      heading: "el sábado, los sábados",
-      text: "el sábado is one Saturday. los sábados is every Saturday: add -s. Days are written in lowercase.",
-    },
-  ],
-  variations,
-};
-
-// R02 closes unit 2: each day's full sentence again, in the days' order, with no cards.
-export const r02: SetLesson = {
-  id: "wd-r02",
-  title: "Unit review",
-  subtitle: "Review this unit's lessons",
-  recalled: [],
-  base: ["WD-T04-V04", "WD-T05-V04", "WD-T06-V04"],
-  formCards: [],
-  variations: [],
-};

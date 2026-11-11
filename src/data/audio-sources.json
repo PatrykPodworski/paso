@@ -29583,18 +29583,6 @@
       "method": "make-sentences"
     }
   },
-  "8jtqz0": {
-    "src": "/audio/voxcpm/359919825da6565bfd97fefe.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Tu visita es el lunes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1dadntg": {
     "src": "/audio/voxcpm/4e44bb1a6cccea56bb18c962.mp3",
     "voiceId": "es-male-teacher",
@@ -29631,36 +29619,11 @@
       "method": "make-sentences"
     }
   },
-  "szgz7k": {
-    "src": "/audio/voxcpm/2d987b79f718abd1bfd16643.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "El museo abre los lunes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "j5q78f": {
     "src": "/audio/voxcpm/d23151f21c36215172b45d30.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "La clase es el martes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "nuwyv6": {
-    "src": "/audio/voxcpm/807be04f8e39f13ad4d702a4.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Tu cita es el martes.",
-    "spokenText": "Tu Cita es el martes.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -29716,18 +29679,6 @@
       "method": "make-sentences"
     }
   },
-  "qodwe4": {
-    "src": "/audio/voxcpm/e425bcc3758813a5647d857d.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Trabajo los martes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1809dxg": {
     "src": "/audio/voxcpm/de25ba8f4a00f72f4d064a9a.mp3",
     "voiceId": "es-male-teacher",
@@ -29764,35 +29715,11 @@
       "method": "make-sentences"
     }
   },
-  "ulyk37": {
-    "src": "/audio/voxcpm/80c2c7e53270525914f2f29f.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Vas en tren el miércoles.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "6v2xzu": {
     "src": "/audio/voxcpm/7c6ec69f9400e054710f47ea.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "El curso de Pablo empieza el miércoles.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "ccif55": {
-    "src": "/audio/voxcpm/eeaf2861b23234eba6d4fa0e.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Estudio los miércoles.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -29872,30 +29799,6 @@
       "method": "make-sentences"
     }
   },
-  "10bumr4": {
-    "src": "/audio/voxcpm/91eb2bd1f570382c3f92fd09.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Tu curso empieza el jueves.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1ebqxzh": {
-    "src": "/audio/voxcpm/02e23b16adeb62fd9383cba9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "El museo abre los jueves.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1bqtxeu": {
     "src": "/audio/voxcpm/67ff7ace8ad37f1f856231b1.mp3",
     "voiceId": "es-male-teacher",
@@ -29944,35 +29847,11 @@
       "method": "make-sentences"
     }
   },
-  "b0ie5y": {
-    "src": "/audio/voxcpm/3f9122c06096215d3cc086ae.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Estudio los viernes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "chgdcd": {
     "src": "/audio/voxcpm/4cd2f0fbd397c9ca48eb534e.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Pablo viene el viernes.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "hpbs22": {
-    "src": "/audio/voxcpm/52b449ea792daf0d5d43bbad.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Trabajas el viernes.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -30004,18 +29883,6 @@
       "method": "make-sentences"
     }
   },
-  "fsdu5": {
-    "src": "/audio/voxcpm/baeaefcb2442a2e3fe97ac91.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Luis tiene una cita el sábado.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1umte5o": {
     "src": "/audio/voxcpm/09dd32f486bdd65c66a48f7c.mp3",
     "voiceId": "es-male-teacher",
@@ -30028,35 +29895,11 @@
       "method": "make-sentences"
     }
   },
-  "15dg18e": {
-    "src": "/audio/voxcpm/587945dcaab151b41fd2f88a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Tienes clase el sábado.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "14qskg7": {
     "src": "/audio/voxcpm/114cc05850a81a53e7b7a48c.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Pablo va al museo el sábado.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "w4vz4": {
-    "src": "/audio/voxcpm/5d054d3c72f9e64a85766c02.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "La tienda abre los sábados.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -30112,36 +29955,12 @@
       "method": "make-sentences"
     }
   },
-  "1ogfad6": {
-    "src": "/audio/voxcpm/3593875849e87e556619215d.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Tengo clase los domingos.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "12mrcl1": {
     "src": "/audio/voxcpm/a75412a60406505e1abcd6a1.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "Tu cita es el domingo.",
     "spokenText": "tu cita es el domingo.",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "10v3kz1": {
-    "src": "/audio/voxcpm/0a2c3e27926db2ef7e40f488.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "Luis tiene una reunión el domingo.",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,

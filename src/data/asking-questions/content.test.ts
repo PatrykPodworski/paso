@@ -37,14 +37,18 @@ describe("asking questions content", () => {
         "AQ-M03-X04",
         "AQ-M04-X01",
         "AQ-M04-X04",
-        "AQ-T09-E01",
-        "AQ-T09-V12",
-        "AQ-T10-E01",
-        "AQ-T10-V12",
-        "AQ-T11-E01",
-        "AQ-T11-V12",
-        "AQ-T12-E01",
-        "AQ-T12-V12",
+        "AQ-T09-N01",
+        "AQ-T09-N11",
+        "AQ-T10-N01",
+        "AQ-T10-N11",
+        "AQ-T11-N01",
+        "AQ-T11-N11",
+        "AQ-T12-N01",
+        "AQ-T12-N11",
+        "AQ-M05-X01",
+        "AQ-M05-X04",
+        "AQ-M06-X01",
+        "AQ-M06-X04",
         "AQ-T13-E01",
         "AQ-T13-V12",
         "AQ-T14-E01",
@@ -95,141 +99,6 @@ describe("asking questions content", () => {
       expect(q.hints, q.id).toHaveLength(2);
       expect(blank, q.id).toEqual([]);
     }
-  });
-
-  it("authors six base items and twelve variations for a qué hora", () => {
-    expect(ids("AQ-T09-E")).toEqual([
-      "AQ-T09-E01",
-      "AQ-T09-E02",
-      "AQ-T09-E03",
-      "AQ-T09-E04",
-      "AQ-T09-E05",
-      "AQ-T09-E06",
-    ]);
-
-    expect(ids("AQ-T09-V")).toHaveLength(12);
-  });
-
-  it("accepts a qué hora, notes a missing accent and rejects qué alone", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T09-V01")!;
-
-    expect([isCorrect(q, "A qué hora"), isCorrect(q, "qué")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "a que hora")).toBe("a qué hora");
-  });
-
-  it("accepts the typed a qué hora question and rejects the broader cuándo one", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T09-E04")!;
-
-    expect(isCorrect(q, "¿A qué hora sale el tren?")).toBe(true);
-    expect(isCorrect(q, "¿Cuándo sale el tren?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for de dónde", () => {
-    expect(ids("AQ-T10-E")).toEqual([
-      "AQ-T10-E01",
-      "AQ-T10-E02",
-      "AQ-T10-E03",
-      "AQ-T10-E04",
-      "AQ-T10-E05",
-      "AQ-T10-E06",
-    ]);
-
-    expect(ids("AQ-T10-V")).toHaveLength(12);
-  });
-
-  it("accepts de dónde, notes a missing accent and rejects dónde alone", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T10-V01")!;
-
-    expect([isCorrect(q, "De dónde"), isCorrect(q, "dónde")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "de donde")).toBe("de dónde");
-  });
-
-  it("accepts the typed origin question and rejects the current-location one", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T10-E04")!;
-
-    expect(isCorrect(q, "¿De dónde eres?")).toBe(true);
-    expect(isCorrect(q, "¿Dónde estás?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for adónde", () => {
-    expect(ids("AQ-T11-E")).toEqual([
-      "AQ-T11-E01",
-      "AQ-T11-E02",
-      "AQ-T11-E03",
-      "AQ-T11-E04",
-      "AQ-T11-E05",
-      "AQ-T11-E06",
-    ]);
-
-    expect(ids("AQ-T11-V")).toHaveLength(12);
-  });
-
-  it("accepts both destination spellings in every adónde cloze and rejects de dónde", () => {
-    for (const id of ["AQ-T11-E02", "AQ-T11-V01", "AQ-T11-V02", "AQ-T11-V07", "AQ-T11-V08"]) {
-      const q = askingQuestions.find((q) => q.id === id)!;
-
-      expect(
-        [isCorrect(q, "Adónde"), isCorrect(q, "a dónde"), isCorrect(q, "de dónde")],
-        id,
-      ).toEqual([true, true, false]);
-    }
-  });
-
-  it("notes a missing accent on either destination spelling", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T11-V01")!;
-
-    expect([accentOnlyAnswer(q, "adonde"), accentOnlyAnswer(q, "a donde")]).toEqual([
-      "adónde",
-      "a dónde",
-    ]);
-  });
-
-  it.each([
-    ["AQ-T11-E04", "¿A dónde vas?", "¿De dónde vas?"],
-    ["AQ-T11-V04", "¿A dónde vas?", "¿De dónde vas?"],
-    ["AQ-T11-V05", "¿A dónde va Pablo?", "¿De dónde va Pablo?"],
-    ["AQ-T11-V10", "¿A dónde va el tren?", "¿De dónde va el tren?"],
-    ["AQ-T11-V11", "¿A dónde vas en autobús?", "¿De dónde vas en autobús?"],
-  ])(
-    "accepts the two-word destination question in %s and rejects the origin one",
-    (id, two, origin) => {
-      const q = askingQuestions.find((q) => q.id === id)!;
-
-      expect([isCorrect(q, two), isCorrect(q, origin)]).toEqual([true, false]);
-    },
-  );
-
-  it("authors six base items and twelve variations for con quién", () => {
-    expect(ids("AQ-T12-E")).toEqual([
-      "AQ-T12-E01",
-      "AQ-T12-E02",
-      "AQ-T12-E03",
-      "AQ-T12-E04",
-      "AQ-T12-E05",
-      "AQ-T12-E06",
-    ]);
-
-    expect(ids("AQ-T12-V")).toHaveLength(12);
-  });
-
-  it("accepts con quién, notes a missing accent and rejects quién without con", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T12-V01")!;
-
-    expect([isCorrect(q, "Con quién"), isCorrect(q, "quién")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "con quien")).toBe("con quién");
-  });
-
-  it("accepts the plural con quiénes for several companions and rejects the singular", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T12-V08")!;
-
-    expect([isCorrect(q, "con quiénes"), isCorrect(q, "con quién")]).toEqual([true, false]);
-  });
-
-  it("accepts the typed companion question and rejects one that asks who is going", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T12-E04")!;
-
-    expect(isCorrect(q, "¿Con quién vas?")).toBe(true);
-    expect(isCorrect(q, "¿Quién va?")).toBe(false);
   });
 
   it("authors six base items and twelve variations for de quién", () => {
@@ -430,18 +299,6 @@ describe("asking questions content", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
     expect(silent).toEqual([
-      "AQ-T09-E05",
-      "AQ-T09-V06",
-      "AQ-T09-V12",
-      "AQ-T10-E05",
-      "AQ-T10-V06",
-      "AQ-T10-V12",
-      "AQ-T11-E05",
-      "AQ-T11-V06",
-      "AQ-T11-V12",
-      "AQ-T12-E05",
-      "AQ-T12-V06",
-      "AQ-T12-V12",
       "AQ-T13-E05",
       "AQ-T13-V06",
       "AQ-T13-V12",
@@ -475,10 +332,12 @@ describe("asking questions content", () => {
       "AQ-M03-X04": "¿Cuándo vienes a casa?",
       "AQ-T07-N09": "¿Cuánta leche quieres?",
       "AQ-T08-N11": "¿Por qué estás en casa?",
-      "AQ-T09-V02": "¿A qué hora viene Pablo?",
-      "AQ-T10-V01": "¿De dónde es Pablo?",
-      "AQ-T11-V01": "¿Adónde va Pablo?",
-      "AQ-T12-V01": "¿Con quién va Pablo?",
+      "AQ-T09-N06": "¿A qué hora empieza la reunión?",
+      "AQ-T10-N05": "¿De dónde sale el tren?",
+      "AQ-M05-X02": "¿Dónde está Pablo?",
+      "AQ-T11-N11": "¿Adónde vas a pie?",
+      "AQ-T12-N02": "¿Con quién vas al cine?",
+      "AQ-M06-X03": "¿Quién viene a clase?",
       "AQ-T13-V02": "¿De quién son estas entradas?",
       "AQ-T14-V01": "¿Desde cuándo vive Pablo en Madrid?",
       "AQ-T15-V07": "¿Hasta cuándo están Pablo y Luis en Madrid?",
@@ -494,7 +353,17 @@ describe("asking questions content", () => {
 });
 
 // The lessons rebuilt under #755; each rework slice adds its lessons.
-const REWORKED = ["aq-m01", "aq-m02", "aq-mr01", "aq-m03", "aq-m04", "aq-mr02"];
+const REWORKED = [
+  "aq-m01",
+  "aq-m02",
+  "aq-mr01",
+  "aq-m03",
+  "aq-m04",
+  "aq-mr02",
+  "aq-m05",
+  "aq-m06",
+  "aq-mr03",
+];
 
 const exercisesOf = (id: string) => askingLesson(id).questions.filter((q) => q.kind !== "teach");
 
@@ -504,11 +373,12 @@ const sentencesOf = (q: Question) =>
     .filter((t) => t !== undefined)
     .map(normalize);
 
-// The question words a lesson's introduction names: "New question words: quién / quiénes, cuál".
+// The question words a lesson's introduction and form cards name: "New question words: quién /
+// quiénes, cuál", "New forms: cuánta, cuántos, cuántas".
 const wordsOf = (id: string) =>
   askingLesson(id)
-    .questions[0].prompt.split(": ")[1]
-    .split(/, | \/ /)
+    .questions.filter((q) => q.kind === "teach")
+    .flatMap((q) => q.prompt.split(": ")[1].split(/, | \/ /))
     .map(normalize);
 
 const question = (id: string) => askingQuestions.find((q) => q.id === id)!;
@@ -673,6 +543,56 @@ describe("reworked asking questions lessons", () => {
     expect([
       isCorrect(q, "¿Por qué Pablo está en casa?"),
       isCorrect(q, "¿Para qué está Pablo en casa?"),
+    ]).toEqual([true, false]);
+  });
+
+  it("accepts both destination spellings in the where-to translation and rejects dónde and de dónde", () => {
+    const q = question("AQ-T11-N04");
+
+    expect([
+      isCorrect(q, "¿A dónde vas?"),
+      isCorrect(q, "¿Adónde vas tú?"),
+      isCorrect(q, "¿Dónde vas?"),
+      isCorrect(q, "¿De dónde vas?"),
+    ]).toEqual([true, true, false, false]);
+
+    expect(accentOnlyAnswer(q, "¿Adonde vas?")).toBe("¿Adónde vas?");
+  });
+
+  it("accepts adónde and a dónde, notes a missing accent and rejects dónde in a destination gap", () => {
+    const q = question("AQ-T11-N03");
+
+    expect([isCorrect(q, "adónde"), isCorrect(q, "a dónde"), isCorrect(q, "dónde")]).toEqual([
+      true,
+      true,
+      false,
+    ]);
+
+    expect(accentOnlyAnswer(q, "a donde")).toBe("a dónde");
+  });
+
+  it("accepts con quién or con quiénes when the English leaves the number open and rejects quién alone", () => {
+    const q = question("AQ-T12-N04");
+
+    expect([
+      isCorrect(q, "¿Con quiénes vives?"),
+      isCorrect(q, "¿Con quién vives tú?"),
+      isCorrect(q, "¿Quién vives?"),
+    ]).toEqual([true, true, false]);
+  });
+
+  it("accepts con quiénes for several companions and rejects the singular", () => {
+    const q = question("AQ-T12-N03");
+
+    expect([isCorrect(q, "con quiénes"), isCorrect(q, "con quién")]).toEqual([true, false]);
+  });
+
+  it("accepts a qué hora for a clock time and rejects cuándo", () => {
+    const q = question("AQ-T09-N04");
+
+    expect([
+      isCorrect(q, "¿A qué hora abre el museo?"),
+      isCorrect(q, "¿Cuándo abre el museo?"),
     ]).toEqual([true, false]);
   });
 });

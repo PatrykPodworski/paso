@@ -24,6 +24,8 @@ describe("placement content", () => {
         "SP-T02-V12",
         "SP-T03-E01",
         "SP-T03-V12",
+        "SP-T04-E01",
+        "SP-T04-V12",
       ]),
     );
   });
@@ -32,7 +34,7 @@ describe("placement content", () => {
     const authored = new Set(placementQuestions.map((q) => q.id));
     const named = placementLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
-    expect(named).toHaveLength(56);
+    expect(named).toHaveLength(83);
 
     for (const id of named) {
       expect(authored, id).toContain(id);
@@ -62,6 +64,8 @@ describe("placement content", () => {
       "SP-T02-V12",
       "SP-T03-E01",
       "SP-T03-V12",
+      "SP-T04-E01",
+      "SP-T04-V12",
     ]);
 
     for (const q of choices) {
@@ -73,7 +77,7 @@ describe("placement content", () => {
   });
 
   it("gives every exercise two hints and feedback", () => {
-    expect(placementQuestions).toHaveLength(54);
+    expect(placementQuestions).toHaveLength(72);
 
     for (const q of placementQuestions) {
       const blank = [...q.hints!, q.explanation].filter((text) => !text.trim());
@@ -93,6 +97,8 @@ describe("placement content", () => {
       "SP-T02-V11",
       "SP-T03-E06",
       "SP-T03-V11",
+      "SP-T04-E06",
+      "SP-T04-V11",
     ]);
 
     expect(new Set(silent.map((id) => question(id).kind))).toEqual(new Set(["write"]));
@@ -110,6 +116,9 @@ describe("placement content", () => {
         "SP-T03-E02",
         "SP-T03-E05",
         "SP-T03-V12",
+        "SP-T04-E02",
+        "SP-T04-E05",
+        "SP-T04-V12",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "La bolsa está en la maleta.",
@@ -123,10 +132,13 @@ describe("placement content", () => {
       "fuera de",
       "La mochila está fuera del armario.",
       "El billete está fuera del bolsillo.",
+      "encima de",
+      "La taza está encima del armario.",
+      "El billete está encima del banco.",
     ]);
   });
 
-  it.each(["SP-T01", "SP-T02", "SP-T03"])(
+  it.each(["SP-T01", "SP-T02", "SP-T03", "SP-T04"])(
     "authors six base items and twelve variations for %s",
     (t) => {
       expect(ids(`${t}-E`)).toEqual(
@@ -147,6 +159,10 @@ describe("placement content", () => {
       "Learn one new phrase",
       "Outside",
       "Learn one new phrase",
+      "On top of or above",
+      "Learn one new phrase",
+      "Unit review",
+      "Review this unit's lessons",
     ]);
 
     expect(texts.filter((text) => /\bunit \d|\blessons? \d/i.test(text))).toEqual([]);
@@ -185,5 +201,13 @@ describe("placement content", () => {
     expect(isCorrect(e05, "fuera del")).toBe(true);
     expect(isCorrect(e05, "fuera de")).toBe(false);
     expect(isCorrect(e05, "fuera de el")).toBe(false);
+  });
+
+  it("takes encima del, and not encima de, in the T04 E05 gap before a masculine noun", () => {
+    const e05 = question("SP-T04-E05");
+
+    expect(isCorrect(e05, "encima del")).toBe(true);
+    expect(isCorrect(e05, "encima de")).toBe(false);
+    expect(isCorrect(e05, "encima de el")).toBe(false);
   });
 });

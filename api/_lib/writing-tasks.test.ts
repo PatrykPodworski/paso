@@ -251,6 +251,19 @@ describe("writing tasks", () => {
       wordRange: [2, 15],
     });
 
+    expect(writingTaskOf("SP-T04-V11")).toEqual({
+      id: "SP-T04-V11",
+      kind: "sentence",
+      exam: false,
+      prompt:
+        "The bag is above the door, not touching it. Say in one Spanish sentence where the bag is. Words: bag = la bolsa; door = la puerta.",
+      points: [
+        "Uses encima de for on top of or above",
+        "Keeps the things and their places as stated",
+      ],
+      wordRange: [2, 15],
+    });
+
     expect(writingTaskOf("SP-T01-E05")).toBeUndefined();
   });
 

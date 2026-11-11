@@ -93,6 +93,17 @@ export const t04Items: Item[] = [
     hints,
   },
   {
+    id: "TM-T04-V04",
+    mode: "cloze",
+    instruction: "Translate into Spanish. It is 12:00 on Tuesday. Luis is working at this moment.",
+    prompt: "Luis is working now.",
+    answer: "Luis trabaja ahora.",
+    accepted: ["Ahora Luis trabaja.", "Luis está trabajando ahora.", "Ahora Luis está trabajando."],
+    say: "Luis trabaja ahora.",
+    feedback: "One right answer: Luis trabaja ahora.",
+    hints,
+  },
+  {
     id: "TM-T04-V09",
     mode: "cloze",
     instruction: "Complete the gap. It is 12:00 on Tuesday. Pablo is working at this moment.",

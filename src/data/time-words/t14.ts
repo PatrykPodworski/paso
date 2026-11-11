@@ -1,0 +1,111 @@
+import type { Item } from "../practice-sets/item.ts";
+
+// T14, nunca: never.
+const hints: [string, string] = ["It does not happen on any day.", "It starts with nu-."];
+
+export const t14Items: Item[] = [
+  {
+    id: "TM-T14-E01",
+    mode: "choice",
+    instruction: "Choose the English meaning",
+    prompt: "nunca",
+    answer: "never",
+    choices: ["never", "always", "sometimes"],
+    say: "nunca",
+    feedback: "nunca means never.",
+    hints,
+  },
+  {
+    id: "TM-T14-E03",
+    mode: "cloze",
+    instruction: "Write it in Spanish",
+    prompt: "never",
+    answer: "nunca",
+    say: "nunca",
+    feedback: "Never is nunca.",
+    hints,
+  },
+  {
+    id: "TM-T14-E04",
+    mode: "cloze",
+    instruction: "Complete the gap. I eat at the office on none of the 7 days this week.",
+    prompt: "Yo ___ como en la oficina.",
+    answer: "nunca",
+    say: "Yo nunca como en la oficina.",
+    feedback:
+      "I eat at the office on none of the 7 days this week. So: Yo nunca como en la oficina.",
+    hints,
+  },
+  {
+    id: "TM-T14-E05",
+    mode: "cloze",
+    instruction:
+      "Translate into Spanish. Pablo has bread for breakfast on none of the 7 days this week.",
+    prompt: "Pablo never has bread for breakfast.",
+    answer: "Pablo nunca desayuna pan.",
+    accepted: ["Pablo no desayuna nunca pan.", "Pablo no desayuna pan nunca."],
+    say: "Pablo nunca desayuna pan.",
+    feedback: "One right answer: Pablo nunca desayuna pan.",
+    hints,
+  },
+  {
+    id: "TM-T14-E06",
+    mode: "choice",
+    instruction: "Which situation fits this sentence?",
+    prompt: "Luis nunca trabaja los sábados.",
+    answer: "Luis works on none of the 4 Saturdays this month.",
+    choices: [
+      "Luis works on none of the 4 Saturdays this month.",
+      "Luis works on all 4 Saturdays this month.",
+      "Luis works on 2 of the 4 Saturdays this month.",
+    ],
+    say: "Luis nunca trabaja los sábados.",
+    feedback: "nunca means never: Luis works on none of the 4 Saturdays this month.",
+    hints,
+  },
+  {
+    id: "TM-T14-V11",
+    mode: "choice",
+    instruction: "Choose the word for the gap. Diego works on none of the 4 Saturdays this month.",
+    prompt: "Diego ___ trabaja los sábados.",
+    answer: "nunca",
+    choices: ["nunca", "siempre", "a veces"],
+    say: "Diego nunca trabaja los sábados.",
+    feedback:
+      "Diego works on none of the 4 Saturdays this month. So: Diego nunca trabaja los sábados.",
+    hints,
+  },
+  {
+    id: "TM-T14-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo studies at home on none of the 7 days this week.",
+    prompt: "Pablo ___ estudia en casa.",
+    answer: "nunca",
+    say: "Pablo nunca estudia en casa.",
+    feedback:
+      "Pablo studies at home on none of the 7 days this week. So: Pablo nunca estudia en casa.",
+    hints,
+  },
+  {
+    id: "TM-T14-V09",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo eats at home on none of the 7 days this week.",
+    prompt: "Pablo ___ come en casa.",
+    answer: "nunca",
+    say: "Pablo nunca come en casa.",
+    feedback: "Pablo eats at home on none of the 7 days this week. So: Pablo nunca come en casa.",
+    hints,
+  },
+  {
+    id: "TM-T14-V10",
+    mode: "cloze",
+    instruction:
+      "Translate into Spanish. Luis has bread for breakfast on none of the 7 days this week.",
+    prompt: "Luis never has bread for breakfast.",
+    answer: "Luis nunca desayuna pan.",
+    accepted: ["Luis no desayuna nunca pan.", "Luis no desayuna pan nunca."],
+    say: "Luis nunca desayuna pan.",
+    feedback: "One right answer: Luis nunca desayuna pan.",
+    hints,
+  },
+];

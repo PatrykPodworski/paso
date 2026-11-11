@@ -8,7 +8,10 @@ import { m01 } from "./m01.ts";
 import { m02 } from "./m02.ts";
 import { m03 } from "./m03.ts";
 import { m04 } from "./m04.ts";
+import { m05 } from "./m05.ts";
+import { m06 } from "./m06.ts";
 import { r01, review1Items } from "./review1.ts";
+import { r02, review2Items } from "./review2.ts";
 import { t01Items } from "./t01.ts";
 import { t02Items } from "./t02.ts";
 import { t03Items } from "./t03.ts";
@@ -20,6 +23,11 @@ import { t08Items } from "./t08.ts";
 import { t09Items } from "./t09.ts";
 import { t10Items } from "./t10.ts";
 import { t11Items } from "./t11.ts";
+import { t12Items } from "./t12.ts";
+import { t13Items } from "./t13.ts";
+import { t14Items } from "./t14.ts";
+import { t15Items } from "./t15.ts";
+import { t16Items } from "./t16.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const timeWordsQuestions: Question[] = [
@@ -34,10 +42,16 @@ export const timeWordsQuestions: Question[] = [
   ...t09Items,
   ...t10Items,
   ...t11Items,
+  ...t12Items,
+  ...t13Items,
+  ...t14Items,
+  ...t15Items,
+  ...t16Items,
   ...review1Items,
+  ...review2Items,
 ].map(questionOf);
 
-export const timeWordsLessons: SetLesson[] = [m01, m02, m03, r01, m04];
+export const timeWordsLessons: SetLesson[] = [m01, m02, m03, r01, m04, m05, m06, r02];
 
 const UNITS = [
   {

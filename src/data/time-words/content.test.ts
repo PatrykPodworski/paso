@@ -38,6 +38,7 @@ describe("time words content", () => {
       "TM-T03-V10",
       ...core("TM-T04"),
       "TM-T04-V03",
+      "TM-T04-V04",
       "TM-T04-V09",
       "TM-T04-V10",
       ...core("TM-T05"),
@@ -51,17 +52,49 @@ describe("time words content", () => {
       "TM-T06-V10",
       ...core("TM-T07"),
       "TM-T07-V03",
+      "TM-T07-V04",
       "TM-T07-V09",
       "TM-T07-V10",
       ...core("TM-T08"),
       "TM-T08-V03",
+      "TM-T08-V04",
       "TM-T08-V09",
       "TM-T08-V10",
       ...core("TM-T09"),
+      "TM-T09-V03",
+      "TM-T09-V09",
+      "TM-T09-V10",
       ...core("TM-T10"),
+      "TM-T10-V03",
+      "TM-T10-V04",
+      "TM-T10-V09",
+      "TM-T10-V10",
       ...core("TM-T11"),
+      "TM-T11-V03",
+      "TM-T11-V09",
+      "TM-T11-V10",
+      ...core("TM-T12"),
+      "TM-T12-V03",
+      "TM-T12-V09",
+      "TM-T12-V10",
+      ...core("TM-T13"),
+      "TM-T13-V03",
+      "TM-T13-V09",
+      "TM-T13-V10",
+      ...core("TM-T14"),
+      "TM-T14-V03",
+      "TM-T14-V09",
+      "TM-T14-V10",
+      ...core("TM-T15"),
+      "TM-T15-V09",
+      "TM-T15-V10",
+      ...core("TM-T16"),
+      "TM-T16-V09",
+      "TM-T16-V10",
       "TM-G01",
       "TM-G02",
+      "TM-G03",
+      "TM-G04",
     ]);
 
     expect(bank).toEqual(expect.arrayContaining(timeWordsQuestions.map((q) => q.id)));
@@ -115,6 +148,21 @@ describe("time words content", () => {
       "TM-T11-E01",
       "TM-T11-E06",
       "TM-T11-V11",
+      "TM-T12-E01",
+      "TM-T12-E06",
+      "TM-T12-V11",
+      "TM-T13-E01",
+      "TM-T13-E06",
+      "TM-T13-V11",
+      "TM-T14-E01",
+      "TM-T14-E06",
+      "TM-T14-V11",
+      "TM-T15-E01",
+      "TM-T15-E06",
+      "TM-T15-V11",
+      "TM-T16-E01",
+      "TM-T16-E06",
+      "TM-T16-V11",
     ]);
 
     for (const q of choices) {
@@ -153,7 +201,12 @@ describe("time words content", () => {
         "TM-T08-E04",
         "TM-T11-E04",
         "TM-T09-E05",
+        "TM-T14-E04",
+        "TM-T13-E05",
+        "TM-T15-E04",
+        "TM-T16-E05",
         "TM-G01",
+        "TM-G04",
       ].map((id) => {
         const q = question(id);
 
@@ -206,7 +259,28 @@ describe("time words content", () => {
         "Diego reads in the morning.",
         "Diego lee por la mañana.",
       ],
+      [
+        "Complete the gap. I eat at the office on none of the 7 days this week.",
+        "Yo ___ como en la oficina.",
+        "Yo nunca como en la oficina.",
+      ],
+      [
+        "Translate into Spanish. Luis has bread for breakfast on 2 of the 7 days this week.",
+        "Luis sometimes has bread for breakfast.",
+        "Luis a veces desayuna pan.",
+      ],
+      [
+        "Complete the gap. Luis is at the office from 8:00 to 15:00. Say when it starts.",
+        "Luis está en la oficina ___ las ocho.",
+        "Luis está en la oficina desde las ocho.",
+      ],
+      [
+        "Translate into Spanish. Luis studies from 13:00 to 15:00. Say when it ends.",
+        "Luis studies until 15:00.",
+        "Luis estudia hasta las tres.",
+      ],
       ["Put the words in time order", "From the earliest day to the latest", "ayer hoy mañana"],
+      ["Put the words in order", "From the most often to the least often", "siempre a veces nunca"],
     ]);
   });
 
@@ -238,6 +312,7 @@ describe("time words content", () => {
       "TM-T03-V04",
       "TM-T03-V10",
       "TM-T04-E05",
+      "TM-T04-V04",
       "TM-T04-V10",
       "TM-T05-E05",
       "TM-T05-V04",
@@ -245,12 +320,28 @@ describe("time words content", () => {
       "TM-T06-E05",
       "TM-T06-V10",
       "TM-T07-E05",
+      "TM-T07-V04",
       "TM-T07-V10",
       "TM-T08-E05",
+      "TM-T08-V04",
       "TM-T08-V10",
       "TM-T09-E05",
+      "TM-T09-V10",
       "TM-T10-E05",
+      "TM-T10-V04",
+      "TM-T10-V10",
       "TM-T11-E05",
+      "TM-T11-V10",
+      "TM-T12-E05",
+      "TM-T12-V10",
+      "TM-T13-E05",
+      "TM-T13-V10",
+      "TM-T14-E05",
+      "TM-T14-V10",
+      "TM-T15-E05",
+      "TM-T15-V10",
+      "TM-T16-E05",
+      "TM-T16-V10",
     ]);
 
     for (const q of translations) {
@@ -264,7 +355,14 @@ describe("time words content", () => {
   it("mixes words in every lesson", () => {
     const learning = timeWordsLessons.filter((l) => l.introduction);
 
-    expect(learning.map((l) => l.id)).toEqual(["tm-m01", "tm-m02", "tm-m03", "tm-m04"]);
+    expect(learning.map((l) => l.id)).toEqual([
+      "tm-m01",
+      "tm-m02",
+      "tm-m03",
+      "tm-m04",
+      "tm-m05",
+      "tm-m06",
+    ]);
 
     for (const l of learning) {
       const words = new Set(l.base.map(wordOf));
@@ -317,6 +415,7 @@ describe("time words content", () => {
     expect(
       [
         ["TM-T07-E05", "Diego se acuesta"],
+        ["TM-T07-V04", "Luis se acuesta"],
         ["TM-T07-V10", "Luis come"],
       ].map(([id, sentence]) =>
         [
@@ -329,6 +428,7 @@ describe("time words content", () => {
     ).toEqual([
       [true, true, true, false],
       [true, true, true, false],
+      [true, true, true, false],
     ]);
   });
 
@@ -336,6 +436,7 @@ describe("time words content", () => {
     expect(
       [
         ["TM-T08-E05", "Luis se acuesta"],
+        ["TM-T08-V04", "Pablo se acuesta"],
         ["TM-T08-V10", "Diego se acuesta"],
       ].map(([id, sentence]) =>
         [`Hoy ${sentence} tarde.`, `${sentence} más tarde hoy.`, `Hoy ${sentence} temprano.`].map(
@@ -343,6 +444,7 @@ describe("time words content", () => {
         ),
       ),
     ).toEqual([
+      [true, true, false],
       [true, true, false],
       [true, true, false],
     ]);
@@ -360,6 +462,35 @@ describe("time words content", () => {
         ["TM-T11-E05", "Pablo lee por la mañana."],
       ].map(([id, answer]) => isCorrect(question(id), answer)),
     ).toEqual([true, false, true, false, true, true, false]);
+  });
+
+  it("accepts the frequency word before or after the verb and no … nunca, not another frequency word", () => {
+    expect(
+      [
+        ["TM-T12-E05", "Diego desayuna siempre pan."],
+        ["TM-T12-E05", "Diego a veces desayuna pan."],
+        ["TM-T13-E05", "A veces Luis desayuna pan."],
+        ["TM-T13-E05", "Luis desayuna pan a veces."],
+        ["TM-T13-E05", "Luis nunca desayuna pan."],
+        ["TM-T14-E05", "Pablo no desayuna nunca pan."],
+        ["TM-T14-E05", "Pablo no desayuna pan nunca."],
+        ["TM-T14-E05", "Pablo desayuna nunca pan."],
+        ["TM-T14-E05", "Pablo siempre desayuna pan."],
+      ].map(([id, answer]) => isCorrect(question(id), answer)),
+    ).toEqual([true, false, true, true, false, true, true, false, false]);
+  });
+
+  it("accepts desde and hasta at the start of the sentence, not the other word", () => {
+    expect(
+      [
+        ["TM-T15-E05", "Desde las cuatro Diego estudia."],
+        ["TM-T15-E05", "Diego estudia hasta las cuatro."],
+        ["TM-T15-V10", "Desde las ocho Luis está en casa."],
+        ["TM-T16-E05", "Hasta las tres Luis estudia."],
+        ["TM-T16-E05", "Luis estudia desde las tres."],
+        ["TM-T16-V10", "Hasta las seis Diego estudia."],
+      ].map(([id, answer]) => isCorrect(question(id), answer)),
+    ).toEqual([true, false, true, true, false, true]);
   });
 
   it("offers mañana and tarde alone among the day parts, and marks them wrong", () => {
@@ -380,7 +511,7 @@ describe("time words content", () => {
 
   it("builds each order item's answer from its tiles, authored out of order", () => {
     expect(
-      ["TM-G01", "TM-G02"].map((id) => {
+      ["TM-G01", "TM-G02", "TM-G03", "TM-G04"].map((id) => {
         const q = question(id);
 
         return [q.kind, q.tokens, q.answer, isCorrect(q, q.tokens!.join(" "))];
@@ -388,10 +519,19 @@ describe("time words content", () => {
     ).toEqual([
       ["order", ["mañana", "ayer", "hoy"], "ayer hoy mañana", false],
       ["order", ["luego", "Desayuno", "trabajo", "y"], "Desayuno y luego trabajo", false],
+      [
+        "order",
+        ["por la noche", "por la mañana", "por la tarde"],
+        "por la mañana por la tarde por la noche",
+        false,
+      ],
+      ["order", ["nunca", "siempre", "a veces"], "siempre a veces nunca", false],
     ]);
 
     expect(isCorrect(question("TM-G01"), "ayer hoy mañana")).toBe(true);
     expect(isCorrect(question("TM-G02"), "Desayuno y luego trabajo")).toBe(true);
+    expect(isCorrect(question("TM-G03"), "por la mañana por la tarde por la noche")).toBe(true);
+    expect(isCorrect(question("TM-G04"), "siempre a veces nunca")).toBe(true);
   });
 
   it("rejects another time word in a gap", () => {

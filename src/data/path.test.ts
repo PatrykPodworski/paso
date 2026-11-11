@@ -46,12 +46,8 @@ const timeWordsComplete: PracticeSet = {
   units: timeWordsSet.units.map((u, i) => ({ ...u, lessons: TIME_WORDS[i].map(stub) })),
 };
 
-const complete = pathModel(units, [
-  askingQuestionsSet,
-  weekdaysComplete,
-  placementSet,
-  timeWordsComplete,
-]);
+const completeSets = [askingQuestionsSet, weekdaysComplete, placementSet, timeWordsComplete];
+const complete = pathModel(units, completeSets);
 
 it("puts every set unit right after the course unit it builds on, with Weekdays and Time words complete and the placement units so far", () => {
   expect(complete.pathUnits.map((u) => [u.number, u.id])).toEqual([
@@ -79,7 +75,10 @@ it("puts every set unit right after the course unit it builds on, with Weekdays 
     [22, "u12"],
   ]);
 
-  expect(complete.pathLessons).toHaveLength(85);
+  expect(complete.pathLessons).toHaveLength(
+    allLessons.length + completeSets.flatMap((s) => s.units.flatMap((u) => u.lessons)).length,
+  );
+
   expect(complete.pathPlace("tm-r02")).toEqual({ unit: 11, lesson: 4 });
   expect(complete.pathPlace("aq-mr01")).toEqual({ unit: 16, lesson: 3 });
   expect(complete.pathPlace("aq-mr02")).toEqual({ unit: 17, lesson: 3 });

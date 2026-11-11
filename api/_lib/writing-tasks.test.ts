@@ -231,6 +231,16 @@ describe("writing tasks", () => {
       wordRange: [2, 15],
     });
 
+    expect(writingTaskOf("SP-T02-V11")).toEqual({
+      id: "SP-T02-V11",
+      kind: "sentence",
+      exam: false,
+      prompt:
+        "The bag is inside the suitcase. Say in one Spanish sentence where the bag is. Words: bag = la bolsa; suitcase = la maleta.",
+      points: ["Uses dentro de for inside", "Keeps the things and their places as stated"],
+      wordRange: [2, 15],
+    });
+
     expect(writingTaskOf("SP-T01-E05")).toBeUndefined();
   });
 

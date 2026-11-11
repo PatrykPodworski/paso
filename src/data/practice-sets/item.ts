@@ -17,7 +17,6 @@ export type Item = Base &
     | { mode: "cloze"; accepted?: string[]; say: string }
     | { mode: "order"; chunks: string[] }
     | { mode: "ask"; accepted?: string[] }
-    | { mode: "sentence"; constraints: string[] }
   );
 
 // A chunk of punctuation alone joins its word: ¿ the next chunk, ? the previous one, so the
@@ -83,16 +82,6 @@ export const questionOf = (item: Item): Question => {
         accepted: item.accepted,
         pronunciation: item.answer,
         questionMarks: true,
-      };
-    case "sentence":
-      return {
-        ...common,
-        kind: "write",
-        skill: "writing",
-        checklist: item.constraints,
-        single: "sentence",
-        minWords: 2,
-        maxWords: 15,
       };
   }
 };

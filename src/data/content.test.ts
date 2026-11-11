@@ -27,10 +27,6 @@ const questions = [
   ...mockQuestions,
 ];
 
-// Practice sets whose clips are still to be generated; each set's audio issue removes its entry.
-// time-words: #745.
-const AWAITING_AUDIO = ["time-words"];
-
 describe("original curriculum integrity", () => {
   it("contains a substantial learning path with every skill in each unit", () => {
     expect(units).toHaveLength(12);
@@ -302,10 +298,7 @@ describe("original curriculum integrity", () => {
   });
 
   it("bundles every listening clip and practice pronunciation as nonempty local audio", () => {
-    expect(practiceSets.map((s) => s.id)).toEqual(expect.arrayContaining(AWAITING_AUDIO));
-
     const setItems = practiceSets
-      .filter((s) => !AWAITING_AUDIO.includes(s.id))
       .flatMap((s) => s.lessons.flatMap((l) => s.lesson(l.id).questions))
       .filter((q) => q.kind !== "teach");
 

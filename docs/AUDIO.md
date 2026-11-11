@@ -79,10 +79,10 @@ generator never contacts ElevenLabs for these phrases while their files exist.
 - Asking questions, unit 2 (M03, M04 and MR02): 71 texts, the questions and their
   tiles. _español?_, _Pablo?_ and _el café?_ play the existing clips of the same
   words.
-- Asking questions, unit 3 (L09–L12 and R03): 61 texts, the questions and their
-  tiles. _¿Adónde_ and _¿A dónde_ share the clip of "A dónde"; _¿Con quién_ and
-  _¿Con quiénes_ are read as "¿Con quién?" and "¿Con quiénes?". _el tren?_ and
-  _el museo?_ play the topic flashcard clips of the same words.
+- Asking questions, unit 3 (M05, M06 and MR03): 69 texts, the questions and their
+  tiles. _¿Adónde_ plays the clip of "A dónde"; _¿Con quién_ is read as "¿Con
+  quién?". _el tren?_, _Pablo?_ and _la reunión?_ play the existing clips of the
+  same words.
 - Asking questions, unit 4 (L13–L18 and R04): 99 texts, the questions and
   their tiles. _¿De quiénes_ and _¿Por dónde_ are read as "¿De quiénes?" and
   "¿Por dónde?". _son_, _vas_, _el libro?_ and _la mochila?_ play existing clips

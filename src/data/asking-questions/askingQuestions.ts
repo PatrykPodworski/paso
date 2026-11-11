@@ -8,10 +8,8 @@ import { m01, m01Items } from "./m01.ts";
 import { m02, m02Items, mr01 } from "./m02.ts";
 import { m03, m03Items } from "./m03.ts";
 import { m04, m04Items, mr02 } from "./m04.ts";
-import { l09, t09Items } from "./t09.ts";
-import { l10, t10Items } from "./t10.ts";
-import { l11, t11Items } from "./t11.ts";
-import { l12, r03, t12Items } from "./t12.ts";
+import { m05, m05Items } from "./m05.ts";
+import { m06, m06Items, mr03 } from "./m06.ts";
 import { l13, t13Items } from "./t13.ts";
 import { l14, t14Items } from "./t14.ts";
 import { l15, t15Items } from "./t15.ts";
@@ -25,10 +23,8 @@ export const askingQuestions: Question[] = [
   ...m02Items,
   ...m03Items,
   ...m04Items,
-  ...t09Items,
-  ...t10Items,
-  ...t11Items,
-  ...t12Items,
+  ...m05Items,
+  ...m06Items,
   ...t13Items,
   ...t14Items,
   ...t15Items,
@@ -44,11 +40,9 @@ export const askingLessons: SetLesson[] = [
   m03,
   m04,
   mr02,
-  l09,
-  l10,
-  l11,
-  l12,
-  r03,
+  m05,
+  m06,
+  mr03,
   l13,
   l14,
   l15,
@@ -71,8 +65,8 @@ const UNITS = [
   },
   {
     after: 10,
-    subtitle: "a qué hora, de dónde, adónde, con quién",
-    ids: ["aq-l09", "aq-l10", "aq-l11", "aq-l12", "aq-r03"],
+    subtitle: "de dónde, adónde, a qué hora, con quién",
+    ids: ["aq-m05", "aq-m06", "aq-mr03"],
   },
   {
     after: 11,

@@ -83,10 +83,11 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   tiles. _¿Adónde_ plays the clip of "A dónde"; _¿Con quién_ is read as "¿Con
   quién?". _el tren?_, _Pablo?_ and _la reunión?_ play the existing clips of the
   same words.
-- Asking questions, unit 4 (L13–L18 and R04): 99 texts, the questions and
-  their tiles. _¿De quiénes_ and _¿Por dónde_ are read as "¿De quiénes?" and
-  "¿Por dónde?". _son_, _vas_, _el libro?_ and _la mochila?_ play existing clips
-  of the same words.
+- Asking questions, unit 4 (M07, M08 and MR04): 76 texts, the questions and
+  their tiles. _¿Por dónde_ is read as "¿Por dónde?". _aquí?_, _estudias?_,
+  _quieres_ and _el pan?_ play the existing clips of the same words. _¿De
+  quiénes es esta casa?_ is read with two spaces after "quiénes": the take of the
+  plain text drops the -es.
 - Weekdays (M01–M03 and MR01–MR02): 77 texts, the seven day words, which are also
   the tiles of the week-order task, 69 sentences and the week in order.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.

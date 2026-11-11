@@ -10,12 +10,8 @@ import { m03, m03Items } from "./m03.ts";
 import { m04, m04Items, mr02 } from "./m04.ts";
 import { m05, m05Items } from "./m05.ts";
 import { m06, m06Items, mr03 } from "./m06.ts";
-import { l13, t13Items } from "./t13.ts";
-import { l14, t14Items } from "./t14.ts";
-import { l15, t15Items } from "./t15.ts";
-import { l16, t16Items } from "./t16.ts";
-import { l17, t17Items } from "./t17.ts";
-import { l18, r04, t18Items } from "./t18.ts";
+import { m07, m07Items } from "./m07.ts";
+import { m08, m08Items, mr04 } from "./m08.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const askingQuestions: Question[] = [
@@ -25,12 +21,8 @@ export const askingQuestions: Question[] = [
   ...m04Items,
   ...m05Items,
   ...m06Items,
-  ...t13Items,
-  ...t14Items,
-  ...t15Items,
-  ...t16Items,
-  ...t17Items,
-  ...t18Items,
+  ...m07Items,
+  ...m08Items,
 ].map(questionOf);
 
 export const askingLessons: SetLesson[] = [
@@ -43,13 +35,9 @@ export const askingLessons: SetLesson[] = [
   m05,
   m06,
   mr03,
-  l13,
-  l14,
-  l15,
-  l16,
-  l17,
-  l18,
-  r04,
+  m07,
+  m08,
+  mr04,
 ];
 
 const UNITS = [
@@ -70,8 +58,8 @@ const UNITS = [
   },
   {
     after: 11,
-    subtitle: "de quién, desde cuándo, hasta cuándo, cada cuánto, para qué, por dónde",
-    ids: ["aq-l13", "aq-l14", "aq-l15", "aq-l16", "aq-l17", "aq-l18", "aq-r04"],
+    subtitle: "desde cuándo, hasta cuándo, cada cuánto, de quién, para qué, por dónde",
+    ids: ["aq-m07", "aq-m08", "aq-mr04"],
   },
 ];
 
@@ -94,10 +82,10 @@ export const askingQuestionsSet: PracticeSet = {
   id: "asking-questions",
   route: "practice/questions",
   name: "Asking questions",
-  note: "one new question word per lesson",
+  note: "two or three new question words per lesson",
   icon: "people",
   title: "Asking questions.",
-  description: "Form and ask questions in Spanish, one new question word per lesson.",
+  description: "Form and ask questions in Spanish, two or three new question words per lesson.",
   units: askingUnits,
   lessons: askingLessons,
   questions: askingQuestions,

@@ -14,7 +14,9 @@ it("heads the page with the set's title and description", () => {
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Asking questions.");
 
   expect(
-    screen.getByText("Form and ask questions in Spanish, one new question word per lesson."),
+    screen.getByText(
+      "Form and ask questions in Spanish, two or three new question words per lesson.",
+    ),
   ).toBeInTheDocument();
 });
 

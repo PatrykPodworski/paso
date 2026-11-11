@@ -68,4 +68,14 @@ export const t11Items: Item[] = [
     feedback: "Diego is at home at 22:00. So: Diego está en casa por la noche.",
     hints,
   },
+  {
+    id: "TM-T11-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Pablo studies at 22:00.",
+    prompt: "Pablo estudia ___.",
+    answer: "por la noche",
+    say: "Pablo estudia por la noche.",
+    feedback: "Pablo studies at 22:00. So: Pablo estudia por la noche.",
+    hints,
+  },
 ];

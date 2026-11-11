@@ -76,9 +76,9 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   "tu amigo"). The tile _¿Qué_ is read as "¿Qué?", a form that make-words can cut
   from its list. _la estación?_, _el hotel?_ and _el museo?_ play the topic
   flashcard clips of the same words.
-- Asking questions, unit 2 (L05–L08 and R02): 72 texts, the questions and their
-  tiles. _quiere Luis_ and _quiere Luis?_ share one clip; _español?_ plays the
-  topic flashcard clip of _español_.
+- Asking questions, unit 2 (M03, M04 and MR02): 71 texts, the questions and their
+  tiles. _español?_, _Pablo?_ and _el café?_ play the existing clips of the same
+  words.
 - Asking questions, unit 3 (L09–L12 and R03): 61 texts, the questions and their
   tiles. _¿Adónde_ and _¿A dónde_ share the clip of "A dónde"; _¿Con quién_ and
   _¿Con quiénes_ are read as "¿Con quién?" and "¿Con quiénes?". _el tren?_ and

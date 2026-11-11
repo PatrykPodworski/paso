@@ -25,14 +25,18 @@ describe("asking questions content", () => {
         "AQ-T04-N10",
         "AQ-M02-X01",
         "AQ-M02-X04",
-        "AQ-T05-E01",
-        "AQ-T05-V12",
-        "AQ-T06-E01",
-        "AQ-T06-V12",
-        "AQ-T07-E01",
-        "AQ-T07-V12",
-        "AQ-T08-E01",
-        "AQ-T08-V12",
+        "AQ-T05-N01",
+        "AQ-T05-N11",
+        "AQ-T06-N01",
+        "AQ-T06-N11",
+        "AQ-T07-N01",
+        "AQ-T07-N11",
+        "AQ-T08-N01",
+        "AQ-T08-N11",
+        "AQ-M03-X01",
+        "AQ-M03-X04",
+        "AQ-M04-X01",
+        "AQ-M04-X04",
         "AQ-T09-E01",
         "AQ-T09-V12",
         "AQ-T10-E01",
@@ -91,120 +95,6 @@ describe("asking questions content", () => {
       expect(q.hints, q.id).toHaveLength(2);
       expect(blank, q.id).toEqual([]);
     }
-  });
-
-  it("authors six base items and twelve variations for quién / quiénes", () => {
-    expect(ids("AQ-T05-E")).toEqual([
-      "AQ-T05-E01",
-      "AQ-T05-E02",
-      "AQ-T05-E03",
-      "AQ-T05-E04",
-      "AQ-T05-E05",
-      "AQ-T05-E06",
-    ]);
-
-    expect(ids("AQ-T05-V")).toHaveLength(12);
-  });
-
-  it("accepts quiénes, notes a missing accent and rejects quién in a plural cloze", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T05-V02")!;
-
-    expect([isCorrect(q, "Quiénes"), isCorrect(q, "quién")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "quienes")).toBe("quiénes");
-  });
-
-  it("accepts the typed quiénes question and rejects the singular one", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T05-V05")!;
-
-    expect(isCorrect(q, "¿Quiénes vienen mañana?")).toBe(true);
-    expect(isCorrect(q, "¿Quién vienen mañana?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for cuál / cuáles", () => {
-    expect(ids("AQ-T06-E")).toEqual([
-      "AQ-T06-E01",
-      "AQ-T06-E02",
-      "AQ-T06-E03",
-      "AQ-T06-E04",
-      "AQ-T06-E05",
-      "AQ-T06-E06",
-    ]);
-
-    expect(ids("AQ-T06-V")).toHaveLength(12);
-  });
-
-  it("accepts cuáles, notes a missing accent and rejects cuál in a plural-choice cloze", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T06-V02")!;
-
-    expect([isCorrect(q, "Cuáles"), isCorrect(q, "cuál")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "cuales")).toBe("cuáles");
-  });
-
-  it("accepts the typed cuáles question and rejects the singular one", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T06-V05")!;
-
-    expect(isCorrect(q, "¿Cuáles de estos tres quiere Pablo?")).toBe(true);
-    expect(isCorrect(q, "¿Cuál de estos tres quiere Pablo?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for cuánto / cuánta / cuántos / cuántas", () => {
-    expect(ids("AQ-T07-E")).toEqual([
-      "AQ-T07-E01",
-      "AQ-T07-E02",
-      "AQ-T07-E03",
-      "AQ-T07-E04",
-      "AQ-T07-E05",
-      "AQ-T07-E06",
-    ]);
-
-    expect(ids("AQ-T07-V")).toHaveLength(12);
-  });
-
-  it("accepts cuánta for a feminine mass noun, notes a missing accent and rejects cuánto", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T07-E02")!;
-
-    expect([isCorrect(q, "Cuánta"), isCorrect(q, "cuánto")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "cuanta")).toBe("cuánta");
-  });
-
-  it("keeps the price cuánto invariant before a plural verb", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T07-V07")!;
-
-    expect([isCorrect(q, "cuánto"), isCorrect(q, "cuántas")]).toEqual([true, false]);
-  });
-
-  it("accepts the typed price question and rejects one that agrees with entrada", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T07-V05")!;
-
-    expect(isCorrect(q, "¿Cuánto cuesta la entrada?")).toBe(true);
-    expect(isCorrect(q, "¿Cuánta cuesta la entrada?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for por qué", () => {
-    expect(ids("AQ-T08-E")).toEqual([
-      "AQ-T08-E01",
-      "AQ-T08-E02",
-      "AQ-T08-E03",
-      "AQ-T08-E04",
-      "AQ-T08-E05",
-      "AQ-T08-E06",
-    ]);
-
-    expect(ids("AQ-T08-V")).toHaveLength(12);
-  });
-
-  it("accepts por qué, notes a missing accent and rejects the reply connector porque", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T08-V01")!;
-
-    expect([isCorrect(q, "Por qué"), isCorrect(q, "porque")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "por que")).toBe("por qué");
-  });
-
-  it("accepts the typed por qué question and rejects one that asks for a time", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T08-V11")!;
-
-    expect(isCorrect(q, "¿Por qué viene Luis mañana?")).toBe(true);
-    expect(isCorrect(q, "¿Cuándo viene Luis mañana?")).toBe(false);
   });
 
   it("authors six base items and twelve variations for a qué hora", () => {
@@ -540,18 +430,6 @@ describe("asking questions content", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
     expect(silent).toEqual([
-      "AQ-T05-E05",
-      "AQ-T05-V06",
-      "AQ-T05-V12",
-      "AQ-T06-E05",
-      "AQ-T06-V06",
-      "AQ-T06-V12",
-      "AQ-T07-E05",
-      "AQ-T07-V06",
-      "AQ-T07-V12",
-      "AQ-T08-E05",
-      "AQ-T08-V06",
-      "AQ-T08-V12",
       "AQ-T09-E05",
       "AQ-T09-V06",
       "AQ-T09-V12",
@@ -592,10 +470,11 @@ describe("asking questions content", () => {
       "AQ-T03-N05": "¿Dónde está la estación?",
       "AQ-T04-N08": "¿Cuándo viene Pablo?",
       "AQ-M02-X03": "¿Cómo estás hoy?",
-      "AQ-T05-V08": "¿Quiénes estudian español?",
-      "AQ-T06-V08": "¿Cuáles de estas tres quiere Pablo?",
-      "AQ-T07-V02": "¿Cuánta leche quiere Pablo?",
-      "AQ-T08-V02": "¿Por qué estudia Pablo en casa?",
+      "AQ-T05-N06": "¿Quién estudia español?",
+      "AQ-T06-N02": "¿Cuál es tu móvil?",
+      "AQ-M03-X04": "¿Cuándo vienes a casa?",
+      "AQ-T07-N09": "¿Cuánta leche quieres?",
+      "AQ-T08-N11": "¿Por qué estás en casa?",
       "AQ-T09-V02": "¿A qué hora viene Pablo?",
       "AQ-T10-V01": "¿De dónde es Pablo?",
       "AQ-T11-V01": "¿Adónde va Pablo?",
@@ -615,7 +494,7 @@ describe("asking questions content", () => {
 });
 
 // The lessons rebuilt under #755; each rework slice adds its lessons.
-const REWORKED = ["aq-m01", "aq-m02", "aq-mr01"];
+const REWORKED = ["aq-m01", "aq-m02", "aq-mr01", "aq-m03", "aq-m04", "aq-mr02"];
 
 const exercisesOf = (id: string) => askingLesson(id).questions.filter((q) => q.kind !== "teach");
 
@@ -754,5 +633,46 @@ describe("reworked asking questions lessons", () => {
       isCorrect(q, "¿Dónde está mi móvil?"),
       isCorrect(q, "¿Dónde es mi móvil?"),
     ]).toEqual([true, true, false]);
+  });
+
+  it("accepts the phone number question with móvil and rejects qué with ser", () => {
+    const q = question("AQ-T06-N04");
+
+    expect([
+      isCorrect(q, "¿Cuál es tu número de móvil?"),
+      isCorrect(q, "¿Qué es tu número de teléfono?"),
+    ]).toEqual([true, false]);
+  });
+
+  it("accepts quiénes, notes a missing accent and rejects quién in a plural gap", () => {
+    const q = question("AQ-T05-N03");
+
+    expect([isCorrect(q, "quiénes"), isCorrect(q, "quién")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "quienes")).toBe("quiénes");
+  });
+
+  it("accepts cuánta before a feminine noun and rejects cuánto", () => {
+    const q = question("AQ-T07-N04");
+
+    expect([isCorrect(q, "¿Cuánta agua quieres?"), isCorrect(q, "¿Cuánto agua quieres?")]).toEqual([
+      true,
+      false,
+    ]);
+  });
+
+  it("accepts por qué, notes a missing accent and rejects the reply connector porque", () => {
+    const q = question("AQ-T08-N03");
+
+    expect([isCorrect(q, "por qué"), isCorrect(q, "porque")]).toEqual([true, false]);
+    expect(accentOnlyAnswer(q, "por que")).toBe("por qué");
+  });
+
+  it("accepts a second word order for the why question and rejects para qué", () => {
+    const q = question("AQ-T08-N07");
+
+    expect([
+      isCorrect(q, "¿Por qué Pablo está en casa?"),
+      isCorrect(q, "¿Para qué está Pablo en casa?"),
+    ]).toEqual([true, false]);
   });
 });

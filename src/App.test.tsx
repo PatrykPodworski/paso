@@ -729,7 +729,7 @@ it("opens the time-words page from the practice studio and counts M01 on the pat
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Time words/ })).toHaveTextContent(
-    "2 lessons · hoy, luego, siempre: two or three at a time",
+    "4 lessons · hoy, luego, siempre: two or three at a time",
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Time words/ }));

@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { askingQuestionsSet } from "../../data/asking-questions/askingQuestions";
 import type { Lesson } from "../../data/types";
 import { placementSet } from "../../data/placement/placement";
+import { timeWordsSet } from "../../data/time-words/timeWords";
 import { weekdaysSet } from "../../data/weekdays/weekdays";
 import { emptySnapshot } from "../../test/progress";
 import { SetPage } from "./SetPage";
@@ -21,14 +22,14 @@ it("heads each unit with its path number and what it teaches, each lesson with i
   render(<SetPage set={askingQuestionsSet} progress={emptySnapshot()} setSession={() => {}} />);
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
-    "Unit 14",
     "Unit 15",
-    "Unit 17",
-    "Unit 19",
+    "Unit 16",
+    "Unit 18",
+    "Unit 20",
   ]);
 
-  expect(screen.getByRole("region", { name: "Unit 17" })).toHaveTextContent(
-    /^Unit 17a qué hora, de dónde, adónde, con quién/,
+  expect(screen.getByRole("region", { name: "Unit 18" })).toHaveTextContent(
+    /^Unit 18a qué hora, de dónde, adónde, con quién/,
   );
 
   expect(screen.getByRole("button", { name: /Asking for things/ })).toHaveTextContent(
@@ -90,5 +91,25 @@ it("lists only the placement units that have lessons", () => {
 
   expect(screen.getByRole("button", { name: /In or on/ })).toHaveTextContent(
     "In or onLearn one new phrase18 exercises",
+  );
+});
+
+it("lists the time-words unit with L01 under its path number", () => {
+  render(<SetPage set={timeWordsSet} progress={emptySnapshot()} setSession={() => {}} />);
+
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Time words.");
+
+  expect(
+    screen.getByText(
+      "Learn sixteen everyday Spanish time words, from hoy to hasta, one per lesson.",
+    ),
+  ).toBeInTheDocument();
+
+  expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
+    "Unit 10",
+  ]);
+
+  expect(screen.getByRole("button", { name: /Today/ })).toHaveTextContent(
+    "TodayLearn one new time word18 exercises",
   );
 });

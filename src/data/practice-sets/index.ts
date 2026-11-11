@@ -1,9 +1,15 @@
 import { askingQuestionsSet } from "../asking-questions/askingQuestions.ts";
 import { placementSet } from "../placement/placement.ts";
+import { timeWordsSet } from "../time-words/timeWords.ts";
 import { weekdaysSet } from "../weekdays/weekdays.ts";
 import type { PracticeSet } from "./practiceSet.ts";
 
-export const practiceSets: PracticeSet[] = [askingQuestionsSet, weekdaysSet, placementSet];
+export const practiceSets: PracticeSet[] = [
+  askingQuestionsSet,
+  weekdaysSet,
+  placementSet,
+  timeWordsSet,
+];
 
 export const setLessons = practiceSets.flatMap((s) => s.lessons);
 

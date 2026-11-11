@@ -30,16 +30,17 @@ it("lists every question of every unit, every practice set and the mock exam, gr
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
   expect(groups).toHaveLength(units.length + setUnits + 1);
 
-  expect(groups.slice(-10)).toEqual([
-    "Unit 20 · Ready for your next chapter",
-    "Asking questions · Unit 14",
+  expect(groups.slice(-11)).toEqual([
+    "Unit 21 · Ready for your next chapter",
     "Asking questions · Unit 15",
-    "Asking questions · Unit 17",
-    "Asking questions · Unit 19",
+    "Asking questions · Unit 16",
+    "Asking questions · Unit 18",
+    "Asking questions · Unit 20",
     "Weekdays · Unit 7",
     "Weekdays · Unit 8",
     "Weekdays · Unit 9",
     "Where things are · Unit 5",
+    "Time words · Unit 10",
     "Mock exam",
   ]);
 
@@ -90,7 +91,7 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   let lesson: Lesson | undefined;
 
   render(<BackofficePage setSession={(l) => (lesson = l)} />);
-  const set = within(screen.getByRole("region", { name: "Asking questions · Unit 14" }));
+  const set = within(screen.getByRole("region", { name: "Asking questions · Unit 15" }));
   const rows = set.getAllByRole("button");
 
   expect(rows).toHaveLength(rowsOf(askingUnits[0].lessons));
@@ -106,5 +107,5 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   fireEvent.click(rows[0]);
   expect(lesson?.questions.map((q) => q.id)).toEqual(["AQ-T01-INTRO"]);
   expect(lesson?.title).toBe("Asking for things");
-  expect(lesson?.subtitle).toBe("Asking questions · Unit 14");
+  expect(lesson?.subtitle).toBe("Asking questions · Unit 15");
 });

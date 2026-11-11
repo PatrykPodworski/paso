@@ -1,5 +1,4 @@
 import type { Item } from "../practice-sets/item.ts";
-import type { SetLesson } from "../practice-sets/setLesson.ts";
 
 // The whole-week calendar tasks: each day from English, each day among all seven, the week in
 // order, and the day after Sunday and before Monday.
@@ -184,14 +183,3 @@ export const calendarItems: Item[] = [
     hints: ["The day before the first day is the last day of the week.", "It starts with do-."],
   },
 ];
-
-// R03 closes the set: Sunday's full sentence, then the calendar items in their written order.
-export const r03: SetLesson = {
-  id: "wd-r03",
-  title: "Review: the whole week",
-  subtitle: "Review all seven days",
-  recalled: [],
-  base: ["WD-T07-V04", ...calendarItems.map((i) => i.id)],
-  formCards: [],
-  variations: [],
-};

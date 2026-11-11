@@ -1,5 +1,4 @@
-import { teachingCard, type Item } from "../practice-sets/item.ts";
-import type { SetLesson } from "../practice-sets/setLesson.ts";
+import type { Item } from "../practice-sets/item.ts";
 
 // T07, domingo: Sunday, the seventh day of the Spanish week.
 const meaning: [string, string] = [
@@ -91,25 +90,6 @@ export const t07Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T07-V02",
-    mode: "cloze",
-    prompt:
-      "Pablo’s visit is Sunday. Write the full Spanish sentence using exactly this frame: La visita de Pablo es el ___.",
-    answer: "La visita de Pablo es el domingo.",
-    say: "La visita de Pablo es el domingo.",
-    feedback: `${inFrame} Full example: La visita de Pablo es el domingo.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T07-V03",
-    mode: "cloze",
-    prompt: "I go to the museum Sunday. Complete only the gap: Voy al museo el ___.",
-    answer: "domingo",
-    say: "Voy al museo el domingo.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
     id: "WD-T07-V04",
     mode: "cloze",
     prompt:
@@ -120,41 +100,12 @@ export const t07Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T07-V05",
-    mode: "cloze",
-    prompt: "Luis has a meeting Sunday. Complete only the gap: Luis tiene una reunión el ___.",
-    answer: "domingo",
-    say: "Luis tiene una reunión el domingo.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T07-V06",
-    mode: "cloze",
-    prompt:
-      "Luis has a meeting Sunday. Write the full Spanish sentence using exactly this frame: Luis tiene una reunión el ___.",
-    answer: "Luis tiene una reunión el domingo.",
-    say: "Luis tiene una reunión el domingo.",
-    feedback: `${inFrame} Full example: Luis tiene una reunión el domingo.`,
-    hints: spanish,
-  },
-  {
     id: "WD-T07-V07",
     mode: "cloze",
     prompt: "Your appointment is Sunday. Complete only the gap: Tu cita es el ___.",
     answer: "domingo",
     say: "Tu cita es el domingo.",
     feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T07-V08",
-    mode: "cloze",
-    prompt:
-      "Your appointment is Sunday. Write the full Spanish sentence using exactly this frame: Tu cita es el ___.",
-    answer: "Tu cita es el domingo.",
-    say: "Tu cita es el domingo.",
-    feedback: `${inFrame} Full example: Tu cita es el domingo.`,
     hints: spanish,
   },
   {
@@ -180,15 +131,6 @@ export const t07Items: Item[] = [
     hints: everySunday,
   },
   {
-    id: "WD-T07-V11",
-    mode: "cloze",
-    prompt: "I have class on Sundays. Complete only the gap: Tengo clase los ___.",
-    answer: "domingos",
-    say: "Tengo clase los domingos.",
-    feedback: inFrameEvery,
-    hints: everySunday,
-  },
-  {
     id: "WD-T07-V12",
     mode: "sentence",
     prompt:
@@ -202,28 +144,3 @@ export const t07Items: Item[] = [
     hints: everySunday,
   },
 ];
-
-const t07Introduction = teachingCard(
-  "WD-T07-INTRO",
-  "New day: domingo",
-  "domingo means Sunday. It comes from dies Dominicus, Latin for the Lord’s day. Example: Hoy es domingo.",
-);
-
-const variations = t07Items.map((i) => i.id).filter((id) => id.startsWith("WD-T07-V"));
-
-export const l07: SetLesson = {
-  id: "wd-l07",
-  title: "Sunday",
-  subtitle: "Learn one new day",
-  recalled: ["WD-T06-V04"],
-  introduction: t07Introduction,
-  base: ["WD-T07-E01", "WD-T07-E02", "WD-T07-E03", "WD-T07-E04", "WD-T07-E05", "WD-T07-E06"],
-  formCards: [
-    {
-      before: "WD-T07-E04",
-      heading: "el domingo, los domingos",
-      text: "el domingo is one Sunday. los domingos is every Sunday: add -s. Days are written in lowercase.",
-    },
-  ],
-  variations,
-};

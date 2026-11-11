@@ -1,5 +1,4 @@
-import { teachingCard, type Item } from "../practice-sets/item.ts";
-import type { SetLesson } from "../practice-sets/setLesson.ts";
+import type { Item } from "../practice-sets/item.ts";
 
 // T03, miércoles: Wednesday, the third day of the Spanish week.
 const meaning: [string, string] = [
@@ -21,7 +20,7 @@ export const t03Items: Item[] = [
     mode: "choice",
     prompt: "Choose the English meaning of “miércoles”.",
     answer: "Wednesday",
-    choices: ["Wednesday", "Tuesday", "Thursday"],
+    choices: ["Wednesday", "Monday", "Tuesday"],
     say: "miércoles",
     feedback: "miércoles means Wednesday.",
     hints: meaning,
@@ -123,44 +122,6 @@ export const t03Items: Item[] = [
     hints: spanish,
   },
   {
-    id: "WD-T03-V06",
-    mode: "cloze",
-    prompt:
-      "Luis has class Wednesday. Write the full Spanish sentence using exactly this frame: Luis tiene clase el ___.",
-    answer: "Luis tiene clase el miércoles.",
-    say: "Luis tiene clase el miércoles.",
-    feedback: `${inFrame} Full example: Luis tiene clase el miércoles.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T03-V07",
-    mode: "cloze",
-    prompt: "You go by train Wednesday. Complete only the gap: Vas en tren el ___.",
-    answer: "miércoles",
-    say: "Vas en tren el miércoles.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
-    id: "WD-T03-V08",
-    mode: "cloze",
-    prompt:
-      "You go by train Wednesday. Write the full Spanish sentence using exactly this frame: Vas en tren el ___.",
-    answer: "Vas en tren el miércoles.",
-    say: "Vas en tren el miércoles.",
-    feedback: `${inFrame} Full example: Vas en tren el miércoles.`,
-    hints: spanish,
-  },
-  {
-    id: "WD-T03-V09",
-    mode: "cloze",
-    prompt: "I study on Wednesdays. Complete only the gap: Estudio los ___.",
-    answer: "miércoles",
-    say: "Estudio los miércoles.",
-    feedback: inFrame,
-    hints: spanish,
-  },
-  {
     id: "WD-T03-V10",
     mode: "sentence",
     prompt:
@@ -197,39 +158,3 @@ export const t03Items: Item[] = [
     hints: spanish,
   },
 ];
-
-const t03Introduction = teachingCard(
-  "WD-T03-INTRO",
-  "New day: miércoles",
-  "miércoles means Wednesday. It comes from Mercurio, Mercury. Example: La reunión es el miércoles. Write it with the accent on the é.",
-);
-
-const variations = t03Items.map((i) => i.id).filter((id) => id.startsWith("WD-T03-V"));
-
-export const l03: SetLesson = {
-  id: "wd-l03",
-  title: "Wednesday",
-  subtitle: "Learn one new day",
-  recalled: ["WD-T02-V04"],
-  introduction: t03Introduction,
-  base: ["WD-T03-E01", "WD-T03-E02", "WD-T03-E03", "WD-T03-E04", "WD-T03-E05", "WD-T03-E06"],
-  formCards: [
-    {
-      before: "WD-T03-E04",
-      heading: "el miércoles, los miércoles",
-      text: "el miércoles is one Wednesday. los miércoles is every Wednesday: the word stays the same. Days are written in lowercase.",
-    },
-  ],
-  variations,
-};
-
-// R01 closes unit 1: each day's full sentence again, in the days' order, with no cards.
-export const r01: SetLesson = {
-  id: "wd-r01",
-  title: "Unit review",
-  subtitle: "Review this unit's lessons",
-  recalled: [],
-  base: ["WD-T01-V04", "WD-T02-V04", "WD-T03-V04"],
-  formCards: [],
-  variations: [],
-};

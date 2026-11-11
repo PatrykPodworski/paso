@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { exerciseBank } from "../../components/practice";
+import { exerciseCount } from "../practice-sets/lesson";
 import { accentMistakes, accentOnlyAnswer, isCorrect } from "../progress";
 import { weekdaysLessons, weekdaysQuestions } from "./weekdays";
 
@@ -34,7 +35,6 @@ describe("weekdays content", () => {
         "WD-T05-V12",
         "WD-T06-E01",
         "WD-T06-E06",
-        "WD-T06-V12",
         "WD-T07-E01",
         "WD-T07-E06",
         "WD-T07-V12",
@@ -104,7 +104,6 @@ describe("weekdays content", () => {
       "WD-T05-V12",
       "WD-T06-E06",
       "WD-T06-V10",
-      "WD-T06-V12",
       "WD-T07-E06",
       "WD-T07-V10",
       "WD-T07-V12",
@@ -116,7 +115,6 @@ describe("weekdays content", () => {
       [
         "WD-T01-E01",
         "WD-T01-E04",
-        "WD-T01-V08",
         "WD-T02-E01",
         "WD-T02-E04",
         "WD-T02-V02",
@@ -125,21 +123,16 @@ describe("weekdays content", () => {
         "WD-T03-V11",
         "WD-T04-E01",
         "WD-T04-E04",
-        "WD-T04-V05",
         "WD-T05-E01",
         "WD-T05-E04",
-        "WD-T05-V05",
         "WD-T06-E01",
         "WD-T06-E04",
-        "WD-T06-V11",
         "WD-T07-E01",
         "WD-T07-E04",
-        "WD-T07-V05",
       ].map((id) => question(id).pronunciation),
     ).toEqual([
       "lunes",
       "Hoy es lunes.",
-      "Tu visita es el lunes.",
       "martes",
       "La clase es el martes.",
       "Pablo tiene una reunión el martes.",
@@ -148,108 +141,55 @@ describe("weekdays content", () => {
       "Pablo va al museo los miércoles.",
       "jueves",
       "La visita es el jueves.",
-      "Luis tiene una reunión el jueves.",
       "viernes",
       "La cita es el viernes.",
-      "El curso de Luis empieza el viernes.",
       "sábado",
       "Hoy es sábado.",
-      "La tienda abre los sábados.",
       "domingo",
       "Hoy es domingo.",
-      "Luis tiene una reunión el domingo.",
     ]);
   });
 
-  it("authors six base items and twelve variations for lunes", () => {
-    expect(ids("WD-T01-E")).toEqual([
-      "WD-T01-E01",
-      "WD-T01-E02",
-      "WD-T01-E03",
-      "WD-T01-E04",
-      "WD-T01-E05",
-      "WD-T01-E06",
-    ]);
+  it("puts every exercise in exactly one lesson", () => {
+    const owned = weekdaysLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
 
-    expect(ids("WD-T01-V")).toHaveLength(12);
+    expect(owned).toHaveLength(107);
+    expect(owned.toSorted()).toEqual(weekdaysQuestions.map((q) => q.id).toSorted());
   });
 
-  it("authors six base items and twelve variations for martes", () => {
-    expect(ids("WD-T02-E")).toEqual([
-      "WD-T02-E01",
-      "WD-T02-E02",
-      "WD-T02-E03",
-      "WD-T02-E04",
-      "WD-T02-E05",
-      "WD-T02-E06",
+  it("sizes the lessons", () => {
+    expect(weekdaysLessons.map((l) => [l.id, exerciseCount(l)])).toEqual([
+      ["wd-l01", 21],
+      ["wd-l02", 20],
+      ["wd-r01", 22],
+      ["wd-l03", 21],
+      ["wd-r02", 23],
     ]);
-
-    expect(ids("WD-T02-V")).toHaveLength(12);
   });
 
-  it("authors six base items and twelve variations for miércoles", () => {
-    expect(ids("WD-T03-E")).toEqual([
-      "WD-T03-E01",
-      "WD-T03-E02",
-      "WD-T03-E03",
-      "WD-T03-E04",
-      "WD-T03-E05",
-      "WD-T03-E06",
-    ]);
+  it("introduces each group's days together", () => {
+    const opening = (id: string, length: number) =>
+      weekdaysLessons.find((l) => l.id === id)!.base.slice(0, length);
 
-    expect(ids("WD-T03-V")).toHaveLength(12);
+    expect(opening("wd-l01", 3)).toEqual(["WD-T01-E01", "WD-T02-E01", "WD-T03-E01"]);
+    expect(opening("wd-l02", 2)).toEqual(["WD-T04-E01", "WD-T05-E01"]);
+    expect(opening("wd-l03", 2)).toEqual(["WD-T06-E01", "WD-T07-E01"]);
   });
 
-  it("authors six base items and twelve variations for jueves", () => {
-    expect(ids("WD-T04-E")).toEqual([
-      "WD-T04-E01",
-      "WD-T04-E02",
-      "WD-T04-E03",
-      "WD-T04-E04",
-      "WD-T04-E05",
-      "WD-T04-E06",
+  it("offers each group's days in its E01 choices", () => {
+    expect(
+      ids("WD-")
+        .filter((id) => id.endsWith("-E01"))
+        .map((id) => question(id).options),
+    ).toEqual([
+      ["Monday", "Tuesday", "Wednesday"],
+      ["Tuesday", "Monday", "Wednesday"],
+      ["Wednesday", "Monday", "Tuesday"],
+      ["Thursday", "Friday", "Wednesday"],
+      ["Friday", "Thursday", "Tuesday"],
+      ["Saturday", "Sunday", "Friday"],
+      ["Sunday", "Saturday", "Monday"],
     ]);
-
-    expect(ids("WD-T04-V")).toHaveLength(12);
-  });
-
-  it("authors six base items and twelve variations for viernes", () => {
-    expect(ids("WD-T05-E")).toEqual([
-      "WD-T05-E01",
-      "WD-T05-E02",
-      "WD-T05-E03",
-      "WD-T05-E04",
-      "WD-T05-E05",
-      "WD-T05-E06",
-    ]);
-
-    expect(ids("WD-T05-V")).toHaveLength(12);
-  });
-
-  it("authors six base items and twelve variations for sábado", () => {
-    expect(ids("WD-T06-E")).toEqual([
-      "WD-T06-E01",
-      "WD-T06-E02",
-      "WD-T06-E03",
-      "WD-T06-E04",
-      "WD-T06-E05",
-      "WD-T06-E06",
-    ]);
-
-    expect(ids("WD-T06-V")).toHaveLength(12);
-  });
-
-  it("authors six base items and twelve variations for domingo", () => {
-    expect(ids("WD-T07-E")).toEqual([
-      "WD-T07-E01",
-      "WD-T07-E02",
-      "WD-T07-E03",
-      "WD-T07-E04",
-      "WD-T07-E05",
-      "WD-T07-E06",
-    ]);
-
-    expect(ids("WD-T07-V")).toHaveLength(12);
   });
 
   it("authors the 17 calendar items of the whole-week review", () => {

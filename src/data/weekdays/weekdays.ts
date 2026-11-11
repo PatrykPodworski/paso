@@ -4,14 +4,15 @@ import { questionOf } from "../practice-sets/item.ts";
 import { lessonBuilder } from "../practice-sets/lesson.ts";
 import type { PracticeSet } from "../practice-sets/practiceSet.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
-import { calendarItems, r03 } from "./calendar.ts";
-import { l01, t01Items } from "./t01.ts";
-import { l02, t02Items } from "./t02.ts";
-import { l03, r01, t03Items } from "./t03.ts";
-import { l04, t04Items } from "./t04.ts";
-import { l05, t05Items } from "./t05.ts";
-import { l06, r02, t06Items } from "./t06.ts";
-import { l07, t07Items } from "./t07.ts";
+import { calendarItems } from "./calendar.ts";
+import { l01, l02, l03, r01, r02 } from "./lessons.ts";
+import { t01Items } from "./t01.ts";
+import { t02Items } from "./t02.ts";
+import { t03Items } from "./t03.ts";
+import { t04Items } from "./t04.ts";
+import { t05Items } from "./t05.ts";
+import { t06Items } from "./t06.ts";
+import { t07Items } from "./t07.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const weekdaysQuestions: Question[] = [
@@ -25,12 +26,11 @@ export const weekdaysQuestions: Question[] = [
   ...calendarItems,
 ].map(questionOf);
 
-export const weekdaysLessons: SetLesson[] = [l01, l02, l03, r01, l04, l05, l06, r02, l07, r03];
+export const weekdaysLessons: SetLesson[] = [l01, l02, r01, l03, r02];
 
 const UNITS = [
-  { after: 5, subtitle: "lunes, martes, miércoles", ids: ["wd-l01", "wd-l02", "wd-l03", "wd-r01"] },
-  { after: 5, subtitle: "jueves, viernes, sábado", ids: ["wd-l04", "wd-l05", "wd-l06", "wd-r02"] },
-  { after: 5, subtitle: "domingo and the whole week", ids: ["wd-l07", "wd-r03"] },
+  { after: 5, subtitle: "lunes to viernes", ids: ["wd-l01", "wd-l02", "wd-r01"] },
+  { after: 5, subtitle: "the weekend and the whole week", ids: ["wd-l03", "wd-r02"] },
 ];
 
 export const weekdaysUnits = UNITS.map(({ after, subtitle, ids }, i) => ({
@@ -52,10 +52,10 @@ export const weekdaysSet: PracticeSet = {
   id: "weekdays",
   route: "practice/weekdays",
   name: "Weekdays",
-  note: "the seven days, one new day per lesson",
+  note: "the seven days, two or three at a time",
   icon: "clock",
   title: "Weekdays.",
-  description: "Learn the seven days of the week in Spanish, one new day per lesson.",
+  description: "Learn the seven days of the week in Spanish, two or three new days per lesson.",
   units: weekdaysUnits,
   lessons: weekdaysLessons,
   questions: weekdaysQuestions,

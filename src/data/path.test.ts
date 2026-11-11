@@ -27,9 +27,8 @@ const stub = (id: string): SetLesson => ({
 });
 
 const WEEKDAYS = [
-  ["wd-l01", "wd-l02", "wd-l03", "wd-r01"],
-  ["wd-l04", "wd-l05", "wd-l06", "wd-r02"],
-  ["wd-l07", "wd-r03"],
+  ["wd-l01", "wd-l02", "wd-r01"],
+  ["wd-l03", "wd-r02"],
 ];
 
 const weekdaysComplete: PracticeSet = {
@@ -60,38 +59,37 @@ it("puts every set unit right after the course unit it builds on, with Weekdays 
     [5, "u5"],
     [6, "wd-u1"],
     [7, "wd-u2"],
-    [8, "wd-u3"],
-    [9, "tm-u1"],
-    [10, "tm-u2"],
-    [11, "tm-u3"],
-    [12, "tm-u4"],
-    [13, "u6"],
-    [14, "u7"],
-    [15, "u8"],
-    [16, "u9"],
-    [17, "aq-u1"],
-    [18, "aq-u2"],
-    [19, "u10"],
-    [20, "aq-u3"],
-    [21, "u11"],
-    [22, "aq-u4"],
-    [23, "u12"],
+    [8, "tm-u1"],
+    [9, "tm-u2"],
+    [10, "tm-u3"],
+    [11, "tm-u4"],
+    [12, "u6"],
+    [13, "u7"],
+    [14, "u8"],
+    [15, "u9"],
+    [16, "aq-u1"],
+    [17, "aq-u2"],
+    [18, "u10"],
+    [19, "aq-u3"],
+    [20, "u11"],
+    [21, "aq-u4"],
+    [22, "u12"],
   ]);
 
-  expect(complete.pathLessons).toHaveLength(100);
-  expect(complete.pathPlace("aq-r01")).toEqual({ unit: 17, lesson: 5 });
-  expect(complete.courseUnitNumber(6)).toBe(13);
-  expect(complete.pathUnitNumber("aq-u3")).toBe(20);
+  expect(complete.pathLessons).toHaveLength(95);
+  expect(complete.pathPlace("aq-r01")).toEqual({ unit: 16, lesson: 5 });
+  expect(complete.courseUnitNumber(6)).toBe(12);
+  expect(complete.pathUnitNumber("aq-u3")).toBe(19);
 });
 
 it("puts the time-words unit with L01 right after the Weekdays units", () => {
-  expect(pathUnits.slice(8, 11).map((u) => [u.number, u.id])).toEqual([
-    [9, "wd-u3"],
-    [10, "tm-u1"],
-    [11, "u6"],
+  expect(pathUnits.slice(7, 10).map((u) => [u.number, u.id])).toEqual([
+    [8, "wd-u2"],
+    [9, "tm-u1"],
+    [10, "u6"],
   ]);
 
-  expect(pathPlace("tm-l01")).toEqual({ unit: 10, lesson: 1 });
+  expect(pathPlace("tm-l01")).toEqual({ unit: 9, lesson: 1 });
 });
 
 it("leaves out a set unit without lessons and gives it no number", () => {
@@ -99,7 +97,7 @@ it("leaves out a set unit without lessons and gives it no number", () => {
     ...weekdaysSet,
     units: weekdaysSet.units.map((u, i) => ({
       ...u,
-      lessons: i === 1 ? [] : WEEKDAYS[i].map(stub),
+      lessons: i === 0 ? [] : WEEKDAYS[i].map(stub),
     })),
   };
 
@@ -107,14 +105,14 @@ it("leaves out a set unit without lessons and gives it no number", () => {
 
   expect(path.pathUnits.slice(4, 9).map((u) => [u.number, u.id])).toEqual([
     [5, "u5"],
-    [6, "wd-u1"],
-    [7, "wd-u3"],
-    [8, "u6"],
-    [9, "u7"],
+    [6, "wd-u2"],
+    [7, "u6"],
+    [8, "u7"],
+    [9, "u8"],
   ]);
 
-  expect(path.pathUnitNumber("wd-u2")).toBeUndefined();
-  expect(path.pathPlace("wd-l07")).toEqual({ unit: 7, lesson: 1 });
+  expect(path.pathUnitNumber("wd-u1")).toBeUndefined();
+  expect(path.pathPlace("wd-l03")).toEqual({ unit: 6, lesson: 1 });
 });
 
 it("shows a set unit with the set's icon and name, its part and what it teaches", () => {
@@ -130,7 +128,7 @@ it("shows a set unit with the set's icon and name, its part and what it teaches"
 
   expect(unit.tip).toBeUndefined();
   expect(unit.example).toBeUndefined();
-  expect(pathUnits.find((u) => u.id === "wd-u2")!.eyebrow).toBe("Part 2 of 3");
+  expect(pathUnits.find((u) => u.id === "wd-u2")!.eyebrow).toBe("Part 2 of 2");
 
   expect(pathUnits.find((u) => u.id === "tm-u1")).toMatchObject({
     icon: "sun",
@@ -204,8 +202,8 @@ it("holds every course and set lesson once", () => {
 it("numbers a path lesson by its path unit and its position in that unit", () => {
   expect(pathPlace(units[3].lessons[1].id)).toEqual({ unit: 4, lesson: 2 });
   expect(pathPlace(units[0].lessons[0].id)).toEqual({ unit: 1, lesson: 1 });
-  expect(pathPlace("wd-l04")).toEqual({ unit: 8, lesson: 1 });
-  expect(pathPlace("aq-r01")).toEqual({ unit: 15, lesson: 5 });
+  expect(pathPlace("wd-l03")).toEqual({ unit: 8, lesson: 1 });
+  expect(pathPlace("aq-r01")).toEqual({ unit: 14, lesson: 5 });
 });
 
 it("gives a practice session no place on the path", () => {
@@ -216,8 +214,8 @@ it("shows a course unit under its path number", () => {
   expect(courseUnitNumber(1)).toBe(1);
   expect(courseUnitNumber(4)).toBe(4);
   expect(courseUnitNumber(5)).toBe(6);
-  expect(courseUnitNumber(6)).toBe(11);
-  expect(courseUnitNumber(12)).toBe(21);
+  expect(courseUnitNumber(6)).toBe(10);
+  expect(courseUnitNumber(12)).toBe(20);
 });
 
 it("counts the set lessons' own exercises and no teaching card", () => {
@@ -226,7 +224,7 @@ it("counts the set lessons' own exercises and no teaching card", () => {
     units: weekdaysSet.units.map((u, i) => (i === 0 ? u : { ...u, lessons: [] })),
   };
 
-  // L01–L03 own 6 base items and 12 variations each, past their intro and form cards; R01 has 3.
+  // L01, L02 and R01 own 21, 20 and 22 exercises, past L01's and L02's intro and form cards.
   expect(pathModel(units, []).pathExerciseCount).toBe(281);
-  expect(pathModel(units, [firstWeekdaysUnit]).pathExerciseCount).toBe(281 + 18 * 3 + 3);
+  expect(pathModel(units, [firstWeekdaysUnit]).pathExerciseCount).toBe(281 + 21 + 20 + 22);
 });

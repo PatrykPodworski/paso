@@ -66,7 +66,7 @@ describe("practice sets", () => {
   it("places every set unit after a course unit, never before an earlier unit of the set", () => {
     expect(practiceSets.map((s) => s.units.map((u) => u.after))).toEqual([
       [9, 9, 10, 11],
-      [5, 5, 5],
+      [5, 5],
       [4, 4, 4, 4],
       [5, 5, 5, 5],
     ]);

@@ -115,13 +115,13 @@ describe("a lesson from the asking-questions set", () => {
   });
 });
 
-it("reopens an unfinished weekdays L01 with E01 answered at E02", () => {
+it("reopens an unfinished weekdays L01 with Monday's E01 answered at Tuesday's E01", () => {
   const l01 = weekdaysLesson("wd-l01", () => 0);
   const progress = emptySnapshot();
 
   progress.questions["WD-T01-E01"] = questionState();
 
-  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("WD-T01-E02");
+  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("WD-T02-E01");
 });
 
 it("reopens an unfinished placement L01 with E01 answered at E02", () => {

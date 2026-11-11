@@ -1,0 +1,191 @@
+import { teachingCard } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
+
+// Each learning lesson introduces two or three days and practises them against each other; the
+// earlier days come back as items the lesson owns, among its variations.
+export const l01: SetLesson = {
+  id: "wd-l01",
+  title: "Monday to Wednesday",
+  subtitle: "Learn three new days",
+  recalled: [],
+  introduction: teachingCard(
+    "WD-L01-INTRO",
+    "New days: lunes, martes, miércoles",
+    "lunes is Monday, from la Luna, the Moon. martes is Tuesday, from Marte, Mars. miércoles is Wednesday, from Mercurio, Mercury: write it with the accent on the é. Example: Hoy es lunes.",
+  ),
+  base: [
+    "WD-T01-E01",
+    "WD-T02-E01",
+    "WD-T03-E01",
+    "WD-T01-E03",
+    "WD-T02-E03",
+    "WD-T03-E03",
+    "WD-T01-E04",
+    "WD-T02-E04",
+    "WD-T03-E04",
+    "WD-T01-E05",
+    "WD-T02-E05",
+    "WD-T03-E05",
+    "WD-T01-E06",
+    "WD-T02-E06",
+    "WD-T03-E06",
+  ],
+  formCards: [
+    {
+      before: "WD-T01-E04",
+      heading: "el lunes, los lunes",
+      text: "el lunes is one Monday. los lunes is every Monday: lunes, martes and miércoles stay the same. Days are written in lowercase.",
+    },
+  ],
+  variations: ["WD-T01-V01", "WD-T02-V01", "WD-T03-V01", "WD-T01-V10", "WD-T02-V10", "WD-T03-V10"],
+};
+
+export const l02: SetLesson = {
+  id: "wd-l02",
+  title: "Thursday and Friday",
+  subtitle: "Learn two new days, mixed with Monday to Wednesday",
+  recalled: [],
+  introduction: teachingCard(
+    "WD-L02-INTRO",
+    "New days: jueves, viernes",
+    "jueves is Thursday, from Júpiter, Jupiter. viernes is Friday, from Venus. Example: La visita es el jueves.",
+  ),
+  base: [
+    "WD-T04-E01",
+    "WD-T05-E01",
+    "WD-T04-E03",
+    "WD-T05-E03",
+    "WD-T04-E04",
+    "WD-T05-E04",
+    "WD-T04-E05",
+    "WD-T05-E05",
+    "WD-T04-E06",
+    "WD-T05-E06",
+  ],
+  formCards: [
+    {
+      before: "WD-T04-E04",
+      heading: "el jueves, los jueves",
+      text: "jueves and viernes end in -s already, so every Thursday is los jueves and every Friday los viernes.",
+    },
+  ],
+  variations: [
+    "WD-T04-V01",
+    "WD-T05-V01",
+    "WD-T04-V10",
+    "WD-T05-V10",
+    "WD-T01-E02",
+    "WD-T02-E02",
+    "WD-T03-E02",
+    "WD-T01-V02",
+    "WD-T02-V02",
+    "WD-T03-V02",
+  ],
+};
+
+export const r01: SetLesson = {
+  id: "wd-r01",
+  title: "Monday to Friday",
+  subtitle: "Review the five days so far",
+  recalled: [],
+  base: [],
+  formCards: [],
+  variations: [
+    "WD-T04-E02",
+    "WD-T05-E02",
+    "WD-T01-V03",
+    "WD-T02-V03",
+    "WD-T03-V03",
+    "WD-T04-V03",
+    "WD-T05-V03",
+    "WD-T01-V04",
+    "WD-T02-V04",
+    "WD-T03-V04",
+    "WD-T04-V04",
+    "WD-T05-V04",
+    "WD-T01-V12",
+    "WD-T02-V12",
+    "WD-T03-V12",
+    "WD-T04-V12",
+    "WD-T05-V12",
+    "WD-T01-V09",
+    "WD-T02-V11",
+    "WD-T03-V11",
+    "WD-T04-V09",
+    "WD-T05-V09",
+  ],
+};
+
+export const l03: SetLesson = {
+  id: "wd-l03",
+  title: "Saturday and Sunday",
+  subtitle: "Learn the weekend, mixed with Monday to Friday",
+  recalled: [],
+  introduction: teachingCard(
+    "WD-L03-INTRO",
+    "New days: sábado, domingo",
+    "sábado is Saturday, from the Sabbath, the day of rest: write it with the accent on the á. domingo is Sunday, from dies Dominicus, Latin for the Lord’s day. Example: Hoy es sábado.",
+  ),
+  base: [
+    "WD-T06-E01",
+    "WD-T07-E01",
+    "WD-T06-E03",
+    "WD-T07-E03",
+    "WD-T06-E04",
+    "WD-T07-V01",
+    "WD-T06-E05",
+    "WD-T07-E05",
+    "WD-T06-E06",
+    "WD-T07-E06",
+  ],
+  formCards: [
+    {
+      before: "WD-T06-E04",
+      heading: "el sábado, los sábados",
+      text: "el sábado is one Saturday. los sábados is every Saturday: sábado and domingo add -s, so every Sunday is los domingos.",
+    },
+  ],
+  variations: [
+    "WD-T06-V01",
+    "WD-T06-V09",
+    "WD-T06-V10",
+    "WD-T07-V07",
+    "WD-T07-V09",
+    "WD-T07-V10",
+    "WD-T01-V05",
+    "WD-T02-V05",
+    "WD-T03-V05",
+    "WD-T04-V06",
+    "WD-T05-V06",
+  ],
+};
+
+// R02 closes the set: the calendar items in their written order, then the weekend's remaining
+// items.
+export const r02: SetLesson = {
+  id: "wd-r02",
+  title: "The whole week",
+  subtitle: "Review all seven days and their order",
+  recalled: [],
+  base: [
+    "WD-G01-C01",
+    "WD-G01-C02",
+    "WD-G01-C03",
+    "WD-G01-C04",
+    "WD-G01-C05",
+    "WD-G01-C06",
+    "WD-G01-C07",
+    "WD-G02-C01",
+    "WD-G02-C02",
+    "WD-G02-C03",
+    "WD-G02-C04",
+    "WD-G02-C05",
+    "WD-G02-C06",
+    "WD-G02-C07",
+    "WD-G03",
+    "WD-G04-C01",
+    "WD-G04-C02",
+  ],
+  formCards: [],
+  variations: ["WD-T06-E02", "WD-T07-E02", "WD-T06-V04", "WD-T07-V04", "WD-T07-E04", "WD-T07-V12"],
+};

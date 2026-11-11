@@ -429,10 +429,10 @@ it("moves from a finished lesson straight to the next one on the path", async ()
 
 it("shows the first Asking questions unit on the path and opens its first lesson", async () => {
   await mount("path");
-  const card = screen.getByRole("button", { name: /UNIT 15 · Part 1 of 4/ });
+  const card = screen.getByRole("button", { name: /UNIT 14 · Part 1 of 4/ });
 
   expect(card).toHaveTextContent(
-    "UNIT 15 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo5 lessons",
+    "UNIT 14 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo5 lessons",
   );
 
   fireEvent.click(card);
@@ -442,7 +442,7 @@ it("shows the first Asking questions unit on the path and opens its first lesson
 
 it("moves from the last lesson of course unit 9 to the first Asking questions lesson", async () => {
   await mount("path");
-  fireEvent.click(screen.getByRole("button", { name: /UNIT 14 · / }));
+  fireEvent.click(screen.getByRole("button", { name: /UNIT 13 · / }));
   fireEvent.click(screen.getByRole("button", { name: new RegExp(units[8].lessons.at(-1)!.title) }));
   act(() => session.onComplete(1, 1));
   act(() => session.onNext!());
@@ -555,9 +555,9 @@ it("starts Your learning path at a set unit when it holds the journey lesson", a
   const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
 
   expect(summaries.map((s) => s.textContent?.slice(0, 22))).toEqual([
-    "UNIT 07 · Part 1 of 3W",
-    "UNIT 08 · Part 2 of 3W",
-    "UNIT 09 · Part 3 of 3W",
+    "UNIT 07 · Part 1 of 2W",
+    "UNIT 08 · Part 2 of 2W",
+    "UNIT 09 · Part 1 of 4T",
   ]);
 
   expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
@@ -661,20 +661,20 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Weekdays/ })).toHaveTextContent(
-    `${weekdaysLessons.length} lessons · the seven days, one new day per lesson`,
+    `${weekdaysLessons.length} lessons · the seven days, two or three at a time`,
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Weekdays/ }));
   await settle();
 
   expect(window.location.pathname).toBe("/practice/weekdays");
-  fireEvent.click(screen.getByRole("button", { name: /Monday/ }));
+  fireEvent.click(screen.getByRole("button", { name: /^Monday to Wednesday/ }));
 
   expect(session.lesson.id).toBe("wd-l01");
-  act(() => session.onComplete(16, 18));
+  act(() => session.onComplete(19, 21));
   await settle();
 
-  expect((await saved()).completed).toMatchObject({ "wd-l01": { score: 16, total: 18 } });
+  expect((await saved()).completed).toMatchObject({ "wd-l01": { score: 19, total: 21 } });
 
   changeUrl("/path");
   await settle();
@@ -684,7 +684,9 @@ it("opens the weekdays page from the practice studio and counts L01 on the path"
   changeUrl("/practice/weekdays");
   await settle();
 
-  expect(screen.getByRole("button", { name: /Monday/ })).toHaveTextContent("Last score 16/18");
+  expect(screen.getByRole("button", { name: /^Monday to Wednesday/ })).toHaveTextContent(
+    "Last score 19/21",
+  );
 });
 
 it("opens the placement page from the practice studio and counts L01 on the path", async () => {

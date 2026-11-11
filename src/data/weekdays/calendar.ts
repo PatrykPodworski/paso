@@ -6,7 +6,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C01",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Monday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Monday",
     answer: "lunes",
     say: "lunes",
     feedback: "Monday is lunes.",
@@ -15,7 +16,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C02",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Tuesday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Tuesday",
     answer: "martes",
     say: "martes",
     feedback: "Tuesday is martes.",
@@ -24,7 +26,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C03",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Wednesday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Wednesday",
     answer: "miércoles",
     say: "miércoles",
     feedback: "Wednesday is miércoles.",
@@ -36,7 +39,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C04",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Thursday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Thursday",
     answer: "jueves",
     say: "jueves",
     feedback: "Thursday is jueves.",
@@ -45,7 +49,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C05",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Friday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Friday",
     answer: "viernes",
     say: "viernes",
     feedback: "Friday is viernes.",
@@ -54,7 +59,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C06",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Saturday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Saturday",
     answer: "sábado",
     say: "sábado",
     feedback: "Saturday is sábado.",
@@ -66,7 +72,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G01-C07",
     mode: "cloze",
-    prompt: "Write the Spanish dictionary form for “Sunday”.",
+    instruction: "Write the Spanish word",
+    prompt: "Sunday",
     answer: "domingo",
     say: "domingo",
     feedback: "Sunday is domingo.",
@@ -78,7 +85,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C01",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Monday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Monday",
     answer: "lunes",
     choices: ["martes", "miércoles", "jueves", "viernes", "sábado", "domingo", "lunes"],
     say: "lunes",
@@ -88,7 +96,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C02",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Tuesday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Tuesday",
     answer: "martes",
     choices: ["miércoles", "jueves", "viernes", "sábado", "domingo", "lunes", "martes"],
     say: "martes",
@@ -98,7 +107,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C03",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Wednesday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Wednesday",
     answer: "miércoles",
     choices: ["jueves", "viernes", "sábado", "domingo", "lunes", "martes", "miércoles"],
     say: "miércoles",
@@ -111,7 +121,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C04",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Thursday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Thursday",
     answer: "jueves",
     choices: ["viernes", "sábado", "domingo", "lunes", "martes", "miércoles", "jueves"],
     say: "jueves",
@@ -121,7 +132,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C05",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Friday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Friday",
     answer: "viernes",
     choices: ["sábado", "domingo", "lunes", "martes", "miércoles", "jueves", "viernes"],
     say: "viernes",
@@ -131,7 +143,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C06",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Saturday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Saturday",
     answer: "sábado",
     choices: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
     say: "sábado",
@@ -144,7 +157,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G02-C07",
     mode: "choice",
-    prompt: "Choose the Spanish dictionary form for “Sunday”.",
+    instruction: "Choose the Spanish word",
+    prompt: "Sunday",
     answer: "domingo",
     choices: ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
     say: "domingo",
@@ -157,8 +171,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G03",
     mode: "order",
-    prompt:
-      "Arrange the supplied Spanish names in chronological order, starting with Monday. Use each provided name once, without commas.",
+    instruction: "Put the days in order. Use each tile once.",
+    prompt: "The days of the week, starting with Monday",
     answer: "lunes martes miércoles jueves viernes sábado domingo",
     chunks: ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
     feedback: "The Spanish week runs lunes, martes, miércoles, jueves, viernes, sábado, domingo.",
@@ -167,7 +181,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G04-C01",
     mode: "cloze",
-    prompt: "The week repeats. Write the Spanish name of the day after Sunday.",
+    instruction: "Write the Spanish day. The week repeats.",
+    prompt: "The day after Sunday",
     answer: "lunes",
     say: "lunes",
     feedback: "After domingo the week starts again with lunes.",
@@ -176,7 +191,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G04-C02",
     mode: "cloze",
-    prompt: "The week repeats. Write the Spanish name of the day before Monday.",
+    instruction: "Write the Spanish day. The week repeats.",
+    prompt: "The day before Monday",
     answer: "domingo",
     say: "domingo",
     feedback: "Before lunes comes the last day of the week, domingo.",

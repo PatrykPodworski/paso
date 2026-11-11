@@ -17,7 +17,6 @@ export type Item = Base &
     | { mode: "cloze"; accepted?: string[]; say: string }
     | { mode: "order"; chunks: string[] }
     | { mode: "ask"; accepted?: string[] }
-    | { mode: "dialogue"; constraints: string[] }
     | { mode: "sentence"; constraints: string[] }
   );
 
@@ -84,16 +83,6 @@ export const questionOf = (item: Item): Question => {
         accepted: item.accepted,
         pronunciation: item.answer,
         questionMarks: true,
-      };
-    case "dialogue":
-      return {
-        ...common,
-        kind: "write",
-        skill: "writing",
-        checklist: item.constraints,
-        single: "question",
-        minWords: 2,
-        maxWords: 15,
       };
     case "sentence":
       return {

@@ -26717,19 +26717,6 @@
       "method": "make-words"
     }
   },
-  "1x5lk94": {
-    "src": "/audio/voxcpm/b5993e6754f06c102069cef0.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "el móvil?",
-    "spokenText": "el móvil",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "z8xk4b": {
     "src": "/audio/voxcpm/b5b6da3f00d9a85443167806.mp3",
     "voiceId": "es-male-teacher",
@@ -27085,19 +27072,6 @@
       "method": "make-words"
     }
   },
-  "18nd1i2": {
-    "src": "/audio/voxcpm/61749a62289a2eacbc39e53c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "al centro?",
-    "spokenText": "al centro",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "m7aked": {
     "src": "/audio/voxcpm/949bdfbb3bdeb586826eabbb.mp3",
     "voiceId": "es-male-teacher",
@@ -27115,18 +27089,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿De quién es este móvil?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1cpak3h": {
-    "src": "/audio/voxcpm/17604ac36d74a5270fc621da.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿De quiénes es este libro?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27170,59 +27132,11 @@
       "method": "make-sentences"
     }
   },
-  "1c11bda": {
-    "src": "/audio/voxcpm/b3d6e836e4dbff058c64cd57.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿De quién es esta bolsa?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "iz86fv": {
-    "src": "/audio/voxcpm/b00a3544e041cbe835c9579e.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿De quiénes son estos libros?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "cvhmdf": {
     "src": "/audio/voxcpm/0c4d8b00ada500aa1794f893.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿De quién son estos libros?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "e43eum": {
-    "src": "/audio/voxcpm/a0bf037caa9ee7a0211bbe8d.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿De quién son estas camisetas?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1g9usr8": {
-    "src": "/audio/voxcpm/82dd95dc20d876a70a225cea.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿De quién es este billete?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27254,78 +27168,6 @@
       "method": "make-sentences"
     }
   },
-  "tqn8nm": {
-    "src": "/audio/voxcpm/1730e56bbdf636e787cbd10b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo vive Pablo en Madrid?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "cy7vzj": {
-    "src": "/audio/voxcpm/5ffbd5056918a87ae194dfa9.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo trabaja Pablo aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1p8nhej": {
-    "src": "/audio/voxcpm/e374e9c80c5c9ee00c81b193.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo vive Luis aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "lq782q": {
-    "src": "/audio/voxcpm/fdd2198fb3e5820f1415c66a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo viven Pablo y Luis en Madrid?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1qi0bbg": {
-    "src": "/audio/voxcpm/a2cd4d96b0d5a2ac45bb21c1.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo estudia Luis aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1dtojgt": {
-    "src": "/audio/voxcpm/650df06236062bbf0dcf1428.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo trabajas en casa?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "v5hf4l": {
     "src": "/audio/voxcpm/d5c08845c42d0837e59051bb.mp3",
     "voiceId": "es-male-teacher",
@@ -27350,30 +27192,6 @@
       "method": "make-sentences"
     }
   },
-  "1e3iz9u": {
-    "src": "/audio/voxcpm/b2aa62b747633eb17de913b2.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo estudian Pablo y Luis español?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "ath9px": {
-    "src": "/audio/voxcpm/1af6b2422288a41e862ef162.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Desde cuándo trabaja Luis en el museo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1j9u452": {
     "src": "/audio/voxcpm/9831cdd605d13197b9003f85.mp3",
     "voiceId": "es-male-teacher",
@@ -27386,167 +27204,11 @@
       "method": "make-sentences"
     }
   },
-  "1qatxmc": {
-    "src": "/audio/voxcpm/032c84b79f930ce738050e6d.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo estás aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "2ap6vm": {
-    "src": "/audio/voxcpm/8d2d809fc97daea6d68448dd.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo trabajas hoy?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "tzxevz": {
-    "src": "/audio/voxcpm/71dbb4e9b33ca77cb2c8fa97.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo están Pablo y Luis en Madrid?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "lods3": {
-    "src": "/audio/voxcpm/11b01257f4de81c7418dffd6.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo estás en el museo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "6uj0u4": {
-    "src": "/audio/voxcpm/21213e06d719bea1a47902ef.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo trabaja Luis hoy?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "4xrxwf": {
-    "src": "/audio/voxcpm/93b775bb7989be0b06a6bc8e.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo está Pablo aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1mtj8yj": {
-    "src": "/audio/voxcpm/b0132b1edaf22974099cc1f2.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo trabaja Pablo hoy?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1ceuxs7": {
-    "src": "/audio/voxcpm/5aae7eed549ff75f3dd77c70.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo trabajan Pablo y Luis hoy?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "smju1q": {
     "src": "/audio/voxcpm/d386f6ccffc4460e0b7a0e4f.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Hasta cuándo está Luis aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1laxhuz": {
-    "src": "/audio/voxcpm/96d751398468769dde61da8c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Hasta cuándo está Pablo en Madrid?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "pcmz8q": {
-    "src": "/audio/voxcpm/5a4618d451a6ace7e6a22e46.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto vienes?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1qaco1n": {
-    "src": "/audio/voxcpm/23e7e8dea327e3edfe9499fc.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto estudias español?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "ywjtk2": {
-    "src": "/audio/voxcpm/8ea4b29409e39bfe22bfac62.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto vas al centro?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1mz5rf2": {
-    "src": "/audio/voxcpm/ca490a9fe612a890f3026d0f.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto tienes clase?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27578,107 +27240,11 @@
       "method": "make-sentences"
     }
   },
-  "pfgdc7": {
-    "src": "/audio/voxcpm/625be5c5c07514a687ab3f91.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto vas a la tienda?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1wygcfo": {
-    "src": "/audio/voxcpm/76979485f3ca776d973b86a4.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto tiene Luis clase?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1wj67wj": {
-    "src": "/audio/voxcpm/32adf3464bb9226c87592164.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto va Pablo al museo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "vijigg": {
-    "src": "/audio/voxcpm/e077d567cfe22d59d4b74b24.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto compra Luis leche?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1wgendq": {
-    "src": "/audio/voxcpm/a177d97a95c0e5bec58a8381.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto estudia Pablo español?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1cl45v4": {
-    "src": "/audio/voxcpm/7c4aed7b9fcf0b2c6834fbfe.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto van Pablo y Luis en autobús?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "9m83fy": {
-    "src": "/audio/voxcpm/8141c7c0b3bfa750e040d8d3.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto tiempo estudia Luis aquí?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1p0tqa0": {
     "src": "/audio/voxcpm/aaae3132e2093f4510059ca7.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Para qué usas el móvil?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "eo5ryf": {
-    "src": "/audio/voxcpm/b6faf388af70931447341938.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué usas este libro?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27698,167 +27264,11 @@
       "method": "make-sentences"
     }
   },
-  "1euhwbg": {
-    "src": "/audio/voxcpm/973afebf2ea89e7745a46243.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué quieres la bolsa?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "phirx3": {
-    "src": "/audio/voxcpm/b2b7af4b7a9d1047434fddd6.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué usa Luis el libro?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "178ouii": {
-    "src": "/audio/voxcpm/460673920047e99b3f40be87.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué usas este móvil?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1wq3xsc": {
-    "src": "/audio/voxcpm/26226223a8a434c47afe5fe0.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué quiere Pablo este libro?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1nkb4fu": {
-    "src": "/audio/voxcpm/92f12c51e6d659ee8dfdba78.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué quiere Luis dos entradas?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "d2ie8r": {
-    "src": "/audio/voxcpm/fca3633349805d5669e8bbfc.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué usan Pablo y Luis esta sala?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "o8ozem": {
-    "src": "/audio/voxcpm/492b24834462a7ba1858b503.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué usa Luis la mochila?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1l7t6zw": {
-    "src": "/audio/voxcpm/42514e08eb4a780471610b67.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Para qué usa Pablo este libro?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "1rr1paq": {
     "src": "/audio/voxcpm/fef44d187e13e878b72a8af6.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Por dónde vas al centro?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "1ivoqbr": {
-    "src": "/audio/voxcpm/80e5ba5964cf6823dd1b8d01.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde vas al hotel?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "am0tn4": {
-    "src": "/audio/voxcpm/ee9e41b03ada4c004f597a96.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde vas?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "xl18v0": {
-    "src": "/audio/voxcpm/7788b45134c093cef0544d27.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde vas a la tienda a pie?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "noz3o6": {
-    "src": "/audio/voxcpm/9c66316902f5e0a22a50165b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde va Luis al museo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "10kch": {
-    "src": "/audio/voxcpm/6d5af210fc2a48ac874469fb.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde va Pablo a la estación?",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -27902,30 +27312,6 @@
       "method": "make-sentences"
     }
   },
-  "1udr7i": {
-    "src": "/audio/voxcpm/c11a8fdcf1c735abc0726450.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde va Luis a la estación?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
-  "lyl5yr": {
-    "src": "/audio/voxcpm/85fb1d2c5139588f2b2e3c92.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Por dónde va Pablo al museo?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-sentences"
-    }
-  },
   "fo2p9u": {
     "src": "/audio/voxcpm/6f3954133d3dda37d90b8cf5.mp3",
     "voiceId": "es-male-teacher",
@@ -27936,32 +27322,6 @@
       "inferenceTimesteps": 30,
       "seed": 0,
       "method": "make-sentences"
-    }
-  },
-  "1rhnwrr": {
-    "src": "/audio/voxcpm/c6b7067dcd15b08efe127ac4.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿De quiénes",
-    "spokenText": "¿De quiénes?",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "nyi0cn": {
-    "src": "/audio/voxcpm/4411634ae288420f10d0655b.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "este libro?",
-    "spokenText": "este libro",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
     }
   },
   "1fa53pb": {
@@ -28002,62 +27362,12 @@
       "method": "make-words"
     }
   },
-  "p7d7wa": {
-    "src": "/audio/voxcpm/33e34e7329dcc5dafa3738e3.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "estas camisetas?",
-    "spokenText": "estas camisetas",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "1pnc3h": {
     "src": "/audio/voxcpm/4953792f94f28f5259a7b13e.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Desde cuándo",
     "spokenText": "Desde cuándo",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "10lea9u": {
-    "src": "/audio/voxcpm/18d98a401c2c8df71c351e4e.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "vives",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1tsv8ho": {
-    "src": "/audio/voxcpm/cbedf4082441fb3f5f629432.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "vive Luis",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "nund09": {
-    "src": "/audio/voxcpm/b65ab29449b581e75a0ffe1a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "estudias español?",
-    "spokenText": "estudias español",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -28078,44 +27388,6 @@
       "method": "make-words"
     }
   },
-  "1sc7oow": {
-    "src": "/audio/voxcpm/cf515170fabffc0136998770.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "en Madrid?",
-    "spokenText": "en Madrid",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1cecpet": {
-    "src": "/audio/voxcpm/7bac25530dde91ad009ca873.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "estás en el museo?",
-    "spokenText": "estás en el museo",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1n5l3y0": {
-    "src": "/audio/voxcpm/0ace33a227f4eeebac2899fc.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "está Pablo",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "13f8ml": {
     "src": "/audio/voxcpm/82f094792fa7367eb2630091.mp3",
     "voiceId": "es-male-teacher",
@@ -28129,113 +27401,12 @@
       "method": "make-words"
     }
   },
-  "15j00sk": {
-    "src": "/audio/voxcpm/051d9759bfef2c70a98c948e.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "vienes?",
-    "spokenText": "vienes",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "g08ifp": {
-    "src": "/audio/voxcpm/66bd9f1abf21912c252a408c.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "vas a la tienda?",
-    "spokenText": "vas a la tienda",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "10o4f9z": {
-    "src": "/audio/voxcpm/fb8670ed42a8ca1f6153d88f.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "¿Cada cuánto tiempo",
-    "spokenText": "Cada cuánto tiempo",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "litgz7": {
-    "src": "/audio/voxcpm/0e1c9aaad529b46926afbb25.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "estudia Luis",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
   "1nvv72x": {
     "src": "/audio/voxcpm/5494ee5313665eae645cd44d.mp3",
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "¿Para qué",
     "spokenText": "Para qué",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "t95ww1": {
-    "src": "/audio/voxcpm/43b81c402c7a75a7ca7601f5.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "usas",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1v29rk4": {
-    "src": "/audio/voxcpm/a269036d5dca8cbf323a5cbf.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "la mochila?",
-    "spokenText": "la mochila",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "9m3427": {
-    "src": "/audio/voxcpm/d237e21be4dd21296907aa41.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "usa Luis",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1hv6u55": {
-    "src": "/audio/voxcpm/382b5bc12622a57d1341366a.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "el libro?",
-    "spokenText": "el libro",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -28261,43 +27432,6 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "vas",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "1ehsc1m": {
-    "src": "/audio/voxcpm/a366b9731bdabb47a67b094f.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "a la tienda",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "fuvat6": {
-    "src": "/audio/voxcpm/791c59f92811d41a2669e09f.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "va el tren",
-    "settings": {
-      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
-      "inferenceTimesteps": 30,
-      "seed": 0,
-      "method": "make-words"
-    }
-  },
-  "t2wh0y": {
-    "src": "/audio/voxcpm/22ee0f6dbc9f0b79de0f1232.mp3",
-    "voiceId": "es-male-teacher",
-    "modelId": "mlx-community/VoxCPM2-8bit",
-    "text": "a Madrid?",
-    "spokenText": "a Madrid",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,
@@ -30431,6 +29565,539 @@
     "voiceId": "es-male-teacher",
     "modelId": "mlx-community/VoxCPM2-8bit",
     "text": "va",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "11y9am6": {
+    "src": "/audio/voxcpm/f0aba1af733b9e51b583d804.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto vas al cine?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1uxjnqh": {
+    "src": "/audio/voxcpm/c82f7979edbdc89385d8abd8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo está Pablo en el hotel?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1h88vrw": {
+    "src": "/audio/voxcpm/f6d2c6cc9d4eedfbf5948216.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto vienes a Madrid?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "106khzr": {
+    "src": "/audio/voxcpm/a7a4e13253dcbab61de9f173.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo estás en la oficina?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "3yr93x": {
+    "src": "/audio/voxcpm/ee3eaaccaf5a7927dea0a84b.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto trabajas en casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1mk4vkw": {
+    "src": "/audio/voxcpm/b1f39b060c10b8800f6c8047.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto compra Luis pan?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1gu43dc": {
+    "src": "/audio/voxcpm/471ce4af219860b954066e84.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto estudias?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1takqqa": {
+    "src": "/audio/voxcpm/8a55044f00caeaaa4beab33c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo tienes clase?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "15ekl3w": {
+    "src": "/audio/voxcpm/0c2bf328d1e3fb1f87181c15.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Desde cuándo tiene Luis este móvil?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "jr2chc": {
+    "src": "/audio/voxcpm/b977bbf135d49f6858a27ab9.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Desde cuándo estás aquí?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1x1syu": {
+    "src": "/audio/voxcpm/efe8051c07251bfcdf871ea0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo están Pablo y Luis en el museo?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1vaygp6": {
+    "src": "/audio/voxcpm/45fffe440c155686a91ea585.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuánto cuestan las camisetas?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "b8to77": {
+    "src": "/audio/voxcpm/4667f62d781f7dc3438a15aa.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿A qué hora tienes clase?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "3mw3mv": {
+    "src": "/audio/voxcpm/99e38d2986ee46a8056e226c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cuándo viene tu hermano?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "10akarb": {
+    "src": "/audio/voxcpm/ff8665107c15284b228386f1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto tiene Pablo clase?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "vpb2h4": {
+    "src": "/audio/voxcpm/1e02b8f43f8173b5e9ab4dfb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Desde cuándo trabaja Pablo en la tienda?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1in09wq": {
+    "src": "/audio/voxcpm/15f4c438faf7cba6d6753e2e.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo trabajas?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "14veeyy": {
+    "src": "/audio/voxcpm/ae211b3ba74407d196bc03a8.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué quieres la leche?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1djpla1": {
+    "src": "/audio/voxcpm/46075672e37423f8a0d71cc3.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por dónde vas a casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1b0gtll": {
+    "src": "/audio/voxcpm/84bad9d80769851b23f620c4.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿De quiénes es esta casa?",
+    "spokenText": "¿De quiénes  es esta casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1xvxp1z": {
+    "src": "/audio/voxcpm/79f9afe29050ba83c9538da5.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué estudias español?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "8w61l3": {
+    "src": "/audio/voxcpm/2468ce4f4e03643952bb7ce0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por dónde va Pablo al trabajo?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1o40vnc": {
+    "src": "/audio/voxcpm/0e2c7a703ecade0ad4d6d4a5.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por dónde vas a la estación?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "14801yt": {
+    "src": "/audio/voxcpm/ebc2699bd1e9b55d2a905f74.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Adónde vas mañana?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1wcs1hg": {
+    "src": "/audio/voxcpm/a35b7a49efd9f0f665379692.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué quieres el pan?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "12bk8hx": {
+    "src": "/audio/voxcpm/0af49b7066924a35074ab8bb.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué va Luis a la tienda?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1iypswi": {
+    "src": "/audio/voxcpm/cb6a6cd778221c7214c5ac63.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué quiere Pablo el libro?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "heg4i3": {
+    "src": "/audio/voxcpm/e2ee07d4d12a5b986effdb4d.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿De dónde es tu profesor?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1svhdge": {
+    "src": "/audio/voxcpm/dac6fb478772e5974ac621d1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por qué estudias por la noche?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1mndjd2": {
+    "src": "/audio/voxcpm/6246d03097a17cb219a79603.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿De quién son estos zapatos?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1ikktm": {
+    "src": "/audio/voxcpm/cb35f98abcc5c7dd3795f3ca.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué usa Luis el móvil?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "r7a2b6": {
+    "src": "/audio/voxcpm/e510f448eb63e921e4f30639.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿De quién es este café?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1ycm2e1": {
+    "src": "/audio/voxcpm/788fe02aa66d3d41a7787ab1.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Para qué usas el libro?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "sfygg4": {
+    "src": "/audio/voxcpm/a2fa4c6e73ebcfd1251698aa.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Cada cuánto van Pablo y Luis al parque?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "fxqobh": {
+    "src": "/audio/voxcpm/a506c23041c056958293eb08.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo estás en casa?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "hxqtou": {
+    "src": "/audio/voxcpm/9e43d86bae48e837089c6433.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Desde cuándo estudia Pablo español?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "d593gy": {
+    "src": "/audio/voxcpm/0000f042133ecaa7a4720931.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Por dónde vienes al trabajo?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "ab83by": {
+    "src": "/audio/voxcpm/dc63ee7b3f526dba52067389.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Desde cuándo tienes este móvil?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "ylzseb": {
+    "src": "/audio/voxcpm/2dec0813f3b5248e1d1db2c0.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "¿Hasta cuándo vive Luis en Madrid?",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-sentences"
+    }
+  },
+  "1tlek66": {
+    "src": "/audio/voxcpm/b0a1c70318205a2c93170922.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "estudias?",
+    "spokenText": "estudias",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "pyvlms": {
+    "src": "/audio/voxcpm/28554a6e3c4ba10f8f43a04c.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "trabajas?",
+    "spokenText": "trabajas",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "gn79w": {
+    "src": "/audio/voxcpm/db066f92374e432ff0625279.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "al museo?",
+    "spokenText": "al museo",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "z07sbh": {
+    "src": "/audio/voxcpm/bc27b276db715fe1fd8be8cd.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "quieres",
+    "settings": {
+      "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
+      "inferenceTimesteps": 30,
+      "seed": 0,
+      "method": "make-words"
+    }
+  },
+  "k2s8tg": {
+    "src": "/audio/voxcpm/d70d129a84b6e30f065cbfac.mp3",
+    "voiceId": "es-male-teacher",
+    "modelId": "mlx-community/VoxCPM2-8bit",
+    "text": "el pan?",
+    "spokenText": "el pan",
     "settings": {
       "referenceAudio": "audio/spanish/voices/es-male-teacher.wav",
       "inferenceTimesteps": 30,

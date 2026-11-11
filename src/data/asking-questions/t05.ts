@@ -196,7 +196,7 @@ export const l05: SetLesson = {
   id: "aq-l05",
   title: "Asking who",
   subtitle: "Learn one new question word",
-  recalled: ["AQ-T04-E04"],
+  recalled: [],
   introduction: t05Introduction,
   base: ["AQ-T05-E01", "AQ-T05-E02", "AQ-T05-E03", "AQ-T05-E04", "AQ-T05-E05", "AQ-T05-E06"],
   formCards: [

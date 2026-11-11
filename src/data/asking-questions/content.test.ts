@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { exerciseBank } from "../../components/practice";
-import { accentOnlyAnswer, isCorrect } from "../progress";
-import { askingLessons, askingQuestions } from "./askingQuestions";
+import { accentOnlyAnswer, isCorrect, normalize } from "../progress";
+import type { Question } from "../types";
+import { askingLesson, askingLessons, askingQuestions } from "./askingQuestions";
 
 const ids = (prefix: string) =>
   askingQuestions.map((q) => q.id).filter((id) => id.startsWith(prefix));
@@ -14,14 +15,16 @@ describe("asking questions content", () => {
 
     expect(bank).toEqual(
       expect.arrayContaining([
-        "AQ-T01-E01",
-        "AQ-T01-V12",
-        "AQ-T02-E01",
-        "AQ-T02-V12",
-        "AQ-T03-E01",
-        "AQ-T03-V12",
-        "AQ-T04-E01",
-        "AQ-T04-V12",
+        "AQ-T01-N01",
+        "AQ-T01-N11",
+        "AQ-T02-E02",
+        "AQ-T02-N10",
+        "AQ-T03-E02",
+        "AQ-T03-N10",
+        "AQ-T04-V01",
+        "AQ-T04-N10",
+        "AQ-M02-X01",
+        "AQ-M02-X04",
         "AQ-T05-E01",
         "AQ-T05-V12",
         "AQ-T06-E01",
@@ -88,100 +91,6 @@ describe("asking questions content", () => {
       expect(q.hints, q.id).toHaveLength(2);
       expect(blank, q.id).toEqual([]);
     }
-  });
-
-  it("authors six base items and twelve variations for qué", () => {
-    expect(ids("AQ-T01-E")).toEqual([
-      "AQ-T01-E01",
-      "AQ-T01-E02",
-      "AQ-T01-E03",
-      "AQ-T01-E04",
-      "AQ-T01-E05",
-      "AQ-T01-E06",
-    ]);
-
-    expect(ids("AQ-T01-V")).toHaveLength(12);
-  });
-
-  it("authors six base items and twelve variations for cómo", () => {
-    expect(ids("AQ-T02-E")).toEqual([
-      "AQ-T02-E01",
-      "AQ-T02-E02",
-      "AQ-T02-E03",
-      "AQ-T02-E04",
-      "AQ-T02-E05",
-      "AQ-T02-E06",
-    ]);
-
-    expect(ids("AQ-T02-V")).toHaveLength(12);
-  });
-
-  it("accepts cómo, notes a missing accent and rejects qué in a cómo cloze", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T02-V08")!;
-
-    expect([isCorrect(q, "Cómo"), isCorrect(q, "qué")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "como")).toBe("cómo");
-  });
-
-  it("accepts the typed cómo question and rejects one that asks for a thing", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T02-V10")!;
-
-    expect(isCorrect(q, "¿Cómo vas al hotel?")).toBe(true);
-    expect(isCorrect(q, "¿Qué vas al hotel?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for dónde", () => {
-    expect(ids("AQ-T03-E")).toEqual([
-      "AQ-T03-E01",
-      "AQ-T03-E02",
-      "AQ-T03-E03",
-      "AQ-T03-E04",
-      "AQ-T03-E05",
-      "AQ-T03-E06",
-    ]);
-
-    expect(ids("AQ-T03-V")).toHaveLength(12);
-  });
-
-  it("accepts dónde, notes a missing accent and rejects qué in a dónde cloze", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T03-V08")!;
-
-    expect([isCorrect(q, "Dónde"), isCorrect(q, "qué")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "donde")).toBe("dónde");
-  });
-
-  it("accepts the typed dónde question and rejects one that asks for a thing", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T03-V10")!;
-
-    expect(isCorrect(q, "¿Dónde está la mochila?")).toBe(true);
-    expect(isCorrect(q, "¿Qué está la mochila?")).toBe(false);
-  });
-
-  it("authors six base items and twelve variations for cuándo", () => {
-    expect(ids("AQ-T04-E")).toEqual([
-      "AQ-T04-E01",
-      "AQ-T04-E02",
-      "AQ-T04-E03",
-      "AQ-T04-E04",
-      "AQ-T04-E05",
-      "AQ-T04-E06",
-    ]);
-
-    expect(ids("AQ-T04-V")).toHaveLength(12);
-  });
-
-  it("accepts cuándo, notes a missing accent and rejects dónde in a cuándo cloze", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T04-V01")!;
-
-    expect([isCorrect(q, "Cuándo"), isCorrect(q, "dónde")]).toEqual([true, false]);
-    expect(accentOnlyAnswer(q, "cuando")).toBe("cuándo");
-  });
-
-  it("accepts the typed cuándo question and rejects one that asks for a place", () => {
-    const q = askingQuestions.find((q) => q.id === "AQ-T04-V10")!;
-
-    expect(isCorrect(q, "¿Cuándo empieza la visita?")).toBe(true);
-    expect(isCorrect(q, "¿Dónde empieza la visita?")).toBe(false);
   });
 
   it("authors six base items and twelve variations for quién / quiénes", () => {
@@ -631,18 +540,6 @@ describe("asking questions content", () => {
     const silent = askingQuestions.filter((q) => !q.pronunciation).map((q) => q.id);
 
     expect(silent).toEqual([
-      "AQ-T01-E05",
-      "AQ-T01-V06",
-      "AQ-T01-V12",
-      "AQ-T02-E05",
-      "AQ-T02-V06",
-      "AQ-T02-V12",
-      "AQ-T03-E05",
-      "AQ-T03-V06",
-      "AQ-T03-V12",
-      "AQ-T04-E05",
-      "AQ-T04-V06",
-      "AQ-T04-V12",
       "AQ-T05-E05",
       "AQ-T05-V06",
       "AQ-T05-V12",
@@ -690,10 +587,11 @@ describe("asking questions content", () => {
     const pronunciation = new Map(askingQuestions.map((q) => [q.id, q.pronunciation]));
 
     const spoken = {
-      "AQ-T01-V08": "¿Qué bebida quiere Luis?",
-      "AQ-T02-V08": "¿Cómo va Luis al centro?",
-      "AQ-T03-V01": "¿Dónde está la entrada?",
-      "AQ-T04-V02": "¿Cuándo viene Pablo?",
+      "AQ-T01-N05": "¿Qué compra Luis?",
+      "AQ-T02-N04": "¿Cómo se llama tu amigo?",
+      "AQ-T03-N05": "¿Dónde está la estación?",
+      "AQ-T04-N08": "¿Cuándo viene Pablo?",
+      "AQ-M02-X03": "¿Cómo estás hoy?",
       "AQ-T05-V08": "¿Quiénes estudian español?",
       "AQ-T06-V08": "¿Cuáles de estas tres quiere Pablo?",
       "AQ-T07-V02": "¿Cuánta leche quiere Pablo?",
@@ -713,5 +611,148 @@ describe("asking questions content", () => {
     expect(
       Object.fromEntries(Object.keys(spoken).map((id) => [id, pronunciation.get(id)])),
     ).toEqual(spoken);
+  });
+});
+
+// The lessons rebuilt under #755; each rework slice adds its lessons.
+const REWORKED = ["aq-m01", "aq-m02", "aq-mr01"];
+
+const exercisesOf = (id: string) => askingLesson(id).questions.filter((q) => q.kind !== "teach");
+
+// The Spanish sentences an item speaks or accepts as a typed question.
+const sentencesOf = (q: Question) =>
+  [q.pronunciation, ...(q.questionMarks ? (q.accepted ?? []) : [])]
+    .filter((t) => t !== undefined)
+    .map(normalize);
+
+// The question words a lesson's introduction names: "New question words: quién / quiénes, cuál".
+const wordsOf = (id: string) =>
+  askingLesson(id)
+    .questions[0].prompt.split(": ")[1]
+    .split(/, | \/ /)
+    .map(normalize);
+
+const question = (id: string) => askingQuestions.find((q) => q.id === id)!;
+
+describe("reworked asking questions lessons", () => {
+  it("uses each Spanish sentence once in a lesson", () => {
+    for (const id of REWORKED) {
+      const sentences = exercisesOf(id).flatMap(sentencesOf);
+      const repeated = sentences.filter((t, i) => sentences.indexOf(t) !== i);
+
+      expect(repeated, id).toEqual([]);
+    }
+  });
+
+  it("keeps a translation's answer out of its task", () => {
+    for (const id of REWORKED) {
+      for (const q of exercisesOf(id).filter((q) => q.questionMarks)) {
+        const task = normalize(`${q.instruction} ${q.prompt}`);
+        const given = sentencesOf(q).filter((t) => task.includes(t));
+
+        expect(given, q.id).toEqual([]);
+        expect(q.prompt, q.id).not.toContain("___");
+      }
+    }
+  });
+
+  it("shows every task apart from its sentence", () => {
+    for (const id of REWORKED) {
+      for (const q of exercisesOf(id)) {
+        expect(q.instruction, q.id).toMatch(/^[A-Z]/);
+        expect(q.prompt, q.id).not.toMatch(/^(Choose|Complete|Write|Translate|Put|Arrange)\b/);
+      }
+    }
+  });
+
+  it("puts every item in one lesson", () => {
+    const named = askingLessons.flatMap((l) => [...l.recalled, ...l.base, ...l.variations]);
+
+    for (const id of REWORKED) {
+      const twice = exercisesOf(id)
+        .map((q) => q.id)
+        .filter((item) => named.filter((n) => n === item).length !== 1);
+
+      expect(twice, id).toEqual([]);
+    }
+  });
+
+  it("has no writing task", () => {
+    const kinds = new Set(REWORKED.flatMap(exercisesOf).map((q) => q.kind));
+
+    expect([...kinds].sort()).toEqual(["choice", "order", "type"]);
+  });
+
+  it("mixes earlier words into every lesson after the first", () => {
+    const learning = REWORKED.filter((id) => askingLesson(id).questions[0].kind === "teach");
+
+    const startsWith = (words: string[]) => (t: string) => words.some((w) => t.startsWith(`${w} `));
+
+    for (const [n, id] of learning.entries()) {
+      const own = wordsOf(id);
+      const earlier = learning.slice(0, n).flatMap(wordsOf);
+
+      const mixedIn = exercisesOf(id)
+        .map((q) => q.id)
+        .filter((q) => q.startsWith(`AQ-${id.slice(3).toUpperCase()}-X`));
+
+      const earlierWords = exercisesOf(id)
+        .filter((q) => {
+          const t = normalize(q.pronunciation!);
+
+          return startsWith(earlier)(t) && !startsWith(own)(t);
+        })
+        .map((q) => q.id);
+
+      expect(earlierWords.sort(), id).toEqual(mixedIn.sort());
+
+      if (n > 0) {
+        expect(mixedIn, id).not.toEqual([]);
+      }
+    }
+  });
+
+  it("accepts the typed where question with or without tú and notes a missing accent", () => {
+    const q = question("AQ-T03-N03");
+
+    expect([
+      isCorrect(q, "¿Dónde vives tú?"),
+      isCorrect(q, "¿Dónde vives?"),
+      isCorrect(q, "¿Cuándo vives?"),
+    ]).toEqual([true, true, false]);
+
+    expect(accentOnlyAnswer(q, "¿Donde vives?")).toBe("¿Dónde vives?");
+  });
+
+  it("accepts cuándo, notes a missing accent and rejects dónde in a cuándo gap", () => {
+    const q = question("AQ-T04-V01");
+
+    expect([isCorrect(q, "cuándo"), isCorrect(q, "Cuándo"), isCorrect(q, "dónde")]).toEqual([
+      true,
+      true,
+      false,
+    ]);
+
+    expect(accentOnlyAnswer(q, "cuando")).toBe("cuándo");
+  });
+
+  it("accepts qué before a noun and rejects cuál", () => {
+    const q = question("AQ-T01-N08");
+
+    expect([
+      isCorrect(q, "¿Qué bebida quieres?"),
+      isCorrect(q, "¿Qué bebida quieres tú?"),
+      isCorrect(q, "¿Cuál bebida quieres?"),
+    ]).toEqual([true, true, false]);
+  });
+
+  it("accepts teléfono for móvil and rejects ser for a location", () => {
+    const q = question("AQ-T03-N07");
+
+    expect([
+      isCorrect(q, "¿Dónde está mi teléfono?"),
+      isCorrect(q, "¿Dónde está mi móvil?"),
+      isCorrect(q, "¿Dónde es mi móvil?"),
+    ]).toEqual([true, true, false]);
   });
 });

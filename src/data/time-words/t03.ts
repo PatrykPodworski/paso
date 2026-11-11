@@ -74,4 +74,14 @@ export const t03Items: Item[] = [
     feedback: "Today is Tuesday. Breakfast with Tomás was on Monday. So: Desayuno con Tomás: ayer.",
     hints,
   },
+  {
+    id: "TM-T03-V03",
+    mode: "cloze",
+    instruction: "Complete the gap. Today is Tuesday. Pablo’s class was on Monday.",
+    prompt: "Clase de Pablo: ___.",
+    answer: "ayer",
+    say: "Clase de Pablo: ayer.",
+    feedback: "Today is Tuesday. Pablo’s class was on Monday. So: Clase de Pablo: ayer.",
+    hints,
+  },
 ];

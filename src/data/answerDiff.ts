@@ -1,6 +1,3 @@
-import { acceptedAnswers, normalize } from "./progress";
-import type { Question } from "./types";
-
 export type AnswerPiece = { text: string; mark: "same" | "wrong" | "missing" };
 export type CorrectPiece = { text: string; mark: "same" | "changed" };
 export type AnswerChange = { written: string; expected: string };
@@ -235,14 +232,3 @@ export const answerDiff = (answer: string, correct: string): AnswerDiff => {
     changes,
   };
 };
-
-const distance = (a: string, b: string) =>
-  a.length + b.length - 2 * commonPairs([...a], [...b]).length;
-
-// The accepted answer the learner's answer is nearest to, the main answer on a tie.
-export const closestAnswer = (q: Question, answer: string) =>
-  acceptedAnswers(q).reduce((best, candidate) =>
-    distance(normalize(candidate), normalize(answer)) < distance(normalize(best), normalize(answer))
-      ? candidate
-      : best,
-  );

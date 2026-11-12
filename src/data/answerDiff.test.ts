@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { answerDiff, closestAnswer } from "./answerDiff";
-import type { Question } from "./types";
+import { answerDiff } from "./answerDiff";
 
 describe("answerDiff", () => {
   it("marks a missing letter with its position in the answer", () => {
@@ -228,32 +227,5 @@ describe("answerDiff", () => {
 
   it("compares accented letters typed as two code points with their single form", () => {
     expect(answerDiff("está", "está").changes).toEqual([]);
-  });
-});
-
-const friend: Question = {
-  id: "friend",
-  skill: "writing",
-  kind: "type",
-  prompt: "My friend is at home.",
-  answer: "Mi amiga está en casa.",
-  accepted: ["Mi amigo está en casa."],
-  explanation: "",
-};
-
-describe("closestAnswer", () => {
-  it.each([
-    ["Mi amigo esta en casa", "Mi amigo está en casa."],
-    ["mi amiga esta en kasa", "Mi amiga está en casa."],
-    ["Mi amigx está en casa", "Mi amiga está en casa."],
-    ["", "Mi amiga está en casa."],
-  ])("compares %j with the accepted answer %j", (answer, expected) => {
-    expect(closestAnswer(friend, answer)).toBe(expected);
-  });
-
-  it("gives the answer of a question with no alternatives", () => {
-    expect(closestAnswer({ ...friend, accepted: undefined }, "Mi amigo está en casa")).toBe(
-      "Mi amiga está en casa.",
-    );
   });
 });

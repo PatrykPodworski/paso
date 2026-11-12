@@ -172,15 +172,6 @@ it("marks the mistake in a wrong typed answer", () => {
   ]);
 });
 
-it("compares a wrong typed answer with the accepted answer nearest to it", () => {
-  typed(
-    typeQuestion("Mi amiga está en casa.", { accepted: ["Mi amigo está en casa."] }),
-    "Mi amigo esta en kasa",
-  );
-
-  expect(readAnswers()[1]).toBe("Mi amigo está en casa.");
-});
-
 it("leaves the comparison off a correct answer", () => {
   typed(typeQuestion("¿Quién eres?"), "Quién eres");
 

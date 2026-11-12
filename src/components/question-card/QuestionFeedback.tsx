@@ -7,7 +7,6 @@ import {
   missingQuestionMarks,
   notedAnswer,
 } from "../../data/progress";
-import { closestAnswer } from "../../data/answerDiff";
 import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
@@ -173,7 +172,7 @@ export const QuestionFeedback = ({
     <div className={`${PANEL} ${tone.box}`} role="status">
       <FeedbackHeading correct={correct} productive={productive} />
       {(needsWork || accentAnswer) && (
-        <AnswerComparison answer={value} correct={accentAnswer ?? closestAnswer(q, value)} />
+        <AnswerComparison answer={value} correct={accentAnswer ?? q.answer} />
       )}
       <p className={paragraph}>{q.explanation}</p>
       {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}

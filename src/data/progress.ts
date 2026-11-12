@@ -67,7 +67,7 @@ export const normalize = (s: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
-export const acceptedAnswers = (q: Question) => [q.answer, ...(q.accepted || [])];
+const acceptedAnswers = (q: Question) => [q.answer, ...(q.accepted || [])];
 
 const ACCENT = /[\u0301\u0308]/g;
 

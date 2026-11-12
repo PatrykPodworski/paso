@@ -351,21 +351,33 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
 const isPosition = (section: unknown, index: unknown) =>
   isCount(section, 0, sectionSizes.length - 1) && isCount(index, 0, sectionSizes[section] - 1);
 
+// The first invalid field of a change to the mock run, or null when every field is valid.
+export const mockRunFaultOf = (value: unknown): string | null => {
+  if (!isRecord(value)) {
+    return "run";
+  }
+
+  const moves = Object.hasOwn(value, "section") || Object.hasOwn(value, "index");
+
+  if (moves && !isPosition(value.section, value.index)) {
+    return "section";
+  }
+
+  const invalid = MOCK_FIELDS.find(
+    ([name, check]) => Object.hasOwn(value, name) && !check(value[name]),
+  );
+
+  return invalid?.[0] ?? null;
+};
+
 // The fields a change to the mock run sets, or null when one of them is invalid.
 export const mockRunPatchOf = (value: unknown): MockRunPatch | null => {
-  if (!isRecord(value)) {
+  if (!isRecord(value) || mockRunFaultOf(value) !== null) {
     return null;
   }
 
   const moves = Object.hasOwn(value, "section") || Object.hasOwn(value, "index");
   const present = MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name));
-
-  if (
-    (moves && !isPosition(value.section, value.index)) ||
-    !present.every(([name, check]) => check(value[name]))
-  ) {
-    return null;
-  }
 
   return Object.fromEntries([
     ...(moves ? ["section", "index"] : []).map((name) => [name, value[name]]),

@@ -6,22 +6,38 @@ import { numbersLesson, numbersLessons, numbersQuestions } from "./numbers";
 
 const question = (id: string) => numbersQuestions.find((q) => q.id === id)!;
 
-// Every written form the set teaches, 1 to 100: the y numbers 31–99 are spelled from these.
-const FORMS = new Set(
-  (
+const HUNDREDS = [
+  "ciento",
+  "doscientos",
+  "trescientos",
+  "cuatrocientos",
+  "quinientos",
+  "seiscientos",
+  "setecientos",
+  "ochocientos",
+  "novecientos",
+];
+
+// Every written form the set teaches, 0 to un millón: the other numbers are spelled from these.
+const FORMS = new Set([
+  ...(
     "cero uno un una dos tres cuatro cinco seis siete ocho nueve diez once doce trece catorce " +
     "quince dieciséis diecisiete dieciocho diecinueve veinte veintiuno veintiún veintiuna " +
     "veintidós veintitrés veinticuatro veinticinco veintiséis veintisiete veintiocho veintinueve " +
-    "treinta cuarenta cincuenta sesenta setenta ochenta noventa cien"
+    "treinta cuarenta cincuenta sesenta setenta ochenta noventa cien mil millón millones"
   ).split(" "),
-);
+  ...HUNDREDS,
+  ...HUNDREDS.slice(1).map((h) => h.replace(/os$/, "as")),
+]);
 
 // A word that starts like a number: a misspelt number (veintidos, dieciseis) is caught here.
 const NUMBER_LIKE =
-  /^(cero|uno?|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|trece|catorce|quince|dieci\p{L}*|veint\p{L}*|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa|cien\p{L}*)$/u;
+  /^(cero|uno?|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|trece|catorce|quince|dieci\p{L}*|veint\p{L}*|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa|cien\p{L}*|\p{L}+cient[oa]s|mil|mill\p{L}+)$/u;
 
 const NOUNS =
   /^(años?|teléfonos?|móvil(es)?|casas?|clases?|estudiantes|tiendas|parques|euros|libros|sillas|ventanas)$/;
+
+const FEMININE = /^(casas?|clases?|tiendas|sillas|ventanas)$/;
 
 const VALUES: Record<string, number> = Object.fromEntries(
   (
@@ -44,26 +60,44 @@ const TENS: Record<string, number> = {
   cien: 100,
 };
 
-// The number an answer names, as digits or words (un, una, veintiún count as 1 and 21);
+// The number an answer names, as digits or words (un, una, veintiún, doscientas count too);
 // undefined for a sentence or an English answer.
-const valueOf = (answer: string) => {
-  if (/^\d+$/.test(answer)) {
-    return Number(answer);
+const valueOf = (answer: string): number | undefined => {
+  if (/^[\d\u00a0]+$/.test(answer)) {
+    return Number(answer.replace(/\u00a0/g, ""));
   }
 
-  const [tens, y, unit, ...rest] = answer
-    .replace(/^(un|una)$/, "uno")
-    .replace(/^veintiún|^veintiuna$/, "veintiuno")
-    .split(" ");
+  let total = 0;
+  let group = 0;
 
-  if (rest.length || (y && y !== "y")) {
-    return undefined;
+  for (const raw of answer.split(" ")) {
+    const w = raw
+      .replace(/^(un|una)$/, "uno")
+      .replace(/^(veintiún|veintiuna)$/, "veintiuno")
+      .replace(/as$/, "os");
+
+    const hundred = HUNDREDS.indexOf(w);
+
+    if (w === "y") {
+      continue;
+    } else if (w === "mil") {
+      total += (group || 1) * 1000;
+      group = 0;
+    } else if (w === "millón" || w === "millones") {
+      total += (group || 1) * 1_000_000;
+      group = 0;
+    } else if (hundred >= 0) {
+      group += (hundred + 1) * 100;
+    } else if (w in TENS) {
+      group += TENS[w];
+    } else if (w in VALUES) {
+      group += VALUES[w];
+    } else {
+      return undefined;
+    }
   }
 
-  const first = TENS[tens] ?? VALUES[tens];
-  const second = unit ? VALUES[unit.replace(/^(un|una)$/, "uno")] : 0;
-
-  return first === undefined || second === undefined ? undefined : first + second;
+  return total + group;
 };
 
 const words = (s: string) => s.toLocaleLowerCase("es").match(/\p{L}+/gu) ?? [];
@@ -138,6 +172,18 @@ describe("numbers content", () => {
         const before = ws.filter((w, i) => /uno$/.test(w) && NOUNS.test(ws[i + 1] ?? ""));
 
         expect(before, `${q.id}: ${text}`).toEqual([]);
+      }
+    }
+  });
+
+  it("makes the hundreds agree with a feminine noun and puts de after millón", () => {
+    for (const q of numbersQuestions) {
+      for (const text of spanishOf(q)) {
+        const ws = words(text);
+        const masculine = ws.filter((w, i) => /cientos$/.test(w) && FEMININE.test(ws[i + 1] ?? ""));
+        const bare = ws.filter((w, i) => /^mill/.test(w) && NOUNS.test(ws[i + 1] ?? ""));
+
+        expect([...masculine, ...bare], `${q.id}: ${text}`).toEqual([]);
       }
     }
   });
@@ -255,6 +301,47 @@ describe("numbers content", () => {
     expect(isCorrect(question("NU-T31-E03"), "ciento")).toBe(false);
     expect(isCorrect(question("NU-T26-E04"), "sesenta")).toBe(true);
     expect(isCorrect(question("NU-T26-E04"), "setenta")).toBe(false);
+  });
+
+  it("says cien alone and ciento before more, and ciento una before a feminine noun", () => {
+    expect(isCorrect(question("NU-T32-E03"), "ciento veinte")).toBe(true);
+    expect(isCorrect(question("NU-T32-E03"), "cien veinte")).toBe(false);
+    expect(isCorrect(question("NU-T32-V03"), "ciento cincuenta")).toBe(true);
+    expect(isCorrect(question("NU-T32-E07"), "ciento una")).toBe(true);
+    expect(isCorrect(question("NU-T32-E07"), "ciento un")).toBe(false);
+  });
+
+  it("makes the hundreds agree with the noun, and takes both for a bare number (#817)", () => {
+    expect(isCorrect(question("NU-T33-E07"), "doscientas")).toBe(true);
+    expect(isCorrect(question("NU-T33-E07"), "doscientos")).toBe(false);
+    expect(isCorrect(question("NU-T33-E08"), "trescientas")).toBe(false);
+    expect(isCorrect(question("NU-T33-E05"), "doscientos")).toBe(true);
+    expect(isCorrect(question("NU-T33-E05"), "doscientas")).toBe(true);
+    expect(isCorrect(question("NU-T37-R01"), "mil setecientas")).toBe(true);
+  });
+
+  it("spells quinientos, setecientos and novecientos, not by the rule", () => {
+    expect(isCorrect(question("NU-T34-E05"), "quinientos")).toBe(true);
+    expect(isCorrect(question("NU-T34-E05"), "cincocientos")).toBe(false);
+    expect(isCorrect(question("NU-T35-E05"), "setecientos")).toBe(true);
+    expect(isCorrect(question("NU-T35-E05"), "sietecientos")).toBe(false);
+    expect(isCorrect(question("NU-T35-E06"), "novecientos")).toBe(true);
+    expect(isCorrect(question("NU-T35-E06"), "nuevecientos")).toBe(false);
+  });
+
+  it("says mil, never un mil, and un millón de before a noun", () => {
+    expect(isCorrect(question("NU-T36-E05"), "mil")).toBe(true);
+    expect(isCorrect(question("NU-T36-E05"), "un mil")).toBe(false);
+    expect(isCorrect(question("NU-T36-E06"), "tres mil")).toBe(true);
+    expect(isCorrect(question("NU-T36-E06"), "tres miles")).toBe(false);
+    expect(isCorrect(question("NU-T38-E04"), "un millón")).toBe(true);
+    expect(isCorrect(question("NU-T38-E04"), "un millon")).toBe(true);
+    expect(isCorrect(question("NU-T38-E09"), "La casa cuesta tres millones de euros.")).toBe(true);
+    expect(isCorrect(question("NU-T38-E09"), "La casa cuesta tres millones euros.")).toBe(false);
+
+    expect(
+      isCorrect(question("NU-T38-E08"), "El piso cuesta un millón quinientos mil euros."),
+    ).toBe(true);
   });
 
   it("passes an answer that misses only an accent, with a note (ADR 0011)", () => {

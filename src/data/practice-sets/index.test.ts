@@ -71,7 +71,7 @@ describe("practice sets", () => {
       [5, 5],
       [4, 4, 4],
       [5, 5],
-      [2, 2, 3, 4],
+      [2, 2, 3, 4, 8],
     ]);
 
     for (const set of practiceSets) {

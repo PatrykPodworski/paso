@@ -772,7 +772,7 @@ it("opens the numbers page from the practice studio and counts M01 on the path",
   await mount("practice");
 
   expect(screen.getByRole("button", { name: /Numbers/ })).toHaveTextContent(
-    `${numbersUnits.flatMap((u) => u.lessons).length} lessons · cero to cien, two or three at a time`,
+    `${numbersUnits.flatMap((u) => u.lessons).length} lessons · cero to un millón, two or three at a time`,
   );
 
   fireEvent.click(screen.getByRole("button", { name: /Numbers/ }));

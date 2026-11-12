@@ -4,6 +4,7 @@ import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
 import type { Question } from "../../data/types";
+import { readAnswers } from "../../test/answerComparison";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -20,15 +21,6 @@ const choice = allQuestions[0];
 const wrong = choice.options!.find((o) => o !== choice.answer)!;
 const listen = allQuestions.find((q) => q.kind === "listen")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
-
-// What a screen reader reads in each answer of the comparison, which hides the marked copies.
-const readAnswers = () =>
-  screen.getAllByRole("definition").map((answer) =>
-    [...answer.children]
-      .filter((part) => part.getAttribute("aria-hidden") !== "true")
-      .map((part) => part.textContent)
-      .join(""),
-  );
 
 it("shows the learner's wrong answer next to the correct one", () => {
   render(<QuestionCard q={choice} onSubmit={vi.fn()} />);

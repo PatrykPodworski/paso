@@ -217,6 +217,22 @@ describe("answerDiff", () => {
     expect(answerDiff(answer, correct).changes).toEqual([change]);
   });
 
+  it("marks an emoji as one letter", () => {
+    expect(answerDiff("🥛 Lech", "🥤 Leche")).toEqual({
+      answer: [
+        { text: "🥛", mark: "wrong" },
+        { text: " Lech", mark: "same" },
+        { text: "e", mark: "missing" },
+      ],
+      correct: [
+        { text: "🥤", mark: "changed" },
+        { text: " Lech", mark: "same" },
+        { text: "e", mark: "changed" },
+      ],
+      changes: [{ written: "🥛 Lech", expected: "🥤 Leche" }],
+    });
+  });
+
   it("marks the whole correct answer as missing from an empty answer", () => {
     expect(answerDiff("", "Hola")).toEqual({
       answer: [{ text: "Hola", mark: "missing" }],

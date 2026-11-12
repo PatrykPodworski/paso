@@ -55,11 +55,14 @@ const words = (text: string): Word[] =>
     }))
     .filter((w) => w.key !== "");
 
+// The letter at a position, whole: an emoji takes two positions of a string.
+const letterAt = (text: string, p: number) => String.fromCodePoint(text.codePointAt(p)!);
+
 // The positions the comparison reads: no punctuation, and one space for a run of spaces.
 const comparedPositions = (text: string, start: number, end: number) => {
   const positions: number[] = [];
 
-  for (let p = start; p < end; p++) {
+  for (let p = start; p < end; p += letterAt(text, p).length) {
     const space = /\s/.test(text[p]);
 
     if (!PUNCTUATION.test(text[p]) && !(space && /\s/.test(text[p - 1] ?? ""))) {
@@ -71,7 +74,10 @@ const comparedPositions = (text: string, start: number, end: number) => {
 };
 
 const comparedKey = (text: string, p: number) =>
-  /\s/.test(text[p]) ? " " : text[p].toLocaleLowerCase("es");
+  /\s/.test(text[p]) ? " " : letterAt(text, p).toLocaleLowerCase("es");
+
+const markLetter = <M>(marks: M[], text: string, p: number, mark: M) =>
+  marks.fill(mark, p, p + letterAt(text, p).length);
 
 const pieces = <M extends string>(
   text: string,
@@ -142,8 +148,8 @@ const span = (text: string, gap: Word[], fallback: number): Span => {
 };
 
 const markWhole = (marks: Marks, a: Span, c: Span, insertAt: number, expected: string) => {
-  a.at.forEach((p) => (marks.answer[p] = "wrong"));
-  c.at.forEach((p) => (marks.correct[p] = "changed"));
+  a.at.forEach((p) => markLetter(marks.answer, a.text, p, "wrong"));
+  c.at.forEach((p) => markLetter(marks.correct, c.text, p, "changed"));
 
   if (a.at.length === 0) {
     marks.missing.set(insertAt, expected);
@@ -155,11 +161,11 @@ const markLetters = (marks: Marks, a: Span, c: Span, common: [number, number][])
     const extra = a.at.slice(...gap.a);
     const absent = c.at.slice(...gap.c);
 
-    extra.forEach((p) => (marks.answer[p] = "wrong"));
-    absent.forEach((p) => (marks.correct[p] = "changed"));
+    extra.forEach((p) => markLetter(marks.answer, a.text, p, "wrong"));
+    absent.forEach((p) => markLetter(marks.correct, c.text, p, "changed"));
 
     if (extra.length === 0) {
-      marks.missing.set(a.at[gap.a[1]] ?? a.end, absent.map((p) => c.text[p]).join(""));
+      marks.missing.set(a.at[gap.a[1]] ?? a.end, absent.map((p) => letterAt(c.text, p)).join(""));
     }
   }
 };

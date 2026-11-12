@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { expect, it } from "vitest";
 import { AnswerComparison } from "./AnswerComparison";
+import { readAnswers } from "../test/answerComparison";
 
 const marks = (container: HTMLElement) => ({
   wrong: [...container.querySelectorAll("del")].map((mark) => mark.textContent),
@@ -45,4 +46,11 @@ it("marks nothing in an answer that differs only by case and punctuation", () =>
 
   expect(marks(container)).toEqual({ wrong: [], missing: 0, changed: [] });
   expect(screen.queryByText(/^Differences:/)).not.toBeInTheDocument();
+});
+
+it("shows an empty answer as not answered, with nothing marked", () => {
+  const { container } = render(<AnswerComparison answer="" correct="Con su hermana." />);
+
+  expect(readAnswers(container)).toEqual(["Not answered", "Con su hermana."]);
+  expect(marks(container)).toEqual({ wrong: [], missing: 0, changed: [] });
 });

@@ -11,7 +11,7 @@ import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
 import { MemoryHint } from "../MemoryHint";
-import { AnswerComparison } from "./AnswerComparison";
+import { AnswerComparison } from "../AnswerComparison";
 
 const PANEL = "rounded-lg border p-5 mbs-6 max-md:py-5 max-md:px-4";
 
@@ -172,7 +172,7 @@ export const QuestionFeedback = ({
     <div className={`${PANEL} ${tone.box}`} role="status">
       <FeedbackHeading correct={correct} productive={productive} />
       {(needsWork || accentAnswer) && (
-        <AnswerComparison answer={value} correct={accentAnswer ?? q.answer} />
+        <AnswerComparison className="mbs-3" answer={value} correct={accentAnswer ?? q.answer} />
       )}
       <p className={paragraph}>{q.explanation}</p>
       {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}

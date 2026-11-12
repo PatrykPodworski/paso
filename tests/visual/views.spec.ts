@@ -502,6 +502,18 @@ for (const [name, section, index, stage] of examCases) {
 
     await shot(page, `exam-${name}`);
 
+    if (name === "reading-review") {
+      // The first question was answered and the second was not.
+      for (const summary of await page
+        .locator("details summary")
+        .all()
+        .then((s) => s.slice(0, 2))) {
+        await summary.click();
+      }
+
+      await shot(page, "exam-reading-review-answers");
+    }
+
     if (name === "reading") {
       await page.getByRole("button", { name: "Finish section", exact: true }).click();
       await shot(page, "exam-finish-confirmation");

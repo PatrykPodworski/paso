@@ -3,7 +3,7 @@ import {
   type AnswerChange,
   type AnswerPiece,
   type CorrectPiece,
-} from "../../data/answerDiff";
+} from "../data/answerDiff";
 
 const MARK = "rounded-xs underline decoration-2 underline-offset-4";
 
@@ -71,34 +71,59 @@ const changeText = ({ written, expected }: AnswerChange) =>
       ? `“${written}” is extra`
       : `“${written}” should be “${expected}”`;
 
-type Props = { answer: string; correct: string };
+type MarkedAnswerProps = { answer: string; pieces: AnswerPiece[]; changes: AnswerChange[] };
+
+const MarkedAnswer = ({ answer, pieces, changes }: MarkedAnswerProps) => (
+  <>
+    <span lang="es" className="sr-only">
+      {answer}
+    </span>
+    <span lang="es" aria-hidden="true">
+      <AnswerText pieces={pieces} />
+    </span>
+    {changes.length > 0 && (
+      <span className="sr-only"> Differences: {changes.map(changeText).join("; ")}.</span>
+    )}
+  </>
+);
+
+type Props = {
+  answer: string;
+  correct: string;
+  /** Placement only. */
+  className?: string;
+};
 
 // The marks are hidden from screen readers, which read the plain answers and the changes instead.
-export const AnswerComparison = ({ answer, correct }: Props) => {
-  const diff = answerDiff(answer, correct);
+export const AnswerComparison = ({ answer, correct, className = "" }: Props) => {
+  const diff = answer ? answerDiff(answer, correct) : undefined;
 
   return (
-    <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 mbs-3 text-sm leading-loose">
+    <dl
+      className={`grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 text-sm leading-loose ${className}`}
+    >
       <dt>Your answer:</dt>
       <dd className="font-semibold">
-        <span lang="es" className="sr-only">
-          {answer}
-        </span>
-        <span lang="es" aria-hidden="true">
-          <AnswerText pieces={diff.answer} />
-        </span>
-        {diff.changes.length > 0 && (
-          <span className="sr-only"> Differences: {diff.changes.map(changeText).join("; ")}.</span>
+        {diff ? (
+          <MarkedAnswer answer={answer} pieces={diff.answer} changes={diff.changes} />
+        ) : (
+          "Not answered"
         )}
       </dd>
       <dt>Correct answer:</dt>
       <dd className="font-semibold">
-        <span lang="es" className="sr-only">
-          {correct}
-        </span>
-        <span lang="es" aria-hidden="true">
-          <CorrectText pieces={diff.correct} />
-        </span>
+        {diff ? (
+          <>
+            <span lang="es" className="sr-only">
+              {correct}
+            </span>
+            <span lang="es" aria-hidden="true">
+              <CorrectText pieces={diff.correct} />
+            </span>
+          </>
+        ) : (
+          <span lang="es">{correct}</span>
+        )}
       </dd>
     </dl>
   );

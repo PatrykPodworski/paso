@@ -108,92 +108,130 @@ const pieces = <M extends string>(
   return result;
 };
 
+type Marks = {
+  answer: ("same" | "wrong")[];
+  correct: ("same" | "changed")[];
+  // Text the answer leaves out, by the position in the answer where it belongs.
+  missing: Map<number, string>;
+};
+
+type Gap = { a: [number, number]; c: [number, number] };
+
+// The index ranges of a and of b between their common pairs, where the two differ.
+const gaps = (common: [number, number][], aLength: number, bLength: number) => {
+  const result: Gap[] = [];
+  let i = 0;
+  let j = 0;
+
+  for (const [pi, pj] of [...common, [aLength, bLength]]) {
+    if (pi > i || pj > j) {
+      result.push({ a: [i, pi], c: [j, pj] });
+    }
+
+    i = pi + 1;
+    j = pj + 1;
+  }
+
+  return result;
+};
+
+type Span = { text: string; at: number[]; start: number; end: number };
+
+const span = (text: string, gap: Word[], fallback: number): Span => {
+  const start = gap[0]?.start ?? fallback;
+  const end = gap.at(-1)?.end ?? fallback;
+
+  return { text, at: comparedPositions(text, start, end), start, end };
+};
+
+const markWhole = (marks: Marks, a: Span, c: Span, insertAt: number, expected: string) => {
+  a.at.forEach((p) => (marks.answer[p] = "wrong"));
+  c.at.forEach((p) => (marks.correct[p] = "changed"));
+
+  if (a.at.length === 0) {
+    marks.missing.set(insertAt, expected);
+  }
+};
+
+const markLetters = (marks: Marks, a: Span, c: Span, common: [number, number][]) => {
+  for (const gap of gaps(common, a.at.length, c.at.length)) {
+    const extra = a.at.slice(...gap.a);
+    const absent = c.at.slice(...gap.c);
+
+    extra.forEach((p) => (marks.answer[p] = "wrong"));
+    absent.forEach((p) => (marks.correct[p] = "changed"));
+
+    if (extra.length === 0) {
+      marks.missing.set(a.at[gap.a[1]] ?? a.end, absent.map((p) => c.text[p]).join(""));
+    }
+  }
+};
+
+// Marks the differing words of a and c, and returns them as one change.
+const markWords = (
+  marks: Marks,
+  a: string,
+  c: string,
+  aGap: Word[],
+  cGap: Word[],
+  insertAt: number,
+) => {
+  const aSpan = span(a, aGap, insertAt);
+  const cSpan = span(c, cGap, 0);
+  const written = a.slice(aSpan.start, aSpan.end);
+  const expected = c.slice(cSpan.start, cSpan.end);
+
+  const common = commonPairs(
+    aSpan.at.map((p) => comparedKey(a, p)),
+    cSpan.at.map((p) => comparedKey(c, p)),
+  );
+
+  if ((2 * common.length) / (aSpan.at.length + cSpan.at.length) < SIMILAR) {
+    markWhole(marks, aSpan, cSpan, insertAt, expected);
+  } else {
+    markLetters(marks, aSpan, cSpan, common);
+  }
+
+  return {
+    written: written.replace(OUTER_PUNCTUATION, ""),
+    expected: expected.replace(OUTER_PUNCTUATION, ""),
+  };
+};
+
 // The learner's answer against the correct one, by words and then by letters within the words
 // that differ. Case, punctuation and repeated spaces are not differences, as in the checker.
 export const answerDiff = (answer: string, correct: string): AnswerDiff => {
   const a = answer.normalize("NFC");
   const c = correct.normalize("NFC");
-  const aMarks = Array<"same" | "wrong">(a.length).fill("same");
-  const cMarks = Array<"same" | "changed">(c.length).fill("same");
-  const missing = new Map<number, string>();
-  const changes: AnswerChange[] = [];
 
-  const compare = (aGap: Word[], cGap: Word[], insertAt: number) => {
-    const aStart = aGap[0]?.start ?? insertAt;
-    const aEnd = aGap.at(-1)?.end ?? insertAt;
-    const cStart = cGap[0]?.start ?? 0;
-    const cEnd = cGap.at(-1)?.end ?? 0;
-
-    changes.push({
-      written: a.slice(aStart, aEnd).replace(OUTER_PUNCTUATION, ""),
-      expected: c.slice(cStart, cEnd).replace(OUTER_PUNCTUATION, ""),
-    });
-
-    const aAt = comparedPositions(a, aStart, aEnd);
-    const cAt = comparedPositions(c, cStart, cEnd);
-
-    const common = commonPairs(
-      aAt.map((p) => comparedKey(a, p)),
-      cAt.map((p) => comparedKey(c, p)),
-    );
-
-    if ((2 * common.length) / (aAt.length + cAt.length) < SIMILAR) {
-      aAt.forEach((p) => (aMarks[p] = "wrong"));
-      cAt.forEach((p) => (cMarks[p] = "changed"));
-
-      if (aAt.length === 0) {
-        missing.set(insertAt, c.slice(cStart, cEnd));
-      }
-
-      return;
-    }
-
-    let i = 0;
-    let j = 0;
-
-    for (const [pi, pj] of [...common, [aAt.length, cAt.length]]) {
-      const extra = aAt.slice(i, pi);
-      const absent = cAt.slice(j, pj);
-
-      extra.forEach((p) => (aMarks[p] = "wrong"));
-      absent.forEach((p) => (cMarks[p] = "changed"));
-
-      if (extra.length === 0 && absent.length > 0) {
-        missing.set(aAt[pi] ?? aEnd, absent.map((p) => c[p]).join(""));
-      }
-
-      i = pi + 1;
-      j = pj + 1;
-    }
+  const marks: Marks = {
+    answer: Array<"same" | "wrong">(a.length).fill("same"),
+    correct: Array<"same" | "changed">(c.length).fill("same"),
+    missing: new Map(),
   };
 
   const aWords = words(a);
   const cWords = words(c);
-  let i = 0;
-  let j = 0;
 
-  for (const [wi, wj] of [
-    ...commonPairs(
-      aWords.map((w) => w.key),
-      cWords.map((w) => w.key),
+  const common = commonPairs(
+    aWords.map((w) => w.key),
+    cWords.map((w) => w.key),
+  );
+
+  const changes = gaps(common, aWords.length, cWords.length).map(({ a: [i, wi], c: [j, wj] }) =>
+    markWords(
+      marks,
+      a,
+      c,
+      aWords.slice(i, wi),
+      cWords.slice(j, wj),
+      aWords[wi]?.start ?? aWords[i - 1]?.end ?? 0,
     ),
-    [aWords.length, cWords.length],
-  ]) {
-    if (wi > i || wj > j) {
-      compare(
-        aWords.slice(i, wi),
-        cWords.slice(j, wj),
-        aWords[wi]?.start ?? aWords[i - 1]?.end ?? 0,
-      );
-    }
-
-    i = wi + 1;
-    j = wj + 1;
-  }
+  );
 
   return {
-    answer: pieces(a, aMarks, missing) as AnswerPiece[],
-    correct: pieces(c, cMarks) as CorrectPiece[],
+    answer: pieces(a, marks.answer, marks.missing) as AnswerPiece[],
+    correct: pieces(c, marks.correct) as CorrectPiece[],
     changes,
   };
 };

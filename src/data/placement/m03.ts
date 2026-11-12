@@ -359,11 +359,33 @@ export const m03: SetLesson = {
   title: "In front, behind and opposite",
   subtitle: "delante de, detrás de and enfrente de",
   recalled: [],
-  introduction: teachingCard(
-    "SP-M03-INTRO",
-    "New phrases: delante de, detrás de and enfrente de",
-    "delante de means in front of: El libro está delante de la lámpara. detrás de means behind: El móvil está detrás de la lámpara. enfrente de means opposite: La farmacia está enfrente de la tienda. Front, behind, left and right depend on where you stand: the instructions always say it.",
-  ),
+  introduction: teachingCard("SP-M03-INTRO", {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "delante de",
+        meaning: "in front of",
+        example: {
+          es: "El libro está delante de la lámpara.",
+          en: "The book is in front of the lamp.",
+        },
+      },
+      {
+        es: "detrás de",
+        meaning: "behind",
+        example: { es: "El móvil está detrás de la lámpara.", en: "The phone is behind the lamp." },
+        note: "Front and behind depend on where you stand: the instructions always say it.",
+      },
+      {
+        es: "enfrente de",
+        meaning: "opposite",
+        example: {
+          es: "La farmacia está enfrente de la tienda.",
+          en: "The pharmacy is opposite the shop.",
+        },
+      },
+    ],
+  }),
   base: [
     "SP-T06-N01",
     "SP-T07-N01",
@@ -381,8 +403,16 @@ export const m03: SetLesson = {
   formCards: [
     {
       before: "SP-T06-N04",
-      heading: "delante del, detrás del, enfrente del",
-      text: "Before la, de stays on its own: La taza está delante de la puerta. Before el, de + el becomes del: La bolsa está delante del banco. El billete está detrás del armario. El banco está enfrente del café.",
+      teach: {
+        heading: "delante del, detrás del, enfrente del",
+        rule: "de + el becomes del, and de + la stays as it is.",
+        examples: [
+          { es: "La taza está delante de la puerta.", en: "The cup is in front of the door." },
+          { es: "La bolsa está delante del banco.", en: "The bag is in front of the bench." },
+          { es: "El billete está detrás del armario.", en: "The ticket is behind the cupboard." },
+          { es: "El banco está enfrente del café.", en: "The bank is opposite the café." },
+        ],
+      },
     },
   ],
   variations: [

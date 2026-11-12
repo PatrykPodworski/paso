@@ -287,14 +287,22 @@ describe("placement lessons", () => {
     const questions = placementLesson("pl-m01", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[10]];
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrases: en, dentro de and fuera de",
-      "en means in or on: El libro está en la caja. dentro de means inside: El móvil está dentro de la bolsa. fuera de means outside: La taza está fuera de la maleta.",
+    expect(intro.teach!.terms!.map((t) => [t.es, t.meaning])).toEqual([
+      ["en", "in, on"],
+      ["dentro de", "inside"],
+      ["fuera de", "outside"],
     ]);
 
-    expect([form.prompt, form.explanation]).toEqual([
+    expect([form.prompt, form.teach!.rule]).toEqual([
       "en el, dentro del, fuera del",
-      "en never joins el: El libro está en el armario. Before la, de stays on its own: El billete está dentro de la mochila. Before el, de + el becomes del: El móvil está dentro del bolsillo. La taza está fuera del cajón.",
+      "de + el becomes del, de + la stays as it is, and en never joins el.",
+    ]);
+
+    expect(form.teach!.examples!.map((e) => e.es)).toEqual([
+      "El libro está en el armario.",
+      "El billete está dentro de la mochila.",
+      "El móvil está dentro del bolsillo.",
+      "La taza está fuera del cajón.",
     ]);
   });
 
@@ -302,14 +310,20 @@ describe("placement lessons", () => {
     const questions = placementLesson("pl-m02", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[7]];
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrases: encima de and debajo de",
-      "encima de means on top of or above: La mochila está encima de la puerta. debajo de means under: La bolsa está debajo de la mesa.",
+    expect(intro.teach!.terms!.map((t) => [t.es, t.meaning])).toEqual([
+      ["encima de", "on top of, above"],
+      ["debajo de", "under"],
     ]);
 
-    expect([form.prompt, form.explanation]).toEqual([
+    expect([form.prompt, form.teach!.rule]).toEqual([
       "encima del, debajo del",
-      "Before la, de stays on its own: El libro está encima de la ventana. Before el, de + el becomes del: El móvil está encima del sofá. La mochila está debajo del banco.",
+      "de + el becomes del, and de + la stays as it is.",
+    ]);
+
+    expect(form.teach!.examples!.map((e) => e.es)).toEqual([
+      "El libro está encima de la ventana.",
+      "El móvil está encima del sofá.",
+      "La mochila está debajo del banco.",
     ]);
   });
 
@@ -317,14 +331,26 @@ describe("placement lessons", () => {
     const questions = placementLesson("pl-m03", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[10]];
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrases: delante de, detrás de and enfrente de",
-      "delante de means in front of: El libro está delante de la lámpara. detrás de means behind: El móvil está detrás de la lámpara. enfrente de means opposite: La farmacia está enfrente de la tienda. Front, behind, left and right depend on where you stand: the instructions always say it.",
+    expect(intro.teach!.terms!.map((t) => [t.es, t.meaning])).toEqual([
+      ["delante de", "in front of"],
+      ["detrás de", "behind"],
+      ["enfrente de", "opposite"],
     ]);
 
-    expect([form.prompt, form.explanation]).toEqual([
+    expect(intro.teach!.terms!.flatMap((t) => t.note ?? [])).toEqual([
+      "Front and behind depend on where you stand: the instructions always say it.",
+    ]);
+
+    expect([form.prompt, form.teach!.rule]).toEqual([
       "delante del, detrás del, enfrente del",
-      "Before la, de stays on its own: La taza está delante de la puerta. Before el, de + el becomes del: La bolsa está delante del banco. El billete está detrás del armario. El banco está enfrente del café.",
+      "de + el becomes del, and de + la stays as it is.",
+    ]);
+
+    expect(form.teach!.examples!.map((e) => e.es)).toEqual([
+      "La taza está delante de la puerta.",
+      "La bolsa está delante del banco.",
+      "El billete está detrás del armario.",
+      "El banco está enfrente del café.",
     ]);
   });
 
@@ -332,14 +358,20 @@ describe("placement lessons", () => {
     const questions = placementLesson("pl-m04", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[7]];
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrases: al lado de and entre",
-      "al lado de means next to: La mochila está al lado de la cama. entre means between: La bolsa está entre la ventana y la lámpara.",
+    expect(intro.teach!.terms!.map((t) => [t.es, t.meaning])).toEqual([
+      ["al lado de", "next to"],
+      ["entre", "between"],
     ]);
 
-    expect([form.prompt, form.explanation]).toEqual([
+    expect([form.prompt, form.teach!.rule]).toEqual([
       "al lado del, entre … y …",
-      "entre takes no de: El móvil está entre el armario y el sofá. Before la, de stays on its own: El billete está al lado de la lámpara. Before el, de + el becomes del: El libro está al lado del armario.",
+      "entre takes no de, and in al lado de, de + el becomes del while de + la stays as it is.",
+    ]);
+
+    expect(form.teach!.examples!.map((e) => e.es)).toEqual([
+      "El móvil está entre el armario y el sofá.",
+      "El billete está al lado de la lámpara.",
+      "El libro está al lado del armario.",
     ]);
   });
 
@@ -347,14 +379,20 @@ describe("placement lessons", () => {
     const questions = placementLesson("pl-m05", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[7]];
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrases: cerca de and lejos de",
-      "cerca de means near: La taza está cerca de la ventana. lejos de means far from: La bolsa está lejos de la lámpara.",
+    expect(intro.teach!.terms!.map((t) => [t.es, t.meaning])).toEqual([
+      ["cerca de", "near"],
+      ["lejos de", "far from"],
     ]);
 
-    expect([form.prompt, form.explanation]).toEqual([
+    expect([form.prompt, form.teach!.rule]).toEqual([
       "cerca del, lejos del",
-      "Before la, de stays on its own: El móvil está cerca de la silla. Before el, de + el becomes del: El libro está cerca del banco. La mochila está lejos del armario.",
+      "de + el becomes del, and de + la stays as it is.",
+    ]);
+
+    expect(form.teach!.examples!.map((e) => e.es)).toEqual([
+      "El móvil está cerca de la silla.",
+      "El libro está cerca del banco.",
+      "La mochila está lejos del armario.",
     ]);
   });
 
@@ -362,14 +400,24 @@ describe("placement lessons", () => {
     const questions = placementLesson("pl-m06", randomFrom(1)).questions;
     const [intro, form] = [questions[0], questions[7]];
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New phrases: a la izquierda de and a la derecha de",
-      "a la izquierda de means to the left of: El libro está a la izquierda de la lámpara. a la derecha de means to the right of: El móvil está a la derecha de la caja. Front, behind, left and right depend on where you stand: the instructions always say it.",
+    expect(intro.teach!.terms!.map((t) => [t.es, t.meaning])).toEqual([
+      ["a la izquierda de", "to the left of"],
+      ["a la derecha de", "to the right of"],
     ]);
 
-    expect([form.prompt, form.explanation]).toEqual([
+    expect(intro.teach!.terms!.flatMap((t) => t.note ?? [])).toEqual([
+      "Left and right depend on where you stand: the instructions always say it.",
+    ]);
+
+    expect([form.prompt, form.teach!.rule]).toEqual([
       "a la izquierda del, a la derecha del",
-      "Before la, de stays on its own: La mochila está a la izquierda de la maleta. Before el, de + el becomes del: La taza está a la izquierda del armario. La bolsa está a la derecha del sofá.",
+      "de + el becomes del, and de + la stays as it is.",
+    ]);
+
+    expect(form.teach!.examples!.map((e) => e.es)).toEqual([
+      "La mochila está a la izquierda de la maleta.",
+      "La taza está a la izquierda del armario.",
+      "La bolsa está a la derecha del sofá.",
     ]);
   });
 

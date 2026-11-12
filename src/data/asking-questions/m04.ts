@@ -325,11 +325,22 @@ export const m04Items: Item[] = [
   },
 ];
 
-const m04Introduction = teachingCard(
-  "AQ-M04-INTRO",
-  "New question words: cuánto, por qué",
-  "Cuánto asks for an amount or a price. Por qué asks for a reason; the reply often starts with porque.\n\nExamples: ¿Cuánto es? ¿Por qué estudias?",
-);
+const m04Introduction = teachingCard("AQ-M04-INTRO", {
+  heading: "New question words: cuánto, por qué",
+  terms: [
+    {
+      es: "cuánto",
+      meaning: "how much (an amount or a price)",
+      example: { es: "¿Cuánto es?", en: "How much is it?" },
+    },
+    {
+      es: "por qué",
+      meaning: "why (a reason)",
+      example: { es: "¿Por qué estudias?", en: "Why do you study?" },
+      note: "The reply often starts with porque.",
+    },
+  ],
+});
 
 export const m04: SetLesson = {
   id: "aq-m04",
@@ -350,8 +361,17 @@ export const m04: SetLesson = {
   formCards: [
     {
       before: "AQ-T07-N03",
-      heading: "New forms: cuánta, cuántos, cuántas",
-      text: "Before a noun, cuánto agrees with it: cuánto pan, cuánta agua, cuántos libros, cuántas entradas. Alone, before a verb such as cuesta, it stays cuánto.\n\nExample: ¿Cuántas camisetas tienes?",
+      teach: {
+        heading: "New forms: cuánta, cuántos, cuántas",
+        rule: "Before a noun, cuánto agrees with it; alone, before a verb such as cuesta, it stays cuánto.",
+        examples: [
+          { es: "cuánto pan", en: "how much bread" },
+          { es: "cuánta agua", en: "how much water" },
+          { es: "cuántos libros", en: "how many books" },
+          { es: "cuántas entradas", en: "how many tickets" },
+          { es: "¿Cuántas camisetas tienes?", en: "How many T-shirts do you have?" },
+        ],
+      },
     },
   ],
   variations: [

@@ -271,11 +271,32 @@ export const m07Items: Item[] = [
   },
 ];
 
-const m07Introduction = teachingCard(
-  "AQ-M07-INTRO",
-  "New question words: desde cuándo, hasta cuándo, cada cuánto",
-  "Desde cuándo asks when something that still goes on began. Hasta cuándo asks when it ends. Cada cuánto asks how often it happens.\n\nExamples: ¿Desde cuándo vives en esta casa? ¿Hasta cuándo estudias hoy? ¿Cada cuánto vas a casa de tu madre?",
-);
+const m07Introduction = teachingCard("AQ-M07-INTRO", {
+  heading: "New question words: desde cuándo, hasta cuándo, cada cuánto",
+  terms: [
+    {
+      es: "desde cuándo",
+      meaning: "since when (when something that still goes on began)",
+      example: {
+        es: "¿Desde cuándo vives en esta casa?",
+        en: "Since when have you lived in this house?",
+      },
+    },
+    {
+      es: "hasta cuándo",
+      meaning: "until when",
+      example: { es: "¿Hasta cuándo estudias hoy?", en: "Until when are you studying today?" },
+    },
+    {
+      es: "cada cuánto",
+      meaning: "how often",
+      example: {
+        es: "¿Cada cuánto vas a casa de tu madre?",
+        en: "How often do you go to your mother's house?",
+      },
+    },
+  ],
+});
 
 export const m07: SetLesson = {
   id: "aq-m07",
@@ -300,8 +321,13 @@ export const m07: SetLesson = {
   formCards: [
     {
       before: "AQ-T16-N03",
-      heading: "New form: cada cuánto tiempo",
-      text: "You can add tiempo: cada cuánto and cada cuánto tiempo both ask how often.\n\nExample: ¿Cada cuánto tiempo vas al parque?",
+      teach: {
+        heading: "New form: cada cuánto tiempo",
+        rule: "You can add tiempo: cada cuánto and cada cuánto tiempo both ask how often.",
+        examples: [
+          { es: "¿Cada cuánto tiempo vas al parque?", en: "How often do you go to the park?" },
+        ],
+      },
     },
   ],
   variations: [

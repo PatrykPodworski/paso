@@ -227,11 +227,22 @@ export const m05Items: Item[] = [
   },
 ];
 
-const m05Introduction = teachingCard(
-  "AQ-M05-INTRO",
-  "New question words: de dónde, adónde",
-  "De dónde asks where someone or something comes from. Adónde asks for a destination; a dónde, in two words, is right too. Dónde alone asks where something is.\n\nExamples: ¿De dónde es tu amiga? ¿Adónde vamos?",
-);
+const m05Introduction = teachingCard("AQ-M05-INTRO", {
+  heading: "New question words: de dónde, adónde",
+  terms: [
+    {
+      es: "de dónde",
+      meaning: "where from (an origin)",
+      example: { es: "¿De dónde es tu amiga?", en: "Where is your friend from?" },
+    },
+    {
+      es: "adónde",
+      meaning: "where to (a destination)",
+      example: { es: "¿Adónde vamos?", en: "Where are we going?" },
+      note: "A dónde, in two words, is right too. Dónde alone asks where something is.",
+    },
+  ],
+});
 
 export const m05: SetLesson = {
   id: "aq-m05",

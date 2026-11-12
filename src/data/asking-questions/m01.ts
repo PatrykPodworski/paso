@@ -166,11 +166,22 @@ export const m01Items: Item[] = [
   },
 ];
 
-const m01Introduction = teachingCard(
-  "AQ-M01-INTRO",
-  "New question words: qué, cómo",
-  "Qué asks for a thing or an activity. Before a noun, it asks which kind: qué bebida. Cómo asks how: a way, a state or a name.\n\nExamples: ¿Qué tienes? ¿Cómo está tu familia?",
-);
+const m01Introduction = teachingCard("AQ-M01-INTRO", {
+  heading: "New question words: qué, cómo",
+  terms: [
+    {
+      es: "qué",
+      meaning: "what (a thing or an activity)",
+      example: { es: "¿Qué tienes?", en: "What do you have?" },
+      note: "Before a noun, it asks which kind: qué bebida.",
+    },
+    {
+      es: "cómo",
+      meaning: "how (a way, a state or a name)",
+      example: { es: "¿Cómo está tu familia?", en: "How is your family?" },
+    },
+  ],
+});
 
 export const m01: SetLesson = {
   id: "aq-m01",

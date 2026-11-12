@@ -343,11 +343,22 @@ export const m06Items: Item[] = [
   },
 ];
 
-const m06Introduction = teachingCard(
-  "AQ-M06-INTRO",
-  "New question words: a qué hora, con quién",
-  "A qué hora asks for a clock time; cuándo asks for a day or a time in general. Con quién asks who goes or does something with someone.\n\nExamples: ¿A qué hora comes? ¿Con quién vas?",
-);
+const m06Introduction = teachingCard("AQ-M06-INTRO", {
+  heading: "New question words: a qué hora, con quién",
+  terms: [
+    {
+      es: "a qué hora",
+      meaning: "at what time (a clock time)",
+      example: { es: "¿A qué hora comes?", en: "What time do you eat?" },
+      note: "Cuándo asks for a day or a time in general.",
+    },
+    {
+      es: "con quién",
+      meaning: "who with (a companion)",
+      example: { es: "¿Con quién vas?", en: "Who are you going with?" },
+    },
+  ],
+});
 
 export const m06: SetLesson = {
   id: "aq-m06",
@@ -368,8 +379,11 @@ export const m06: SetLesson = {
   formCards: [
     {
       before: "AQ-T12-N03",
-      heading: "New form: con quiénes",
-      text: "When you know the answer is several people, use con quiénes.\n\nExample: ¿Con quiénes comes?",
+      teach: {
+        heading: "New form: con quiénes",
+        rule: "When you know the answer is several people, use con quiénes.",
+        examples: [{ es: "¿Con quiénes comes?", en: "Who do you eat with?" }],
+      },
     },
   ],
   variations: [

@@ -325,11 +325,21 @@ export const m02Items: Item[] = [
   },
 ];
 
-const m02Introduction = teachingCard(
-  "AQ-M02-INTRO",
-  "New question words: dónde, cuándo",
-  "Dónde asks for a place. Cuándo asks for a time or a day.\n\nExamples: ¿Dónde está la cocina? ¿Cuándo comes?",
-);
+const m02Introduction = teachingCard("AQ-M02-INTRO", {
+  heading: "New question words: dónde, cuándo",
+  terms: [
+    {
+      es: "dónde",
+      meaning: "where (a place)",
+      example: { es: "¿Dónde está la cocina?", en: "Where is the kitchen?" },
+    },
+    {
+      es: "cuándo",
+      meaning: "when (a time or a day)",
+      example: { es: "¿Cuándo comes?", en: "When do you eat?" },
+    },
+  ],
+});
 
 export const m02: SetLesson = {
   id: "aq-m02",

@@ -240,6 +240,42 @@ describe("asking questions lessons", () => {
     }
   });
 
+  it("lists each new word of an introduction card on its own row", () => {
+    for (const id of LESSONS) {
+      const intro = askingLesson(id).questions.find((q) => q.id.endsWith("-INTRO"));
+
+      if (intro) {
+        const words = intro.prompt.split(": ")[1].split(", ");
+
+        expect(
+          intro.teach?.terms?.map((t) => t.es),
+          id,
+        ).toEqual(words);
+      }
+    }
+  });
+
+  it("gives every form card a rule and translated examples instead of a paragraph", () => {
+    const forms = LESSONS.flatMap((id) =>
+      askingLesson(id).questions.filter((q) => q.id.endsWith("-FORM")),
+    );
+
+    for (const q of forms) {
+      expect(q.explanation, q.id).toBe("");
+      expect(q.teach?.rule, q.id).toMatch(/^[A-Z].*\.$/);
+      expect(q.teach?.examples?.length, q.id).toBeGreaterThan(0);
+    }
+
+    expect(forms.map((q) => q.id)).toEqual([
+      "AQ-T05-N03-FORM",
+      "AQ-T06-N03-FORM",
+      "AQ-T07-N03-FORM",
+      "AQ-T12-N03-FORM",
+      "AQ-T16-N03-FORM",
+      "AQ-T13-N03-FORM",
+    ]);
+  });
+
   it("accepts the typed where question with or without tú and notes a missing accent", () => {
     const q = question("AQ-T03-N03");
 

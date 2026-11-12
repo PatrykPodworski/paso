@@ -381,11 +381,27 @@ export const m08Items: Item[] = [
   },
 ];
 
-const m08Introduction = teachingCard(
-  "AQ-M08-INTRO",
-  "New question words: de quién, para qué, por dónde",
-  "De quién asks for an owner. Para qué asks for a purpose; the reply often starts with para. Por dónde asks for a route.\n\nExamples: ¿De quién es la mesa? ¿Para qué es esto? ¿Por dónde se va a la plaza?",
-);
+const m08Introduction = teachingCard("AQ-M08-INTRO", {
+  heading: "New question words: de quién, para qué, por dónde",
+  terms: [
+    {
+      es: "de quién",
+      meaning: "whose (an owner)",
+      example: { es: "¿De quién es la mesa?", en: "Whose table is it?" },
+    },
+    {
+      es: "para qué",
+      meaning: "what for (a purpose)",
+      example: { es: "¿Para qué es esto?", en: "What is this for?" },
+      note: "The reply often starts with para.",
+    },
+    {
+      es: "por dónde",
+      meaning: "which way (a route)",
+      example: { es: "¿Por dónde se va a la plaza?", en: "Which way is it to the square?" },
+    },
+  ],
+});
 
 export const m08: SetLesson = {
   id: "aq-m08",
@@ -410,8 +426,11 @@ export const m08: SetLesson = {
   formCards: [
     {
       before: "AQ-T13-N03",
-      heading: "New form: de quiénes",
-      text: "When you know the answer is several owners, use de quiénes.\n\nExample: ¿De quiénes son los libros?",
+      teach: {
+        heading: "New form: de quiénes",
+        rule: "When you know the answer is several owners, use de quiénes.",
+        examples: [{ es: "¿De quiénes son los libros?", en: "Whose books are they?" }],
+      },
     },
   ],
   variations: [

@@ -205,11 +205,22 @@ export const m03Items: Item[] = [
   },
 ];
 
-const m03Introduction = teachingCard(
-  "AQ-M03-INTRO",
-  "New question words: quién, cuál",
-  "Quién asks for a person. Cuál asks for one option from a set; before a noun, use qué instead.\n\nExamples: ¿Quién es ella? ¿Cuál es tu casa?",
-);
+const m03Introduction = teachingCard("AQ-M03-INTRO", {
+  heading: "New question words: quién, cuál",
+  terms: [
+    {
+      es: "quién",
+      meaning: "who (a person)",
+      example: { es: "¿Quién es ella?", en: "Who is she?" },
+    },
+    {
+      es: "cuál",
+      meaning: "which (one option from a set)",
+      example: { es: "¿Cuál es tu casa?", en: "Which is your house?" },
+      note: "Before a noun, use qué instead.",
+    },
+  ],
+});
 
 export const m03: SetLesson = {
   id: "aq-m03",
@@ -230,13 +241,19 @@ export const m03: SetLesson = {
   formCards: [
     {
       before: "AQ-T05-N03",
-      heading: "New form: quiénes",
-      text: "Quién goes with a singular verb, like viene. For several people, use quiénes with a plural verb, like vienen.\n\nExample: ¿Quiénes son?",
+      teach: {
+        heading: "New form: quiénes",
+        rule: "Quién goes with a singular verb, like viene; for several people, use quiénes with a plural verb, like vienen.",
+        examples: [{ es: "¿Quiénes son?", en: "Who are they?" }],
+      },
     },
     {
       before: "AQ-T06-N03",
-      heading: "New form: cuáles",
-      text: "Cuál asks for one option. For several options, use cuáles with a plural verb.\n\nExample: ¿Cuáles son tus zapatos?",
+      teach: {
+        heading: "New form: cuáles",
+        rule: "Cuál asks for one option; for several options, use cuáles with a plural verb.",
+        examples: [{ es: "¿Cuáles son tus zapatos?", en: "Which ones are your shoes?" }],
+      },
     },
   ],
   variations: [

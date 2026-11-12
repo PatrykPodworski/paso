@@ -57,7 +57,16 @@ describe("asking questions lessons", () => {
     const lesson = lessonFrom(
       {
         ...m01,
-        formCards: [{ before: "AQ-T01-N02", heading: "Qué before a noun", text: "¿Qué bebida?" }],
+        formCards: [
+          {
+            before: "AQ-T01-N02",
+            teach: {
+              heading: "Qué before a noun",
+              rule: "Before a noun, qué asks which kind.",
+              examples: [{ es: "¿Qué bebida?", en: "Which drink?" }],
+            },
+          },
+        ],
       },
       randomFrom(1),
     );

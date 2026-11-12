@@ -235,7 +235,7 @@ export const m08Items: Item[] = [
     instruction: "Translate into Spanish. You are speaking to a friend.",
     prompt: "Where is your teacher from?",
     answer: "¿De dónde es tu profesor?",
-    // "Your teacher" names no gender, so tu profesora passes too (ADR 0013).
+    // "Your teacher" names no gender, so tu profesora passes too (ADR 0014).
     accepted: ["¿De dónde es tu profesora?"],
     feedback: "“Where … from” is de dónde: ¿De dónde es tu profesor (or tu profesora)?",
     hints: [

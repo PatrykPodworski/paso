@@ -6,7 +6,7 @@ import { setQuestions } from "./practice-sets/index";
 import type { Question } from "./types";
 
 // Spanish words with a male and a female form, and the English that translates both, so an
-// English task that uses it does not say which form to write (ADR 0013).
+// English task that uses it does not say which form to write (ADR 0014).
 const NOUNS: [string, string, RegExp][] = [
   ["amigo", "amiga", /\bfriend\b/i],
   ["amigos", "amigas", /\bfriends\b/i],

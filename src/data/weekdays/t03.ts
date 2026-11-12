@@ -62,7 +62,7 @@ export const t03Items: Item[] = [
     instruction: "Translate into Spanish",
     prompt: "My friend is at home on Wednesday.",
     answer: "Mi amiga está en casa el miércoles.",
-    // "My friend" names no gender, so mi amigo passes too (ADR 0013).
+    // "My friend" names no gender, so mi amigo passes too (ADR 0014).
     accepted: [
       "Mi amiga está el miércoles en casa.",
       "El miércoles mi amiga está en casa.",

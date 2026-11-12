@@ -228,11 +228,27 @@ export const m04: SetLesson = {
   title: "Next to and between",
   subtitle: "al lado de and entre",
   recalled: [],
-  introduction: teachingCard(
-    "SP-M04-INTRO",
-    "New phrases: al lado de and entre",
-    "al lado de means next to: La mochila está al lado de la cama. entre means between: La bolsa está entre la ventana y la lámpara.",
-  ),
+  introduction: teachingCard("SP-M04-INTRO", {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "al lado de",
+        meaning: "next to",
+        example: {
+          es: "La mochila está al lado de la cama.",
+          en: "The backpack is next to the bed.",
+        },
+      },
+      {
+        es: "entre",
+        meaning: "between",
+        example: {
+          es: "La bolsa está entre la ventana y la lámpara.",
+          en: "The bag is between the window and the lamp.",
+        },
+      },
+    ],
+  }),
   base: [
     "SP-T08-N01",
     "SP-T09-N01",
@@ -246,8 +262,18 @@ export const m04: SetLesson = {
   formCards: [
     {
       before: "SP-T08-N04",
-      heading: "al lado del, entre … y …",
-      text: "entre takes no de: El móvil está entre el armario y el sofá. Before la, de stays on its own: El billete está al lado de la lámpara. Before el, de + el becomes del: El libro está al lado del armario.",
+      teach: {
+        heading: "al lado del, entre … y …",
+        rule: "entre takes no de, and in al lado de, de + el becomes del while de + la stays as it is.",
+        examples: [
+          {
+            es: "El móvil está entre el armario y el sofá.",
+            en: "The phone is between the cupboard and the sofa.",
+          },
+          { es: "El billete está al lado de la lámpara.", en: "The ticket is next to the lamp." },
+          { es: "El libro está al lado del armario.", en: "The book is next to the cupboard." },
+        ],
+      },
     },
   ],
   variations: [

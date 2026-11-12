@@ -253,11 +253,28 @@ export const m06: SetLesson = {
   title: "Left and right",
   subtitle: "a la izquierda de and a la derecha de",
   recalled: [],
-  introduction: teachingCard(
-    "SP-M06-INTRO",
-    "New phrases: a la izquierda de and a la derecha de",
-    "a la izquierda de means to the left of: El libro está a la izquierda de la lámpara. a la derecha de means to the right of: El móvil está a la derecha de la caja. Front, behind, left and right depend on where you stand: the instructions always say it.",
-  ),
+  introduction: teachingCard("SP-M06-INTRO", {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "a la izquierda de",
+        meaning: "to the left of",
+        example: {
+          es: "El libro está a la izquierda de la lámpara.",
+          en: "The book is to the left of the lamp.",
+        },
+      },
+      {
+        es: "a la derecha de",
+        meaning: "to the right of",
+        example: {
+          es: "El móvil está a la derecha de la caja.",
+          en: "The phone is to the right of the box.",
+        },
+        note: "Left and right depend on where you stand: the instructions always say it.",
+      },
+    ],
+  }),
   base: [
     "SP-T12-N01",
     "SP-T13-N01",
@@ -271,8 +288,24 @@ export const m06: SetLesson = {
   formCards: [
     {
       before: "SP-T12-N04",
-      heading: "a la izquierda del, a la derecha del",
-      text: "Before la, de stays on its own: La mochila está a la izquierda de la maleta. Before el, de + el becomes del: La taza está a la izquierda del armario. La bolsa está a la derecha del sofá.",
+      teach: {
+        heading: "a la izquierda del, a la derecha del",
+        rule: "de + el becomes del, and de + la stays as it is.",
+        examples: [
+          {
+            es: "La mochila está a la izquierda de la maleta.",
+            en: "The backpack is to the left of the suitcase.",
+          },
+          {
+            es: "La taza está a la izquierda del armario.",
+            en: "The cup is to the left of the cupboard.",
+          },
+          {
+            es: "La bolsa está a la derecha del sofá.",
+            en: "The bag is to the right of the sofa.",
+          },
+        ],
+      },
     },
   ],
   variations: [

@@ -248,11 +248,24 @@ export const m02: SetLesson = {
   title: "On top of and under",
   subtitle: "encima de and debajo de",
   recalled: [],
-  introduction: teachingCard(
-    "SP-M02-INTRO",
-    "New phrases: encima de and debajo de",
-    "encima de means on top of or above: La mochila está encima de la puerta. debajo de means under: La bolsa está debajo de la mesa.",
-  ),
+  introduction: teachingCard("SP-M02-INTRO", {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "encima de",
+        meaning: "on top of, above",
+        example: {
+          es: "La mochila está encima de la puerta.",
+          en: "The backpack is above the door.",
+        },
+      },
+      {
+        es: "debajo de",
+        meaning: "under",
+        example: { es: "La bolsa está debajo de la mesa.", en: "The bag is under the table." },
+      },
+    ],
+  }),
   base: [
     "SP-T04-N01",
     "SP-T05-N01",
@@ -266,8 +279,15 @@ export const m02: SetLesson = {
   formCards: [
     {
       before: "SP-T04-N04",
-      heading: "encima del, debajo del",
-      text: "Before la, de stays on its own: El libro está encima de la ventana. Before el, de + el becomes del: El móvil está encima del sofá. La mochila está debajo del banco.",
+      teach: {
+        heading: "encima del, debajo del",
+        rule: "de + el becomes del, and de + la stays as it is.",
+        examples: [
+          { es: "El libro está encima de la ventana.", en: "The book is above the window." },
+          { es: "El móvil está encima del sofá.", en: "The phone is on top of the sofa." },
+          { es: "La mochila está debajo del banco.", en: "The backpack is under the bench." },
+        ],
+      },
     },
   ],
   variations: [

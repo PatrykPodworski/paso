@@ -17,6 +17,12 @@ const lowered = (text: string) => text.toLocaleLowerCase("es");
 
 const repeatedIn = (values: string[]) => values.filter((v, i) => values.indexOf(v) !== i);
 
+// A teaching card's example sentences: one per new word, or the form card's list.
+const examplesOf = (card: (typeof placementQuestions)[number]) => [
+  ...(card.teach?.terms ?? []).flatMap((t) => t.example ?? []),
+  ...(card.teach?.examples ?? []),
+];
+
 // The nouns course units 1–4 teach; a translation glosses none of them.
 const TAUGHT_NOUNS = [
   "libro",
@@ -105,7 +111,7 @@ describe("placement content", () => {
 
       const spoken = exercises.map((q) => q.pronunciation!);
       const wordings = exercises.flatMap((q) => [...new Set(wordingsOf(q).map(lowered))]);
-      const cardSentences = cards.flatMap((c) => c.explanation.match(/[A-Z][^.:]* está [^.]*\./g)!);
+      const cardSentences = cards.flatMap(examplesOf).map((e) => e.es);
 
       expect(exercises, l.id).toHaveLength(exerciseCount(l));
       expect(repeatedIn(spoken), l.id).toEqual([]);
@@ -116,6 +122,33 @@ describe("placement content", () => {
         l.id,
       ).toEqual([]);
     }
+  });
+
+  it("teaches every new phrase and form on a structured card with translated examples", () => {
+    const cards = learningLessons.flatMap((l) =>
+      placementLesson(l.id).questions.filter((q) => q.kind === "teach"),
+    );
+
+    const translated = cards.map((c) => [
+      c.id,
+      c.explanation,
+      examplesOf(c).filter((e) => e.en.trim()).length,
+    ]);
+
+    expect(translated).toEqual([
+      ["SP-M01-INTRO", "", 3],
+      ["SP-T01-N04-FORM", "", 4],
+      ["SP-M02-INTRO", "", 2],
+      ["SP-T04-N04-FORM", "", 3],
+      ["SP-M03-INTRO", "", 3],
+      ["SP-T06-N04-FORM", "", 4],
+      ["SP-M04-INTRO", "", 2],
+      ["SP-T08-N04-FORM", "", 3],
+      ["SP-M05-INTRO", "", 2],
+      ["SP-T10-N04-FORM", "", 3],
+      ["SP-M06-INTRO", "", 2],
+      ["SP-T12-N04-FORM", "", 3],
+    ]);
   });
 
   it("keeps the Spanish frame and the answer out of every translation", () => {

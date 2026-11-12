@@ -231,11 +231,21 @@ export const m05: SetLesson = {
   title: "Near and far",
   subtitle: "cerca de and lejos de",
   recalled: [],
-  introduction: teachingCard(
-    "SP-M05-INTRO",
-    "New phrases: cerca de and lejos de",
-    "cerca de means near: La taza está cerca de la ventana. lejos de means far from: La bolsa está lejos de la lámpara.",
-  ),
+  introduction: teachingCard("SP-M05-INTRO", {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "cerca de",
+        meaning: "near",
+        example: { es: "La taza está cerca de la ventana.", en: "The cup is near the window." },
+      },
+      {
+        es: "lejos de",
+        meaning: "far from",
+        example: { es: "La bolsa está lejos de la lámpara.", en: "The bag is far from the lamp." },
+      },
+    ],
+  }),
   base: [
     "SP-T10-N01",
     "SP-T11-N01",
@@ -249,8 +259,18 @@ export const m05: SetLesson = {
   formCards: [
     {
       before: "SP-T10-N04",
-      heading: "cerca del, lejos del",
-      text: "Before la, de stays on its own: El móvil está cerca de la silla. Before el, de + el becomes del: El libro está cerca del banco. La mochila está lejos del armario.",
+      teach: {
+        heading: "cerca del, lejos del",
+        rule: "de + el becomes del, and de + la stays as it is.",
+        examples: [
+          { es: "El móvil está cerca de la silla.", en: "The phone is near the chair." },
+          { es: "El libro está cerca del banco.", en: "The book is near the bench." },
+          {
+            es: "La mochila está lejos del armario.",
+            en: "The backpack is far from the cupboard.",
+          },
+        ],
+      },
     },
   ],
   variations: [

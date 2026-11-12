@@ -305,11 +305,26 @@ export const m01: SetLesson = {
   title: "In, inside and outside",
   subtitle: "en, dentro de and fuera de",
   recalled: [],
-  introduction: teachingCard(
-    "SP-M01-INTRO",
-    "New phrases: en, dentro de and fuera de",
-    "en means in or on: El libro está en la caja. dentro de means inside: El móvil está dentro de la bolsa. fuera de means outside: La taza está fuera de la maleta.",
-  ),
+  introduction: teachingCard("SP-M01-INTRO", {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "en",
+        meaning: "in, on",
+        example: { es: "El libro está en la caja.", en: "The book is in the box." },
+      },
+      {
+        es: "dentro de",
+        meaning: "inside",
+        example: { es: "El móvil está dentro de la bolsa.", en: "The phone is inside the bag." },
+      },
+      {
+        es: "fuera de",
+        meaning: "outside",
+        example: { es: "La taza está fuera de la maleta.", en: "The cup is outside the suitcase." },
+      },
+    ],
+  }),
   base: [
     "SP-T01-N01",
     "SP-T02-N01",
@@ -327,8 +342,16 @@ export const m01: SetLesson = {
   formCards: [
     {
       before: "SP-T01-N04",
-      heading: "en el, dentro del, fuera del",
-      text: "en never joins el: El libro está en el armario. Before la, de stays on its own: El billete está dentro de la mochila. Before el, de + el becomes del: El móvil está dentro del bolsillo. La taza está fuera del cajón.",
+      teach: {
+        heading: "en el, dentro del, fuera del",
+        rule: "de + el becomes del, de + la stays as it is, and en never joins el.",
+        examples: [
+          { es: "El libro está en el armario.", en: "The book is in the cupboard." },
+          { es: "El billete está dentro de la mochila.", en: "The ticket is inside the backpack." },
+          { es: "El móvil está dentro del bolsillo.", en: "The phone is inside the pocket." },
+          { es: "La taza está fuera del cajón.", en: "The cup is outside the drawer." },
+        ],
+      },
     },
   ],
   variations: [

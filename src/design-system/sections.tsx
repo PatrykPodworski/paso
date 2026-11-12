@@ -13,11 +13,40 @@ import { Notice } from "./Notice";
 import { ProgressTrack } from "./ProgressTrack";
 import { ButtonRow } from "./ButtonRow";
 import { IconButton } from "./IconButton";
+import { TeachingCard } from "../components/question-card/TeachingCard";
+import { teachingCard } from "../data/practice-sets/item";
+
+const wordsCard = teachingCard("GALLERY-WORDS", {
+  heading: "New phrases",
+  terms: [
+    {
+      es: "en",
+      meaning: "in, on",
+      example: { es: "El libro está en la caja.", en: "The book is in the box." },
+    },
+    {
+      es: "dentro de",
+      meaning: "inside",
+      example: { es: "El móvil está dentro de la bolsa.", en: "The phone is inside the bag." },
+      note: "de + el joins into del: dentro del bolso.",
+    },
+  ],
+});
+
+const ruleCard = teachingCard("GALLERY-RULE", {
+  heading: "en el, dentro del, fuera del",
+  rule: "de + el becomes del. en never joins el.",
+  examples: [
+    { es: "El libro está en el armario.", en: "The book is in the wardrobe." },
+    { es: "El móvil está dentro del bolsillo.", en: "The phone is in the pocket." },
+  ],
+});
 
 // The gallery registry. Every component extracted into src/design-system/ adds a section
 // here so tests/visual/design-system.spec.ts screenshots its variants in isolation,
 // including the states no app view happens to render. Rendered by Gallery.tsx at
-// /design-system. Separate from that component so Fast Refresh keeps working.
+// /design-system. Separate from that component so Fast Refresh keeps working. The teaching
+// card is an app component; it is here because no lesson shows structured content yet.
 export const sections: { id: string; name: string; render: () => ReactNode }[] = [
   {
     id: "button",
@@ -276,6 +305,19 @@ export const sections: { id: string; name: string; render: () => ReactNode }[] =
           <div key={size} className="flex items-center gap-3">
             <ResultMark result="correct" size={size} label="Correct" />
             <ResultMark result="wrong" size={size} label="Incorrect" />
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    id: "teaching-card",
+    name: "TeachingCard",
+    render: () => (
+      <div className="self-stretch flex flex-col gap-6">
+        {[wordsCard, ruleCard].map((q) => (
+          <div key={q.id} className="border border-border rounded-lg">
+            <TeachingCard q={q} onContinue={() => {}} />
           </div>
         ))}
       </div>

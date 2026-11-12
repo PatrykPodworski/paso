@@ -2,6 +2,7 @@ import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { Button } from "../ui/button";
 import { cardPadding } from "./cardPadding";
+import { TeachingContent } from "./TeachingContent";
 
 type Props = { q: Question; onContinue: () => void };
 
@@ -15,7 +16,11 @@ export const TeachingCard = ({ q, onContinue }: Props) => (
     <h2 className="font-heading tracking-tight text-2xl font-medium leading-normal mbs-3.5 mbe-4">
       {q.prompt}
     </h2>
-    <p className="text-base leading-relaxed whitespace-pre-line max-w-prose">{q.explanation}</p>
+    {q.teach ? (
+      <TeachingContent teach={q.teach} />
+    ) : (
+      <p className="text-base leading-relaxed whitespace-pre-line max-w-prose">{q.explanation}</p>
+    )}
     <div className="flex justify-end mbs-6 border-bs border-border pbs-5 max-md:pbs-4">
       <Button
         type="button"

@@ -11,6 +11,19 @@ test("gallery page", async ({ page }) => {
   await capture(page, "design-system", { fullPage: true });
 });
 
+test("teaching card rows fit the width", async ({ page }) => {
+  await page.goto("/design-system");
+
+  const section = page.locator('[data-section="teaching-card"]');
+
+  await expect(section.getByRole("term").first()).toBeVisible();
+
+  expect(
+    await section.evaluate((el) => el.scrollWidth <= el.clientWidth),
+    "No horizontal overflow",
+  ).toBe(true);
+});
+
 for (const { id, name } of sections) {
   test(`component: ${name}`, async ({ page }) => {
     await page.goto("/design-system");

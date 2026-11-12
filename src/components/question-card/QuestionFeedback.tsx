@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import {
   accentMistakes,
   accentOnlyAnswer,
+  closestAnswer,
   missingQuestionMarks,
   notedAnswer,
 } from "../../data/progress";
@@ -178,14 +179,15 @@ export const QuestionFeedback = ({
         <p className={paragraph}>
           Your answer: <strong lang="es">{value}</strong>
           <br />
-          Correct answer: <strong lang="es">{q.answer}</strong>
+          Correct answer: <strong lang="es">{closestAnswer(q, value)}</strong>
         </p>
       )}
       <p className={paragraph}>{q.explanation}</p>
       {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}
       {correct && typed && missingQuestionMarks(q, value) && (
         <FieldNote className="mt-3">
-          Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>
+          Spanish questions open with ¿ and close with ?:{" "}
+          <span lang="es">{closestAnswer(q, value)}</span>
         </FieldNote>
       )}
       <MemoryHint text={q.memoryHint} />

@@ -91,6 +91,45 @@ export const isCorrect = (q: Question, answer: string) =>
 export const accentOnlyAnswer = (q: Question, answer: string) =>
   exactMatch(q, answer) ? undefined : accentMatch(q, answer);
 
+// The number of single-letter insertions, deletions and substitutions that turn one text into
+// the other.
+const editDistance = (a: string, b: string) => {
+  let previous = [...Array(b.length + 1).keys()];
+
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i];
+
+    for (let j = 1; j <= b.length; j++) {
+      const substitution = previous[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1);
+
+      current.push(Math.min(previous[j] + 1, current[j - 1] + 1, substitution));
+    }
+
+    previous = current;
+  }
+
+  return previous[b.length];
+};
+
+// The accepted answer, as written, nearest to the learner's answer, so the feedback shows the
+// variant they aimed at (ADR 0013). Ties go to the main answer.
+export const closestAnswer = (q: Question, answer: string) => {
+  const typed = normalize(answer);
+  let closest = q.answer;
+  let distance = editDistance(normalize(q.answer), typed);
+
+  for (const accepted of q.accepted ?? []) {
+    const d = editDistance(normalize(accepted), typed);
+
+    if (d < distance) {
+      closest = accepted;
+      distance = d;
+    }
+  }
+
+  return closest;
+};
+
 // The accented letters of one text where the other has a different letter.
 const accentedDifferences = (text: string, other: string) => {
   const letters = [...normalize(other)];

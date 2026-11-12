@@ -159,11 +159,31 @@ describe("time words lessons", () => {
     const [intro] = questions;
     const form = questions.find((q) => q.id === "TM-T02-E04-FORM")!;
 
-    expect([intro.prompt, intro.explanation, form.prompt, form.explanation]).toEqual([
-      "New words: hoy, mañana, ayer",
-      "hoy means today. Example: Clase de Pablo: hoy. mañana means tomorrow. Example: Reunión de Luis: mañana. ayer means yesterday. Example: Visita de Diego: ayer.",
-      "mañana and la mañana",
-      "mañana alone means tomorrow. With la, la mañana is the morning. In these exercises mañana means tomorrow.",
+    expect([intro.teach, form.teach]).toEqual([
+      {
+        heading: "New words",
+        terms: [
+          {
+            es: "hoy",
+            meaning: "today",
+            example: { es: "Clase de Pablo: hoy.", en: "Pablo's class: today." },
+          },
+          {
+            es: "mañana",
+            meaning: "tomorrow",
+            example: { es: "Reunión de Luis: mañana.", en: "Luis's meeting: tomorrow." },
+          },
+          {
+            es: "ayer",
+            meaning: "yesterday",
+            example: { es: "Visita de Diego: ayer.", en: "Diego's visit: yesterday." },
+          },
+        ],
+      },
+      {
+        heading: "mañana and la mañana",
+        rule: "mañana alone means tomorrow, as in these exercises; la mañana is the morning.",
+      },
     ]);
   });
 
@@ -220,11 +240,36 @@ describe("time words lessons", () => {
     const [intro] = questions;
     const form = questions.find((q) => q.id === "TM-T06-E04-FORM")!;
 
-    expect([intro.prompt, intro.explanation, form.prompt, form.explanation]).toEqual([
-      "New words: ahora, antes, después / luego",
-      "ahora means now, at this moment. hoy is the whole day; ahora is this moment. Example: Trabajo ahora. antes means before, earlier. Example: Pablo come a las dos. Yo como antes. después and luego both mean after, later. Example: Desayuno y luego trabajo.",
-      "después or luego",
-      "Both mean after, later. Either one is right in these exercises. después has an accent on the é.",
+    expect([intro.teach, form.teach]).toEqual([
+      {
+        heading: "New words",
+        terms: [
+          {
+            es: "ahora",
+            meaning: "now, at this moment",
+            example: { es: "Trabajo ahora.", en: "I'm working now." },
+            note: "hoy is the whole day; ahora is this moment.",
+          },
+          {
+            es: "antes",
+            meaning: "before, earlier",
+            example: {
+              es: "Pablo come a las dos. Yo como antes.",
+              en: "Pablo eats at two. I eat earlier.",
+            },
+          },
+          {
+            es: "después / luego",
+            meaning: "after, later",
+            example: { es: "Desayuno y luego trabajo.", en: "I have breakfast and then I work." },
+            note: "Both words mean the same.",
+          },
+        ],
+      },
+      {
+        heading: "después or luego",
+        rule: "Both mean after, later, so either one is right; después has an accent on the é.",
+      },
     ]);
   });
 
@@ -277,11 +322,27 @@ describe("time words lessons", () => {
     const [intro] = questions;
     const form = questions.find((q) => q.id === "TM-T08-E04-FORM")!;
 
-    expect([intro.prompt, intro.explanation, form.prompt, form.explanation]).toEqual([
-      "New words: temprano, tarde",
-      "temprano means early, earlier than usual or than agreed. In Spain pronto means early too. Example: Hoy Pablo se levanta temprano. tarde means late, later than usual or than agreed. Example: Hoy me acuesto tarde.",
-      "tarde and la tarde",
-      "tarde alone means late. With la, la tarde is the afternoon. In these exercises tarde means late.",
+    expect([intro.teach, form.teach]).toEqual([
+      {
+        heading: "New words",
+        terms: [
+          {
+            es: "temprano",
+            meaning: "early, earlier than usual or than agreed",
+            example: { es: "Hoy Pablo se levanta temprano.", en: "Today Pablo gets up early." },
+            note: "In Spain pronto means early too.",
+          },
+          {
+            es: "tarde",
+            meaning: "late, later than usual or than agreed",
+            example: { es: "Hoy me acuesto tarde.", en: "Today I go to bed late." },
+          },
+        ],
+      },
+      {
+        heading: "tarde and la tarde",
+        rule: "tarde alone means late, as in these exercises; la tarde is the afternoon.",
+      },
     ]);
   });
 
@@ -356,19 +417,35 @@ describe("time words lessons", () => {
       questions.find((q) => q.id === id)!,
     );
 
-    expect(cards.map((q) => [q.prompt, q.explanation])).toEqual([
-      [
-        "New words: por la mañana, por la tarde, por la noche",
-        "por la mañana means in the morning. Example: Pablo estudia por la mañana. por la tarde means in the afternoon. Example: Luis trabaja por la tarde. por la noche means at night, in the evening. Example: Diego lee por la noche.",
-      ],
-      [
-        "por la mañana, not mañana",
-        "Keep all three words: por la mañana is in the morning. mañana alone means tomorrow.",
-      ],
-      [
-        "por la tarde, not tarde",
-        "Keep all three words: por la tarde is in the afternoon. tarde alone means late.",
-      ],
+    expect(cards.map((q) => q.teach)).toEqual([
+      {
+        heading: "New words",
+        terms: [
+          {
+            es: "por la mañana",
+            meaning: "in the morning",
+            example: { es: "Pablo estudia por la mañana.", en: "Pablo studies in the morning." },
+          },
+          {
+            es: "por la tarde",
+            meaning: "in the afternoon",
+            example: { es: "Luis trabaja por la tarde.", en: "Luis works in the afternoon." },
+          },
+          {
+            es: "por la noche",
+            meaning: "at night, in the evening",
+            example: { es: "Diego lee por la noche.", en: "Diego reads at night." },
+          },
+        ],
+      },
+      {
+        heading: "por la mañana, not mañana",
+        rule: "Keep all three words: por la mañana is in the morning, and mañana alone means tomorrow.",
+      },
+      {
+        heading: "por la tarde, not tarde",
+        rule: "Keep all three words: por la tarde is in the afternoon, and tarde alone means late.",
+      },
     ]);
   });
 
@@ -428,19 +505,46 @@ describe("time words lessons", () => {
       questions.find((q) => q.id === id)!,
     );
 
-    expect(cards.map((q) => [q.prompt, q.explanation])).toEqual([
-      [
-        "New words: siempre, a veces, nunca",
-        "siempre means always. Example: Pablo siempre estudia en casa. a veces means sometimes. Example: Yo a veces voy en autobús. nunca means never. Example: Tomás nunca trabaja los sábados.",
-      ],
-      [
-        "siempre and the verb",
-        "siempre usually goes before the verb: Pablo siempre estudia en casa. After the verb is right too: Pablo estudia siempre en casa.",
-      ],
-      [
-        "nunca, with or without no",
-        "nunca before the verb is enough: Pablo nunca estudia en casa. With no, nunca goes after the verb: Pablo no estudia nunca en casa.",
-      ],
+    expect(cards.map((q) => q.teach)).toEqual([
+      {
+        heading: "New words",
+        terms: [
+          {
+            es: "siempre",
+            meaning: "always",
+            example: { es: "Pablo siempre estudia en casa.", en: "Pablo always studies at home." },
+          },
+          {
+            es: "a veces",
+            meaning: "sometimes",
+            example: { es: "Yo a veces voy en autobús.", en: "I sometimes go by bus." },
+          },
+          {
+            es: "nunca",
+            meaning: "never",
+            example: {
+              es: "Tomás nunca trabaja los sábados.",
+              en: "Tomás never works on Saturdays.",
+            },
+          },
+        ],
+      },
+      {
+        heading: "siempre and the verb",
+        rule: "siempre usually goes before the verb, but after the verb is right too.",
+        examples: [
+          { es: "Pablo siempre estudia en casa.", en: "Pablo always studies at home." },
+          { es: "Pablo estudia siempre en casa.", en: "Pablo always studies at home." },
+        ],
+      },
+      {
+        heading: "nunca, with or without no",
+        rule: "nunca before the verb is enough; with no, nunca goes after the verb.",
+        examples: [
+          { es: "Pablo nunca estudia en casa.", en: "Pablo never studies at home." },
+          { es: "Pablo no estudia nunca en casa.", en: "Pablo never studies at home." },
+        ],
+      },
     ]);
   });
 
@@ -490,10 +594,21 @@ describe("time words lessons", () => {
   it("introduces desde and hasta on one card", () => {
     const [intro] = timeWordsLesson("tm-m06", randomFrom(1)).questions;
 
-    expect([intro.prompt, intro.explanation]).toEqual([
-      "New words: desde, hasta",
-      "desde means from, and gives the start time. Example: Trabajo desde las nueve. hasta means until, and gives the end time. Example: Trabajo hasta las cinco.",
-    ]);
+    expect(intro.teach).toEqual({
+      heading: "New words",
+      terms: [
+        {
+          es: "desde",
+          meaning: "from; it gives the start time",
+          example: { es: "Trabajo desde las nueve.", en: "I work from nine." },
+        },
+        {
+          es: "hasta",
+          meaning: "until; it gives the end time",
+          example: { es: "Trabajo hasta las cinco.", en: "I work until five." },
+        },
+      ],
+    });
   });
 
   it("draws a new M06 variation order each time the lesson opens", () => {

@@ -6,11 +6,22 @@ export const m03: SetLesson = {
   title: "Early and late",
   subtitle: "temprano, tarde",
   recalled: [],
-  introduction: teachingCard(
-    "TM-M03-INTRO",
-    "New words: temprano, tarde",
-    "temprano means early, earlier than usual or than agreed. In Spain pronto means early too. Example: Hoy Pablo se levanta temprano. tarde means late, later than usual or than agreed. Example: Hoy me acuesto tarde.",
-  ),
+  introduction: teachingCard("TM-M03-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "temprano",
+        meaning: "early, earlier than usual or than agreed",
+        example: { es: "Hoy Pablo se levanta temprano.", en: "Today Pablo gets up early." },
+        note: "In Spain pronto means early too.",
+      },
+      {
+        es: "tarde",
+        meaning: "late, later than usual or than agreed",
+        example: { es: "Hoy me acuesto tarde.", en: "Today I go to bed late." },
+      },
+    ],
+  }),
   base: [
     "TM-T07-E01",
     "TM-T08-E01",
@@ -24,8 +35,10 @@ export const m03: SetLesson = {
   formCards: [
     {
       before: "TM-T08-E04",
-      heading: "tarde and la tarde",
-      text: "tarde alone means late. With la, la tarde is the afternoon. In these exercises tarde means late.",
+      teach: {
+        heading: "tarde and la tarde",
+        rule: "tarde alone means late, as in these exercises; la tarde is the afternoon.",
+      },
     },
   ],
   variations: [

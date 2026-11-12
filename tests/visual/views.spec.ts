@@ -307,7 +307,7 @@ test("time words: the set page and M01 on its introduction card", async ({ page 
   await page.goto("/practice/time-words");
   await shot(page, "practice-time-words");
   await page.getByRole("button", { name: /Today/ }).click();
-  await expect(page.getByRole("heading", { name: "New words: hoy, mañana, ayer" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "New words", exact: true })).toBeVisible();
   await shot(page, "practice-time-words-m01-intro");
 });
 

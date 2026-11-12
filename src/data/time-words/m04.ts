@@ -6,11 +6,26 @@ export const m04: SetLesson = {
   title: "Morning, afternoon, night",
   subtitle: "por la mañana, por la tarde, por la noche",
   recalled: [],
-  introduction: teachingCard(
-    "TM-M04-INTRO",
-    "New words: por la mañana, por la tarde, por la noche",
-    "por la mañana means in the morning. Example: Pablo estudia por la mañana. por la tarde means in the afternoon. Example: Luis trabaja por la tarde. por la noche means at night, in the evening. Example: Diego lee por la noche.",
-  ),
+  introduction: teachingCard("TM-M04-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "por la mañana",
+        meaning: "in the morning",
+        example: { es: "Pablo estudia por la mañana.", en: "Pablo studies in the morning." },
+      },
+      {
+        es: "por la tarde",
+        meaning: "in the afternoon",
+        example: { es: "Luis trabaja por la tarde.", en: "Luis works in the afternoon." },
+      },
+      {
+        es: "por la noche",
+        meaning: "at night, in the evening",
+        example: { es: "Diego lee por la noche.", en: "Diego reads at night." },
+      },
+    ],
+  }),
   base: [
     "TM-T09-E01",
     "TM-T10-E01",
@@ -28,13 +43,17 @@ export const m04: SetLesson = {
   formCards: [
     {
       before: "TM-T09-E04",
-      heading: "por la mañana, not mañana",
-      text: "Keep all three words: por la mañana is in the morning. mañana alone means tomorrow.",
+      teach: {
+        heading: "por la mañana, not mañana",
+        rule: "Keep all three words: por la mañana is in the morning, and mañana alone means tomorrow.",
+      },
     },
     {
       before: "TM-T10-E04",
-      heading: "por la tarde, not tarde",
-      text: "Keep all three words: por la tarde is in the afternoon. tarde alone means late.",
+      teach: {
+        heading: "por la tarde, not tarde",
+        rule: "Keep all three words: por la tarde is in the afternoon, and tarde alone means late.",
+      },
     },
   ],
   variations: [

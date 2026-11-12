@@ -6,11 +6,21 @@ export const m06: SetLesson = {
   title: "From and until",
   subtitle: "desde, hasta",
   recalled: [],
-  introduction: teachingCard(
-    "TM-M06-INTRO",
-    "New words: desde, hasta",
-    "desde means from, and gives the start time. Example: Trabajo desde las nueve. hasta means until, and gives the end time. Example: Trabajo hasta las cinco.",
-  ),
+  introduction: teachingCard("TM-M06-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "desde",
+        meaning: "from; it gives the start time",
+        example: { es: "Trabajo desde las nueve.", en: "I work from nine." },
+      },
+      {
+        es: "hasta",
+        meaning: "until; it gives the end time",
+        example: { es: "Trabajo hasta las cinco.", en: "I work until five." },
+      },
+    ],
+  }),
   base: [
     "TM-T15-E01",
     "TM-T16-E01",

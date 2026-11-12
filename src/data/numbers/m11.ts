@@ -138,10 +138,9 @@ export const m11Items: Item[] = [
     context: "There are 21 shops on Luna Street.",
     prompt: "En la calle Luna hay ___ tiendas.",
     answer: "veintiuna",
-    accepted: ["veintiún"],
     say: "En la calle Luna hay veintiuna tiendas.",
     feedback:
-      "veintiuna is the usual form before a feminine noun; veintiún is right too. En la calle Luna hay veintiuna tiendas.",
+      "Before a feminine noun, veintiuno becomes veintiuna. En la calle Luna hay veintiuna tiendas.",
     hints: [
       "Say veinti and the unit as one word.",
       "veintidós, veintitrés and veintiséis carry an accent.",

@@ -67,14 +67,3 @@ it("keeps the structured content of a teaching card, under its heading", () => {
     },
   });
 });
-
-it("keeps a plain-text teaching card's body as its explanation", () => {
-  expect(teachingCard("WD-M01-INTRO", "New days", "lunes is Monday.")).toEqual({
-    id: "WD-M01-INTRO",
-    kind: "teach",
-    skill: "reading",
-    prompt: "New days",
-    answer: "",
-    explanation: "lunes is Monday.",
-  });
-});

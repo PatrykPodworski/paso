@@ -1,15 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { normalize } from "../progress";
-import type { Question } from "../types";
+import type { Exercise, Question, TeachingQuestion } from "../types";
+import { teachingCard } from "./item";
 import { practiceSets } from "./index";
 
 // Every lesson as the learner meets it, the items it recalls from earlier lessons included.
-const lessons = practiceSets.flatMap((set) =>
-  set.lessons.map((l) => ({
-    name: `${set.id} ${l.id}`,
-    questions: set.lesson(l.id).questions.filter((q) => q.kind !== "teach"),
-  })),
+const lessonsWithCards = practiceSets.flatMap((set) =>
+  set.lessons.map((l) => ({ name: `${set.id} ${l.id}`, questions: set.lesson(l.id).questions })),
 );
+
+const lessons = lessonsWithCards.map((l) => ({
+  ...l,
+  questions: l.questions.filter((q) => q.kind !== "teach"),
+}));
 
 // A sentence ends in . ? or !, while a target word such as "por la mañana" is written bare.
 // An order item's answer is a sentence even without the full stop.
@@ -71,7 +74,19 @@ const aiReviewed = (q: Question) => ["write", "form", "live"].includes(q.kind);
 const breaking = (rule: (q: Question) => boolean) =>
   lessons.flatMap((l) => l.questions.filter(rule).map((q) => `${l.name} ${q.id}`));
 
-const question = (fields: Partial<Question> & Pick<Question, "id" | "kind">): Question => ({
+// A teaching card has a rule, words or examples, and every example has its English.
+const teachingProblems = (q: TeachingQuestion) => {
+  const { rule = "", terms = [], examples = [] } = q.teach;
+  const parts = (rule.trim() ? 1 : 0) + terms.length + examples.length;
+  const allExamples = [...terms.flatMap((t) => (t.example ? [t.example] : [])), ...examples];
+
+  return [
+    ...(parts ? [] : [`${q.id}: no rule, words or examples`]),
+    ...allExamples.filter((e) => !e.en.trim()).map((e) => `${q.id}: ${e.es} has no English`),
+  ];
+};
+
+const question = (fields: Partial<Exercise> & Pick<Exercise, "id" | "kind">): Exercise => ({
   skill: "writing",
   instruction: "Translate into Spanish",
   prompt: "",
@@ -162,5 +177,41 @@ describe("practice-set item rules (#755)", () => {
     expect(fixture.filter(withoutInstruction).map((q) => q.id)).toEqual(["B", "C"]);
 
     expect(breaking(withoutInstruction)).toEqual([]);
+  });
+});
+
+describe("practice-set teaching cards (#801)", () => {
+  it("gives every teaching card a rule, words or examples, each example with its English", () => {
+    const fixture = [
+      teachingCard("B", { heading: "New words", rule: " ", terms: [] }),
+      teachingCard("C", {
+        heading: "New words",
+        terms: [
+          { es: "hoy", meaning: "today", example: { es: "Clase: hoy.", en: " " } },
+          { es: "ayer", meaning: "yesterday" },
+        ],
+        examples: [{ es: "el lunes", en: "one Monday" }],
+      }),
+      teachingCard("D", {
+        heading: "el lunes",
+        rule: "el is one day.",
+        examples: [{ es: "el lunes", en: "" }],
+      }),
+    ];
+
+    expect(fixture.flatMap(teachingProblems)).toEqual([
+      "B: no rule, words or examples",
+      "C: Clase: hoy. has no English",
+      "D: el lunes has no English",
+    ]);
+
+    const problems = lessonsWithCards.flatMap((l) =>
+      l.questions
+        .filter((q) => q.kind === "teach")
+        .flatMap(teachingProblems)
+        .map((p) => `${l.name} ${p}`),
+    );
+
+    expect(problems).toEqual([]);
   });
 });

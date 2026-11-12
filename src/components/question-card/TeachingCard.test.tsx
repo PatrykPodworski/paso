@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import { teachingCard } from "../../data/practice-sets/item";
 import { TeachingCard } from "./TeachingCard";
@@ -82,18 +82,4 @@ it("shows a rule card's rule under its heading, then its examples as pairs", () 
       ["The phone is in the pocket.", ""],
     ],
   ]);
-});
-
-it("renders a plain-text card as its heading and one paragraph", () => {
-  const q = teachingCard("WD-M01-INTRO", "New days", "lunes is Monday. Example: Hoy es lunes.");
-  const { container } = render(<TeachingCard q={q} onContinue={vi.fn()} />);
-
-  expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("New days");
-
-  expect(texts([...container.querySelectorAll<HTMLElement>("p")])).toEqual([
-    ["lunes is Monday. Example: Hoy es lunes.", ""],
-  ]);
-
-  expect(container.querySelector("dl, ul")).toBeNull();
-  expect(within(container).getByRole("button", { name: "Continue" })).toBeTruthy();
 });

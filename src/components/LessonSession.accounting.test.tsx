@@ -8,7 +8,7 @@ import { stopAudio } from "./audio/playback";
 import { allLessons, allQuestions } from "../data/curriculum";
 import { formPractice } from "../data/mock";
 import { emptySnapshot, questionState } from "../test/progress";
-import type { LiveScore, Question } from "../data/types";
+import type { LiveScore, Question, TeachingQuestion } from "../data/types";
 
 // Test session accounting independently of the question widget. The real
 // widget and its integration are exercised in the question-card and browser tests.
@@ -152,13 +152,17 @@ it("saves a live talk's grade with its attempt", () => {
   });
 });
 
-const teach: Question = {
+const teach: TeachingQuestion = {
   id: "teach-cuanta",
   kind: "teach",
   skill: "reading",
   prompt: "Cuánta goes with feminine nouns",
   answer: "",
-  explanation: "Cuánto agrees with the noun it asks about: ¿Cuánta agua? but ¿Cuánto café?",
+  explanation: "",
+  teach: {
+    heading: "Cuánta goes with feminine nouns",
+    rule: "Cuánto agrees with the noun it asks about: ¿Cuánta agua? but ¿Cuánto café?",
+  },
 };
 
 const answerAndSubmit = (correct: boolean) =>
@@ -174,7 +178,7 @@ it("shows a teaching card as a step between exercises without an attempt or a sc
   answerAndSubmit(true);
   expect(screen.getByText("2 / 3")).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: teach.prompt })).toBeInTheDocument();
-  expect(screen.getByText(teach.explanation)).toBeInTheDocument();
+  expect(screen.getByText(/^Cuánto agrees with the noun it asks about/)).toBeInTheDocument();
   expect(screen.queryByTestId("current-question")).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Continue" }));
   expect(screen.getByTestId("current-question")).toHaveTextContent(second.id);

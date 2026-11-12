@@ -12,3 +12,4 @@
 - [0010. A typed answer that misses only its accents passes with a note](0010-accent-only-answer-passes-with-a-note.md) — superseded by 0011
 - [0011. An accent or ¿ ? mistake passes with a note and joins the mistake review](0011-accent-mistake-joins-the-mistake-review.md) — accepted
 - [0012. Practice sets join the learning path and count toward it](0012-practice-sets-join-the-learning-path.md) — accepted
+- [0013. An English task that leaves gender open accepts both genders](0013-accept-both-genders-or-state-one.md) — accepted

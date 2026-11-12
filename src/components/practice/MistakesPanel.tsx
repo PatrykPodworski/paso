@@ -6,7 +6,7 @@ import { TextLink } from "../../design-system/TextLink";
 import type { Lesson } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { MemoryHint } from "../MemoryHint";
-import { QuestionInstruction } from "../QuestionInstruction";
+import { InstructionAndContext } from "../InstructionAndContext";
 import { isWritingTask } from "../question-card/useAnswer";
 import type { Practice, Session } from "../practice";
 
@@ -42,7 +42,7 @@ export const MistakesPanel = ({ mistakeQuestions, setSession, practice }: Props)
         <summary className="cursor-pointer text-sm flex items-center gap-2">
           <SkillDot skill={q.skill} />
           <span className="min-w-0">
-            <QuestionInstruction instruction={q.instruction} className="text-xs" />
+            <InstructionAndContext q={q} className="text-xs" />
             {q.prompt}
           </span>
         </summary>

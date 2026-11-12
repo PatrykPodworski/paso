@@ -75,6 +75,9 @@ export interface Question {
   skill: Skill;
   // What the learner does with the prompt, shown apart from it, e.g. "Translate into Spanish".
   instruction?: string;
+  // The English sentence or situation the instruction refers to, shown on its own line between
+  // the instruction and the prompt, e.g. "A meeting is scheduled for Wednesday.".
+  context?: string;
   prompt: string;
   answer: string;
   explanation: string;

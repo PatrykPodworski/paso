@@ -96,28 +96,47 @@ it("keeps the exam listening player a stop button whose clip outlives its card",
 });
 
 it.each([
-  ["with", "Translate into Spanish", ["Translate into Spanish", "You visit on Monday."]],
-  ["without", undefined, ["You visit on Monday."]],
-])("renders a task %s an instruction above the heading", (_, instruction, lines) => {
-  const q = questionOf({
-    id: "WD-X",
-    mode: "cloze",
-    instruction,
-    prompt: "You visit on Monday.",
-    answer: "Visitas el lunes.",
-    say: "Visitas el lunes.",
-    feedback: "",
-    hints: ["", ""],
-  });
+  [
+    "with an instruction and a context",
+    "Complete the gap",
+    "A meeting is scheduled for Wednesday.",
+    ["Complete the gap", "A meeting is scheduled for Wednesday.", "La reunión es el ___."],
+  ],
+  [
+    "with an instruction",
+    "Complete the gap",
+    undefined,
+    ["Complete the gap", "La reunión es el ___."],
+  ],
+  ["without either", undefined, undefined, ["La reunión es el ___."]],
+])(
+  "renders a task %s, each on its own line above the heading",
+  (_, instruction, context, lines) => {
+    const q = questionOf({
+      id: "WD-X",
+      mode: "cloze",
+      instruction,
+      context,
+      prompt: "La reunión es el ___.",
+      answer: "miércoles",
+      say: "La reunión es el miércoles.",
+      feedback: "",
+      hints: ["", ""],
+    });
 
-  const { container } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
-  const heading = screen.getByRole("heading", { level: 2 });
-  const kind = container.querySelector(".question-kind")!;
-  const between = [];
+    const { container } = render(<QuestionCard q={q} onSubmit={vi.fn()} />);
+    const heading = screen.getByRole("heading", { level: 2 });
+    const kind = container.querySelector(".question-kind")!;
+    const between = [];
 
-  for (let el = kind.nextElementSibling; el && !el.contains(heading); el = el.nextElementSibling) {
-    between.push(el.textContent);
-  }
+    for (
+      let el = kind.nextElementSibling;
+      el && !el.contains(heading);
+      el = el.nextElementSibling
+    ) {
+      between.push(...[...el.children].map((line) => line.textContent));
+    }
 
-  expect([...between, heading.textContent]).toEqual(lines);
-});
+    expect([...between, heading.textContent]).toEqual(lines);
+  },
+);

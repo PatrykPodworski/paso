@@ -3,7 +3,7 @@ import { Panel } from "../../design-system/Panel";
 import { PRESSABLE } from "../../design-system/pressable";
 import { SectionHeading } from "../../design-system/SectionHeading";
 import type { Session } from "../practice";
-import { QuestionInstruction } from "../QuestionInstruction";
+import { InstructionAndContext } from "../InstructionAndContext";
 import { SkillDot } from "../SkillDot";
 import { exerciseGroups } from "./exerciseGroups";
 
@@ -51,7 +51,7 @@ export const ExerciseList = ({ setSession }: Props) =>
                   {KIND[question.kind]}
                 </span>
                 <span className="flex-1 basis-60 min-w-0">
-                  <QuestionInstruction instruction={question.instruction} className="text-xs" />
+                  <InstructionAndContext q={question} className="text-xs" />
                   <strong className="font-semibold text-foreground text-sm line-clamp-2">
                     {question.task || question.prompt}
                   </strong>

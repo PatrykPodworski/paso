@@ -3,6 +3,7 @@ import type { Question, TeachContent } from "../types.ts";
 type Base = {
   id: string;
   instruction?: string;
+  context?: string;
   prompt: string;
   answer: string;
   feedback: string;
@@ -43,6 +44,7 @@ export const questionOf = (item: Item): Question => {
   const common = {
     id: item.id,
     instruction: item.instruction,
+    context: item.context,
     prompt: item.prompt,
     answer: item.answer,
     explanation: item.feedback,

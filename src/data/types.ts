@@ -24,8 +24,7 @@ export type QuestionKind =
   | "write"
   | "form"
   | "live"
-  // An unscored teaching card: `prompt` is its heading, and `teach` or a plain-text
-  // `explanation` its body.
+  // An unscored teaching card: `prompt` is its heading and `teach` its body.
   | "teach";
 
 export type TeachExample = { es: string; en: string };
@@ -69,9 +68,8 @@ export type WritingReview = {
   grade?: Grade;
 };
 
-export interface Question {
+type QuestionFields = {
   id: string;
-  kind: QuestionKind;
   skill: Skill;
   // What the learner does with the prompt, shown apart from it, e.g. "Translate into Spanish".
   instruction?: string;
@@ -104,8 +102,11 @@ export interface Question {
   talk?: string;
   // The answer is a full Spanish question, so a correct typed answer without ¿ and ? gets a note.
   questionMarks?: true;
-  teach?: TeachContent;
-}
+};
+
+export type Exercise = QuestionFields & { kind: Exclude<QuestionKind, "teach">; teach?: never };
+export type TeachingQuestion = QuestionFields & { kind: "teach"; teach: TeachContent };
+export type Question = Exercise | TeachingQuestion;
 
 export interface Lesson {
   id: string;

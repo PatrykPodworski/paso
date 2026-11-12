@@ -1,10 +1,10 @@
-import type { Question } from "../../data/types";
+import type { TeachingQuestion } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { Button } from "../ui/button";
 import { cardPadding } from "./cardPadding";
 import { TeachingContent } from "./TeachingContent";
 
-type Props = { q: Question; onContinue: () => void };
+type Props = { q: TeachingQuestion; onContinue: () => void };
 
 // React's autoFocus focuses on mount, but a lesson that opens on a card mounts it before the
 // dialog's showModal(), which then moves focus to the first element with the autofocus
@@ -16,11 +16,7 @@ export const TeachingCard = ({ q, onContinue }: Props) => (
     <h2 className="font-heading tracking-tight text-2xl font-medium leading-normal mbs-3.5 mbe-4">
       {q.prompt}
     </h2>
-    {q.teach ? (
-      <TeachingContent teach={q.teach} />
-    ) : (
-      <p className="text-base leading-relaxed whitespace-pre-line max-w-prose">{q.explanation}</p>
-    )}
+    <TeachingContent teach={q.teach} />
     <div className="flex justify-end mbs-6 border-bs border-border pbs-5 max-md:pbs-4">
       <Button
         type="button"

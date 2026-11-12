@@ -21,12 +21,7 @@ export const lessonBuilder = (questions: Question[]) => {
 
       const formId = `${id}-FORM`;
 
-      return [
-        "teach" in card
-          ? teachingCard(formId, card.teach)
-          : teachingCard(formId, card.heading, card.text),
-        q,
-      ];
+      return [teachingCard(formId, card.teach), q];
     });
 
   // A review lesson has no introduction card.

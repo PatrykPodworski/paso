@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { spokenText } from "./audio";
-import type { Question } from "./types";
+import type { Exercise } from "./types";
 
-const question = (fields: Partial<Question>): Question => ({
+const question = (fields: Partial<Exercise>): Exercise => ({
   id: "q",
   kind: "choice",
   skill: "reading",

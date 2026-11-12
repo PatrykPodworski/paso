@@ -48,18 +48,3 @@ it("puts a form card's structured content on the card before its exercise", () =
     },
   });
 });
-
-it("keeps a plain-text form card's heading and text", () => {
-  const { lessonItems } = lessonBuilder([exercise]);
-
-  const [card] = lessonItems(
-    lesson([{ before: "WT-T01-E01", heading: "en", text: "en means in or on." }]),
-  );
-
-  expect([card.id, card.prompt, card.explanation, card.teach]).toEqual([
-    "WT-T01-E01-FORM",
-    "en",
-    "en means in or on.",
-    undefined,
-  ]);
-});

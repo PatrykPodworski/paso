@@ -8,6 +8,7 @@ import { spokenText } from "../../data/audio";
 import { allQuestions } from "../../data/curriculum";
 import { formPractice, mockQuestions } from "../../data/mock";
 import { shownOptions, shownTokens } from "../../data/optionOrder";
+import type { Question } from "../../data/types";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -240,7 +241,7 @@ it("adds the numbered word to the tray and ignores a repeat of the same digit", 
 
 const writingWithPassage = mockQuestions.find((q) => q.kind === "write" && q.passage)!;
 
-const fillWriting = (q: typeof writing) => {
+const fillWriting = (q: Question) => {
   if (q.kind === "form") {
     for (const f of q.fields!) {
       fireEvent.change(screen.getByRole("textbox", { name: f.label }), {

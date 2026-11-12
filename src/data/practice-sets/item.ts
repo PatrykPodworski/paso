@@ -1,4 +1,4 @@
-import type { Question, TeachContent } from "../types.ts";
+import type { Question, TeachContent, TeachingQuestion } from "../types.ts";
 
 type Base = {
   id: string;
@@ -86,21 +86,13 @@ export const questionOf = (item: Item): Question => {
   }
 };
 
-// An unscored card that introduces new words or a form: structured content, or a heading with
-// plain text.
-type TeachingCard = {
-  (id: string, teach: TeachContent): Question;
-  (id: string, heading: string, text: string): Question;
-};
-
-export const teachingCard: TeachingCard = (
-  id: string,
-  body: TeachContent | string,
-  text: string = "",
-): Question => {
-  const common = { id, kind: "teach", skill: "reading", answer: "" } as const;
-
-  return typeof body === "string"
-    ? { ...common, prompt: body, explanation: text }
-    : { ...common, prompt: body.heading, explanation: "", teach: body };
-};
+// An unscored card that introduces new words or a form.
+export const teachingCard = (id: string, teach: TeachContent): TeachingQuestion => ({
+  id,
+  kind: "teach",
+  skill: "reading",
+  prompt: teach.heading,
+  answer: "",
+  explanation: "",
+  teach,
+});

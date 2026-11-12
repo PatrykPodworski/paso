@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuestionCard } from "./QuestionCard";
 import { stopAudio } from "../audio/playback";
 import { allQuestions } from "../../data/curriculum";
-import type { Question } from "../../data/types";
+import type { Exercise, Question } from "../../data/types";
 
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
@@ -85,7 +85,7 @@ const typed = (q: Question, answer: string) => {
   return screen.getByRole("status");
 };
 
-const typeQuestion = (answer: string, extra: Partial<Question> = {}): Question => ({
+const typeQuestion = (answer: string, extra: Partial<Exercise> = {}): Exercise => ({
   id: "t-1",
   kind: "type",
   skill: "writing",

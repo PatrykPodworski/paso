@@ -6,7 +6,7 @@ import { placementLesson } from "./placement/placement";
 import { timeWordsLesson } from "./time-words/timeWords";
 import { weekdaysLesson } from "./weekdays/weekdays";
 import { emptySnapshot, questionState } from "../test/progress";
-import type { Question } from "./types";
+import type { TeachingQuestion } from "./types";
 
 const lesson = { ...allLessons[0], questions: allLessons[0].questions.slice(0, 4) };
 
@@ -49,13 +49,14 @@ it("starts a practice session from its first exercise", () => {
 });
 
 it("reopens at the teaching cards just before the first exercise without a stored answer", () => {
-  const card = (id: string): Question => ({
+  const card = (id: string): TeachingQuestion => ({
     id,
     kind: "teach",
     skill: "reading",
     prompt: "A new form",
     answer: "",
-    explanation: "How the form works.",
+    explanation: "",
+    teach: { heading: "A new form", rule: "How the form works." },
   });
 
   const [a, b, c] = lesson.questions;

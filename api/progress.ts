@@ -119,7 +119,7 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
 
     return m ? (db, learner) => saveMockResult(db, learner, m) : "result";
   },
-  mockRun: ({ run, replace }) => {
+  mockRun: ({ run, replace, runId }) => {
     const patch = mockRunPatchOf(run);
 
     if (!patch) {
@@ -130,7 +130,16 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
       return "replace";
     }
 
-    return (db, learner) => saveMockRun(db, learner, patch, replace === true);
+    // Only a new run sets its id.
+    if (patch.id !== undefined && replace !== true) {
+      return "id";
+    }
+
+    if (!(runId === undefined || isId(runId))) {
+      return "runId";
+    }
+
+    return (db, learner) => saveMockRun(db, learner, patch, replace === true, runId ?? null);
   },
   seen: ({ variants, at }) => {
     if (!isSeenVariants(variants)) {
@@ -247,7 +256,24 @@ export const handleProgress = async (
     return json({ error: handler.error }, handler.status);
   }
 
-  return json(await handler(db, learner.toLowerCase()), 200);
+  const result = await handler(db, learner.toLowerCase());
+
+  // A write for another run than the current one: the client drops it.
+  if ("stale" in result) {
+    console.error("Progress request failed", {
+      endpoint: "/api/progress",
+      status: 409,
+      method: request.method,
+      learner: learner.toLowerCase(),
+      action: "mockRun",
+      error: "stale_run",
+      detail: result.stale,
+    });
+
+    return json({ error: "stale_run" }, 409);
+  }
+
+  return json(result, 200);
 };
 
 const handle = (request: Request) => {

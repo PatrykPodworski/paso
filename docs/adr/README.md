@@ -13,3 +13,4 @@
 - [0011. An accent or ¿ ? mistake passes with a note and joins the mistake review](0011-accent-mistake-joins-the-mistake-review.md) — accepted
 - [0012. Practice sets join the learning path and count toward it](0012-practice-sets-join-the-learning-path.md) — accepted
 - [0013. A failed write waits on the device and never blocks the learner](0013-unsent-writes-wait-on-the-device.md) — accepted
+- [0014. A mock run write applies only to the run it was made for](0014-mock-run-writes-carry-the-run-id.md) — accepted

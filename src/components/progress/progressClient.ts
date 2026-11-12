@@ -150,15 +150,48 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     window.addEventListener("online", online);
   };
 
-  // The head of the queue left it: sent, or refused. A sent draft no longer needs showing.
-  const settled = () => {
-    const body = queue.shift()!;
+  const isFailed = (result: ProgressSnapshot | Failure): result is Failure =>
+    isFailure(result) && result.failure === "failed";
 
+  // A sent draft no longer needs showing over the snapshot.
+  const forgetDraft = (body: Body) => {
     if (body.action === "draft" && sentDrafts.get(body.questionId as string) === body.text) {
       sentDrafts.delete(body.questionId as string);
     }
+  };
 
+  // A failed write stays first in the queue and waits for its next try.
+  const hold = (failure: Failure) => {
+    report(queue[0], failure);
+    failures += 1;
+    keepUnsent(learner, queue);
+    wait();
+    update(dismissed ? {} : { problem: "save" });
+  };
+
+  // The head of the queue left it: saved, or refused by the server.
+  const settle = (result: ProgressSnapshot | Failure) => {
+    const body = queue.shift()!;
+
+    forgetDraft(body);
     keepUnsent(learner, failures ? queue : []);
+
+    if (isFailure(result)) {
+      report(body, result);
+      update({ problem: "refused" });
+
+      return;
+    }
+
+    update({ snapshot: result, problem: state.problem === "save" ? null : state.problem });
+  };
+
+  // Everything is saved: the next failure shows the dialog again.
+  const drained = () => {
+    failures = 0;
+    dismissed = false;
+    stopWaiting();
+    keepUnsent(learner, []);
   };
 
   const send = async () => {
@@ -171,31 +204,16 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
 
     sending = false;
 
-    if (isFailure(result) && result.failure === "failed") {
-      report(queue[0], result);
-      failures += 1;
-      keepUnsent(learner, queue);
-      wait();
-      update(dismissed ? {} : { problem: "save" });
+    if (isFailed(result)) {
+      hold(result);
 
       return;
     }
 
-    if (isFailure(result)) {
-      report(queue[0], result);
-      settled();
-      update({ problem: "refused" });
-    } else {
-      settled();
-      update({ snapshot: result, problem: state.problem === "save" ? null : state.problem });
-    }
+    settle(result);
 
     if (!queue.length) {
-      // Everything is saved: the next failure shows the dialog again.
-      failures = 0;
-      dismissed = false;
-      stopWaiting();
-      keepUnsent(learner, []);
+      drained();
     }
 
     void send();

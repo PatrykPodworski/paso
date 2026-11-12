@@ -225,11 +225,11 @@ describe("numbers content", () => {
     expect(isCorrect(question("NU-T12-V10"), "Tú tienes uno años.")).toBe(false);
   });
 
-  it("shortens veintiuno before a noun and takes veintiún or veintiuna before a feminine one", () => {
+  it("shortens veintiuno to veintiún before a masculine noun and veintiuna before a feminine one", () => {
     expect(isCorrect(question("NU-T22-E07"), "veintiún")).toBe(true);
     expect(isCorrect(question("NU-T22-E07"), "veintiuno")).toBe(false);
     expect(isCorrect(question("NU-T22-E08"), "veintiuna")).toBe(true);
-    expect(isCorrect(question("NU-T22-E08"), "veintiún")).toBe(true);
+    expect(isCorrect(question("NU-T22-E08"), "veintiún")).toBe(false);
     expect(isCorrect(question("NU-T22-E08"), "veintiuno")).toBe(false);
     expect(isCorrect(question("NU-T22-E10"), "Hay veintiún parques en Sevilla.")).toBe(true);
     expect(isCorrect(question("NU-T22-E10"), "En Sevilla hay veinte y un parques.")).toBe(false);

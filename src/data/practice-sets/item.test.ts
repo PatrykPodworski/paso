@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { type Item, questionOf, tilesOf } from "./item";
+import { type Item, questionOf, teachingCard, tilesOf } from "./item";
 
 it.each([
   [
@@ -34,4 +34,47 @@ it.each<Item>([
     "Translate into Spanish",
     "You visit on Monday.",
   ]);
+});
+
+it("keeps the structured content of a teaching card, under its heading", () => {
+  const teach = {
+    heading: "New phrases",
+    terms: [
+      {
+        es: "en",
+        meaning: "in, on",
+        example: { es: "El libro está en la caja.", en: "The book is in the box." },
+      },
+    ],
+  };
+
+  expect(teachingCard("WT-M01-INTRO", teach)).toEqual({
+    id: "WT-M01-INTRO",
+    kind: "teach",
+    skill: "reading",
+    prompt: "New phrases",
+    answer: "",
+    explanation: "",
+    teach: {
+      heading: "New phrases",
+      terms: [
+        {
+          es: "en",
+          meaning: "in, on",
+          example: { es: "El libro está en la caja.", en: "The book is in the box." },
+        },
+      ],
+    },
+  });
+});
+
+it("keeps a plain-text teaching card's body as its explanation", () => {
+  expect(teachingCard("WD-M01-INTRO", "New days", "lunes is Monday.")).toEqual({
+    id: "WD-M01-INTRO",
+    kind: "teach",
+    skill: "reading",
+    prompt: "New days",
+    answer: "",
+    explanation: "lunes is Monday.",
+  });
 });

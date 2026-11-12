@@ -15,7 +15,18 @@ export const lessonBuilder = (questions: Question[]) => {
       const card = l.formCards.find((c) => c.before === id);
       const q = byId.get(id)!;
 
-      return card ? [teachingCard(`${id}-FORM`, card.heading, card.text), q] : [q];
+      if (!card) {
+        return [q];
+      }
+
+      const formId = `${id}-FORM`;
+
+      return [
+        "teach" in card
+          ? teachingCard(formId, card.teach)
+          : teachingCard(formId, card.heading, card.text),
+        q,
+      ];
     });
 
   // A review lesson has no introduction card.

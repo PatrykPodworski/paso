@@ -24,8 +24,20 @@ export type QuestionKind =
   | "write"
   | "form"
   | "live"
-  // An unscored teaching card: `prompt` is its heading and `explanation` its body.
+  // An unscored teaching card: `prompt` is its heading, and `teach` or a plain-text
+  // `explanation` its body.
   | "teach";
+
+export type TeachExample = { es: string; en: string };
+export type TeachTerm = { es: string; meaning: string; example?: TeachExample; note?: string };
+
+// A teaching card's body: new words one per row, or a rule with its examples.
+export type TeachContent = {
+  heading: string;
+  rule?: string;
+  terms?: TeachTerm[];
+  examples?: TeachExample[];
+};
 
 export type Grade = "perfect" | "good" | "bad";
 export type LiveItem = "correct" | "understandable" | "missing";
@@ -92,6 +104,7 @@ export interface Question {
   talk?: string;
   // The answer is a full Spanish question, so a correct typed answer without ¿ and ? gets a note.
   questionMarks?: true;
+  teach?: TeachContent;
 }
 
 export interface Lesson {

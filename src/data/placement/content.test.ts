@@ -198,17 +198,17 @@ describe("placement content", () => {
     ]);
 
     for (const q of translations) {
-      const shown = `${q.instruction} ${q.prompt}`;
+      const shown = `${q.instruction} ${q.context ?? ""} ${q.prompt}`;
 
       expect(shown, q.id).not.toContain("___");
       expect(shown, q.id).not.toContain(q.answer);
-      expect(q.instruction, q.id).toMatch(/^Translate into Spanish\./);
+      expect(q.instruction, q.id).toBe("Translate into Spanish");
     }
   });
 
   it("glosses no noun the course units before the set teach", () => {
     const glossed = placementQuestions.flatMap((q) =>
-      (q.instruction!.split("Words: ")[1] ?? "")
+      (q.context?.split("Words: ")[1] ?? "")
         .split(/[;.]/)
         .map((gloss) => gloss.split(" = ")[1]?.split(" ").pop())
         .filter((noun) => noun !== undefined),
@@ -244,28 +244,33 @@ describe("placement content", () => {
     expect(
       ["SP-T01-N01", "SP-T01-N02", "SP-T03-N04", "SP-T05-N07", "SP-M02-X02"].map((id) => [
         question(id).instruction,
+        question(id).context,
         question(id).prompt,
         question(id).pronunciation,
       ]),
     ).toEqual([
       [
-        "Choose the English meaning of “en”.",
+        "Choose the English meaning of “en”",
+        undefined,
         "La mochila está en la mesa.",
         "La mochila está en la mesa.",
       ],
-      ["Write the Spanish phrase. Give the phrase only, not a sentence.", "in or on", "en"],
+      ["Write the Spanish phrase only, not a sentence", undefined, "in or on", "en"],
       [
-        "Complete the gap. The book is outside the drawer.",
+        "Complete the gap",
+        "The book is outside the drawer.",
         "El libro está ___ cajón.",
         "El libro está fuera del cajón.",
       ],
       [
-        "Choose the scene this sentence describes.",
+        "Choose the scene this sentence describes",
+        undefined,
         "La mochila está debajo de la silla.",
         "La mochila está debajo de la silla.",
       ],
       [
-        "Complete the gap. The cup is outside the backpack.",
+        "Complete the gap",
+        "The cup is outside the backpack.",
         "La taza está ___ la mochila.",
         "La taza está fuera de la mochila.",
       ],
@@ -428,9 +433,7 @@ describe("placement content", () => {
       (q) => q.kind === "type" && /^SP-T1[23]-N0[3-6]$/.test(q.id),
     );
 
-    expect(
-      sided.map((q) => [q.id, q.instruction!.match(/You are looking at [^.]*\./)?.[0]]),
-    ).toEqual([
+    expect(sided.map((q) => [q.id, q.context?.match(/You are looking at [^.]*\./)?.[0]])).toEqual([
       ["SP-T12-N03", "You are looking at the book and the bed."],
       ["SP-T13-N03", "You are looking at the book and the box."],
       ["SP-T12-N04", "You are looking at the ticket and the bench."],

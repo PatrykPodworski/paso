@@ -39,7 +39,7 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Wednesday",
     answer: "miércoles",
     say: "miércoles",
@@ -49,7 +49,8 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-E04",
     mode: "cloze",
-    instruction: "Complete the gap. A meeting is scheduled for Wednesday.",
+    instruction: "Complete the gap",
+    context: "A meeting is scheduled for Wednesday.",
     prompt: "La reunión es el ___.",
     answer: "miércoles",
     say: "La reunión es el miércoles.",
@@ -94,7 +95,8 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo’s course starts Wednesday.",
+    instruction: "Complete the gap",
+    context: "Pablo’s course starts Wednesday.",
     prompt: "El curso de Pablo empieza el ___.",
     answer: "miércoles",
     say: "El curso de Pablo empieza el miércoles.",
@@ -115,7 +117,8 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I have an appointment Wednesday.",
+    instruction: "Complete the gap",
+    context: "I have an appointment Wednesday.",
     prompt: "Tengo una cita el ___.",
     answer: "miércoles",
     say: "Tengo una cita el miércoles.",
@@ -136,7 +139,8 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-V05",
     mode: "cloze",
-    instruction: "Complete the gap. Luis has class Wednesday.",
+    instruction: "Complete the gap",
+    context: "Luis has class Wednesday.",
     prompt: "Luis tiene clase el ___.",
     answer: "miércoles",
     say: "Luis tiene clase el miércoles.",
@@ -164,7 +168,8 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-V11",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo goes to the museum on Wednesdays.",
+    instruction: "Complete the gap",
+    context: "Pablo goes to the museum on Wednesdays.",
     prompt: "Pablo va al museo los ___.",
     answer: "miércoles",
     say: "Pablo va al museo los miércoles.",
@@ -174,7 +179,8 @@ export const t03Items: Item[] = [
   {
     id: "WD-T03-N08",
     mode: "cloze",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "You have breakfast at home every Wednesday.",
     answer: "Desayunas en casa los miércoles.",
     accepted: [

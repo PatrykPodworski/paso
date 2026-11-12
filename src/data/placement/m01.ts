@@ -6,7 +6,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “en”.",
+    instruction: "Choose the English meaning of “en”",
     prompt: "La mochila está en la mesa.",
     answer: "in or on",
     choices: ["in or on", "outside", "under"],
@@ -20,7 +20,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “dentro de”.",
+    instruction: "Choose the English meaning of “dentro de”",
     prompt: "La bolsa está dentro de la maleta.",
     answer: "inside",
     choices: ["inside", "outside", "under"],
@@ -31,7 +31,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “fuera de”.",
+    instruction: "Choose the English meaning of “fuera de”",
     prompt: "La taza está fuera de la bolsa.",
     answer: "outside",
     choices: ["outside", "inside", "on top of or above"],
@@ -42,7 +42,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "in or on",
     answer: "en",
     say: "en",
@@ -52,7 +52,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "inside",
     answer: "dentro de",
     accepted: ["dentro"],
@@ -63,7 +63,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "outside",
     answer: "fuera de",
     say: "fuera de",
@@ -73,7 +73,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is on the chair.",
+    instruction: "Complete the gap",
+    context: "The bag is on the chair.",
     prompt: "La bolsa está ___ la silla.",
     answer: "en",
     accepted: ["encima de", "sobre"],
@@ -84,7 +85,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The ticket is inside the box.",
+    instruction: "Complete the gap",
+    context: "The ticket is inside the box.",
     prompt: "El billete está ___ la caja.",
     answer: "dentro de",
     accepted: ["en"],
@@ -98,7 +100,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The backpack is outside the suitcase.",
+    instruction: "Complete the gap",
+    context: "The backpack is outside the suitcase.",
     prompt: "La mochila está ___ la maleta.",
     answer: "fuera de",
     say: "La mochila está fuera de la maleta.",
@@ -111,7 +114,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The ticket is on the sofa.",
+    instruction: "Complete the gap",
+    context: "The ticket is on the sofa.",
     prompt: "El billete está ___ el sofá.",
     answer: "en",
     accepted: ["sobre"],
@@ -122,7 +126,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The backpack is inside the cupboard.",
+    instruction: "Complete the gap",
+    context: "The backpack is inside the cupboard.",
     prompt: "La mochila está ___ armario.",
     answer: "dentro del",
     accepted: ["en el"],
@@ -136,7 +141,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The book is outside the drawer.",
+    instruction: "Complete the gap",
+    context: "The book is outside the drawer.",
     prompt: "El libro está ___ cajón.",
     answer: "fuera del",
     say: "El libro está fuera del cajón.",
@@ -149,7 +155,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The book is on the bed.",
     answer: "El libro está en la cama.",
     accepted: ["El libro está encima de la cama.", "El libro está sobre la cama."],
@@ -164,7 +170,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: suitcase = la maleta.",
+    instruction: "Translate into Spanish",
+    context: "Words: suitcase = la maleta.",
     prompt: "The book is inside the suitcase.",
     answer: "El libro está dentro de la maleta.",
     accepted: ["El libro está en la maleta."],
@@ -179,7 +186,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: box = la caja.",
+    instruction: "Translate into Spanish",
+    context: "Words: box = la caja.",
     prompt: "The phone is outside the box.",
     answer: "El móvil está fuera de la caja.",
     accepted: ["El teléfono está fuera de la caja.", "El teléfono móvil está fuera de la caja."],
@@ -194,7 +202,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: bench = el banco.",
+    instruction: "Translate into Spanish",
+    context: "Words: bench = el banco.",
     prompt: "The phone is on the bench.",
     answer: "El móvil está en el banco.",
     accepted: [
@@ -218,7 +227,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: drawer = el cajón.",
+    instruction: "Translate into Spanish",
+    context: "Words: drawer = el cajón.",
     prompt: "The phone is inside the drawer.",
     answer: "El móvil está dentro del cajón.",
     accepted: [
@@ -239,7 +249,8 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: cup = la taza; cupboard = el armario.",
+    instruction: "Translate into Spanish",
+    context: "Words: cup = la taza; cupboard = el armario.",
     prompt: "The cup is outside the cupboard.",
     answer: "La taza está fuera del armario.",
     say: "La taza está fuera del armario.",
@@ -253,7 +264,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T01-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "La taza está en la caja.",
     answer: "The cup is in the box.",
     choices: [
@@ -271,7 +282,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T02-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "El billete está dentro del bolsillo.",
     answer: "The ticket is inside the pocket.",
     choices: [
@@ -286,7 +297,7 @@ export const m01Items: Item[] = [
   {
     id: "SP-T03-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "El billete está fuera del cajón.",
     answer: "The ticket is outside the drawer.",
     choices: [

@@ -253,28 +253,35 @@ test("asking questions: the set page and M01 on its introduction card", async ({
   await shot(page, "practice-questions-m01-intro");
 });
 
-// A gap item with a long instruction and a translation item with a short one.
+// A gap item with an instruction and a long context, and a translation item with an
+// instruction only.
 const instructionItems = [
   {
     id: "WD-T01-E04",
-    instruction: "Complete the gap. A displayed calendar says Monday, not the actual date.",
+    lead: ["Complete the gap", "A displayed calendar says Monday, not the actual date."],
     prompt: "Hoy es ___.",
   },
   {
     id: "WD-T01-N01",
-    instruction: "Translate into Spanish",
+    lead: ["Translate into Spanish"],
     prompt: "My mother works on Monday.",
   },
 ];
 
-for (const { id, instruction, prompt } of instructionItems) {
-  test(`practice set: ${id} with its instruction apart from the sentence`, async ({ page }) => {
+for (const { id, lead, prompt } of instructionItems) {
+  test(`practice set: ${id} with its instruction and context apart from the sentence`, async ({
+    page,
+  }) => {
     await page.goto("/backoffice");
-    const row = page.getByRole("button", { name: `${instruction} ${prompt}` });
+    const row = page.getByRole("button", { name: [...lead, prompt].join(" ") });
 
     await row.click();
     await expect(page.getByRole("heading", { name: prompt, exact: true })).toBeVisible();
-    await expect(page.getByRole("dialog").getByText(instruction, { exact: true })).toBeVisible();
+
+    for (const line of lead) {
+      await expect(page.getByRole("dialog").getByText(line, { exact: true })).toBeVisible();
+    }
+
     await shot(page, `question-instruction-${id.toLowerCase()}`);
   });
 }

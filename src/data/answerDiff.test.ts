@@ -97,6 +97,24 @@ describe("answerDiff", () => {
     });
   });
 
+  it("reads a run of spaces inside a changed word as one space", () => {
+    expect(answerDiff("por  que", "porque").answer).toEqual([
+      { text: "por", mark: "same" },
+      { text: " ", mark: "wrong" },
+      { text: " que", mark: "same" },
+    ]);
+  });
+
+  it("leaves punctuation unmarked inside changed words", () => {
+    expect(answerDiff("bueno adios", "buenas, adiós").correct).toEqual([
+      { text: "buen", mark: "same" },
+      { text: "as", mark: "changed" },
+      { text: ", adi", mark: "same" },
+      { text: "ó", mark: "changed" },
+      { text: "s", mark: "same" },
+    ]);
+  });
+
   it("marks a missing word before the word that follows it", () => {
     expect(answerDiff("Mi madre el lunes", "Mi madre trabaja el lunes")).toEqual({
       answer: [
@@ -167,6 +185,37 @@ describe("answerDiff", () => {
       { written: "El esta", expected: "Él está" },
       { written: "Mexico", expected: "México" },
     ]);
+  });
+
+  it("marks two missing letters in a row as one gap", () => {
+    expect(answerDiff("Mi madre tbaja", "Mi madre trabaja").answer).toEqual([
+      { text: "Mi madre t", mark: "same" },
+      { text: "ra", mark: "missing" },
+      { text: "baja", mark: "same" },
+    ]);
+  });
+
+  it("marks letters, not the whole word, when half the letters are shared", () => {
+    expect(answerDiff("el", "la")).toEqual({
+      answer: [
+        { text: "e", mark: "wrong" },
+        { text: "l", mark: "same" },
+        { text: "a", mark: "missing" },
+      ],
+      correct: [
+        { text: "l", mark: "same" },
+        { text: "a", mark: "changed" },
+      ],
+      changes: [{ written: "el", expected: "la" }],
+    });
+  });
+
+  it.each([
+    ["¡¿Que?!", "¿Qué?", { written: "Que", expected: "Qué" }],
+    ["Hola, amigos!!", "Hola, amigo.", { written: "amigos", expected: "amigo" }],
+    ["bueno, adios", "buenas, adiós", { written: "bueno, adios", expected: "buenas, adiós" }],
+  ])("names the change in %j without its outer punctuation", (answer, correct, change) => {
+    expect(answerDiff(answer, correct).changes).toEqual([change]);
   });
 
   it("marks the whole correct answer as missing from an empty answer", () => {

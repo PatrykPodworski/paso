@@ -52,6 +52,8 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
   expect(order).toEqual([
     ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(unit),
     ...SET_GROUPS,
+    // A numbers unit 3 text that already has a clip: the set claims it.
+    setUnit("Numbers", "nu-u3"),
     "Mock exam",
     "Foundations",
     "Topic flashcards",
@@ -60,11 +62,12 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
 });
 
 it("offers every practice set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 26)).toEqual([
+  expect(audioSourceNames.slice(11, 27)).toEqual([
     unit(12),
     ...SET_GROUPS,
     setUnit("Numbers", "nu-u1"),
     setUnit("Numbers", "nu-u2"),
+    setUnit("Numbers", "nu-u3"),
     "Mock exam",
   ]);
 });

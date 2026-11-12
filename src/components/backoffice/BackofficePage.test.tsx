@@ -34,7 +34,7 @@ it("lists every question of every unit, every practice set and the mock exam, gr
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
   expect(groups).toHaveLength(units.length + setUnits + 1);
 
-  expect(groups.slice(-16)).toEqual([
+  expect(groups.slice(-17)).toEqual([
     `Unit ${pathUnitNumber("u12")} · Ready for your next chapter`,
     setGroup("Asking questions", "aq-u1"),
     setGroup("Asking questions", "aq-u2"),
@@ -50,6 +50,7 @@ it("lists every question of every unit, every practice set and the mock exam, gr
     setGroup("Numbers", "nu-u1"),
     setGroup("Numbers", "nu-u2"),
     setGroup("Numbers", "nu-u3"),
+    setGroup("Numbers", "nu-u4"),
     "Mock exam",
   ]);
 

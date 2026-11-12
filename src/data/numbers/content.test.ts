@@ -241,6 +241,21 @@ describe("numbers content", () => {
     expect(isCorrect(question("NU-T22-E04"), "veinte y dos")).toBe(false);
   });
 
+  it("writes 31 to 99 as three words and 100 as cien, and tells sesenta from setenta", () => {
+    expect(isCorrect(question("NU-T30-1205"), "treinta y un")).toBe(true);
+    expect(isCorrect(question("NU-T30-1205"), "treinta y uno")).toBe(false);
+    expect(isCorrect(question("NU-T30-1206"), "treinta y una")).toBe(true);
+
+    const books = question("NU-T30-1305");
+
+    expect(isCorrect(books, "En la clase hay cuarenta y cuatro libros.")).toBe(true);
+    expect(isCorrect(books, "Hay cuarentaicuatro libros en la clase.")).toBe(false);
+    expect(isCorrect(question("NU-T31-E03"), "cien")).toBe(true);
+    expect(isCorrect(question("NU-T31-E03"), "ciento")).toBe(false);
+    expect(isCorrect(question("NU-T26-E04"), "sesenta")).toBe(true);
+    expect(isCorrect(question("NU-T26-E04"), "setenta")).toBe(false);
+  });
+
   it("passes an answer that misses only an accent, with a note (ADR 0011)", () => {
     const address = question("NU-T08-V10");
 

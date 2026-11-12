@@ -18,6 +18,11 @@ import { m09, m09Items } from "./m09.ts";
 import { m10, m10Items } from "./m10.ts";
 import { m11, m11Items } from "./m11.ts";
 import { r03, r03Items } from "./r03.ts";
+import { m12, m12Items } from "./m12.ts";
+import { m13, m13Items } from "./m13.ts";
+import { m14, m14Items } from "./m14.ts";
+import { m15, m15Items } from "./m15.ts";
+import { r04, r04Items } from "./r04.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const numbersQuestions: Question[] = [
@@ -35,6 +40,11 @@ export const numbersQuestions: Question[] = [
   ...m10Items,
   ...m11Items,
   ...r03Items,
+  ...m12Items,
+  ...m13Items,
+  ...m14Items,
+  ...m15Items,
+  ...r04Items,
 ].map(questionOf);
 
 export const numbersLessons: SetLesson[] = [
@@ -52,6 +62,11 @@ export const numbersLessons: SetLesson[] = [
   m10,
   m11,
   r03,
+  m12,
+  m13,
+  m14,
+  m15,
+  r04,
 ];
 
 const UNITS = [

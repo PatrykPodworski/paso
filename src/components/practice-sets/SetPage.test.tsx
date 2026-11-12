@@ -148,6 +148,7 @@ it("lists the numbers units that have lessons under their path numbers", () => {
     unit("nu-u1"),
     unit("nu-u2"),
     unit("nu-u3"),
+    unit("nu-u4"),
   ]);
 
   expect(screen.getByRole("region", { name: unit("nu-u1") })).toHaveTextContent(
@@ -160,6 +161,10 @@ it("lists the numbers units that have lessons under their path numbers", () => {
 
   expect(screen.getByRole("region", { name: unit("nu-u3") })).toHaveTextContent(
     `${unit("nu-u3")}dieciséis to veintinueve`,
+  );
+
+  expect(screen.getByRole("region", { name: unit("nu-u4") })).toHaveTextContent(
+    `${unit("nu-u4")}treinta to cien`,
   );
 
   expect(screen.getByRole("button", { name: /^Zero and one/ })).toHaveTextContent(

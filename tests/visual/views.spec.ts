@@ -310,6 +310,15 @@ test("time words: the set page and M01 on its introduction card", async ({ page 
   await shot(page, "practice-time-words-m01-intro");
 });
 
+test("numbers: the set page and M01 on its introduction card", async ({ page }) => {
+  await page.goto("/practice/numbers");
+  await shot(page, "practice-numbers");
+  await page.getByRole("button", { name: /Zero and one/ }).click();
+  await expect(page.getByRole("heading", { name: "New numbers", exact: true })).toBeVisible();
+  await expect(page.getByRole("term")).toHaveText(["cero", "uno"]);
+  await shot(page, "practice-numbers-m01-intro");
+});
+
 test("lesson completion", async ({ page }) => {
   const l = await openLesson(page, 0);
 

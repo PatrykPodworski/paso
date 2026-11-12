@@ -4,8 +4,12 @@ import { readdirSync } from "node:fs";
 import sources from "../../data/audio-sources.json";
 import { units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
+import { courseUnitNumber } from "../../data/path";
 import { setLessons } from "../../data/practice-sets/index";
 import { BackofficePage } from "./BackofficePage";
+
+// la cocina is a course unit 4 clip, listed under that unit's path number.
+const KITCHEN_UNIT = `Unit ${courseUnitNumber(4)}`;
 
 // Both grow as the audio and picture rollouts land, so they come from the repo.
 const clips = Object.keys(sources).length;
@@ -68,7 +72,7 @@ it("filters the audio by unit and by text or key, accent-blind, with the clip's 
 
   expect(screen.getByRole("checkbox", { name: "Flawed: hola" })).toBeInTheDocument();
 
-  filter("Unit 4", "v6yukl");
+  filter(KITCHEN_UNIT, "v6yukl");
   const rows = screen.getAllByRole("listitem");
 
   expect(rows.map((r) => within(r).getByRole("checkbox").getAttribute("aria-label"))).toEqual([
@@ -76,7 +80,7 @@ it("filters the audio by unit and by text or key, accent-blind, with the clip's 
   ]);
 
   expect(rows[0]).toHaveTextContent(
-    "Unit 4 · audio:v6yukl · /audio/voxcpm/401bff33039f205fe74afd37.mp3",
+    `${KITCHEN_UNIT} · audio:v6yukl · /audio/voxcpm/401bff33039f205fe74afd37.mp3`,
   );
 
   expect(screen.getByText(`1 of ${clips} shown · 0 flagged`)).toBeInTheDocument();
@@ -90,7 +94,7 @@ it("filters the audio by unit and by text or key, accent-blind, with the clip's 
 
 it("copies the flagged ids of both kinds as plain lines, and keeps them after a reload", async () => {
   openTab(/Audio/);
-  filter("Unit 4", "v6yukl");
+  filter(KITCHEN_UNIT, "v6yukl");
   fireEvent.click(screen.getByRole("checkbox", { name: "Flawed: la cocina" }));
 
   fireEvent.click(screen.getByRole("tab", { name: /Images/ }));

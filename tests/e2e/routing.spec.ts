@@ -8,6 +8,7 @@ const title = {
   "practice/weekdays": "Weekdays.",
   "practice/placement": "Where things are.",
   "practice/time-words": "Time words.",
+  "practice/numbers": "Numbers.",
   exam: "Meet the exam.",
   guide: "Your guide to DELE A1.",
   backoffice: "Every task, one click away.",

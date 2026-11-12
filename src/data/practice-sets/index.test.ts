@@ -12,6 +12,7 @@ describe("practice sets", () => {
       ["weekdays", "practice/weekdays"],
       ["placement", "practice/placement"],
       ["time-words", "practice/time-words"],
+      ["numbers", "practice/numbers"],
     ]);
 
     expect(unique(practiceSets.map((s) => s.id))).toBe(true);
@@ -55,6 +56,7 @@ describe("practice sets", () => {
     expect(setOf("wd-m01")?.id).toBe("weekdays");
     expect(setOf("pl-m01")?.id).toBe("placement");
     expect(setOf("tm-m01")?.id).toBe("time-words");
+    expect(setOf("nu-m01")?.id).toBe("numbers");
 
     for (const l of setLessons) {
       expect(setOf(l.id)?.lessons, l.id).toContain(l);
@@ -69,6 +71,7 @@ describe("practice sets", () => {
       [5, 5],
       [4, 4, 4],
       [5, 5],
+      [2, 2, 3, 4],
     ]);
 
     for (const set of practiceSets) {

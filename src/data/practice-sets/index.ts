@@ -1,4 +1,5 @@
 import { askingQuestionsSet } from "../asking-questions/askingQuestions.ts";
+import { numbersSet } from "../numbers/numbers.ts";
 import { placementSet } from "../placement/placement.ts";
 import { timeWordsSet } from "../time-words/timeWords.ts";
 import { weekdaysSet } from "../weekdays/weekdays.ts";
@@ -9,6 +10,7 @@ export const practiceSets: PracticeSet[] = [
   weekdaysSet,
   placementSet,
   timeWordsSet,
+  numbersSet,
 ];
 
 export const setLessons = practiceSets.flatMap((s) => s.lessons);

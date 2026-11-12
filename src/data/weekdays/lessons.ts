@@ -8,11 +8,23 @@ export const l01: SetLesson = {
   title: "Monday to Wednesday",
   subtitle: "Learn three new days",
   recalled: [],
-  introduction: teachingCard(
-    "WD-M01-INTRO",
-    "New days: lunes, martes, miércoles",
-    "lunes is Monday, from la Luna, the Moon. martes is Tuesday, from Marte, Mars. miércoles is Wednesday, from Mercurio, Mercury: write it with the accent on the é. Example: Hoy es lunes.",
-  ),
+  introduction: teachingCard("WD-M01-INTRO", {
+    heading: "New days: lunes, martes, miércoles",
+    terms: [
+      {
+        es: "lunes",
+        meaning: "Monday",
+        example: { es: "Hoy es lunes.", en: "Today is Monday." },
+        note: "From la Luna, the Moon.",
+      },
+      { es: "martes", meaning: "Tuesday", note: "From Marte, Mars." },
+      {
+        es: "miércoles",
+        meaning: "Wednesday",
+        note: "From Mercurio, Mercury. Write it with the accent on the é.",
+      },
+    ],
+  }),
   base: [
     "WD-T01-E01",
     "WD-T02-E01",
@@ -33,8 +45,14 @@ export const l01: SetLesson = {
   formCards: [
     {
       before: "WD-T01-E04",
-      heading: "el lunes, los lunes",
-      text: "el lunes is one Monday. los lunes is every Monday: lunes, martes and miércoles stay the same. Days are written in lowercase.",
+      teach: {
+        heading: "el lunes, los lunes",
+        rule: "el is one day, los is every day. lunes, martes and miércoles stay the same, and days are written in lowercase.",
+        examples: [
+          { es: "el lunes", en: "one Monday" },
+          { es: "los lunes", en: "every Monday" },
+        ],
+      },
     },
   ],
   variations: ["WD-T01-V01", "WD-T02-V01", "WD-T03-V01", "WD-T01-N07", "WD-T02-N07", "WD-T03-N07"],
@@ -45,11 +63,18 @@ export const l02: SetLesson = {
   title: "Thursday and Friday",
   subtitle: "Learn two new days, mixed with Monday to Wednesday",
   recalled: [],
-  introduction: teachingCard(
-    "WD-M02-INTRO",
-    "New days: jueves, viernes",
-    "jueves is Thursday, from Júpiter, Jupiter. viernes is Friday, from Venus. Example: La visita es el jueves.",
-  ),
+  introduction: teachingCard("WD-M02-INTRO", {
+    heading: "New days: jueves, viernes",
+    terms: [
+      {
+        es: "jueves",
+        meaning: "Thursday",
+        example: { es: "La visita es el jueves.", en: "The visit is on Thursday." },
+        note: "From Júpiter, Jupiter.",
+      },
+      { es: "viernes", meaning: "Friday", note: "From Venus." },
+    ],
+  }),
   base: [
     "WD-T04-E01",
     "WD-T05-E01",
@@ -65,8 +90,14 @@ export const l02: SetLesson = {
   formCards: [
     {
       before: "WD-T04-E04",
-      heading: "el jueves, los jueves",
-      text: "jueves and viernes end in -s already, so every Thursday is los jueves and every Friday los viernes.",
+      teach: {
+        heading: "el jueves, los jueves",
+        rule: "jueves and viernes end in -s already, so they stay the same for every week.",
+        examples: [
+          { es: "los jueves", en: "every Thursday" },
+          { es: "los viernes", en: "every Friday" },
+        ],
+      },
     },
   ],
   variations: [
@@ -121,11 +152,22 @@ export const l03: SetLesson = {
   title: "Saturday and Sunday",
   subtitle: "Learn the weekend, mixed with Monday to Friday",
   recalled: [],
-  introduction: teachingCard(
-    "WD-M03-INTRO",
-    "New days: sábado, domingo",
-    "sábado is Saturday, from the Sabbath, the day of rest: write it with the accent on the á. domingo is Sunday, from dies Dominicus, Latin for the Lord’s day. Example: Hoy es sábado.",
-  ),
+  introduction: teachingCard("WD-M03-INTRO", {
+    heading: "New days: sábado, domingo",
+    terms: [
+      {
+        es: "sábado",
+        meaning: "Saturday",
+        example: { es: "Hoy es sábado.", en: "Today is Saturday." },
+        note: "From the Sabbath, the day of rest. Write it with the accent on the á.",
+      },
+      {
+        es: "domingo",
+        meaning: "Sunday",
+        note: "From dies Dominicus, Latin for the Lord’s day.",
+      },
+    ],
+  }),
   base: [
     "WD-T06-E01",
     "WD-T07-E01",
@@ -141,8 +183,15 @@ export const l03: SetLesson = {
   formCards: [
     {
       before: "WD-T06-E04",
-      heading: "el sábado, los sábados",
-      text: "el sábado is one Saturday. los sábados is every Saturday: sábado and domingo add -s, so every Sunday is los domingos.",
+      teach: {
+        heading: "el sábado, los sábados",
+        rule: "sábado and domingo add -s for every week.",
+        examples: [
+          { es: "el sábado", en: "one Saturday" },
+          { es: "los sábados", en: "every Saturday" },
+          { es: "los domingos", en: "every Sunday" },
+        ],
+      },
     },
   ],
   variations: [

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { shownTokens } from "../optionOrder";
 import { randomFrom } from "../random";
-import { weekdaysLesson, weekdaysUnits } from "./weekdays";
+import { weekdaysLesson, weekdaysLessons, weekdaysUnits } from "./weekdays";
 
 const calendar = [
   ["WD-G01-C01", "type"],
@@ -203,35 +203,105 @@ describe("weekdays lessons", () => {
   it.each([
     [
       "wd-m01",
-      "New days: lunes, martes, miércoles",
-      "lunes is Monday, from la Luna, the Moon. martes is Tuesday, from Marte, Mars. miércoles is Wednesday, from Mercurio, Mercury: write it with the accent on the é. Example: Hoy es lunes.",
-      "el lunes, los lunes",
-      "el lunes is one Monday. los lunes is every Monday: lunes, martes and miércoles stay the same. Days are written in lowercase.",
+      {
+        heading: "New days: lunes, martes, miércoles",
+        terms: [
+          {
+            es: "lunes",
+            meaning: "Monday",
+            example: { es: "Hoy es lunes.", en: "Today is Monday." },
+            note: "From la Luna, the Moon.",
+          },
+          { es: "martes", meaning: "Tuesday", note: "From Marte, Mars." },
+          {
+            es: "miércoles",
+            meaning: "Wednesday",
+            note: "From Mercurio, Mercury. Write it with the accent on the é.",
+          },
+        ],
+      },
+      {
+        heading: "el lunes, los lunes",
+        rule: "el is one day, los is every day. lunes, martes and miércoles stay the same, and days are written in lowercase.",
+        examples: [
+          { es: "el lunes", en: "one Monday" },
+          { es: "los lunes", en: "every Monday" },
+        ],
+      },
     ],
     [
       "wd-m02",
-      "New days: jueves, viernes",
-      "jueves is Thursday, from Júpiter, Jupiter. viernes is Friday, from Venus. Example: La visita es el jueves.",
-      "el jueves, los jueves",
-      "jueves and viernes end in -s already, so every Thursday is los jueves and every Friday los viernes.",
+      {
+        heading: "New days: jueves, viernes",
+        terms: [
+          {
+            es: "jueves",
+            meaning: "Thursday",
+            example: { es: "La visita es el jueves.", en: "The visit is on Thursday." },
+            note: "From Júpiter, Jupiter.",
+          },
+          { es: "viernes", meaning: "Friday", note: "From Venus." },
+        ],
+      },
+      {
+        heading: "el jueves, los jueves",
+        rule: "jueves and viernes end in -s already, so they stay the same for every week.",
+        examples: [
+          { es: "los jueves", en: "every Thursday" },
+          { es: "los viernes", en: "every Friday" },
+        ],
+      },
     ],
     [
       "wd-m03",
-      "New days: sábado, domingo",
-      "sábado is Saturday, from the Sabbath, the day of rest: write it with the accent on the á. domingo is Sunday, from dies Dominicus, Latin for the Lord’s day. Example: Hoy es sábado.",
-      "el sábado, los sábados",
-      "el sábado is one Saturday. los sábados is every Saturday: sábado and domingo add -s, so every Sunday is los domingos.",
+      {
+        heading: "New days: sábado, domingo",
+        terms: [
+          {
+            es: "sábado",
+            meaning: "Saturday",
+            example: { es: "Hoy es sábado.", en: "Today is Saturday." },
+            note: "From the Sabbath, the day of rest. Write it with the accent on the á.",
+          },
+          {
+            es: "domingo",
+            meaning: "Sunday",
+            note: "From dies Dominicus, Latin for the Lord’s day.",
+          },
+        ],
+      },
+      {
+        heading: "el sábado, los sábados",
+        rule: "sábado and domingo add -s for every week.",
+        examples: [
+          { es: "el sábado", en: "one Saturday" },
+          { es: "los sábados", en: "every Saturday" },
+          { es: "los domingos", en: "every Sunday" },
+        ],
+      },
     ],
-  ])(
-    "shows the %s introduction and form cards",
-    (id, introHeading, introText, formHeading, formText) => {
-      const questions = weekdaysLesson(id, randomFrom(1)).questions;
-      const form = questions.find((q) => q.id.endsWith("-FORM"))!;
+  ])("shows the %s introduction and form cards", (id, intro, form) => {
+    const questions = weekdaysLesson(id, randomFrom(1)).questions;
+    const formCard = questions.find((q) => q.id.endsWith("-FORM"))!;
 
-      expect([questions[0].prompt, questions[0].explanation]).toEqual([introHeading, introText]);
-      expect([form.prompt, form.explanation]).toEqual([formHeading, formText]);
-    },
-  );
+    expect([questions[0].prompt, questions[0].teach]).toEqual([intro.heading, intro]);
+    expect([formCard.prompt, formCard.teach]).toEqual([form.heading, form]);
+  });
+
+  it("gives every teaching card structured content, none a plain-text paragraph", () => {
+    const cards = weekdaysLessons
+      .flatMap((l) => weekdaysLesson(l.id, randomFrom(1)).questions)
+      .filter((q) => q.kind === "teach");
+
+    expect(cards.map((q) => [q.id, q.explanation, !!q.teach])).toEqual([
+      ["WD-M01-INTRO", "", true],
+      ["WD-T01-E04-FORM", "", true],
+      ["WD-M02-INTRO", "", true],
+      ["WD-T04-E04-FORM", "", true],
+      ["WD-M03-INTRO", "", true],
+      ["WD-T06-E04-FORM", "", true],
+    ]);
+  });
 
   it("shows the MR02 week tiles in another order on each attempt, never already in order", () => {
     const g03 = weekdaysLesson("wd-mr02", randomFrom(1)).questions.find((q) => q.id === "WD-G03")!;

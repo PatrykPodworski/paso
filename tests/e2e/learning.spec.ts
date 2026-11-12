@@ -743,14 +743,17 @@ test("the lesson header names the path unit and lesson, for a set lesson too, an
   await expect(
     header.getByText(`UNIT ${courseUnitNumber(4)} · LESSON 2`, { exact: true }),
   ).toBeVisible();
+
   await expect(header.getByRole("heading", { name: lesson.title, exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Close lesson" }).click();
 
   await page.goto("/practice/questions");
   await page.getByRole("button", { name: /What and how/ }).click();
+
   await expect(
     header.getByText(`UNIT ${pathUnitNumber("aq-u1")} · LESSON 1`, { exact: true }),
   ).toBeVisible();
+
   await page.getByRole("button", { name: "Close lesson" }).click();
 
   await page.goto("/practice");

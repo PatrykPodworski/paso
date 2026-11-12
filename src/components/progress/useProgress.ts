@@ -13,6 +13,8 @@ export const useProgress = () => {
 
   useEffect(() => {
     void actions.load();
+
+    return actions.stop;
   }, [actions]);
 
   return { ...state, storageError: !kept, actions };

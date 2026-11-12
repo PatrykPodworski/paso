@@ -321,6 +321,57 @@ test("lesson completion", async ({ page }) => {
   await shot(page, "lesson-complete");
 });
 
+test("question: a wrong typed answer with its mistakes marked", async ({ page }) => {
+  const l = await openLesson(page, 3);
+
+  await answer(page, l.questions[0]);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  const expected = l.questions[1].answer;
+
+  // One letter left out of the last word.
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill(expected.slice(0, -4) + expected.slice(-3));
+
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "A good moment to learn." })).toBeVisible();
+  await shot(page, "question-type-mistake-marked");
+});
+
+test("question: a typed answer that misses only its accents", async ({ page }) => {
+  const q = allQuestions.find(
+    (question) => question.kind === "type" && /[áéíóú]/.test(question.answer),
+  )!;
+
+  await seedProgress(page, {
+    ...progressSeed(),
+    mistakes: [q.id],
+    attempts: [
+      {
+        id: "wrong",
+        questionId: q.id,
+        skill: q.skill,
+        answer: "",
+        correct: false,
+        at: "2026-09-09T08:00:00Z",
+      },
+    ],
+  });
+
+  await page.goto("/practice");
+  await page.getByRole("button", { name: "My mistakes (1)" }).click();
+  await page.locator("summary").filter({ hasText: q.prompt }).click();
+  await page.getByRole("button", { name: /Try again/ }).click();
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill(q.answer.normalize("NFD").replace(/\u0301/g, ""));
+
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByText(/^Missing accents? on/)).toBeVisible();
+  await shot(page, "question-type-accent-marked");
+});
+
 test("question: sentence, typed answer, writing and its feedback", async ({ page }) => {
   const l = await openLesson(page, 3);
 

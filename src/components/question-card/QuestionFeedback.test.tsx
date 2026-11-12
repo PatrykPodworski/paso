@@ -21,13 +21,26 @@ const wrong = choice.options!.find((o) => o !== choice.answer)!;
 const listen = allQuestions.find((q) => q.kind === "listen")!;
 const writing = allQuestions.find((q) => q.id === "u1-o2")!;
 
+// What a screen reader reads in each answer of the comparison, which hides the marked copies.
+const readAnswers = () =>
+  screen.getAllByRole("definition").map((answer) =>
+    [...answer.children]
+      .filter((part) => part.getAttribute("aria-hidden") !== "true")
+      .map((part) => part.textContent)
+      .join(""),
+  );
+
 it("shows the learner's wrong answer next to the correct one", () => {
   render(<QuestionCard q={choice} onSubmit={vi.fn()} />);
   click(wrong);
 
-  expect(screen.getByRole("status")).toHaveTextContent(
-    `Your answer: ${wrong}Correct answer: ${choice.answer}`,
-  );
+  expect(screen.getAllByRole("term").map((label) => label.textContent)).toEqual([
+    "Your answer:",
+    "Correct answer:",
+  ]);
+
+  expect(readAnswers()[0]).toMatch(new RegExp(`^${wrong} Differences: `));
+  expect(readAnswers()[1]).toBe(choice.answer);
 
   expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
 });
@@ -100,8 +113,13 @@ it("passes a typed answer that misses only its accents and notes the accents", (
 
   expect(status).toHaveTextContent("¡Muy bien!");
   expect(status).toHaveTextContent("The generic explanation.");
-  expect(status).toHaveTextContent("Missing accent on é: ¿Quién eres?");
-  expect(status).not.toHaveTextContent("Your answer:");
+  expect(status).toHaveTextContent("Missing accent on é.");
+
+  expect(readAnswers()).toEqual([
+    "quien eres Differences: “quien” should be “Quién”.",
+    "¿Quién eres?",
+  ]);
+
   expect(screen.getByText("Added to your mistake review.")).toBeInTheDocument();
 });
 
@@ -127,30 +145,47 @@ it("names every missing accent", () => {
     "y tu quien eres",
   );
 
-  expect(status).toHaveTextContent("Missing accents on ú, é: ¿Y tú quién eres?");
+  expect(status).toHaveTextContent("Missing accents on ú, é.");
 });
 
 it.each([
-  [
-    "Que tengas un buen día.",
-    "Qué tengas un buen día",
-    "Extra accent on é: Que tengas un buen día.",
-  ],
-  [
-    "¿Dónde está la estación?",
-    "¿Dóndé está la estación?",
-    "Extra accent on é: ¿Dónde está la estación?",
-  ],
+  ["Que tengas un buen día.", "Qué tengas un buen día", "Extra accent on é."],
+  ["¿Dónde está la estación?", "¿Dóndé está la estación?", "Extra accent on é."],
   [
     "¿Dónde está la estación?",
     "Dondé esta la estación",
-    "Missing accents on ó, á; extra accent on é: ¿Dónde está la estación?",
+    "Missing accents on ó, á; extra accent on é.",
   ],
 ])("passes %s typed as %s and names the accent mistakes", (expected, answer, note) => {
   const status = typed(typeQuestion(expected), answer);
 
   expect(status).toHaveTextContent("¡Muy bien!");
   expect(status).toHaveTextContent(note);
+});
+
+it("marks the mistake in a wrong typed answer", () => {
+  typed(typeQuestion("Mi madre trabaja el lunes."), "Mi madre tabaja el lunes");
+
+  expect(readAnswers()).toEqual([
+    "Mi madre tabaja el lunes Differences: “tabaja” should be “trabaja”.",
+    "Mi madre trabaja el lunes.",
+  ]);
+});
+
+it("compares a wrong typed answer with the accepted answer nearest to it", () => {
+  typed(
+    typeQuestion("Mi amiga está en casa.", { accepted: ["Mi amigo está en casa."] }),
+    "Mi amigo esta en kasa",
+  );
+
+  expect(readAnswers()[1]).toBe("Mi amigo está en casa.");
+});
+
+it("leaves the comparison off a correct answer", () => {
+  typed(typeQuestion("¿Quién eres?"), "Quién eres");
+
+  expect(screen.queryByRole("term")).not.toBeInTheDocument();
+  expect(screen.getByRole("status")).toHaveTextContent("¡Muy bien!");
 });
 
 it("leaves the accent note off an exact answer", () => {
@@ -208,7 +243,7 @@ it("notes both the accent and the ¿ ? on a full Spanish question", () => {
   const status = typed(typeQuestion("¿Qué quieres?", { questionMarks: true }), "Que quieres");
 
   expect(status).toHaveTextContent("¡Muy bien!");
-  expect(status).toHaveTextContent("Missing accent on é: ¿Qué quieres?");
+  expect(status).toHaveTextContent("Missing accent on é.");
   expect(status).toHaveTextContent("Spanish questions open with ¿ and close with ?: ¿Qué quieres?");
 });
 

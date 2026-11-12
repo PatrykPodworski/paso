@@ -177,6 +177,14 @@ describe("numbers content", () => {
     );
   });
 
+  it("tells doce from dos and takes usted for you", () => {
+    expect(isCorrect(question("NU-T13-E04"), "doce")).toBe(true);
+    expect(isCorrect(question("NU-T13-E04"), "dos")).toBe(false);
+    expect(isCorrect(question("NU-T12-V10"), "Tú tienes once años.")).toBe(true);
+    expect(isCorrect(question("NU-T12-V10"), "Usted tiene once años.")).toBe(true);
+    expect(isCorrect(question("NU-T12-V10"), "Tú tienes uno años.")).toBe(false);
+  });
+
   it("passes an answer that misses only an accent, with a note (ADR 0011)", () => {
     const address = question("NU-T08-V10");
 

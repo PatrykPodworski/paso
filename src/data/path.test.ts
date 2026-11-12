@@ -131,7 +131,7 @@ it("puts the time-words units right after the Weekdays units", () => {
 });
 
 it("puts the first Numbers unit right after course unit 2", () => {
-  expect(unitsFrom("u2", 3)).toEqual(["u2", "nu-u1", "u3"]);
+  expect(unitsFrom("u2", 4)).toEqual(["u2", "nu-u1", "nu-u2", "u3"]);
 
   expect(pathUnits.find((u) => u.id === "nu-u1")).toMatchObject({
     icon: "layers",
@@ -142,6 +142,8 @@ it("puts the first Numbers unit right after course unit 2", () => {
 
   expect(pathPlace("nu-m01")).toEqual({ unit: 3, lesson: 1 });
   expect(pathPlace("nu-r01")).toEqual({ unit: 3, lesson: 5 });
+  expect(pathPlace("nu-m05")).toEqual({ unit: 4, lesson: 1 });
+  expect(pathPlace("nu-r02")).toEqual({ unit: 4, lesson: 5 });
 });
 
 it("leaves out a set unit without lessons and gives it no number", () => {
@@ -253,10 +255,10 @@ it("holds every course and set lesson once", () => {
 });
 
 it("numbers a path lesson by its path unit and its position in that unit", () => {
-  expect(pathPlace(units[3].lessons[1].id)).toEqual({ unit: 5, lesson: 2 });
+  expect(pathPlace(units[3].lessons[1].id)).toEqual({ unit: pathUnitNumber("u4"), lesson: 2 });
   expect(pathPlace(units[0].lessons[0].id)).toEqual({ unit: 1, lesson: 1 });
-  expect(pathPlace("wd-m03")).toEqual({ unit: 11, lesson: 1 });
-  expect(pathPlace("aq-mr01")).toEqual({ unit: 18, lesson: 3 });
+  expect(pathPlace("wd-m03")).toEqual({ unit: pathUnitNumber("wd-u2"), lesson: 1 });
+  expect(pathPlace("aq-mr01")).toEqual({ unit: pathUnitNumber("aq-u1"), lesson: 3 });
 });
 
 it("gives a practice session no place on the path", () => {
@@ -265,10 +267,12 @@ it("gives a practice session no place on the path", () => {
 
 it("shows a course unit under its path number", () => {
   expect(courseUnitNumber(1)).toBe(1);
-  expect(courseUnitNumber(4)).toBe(5);
-  expect(courseUnitNumber(5)).toBe(9);
-  expect(courseUnitNumber(6)).toBe(14);
-  expect(courseUnitNumber(12)).toBe(24);
+
+  for (const n of [2, 4, 5, 6, 12]) {
+    expect(courseUnitNumber(n), `u${n}`).toBe(pathUnitNumber(`u${n}`));
+  }
+
+  expect(courseUnitNumber(12)).toBe(pathUnits.length);
 });
 
 it("counts the set lessons' own exercises and no teaching card", () => {

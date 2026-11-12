@@ -146,10 +146,15 @@ it("lists the numbers units that have lessons under their path numbers", () => {
 
   expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([
     unit("nu-u1"),
+    unit("nu-u2"),
   ]);
 
   expect(screen.getByRole("region", { name: unit("nu-u1") })).toHaveTextContent(
     `${unit("nu-u1")}cero to siete`,
+  );
+
+  expect(screen.getByRole("region", { name: unit("nu-u2") })).toHaveTextContent(
+    `${unit("nu-u2")}ocho to quince`,
   );
 
   expect(screen.getByRole("button", { name: /^Zero and one/ })).toHaveTextContent(

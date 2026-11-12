@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { currentUnit, journeyLesson } from "./journeyLesson";
 import { allLessons, units } from "./curriculum";
-import { pathLessons } from "./path";
+import { pathLessons, pathUnitNumber } from "./path";
 import { numbersUnits } from "./numbers/numbers";
 import { placementLessons } from "./placement/placement";
 import { emptySnapshot, questionState } from "../test/progress";
@@ -134,7 +134,7 @@ it("makes the first placement unit current once course units 1 to 4 and the Numb
 
   finishUnits(progress, 4);
   finishNumbers(progress, 3);
-  expect(currentUnit(progress)).toMatchObject({ id: "pl-u1", number: 6 });
+  expect(currentUnit(progress)).toMatchObject({ id: "pl-u1", number: pathUnitNumber("pl-u1") });
 });
 
 it("makes the first Weekdays unit current once course units 1 to 5 and the placement set are finished", () => {
@@ -143,5 +143,5 @@ it("makes the first Weekdays unit current once course units 1 to 5 and the place
   finishUnits(progress, 5);
   finishNumbers(progress, 4);
   finishPlacement(progress);
-  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: 10 });
+  expect(currentUnit(progress)).toMatchObject({ id: "wd-u1", number: pathUnitNumber("wd-u1") });
 });

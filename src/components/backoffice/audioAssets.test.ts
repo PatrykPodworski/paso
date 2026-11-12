@@ -60,10 +60,11 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
 });
 
 it("offers every practice set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 25)).toEqual([
+  expect(audioSourceNames.slice(11, 26)).toEqual([
     unit(12),
     ...SET_GROUPS,
     setUnit("Numbers", "nu-u1"),
+    setUnit("Numbers", "nu-u2"),
     "Mock exam",
   ]);
 });

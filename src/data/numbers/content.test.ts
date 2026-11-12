@@ -241,10 +241,11 @@ describe("numbers content", () => {
     expect(isCorrect(question("NU-T22-E04"), "veinte y dos")).toBe(false);
   });
 
-  it("writes 31 to 99 as three words and 100 as cien, and tells sesenta from setenta", () => {
+  it("writes 31 to 99 as three words with y una before a feminine noun, and 100 as cien", () => {
     expect(isCorrect(question("NU-T30-1205"), "treinta y un")).toBe(true);
     expect(isCorrect(question("NU-T30-1205"), "treinta y uno")).toBe(false);
     expect(isCorrect(question("NU-T30-1206"), "treinta y una")).toBe(true);
+    expect(isCorrect(question("NU-T30-1206"), "treinta y un")).toBe(false);
 
     const books = question("NU-T30-1305");
 

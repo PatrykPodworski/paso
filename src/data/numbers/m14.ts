@@ -246,7 +246,6 @@ export const m14Items: Item[] = [
     context: "There are 61 chairs at the school.",
     prompt: "En la escuela hay ___ sillas.",
     answer: "sesenta y una",
-    accepted: ["sesenta y un"],
     say: "En la escuela hay sesenta y una sillas.",
     feedback: "sesenta y una goes before a feminine noun: En la escuela hay sesenta y una sillas.",
     hints: [

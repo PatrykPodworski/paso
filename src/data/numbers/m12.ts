@@ -168,7 +168,6 @@ export const m12Items: Item[] = [
     context: "The school has 31 windows.",
     prompt: "La escuela tiene ___ ventanas.",
     answer: "treinta y una",
-    accepted: ["treinta y un"],
     say: "La escuela tiene treinta y una ventanas.",
     feedback: "treinta y una goes before a feminine noun: La escuela tiene treinta y una ventanas.",
     hints: [

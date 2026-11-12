@@ -6,7 +6,7 @@ import {
   sectionSizes,
 } from "../../src/data/mock.ts";
 import { EXAM_PLAYS } from "../../src/data/audio.ts";
-import { CORRECTION_FIELDS, MAX_CORRECTIONS } from "./corrections.ts";
+import { CORRECTION_FIELDS, MAX_TALK_CORRECTIONS, MAX_TALK_ITEMS } from "./corrections.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
@@ -38,7 +38,6 @@ const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
 const GRADES: Grade[] = ["perfect", "good", "bad"];
 const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
-const MAX_TALK_ITEMS = 20;
 const MAX_LABEL = 200;
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
 
@@ -231,7 +230,7 @@ const mapOf =
 
 const isStoredCorrections: Check = (value) =>
   Array.isArray(value) &&
-  value.length <= MAX_CORRECTIONS &&
+  value.length <= MAX_TALK_CORRECTIONS &&
   value.every(
     (correction: unknown) =>
       isRecord(correction) &&

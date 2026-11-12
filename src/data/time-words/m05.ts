@@ -6,11 +6,26 @@ export const m05: SetLesson = {
   title: "Always, sometimes, never",
   subtitle: "siempre, a veces, nunca",
   recalled: [],
-  introduction: teachingCard(
-    "TM-M05-INTRO",
-    "New words: siempre, a veces, nunca",
-    "siempre means always. Example: Pablo siempre estudia en casa. a veces means sometimes. Example: Yo a veces voy en autobús. nunca means never. Example: Tomás nunca trabaja los sábados.",
-  ),
+  introduction: teachingCard("TM-M05-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "siempre",
+        meaning: "always",
+        example: { es: "Pablo siempre estudia en casa.", en: "Pablo always studies at home." },
+      },
+      {
+        es: "a veces",
+        meaning: "sometimes",
+        example: { es: "Yo a veces voy en autobús.", en: "I sometimes go by bus." },
+      },
+      {
+        es: "nunca",
+        meaning: "never",
+        example: { es: "Tomás nunca trabaja los sábados.", en: "Tomás never works on Saturdays." },
+      },
+    ],
+  }),
   base: [
     "TM-T12-E01",
     "TM-T13-E01",
@@ -28,13 +43,25 @@ export const m05: SetLesson = {
   formCards: [
     {
       before: "TM-T12-E04",
-      heading: "siempre and the verb",
-      text: "siempre usually goes before the verb: Pablo siempre estudia en casa. After the verb is right too: Pablo estudia siempre en casa.",
+      teach: {
+        heading: "siempre and the verb",
+        rule: "siempre usually goes before the verb, but after the verb is right too.",
+        examples: [
+          { es: "Pablo siempre estudia en casa.", en: "Pablo always studies at home." },
+          { es: "Pablo estudia siempre en casa.", en: "Pablo always studies at home." },
+        ],
+      },
     },
     {
       before: "TM-T14-E04",
-      heading: "nunca, with or without no",
-      text: "nunca before the verb is enough: Pablo nunca estudia en casa. With no, nunca goes after the verb: Pablo no estudia nunca en casa.",
+      teach: {
+        heading: "nunca, with or without no",
+        rule: "nunca before the verb is enough; with no, nunca goes after the verb.",
+        examples: [
+          { es: "Pablo nunca estudia en casa.", en: "Pablo never studies at home." },
+          { es: "Pablo no estudia nunca en casa.", en: "Pablo never studies at home." },
+        ],
+      },
     },
   ],
   variations: [

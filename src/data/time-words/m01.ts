@@ -6,11 +6,26 @@ export const m01: SetLesson = {
   title: "Today, tomorrow, yesterday",
   subtitle: "hoy, mañana, ayer",
   recalled: [],
-  introduction: teachingCard(
-    "TM-M01-INTRO",
-    "New words: hoy, mañana, ayer",
-    "hoy means today. Example: Clase de Pablo: hoy. mañana means tomorrow. Example: Reunión de Luis: mañana. ayer means yesterday. Example: Visita de Diego: ayer.",
-  ),
+  introduction: teachingCard("TM-M01-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "hoy",
+        meaning: "today",
+        example: { es: "Clase de Pablo: hoy.", en: "Pablo's class: today." },
+      },
+      {
+        es: "mañana",
+        meaning: "tomorrow",
+        example: { es: "Reunión de Luis: mañana.", en: "Luis's meeting: tomorrow." },
+      },
+      {
+        es: "ayer",
+        meaning: "yesterday",
+        example: { es: "Visita de Diego: ayer.", en: "Diego's visit: yesterday." },
+      },
+    ],
+  }),
   base: [
     "TM-T01-E01",
     "TM-T02-E01",
@@ -28,8 +43,10 @@ export const m01: SetLesson = {
   formCards: [
     {
       before: "TM-T02-E04",
-      heading: "mañana and la mañana",
-      text: "mañana alone means tomorrow. With la, la mañana is the morning. In these exercises mañana means tomorrow.",
+      teach: {
+        heading: "mañana and la mañana",
+        rule: "mañana alone means tomorrow, as in these exercises; la mañana is the morning.",
+      },
     },
   ],
   variations: ["TM-T01-E06", "TM-T02-E06", "TM-T03-E06", "TM-T01-V11", "TM-T02-V11", "TM-T03-V11"],

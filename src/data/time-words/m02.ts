@@ -6,11 +6,31 @@ export const m02: SetLesson = {
   title: "Now, earlier, later",
   subtitle: "ahora, antes, después",
   recalled: [],
-  introduction: teachingCard(
-    "TM-M02-INTRO",
-    "New words: ahora, antes, después / luego",
-    "ahora means now, at this moment. hoy is the whole day; ahora is this moment. Example: Trabajo ahora. antes means before, earlier. Example: Pablo come a las dos. Yo como antes. después and luego both mean after, later. Example: Desayuno y luego trabajo.",
-  ),
+  introduction: teachingCard("TM-M02-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "ahora",
+        meaning: "now, at this moment",
+        example: { es: "Trabajo ahora.", en: "I'm working now." },
+        note: "hoy is the whole day; ahora is this moment.",
+      },
+      {
+        es: "antes",
+        meaning: "before, earlier",
+        example: {
+          es: "Pablo come a las dos. Yo como antes.",
+          en: "Pablo eats at two. I eat earlier.",
+        },
+      },
+      {
+        es: "después / luego",
+        meaning: "after, later",
+        example: { es: "Desayuno y luego trabajo.", en: "I have breakfast and then I work." },
+        note: "Both words mean the same.",
+      },
+    ],
+  }),
   base: [
     "TM-T04-E01",
     "TM-T05-E01",
@@ -28,8 +48,10 @@ export const m02: SetLesson = {
   formCards: [
     {
       before: "TM-T06-E04",
-      heading: "después or luego",
-      text: "Both mean after, later. Either one is right in these exercises. después has an accent on the é.",
+      teach: {
+        heading: "después or luego",
+        rule: "Both mean after, later, so either one is right; después has an accent on the é.",
+      },
     },
   ],
   variations: [

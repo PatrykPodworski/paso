@@ -140,7 +140,7 @@ it("lists the numbers units that have lessons under their path numbers", () => {
 
   expect(
     screen.getByText(
-      "Learn the Spanish numbers from cero to cien, two or three new ones per lesson.",
+      "Learn the Spanish numbers from cero to un millón, two or three new ones per lesson.",
     ),
   ).toBeInTheDocument();
 
@@ -149,6 +149,7 @@ it("lists the numbers units that have lessons under their path numbers", () => {
     unit("nu-u2"),
     unit("nu-u3"),
     unit("nu-u4"),
+    unit("nu-u5"),
   ]);
 
   expect(screen.getByRole("region", { name: unit("nu-u1") })).toHaveTextContent(
@@ -165,6 +166,10 @@ it("lists the numbers units that have lessons under their path numbers", () => {
 
   expect(screen.getByRole("region", { name: unit("nu-u4") })).toHaveTextContent(
     `${unit("nu-u4")}treinta to cien`,
+  );
+
+  expect(screen.getByRole("region", { name: unit("nu-u5") })).toHaveTextContent(
+    `${unit("nu-u5")}cien to un millón`,
   );
 
   expect(screen.getByRole("button", { name: /^Zero and one/ })).toHaveTextContent(

@@ -52,6 +52,7 @@ const NUMBERS = [
   ["nu-m05", "nu-m06", "nu-m07", "nu-m08", "nu-r02"],
   ["nu-m09", "nu-m10", "nu-m11", "nu-r03"],
   ["nu-m12", "nu-m13", "nu-m14", "nu-m15", "nu-r04"],
+  ["nu-m16", "nu-m17", "nu-m18", "nu-m19", "nu-m20", "nu-m21", "nu-m22", "nu-r05"],
 ];
 
 const numbersComplete: PracticeSet = {
@@ -90,14 +91,15 @@ it("puts every set unit right after the course unit it builds on, with Weekdays,
     [17, "u6"],
     [18, "u7"],
     [19, "u8"],
-    [20, "u9"],
-    [21, "aq-u1"],
-    [22, "aq-u2"],
-    [23, "u10"],
-    [24, "aq-u3"],
-    [25, "u11"],
-    [26, "aq-u4"],
-    [27, "u12"],
+    [20, "nu-u5"],
+    [21, "u9"],
+    [22, "aq-u1"],
+    [23, "aq-u2"],
+    [24, "u10"],
+    [25, "aq-u3"],
+    [26, "u11"],
+    [27, "aq-u4"],
+    [28, "u12"],
   ]);
 
   expect(complete.pathLessons).toHaveLength(
@@ -107,13 +109,14 @@ it("puts every set unit right after the course unit it builds on, with Weekdays,
   expect(complete.pathPlace("nu-r01")).toEqual({ unit: 3, lesson: 5 });
   expect(complete.pathPlace("nu-m11")).toEqual({ unit: 6, lesson: 3 });
   expect(complete.pathPlace("nu-r04")).toEqual({ unit: 11, lesson: 5 });
+  expect(complete.pathPlace("nu-r05")).toEqual({ unit: 20, lesson: 8 });
   expect(complete.pathPlace("tm-r02")).toEqual({ unit: 16, lesson: 4 });
-  expect(complete.pathPlace("aq-mr01")).toEqual({ unit: 21, lesson: 3 });
-  expect(complete.pathPlace("aq-mr02")).toEqual({ unit: 22, lesson: 3 });
-  expect(complete.pathPlace("aq-mr03")).toEqual({ unit: 24, lesson: 3 });
-  expect(complete.pathPlace("aq-mr04")).toEqual({ unit: 26, lesson: 3 });
+  expect(complete.pathPlace("aq-mr01")).toEqual({ unit: 22, lesson: 3 });
+  expect(complete.pathPlace("aq-mr02")).toEqual({ unit: 23, lesson: 3 });
+  expect(complete.pathPlace("aq-mr03")).toEqual({ unit: 25, lesson: 3 });
+  expect(complete.pathPlace("aq-mr04")).toEqual({ unit: 27, lesson: 3 });
   expect(complete.courseUnitNumber(6)).toBe(17);
-  expect(complete.pathUnitNumber("aq-u3")).toBe(24);
+  expect(complete.pathUnitNumber("aq-u3")).toBe(25);
 });
 
 // The live path: these tests name each unit by its neighbours, so a set unit added earlier on
@@ -135,7 +138,7 @@ it("puts the first Numbers unit right after course unit 2", () => {
 
   expect(pathUnits.find((u) => u.id === "nu-u1")).toMatchObject({
     icon: "layers",
-    eyebrow: "Part 1 of 4",
+    eyebrow: "Part 1 of 5",
     title: "Numbers",
     subtitle: "cero to siete",
   });

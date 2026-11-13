@@ -23,6 +23,14 @@ import { m13, m13Items } from "./m13.ts";
 import { m14, m14Items } from "./m14.ts";
 import { m15, m15Items } from "./m15.ts";
 import { r04, r04Items } from "./r04.ts";
+import { m16, m16Items } from "./m16.ts";
+import { m17, m17Items } from "./m17.ts";
+import { m18, m18Items } from "./m18.ts";
+import { m19, m19Items } from "./m19.ts";
+import { m20, m20Items } from "./m20.ts";
+import { m21, m21Items } from "./m21.ts";
+import { m22, m22Items } from "./m22.ts";
+import { r05, r05Items } from "./r05.ts";
 
 // The set's exercises; teaching cards are not exercises and never join the exercise bank.
 export const numbersQuestions: Question[] = [
@@ -45,6 +53,14 @@ export const numbersQuestions: Question[] = [
   ...m14Items,
   ...m15Items,
   ...r04Items,
+  ...m16Items,
+  ...m17Items,
+  ...m18Items,
+  ...m19Items,
+  ...m20Items,
+  ...m21Items,
+  ...m22Items,
+  ...r05Items,
 ].map(questionOf);
 
 export const numbersLessons: SetLesson[] = [
@@ -67,6 +83,14 @@ export const numbersLessons: SetLesson[] = [
   m14,
   m15,
   r04,
+  m16,
+  m17,
+  m18,
+  m19,
+  m20,
+  m21,
+  m22,
+  r05,
 ];
 
 const UNITS = [
@@ -77,6 +101,11 @@ const UNITS = [
     after: 4,
     subtitle: "treinta to cien",
     ids: ["nu-m12", "nu-m13", "nu-m14", "nu-m15", "nu-r04"],
+  },
+  {
+    after: 8,
+    subtitle: "cien to un millón",
+    ids: ["nu-m16", "nu-m17", "nu-m18", "nu-m19", "nu-m20", "nu-m21", "nu-m22", "nu-r05"],
   },
 ];
 
@@ -99,10 +128,11 @@ export const numbersSet: PracticeSet = {
   id: "numbers",
   route: "practice/numbers",
   name: "Numbers",
-  note: "cero to cien, two or three at a time",
+  note: "cero to un millón, two or three at a time",
   icon: "layers",
   title: "Numbers.",
-  description: "Learn the Spanish numbers from cero to cien, two or three new ones per lesson.",
+  description:
+    "Learn the Spanish numbers from cero to un millón, two or three new ones per lesson.",
   units: numbersUnits,
   lessons: numbersLessons,
   questions: numbersQuestions,

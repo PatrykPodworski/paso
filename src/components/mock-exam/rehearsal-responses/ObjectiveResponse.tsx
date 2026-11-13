@@ -1,5 +1,6 @@
 import type { Question } from "../../../data/types";
 import { ResultMark } from "../../../design-system/ResultMark";
+import { AnswerComparison } from "../../AnswerComparison";
 
 type Props = { question: Question; answer: string; correct: boolean };
 
@@ -12,18 +13,7 @@ export const ObjectiveResponse = ({ question, answer, correct }: Props) => (
     />
     <div className="flex flex-col gap-1">
       <p className="font-medium">{question.prompt}</p>
-      <p className="text-muted-foreground">
-        Your answer:{" "}
-        <strong className="font-medium text-foreground" lang="es">
-          {answer || "No answer"}
-        </strong>
-      </p>
-      <p className="text-muted-foreground">
-        Right answer:{" "}
-        <strong className="font-medium text-foreground" lang="es">
-          {question.answer}
-        </strong>
-      </p>
+      <AnswerComparison answer={answer} correct={question.answer} />
     </div>
   </div>
 );

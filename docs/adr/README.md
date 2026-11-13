@@ -1,6 +1,6 @@
 # Architecture decision records
 
-- [0001. No offline mode](0001-no-offline-mode.md) — accepted
+- [0001. No offline mode](0001-no-offline-mode.md) — superseded by 0013
 - [0002. Passcode gates paid LLM features only](0002-passcode-gates-paid-llm-features.md) — accepted
 - [0003. Answer choices and word tiles show in a random order per attempt](0003-random-order-for-choices-and-tiles.md) — accepted
 - [0004. A missing written accent makes a typed answer wrong](0004-missing-accent-is-wrong.md) — superseded by 0010
@@ -12,3 +12,4 @@
 - [0010. A typed answer that misses only its accents passes with a note](0010-accent-only-answer-passes-with-a-note.md) — superseded by 0011
 - [0011. An accent or ¿ ? mistake passes with a note and joins the mistake review](0011-accent-mistake-joins-the-mistake-review.md) — accepted
 - [0012. Practice sets join the learning path and count toward it](0012-practice-sets-join-the-learning-path.md) — accepted
+- [0013. A failed write waits on the device and never blocks the learner](0013-unsent-writes-wait-on-the-device.md) — accepted

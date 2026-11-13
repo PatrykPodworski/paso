@@ -133,6 +133,32 @@ test("preferences and reset confirmation", async ({ page }) => {
   await shot(page, "preferences-reset");
 });
 
+test("progress not saved: a failed write and a refused one", async ({ page }) => {
+  let status = 503;
+
+  await page.route("**/api/progress", (route) =>
+    route.request().method() === "POST"
+      ? route.fulfill({ status, json: { error: "unavailable" } })
+      : route.continue(),
+  );
+
+  // A checklist tick writes progress and plays no audio behind the dialog.
+  await page.goto("/guide");
+  await page.getByRole("checkbox").first().click();
+
+  await expect(
+    page.getByRole("heading", { name: "Your progress is not saved yet." }),
+  ).toBeVisible();
+
+  await shot(page, "save-failed");
+
+  status = 400;
+
+  await page.getByRole("button", { name: "Retry" }).click();
+  await expect(page.getByRole("heading", { name: "One change was not saved." })).toBeVisible();
+  await shot(page, "save-refused");
+});
+
 test("mobile navigation drawer", async ({ page }, info) => {
   test.skip(info.project.name !== "mobile", "Drawer is only a phone view");
   await page.goto("/");

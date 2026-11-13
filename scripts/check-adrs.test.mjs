@@ -71,13 +71,15 @@ describe("ADR index", () => {
       "utf8",
     );
 
-    expect(readme).toContain(`[0001. No offline mode](0001-no-offline-mode.md) ${dash} accepted`);
+    expect(readme).toContain(
+      `[0001. No offline mode](0001-no-offline-mode.md) ${dash} superseded by 0013`,
+    );
 
     expect(readme).toContain(
       `[0002. Passcode gates paid LLM features only](0002-passcode-gates-paid-llm-features.md) ${dash} accepted`,
     );
 
-    expect(offline).toContain("status: accepted");
+    expect(offline).toContain("status: superseded by 0013");
     expect(offline).toContain("source of truth");
     expect(offline).toContain("A failed write shows Retry.");
     expect(offline).toContain("Revisit when real offline use appears.");

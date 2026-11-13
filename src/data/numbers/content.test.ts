@@ -23,6 +23,49 @@ const NUMBER_LIKE =
 const NOUNS =
   /^(años?|teléfonos?|móvil(es)?|casas?|clases?|estudiantes|tiendas|parques|euros|libros|sillas|ventanas)$/;
 
+const VALUES: Record<string, number> = Object.fromEntries(
+  (
+    "cero uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece catorce quince " +
+    "dieciséis diecisiete dieciocho diecinueve veinte veintiuno veintidós veintitrés veinticuatro " +
+    "veinticinco veintiséis veintisiete veintiocho veintinueve"
+  )
+    .split(" ")
+    .map((w, i) => [w, i]),
+);
+
+const TENS: Record<string, number> = {
+  treinta: 30,
+  cuarenta: 40,
+  cincuenta: 50,
+  sesenta: 60,
+  setenta: 70,
+  ochenta: 80,
+  noventa: 90,
+  cien: 100,
+};
+
+// The number an answer names, as digits or words (un, una, veintiún count as 1 and 21);
+// undefined for a sentence or an English answer.
+const valueOf = (answer: string) => {
+  if (/^\d+$/.test(answer)) {
+    return Number(answer);
+  }
+
+  const [tens, y, unit, ...rest] = answer
+    .replace(/^(un|una)$/, "uno")
+    .replace(/^veintiún|^veintiuna$/, "veintiuno")
+    .split(" ");
+
+  if (rest.length || (y && y !== "y")) {
+    return undefined;
+  }
+
+  const first = TENS[tens] ?? VALUES[tens];
+  const second = unit ? VALUES[unit.replace(/^(un|una)$/, "uno")] : 0;
+
+  return first === undefined || second === undefined ? undefined : first + second;
+};
+
 const words = (s: string) => s.toLocaleLowerCase("es").match(/\p{L}+/gu) ?? [];
 
 // The Spanish of an exercise: what it says after answering and, when typed, what it expects.
@@ -123,14 +166,11 @@ describe("numbers content", () => {
 
   it("mixes two or three new numbers in every learning lesson", () => {
     for (const l of numbersLessons.filter((x) => x.introduction)) {
-      const numbers = new Set(l.base.map((id) => id.slice(0, 6)));
+      const values = l.base.map((id) => valueOf(question(id).answer));
+      const numbers = new Set(values.filter((v) => v !== undefined));
 
       expect(numbers.size, l.id).toBeGreaterThanOrEqual(2);
-
-      expect(
-        l.base.slice(0, 2).map((id) => id.slice(-3)),
-        l.id,
-      ).toEqual(["E01", "E01"]);
+      expect(values[0], l.id).not.toBe(values[1]);
     }
   });
 
@@ -183,6 +223,22 @@ describe("numbers content", () => {
     expect(isCorrect(question("NU-T12-V10"), "Tú tienes once años.")).toBe(true);
     expect(isCorrect(question("NU-T12-V10"), "Usted tiene once años.")).toBe(true);
     expect(isCorrect(question("NU-T12-V10"), "Tú tienes uno años.")).toBe(false);
+  });
+
+  it("shortens veintiuno to veintiún before a masculine noun and veintiuna before a feminine one", () => {
+    expect(isCorrect(question("NU-T22-E07"), "veintiún")).toBe(true);
+    expect(isCorrect(question("NU-T22-E07"), "veintiuno")).toBe(false);
+    expect(isCorrect(question("NU-T22-E08"), "veintiuna")).toBe(true);
+    expect(isCorrect(question("NU-T22-E08"), "veintiún")).toBe(false);
+    expect(isCorrect(question("NU-T22-E08"), "veintiuno")).toBe(false);
+    expect(isCorrect(question("NU-T22-E10"), "Hay veintiún parques en Sevilla.")).toBe(true);
+    expect(isCorrect(question("NU-T22-E10"), "En Sevilla hay veinte y un parques.")).toBe(false);
+  });
+
+  it("passes dieciséis and veintidós without their accents, with a note", () => {
+    expect(accentOnlyAnswer(question("NU-T17-E03"), "dieciseis")).toBe("dieciséis");
+    expect(accentOnlyAnswer(question("NU-T22-E04"), "veintidos")).toBe("veintidós");
+    expect(isCorrect(question("NU-T22-E04"), "veinte y dos")).toBe(false);
   });
 
   it("passes an answer that misses only an accent, with a note (ADR 0011)", () => {

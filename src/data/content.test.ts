@@ -14,7 +14,7 @@ import { audioKey, spokenText } from "./audio";
 import { audioSources } from "./audio-sources";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import words from "./words.json";
-import type { WordCard } from "./types";
+import type { Question, WordCard } from "./types";
 import examples from "./examples.json";
 import { taskOf } from "../../api/_lib/talk-tasks/index";
 import { practiceSets } from "./practice-sets/index";
@@ -26,6 +26,30 @@ const questions = [
   formPractice,
   ...mockQuestions,
 ];
+
+// An instruction says what to do in one sentence without a full stop. A second sentence is the
+// context it refers to and goes to `context`, which the exercise shows on its own line (#816).
+const mergedInstruction = (q: Pick<Question, "instruction">) =>
+  !!q.instruction && (/[.?!:]\s+\S/.test(q.instruction) || q.instruction.trim().endsWith("."));
+
+describe("instruction and context", () => {
+  it("keeps every instruction to one sentence, with its context apart", () => {
+    const fixture = [
+      { id: "A", instruction: "Complete the gap. A meeting is scheduled for Wednesday." },
+      { id: "B", instruction: "Translate into Spanish." },
+      { id: "C", instruction: "Write the full sentence: La taza está ___ la caja." },
+      { id: "D", instruction: "Choose the English meaning of “en”" },
+      { id: "E", instruction: "Which situation fits this sentence?" },
+      { id: "F", instruction: undefined },
+    ];
+
+    expect(fixture.filter(mergedInstruction).map((q) => q.id)).toEqual(["A", "B", "C"]);
+
+    const all = [...questions, ...practiceSets.flatMap((s) => s.questions)];
+
+    expect(all.filter(mergedInstruction).map((q) => `${q.id}: ${q.instruction}`)).toEqual([]);
+  });
+});
 
 describe("original curriculum integrity", () => {
   it("contains a substantial learning path with every skill in each unit", () => {

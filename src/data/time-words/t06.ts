@@ -32,7 +32,8 @@ export const t06Items: Item[] = [
   {
     id: "TM-T06-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Luis gets up at 7:00 and has breakfast at 8:00.",
+    instruction: "Complete the gap",
+    context: "Luis gets up at 7:00 and has breakfast at 8:00.",
     prompt: "Luis se levanta y ___ desayuna.",
     answer: "luego",
     accepted: ["después"],
@@ -44,7 +45,8 @@ export const t06Items: Item[] = [
   {
     id: "TM-T06-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis has breakfast at 8:00. Pablo has breakfast at 9:00.",
+    instruction: "Translate into Spanish",
+    context: "Luis has breakfast at 8:00. Pablo has breakfast at 9:00.",
     prompt: "Pablo has breakfast later.",
     answer: "Pablo desayuna después.",
     accepted: ["Pablo desayuna luego.", "Pablo desayuna más tarde."],
@@ -70,7 +72,8 @@ export const t06Items: Item[] = [
   {
     id: "TM-T06-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Diego reads at 20:00. Jorge reads at 21:00.",
+    instruction: "Choose the word for the gap",
+    context: "Diego reads at 20:00. Jorge reads at 21:00.",
     prompt: "Diego lee a las ocho. Jorge lee ___.",
     answer: "después",
     choices: ["después", "ahora", "antes"],
@@ -81,7 +84,8 @@ export const t06Items: Item[] = [
   {
     id: "TM-T06-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Tomás eats at 14:00. Pablo eats at 15:00.",
+    instruction: "Complete the gap",
+    context: "Tomás eats at 14:00. Pablo eats at 15:00.",
     prompt: "Tomás come a las dos. Pablo come ___.",
     answer: "después",
     accepted: ["luego"],
@@ -92,7 +96,8 @@ export const t06Items: Item[] = [
   {
     id: "TM-T06-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Luis works at 8:00. Tomás works at 9:00.",
+    instruction: "Complete the gap",
+    context: "Luis works at 8:00. Tomás works at 9:00.",
     prompt: "Luis trabaja a las ocho. Tomás trabaja ___.",
     answer: "después",
     accepted: ["luego"],
@@ -103,7 +108,8 @@ export const t06Items: Item[] = [
   {
     id: "TM-T06-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Tomás has breakfast at 8:00 and studies at 9:00.",
+    instruction: "Translate into Spanish",
+    context: "Tomás has breakfast at 8:00 and studies at 9:00.",
     prompt: "Tomás has breakfast and then studies.",
     answer: "Tomás desayuna y luego estudia.",
     accepted: [

@@ -31,7 +31,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Tomás has breakfast at 8:00. Pablo has breakfast at 7:00.",
+    instruction: "Complete the gap",
+    context: "Tomás has breakfast at 8:00. Pablo has breakfast at 7:00.",
     prompt: "Tomás desayuna a las ocho. Pablo desayuna ___.",
     answer: "antes",
     say: "Tomás desayuna a las ocho. Pablo desayuna antes.",
@@ -41,7 +42,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Jorge studies at 18:00. Luis studies at 17:00.",
+    instruction: "Translate into Spanish",
+    context: "Jorge studies at 18:00. Luis studies at 17:00.",
     prompt: "Luis studies earlier.",
     answer: "Luis estudia antes.",
     accepted: ["Luis estudia más temprano.", "Luis estudia más pronto."],
@@ -67,7 +69,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Jorge works at 8:00. Tomás works at 7:00.",
+    instruction: "Choose the word for the gap",
+    context: "Jorge works at 8:00. Tomás works at 7:00.",
     prompt: "Jorge trabaja a las ocho. Tomás trabaja ___.",
     answer: "antes",
     choices: ["antes", "ahora", "después"],
@@ -78,7 +81,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Tomás goes to bed at 23:00. I go to bed at 21:00.",
+    instruction: "Complete the gap",
+    context: "Tomás goes to bed at 23:00. I go to bed at 21:00.",
     prompt: "Tomás se acuesta a las once. Yo me acuesto ___.",
     answer: "antes",
     say: "Tomás se acuesta a las once. Yo me acuesto antes.",
@@ -88,7 +92,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-V04",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis studies at 18:00. Pablo studies at 17:00.",
+    instruction: "Translate into Spanish",
+    context: "Luis studies at 18:00. Pablo studies at 17:00.",
     prompt: "Pablo studies earlier.",
     answer: "Pablo estudia antes.",
     accepted: ["Pablo estudia más temprano.", "Pablo estudia más pronto."],
@@ -99,7 +104,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Diego has breakfast at 8:00. Luis has breakfast at 7:00.",
+    instruction: "Complete the gap",
+    context: "Diego has breakfast at 8:00. Luis has breakfast at 7:00.",
     prompt: "Diego desayuna a las ocho. Luis desayuna ___.",
     answer: "antes",
     say: "Diego desayuna a las ocho. Luis desayuna antes.",
@@ -109,7 +115,8 @@ export const t05Items: Item[] = [
   {
     id: "TM-T05-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Tomás studies at 18:00. Diego studies at 17:00.",
+    instruction: "Translate into Spanish",
+    context: "Tomás studies at 18:00. Diego studies at 17:00.",
     prompt: "Diego studies earlier.",
     answer: "Diego estudia antes.",
     accepted: ["Diego estudia más temprano.", "Diego estudia más pronto."],

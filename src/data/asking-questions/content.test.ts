@@ -175,7 +175,7 @@ describe("asking questions lessons", () => {
   it("keeps a translation's answer out of its task", () => {
     for (const id of LESSONS) {
       for (const q of exercisesOf(id).filter((q) => q.questionMarks)) {
-        const task = normalize(`${q.instruction} ${q.prompt}`);
+        const task = normalize(`${q.instruction} ${q.context ?? ""} ${q.prompt}`);
         const given = sentencesOf(q).filter((t) => task.includes(t));
 
         expect(given, q.id).toEqual([]);

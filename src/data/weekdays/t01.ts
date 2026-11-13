@@ -39,7 +39,7 @@ export const t01Items: Item[] = [
   {
     id: "WD-T01-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Monday",
     answer: "lunes",
     say: "lunes",
@@ -49,7 +49,8 @@ export const t01Items: Item[] = [
   {
     id: "WD-T01-E04",
     mode: "cloze",
-    instruction: "Complete the gap. A displayed calendar says Monday, not the actual date.",
+    instruction: "Complete the gap",
+    context: "A displayed calendar says Monday, not the actual date.",
     prompt: "Hoy es ___.",
     answer: "lunes",
     say: "Hoy es lunes.",
@@ -100,7 +101,8 @@ export const t01Items: Item[] = [
   {
     id: "WD-T01-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo has class on Monday.",
+    instruction: "Complete the gap",
+    context: "Pablo has class on Monday.",
     prompt: "Pablo tiene clase el ___.",
     answer: "lunes",
     say: "Pablo tiene clase el lunes.",
@@ -129,7 +131,8 @@ export const t01Items: Item[] = [
   {
     id: "WD-T01-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I work on Monday this week.",
+    instruction: "Complete the gap",
+    context: "I work on Monday this week.",
     prompt: "Trabajo el ___.",
     answer: "lunes",
     say: "Trabajo el lunes.",
@@ -154,7 +157,8 @@ export const t01Items: Item[] = [
   {
     id: "WD-T01-V05",
     mode: "cloze",
-    instruction: "Complete the gap. Luis has an appointment on Monday.",
+    instruction: "Complete the gap",
+    context: "Luis has an appointment on Monday.",
     prompt: "Luis tiene una cita el ___.",
     answer: "lunes",
     say: "Luis tiene una cita el lunes.",
@@ -164,7 +168,8 @@ export const t01Items: Item[] = [
   {
     id: "WD-T01-V09",
     mode: "cloze",
-    instruction: "Complete the gap. The course starts on Mondays.",
+    instruction: "Complete the gap",
+    context: "The course starts on Mondays.",
     prompt: "El curso empieza los ___.",
     answer: "lunes",
     say: "El curso empieza los lunes.",

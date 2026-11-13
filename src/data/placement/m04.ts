@@ -6,7 +6,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “al lado de”.",
+    instruction: "Choose the English meaning of “al lado de”",
     prompt: "La mochila está al lado de la caja.",
     answer: "next to",
     choices: ["next to", "between", "far from"],
@@ -17,7 +17,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “entre”.",
+    instruction: "Choose the English meaning of “entre”",
     prompt: "La mochila está entre la silla y el armario.",
     answer: "between",
     choices: ["between", "next to", "behind"],
@@ -28,7 +28,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "next to",
     answer: "al lado de",
     accepted: ["junto a"],
@@ -39,7 +39,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "between",
     answer: "entre",
     say: "entre",
@@ -49,7 +49,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The cup is right next to the bed.",
+    instruction: "Complete the gap",
+    context: "The cup is right next to the bed.",
     prompt: "La taza está ___ la cama.",
     answer: "al lado de",
     accepted: ["junto a"],
@@ -63,7 +64,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The cup is between the window and the lamp.",
+    instruction: "Complete the gap",
+    context: "The cup is between the window and the lamp.",
     prompt: "La taza está ___ la ventana y la lámpara.",
     answer: "entre",
     say: "La taza está entre la ventana y la lámpara.",
@@ -73,7 +75,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is right next to the bench.",
+    instruction: "Complete the gap",
+    context: "The bag is right next to the bench.",
     prompt: "La bolsa está ___ banco.",
     answer: "al lado del",
     accepted: ["junto al"],
@@ -87,7 +90,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is between the cupboard and the sofa.",
+    instruction: "Complete the gap",
+    context: "The bag is between the cupboard and the sofa.",
     prompt: "La bolsa está ___ el armario y el sofá.",
     answer: "entre",
     say: "La bolsa está entre el armario y el sofá.",
@@ -97,7 +101,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: ticket = el billete.",
+    instruction: "Translate into Spanish",
+    context: "Words: ticket = el billete.",
     prompt: "The ticket is right next to the door.",
     answer: "El billete está al lado de la puerta.",
     accepted: ["El billete está junto a la puerta."],
@@ -112,7 +117,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: ticket = el billete; box = la caja.",
+    instruction: "Translate into Spanish",
+    context: "Words: ticket = el billete; box = la caja.",
     prompt: "The ticket is between the lamp and the box.",
     answer: "El billete está entre la lámpara y la caja.",
     say: "El billete está entre la lámpara y la caja.",
@@ -123,7 +129,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The book is right next to the sofa.",
     answer: "El libro está al lado del sofá.",
     accepted: ["El libro está junto al sofá."],
@@ -138,7 +144,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The book is between the sofa and the bed.",
     answer: "El libro está entre el sofá y la cama.",
     say: "El libro está entre el sofá y la cama.",
@@ -149,7 +155,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T08-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "El móvil está al lado de la mesa.",
     answer: "The phone is right next to the table.",
     choices: [
@@ -164,7 +170,7 @@ export const m04Items: Item[] = [
   {
     id: "SP-T09-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "El móvil está entre la caja y la maleta.",
     answer: "The phone is between the box and the suitcase.",
     choices: [
@@ -179,8 +185,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-M04-X01",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. You are looking at the bench. Words: backpack = la mochila; bench = el banco.",
+    instruction: "Translate into Spanish",
+    context: "You are looking at the bench. Words: backpack = la mochila; bench = el banco.",
     prompt: "The backpack is in front of the bench.",
     answer: "La mochila está delante del banco.",
     say: "La mochila está delante del banco.",
@@ -194,8 +200,8 @@ export const m04Items: Item[] = [
   {
     id: "SP-M04-X02",
     mode: "cloze",
-    instruction:
-      "Complete the gap. You are looking at the suitcase. The ticket is behind the suitcase.",
+    instruction: "Complete the gap",
+    context: "You are looking at the suitcase. The ticket is behind the suitcase.",
     prompt: "El billete está ___ la maleta.",
     answer: "detrás de",
     say: "El billete está detrás de la maleta.",
@@ -208,8 +214,9 @@ export const m04Items: Item[] = [
   {
     id: "SP-M04-X03",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. They face each other across the street. Words: library = la biblioteca; office = la oficina.",
+    instruction: "Translate into Spanish",
+    context:
+      "They face each other across the street. Words: library = la biblioteca; office = la oficina.",
     prompt: "The library is opposite the office.",
     answer: "La biblioteca está enfrente de la oficina.",
     accepted: ["La biblioteca está frente a la oficina."],

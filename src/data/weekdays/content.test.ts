@@ -167,8 +167,11 @@ describe("weekdays content", () => {
   it("shows every task apart from its sentence", () => {
     expect(weekdaysQuestions.filter((q) => !q.instruction).map((q) => q.id)).toEqual([]);
 
-    expect([question("WD-T01-E04").instruction, question("WD-T01-E04").prompt]).toEqual([
-      "Complete the gap. A displayed calendar says Monday, not the actual date.",
+    const q = question("WD-T01-E04");
+
+    expect([q.instruction, q.context, q.prompt]).toEqual([
+      "Complete the gap",
+      "A displayed calendar says Monday, not the actual date.",
       "Hoy es ___.",
     ]);
   });
@@ -181,7 +184,7 @@ describe("weekdays content", () => {
     expect(translations).toHaveLength(39);
 
     for (const q of translations) {
-      const task = [q.instruction!, q.prompt].map(normalize);
+      const task = [q.instruction!, q.context ?? "", q.prompt].map(normalize);
 
       for (const wording of [q.answer, ...(q.accepted ?? [])].map(normalize)) {
         expect(

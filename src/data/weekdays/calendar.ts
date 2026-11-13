@@ -171,7 +171,7 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G03",
     mode: "order",
-    instruction: "Put the days in order. Use each tile once.",
+    instruction: "Put the days in order, using each tile once",
     prompt: "The days of the week, starting with Monday",
     answer: "lunes martes miércoles jueves viernes sábado domingo",
     chunks: ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
@@ -181,7 +181,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G04-C01",
     mode: "cloze",
-    instruction: "Write the Spanish day. The week repeats.",
+    instruction: "Write the Spanish day",
+    context: "The week repeats.",
     prompt: "The day after Sunday",
     answer: "lunes",
     say: "lunes",
@@ -191,7 +192,8 @@ export const calendarItems: Item[] = [
   {
     id: "WD-G04-C02",
     mode: "cloze",
-    instruction: "Write the Spanish day. The week repeats.",
+    instruction: "Write the Spanish day",
+    context: "The week repeats.",
     prompt: "The day before Monday",
     answer: "domingo",
     say: "domingo",

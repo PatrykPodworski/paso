@@ -47,7 +47,7 @@ export const t06Items: Item[] = [
   {
     id: "WD-T06-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Saturday",
     answer: "sábado",
     say: "sábado",
@@ -57,7 +57,8 @@ export const t06Items: Item[] = [
   {
     id: "WD-T06-E04",
     mode: "cloze",
-    instruction: "Complete the gap. The displayed calendar says Saturday.",
+    instruction: "Complete the gap",
+    context: "The displayed calendar says Saturday.",
     prompt: "Hoy es ___.",
     answer: "sábado",
     say: "Hoy es sábado.",
@@ -108,7 +109,8 @@ export const t06Items: Item[] = [
   {
     id: "WD-T06-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo goes to the museum Saturday.",
+    instruction: "Complete the gap",
+    context: "Pablo goes to the museum Saturday.",
     prompt: "Pablo va al museo el ___.",
     answer: "sábado",
     say: "Pablo va al museo el sábado.",
@@ -129,7 +131,8 @@ export const t06Items: Item[] = [
   {
     id: "WD-T06-V09",
     mode: "cloze",
-    instruction: "Complete the gap. I work on Saturdays.",
+    instruction: "Complete the gap",
+    context: "I work on Saturdays.",
     prompt: "Trabajo los ___.",
     answer: "sábados",
     say: "Trabajo los sábados.",

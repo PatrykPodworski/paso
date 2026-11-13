@@ -6,7 +6,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “encima de”.",
+    instruction: "Choose the English meaning of “encima de”",
     prompt: "La taza está encima de la silla.",
     answer: "on top of or above",
     choices: ["on top of or above", "under", "inside"],
@@ -20,7 +20,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “debajo de”.",
+    instruction: "Choose the English meaning of “debajo de”",
     prompt: "La taza está debajo de la mesa.",
     answer: "under",
     choices: ["under", "on top of or above", "behind"],
@@ -31,7 +31,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "on top of or above",
     answer: "encima de",
     accepted: ["sobre"],
@@ -45,7 +45,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "under",
     answer: "debajo de",
     say: "debajo de",
@@ -55,7 +55,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is on top of the bed.",
+    instruction: "Complete the gap",
+    context: "The bag is on top of the bed.",
     prompt: "La bolsa está ___ la cama.",
     answer: "encima de",
     accepted: ["sobre", "en"],
@@ -69,7 +70,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The ticket is under the chair.",
+    instruction: "Complete the gap",
+    context: "The ticket is under the chair.",
     prompt: "El billete está ___ la silla.",
     answer: "debajo de",
     say: "El billete está debajo de la silla.",
@@ -82,7 +84,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The ticket is on top of the bench.",
+    instruction: "Complete the gap",
+    context: "The ticket is on top of the bench.",
     prompt: "El billete está ___ banco.",
     answer: "encima del",
     accepted: ["sobre el", "en el"],
@@ -96,7 +99,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is under the sofa.",
+    instruction: "Complete the gap",
+    context: "The bag is under the sofa.",
     prompt: "La bolsa está ___ sofá.",
     answer: "debajo del",
     say: "La bolsa está debajo del sofá.",
@@ -109,7 +113,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish. It does not touch the door.",
+    instruction: "Translate into Spanish",
+    context: "It does not touch the door.",
     prompt: "The book is above the door.",
     answer: "El libro está encima de la puerta.",
     accepted: ["El libro está sobre la puerta."],
@@ -124,7 +129,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The phone is under the bed.",
     answer: "El móvil está debajo de la cama.",
     accepted: ["El teléfono está debajo de la cama.", "El teléfono móvil está debajo de la cama."],
@@ -139,7 +144,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: backpack = la mochila.",
+    instruction: "Translate into Spanish",
+    context: "Words: backpack = la mochila.",
     prompt: "The backpack is on top of the sofa.",
     answer: "La mochila está encima del sofá.",
     accepted: ["La mochila está sobre el sofá.", "La mochila está en el sofá."],
@@ -154,7 +160,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: bench = el banco.",
+    instruction: "Translate into Spanish",
+    context: "Words: bench = el banco.",
     prompt: "The book is under the bench.",
     answer: "El libro está debajo del banco.",
     say: "El libro está debajo del banco.",
@@ -168,7 +175,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T04-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "El móvil está encima de la ventana.",
     answer: "The phone is above the window. It does not touch the window.",
     choices: [
@@ -186,7 +193,7 @@ export const m02Items: Item[] = [
   {
     id: "SP-T05-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "La mochila está debajo de la silla.",
     answer: "The backpack is under the chair.",
     choices: [
@@ -201,7 +208,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-M02-X01",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: bag = la bolsa; cupboard = el armario.",
+    instruction: "Translate into Spanish",
+    context: "Words: bag = la bolsa; cupboard = el armario.",
     prompt: "The bag is inside the cupboard.",
     answer: "La bolsa está dentro del armario.",
     accepted: ["La bolsa está en el armario."],
@@ -216,7 +224,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-M02-X02",
     mode: "cloze",
-    instruction: "Complete the gap. The cup is outside the backpack.",
+    instruction: "Complete the gap",
+    context: "The cup is outside the backpack.",
     prompt: "La taza está ___ la mochila.",
     answer: "fuera de",
     say: "La taza está fuera de la mochila.",
@@ -229,7 +238,8 @@ export const m02Items: Item[] = [
   {
     id: "SP-M02-X03",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: ticket = el billete.",
+    instruction: "Translate into Spanish",
+    context: "Words: ticket = el billete.",
     prompt: "The ticket is on the table.",
     answer: "El billete está en la mesa.",
     accepted: ["El billete está encima de la mesa.", "El billete está sobre la mesa."],

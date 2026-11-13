@@ -6,7 +6,7 @@ import {
   sectionSizes,
 } from "../../src/data/mock.ts";
 import { EXAM_PLAYS } from "../../src/data/audio.ts";
-import { CORRECTION_FIELDS, MAX_CORRECTIONS } from "./corrections.ts";
+import { CORRECTION_FIELDS, MAX_TALK_CORRECTIONS, MAX_TALK_ITEMS } from "./corrections.ts";
 import { REVIEW_WINDOWS } from "../../src/data/progress.ts";
 import type {
   Attempt,
@@ -38,7 +38,6 @@ const STAGES: MockStage[] = ["intro", "run", "review", "prep", "done"];
 const SKILLS: Skill[] = ["reading", "listening", "writing", "speaking"];
 const GRADES: Grade[] = ["perfect", "good", "bad"];
 const LEVELS: LiveItem[] = ["correct", "understandable", "missing"];
-const MAX_TALK_ITEMS = 20;
 const MAX_LABEL = 200;
 const DAY = /^[12]\d{3}-\d{2}-\d{2}$/;
 
@@ -231,7 +230,7 @@ const mapOf =
 
 const isStoredCorrections: Check = (value) =>
   Array.isArray(value) &&
-  value.length <= MAX_CORRECTIONS &&
+  value.length <= MAX_TALK_CORRECTIONS &&
   value.every(
     (correction: unknown) =>
       isRecord(correction) &&
@@ -345,27 +344,41 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["variants", isExamVariants],
   ["sections", isSections],
   ["resultId", isId],
+  // Set once, when the run starts; a later change cannot move a run to another id.
+  ["id", isId],
 ];
 
 // A question index is only valid within its section, so the two always travel together.
 const isPosition = (section: unknown, index: unknown) =>
   isCount(section, 0, sectionSizes.length - 1) && isCount(index, 0, sectionSizes[section] - 1);
 
+// The first invalid field of a change to the mock run, or null when every field is valid.
+export const mockRunFaultOf = (value: unknown): string | null => {
+  if (!isRecord(value)) {
+    return "run";
+  }
+
+  const moves = Object.hasOwn(value, "section") || Object.hasOwn(value, "index");
+
+  if (moves && !isPosition(value.section, value.index)) {
+    return "section";
+  }
+
+  const invalid = MOCK_FIELDS.find(
+    ([name, check]) => Object.hasOwn(value, name) && !check(value[name]),
+  );
+
+  return invalid?.[0] ?? null;
+};
+
 // The fields a change to the mock run sets, or null when one of them is invalid.
 export const mockRunPatchOf = (value: unknown): MockRunPatch | null => {
-  if (!isRecord(value)) {
+  if (!isRecord(value) || mockRunFaultOf(value) !== null) {
     return null;
   }
 
   const moves = Object.hasOwn(value, "section") || Object.hasOwn(value, "index");
   const present = MOCK_FIELDS.filter(([name]) => Object.hasOwn(value, name));
-
-  if (
-    (moves && !isPosition(value.section, value.index)) ||
-    !present.every(([name, check]) => check(value[name]))
-  ) {
-    return null;
-  }
 
   return Object.fromEntries([
     ...(moves ? ["section", "index"] : []).map((name) => [name, value[name]]),

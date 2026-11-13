@@ -36,6 +36,7 @@ describe("writing prompt", () => {
 
     expect(JSON.parse(user.content)).toEqual({
       task: letter.prompt,
+      sourceText: expect.stringContaining("El domingo quiero visitar tu ciudad"),
       kind: "letter",
       points: letter.points,
       wordRange: [30, 40],

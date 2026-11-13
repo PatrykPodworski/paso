@@ -36,7 +36,7 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Tuesday",
     answer: "martes",
     say: "martes",
@@ -46,7 +46,8 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-E04",
     mode: "cloze",
-    instruction: "Complete the gap. The class date is Tuesday in the displayed plan.",
+    instruction: "Complete the gap",
+    context: "The class date is Tuesday in the displayed plan.",
     prompt: "La clase es el ___.",
     answer: "martes",
     say: "La clase es el martes.",
@@ -85,7 +86,8 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo has a meeting on Tuesday.",
+    instruction: "Complete the gap",
+    context: "Pablo has a meeting on Tuesday.",
     prompt: "Pablo tiene una reunión el ___.",
     answer: "martes",
     say: "Pablo tiene una reunión el martes.",
@@ -114,7 +116,8 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I study on Tuesday.",
+    instruction: "Complete the gap",
+    context: "I study on Tuesday.",
     prompt: "Estudio el ___.",
     answer: "martes",
     say: "Estudio el martes.",
@@ -139,7 +142,8 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-V05",
     mode: "cloze",
-    instruction: "Complete the gap. Luis comes on Tuesday.",
+    instruction: "Complete the gap",
+    context: "Luis comes on Tuesday.",
     prompt: "Luis viene el ___.",
     answer: "martes",
     say: "Luis viene el martes.",
@@ -170,7 +174,8 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-V11",
     mode: "cloze",
-    instruction: "Complete the gap. The shop opens on Tuesdays.",
+    instruction: "Complete the gap",
+    context: "The shop opens on Tuesdays.",
     prompt: "La tienda abre los ___.",
     answer: "martes",
     say: "La tienda abre los martes.",
@@ -180,7 +185,8 @@ export const t02Items: Item[] = [
   {
     id: "WD-T02-N08",
     mode: "cloze",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "You have class every Tuesday.",
     answer: "Tienes clase los martes.",
     accepted: [

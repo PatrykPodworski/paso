@@ -1,6 +1,26 @@
 import { expect, it } from "vitest";
 import sources from "../../data/audio-sources.json";
+import { courseUnitNumber, pathUnitNumber } from "../../data/path";
 import { audioAssets, audioSourceNames } from "./audioAssets";
+
+// Clip groups take the path number of their unit, which moves when a set unit joins the path
+// before it.
+const unit = (course: number) => `Unit ${courseUnitNumber(course)}`;
+const setUnit = (name: string, id: string) => `${name} · Unit ${pathUnitNumber(id)}`;
+
+const SET_GROUPS = [
+  setUnit("Asking questions", "aq-u1"),
+  setUnit("Asking questions", "aq-u2"),
+  setUnit("Asking questions", "aq-u3"),
+  setUnit("Asking questions", "aq-u4"),
+  setUnit("Weekdays", "wd-u1"),
+  setUnit("Weekdays", "wd-u2"),
+  setUnit("Where things are", "pl-u1"),
+  setUnit("Where things are", "pl-u2"),
+  setUnit("Where things are", "pl-u3"),
+  setUnit("Time words", "tm-u1"),
+  setUnit("Time words", "tm-u2"),
+];
 
 it("lists every generated clip once, under the unit or collection that speaks it", () => {
   expect(audioAssets).toHaveLength(Object.keys(sources).length);
@@ -10,7 +30,7 @@ it("lists every generated clip once, under the unit or collection that speaks it
     id: "audio:v6yukl",
     text: "la cocina",
     src: "/audio/voxcpm/401bff33039f205fe74afd37.mp3",
-    source: "Unit 4",
+    source: unit(4),
   });
 
   expect(audioAssets.find((a) => a.text === "el escritorio")?.source).toBe("Topic flashcards");
@@ -30,29 +50,8 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
   const order = [...new Set(audioAssets.map((a) => a.source))];
 
   expect(order).toEqual([
-    "Unit 1",
-    "Unit 2",
-    "Unit 3",
-    "Unit 4",
-    "Unit 8",
-    "Unit 13",
-    "Unit 14",
-    "Unit 15",
-    "Unit 16",
-    "Unit 19",
-    "Unit 21",
-    "Unit 23",
-    "Asking questions · Unit 17",
-    "Asking questions · Unit 18",
-    "Asking questions · Unit 20",
-    "Asking questions · Unit 22",
-    "Weekdays · Unit 9",
-    "Weekdays · Unit 10",
-    "Where things are · Unit 5",
-    "Where things are · Unit 6",
-    "Where things are · Unit 7",
-    "Time words · Unit 11",
-    "Time words · Unit 12",
+    ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(unit),
+    ...SET_GROUPS,
     "Mock exam",
     "Foundations",
     "Topic flashcards",
@@ -61,19 +60,10 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
 });
 
 it("offers every practice set's units after the course units", () => {
-  expect(audioSourceNames.slice(11, 24)).toEqual([
-    "Unit 23",
-    "Asking questions · Unit 17",
-    "Asking questions · Unit 18",
-    "Asking questions · Unit 20",
-    "Asking questions · Unit 22",
-    "Weekdays · Unit 9",
-    "Weekdays · Unit 10",
-    "Where things are · Unit 5",
-    "Where things are · Unit 6",
-    "Where things are · Unit 7",
-    "Time words · Unit 11",
-    "Time words · Unit 12",
+  expect(audioSourceNames.slice(11, 25)).toEqual([
+    unit(12),
+    ...SET_GROUPS,
+    setUnit("Numbers", "nu-u1"),
     "Mock exam",
   ]);
 });

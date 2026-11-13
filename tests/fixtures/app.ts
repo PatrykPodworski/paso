@@ -1,5 +1,6 @@
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
 import { allLessons } from "../../src/data/curriculum";
+import { courseUnitNumber } from "../../src/data/path";
 import { mockQuestions } from "../../src/data/mock";
 import type { ProgressSnapshot, Question } from "../../src/data/types";
 import { answerTalk } from "./live";
@@ -84,7 +85,8 @@ export const stabilise = async (page: Page) => {
 export const openLesson = async (page: Page, index: number, resumeAt = 0) => {
   await page.goto("/path");
   const lesson = allLessons[index];
-  const unit = page.locator(".unit-card").nth(Math.floor(index / 4));
+  // Set units sit between the course units, so the card is found by the unit's path number.
+  const unit = page.locator(".unit-card").nth(courseUnitNumber(Math.floor(index / 4) + 1) - 1);
 
   if ((await unit.locator(".unit-summary").getAttribute("aria-expanded")) !== "true") {
     await unit.locator(".unit-summary").click();

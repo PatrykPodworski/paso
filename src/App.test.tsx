@@ -2,7 +2,8 @@ import { act, cleanup, fireEvent, screen, within } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { changeUrl, renderApp } from "./test/renderApp";
 import { allLessons, allQuestions, units } from "./data/curriculum";
-import { pathExerciseCount, pathLessons, pathUnits } from "./data/path";
+import { pathExerciseCount, pathLessons, pathUnitNumber, pathUnits } from "./data/path";
+import { numbersUnits } from "./data/numbers/numbers";
 import { placementLessons } from "./data/placement/placement";
 import { timeWordsLessons } from "./data/time-words/timeWords";
 import { weekdaysLessons } from "./data/weekdays/weekdays";
@@ -427,12 +428,19 @@ it("moves from a finished lesson straight to the next one on the path", async ()
   expect((await saved()).completed[allLessons[0].id]).toMatchObject({ score: 3, total: 4 });
 });
 
+// A unit's label on the path, such as "UNIT 05": the number moves when a set unit joins the
+// path before it, so the tests read it from the path.
+const unitLabel = (id: string) => `UNIT ${String(pathUnitNumber(id)).padStart(2, "0")}`;
+
 it("shows the first Asking questions unit on the path and opens its first lesson", async () => {
   await mount("path");
-  const card = screen.getByRole("button", { name: /UNIT 17 · Part 1 of 4/ });
+
+  const card = screen.getByRole("button", {
+    name: new RegExp(`${unitLabel("aq-u1")} · Part 1 of 4`),
+  });
 
   expect(card).toHaveTextContent(
-    "UNIT 17 · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons",
+    `${unitLabel("aq-u1")} · Part 1 of 4Asking questionsqué, cómo, dónde, cuándo3 lessons`,
   );
 
   fireEvent.click(card);
@@ -442,7 +450,7 @@ it("shows the first Asking questions unit on the path and opens its first lesson
 
 it("moves from the last lesson of course unit 9 to the first Asking questions lesson", async () => {
   await mount("path");
-  fireEvent.click(screen.getByRole("button", { name: /UNIT 16 · / }));
+  fireEvent.click(screen.getByRole("button", { name: new RegExp(`${unitLabel("u9")} · `) }));
   fireEvent.click(screen.getByRole("button", { name: new RegExp(units[8].lessons.at(-1)!.title) }));
   act(() => session.onComplete(1, 1));
   act(() => session.onNext!());
@@ -504,11 +512,11 @@ it("keeps old unknown mistake references safe and dismisses the notice", async (
 it("shows the first three units on Today", async () => {
   await mount();
 
-  for (const title of ["¡Hola, mundo!", "This is me", "My favorite people"]) {
+  for (const title of ["¡Hola, mundo!", "This is me", "Numbers"]) {
     expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
   }
 
-  expect(screen.queryByRole("heading", { name: "A place called home" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: "My favorite people" })).not.toBeInTheDocument();
 });
 
 const finishLessons = (p: ProgressSeed, lessons: { id: string }[]) => {
@@ -522,24 +530,24 @@ const finishLessons = (p: ProgressSeed, lessons: { id: string }[]) => {
 it("starts Your learning path at the current unit, expanded", async () => {
   await mount(
     "today",
-    finishLessons(
-      progressSeed(),
-      units.slice(0, 4).flatMap((u) => u.lessons),
-    ),
+    finishLessons(progressSeed(), [
+      ...units.slice(0, 4).flatMap((u) => u.lessons),
+      ...numbersUnits.filter((u) => u.after < 4).flatMap((u) => u.lessons),
+    ]),
   );
 
   const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
 
-  expect(summaries.map((s) => s.textContent?.slice(0, 7))).toEqual([
-    "UNIT 05",
-    "UNIT 06",
-    "UNIT 07",
-  ]);
+  expect(summaries.map((s) => s.textContent?.slice(0, 7))).toEqual(
+    ["pl-u1", "pl-u2", "pl-u3"].map(unitLabel),
+  );
 
   expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
 
   expect(
-    screen.getByRole("button", { name: `${pathUnits.length - 7} more units on your path` }),
+    screen.getByRole("button", {
+      name: `${pathUnits.length - pathUnitNumber("pl-u3")!} more units on your path`,
+    }),
   ).toBeInTheDocument();
 });
 
@@ -549,21 +557,24 @@ it("starts Your learning path at a set unit when it holds the journey lesson", a
     finishLessons(progressSeed(), [
       ...units.slice(0, 5).flatMap((u) => u.lessons),
       ...placementLessons,
+      ...numbersUnits.flatMap((u) => u.lessons),
     ]),
   );
 
   const summaries = screen.getAllByRole("button", { name: /^UNIT \d+/ });
 
   expect(summaries.map((s) => s.textContent?.slice(0, 22))).toEqual([
-    "UNIT 09 · Part 1 of 2W",
-    "UNIT 10 · Part 2 of 2W",
-    "UNIT 11 · Part 1 of 2T",
+    `${unitLabel("wd-u1")} · Part 1 of 2W`,
+    `${unitLabel("wd-u2")} · Part 2 of 2W`,
+    `${unitLabel("tm-u1")} · Part 1 of 2T`,
   ]);
 
   expect(summaries[0]).toHaveAttribute("aria-expanded", "true");
 
   expect(
-    screen.getByRole("button", { name: `${pathUnits.length - 11} more units on your path` }),
+    screen.getByRole("button", {
+      name: `${pathUnits.length - pathUnitNumber("tm-u1")!} more units on your path`,
+    }),
   ).toBeInTheDocument();
 });
 
@@ -618,6 +629,7 @@ it.each([
   ["practice/weekdays", "Weekdays."],
   ["practice/placement", "Where things are."],
   ["practice/time-words", "Time words."],
+  ["practice/numbers", "Numbers."],
 ])("shows exactly one main view for #%s", async (page, title) => {
   const { container } = await mount(page);
 
@@ -701,7 +713,7 @@ it("opens the placement page from the practice studio and counts pl-m01 on the p
 
   expect(window.location.pathname).toBe("/practice/placement");
 
-  expect(screen.getByRole("region", { name: "Unit 5" })).toHaveTextContent(
+  expect(screen.getByRole("region", { name: `Unit ${pathUnitNumber("pl-u1")}` })).toHaveTextContent(
     "In, inside and outside",
   );
 
@@ -754,6 +766,38 @@ it("opens the time-words page from the practice studio and counts M01 on the pat
   await settle();
 
   expect(screen.getByRole("button", { name: /Today/ })).toHaveTextContent("Last score 17/18");
+});
+
+it("opens the numbers page from the practice studio and counts M01 on the path", async () => {
+  await mount("practice");
+
+  expect(screen.getByRole("button", { name: /Numbers/ })).toHaveTextContent(
+    `${numbersUnits.flatMap((u) => u.lessons).length} lessons · cero to cien, two or three at a time`,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: /Numbers/ }));
+  await settle();
+
+  expect(window.location.pathname).toBe("/practice/numbers");
+  fireEvent.click(screen.getByRole("button", { name: /Zero and one/ }));
+
+  expect(session.lesson.id).toBe("nu-m01");
+  act(() => session.onComplete(13, 14));
+  await settle();
+
+  expect((await saved()).completed).toMatchObject({ "nu-m01": { score: 13, total: 14 } });
+
+  changeUrl("/path");
+  await settle();
+
+  expect(screen.getByText(oneLessonDone)).toBeInTheDocument();
+
+  changeUrl("/practice/numbers");
+  await settle();
+
+  expect(screen.getByRole("button", { name: /Zero and one/ })).toHaveTextContent(
+    "Last score 13/14",
+  );
 });
 
 it("switches pages without retaining a previous main view", async () => {

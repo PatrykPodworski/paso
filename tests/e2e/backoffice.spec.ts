@@ -1,4 +1,5 @@
 import { test, expect } from "../fixtures/app";
+import { courseUnitNumber } from "../../src/data/path";
 
 test("the backoffice opens unit 1's live talk without the tasks before it", async ({ page }) => {
   await page.goto("/backoffice");
@@ -32,7 +33,8 @@ test("the backoffice flags clips and pictures by keyboard and copies their ids",
   await page.goto("/backoffice");
 
   await page.getByRole("tab", { name: /Audio/ }).click();
-  await page.getByRole("combobox", { name: "Unit" }).selectOption("Unit 4");
+  // la cocina is a course unit 4 clip, listed under that unit's path number.
+  await page.getByRole("combobox", { name: "Unit" }).selectOption(`Unit ${courseUnitNumber(4)}`);
   await page.getByRole("searchbox", { name: "Search" }).fill("v6yukl");
   await page.getByRole("checkbox", { name: "Flawed: la cocina" }).press("Space");
   await expect(page.getByText(/^1 of \d+ shown · 1 flagged$/)).toBeVisible();

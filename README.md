@@ -51,6 +51,9 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
 - **Time words**, a practice set in the practice studio: sixteen everyday time
   words in Spanish, from hoy to hasta, one new word per lesson, with choices,
   typed words and sentences.
+- **Numbers**, a practice set in the practice studio: the Spanish numbers from
+  cero to cien, two or three new ones per lesson, with choices, typed numbers,
+  sentence gaps, translations, sequences, sums and phone numbers.
 - **113 vocabulary cards** you can search, flip and hear, each with its own
   memory hint: a familiar English word, a useful translated phrase, a breakdown
   of the word, or a distinction from a Spanish word it gets confused with. The

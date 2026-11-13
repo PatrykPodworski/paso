@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { askingLessons, askingUnits } from "../../data/asking-questions/askingQuestions";
 import { allLessons, units } from "../../data/curriculum";
 import { mockQuestions } from "../../data/mock";
+import { pathUnitNumber } from "../../data/path";
 import { practiceSets, setLessons } from "../../data/practice-sets/index";
 import type { Lesson } from "../../data/types";
 import { BackofficePage } from "./BackofficePage";
@@ -20,6 +21,9 @@ const setRows = rowsOf(setLessons);
 
 const setUnits = practiceSets.flatMap((s) => s.units).filter((u) => u.lessons.length).length;
 
+// A set group's heading, numbered by where the unit sits on the path.
+const setGroup = (name: string, id: string) => `${name} · Unit ${pathUnitNumber(id)}`;
+
 it("lists every question of every unit, every practice set and the mock exam, grouped by unit", () => {
   const { container } = render(<BackofficePage setSession={() => {}} />);
 
@@ -30,19 +34,20 @@ it("lists every question of every unit, every practice set and the mock exam, gr
   expect(groups.slice(0, 2)).toEqual(["Unit 1 · ¡Hola, mundo!", "Unit 2 · This is me"]);
   expect(groups).toHaveLength(units.length + setUnits + 1);
 
-  expect(groups.slice(-13)).toEqual([
-    "Unit 23 · Ready for your next chapter",
-    "Asking questions · Unit 17",
-    "Asking questions · Unit 18",
-    "Asking questions · Unit 20",
-    "Asking questions · Unit 22",
-    "Weekdays · Unit 9",
-    "Weekdays · Unit 10",
-    "Where things are · Unit 5",
-    "Where things are · Unit 6",
-    "Where things are · Unit 7",
-    "Time words · Unit 11",
-    "Time words · Unit 12",
+  expect(groups.slice(-14)).toEqual([
+    `Unit ${pathUnitNumber("u12")} · Ready for your next chapter`,
+    setGroup("Asking questions", "aq-u1"),
+    setGroup("Asking questions", "aq-u2"),
+    setGroup("Asking questions", "aq-u3"),
+    setGroup("Asking questions", "aq-u4"),
+    setGroup("Weekdays", "wd-u1"),
+    setGroup("Weekdays", "wd-u2"),
+    setGroup("Where things are", "pl-u1"),
+    setGroup("Where things are", "pl-u2"),
+    setGroup("Where things are", "pl-u3"),
+    setGroup("Time words", "tm-u1"),
+    setGroup("Time words", "tm-u2"),
+    setGroup("Numbers", "nu-u1"),
     "Mock exam",
   ]);
 
@@ -93,7 +98,7 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   let lesson: Lesson | undefined;
 
   render(<BackofficePage setSession={(l) => (lesson = l)} />);
-  const set = within(screen.getByRole("region", { name: "Asking questions · Unit 17" }));
+  const set = within(screen.getByRole("region", { name: setGroup("Asking questions", "aq-u1") }));
   const rows = set.getAllByRole("button");
 
   expect(rows).toHaveLength(rowsOf(askingUnits[0].lessons));
@@ -109,5 +114,5 @@ it("lists the set's lessons in written order, teaching cards included, and opens
   fireEvent.click(rows[0]);
   expect(lesson?.questions.map((q) => q.id)).toEqual(["AQ-M01-INTRO"]);
   expect(lesson?.title).toBe("What and how");
-  expect(lesson?.subtitle).toBe("Asking questions · Unit 17");
+  expect(lesson?.subtitle).toBe(setGroup("Asking questions", "aq-u1"));
 });

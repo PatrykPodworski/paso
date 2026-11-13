@@ -100,7 +100,7 @@ it("loads the result's responses when it opens and shows each section kind", asy
   ]);
 
   expect(group("Writing")).toContain("Nombre: Bruno\nCiudad: GdańskMark 2/3");
-  expect(group("Writing")).toContain("Your friend Jorge writes:");
+  expect(group("Writing")).toContain("Read your friend Jorge's message.");
   expect(group("Writing")).toContain("Nothing submitted");
 
   expect(group("Speaking")).toContain(

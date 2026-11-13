@@ -47,7 +47,8 @@ describe("writing tasks", () => {
       id: "mock-w2",
       kind: "write",
       exam: true,
-      prompt: expect.stringContaining("Your friend Jorge writes"),
+      prompt: expect.stringContaining("Read your friend Jorge's message"),
+      sourceText: expect.stringContaining("El domingo quiero visitar tu ciudad"),
       points: [
         "I greeted Jorge.",
         "I answered his invitation.",

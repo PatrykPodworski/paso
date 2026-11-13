@@ -13,6 +13,7 @@ import {
   MAX_NAME,
   MAX_TOTAL,
   mockResultOf,
+  mockRunFaultOf,
   mockRunPatchOf,
   reviewOf,
   timeZoneOf,
@@ -35,9 +36,14 @@ import {
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 type Write = (db: Db, learner: string) => Promise<object>;
+// Why a request is refused. The detail goes to the log only.
+type Refusal = { error: string; status: number; detail?: string };
 
 // Each action checks its body and returns the write, or the first invalid field.
-const actions: Record<string, (body: Record<string, unknown>) => Write | string> = {
+const actions: Record<
+  string,
+  (body: Record<string, unknown>) => Write | string | Omit<Refusal, "status">
+> = {
   attempt: ({ attempt, timeZone }) => {
     const a = attemptOf(attempt);
 
@@ -123,7 +129,7 @@ const actions: Record<string, (body: Record<string, unknown>) => Write | string>
     const patch = mockRunPatchOf(run);
 
     if (!patch) {
-      return "run";
+      return { error: "run", detail: mockRunFaultOf(run) ?? "" };
     }
 
     if (!(replace === undefined || typeof replace === "boolean")) {
@@ -177,15 +183,10 @@ export const progressLimit = async (request: Request) => {
   return allowed ? null : json({ error: "rate" }, 429);
 };
 
-type Refusal = { error: string; status: number };
+// What the log says about a request, so a failed save can be traced.
+type Context = { method: string; learner: string; bytes?: number; action?: string };
 
-const bodyOf = async (request: Request) => {
-  const raw = await request.arrayBuffer();
-
-  if (raw.byteLength > MAX_BODY) {
-    return "too_large";
-  }
-
+const parsed = (raw: ArrayBuffer) => {
   try {
     return JSON.parse(new TextDecoder().decode(raw)) as unknown;
   } catch {
@@ -194,23 +195,33 @@ const bodyOf = async (request: Request) => {
 };
 
 // The write a POST body asks for, or why it is refused.
-const writeOf = async (request: Request): Promise<Write | Refusal> => {
-  const body = await bodyOf(request);
+const writeOf = async (request: Request, context: Context): Promise<Write | Refusal> => {
+  const raw = await request.arrayBuffer();
 
-  if (body === "too_large") {
+  context.bytes = raw.byteLength;
+
+  if (raw.byteLength > MAX_BODY) {
     return { error: "too_large", status: 413 };
   }
+
+  const body = parsed(raw);
 
   if (!isRecord(body)) {
     return { error: "body", status: 400 };
   }
 
-  const action =
-    typeof body.action === "string" && Object.hasOwn(actions, body.action)
-      ? actions[body.action](body)
-      : "action";
+  if (typeof body.action !== "string" || !Object.hasOwn(actions, body.action)) {
+    return { error: "action", status: 400 };
+  }
 
-  return typeof action === "string" ? { error: action, status: 400 } : action;
+  context.action = body.action;
+  const action = actions[body.action](body);
+
+  if (typeof action === "function") {
+    return action;
+  }
+
+  return typeof action === "string" ? { error: action, status: 400 } : { ...action, status: 400 };
 };
 
 // The read a GET asks for: the snapshot, or with ?result=<id> one result's responses.
@@ -226,6 +237,23 @@ const readOf = (request: Request): Write | Refusal => {
     : { error: "result", status: 400 };
 };
 
+// One line per failed request: the client sees only the error code, so the log is where a
+// failed save is diagnosed.
+const logFailure = (context: Context, status: number, error: unknown, detail?: string) =>
+  console.error("Progress request failed", {
+    endpoint: "/api/progress",
+    status,
+    ...context,
+    error: error instanceof Error ? error.message : error,
+    ...(detail ? { detail } : {}),
+  });
+
+const refusal = (context: Context, { error, status, detail }: Refusal) => {
+  logFailure(context, status, error, detail);
+
+  return json({ error }, status);
+};
+
 // GET returns the learner's snapshot, or one rehearsal result's responses; POST
 // { action, ... } writes and returns the fresh snapshot.
 export const handleProgress = async (
@@ -233,47 +261,59 @@ export const handleProgress = async (
   db: Db,
   limit: (request: Request) => Promise<Response | null>,
 ) => {
+  const learner = request.headers.get("x-learner-id") ?? "";
+
+  // A header that is not an id stays out of the log.
+  const context: Context = {
+    method: request.method,
+    learner: UUID.test(learner) ? learner.toLowerCase() : "invalid",
+  };
+
   const refused = await limit(request);
 
   if (refused) {
-    return refused;
+    return refusal(context, { error: "rate", status: refused.status });
   }
 
-  const learner = request.headers.get("x-learner-id") ?? "";
-
   if (!UUID.test(learner)) {
-    return json({ error: "learner" }, 400);
+    return refusal(context, { error: "learner", status: 400 });
   }
 
   const handler =
     request.method === "POST"
-      ? await writeOf(request)
+      ? await writeOf(request, context)
       : request.method === "GET"
         ? readOf(request)
         : { error: "method", status: 405 };
 
   if ("error" in handler) {
-    return json({ error: handler.error }, handler.status);
+    return refusal(context, handler);
   }
 
-  const result = await handler(db, learner.toLowerCase());
+  try {
+    const result = await handler(db, learner.toLowerCase());
 
-  // A write for another run than the current one: the client drops it.
-  if ("stale" in result) {
-    console.error("Progress request failed", {
-      endpoint: "/api/progress",
-      status: 409,
-      method: request.method,
-      learner: learner.toLowerCase(),
-      action: "mockRun",
-      error: "stale_run",
-      detail: result.stale,
-    });
+    // A write for another run than the current one: the client drops it.
+    if ("stale" in result) {
+      console.error("Progress request failed", {
+        endpoint: "/api/progress",
+        status: 409,
+        method: request.method,
+        learner: learner.toLowerCase(),
+        action: "mockRun",
+        error: "stale_run",
+        detail: result.stale,
+      });
 
-    return json({ error: "stale_run" }, 409);
+      return json({ error: "stale_run" }, 409);
+    }
+
+    return json(result, 200);
+  } catch (error) {
+    logFailure(context, 500, error);
+
+    return json({ error: "server" }, 500);
   }
-
-  return json(result, 200);
 };
 
 const handle = (request: Request) => {

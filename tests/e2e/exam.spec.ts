@@ -1,5 +1,5 @@
-import { test, expect, answer, resumeMockExam, saved } from "../fixtures/app";
-import { mockLiveTalk } from "../fixtures/live";
+import { test, expect, answer, resumeMockExam, saved, seedProgress } from "../fixtures/app";
+import { mockLiveTalk, talkToLucia } from "../fixtures/live";
 import { mockWritingReview } from "../fixtures/writing";
 import { examSections, firstVariants, mockTasks } from "../../src/data/mock";
 import { shownOptions } from "../../src/data/optionOrder";
@@ -435,4 +435,55 @@ test("typed writing and speaking scores are kept after a reload", async ({ page 
   await expect(page.getByRole("spinbutton", { name: "Writing score /25" })).toHaveValue("18.5");
   await expect(page.getByRole("spinbutton", { name: "Speaking score /25" })).toHaveValue("14");
   await expect(page.getByText(/At least one group is below/)).toBeVisible();
+});
+
+// #806: the run was saved at speaking Task 3, and Lucía's score of that talk has a fix for
+// an item below correct on top of eight other corrections.
+test("an exam reopened at speaking Task 3 keeps a long talk score and saves its result", async ({
+  page,
+}) => {
+  const talk = (level: "correct" | "understandable") => ({
+    grade: "good" as const,
+    items: [{ id: "name", label: "Name", level }],
+  });
+
+  const corrections = Array.from({ length: 9 }, (_, i) => ({
+    original: `error ${i}`,
+    corrected: `fix ${i}`,
+    explanation: "Explained.",
+  }));
+
+  const task3 = { ...talk("understandable"), corrections };
+
+  await mockLiveTalk(page, task3);
+
+  await seedProgress(page, {
+    mockRun: {
+      section: 3,
+      index: 2,
+      stage: "run",
+      answers: {},
+      deadline: Date.now() + 10 * 60000,
+      started: new Date().toISOString(),
+      drafts: {},
+      topic: "home",
+      talks: { "mock-s1": talk("correct"), "mock-s2": talk("correct") },
+    },
+  });
+
+  await page.goto("/exam");
+
+  const prompt = examSections(firstVariants)[3].questions[2].prompt;
+
+  await expect(page.getByRole("heading", { name: prompt, exact: true })).toBeVisible();
+  await talkToLucia(page);
+
+  await expect.poll(async () => (await saved(page)).mockRun?.talks["mock-s3"]).toEqual(task3);
+  await expect(page.getByRole("dialog", { name: "Progress not saved" })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("button", { name: "Finish & review", exact: true }).click();
+  await page.getByRole("button", { name: "See my results", exact: true }).click();
+
+  await expect.poll(async () => (await saved(page)).mockResults).toHaveLength(1);
 });

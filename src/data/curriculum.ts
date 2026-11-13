@@ -10,6 +10,7 @@ type Seed = {
   goals: string[];
   tip: string;
   example: string;
+  // [prompt, answer, option, option, explanation, Spanish to say?, instruction?]
   grammar: string[][];
   reading: string;
   read: string[][];
@@ -492,12 +493,13 @@ const seeds: Seed[] = [
     example: "Me levanto a las siete y desayuno a las ocho.",
     grammar: [
       [
-        "Son las tres y media. What time is it?",
+        "Son las tres y media.",
         "3:30",
         "3:15",
         "2:30",
         "Y media means half past. Y cuarto is quarter past; menos cuarto is quarter to.",
         "Son las tres y media.",
+        "What time is it?",
       ],
       [
         "Yo ___ a las siete. (get up)",
@@ -756,12 +758,13 @@ const seeds: Seed[] = [
         "Use ir a for a destination. A la does not contract; only a + el becomes al.",
       ],
       [
-        "A sign says “No fumar”. What does it mean?",
+        "No fumar.",
         "No smoking.",
         "No entry.",
         "No parking.",
         "Fumar means to smoke. The infinitive appears in brief public prohibitions.",
         "No fumar.",
+        "What does this sign mean?",
       ],
     ],
     reading:
@@ -970,11 +973,13 @@ const seeds: Seed[] = [
         "Pero introduces a contrast. Porque gives a reason and también means also.",
       ],
       [
-        "¿Quieres ir al cine? Choose a polite acceptance.",
+        "¿Quieres ir al cine?",
         "Sí, gracias. Buena idea.",
         "No entiendo la palabra.",
         "Soy profesor.",
         "Sí, gracias. Buena idea accepts the invitation. The others do not answer it.",
+        "",
+        "Choose a polite acceptance",
       ],
       [
         "Ellos ___ en una escuela.",
@@ -1325,12 +1330,13 @@ const seeds: Seed[] = [
         "Age uses tener. The letter ñ in años is essential; anos is a different word.",
       ],
       [
-        "A message says “No puedo ir el lunes. ¿El martes?” When is the proposed meeting?",
+        "No puedo ir el lunes. ¿El martes?",
         "Tuesday.",
         "Monday.",
         "Sunday.",
         "The speaker rejects Monday with no puedo and proposes el martes, Tuesday.",
         "No puedo ir el lunes. ¿El martes?",
+        "When does this message propose to meet?",
       ],
     ],
     reading:
@@ -1441,6 +1447,7 @@ export const units: Unit[] = seeds.map((s, ui) => {
     id: `${uid}-g${i}`,
     kind: "choice",
     skill: "reading",
+    instruction: g[6],
     prompt: g[0],
     answer: g[1],
     pronunciation:
@@ -1684,18 +1691,22 @@ export const foundations: Question[] = [
     "Quién asks who; dónde asks where; cuánto asks how much.",
   ],
   [
-    "Complete: Hay ___ libros. (many)",
+    "Hay ___ libros. (many)",
     "muchos",
     "mucho",
     "muy",
     "Muchos agrees with masculine plural libros. Muy modifies adjectives or adverbs.",
+    "",
+    "Complete the gap",
   ],
   [
-    "Complete: La casa es ___ pequeña. (very)",
+    "La casa es ___ pequeña. (very)",
     "muy",
     "muchas",
     "muchos",
     "Muy modifies an adjective: muy pequeña. Mucho varies when quantifying nouns.",
+    "",
+    "Complete the gap",
   ],
   [
     "“¿Por qué estudias?” asks for…",
@@ -1729,18 +1740,22 @@ export const foundations: Question[] = [
     "Mil quinientos.",
   ],
   [
-    "Complete: Tú ___ agua.",
+    "Tú ___ agua.",
     "bebes",
     "bebe",
     "bebemos",
     "For regular -er verbs, tú uses -es: bebes.",
+    "",
+    "Complete the gap",
   ],
   [
-    "Complete: Ellas ___ en Madrid.",
+    "Ellas ___ en Madrid.",
     "viven",
     "vivimos",
     "vive",
     "Ellas uses the third-person plural -en ending: viven.",
+    "",
+    "Complete the gap",
   ],
   [
     "Which phrase asks the meaning of a word?",
@@ -1761,16 +1776,11 @@ export const foundations: Question[] = [
   id: `foundation-${i}`,
   kind: "choice",
   skill: "reading",
+  instruction: r[6],
   prompt: r[0],
   answer: r[1],
   pronunciation:
-    r[5] ||
-    (r[0].includes("___")
-      ? r[0]
-          .replace("___", r[1])
-          .replace(/^Complete: /, "")
-          .replace(/\s*\([^)]*\)/g, "")
-      : r[1]),
+    r[5] || (r[0].includes("___") ? r[0].replace("___", r[1]).replace(/\s*\([^)]*\)/g, "") : r[1]),
   options: r.slice(1, 4),
   explanation: r[4],
 }));
@@ -1781,7 +1791,8 @@ export const visualQuestions: Question[] = [
     kind: "choice",
     skill: "reading",
     image: "cafe",
-    prompt: "Look at the café illustration. ¿Qué hay sobre la mesa?",
+    instruction: "Look at the café illustration",
+    prompt: "¿Qué hay sobre la mesa?",
     answer: "Un café y pan.",
     options: ["Un teléfono y libros.", "Un café y pan.", "Un billete y una maleta."],
     explanation:
@@ -1792,7 +1803,8 @@ export const visualQuestions: Question[] = [
     kind: "choice",
     skill: "reading",
     image: "cafe",
-    prompt: "Look at the café illustration. ¿Dónde está el árbol?",
+    instruction: "Look at the café illustration",
+    prompt: "¿Dónde está el árbol?",
     answer: "A la derecha del café.",
     options: ["A la derecha del café.", "Dentro del café.", "A la izquierda del café."],
     explanation:
@@ -1803,7 +1815,8 @@ export const visualQuestions: Question[] = [
     kind: "choice",
     skill: "reading",
     image: "town",
-    prompt: "Use the neighborhood illustration. ¿Qué edificio está a la izquierda del banco?",
+    instruction: "Use the neighborhood illustration",
+    prompt: "¿Qué edificio está a la izquierda del banco?",
     answer: "La farmacia.",
     options: ["La estación.", "El hotel.", "La farmacia."],
     explanation:
@@ -1814,7 +1827,8 @@ export const visualQuestions: Question[] = [
     kind: "choice",
     skill: "reading",
     image: "town",
-    prompt: "Use the neighborhood illustration. ¿Dónde está la estación?",
+    instruction: "Use the neighborhood illustration",
+    prompt: "¿Dónde está la estación?",
     answer: "A la derecha del banco.",
     options: ["A la izquierda del banco.", "A la derecha del banco.", "Dentro de la farmacia."],
     explanation:
@@ -1825,7 +1839,8 @@ export const visualQuestions: Question[] = [
     kind: "choice",
     skill: "reading",
     image: "train",
-    prompt: "Look at the picture. ¿Qué medio de transporte ves?",
+    instruction: "Look at the picture",
+    prompt: "¿Qué medio de transporte ves?",
     answer: "Un tren.",
     options: ["Un avión.", "Un autobús.", "Un tren."],
     explanation:
@@ -1836,7 +1851,8 @@ export const visualQuestions: Question[] = [
     kind: "choice",
     skill: "reading",
     image: "train",
-    prompt: "Read the station sign in the picture. ¿Qué ciudad aparece?",
+    instruction: "Read the station sign in the picture",
+    prompt: "¿Qué ciudad aparece?",
     answer: "Sevilla.",
     options: ["Sevilla.", "Madrid.", "Valencia."],
     explanation:

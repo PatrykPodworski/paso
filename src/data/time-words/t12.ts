@@ -31,7 +31,8 @@ export const t12Items: Item[] = [
   {
     id: "TM-T12-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Luis eats at home on all 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Luis eats at home on all 7 days this week.",
     prompt: "Luis ___ come en casa.",
     answer: "siempre",
     say: "Luis siempre come en casa.",
@@ -41,7 +42,8 @@ export const t12Items: Item[] = [
   {
     id: "TM-T12-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Diego has bread for breakfast on all 7 days this week.",
+    instruction: "Translate into Spanish",
+    context: "Diego has bread for breakfast on all 7 days this week.",
     prompt: "Diego always has bread for breakfast.",
     answer: "Diego siempre desayuna pan.",
     accepted: ["Diego desayuna siempre pan.", "Diego desayuna pan siempre."],
@@ -67,7 +69,8 @@ export const t12Items: Item[] = [
   {
     id: "TM-T12-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Diego goes by bus on all 7 days this week.",
+    instruction: "Choose the word for the gap",
+    context: "Diego goes by bus on all 7 days this week.",
     prompt: "Diego ___ va en autobús.",
     answer: "siempre",
     choices: ["siempre", "a veces", "nunca"],
@@ -78,7 +81,8 @@ export const t12Items: Item[] = [
   {
     id: "TM-T12-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo eats at home on all 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Pablo eats at home on all 7 days this week.",
     prompt: "Pablo ___ come en casa.",
     answer: "siempre",
     say: "Pablo siempre come en casa.",
@@ -88,7 +92,8 @@ export const t12Items: Item[] = [
   {
     id: "TM-T12-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo has bread for breakfast on all 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Pablo has bread for breakfast on all 7 days this week.",
     prompt: "Pablo ___ desayuna pan.",
     answer: "siempre",
     say: "Pablo siempre desayuna pan.",
@@ -99,7 +104,8 @@ export const t12Items: Item[] = [
   {
     id: "TM-T12-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis works on all 4 Saturdays this month.",
+    instruction: "Translate into Spanish",
+    context: "Luis works on all 4 Saturdays this month.",
     prompt: "Luis always works on Saturdays.",
     answer: "Luis siempre trabaja los sábados.",
     accepted: ["Luis trabaja siempre los sábados.", "Luis trabaja los sábados siempre."],

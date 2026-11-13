@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import {
   accentMistakes,
   accentOnlyAnswer,
+  closestAnswer,
   missingQuestionMarks,
   notedAnswer,
 } from "../../data/progress";
@@ -11,6 +12,7 @@ import type { Question } from "../../data/types";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
 import { MemoryHint } from "../MemoryHint";
+import { AnswerComparison } from "../AnswerComparison";
 
 const PANEL = "rounded-lg border p-5 mbs-6 max-md:py-5 max-md:px-4";
 
@@ -83,11 +85,7 @@ const AccentNote = ({ accepted, value }: AccentNoteProps) => {
   const { missing, extra } = accentMistakes(accepted, value);
   const label = [...accentPhrase("missing", missing), ...accentPhrase("extra", extra)].join("; ");
 
-  return (
-    <FieldNote className="mt-3">
-      {label.charAt(0).toUpperCase() + label.slice(1)}: <span lang="es">{accepted}</span>
-    </FieldNote>
-  );
+  return <FieldNote className="mt-3">{label.charAt(0).toUpperCase() + label.slice(1)}.</FieldNote>;
 };
 
 type FeedbackBottomProps = {
@@ -174,18 +172,19 @@ export const QuestionFeedback = ({
   return (
     <div className={`${PANEL} ${tone.box}`} role="status">
       <FeedbackHeading correct={correct} productive={productive} />
-      {needsWork && (
-        <p className={paragraph}>
-          Your answer: <strong lang="es">{value}</strong>
-          <br />
-          Correct answer: <strong lang="es">{q.answer}</strong>
-        </p>
+      {(needsWork || accentAnswer) && (
+        <AnswerComparison
+          className="mbs-3"
+          answer={value}
+          correct={accentAnswer ?? closestAnswer(q, value)}
+        />
       )}
       <p className={paragraph}>{q.explanation}</p>
       {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}
       {correct && typed && missingQuestionMarks(q, value) && (
         <FieldNote className="mt-3">
-          Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>
+          Spanish questions open with ¿ and close with ?:{" "}
+          <span lang="es">{closestAnswer(q, value)}</span>
         </FieldNote>
       )}
       <MemoryHint text={q.memoryHint} />

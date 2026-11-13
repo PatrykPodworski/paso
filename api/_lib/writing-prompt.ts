@@ -103,6 +103,7 @@ export const messagesOf = (task: WritingTask, answer: string, wordCount: number)
     role: "user",
     content: JSON.stringify({
       task: task.prompt,
+      sourceText: task.sourceText,
       kind: kindNames[task.kind],
       points: task.points,
       wordRange: task.wordRange,

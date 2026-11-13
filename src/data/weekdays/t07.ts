@@ -47,7 +47,7 @@ export const t07Items: Item[] = [
   {
     id: "WD-T07-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Sunday",
     answer: "domingo",
     say: "domingo",
@@ -57,7 +57,8 @@ export const t07Items: Item[] = [
   {
     id: "WD-T07-E04",
     mode: "cloze",
-    instruction: "Complete the gap. The displayed calendar says Sunday.",
+    instruction: "Complete the gap",
+    context: "The displayed calendar says Sunday.",
     prompt: "Hoy es ___.",
     answer: "domingo",
     say: "Hoy es domingo.",
@@ -99,7 +100,8 @@ export const t07Items: Item[] = [
   {
     id: "WD-T07-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo’s visit is Sunday.",
+    instruction: "Complete the gap",
+    context: "Pablo’s visit is Sunday.",
     prompt: "La visita de Pablo es el ___.",
     answer: "domingo",
     say: "La visita de Pablo es el domingo.",
@@ -124,7 +126,8 @@ export const t07Items: Item[] = [
   {
     id: "WD-T07-V07",
     mode: "cloze",
-    instruction: "Complete the gap. Your appointment is Sunday.",
+    instruction: "Complete the gap",
+    context: "Your appointment is Sunday.",
     prompt: "Tu cita es el ___.",
     answer: "domingo",
     say: "Tu cita es el domingo.",
@@ -134,7 +137,8 @@ export const t07Items: Item[] = [
   {
     id: "WD-T07-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Luis works on Sundays.",
+    instruction: "Complete the gap",
+    context: "Luis works on Sundays.",
     prompt: "Luis trabaja los ___.",
     answer: "domingos",
     say: "Luis trabaja los domingos.",
@@ -165,7 +169,8 @@ export const t07Items: Item[] = [
   {
     id: "WD-T07-N08",
     mode: "cloze",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "You work every Sunday.",
     answer: "Trabajas los domingos.",
     accepted: [

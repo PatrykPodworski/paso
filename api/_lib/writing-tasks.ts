@@ -9,6 +9,8 @@ export type WritingTask = {
   // Exam tasks get a DELE A1 band; lesson and practice tasks get a passed, partly or failed result.
   exam: boolean;
   prompt: string;
+  // The note, message or advert shown in its own box; the prompt only refers to it.
+  sourceText?: string;
   points: string[];
   wordRange: [number, number];
 };
@@ -22,6 +24,7 @@ export const taskOf = (q: Question, exam: boolean): WritingTask => ({
   kind: kindOf(q),
   exam,
   prompt: q.prompt,
+  sourceText: q.passage,
   points: q.kind === "form" ? q.fields!.map((f) => f.label) : q.checklist!,
   wordRange: [q.minWords!, q.maxWords!],
 });

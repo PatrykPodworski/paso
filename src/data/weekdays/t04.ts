@@ -39,7 +39,7 @@ export const t04Items: Item[] = [
   {
     id: "WD-T04-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Thursday",
     answer: "jueves",
     say: "jueves",
@@ -49,7 +49,8 @@ export const t04Items: Item[] = [
   {
     id: "WD-T04-E04",
     mode: "cloze",
-    instruction: "Complete the gap. A visit is scheduled for Thursday.",
+    instruction: "Complete the gap",
+    context: "A visit is scheduled for Thursday.",
     prompt: "La visita es el ___.",
     answer: "jueves",
     say: "La visita es el jueves.",
@@ -100,7 +101,8 @@ export const t04Items: Item[] = [
   {
     id: "WD-T04-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo’s appointment is Thursday.",
+    instruction: "Complete the gap",
+    context: "Pablo’s appointment is Thursday.",
     prompt: "La cita de Pablo es el ___.",
     answer: "jueves",
     say: "La cita de Pablo es el jueves.",
@@ -110,7 +112,8 @@ export const t04Items: Item[] = [
   {
     id: "WD-T04-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I have class Thursday.",
+    instruction: "Complete the gap",
+    context: "I have class Thursday.",
     prompt: "Tengo clase el ___.",
     answer: "jueves",
     say: "Tengo clase el jueves.",
@@ -150,7 +153,8 @@ export const t04Items: Item[] = [
   {
     id: "WD-T04-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo works on Thursdays.",
+    instruction: "Complete the gap",
+    context: "Pablo works on Thursdays.",
     prompt: "Pablo trabaja los ___.",
     answer: "jueves",
     say: "Pablo trabaja los jueves.",

@@ -451,36 +451,50 @@ export const readResponses = async (db: Db, learner: string, resultId: string) =
   return { responses: rows[0]?.responses ?? null };
 };
 
+// A mock run write made for another run than the learner's current one. Nothing was written.
+export type StaleRun = { stale: { runId: string | null; current: string | null } };
+
 // Top-level fields replace; answers, drafts, scores, talks, marks and plays merge per key, so a
 // change from one tab keeps what another tab saved. `replace` starts a new run from the defaults.
+// `runId` is the run the write was made for: for a change, the run it changes; for a new run,
+// the run it replaces. The write applies only when that is the current run, so a late write
+// from an earlier run cannot change a newer one. No run id means the run without one: a run
+// started before run ids existed, or no run yet.
 export const saveMockRun = async (
   db: Db,
   learner: string,
   patch: MockRunPatch,
   replace: boolean,
-) => {
+  runId: string | null,
+): Promise<ProgressSnapshot | StaleRun> => {
   const merged = (map: string) =>
     `'${map}', COALESCE(r.run->'${map}', '{}') || COALESCE($3::jsonb->'${map}', '{}')`;
 
-  return (
-    await write(db, learner, [
-      ensureLearner(learner),
-      q(
-        // A run that does not exist yet starts from the defaults.
-        `INSERT INTO mock_runs AS r (learner_id, run) VALUES ($1, $2::jsonb || $3::jsonb)
-         ON CONFLICT (learner_id) DO UPDATE SET
-           run = CASE WHEN $4::boolean THEN excluded.run ELSE
-             r.run || $3::jsonb ||
-             jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")}, ${merged("talks")}, ${merged("marks")}, ${merged("plays")})
-           END,
-           updated_at = now()`,
-        learner,
-        JSON.stringify(freshMockRun()),
-        JSON.stringify(patch),
-        replace,
-      ),
-    ])
-  ).snapshot;
+  const { results, snapshot } = await write(db, learner, [
+    ensureLearner(learner),
+    q(
+      // A run that does not exist yet starts from the defaults, but only for a write made
+      // without a run id: one made for a run that is gone creates nothing.
+      `INSERT INTO mock_runs AS r (learner_id, run)
+       SELECT $1, $2::jsonb || $3::jsonb
+       WHERE $5::text IS NULL OR EXISTS (SELECT 1 FROM mock_runs WHERE learner_id = $1)
+       ON CONFLICT (learner_id) DO UPDATE SET
+         run = CASE WHEN $4::boolean THEN excluded.run ELSE
+           r.run || $3::jsonb ||
+           jsonb_build_object(${merged("answers")}, ${merged("drafts")}, ${merged("scores")}, ${merged("talks")}, ${merged("marks")}, ${merged("plays")})
+         END,
+         updated_at = now()
+       WHERE r.run->>'id' IS NOT DISTINCT FROM $5::text
+       RETURNING 1`,
+      learner,
+      JSON.stringify(freshMockRun()),
+      JSON.stringify(patch),
+      replace,
+      runId,
+    ),
+  ]);
+
+  return results[1].length ? snapshot : { stale: { runId, current: snapshot.mockRun?.id ?? null } };
 };
 
 // Adds a sighting of each variant. A resent sighting changes nothing, and an older one leaves

@@ -19,6 +19,7 @@ const { GET, POST, handleProgress, MAX_BODY, PER_DAY, PER_MINUTE, progressLimit 
   await import("./progress.ts");
 
 const { pgliteDb } = await import("../db/pglite.ts");
+const { MAX_TALK_CORRECTIONS } = await import("./_lib/corrections.ts");
 
 const db = await pgliteDb();
 const T = "2026-09-09T12:00:00.000Z";
@@ -44,6 +45,14 @@ const EMPTY: ProgressSnapshot = {
 };
 
 const learner = () => crypto.randomUUID();
+
+// Distinct talk corrections, as many as asked for.
+const correctionsOf = (count: number) =>
+  Array.from({ length: count }, (_, i) => ({
+    original: `e ${i}`,
+    corrected: `f ${i}`,
+    explanation: "x",
+  }));
 
 const request = (id: string, body?: unknown, headers: Record<string, string> = {}) =>
   new Request("https://paso.podwor.ski/api/progress", {
@@ -83,6 +92,8 @@ const answer = (id: string, patch: Partial<Attempt> = {}, timeZone = "Europe/War
 
 beforeEach(() => {
   store.clear();
+  // Every refusal is logged; the tests that read the log spy on it themselves.
+  vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -693,6 +704,16 @@ describe("mock result responses", () => {
     expect(await read(me, "m")).toEqual([200, { responses }]);
   });
 
+  it("keeps the responses of a talk with a fix for an item below correct and eight other corrections", async () => {
+    const me = learner();
+    const long = { ...talk, score: { ...score, corrections: correctionsOf(9) } };
+    const kept = { ...responses, items: [reading, listening, writing, empty, long, skipped] };
+
+    await snapshot(me, { action: "mockResult", result: result({ responses: kept }) });
+
+    expect(await read(me, "m")).toEqual([200, { responses: kept }]);
+  });
+
   it("replaces the responses when the same result is saved again with a band", async () => {
     const me = learner();
 
@@ -866,6 +887,35 @@ describe("the mock exam run", () => {
     expect(await change(me, { topic: "studies", talks: { "mock-s2": bad } })).toMatchObject({
       topic: "studies",
       talks: { "mock-s1": good, "mock-s2": bad },
+    });
+  });
+
+  // Task 3 as Lucía scored it on 2026-11-12 (#806): a fix for the item below correct comes on
+  // top of eight other corrections.
+  it("keeps a talk score with a fix for an item below correct and eight other corrections", async () => {
+    const me = learner();
+
+    const score = {
+      grade: "good",
+      items: [
+        { id: "withWhom", label: "Who you live with", level: "correct" },
+        { id: "nearby", label: "What there is nearby", level: "understandable" },
+        { id: "questions", label: "Two questions to Lucía", level: "correct" },
+      ],
+      corrections: correctionsOf(9),
+    };
+
+    await change(me, { ...started, topic: "home" }, true);
+
+    const response = await send(me, {
+      action: "mockRun",
+      run: { answers: { "mock-s3": "Lucía: ¿Con quién vives?" }, talks: { "mock-s3": score } },
+    });
+
+    expect(response.status).toBe(200);
+
+    expect(((await response.json()) as ProgressSnapshot).mockRun?.talks).toEqual({
+      "mock-s3": score,
     });
   });
 
@@ -1314,7 +1364,7 @@ describe("requests", () => {
       "run",
     ],
     [
-      "more than eight mock talk corrections",
+      "more corrections than a talk score can hold",
       me,
       {
         action: "mockRun",
@@ -1323,7 +1373,7 @@ describe("requests", () => {
             "mock-s1": {
               grade: "good",
               items: [],
-              corrections: Array.from({ length: 9 }, () => ({
+              corrections: Array.from({ length: MAX_TALK_CORRECTIONS + 1 }, () => ({
                 original: "a",
                 corrected: "b",
                 explanation: "c",
@@ -1392,6 +1442,71 @@ describe("requests", () => {
 
     expect([response.status, await response.json()]).toEqual([413, { error: "too_large" }]);
     expect(await snapshot(id)).toEqual(EMPTY);
+  });
+
+  it("logs each refusal with its status, error, action, body size and learner", async () => {
+    const id = learner();
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const body = { action: "mockRun", run: { talks: { "mock-s1": { grade: "A", items: [] } } } };
+
+    expect((await send(id, body)).status).toBe(400);
+
+    expect(log).toHaveBeenCalledWith("Progress request failed", {
+      endpoint: "/api/progress",
+      status: 400,
+      method: "POST",
+      learner: id,
+      bytes: JSON.stringify(body).length,
+      action: "mockRun",
+      error: "run",
+      detail: "talks",
+    });
+  });
+
+  it("logs a body over the size cap with its size", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const body = { action: "draft", questionId: "u1-w1", text: "a".repeat(MAX_BODY) };
+
+    expect((await send(me, body)).status).toBe(413);
+
+    expect(log).toHaveBeenCalledWith(
+      "Progress request failed",
+      expect.objectContaining({
+        status: 413,
+        bytes: JSON.stringify(body).length,
+        error: "too_large",
+      }),
+    );
+  });
+
+  it("keeps a learner header that is not an id out of the log", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    await send("<script>", { action: "reset" });
+
+    expect(log).toHaveBeenCalledWith(
+      "Progress request failed",
+      expect.objectContaining({ status: 400, learner: "invalid", error: "learner" }),
+    );
+  });
+
+  it("logs a store failure and answers 500", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const broken = {
+      transaction: async () => {
+        throw new Error("connection reset");
+      },
+    };
+
+    const response = await handleProgress(request(me, { action: "reset" }), broken, progressLimit);
+
+    expect([response.status, await response.json()]).toEqual([500, { error: "server" }]);
+
+    expect(log).toHaveBeenCalledWith(
+      "Progress request failed",
+      expect.objectContaining({ status: 500, action: "reset", error: "connection reset" }),
+    );
   });
 
   it("serves a learner without a passcode, and ignores one that is sent", async () => {

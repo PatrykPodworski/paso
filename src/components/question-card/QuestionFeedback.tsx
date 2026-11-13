@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import {
   accentMistakes,
   accentOnlyAnswer,
+  closestAnswer,
   missingQuestionMarks,
   notedAnswer,
 } from "../../data/progress";
@@ -172,13 +173,18 @@ export const QuestionFeedback = ({
     <div className={`${PANEL} ${tone.box}`} role="status">
       <FeedbackHeading correct={correct} productive={productive} />
       {(needsWork || accentAnswer) && (
-        <AnswerComparison className="mbs-3" answer={value} correct={accentAnswer ?? q.answer} />
+        <AnswerComparison
+          className="mbs-3"
+          answer={value}
+          correct={accentAnswer ?? closestAnswer(q, value)}
+        />
       )}
       <p className={paragraph}>{q.explanation}</p>
       {accentAnswer && <AccentNote accepted={accentAnswer} value={value} />}
       {correct && typed && missingQuestionMarks(q, value) && (
         <FieldNote className="mt-3">
-          Spanish questions open with ¿ and close with ?: <span lang="es">{q.answer}</span>
+          Spanish questions open with ¿ and close with ?:{" "}
+          <span lang="es">{closestAnswer(q, value)}</span>
         </FieldNote>
       )}
       <MemoryHint text={q.memoryHint} />

@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by 0013
 ---
 
 # 0001. No offline mode

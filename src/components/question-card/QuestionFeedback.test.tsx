@@ -254,3 +254,22 @@ it("leaves the ¿ ? note off a chosen option, which the learner cannot punctuate
   expect(screen.getByRole("status")).toHaveTextContent("¡Muy bien!");
   expect(screen.getByRole("status")).not.toHaveTextContent("Spanish questions open with");
 });
+
+it("shows a wrong typed answer the accepted variant nearest to it", () => {
+  const friend = typeQuestion("Mi amiga está en casa.", { accepted: ["Mi amigo está en casa."] });
+
+  typed(friend, "Mi amigo está en la casa");
+
+  expect(readAnswers()[1]).toBe("Mi amigo está en casa.");
+});
+
+it("writes the ¿ ? note with the accepted variant the learner typed", () => {
+  const teacher = typeQuestion("¿De dónde es tu profesor?", {
+    questionMarks: true,
+    accepted: ["¿De dónde es tu profesora?"],
+  });
+
+  expect(typed(teacher, "De dónde es tu profesora")).toHaveTextContent(
+    "Spanish questions open with ¿ and close with ?: ¿De dónde es tu profesora?",
+  );
+});

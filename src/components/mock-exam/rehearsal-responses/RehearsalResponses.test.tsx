@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { expect, it, vi } from "vitest";
 import type { MockResponses } from "../../../data/types";
 import { RehearsalResponses } from "./RehearsalResponses";
+import { readAnswers } from "../../../test/answerComparison";
 
 const responses: MockResponses = {
   started: "2026-09-09T08:00:00.000Z",
@@ -60,8 +61,9 @@ const open = (load: (id: string) => Promise<MockResponses | null>) => {
   return screen.getByRole("dialog");
 };
 
-const group = (title: string) =>
-  screen.getByRole("heading", { name: title }).closest("section")!.textContent;
+const section = (title: string) => screen.getByRole("heading", { name: title }).closest("section")!;
+
+const group = (title: string) => section(title).textContent;
 
 it("loads the result's responses when it opens and shows each section kind", async () => {
   const load = vi.fn(async () => responses);
@@ -77,11 +79,14 @@ it("loads the result's responses when it opens and shows each section kind", asy
       .map((h) => h.textContent),
   ).toEqual(["Reading", "Listening", "Writing", "Speaking", "This task is no longer in the exam"]);
 
-  expect(group("Reading")).toBe(
-    "Reading" +
-      "¿De dónde es Mario?Your answer: De Italia.Right answer: De Italia." +
-      "¿Con quién vive Mario?Your answer: No answerRight answer: Con su hermana.",
-  );
+  expect(group("Reading")).toMatch(/^Reading¿De dónde es Mario?.*¿Con quién vive Mario?/);
+
+  expect(readAnswers(section("Reading"))).toEqual([
+    "De Italia.",
+    "De Italia.",
+    "Not answered",
+    "Con su hermana.",
+  ]);
 
   expect(
     within(dialog)
@@ -89,7 +94,11 @@ it("loads the result's responses when it opens and shows each section kind", asy
       .map((img) => img.getAttribute("alt")),
   ).toEqual(["Correct", "Incorrect", "Incorrect"]);
 
-  expect(group("Listening")).toContain("Your answer: 🥛 Leche.Right answer: ☕ Café.");
+  expect(readAnswers(section("Listening"))).toEqual([
+    "🥛 Leche. Differences: “🥛 Leche” should be “☕ Café”.",
+    "☕ Café.",
+  ]);
+
   expect(group("Writing")).toContain("Nombre: Bruno\nCiudad: GdańskMark 2/3");
   expect(group("Writing")).toContain("Your friend Jorge writes:");
   expect(group("Writing")).toContain("Nothing submitted");

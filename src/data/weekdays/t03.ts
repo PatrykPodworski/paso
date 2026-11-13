@@ -63,9 +63,17 @@ export const t03Items: Item[] = [
     instruction: "Translate into Spanish",
     prompt: "My friend is at home on Wednesday.",
     answer: "Mi amiga está en casa el miércoles.",
-    accepted: ["Mi amiga está el miércoles en casa.", "El miércoles mi amiga está en casa."],
+    // "My friend" names no gender, so mi amigo passes too (ADR 0014).
+    accepted: [
+      "Mi amiga está el miércoles en casa.",
+      "El miércoles mi amiga está en casa.",
+      "Mi amigo está en casa el miércoles.",
+      "Mi amigo está el miércoles en casa.",
+      "El miércoles mi amigo está en casa.",
+    ],
     say: "Mi amiga está en casa el miércoles.",
-    feedback: "Mi amiga está en casa el miércoles. Use el miércoles for one Wednesday.",
+    feedback:
+      "Mi amiga (or mi amigo) está en casa el miércoles. Use el miércoles for one Wednesday.",
     hints: spanish,
   },
   {

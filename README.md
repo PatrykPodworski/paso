@@ -53,7 +53,8 @@ localhost or HTTPS. All teaching audio and illustrations are local assets.
   typed words and sentences.
 - **Numbers**, a practice set in the practice studio: the Spanish numbers from
   cero to un millón, two or three new ones per lesson, with choices, typed numbers,
-  sentence gaps, translations, sequences, sums and phone numbers.
+  sentence gaps, translations, sequences, sums and phone numbers, then a unit on
+  years, dates, times, prices, phone numbers, floors and quantities.
 - **113 vocabulary cards** you can search, flip and hear, each with its own
   memory hint: a familiar English word, a useful translated phrase, a breakdown
   of the word, or a distinction from a Spanish word it gets confused with. The

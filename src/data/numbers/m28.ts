@@ -1,0 +1,305 @@
+import { type Item, teachingCard } from "../practice-sets/item.ts";
+import type { SetLesson } from "../practice-sets/setLesson.ts";
+
+// Floors and addresses: primero to quinto, calle and número.
+export const m28Items: Item[] = [
+  {
+    id: "NU-T48-X01",
+    mode: "choice",
+    instruction: "Choose the phone number",
+    prompt:
+      "El teléfono de Pablo es seiscientos dieciséis, veintisiete, treinta y ocho, cuarenta y nueve.",
+    answer: "616 27 38 49",
+    choices: ["616 23 78 49", "616 27 38 49", "661 27 38 49"],
+    say: "El teléfono de Pablo es seiscientos dieciséis, veintisiete, treinta y ocho, cuarenta y nueve.",
+    feedback:
+      "Read in pairs after the first three, seiscientos dieciséis, veintisiete, treinta y ocho, cuarenta y nueve is 616 27 38 49.",
+    hints: [
+      "Read the number one digit at a time: seis, cuatro, cinco.",
+      "People also read it in groups of three or in pairs: seiscientos cuarenta y cinco, treinta y dos.",
+    ],
+  },
+  {
+    id: "NU-T49-E01",
+    mode: "choice",
+    instruction: "Choose the Spanish",
+    prompt: "The class is on the 1st floor.",
+    answer: "La clase está en la primera planta.",
+    choices: [
+      "La clase está en la primera planta.",
+      "La clase está en la primero planta.",
+      "La clase está en la primer planta.",
+    ],
+    say: "La clase está en la primera planta.",
+    feedback: "planta is feminine: la primera planta.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T50-E01",
+    mode: "choice",
+    instruction: "Choose the address",
+    prompt: "Vivo en la calle Sol, número catorce, tercero B.",
+    answer: "Calle Sol 14, 3.º B",
+    choices: ["Calle Sol 14, 3.º B", "Calle Sol 4, 3.º B", "Calle Sol 14, 4.º B"],
+    say: "Vivo en la calle Sol, número catorce, tercero B.",
+    feedback: "So: Calle Sol 14, 3.º B.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E02",
+    mode: "cloze",
+    instruction: "Complete the gap with the floor in words",
+    context: "I live on the 3rd floor.",
+    prompt: "Vivo en el ___ piso.",
+    answer: "tercer",
+    say: "Vivo en el tercer piso.",
+    feedback: "I live on the 3rd floor. So: Vivo en el tercer piso.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E03",
+    mode: "cloze",
+    instruction: "Complete the gap with the floor in words",
+    context: "The office is on the 2nd floor.",
+    prompt: "La oficina está en la ___ planta.",
+    answer: "segunda",
+    say: "La oficina está en la segunda planta.",
+    feedback: "The office is on the 2nd floor. So: La oficina está en la segunda planta.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T50-E02",
+    mode: "cloze",
+    instruction: "Complete the gap with the floor in words",
+    context: "I live at Calle Luna 8, 1.º A.",
+    prompt: "Vivo en la calle Luna, número ocho, ___ A.",
+    answer: "primero",
+    say: "Vivo en la calle Luna, número ocho, primero A.",
+    feedback:
+      "In an address, the floor is said in full: Vivo en la calle Luna, número ocho, primero A.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E04",
+    mode: "cloze",
+    instruction: "Complete the gap with the floor in words",
+    context: "My room is on the 5th floor.",
+    prompt: "Mi habitación está en la ___ planta.",
+    answer: "quinta",
+    say: "Mi habitación está en la quinta planta.",
+    feedback: "My room is on the 5th floor. So: Mi habitación está en la quinta planta.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E05",
+    mode: "cloze",
+    instruction: "Complete the gap with the floor in words",
+    context: "Pablo lives on the 1st floor.",
+    prompt: "Pablo vive en el ___ piso.",
+    answer: "primer",
+    say: "Pablo vive en el primer piso.",
+    feedback: "Before a masculine noun, primero becomes primer: Pablo vive en el primer piso.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T50-E03",
+    mode: "cloze",
+    instruction: "Complete the gap with the number in words",
+    context: "Diego lives at Calle Sol 25, 2.º A.",
+    prompt: "Diego vive en la calle Sol, número ___, segundo A.",
+    answer: "veinticinco",
+    say: "Diego vive en la calle Sol, número veinticinco, segundo A.",
+    feedback:
+      "Diego lives at Calle Sol 25, 2.º A. So: Diego vive en la calle Sol, número veinticinco, segundo A.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E06",
+    mode: "cloze",
+    instruction: "Translate into Spanish, with the numbers in words",
+    prompt: "My room is on the 3rd floor.",
+    answer: "Mi habitación está en la tercera planta.",
+    accepted: ["Mi habitación está en el tercer piso."],
+    say: "Mi habitación está en la tercera planta.",
+    feedback: "One right answer: Mi habitación está en la tercera planta.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T50-E04",
+    mode: "cloze",
+    instruction: "Translate into Spanish, with the numbers in words",
+    prompt: "I live at Calle Luna 7, 4.º B.",
+    answer: "Vivo en la calle Luna, número siete, cuarto B.",
+    accepted: [
+      "Vivo en la calle Luna, siete, cuarto B.",
+      "Yo vivo en la calle Luna, número siete, cuarto B.",
+    ],
+    say: "Vivo en la calle Luna, número siete, cuarto B.",
+    feedback: "One right answer: Vivo en la calle Luna, número siete, cuarto B.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E07",
+    mode: "cloze",
+    instruction: "Translate into Spanish, with the numbers in words",
+    prompt: "The class is on the 4th floor.",
+    answer: "La clase está en la cuarta planta.",
+    accepted: ["La clase está en el cuarto piso."],
+    say: "La clase está en la cuarta planta.",
+    feedback: "One right answer: La clase está en la cuarta planta.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-E08",
+    mode: "choice",
+    instruction: "Choose the floor",
+    prompt: "el segundo piso",
+    answer: "the 2nd floor",
+    choices: ["the 4th floor", "the 3rd floor", "the 2nd floor"],
+    say: "el segundo piso",
+    feedback: "segundo is 2nd.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-V01",
+    mode: "choice",
+    instruction: "Choose the English meaning",
+    prompt: "Mi hermano vive en el cuarto piso.",
+    answer: "My brother lives on the 4th floor.",
+    choices: [
+      "My brother lives on the 5th floor.",
+      "My brother lives on the 4th floor.",
+      "My brother lives on the 14th floor.",
+    ],
+    say: "Mi hermano vive en el cuarto piso.",
+    feedback: "cuarto is 4th.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T50-V01",
+    mode: "choice",
+    instruction: "Choose the address",
+    prompt: "Vivo en la calle Luna, número treinta, quinto A.",
+    answer: "Calle Luna 30, 5.º A",
+    choices: ["Calle Luna 30, 4.º A", "Calle Luna 30, 5.º A", "Calle Luna 13, 5.º A"],
+    say: "Vivo en la calle Luna, número treinta, quinto A.",
+    feedback: "So: Calle Luna 30, 5.º A.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+  {
+    id: "NU-T49-V02",
+    mode: "cloze",
+    instruction: "Complete the sequence in words",
+    prompt: "primero, segundo, tercero, ___",
+    answer: "cuarto",
+    say: "primero, segundo, tercero, cuarto",
+    feedback: "Count up the floors: primero, segundo, tercero, cuarto.",
+    hints: [
+      "Before a masculine noun, primero and tercero lose the o: el primer piso, el tercer piso.",
+      "With planta, the ending is -a: la primera planta, la tercera planta.",
+    ],
+  },
+];
+
+export const m28: SetLesson = {
+  id: "nu-m28",
+  title: "Floors and addresses",
+  subtitle: "primero to quinto, calle and número",
+  recalled: [],
+  introduction: teachingCard("NU-M28-INTRO", {
+    heading: "New words",
+    terms: [
+      {
+        es: "primero, primer, primera",
+        meaning: "1st",
+        example: { es: "Luis vive en el primer piso.", en: "Luis lives on the 1st floor." },
+      },
+      {
+        es: "segundo, tercero",
+        meaning: "2nd, 3rd",
+        example: {
+          es: "Mi habitación está en la segunda planta.",
+          en: "My room is on the 2nd floor.",
+        },
+      },
+      {
+        es: "cuarto, quinto",
+        meaning: "4th, 5th",
+        example: {
+          es: "Mi hermano vive en el quinto piso.",
+          en: "My brother lives on the 5th floor.",
+        },
+      },
+    ],
+  }),
+  base: [
+    "NU-T49-E01",
+    "NU-T50-E01",
+    "NU-T49-E02",
+    "NU-T49-E03",
+    "NU-T50-E02",
+    "NU-T49-E04",
+    "NU-T49-E05",
+    "NU-T50-E03",
+    "NU-T49-E06",
+    "NU-T50-E04",
+    "NU-T49-E07",
+    "NU-T49-E08",
+  ],
+  formCards: [
+    {
+      before: "NU-T49-E05",
+      teach: {
+        heading: "el primer piso, la primera planta",
+        rule: "primero and tercero become primer and tercer before a masculine noun: el primer piso. Before a feminine noun, the ordinal ends in -a: la primera planta. In an address, 3.º B is tercero B.",
+        examples: [
+          { es: "Mi padre vive en el tercer piso.", en: "My father lives on the 3rd floor." },
+          { es: "La cita es en la primera planta.", en: "The appointment is on the 1st floor." },
+        ],
+      },
+    },
+  ],
+  variations: ["NU-T49-V01", "NU-T50-V01", "NU-T49-V02", "NU-T48-X01"],
+};

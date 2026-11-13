@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { exerciseBank } from "../../components/practice";
 import { accentOnlyAnswer, isCorrect } from "../progress";
 import type { Question } from "../types";
-import { numbersLesson, numbersLessons, numbersQuestions } from "./numbers";
+import { numbersLesson, numbersLessons, numbersQuestions, numbersSet } from "./numbers";
 
 const question = (id: string) => numbersQuestions.find((q) => q.id === id)!;
 
@@ -35,9 +35,9 @@ const NUMBER_LIKE =
   /^(cero|uno?|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|trece|catorce|quince|dieci\p{L}*|veint\p{L}*|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa|cien\p{L}*|\p{L}+cient[oa]s|mil|mill\p{L}+)$/u;
 
 const NOUNS =
-  /^(años?|teléfonos?|móvil(es)?|casas?|clases?|estudiantes|tiendas|parques|euros|libros|sillas|ventanas)$/;
+  /^(años?|teléfonos?|móvil(es)?|casas?|clases?|estudiantes|tiendas|parques|euros?|libros|sillas|ventanas|gramos|kilos?|litros?|botellas?|céntimos)$/;
 
-const FEMININE = /^(casas?|clases?|tiendas|sillas|ventanas)$/;
+const FEMININE = /^(casas?|clases?|tiendas|sillas|ventanas|botellas?)$/;
 
 // The value of each word below mil; y adds nothing.
 const UNITS = new Map<string, number>([
@@ -207,13 +207,26 @@ describe("numbers content", () => {
     }
   });
 
+  // Units 1–5 teach numbers; unit 6 puts them to use, so its answers are times, prices and phone numbers.
+  const realLife = new Set(numbersSet.units.at(-1)!.lessons.map((l) => l.id));
+
   it("mixes two or three new numbers in every learning lesson", () => {
-    for (const l of numbersLessons.filter((x) => x.introduction)) {
+    for (const l of numbersLessons.filter((x) => x.introduction && !realLife.has(x.id))) {
       const values = l.base.map((id) => valueOf(question(id).answer));
       const numbers = new Set(values.filter((v) => v !== undefined));
 
       expect(numbers.size, l.id).toBeGreaterThanOrEqual(2);
       expect(values[0], l.id).not.toBe(values[1]);
+    }
+  });
+
+  it("mixes two situations in every real-life lesson from its first two exercises", () => {
+    // An exercise id names its situation: NU-T43 is the hour, NU-T44 is y cuarto, y media and menos cuarto.
+    const situation = (id: string) => id.slice(0, 6);
+
+    for (const l of numbersLessons.filter((x) => x.introduction && realLife.has(x.id))) {
+      expect(new Set(l.base.map(situation)).size, l.id).toBe(2);
+      expect(situation(l.base[0]), l.id).not.toBe(situation(l.base[1]));
     }
   });
 
@@ -339,6 +352,78 @@ describe("numbers content", () => {
     expect(
       isCorrect(question("NU-T38-E08"), "El piso cuesta un millón quinientos mil euros."),
     ).toBe(true);
+  });
+
+  it("reads a year as one number, and takes el uno or el primero for the 1st", () => {
+    expect(isCorrect(question("NU-T39-E03"), "mil novecientos setenta y cinco")).toBe(true);
+    expect(isCorrect(question("NU-T39-E03"), "diecinueve setenta y cinco")).toBe(false);
+    expect(isCorrect(question("NU-T39-E03"), "mil novecientas setenta y cinco")).toBe(false);
+    expect(isCorrect(question("NU-T41-E03"), "uno")).toBe(true);
+    expect(isCorrect(question("NU-T41-E03"), "primero")).toBe(true);
+    expect(isCorrect(question("NU-T41-E03"), "una")).toBe(false);
+    expect(isCorrect(question("NU-T41-E07"), "Tengo una cita el primero de mayo.")).toBe(true);
+    expect(isCorrect(question("NU-T41-E07"), "Tengo una cita el uno de junio.")).toBe(false);
+  });
+
+  it("takes y media or treinta and menos cuarto or cuarenta y cinco, with la una singular", () => {
+    expect(isCorrect(question("NU-T44-E04"), "siete y media")).toBe(true);
+    expect(isCorrect(question("NU-T44-E04"), "siete treinta")).toBe(true);
+    expect(isCorrect(question("NU-T44-E04"), "siete y cuarto")).toBe(false);
+    expect(isCorrect(question("NU-T44-E03"), "once menos cuarto")).toBe(true);
+    expect(isCorrect(question("NU-T44-E03"), "diez cuarenta y cinco")).toBe(true);
+    expect(isCorrect(question("NU-T44-E03"), "diez menos cuarto")).toBe(false);
+    expect(isCorrect(question("NU-T44-E06"), "dieciséis treinta")).toBe(true);
+    expect(isCorrect(question("NU-T43-R02"), "El autobús sale a la una.")).toBe(true);
+    expect(isCorrect(question("NU-T43-R02"), "El autobús sale a las una.")).toBe(false);
+  });
+
+  it("takes a price with or without con and céntimos, and un euro before the noun", () => {
+    const coffee = question("NU-T45-E02");
+
+    expect(isCorrect(coffee, "un euro con cincuenta")).toBe(true);
+    expect(isCorrect(coffee, "un euro cincuenta")).toBe(true);
+    expect(isCorrect(coffee, "uno cincuenta")).toBe(true);
+    expect(isCorrect(coffee, "un euro con cincuenta céntimos")).toBe(true);
+    expect(isCorrect(coffee, "uno euro con cincuenta")).toBe(false);
+    expect(isCorrect(coffee, "un euro con quince")).toBe(false);
+    expect(isCorrect(question("NU-T46-E02"), "ochenta céntimos")).toBe(true);
+  });
+
+  it("takes a phone number digit by digit or in groups, with or without commas", () => {
+    const phone = question("NU-T47-E05");
+
+    expect(isCorrect(phone, "Mi teléfono es seis siete ocho nueve cero uno dos tres cuatro")).toBe(
+      true,
+    );
+
+    expect(
+      isCorrect(
+        phone,
+        "Mi número es seiscientos setenta y ocho, novecientos uno, doscientos treinta y cuatro.",
+      ),
+    ).toBe(true);
+
+    expect(isCorrect(phone, "Mi teléfono es seis siete ocho nueve cero uno dos tres cinco")).toBe(
+      false,
+    );
+  });
+
+  it("says primer piso and primera planta, and makes gramos and botella agree", () => {
+    expect(isCorrect(question("NU-T49-E05"), "primer")).toBe(true);
+    expect(isCorrect(question("NU-T49-E05"), "primero")).toBe(false);
+    expect(isCorrect(question("NU-T49-E03"), "segunda")).toBe(true);
+    expect(isCorrect(question("NU-T49-E03"), "segundo")).toBe(false);
+    const room = question("NU-T49-E06");
+
+    expect(isCorrect(room, "Mi habitación está en el tercer piso.")).toBe(true);
+    expect(isCorrect(room, "Mi habitación está en la tercer planta.")).toBe(false);
+
+    const cheese = question("NU-T51-E07");
+
+    expect(isCorrect(cheese, "Quiero doscientos cincuenta gramos de queso.")).toBe(true);
+    expect(isCorrect(cheese, "Quiero doscientas cincuenta gramos de queso.")).toBe(false);
+    expect(isCorrect(question("NU-T52-E03"), "una")).toBe(true);
+    expect(isCorrect(question("NU-T52-E03"), "un")).toBe(false);
   });
 
   it("passes an answer that misses only an accent, with a note (ADR 0011)", () => {

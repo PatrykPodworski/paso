@@ -28,7 +28,8 @@ export const t11Items: Item[] = [
   {
     id: "TM-T11-E04",
     mode: "cloze",
-    instruction: "Complete the gap. I am in class at 22:00.",
+    instruction: "Complete the gap",
+    context: "I am in class at 22:00.",
     prompt: "Yo estoy en clase ___.",
     answer: "por la noche",
     say: "Yo estoy en clase por la noche.",
@@ -38,7 +39,8 @@ export const t11Items: Item[] = [
   {
     id: "TM-T11-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Pablo reads at 22:00.",
+    instruction: "Translate into Spanish",
+    context: "Pablo reads at 22:00.",
     prompt: "Pablo reads at night.",
     answer: "Pablo lee por la noche.",
     accepted: ["Por la noche Pablo lee.", "Pablo lee de noche.", "De noche Pablo lee."],
@@ -60,7 +62,8 @@ export const t11Items: Item[] = [
   {
     id: "TM-T11-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Diego is at home at 22:00.",
+    instruction: "Choose the word for the gap",
+    context: "Diego is at home at 22:00.",
     prompt: "Diego está en casa ___.",
     answer: "por la noche",
     choices: ["por la noche", "por la mañana", "por la tarde"],
@@ -71,7 +74,8 @@ export const t11Items: Item[] = [
   {
     id: "TM-T11-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo studies at 22:00.",
+    instruction: "Complete the gap",
+    context: "Pablo studies at 22:00.",
     prompt: "Pablo estudia ___.",
     answer: "por la noche",
     say: "Pablo estudia por la noche.",
@@ -81,7 +85,8 @@ export const t11Items: Item[] = [
   {
     id: "TM-T11-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo works at 22:00.",
+    instruction: "Complete the gap",
+    context: "Pablo works at 22:00.",
     prompt: "Pablo trabaja ___.",
     answer: "por la noche",
     say: "Pablo trabaja por la noche.",
@@ -91,7 +96,8 @@ export const t11Items: Item[] = [
   {
     id: "TM-T11-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis reads at 22:00.",
+    instruction: "Translate into Spanish",
+    context: "Luis reads at 22:00.",
     prompt: "Luis reads at night.",
     answer: "Luis lee por la noche.",
     accepted: ["Por la noche Luis lee.", "Luis lee de noche.", "De noche Luis lee."],

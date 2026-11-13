@@ -225,6 +225,10 @@ export type MockStage = "intro" | "run" | "review" | "prep" | "done";
 
 // The mock exam in progress. `deadline` is in epoch milliseconds, 0 when no timer runs.
 export interface MockRun {
+  // Made when the run starts. Every change carries it, and the server applies a change only to
+  // the run with this id, so a late write from an earlier run cannot change a newer one. A run
+  // started before run ids existed has none.
+  id?: string;
   section: number;
   index: number;
   stage: MockStage;

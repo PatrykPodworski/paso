@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { examSections, firstVariants } from "../../data/mock";
 import { AnswerReview } from "./AnswerReview";
+import { readAnswers } from "../../test/answerComparison";
 
 // The exam as variant 1 of each task.
 const sections = examSections(firstVariants);
@@ -21,9 +22,16 @@ describe("reviewed answer", () => {
     expect(screen.getByText(/^Correct answer:/)).toBeInTheDocument();
   });
 
+  it("compares a wrong answer with the correct one", () => {
+    render(<AnswerReview q={reading} number={1} answer="wrong" section={0} />);
+
+    expect(readAnswers()[0]).toMatch(/^wrong Differences: /);
+    expect(readAnswers()[1]).toBe(reading.answer);
+  });
+
   it("shows an unanswered question as not answered", () => {
     render(<AnswerReview q={reading} number={3} answer={undefined} section={0} />);
-    expect(screen.getByText("Not answered")).toBeInTheDocument();
+    expect(readAnswers()).toEqual(["Not answered", reading.answer]);
     expect(screen.getByText(`3. ${reading.prompt}`)).toBeInTheDocument();
   });
 

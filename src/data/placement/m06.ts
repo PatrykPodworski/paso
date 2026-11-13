@@ -6,7 +6,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “a la izquierda de”.",
+    instruction: "Choose the English meaning of “a la izquierda de”",
     prompt: "El billete está a la izquierda de la mesa.",
     answer: "to the left of",
     choices: ["to the left of", "to the right of", "behind"],
@@ -18,7 +18,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “a la derecha de”.",
+    instruction: "Choose the English meaning of “a la derecha de”",
     prompt: "La bolsa está a la derecha de la puerta.",
     answer: "to the right of",
     choices: ["to the right of", "to the left of", "in front of"],
@@ -30,7 +30,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "to the left of",
     answer: "a la izquierda de",
     say: "a la izquierda de",
@@ -40,7 +40,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "to the right of",
     answer: "a la derecha de",
     say: "a la derecha de",
@@ -50,8 +50,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N03",
     mode: "cloze",
-    instruction:
-      "Complete the gap. You are looking at the book and the bed. The book is to the left of the bed.",
+    instruction: "Complete the gap",
+    context: "You are looking at the book and the bed. The book is to the left of the bed.",
     prompt: "El libro está ___ la cama.",
     answer: "a la izquierda de",
     say: "El libro está a la izquierda de la cama.",
@@ -65,8 +65,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N03",
     mode: "cloze",
-    instruction:
-      "Complete the gap. You are looking at the book and the box. The book is to the right of the box.",
+    instruction: "Complete the gap",
+    context: "You are looking at the book and the box. The book is to the right of the box.",
     prompt: "El libro está ___ la caja.",
     answer: "a la derecha de",
     say: "El libro está a la derecha de la caja.",
@@ -80,8 +80,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N04",
     mode: "cloze",
-    instruction:
-      "Complete the gap. You are looking at the ticket and the bench. The ticket is to the left of the bench.",
+    instruction: "Complete the gap",
+    context: "You are looking at the ticket and the bench. The ticket is to the left of the bench.",
     prompt: "El billete está ___ banco.",
     answer: "a la izquierda del",
     say: "El billete está a la izquierda del banco.",
@@ -94,8 +94,9 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N04",
     mode: "cloze",
-    instruction:
-      "Complete the gap. You are looking at the phone and the cupboard. The phone is to the right of the cupboard.",
+    instruction: "Complete the gap",
+    context:
+      "You are looking at the phone and the cupboard. The phone is to the right of the cupboard.",
     prompt: "El móvil está ___ armario.",
     answer: "a la derecha del",
     say: "El móvil está a la derecha del armario.",
@@ -108,7 +109,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish. You are looking at the phone and the chair.",
+    instruction: "Translate into Spanish",
+    context: "You are looking at the phone and the chair.",
     prompt: "The phone is to the left of the chair.",
     answer: "El móvil está a la izquierda de la silla.",
     accepted: [
@@ -126,8 +128,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N05",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. You are looking at the backpack and the lamp. Words: backpack = la mochila.",
+    instruction: "Translate into Spanish",
+    context: "You are looking at the backpack and the lamp. Words: backpack = la mochila.",
     prompt: "The backpack is to the right of the lamp.",
     answer: "La mochila está a la derecha de la lámpara.",
     say: "La mochila está a la derecha de la lámpara.",
@@ -141,8 +143,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N06",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. You are looking at the backpack and the sofa. Words: backpack = la mochila.",
+    instruction: "Translate into Spanish",
+    context: "You are looking at the backpack and the sofa. Words: backpack = la mochila.",
     prompt: "The backpack is to the left of the sofa.",
     answer: "La mochila está a la izquierda del sofá.",
     say: "La mochila está a la izquierda del sofá.",
@@ -156,8 +158,9 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N06",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. You are looking at the bag and the cupboard. Words: bag = la bolsa; cupboard = el armario.",
+    instruction: "Translate into Spanish",
+    context:
+      "You are looking at the bag and the cupboard. Words: bag = la bolsa; cupboard = el armario.",
     prompt: "The bag is to the right of the cupboard.",
     answer: "La bolsa está a la derecha del armario.",
     say: "La bolsa está a la derecha del armario.",
@@ -171,7 +174,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-T12-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "La taza está a la izquierda de la ventana.",
     answer: "You are looking at the cup and the window. The cup is to the left of the window.",
     choices: [
@@ -186,7 +189,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-T13-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "La taza está a la derecha de la maleta.",
     answer: "You are looking at the cup and the suitcase. The cup is to the right of the suitcase.",
     choices: [
@@ -201,7 +204,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-M06-X01",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: ticket = el billete.",
+    instruction: "Translate into Spanish",
+    context: "Words: ticket = el billete.",
     prompt: "The ticket is near the sofa.",
     answer: "El billete está cerca del sofá.",
     say: "El billete está cerca del sofá.",
@@ -215,7 +219,8 @@ export const m06Items: Item[] = [
   {
     id: "SP-M06-X02",
     mode: "cloze",
-    instruction: "Complete the gap. The book is far from the door.",
+    instruction: "Complete the gap",
+    context: "The book is far from the door.",
     prompt: "El libro está ___ la puerta.",
     answer: "lejos de",
     say: "El libro está lejos de la puerta.",
@@ -228,7 +233,7 @@ export const m06Items: Item[] = [
   {
     id: "SP-M06-X03",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The phone is right next to the table.",
     answer: "El móvil está al lado de la mesa.",
     accepted: [

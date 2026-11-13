@@ -31,7 +31,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo works at 16:00.",
+    instruction: "Complete the gap",
+    context: "Pablo works at 16:00.",
     prompt: "Pablo trabaja ___.",
     answer: "por la tarde",
     say: "Pablo trabaja por la tarde.",
@@ -41,7 +42,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis reads at 16:00.",
+    instruction: "Translate into Spanish",
+    context: "Luis reads at 16:00.",
     prompt: "Luis reads in the afternoon.",
     answer: "Luis lee por la tarde.",
     accepted: ["Por la tarde Luis lee."],
@@ -67,7 +69,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Tomás is at home at 16:00.",
+    instruction: "Choose the word for the gap",
+    context: "Tomás is at home at 16:00.",
     prompt: "Tomás está en casa ___.",
     answer: "por la tarde",
     choices: ["por la tarde", "por la mañana", "por la noche", "tarde"],
@@ -78,7 +81,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I am in class at 16:00.",
+    instruction: "Complete the gap",
+    context: "I am in class at 16:00.",
     prompt: "Yo estoy en clase ___.",
     answer: "por la tarde",
     say: "Yo estoy en clase por la tarde.",
@@ -88,7 +92,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-V04",
     mode: "cloze",
-    instruction: "Translate into Spanish. Pablo reads at 16:00.",
+    instruction: "Translate into Spanish",
+    context: "Pablo reads at 16:00.",
     prompt: "Pablo reads in the afternoon.",
     answer: "Pablo lee por la tarde.",
     accepted: ["Por la tarde Pablo lee."],
@@ -99,7 +104,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Luis works at 16:00.",
+    instruction: "Complete the gap",
+    context: "Luis works at 16:00.",
     prompt: "Luis trabaja ___.",
     answer: "por la tarde",
     say: "Luis trabaja por la tarde.",
@@ -109,7 +115,8 @@ export const t10Items: Item[] = [
   {
     id: "TM-T10-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Diego reads at 16:00.",
+    instruction: "Translate into Spanish",
+    context: "Diego reads at 16:00.",
     prompt: "Diego reads in the afternoon.",
     answer: "Diego lee por la tarde.",
     accepted: ["Por la tarde Diego lee."],

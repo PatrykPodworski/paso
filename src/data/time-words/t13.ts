@@ -31,7 +31,8 @@ export const t13Items: Item[] = [
   {
     id: "TM-T13-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo eats at home on 2 of the 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Pablo eats at home on 2 of the 7 days this week.",
     prompt: "Pablo ___ come en casa.",
     answer: "a veces",
     say: "Pablo a veces come en casa.",
@@ -41,8 +42,8 @@ export const t13Items: Item[] = [
   {
     id: "TM-T13-E05",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Luis has bread for breakfast on 2 of the 7 days this week.",
+    instruction: "Translate into Spanish",
+    context: "Luis has bread for breakfast on 2 of the 7 days this week.",
     prompt: "Luis sometimes has bread for breakfast.",
     answer: "Luis a veces desayuna pan.",
     accepted: ["A veces Luis desayuna pan.", "Luis desayuna pan a veces."],
@@ -68,7 +69,8 @@ export const t13Items: Item[] = [
   {
     id: "TM-T13-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Tomás works on 2 of the 4 Saturdays this month.",
+    instruction: "Choose the word for the gap",
+    context: "Tomás works on 2 of the 4 Saturdays this month.",
     prompt: "Tomás ___ trabaja los sábados.",
     answer: "a veces",
     choices: ["a veces", "siempre", "nunca"],
@@ -80,7 +82,8 @@ export const t13Items: Item[] = [
   {
     id: "TM-T13-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I eat at the office on 2 of the 7 days this week.",
+    instruction: "Complete the gap",
+    context: "I eat at the office on 2 of the 7 days this week.",
     prompt: "Yo ___ como en la oficina.",
     answer: "a veces",
     say: "Yo a veces como en la oficina.",
@@ -91,7 +94,8 @@ export const t13Items: Item[] = [
   {
     id: "TM-T13-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Luis eats at home on 2 of the 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Luis eats at home on 2 of the 7 days this week.",
     prompt: "Luis ___ come en casa.",
     answer: "a veces",
     say: "Luis a veces come en casa.",
@@ -101,8 +105,8 @@ export const t13Items: Item[] = [
   {
     id: "TM-T13-V10",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Diego has bread for breakfast on 2 of the 7 days this week.",
+    instruction: "Translate into Spanish",
+    context: "Diego has bread for breakfast on 2 of the 7 days this week.",
     prompt: "Diego sometimes has bread for breakfast.",
     answer: "Diego a veces desayuna pan.",
     accepted: ["A veces Diego desayuna pan.", "Diego desayuna pan a veces."],

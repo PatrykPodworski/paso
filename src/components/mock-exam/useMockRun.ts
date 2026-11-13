@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { freshMockRun } from "../../data/mock";
 import type { MockRun, MockRunPatch } from "../../data/types";
 
 export type ChangeRun = (change: MockRunPatch) => void;
 
+// The run id goes with each write, so the server applies it only to that run. A run started
+// before run ids existed has none.
 export type MockRunActions = {
-  onRunChange: ChangeRun;
-  onNewRun: (run: MockRunPatch) => void;
+  onRunChange: (runId: string | undefined, change: MockRunPatch) => void;
+  // `replaces` is the id of the run the new one replaces.
+  onNewRun: (replaces: string | undefined, run: MockRunPatch) => void;
   onLeave: () => void;
 };
 
@@ -17,6 +20,8 @@ export const useMockRun = (
   { onRunChange, onNewRun, onLeave }: MockRunActions,
 ) => {
   const [run, setRun] = useState(() => saved ?? freshMockRun());
+  // A change made right after a restart already belongs to the new run.
+  const runId = useRef(run.id);
 
   // Drafts still waiting to be sent go at once when the learner leaves the exam page.
   useEffect(() => onLeave, [onLeave]);
@@ -34,14 +39,18 @@ export const useMockRun = (
         plays: { ...r.plays, ...patch.plays },
       }));
 
-      onRunChange(patch);
+      onRunChange(runId.current, patch);
     },
     [onRunChange],
   );
 
   const restart = (patch: MockRunPatch = {}) => {
-    setRun({ ...freshMockRun(), ...patch });
-    onNewRun(patch);
+    const replaces = runId.current;
+    const start = { ...patch, id: crypto.randomUUID() };
+
+    runId.current = start.id;
+    setRun({ ...freshMockRun(), ...start });
+    onNewRun(replaces, start);
   };
 
   return { run, change, restart };

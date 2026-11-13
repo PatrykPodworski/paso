@@ -451,7 +451,7 @@ describe("drafts", () => {
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
-    c.mockRun({ drafts: { prep: "notas" } });
+    c.mockRun("run-1", { drafts: { prep: "notas" } });
     c.flushDrafts();
     expect(calls).toHaveLength(2);
     vi.advanceTimersByTime(800);
@@ -462,7 +462,12 @@ describe("drafts", () => {
     sent.reply(ok(snapshot()));
     const mock = await call(2);
 
-    expect(mock.body).toEqual({ action: "mockRun", run: { drafts: { prep: "notas" } } });
+    expect(mock.body).toEqual({
+      action: "mockRun",
+      runId: "run-1",
+      run: { drafts: { prep: "notas" } },
+    });
+
     mock.reply(ok(snapshot()));
     await settle();
     expect(calls).toHaveLength(3);
@@ -516,7 +521,7 @@ describe("drafts", () => {
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
-    c.mockRun({ drafts: { prep: "notas" } });
+    c.mockRun("run-1", { drafts: { prep: "notas" } });
     c.reset();
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
@@ -534,15 +539,15 @@ describe("mock run", () => {
     const c = await loaded();
 
     vi.useFakeTimers();
-    c.mockRun({ drafts: { w1: "Ho" } });
+    c.mockRun("run-1", { drafts: { w1: "Ho" } });
     vi.advanceTimersByTime(500);
-    c.mockRun({ drafts: { w1: "Hola" } });
-    c.mockRun({ drafts: { prep: "notas" }, answers: { r1: "a" }, section: 0, index: 1 });
+    c.mockRun("run-1", { drafts: { w1: "Hola" } });
+    c.mockRun("run-1", { drafts: { prep: "notas" }, answers: { r1: "a" }, section: 0, index: 1 });
     vi.advanceTimersByTime(799);
 
     expect(calls.map((call) => call.body)).toEqual([
       undefined,
-      { action: "mockRun", run: { answers: { r1: "a" }, section: 0, index: 1 } },
+      { action: "mockRun", runId: "run-1", run: { answers: { r1: "a" }, section: 0, index: 1 } },
     ]);
 
     vi.advanceTimersByTime(1);
@@ -551,6 +556,7 @@ describe("mock run", () => {
 
     expect((await call(2)).body).toEqual({
       action: "mockRun",
+      runId: "run-1",
       run: { drafts: { w1: "Hola", prep: "notas" } },
     });
   });
@@ -559,8 +565,8 @@ describe("mock run", () => {
     const c = await loaded();
 
     vi.useFakeTimers();
-    c.mockRun({ drafts: { w1: "Hola" } });
-    c.newMockRun(started);
+    c.mockRun("run-1", { drafts: { w1: "Hola" } });
+    c.newMockRun("run-1", { ...started, id: "run-2" });
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
     (await call(1)).reply(ok(snapshot()));
@@ -568,8 +574,34 @@ describe("mock run", () => {
 
     expect(calls.map((call) => call.body)).toEqual([
       undefined,
-      { action: "mockRun", run: started, replace: true },
+      { action: "mockRun", runId: "run-1", run: { ...started, id: "run-2" }, replace: true },
     ]);
+  });
+
+  it("drops a write for an earlier run without a problem and sends the writes behind it", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const c = await loaded();
+
+    c.mockRun("run-1", { answers: { r1: "a" } });
+    c.check("visa", true);
+    refuse(await call(1), 409);
+
+    expect((await call(2)).body).toEqual({ action: "check", checkId: "visa", done: true });
+    expect(latest()?.problem).toBeNull();
+    expect(log).toHaveBeenCalledWith("Progress save stale", { action: "mockRun", status: 409 });
+  });
+
+  it("drops a kept write for an earlier run on load and shows progress", async () => {
+    const stale = { action: "mockRun", runId: "run-1", run: { answers: { r1: "a" } } };
+
+    localStorage.setItem(UNSENT, JSON.stringify([stale]));
+    void client().load();
+    refuse(await call(0), 409);
+    (await call(1)).reply(ok(snapshot({ name: "Bruno" })));
+
+    await vi.waitFor(() => expect(latest()).toMatchObject({ problem: null }));
+    expect(latest()?.snapshot?.name).toBe("Bruno");
+    expect(unsent()).toBeNull();
   });
 });
 

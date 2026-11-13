@@ -344,6 +344,8 @@ const MOCK_FIELDS: [keyof MockRun, Check][] = [
   ["variants", isExamVariants],
   ["sections", isSections],
   ["resultId", isId],
+  // Set once, when the run starts; a later change cannot move a run to another id.
+  ["id", isId],
 ];
 
 // A question index is only valid within its section, so the two always travel together.

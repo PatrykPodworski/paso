@@ -14,17 +14,27 @@ const DRAFT_DELAY = 800;
 export const RETRY_DELAYS = [2000, 5000, 15000, 30000];
 
 // "save": a write failed and waits to be sent again. "refused": the server refused a write,
-// so sending it again cannot help; it was dropped and the writes behind it went on.
+// so sending it again cannot help; it was dropped and the writes behind it went on. A mock run
+// write for a run that is no longer the current one is dropped without a problem: the current
+// run lost nothing.
 export type Problem = "load" | "save" | "refused";
 export type ProgressState = { snapshot: ProgressSnapshot | null; problem: Problem | null };
 export type Preferences = { name: string; goal: number; examDate: string };
 
-// A failed request. "refused" is an answer the same request would get again.
-type Failure = { failure: "failed" | "refused"; status?: number };
+// A failed request. "refused" is an answer the same request would get again. "stale" is a
+// mock run write the server did not apply, because it was made for an earlier run.
+type Failure = { failure: "failed" | "refused" | "stale"; status?: number };
+
+const STALE_RUN = 409;
 
 // 408 and 429 pass with time; any other 4xx is about the request itself.
 const failureOf = (status: number): Failure => ({
-  failure: status >= 400 && status < 500 && status !== 408 && status !== 429 ? "refused" : "failed",
+  failure:
+    status === STALE_RUN
+      ? "stale"
+      : status >= 400 && status < 500 && status !== 408 && status !== 429
+        ? "refused"
+        : "failed",
   status,
 });
 
@@ -178,7 +188,7 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
 
     if (isFailure(result)) {
       report(body, result);
-      update({ problem: "refused" });
+      update(result.failure === "stale" ? {} : { problem: "refused" });
 
       return;
     }
@@ -229,14 +239,17 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
     void send();
   };
 
-  // The mock run's drafts wait together and go as one change.
-  let mockDrafts: { timer: ReturnType<typeof setTimeout>; drafts: Record<string, string> } | null =
-    null;
+  // The mock run's drafts wait together and go as one change to their run.
+  let mockDrafts: {
+    timer: ReturnType<typeof setTimeout>;
+    runId: string | undefined;
+    drafts: Record<string, string>;
+  } | null = null;
 
   const saveMockDrafts = () => {
     if (mockDrafts) {
       clearTimeout(mockDrafts.timer);
-      write({ action: "mockRun", run: { drafts: mockDrafts.drafts } });
+      write({ action: "mockRun", runId: mockDrafts.runId, run: { drafts: mockDrafts.drafts } });
       mockDrafts = null;
     }
   };
@@ -315,25 +328,27 @@ export const createProgressClient = (learner: string, onChange: (state: Progress
       return ((await response.json()) as { responses: MockResponses | null }).responses;
     },
     // Answers, drafts and scores merge per key on the server; drafts are sent debounced.
-    mockRun: ({ drafts: changed, ...change }: MockRunPatch) => {
+    mockRun: (runId: string | undefined, { drafts: changed, ...change }: MockRunPatch) => {
       if (changed) {
+        // A new run drops the drafts still waiting, so the waiting drafts are all this run's.
         clearTimeout(mockDrafts?.timer);
 
         mockDrafts = {
           timer: setTimeout(saveMockDrafts, DRAFT_DELAY),
+          runId,
           drafts: { ...mockDrafts?.drafts, ...changed },
         };
       }
 
       if (Object.keys(change).length) {
-        write({ action: "mockRun", run: change });
+        write({ action: "mockRun", runId, run: change });
       }
     },
     // The mock exam task variants a section shows as it starts.
     seen: (variants: string[]) => write({ action: "seen", variants, at: new Date().toISOString() }),
-    newMockRun: (run: MockRunPatch) => {
+    newMockRun: (replaces: string | undefined, run: MockRunPatch) => {
       dropMockDrafts();
-      write({ action: "mockRun", run, replace: true });
+      write({ action: "mockRun", runId: replaces, run, replace: true });
     },
     reset: () => {
       drafts.forEach((d) => clearTimeout(d.timer));

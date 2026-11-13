@@ -1010,6 +1010,163 @@ describe("the mock exam run", () => {
   });
 });
 
+describe("mock run ids", () => {
+  const DEADLINE = Date.parse(T) + 45 * 60000;
+  const started = { stage: "run", started: T, deadline: DEADLINE };
+  const OLD = "6f1d2a4c-0000-4000-8000-000000000001";
+  const NEW = "6f1d2a4c-0000-4000-8000-000000000002";
+
+  const write = (id: string, body: Record<string, unknown>) =>
+    send(id, { action: "mockRun", ...body });
+
+  const start = (id: string, runId: string, replaces?: string) =>
+    snapshot(id, {
+      action: "mockRun",
+      run: { ...started, id: runId },
+      replace: true,
+      runId: replaces,
+    });
+
+  // A learner whose run OLD was replaced by NEW, with one answer in each.
+  const replaced = async () => {
+    const me = learner();
+
+    await start(me, OLD);
+    await write(me, { runId: OLD, run: { answers: { "mock-r1-0": "a" } } });
+    await start(me, NEW, OLD);
+    await write(me, { runId: NEW, run: { answers: { "mock-r1-1": "b" } } });
+
+    return me;
+  };
+
+  it("keeps the id a run starts with and applies the changes made for it", async () => {
+    const me = learner();
+
+    await start(me, NEW);
+
+    expect(
+      (
+        await snapshot(me, {
+          action: "mockRun",
+          runId: NEW,
+          run: { index: 1, section: 0 },
+        })
+      ).mockRun,
+    ).toMatchObject({
+      id: NEW,
+      index: 1,
+    });
+  });
+
+  it("refuses a change made for an earlier run, logs it, and leaves the new run as it was", async () => {
+    const me = await replaced();
+    const before = await snapshot(me);
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const response = await write(me, {
+      runId: OLD,
+      run: {
+        answers: { "mock-r1-1": "z" },
+        section: 2,
+        index: 0,
+        stage: "review",
+      },
+    });
+
+    expect([response.status, await response.json()]).toEqual([409, { error: "stale_run" }]);
+    expect(await snapshot(me)).toEqual(before);
+
+    expect(before.mockRun).toMatchObject({
+      id: NEW,
+      section: 0,
+      answers: { "mock-r1-1": "b" },
+    });
+
+    expect(log).toHaveBeenCalledWith("Progress request failed", {
+      endpoint: "/api/progress",
+      status: 409,
+      method: "POST",
+      learner: me,
+      action: "mockRun",
+      error: "stale_run",
+      detail: { runId: OLD, current: NEW },
+    });
+  });
+
+  it("refuses a new run made against an earlier run, so a late start does not wipe a newer run", async () => {
+    const me = await replaced();
+    const before = await snapshot(me);
+
+    const late = await write(me, {
+      run: { ...started, id: "6f1d2a4c-0000-4000-8000-000000000003" },
+      replace: true,
+      runId: OLD,
+    });
+
+    expect(late.status).toBe(409);
+    expect(await snapshot(me)).toEqual(before);
+  });
+
+  it("refuses a change for a run that is gone, and creates no run", async () => {
+    const me = learner();
+
+    expect((await write(me, { runId: OLD, run: { answers: { "mock-r1-0": "a" } } })).status).toBe(
+      409,
+    );
+
+    expect((await snapshot(me)).mockRun).toBeNull();
+  });
+
+  it("keeps a run started before run ids working, until a new run replaces it", async () => {
+    const me = learner();
+
+    await snapshot(me, { action: "mockRun", run: started, replace: true });
+
+    expect(
+      (
+        await snapshot(me, {
+          action: "mockRun",
+          run: { answers: { "mock-r1-0": "a" } },
+        })
+      ).mockRun,
+    ).toMatchObject({
+      answers: { "mock-r1-0": "a" },
+    });
+
+    await start(me, NEW);
+
+    expect((await write(me, { run: { answers: { "mock-r1-0": "z" } } })).status).toBe(409);
+
+    expect((await snapshot(me)).mockRun).toMatchObject({
+      id: NEW,
+      answers: {},
+    });
+  });
+
+  it("refuses a change that sets the run id", async () => {
+    const response = await write(learner(), { runId: OLD, run: { id: NEW } });
+
+    expect([response.status, await response.json()]).toEqual([400, { error: "id" }]);
+  });
+
+  it("refuses a run id that is not an id", async () => {
+    const response = await write(learner(), { runId: 5, run: {} });
+
+    expect([response.status, await response.json()]).toEqual([400, { error: "runId" }]);
+  });
+
+  it("stores a late result of an earlier run under its own id, leaving the new run as it was", async () => {
+    const me = await replaced();
+    const before = (await snapshot(me)).mockRun;
+    const late = { id: "result-old", at: T, ...full, reading: 1, listening: 2 };
+
+    const after = await snapshot(me, { action: "mockResult", result: late });
+
+    expect(after.mockRun).toEqual(before);
+    expect(after.mockResults).toEqual([{ ...late, sections: [0, 1, 2, 3] }]);
+  });
+});
+
 describe("seen exam variants", () => {
   const LATER = "2026-09-10T08:30:00.000Z";
 

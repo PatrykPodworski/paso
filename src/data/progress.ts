@@ -112,7 +112,7 @@ const editDistance = (a: string, b: string) => {
 };
 
 // The accepted answer, as written, nearest to the learner's answer, so the feedback shows the
-// variant they aimed at (ADR 0013). Ties go to the main answer.
+// variant they aimed at (ADR 0014). Ties go to the main answer.
 export const closestAnswer = (q: Question, answer: string) => {
   const typed = normalize(answer);
   let closest = q.answer;

@@ -107,7 +107,8 @@ describe("reviewing writing", () => {
     expect(body.response_format.type).toBe("json_schema");
     expect(body.response_format.json_schema.strict).toBe(true);
     expect(body.response_format.json_schema.schema.required).toContain("mark");
-    expect(data.task).toContain("Your friend Jorge writes");
+    expect(data.task).toContain("Read your friend Jorge's message");
+    expect(data.sourceText).toContain("El domingo quiero visitar tu ciudad");
     expect(data.task).not.toContain("Give band 3");
     expect(data.learnerAnswer).toBe(letter);
     expect(data.wordCount).toBe(30);

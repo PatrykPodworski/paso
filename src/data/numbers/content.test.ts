@@ -39,26 +39,36 @@ const NOUNS =
 
 const FEMININE = /^(casas?|clases?|tiendas|sillas|ventanas)$/;
 
-const VALUES: Record<string, number> = Object.fromEntries(
-  (
+// The value of each word below mil; y adds nothing.
+const UNITS = new Map<string, number>([
+  ...(
     "cero uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece catorce quince " +
     "dieciséis diecisiete dieciocho diecinueve veinte veintiuno veintidós veintitrés veinticuatro " +
     "veinticinco veintiséis veintisiete veintiocho veintinueve"
   )
     .split(" ")
-    .map((w, i) => [w, i]),
-);
+    .map((w, i): [string, number] => [w, i]),
+  ...["treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"].map(
+    (w, i): [string, number] => [w, (i + 3) * 10],
+  ),
+  ["cien", 100],
+  ...HUNDREDS.map((w, i): [string, number] => [w, (i + 1) * 100]),
+  ["y", 0],
+]);
 
-const TENS: Record<string, number> = {
-  treinta: 30,
-  cuarenta: 40,
-  cincuenta: 50,
-  sesenta: 60,
-  setenta: 70,
-  ochenta: 80,
-  noventa: 90,
-  cien: 100,
-};
+// The words that multiply the group before them: tres mil, un millón.
+const SCALES = new Map([
+  ["mil", 1000],
+  ["millón", 1_000_000],
+  ["millones", 1_000_000],
+]);
+
+// Un, una, veintiún, veintiuna and the -as hundreds read as their masculine form.
+const masculine = (word: string) =>
+  word
+    .replace(/^(un|una)$/, "uno")
+    .replace(/^(veintiún|veintiuna)$/, "veintiuno")
+    .replace(/as$/, "os");
 
 // The number an answer names, as digits or words (un, una, veintiún, doscientas count too);
 // undefined for a sentence or an English answer.
@@ -70,28 +80,15 @@ const valueOf = (answer: string): number | undefined => {
   let total = 0;
   let group = 0;
 
-  for (const raw of answer.split(" ")) {
-    const w = raw
-      .replace(/^(un|una)$/, "uno")
-      .replace(/^(veintiún|veintiuna)$/, "veintiuno")
-      .replace(/as$/, "os");
+  for (const w of answer.split(" ").map(masculine)) {
+    const scale = SCALES.get(w);
+    const unit = UNITS.get(w);
 
-    const hundred = HUNDREDS.indexOf(w);
-
-    if (w === "y") {
-      continue;
-    } else if (w === "mil") {
-      total += (group || 1) * 1000;
+    if (scale !== undefined) {
+      total += (group || 1) * scale;
       group = 0;
-    } else if (w === "millón" || w === "millones") {
-      total += (group || 1) * 1_000_000;
-      group = 0;
-    } else if (hundred >= 0) {
-      group += (hundred + 1) * 100;
-    } else if (w in TENS) {
-      group += TENS[w];
-    } else if (w in VALUES) {
-      group += VALUES[w];
+    } else if (unit !== undefined) {
+      group += unit;
     } else {
       return undefined;
     }

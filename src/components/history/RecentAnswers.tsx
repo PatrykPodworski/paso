@@ -2,7 +2,7 @@ import type { Attempt } from "../../data/types";
 import { Eyebrow } from "../../design-system/Eyebrow";
 import { SectionHeading } from "../../design-system/SectionHeading";
 import { exerciseBank } from "../practice";
-import { QuestionInstruction } from "../QuestionInstruction";
+import { InstructionAndContext } from "../InstructionAndContext";
 import { SkillDot } from "../SkillDot";
 import { answerResult } from "./answerResult";
 
@@ -46,7 +46,7 @@ export const RecentAnswers = ({ recent }: Props) => {
               </span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm leading-relaxed">
-                  <QuestionInstruction instruction={q.instruction} className="text-xs" />
+                  <InstructionAndContext q={q} className="text-xs" />
                   {q.prompt}
                 </p>
                 {a.answer && (

@@ -17,6 +17,7 @@ it.each([
 const base = {
   id: "WD-X",
   instruction: "Translate into Spanish",
+  context: "You are speaking to a friend.",
   prompt: "You visit on Monday.",
   answer: "Visitas el lunes.",
   say: "Visitas el lunes.",
@@ -27,11 +28,12 @@ const base = {
 it.each<Item>([
   { ...base, mode: "cloze" },
   { ...base, mode: "choice", choices: ["lunes", "martes"] },
-])("keeps the task instruction of a $mode item", (item) => {
+])("keeps the task instruction and context of a $mode item", (item) => {
   const question = questionOf(item);
 
-  expect([question.instruction, question.prompt]).toEqual([
+  expect([question.instruction, question.context, question.prompt]).toEqual([
     "Translate into Spanish",
+    "You are speaking to a friend.",
     "You visit on Monday.",
   ]);
 });

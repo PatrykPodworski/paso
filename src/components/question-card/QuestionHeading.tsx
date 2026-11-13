@@ -7,7 +7,6 @@ import { AudioButton } from "../audio/AudioButton";
 import type { AudioHandle } from "../audio/useAudioPlayer";
 import { isSilentTask } from "./useAnswer";
 import { type LastAttempt, LastTime } from "../history/LastTime";
-import { QuestionInstruction } from "../QuestionInstruction";
 
 type QuestionKindProps = { q: Question; productive: boolean; previous?: LastAttempt };
 
@@ -25,6 +24,34 @@ const QuestionKind = ({ q, productive, previous }: QuestionKindProps) => (
     {previous && <LastTime previous={previous} />}
   </div>
 );
+
+// The instruction, small and muted, then the sentence or situation it refers to, on its own
+// line with a rule at its start. Both sit outside the heading, so a screen reader reads them
+// first and the heading's name stays the prompt alone.
+type QuestionLeadProps = { q: Question };
+
+const QuestionLead = ({ q }: QuestionLeadProps) =>
+  q.instruction || q.context ? (
+    <div className="mbs-3.5 flex flex-col gap-2">
+      {q.instruction && (
+        <p className="text-sm leading-relaxed text-muted-foreground">{q.instruction}</p>
+      )}
+      {q.context && (
+        <p className="question-context border-s-2 border-border ps-3 text-base leading-relaxed text-foreground">
+          {q.context}
+        </p>
+      )}
+    </div>
+  ) : null;
+
+// The prompt sits close under an instruction alone, a little further under a context line.
+const headingMargin = (q: Question) => {
+  if (q.context) {
+    return "mbs-3";
+  }
+
+  return q.instruction ? "mbs-1" : "mbs-3.5";
+};
 
 // The exam's plays of a recording, which every question that shares it counts together.
 export type RecordingPlays = { count: number; onPlayed: () => void };
@@ -94,15 +121,12 @@ export const QuestionHeading = ({
   return (
     <>
       <QuestionKind q={q} productive={productive} previous={previous} />
-      <QuestionInstruction
-        instruction={q.instruction}
-        className="mbs-3.5 text-sm leading-relaxed"
-      />
+      <QuestionLead q={q} />
       <div className="question-heading grid grid-cols-1 gap-x-3">
         <h2
           ref={heading}
           tabIndex={-1}
-          className={`font-heading tracking-tight col-start-1 row-start-1 ${q.instruction ? "mbs-1" : "mbs-3.5"} mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mx-0 max-md:mb-5`}
+          className={`font-heading tracking-tight col-start-1 row-start-1 ${headingMargin(q)} mx-0 mb-6 text-2xl font-medium leading-normal focus:outline-none max-md:mx-0 max-md:mb-5`}
         >
           {q.prompt}
         </h2>

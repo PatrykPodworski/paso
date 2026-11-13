@@ -30,7 +30,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T10-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Del centro”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Del centro”.",
     prompt: "¿___ viene el autobús?",
     answer: "De dónde",
     choices: ["De dónde", "Adónde", "Dónde"],
@@ -41,7 +42,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T11-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Al centro”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Al centro”.",
     prompt: "¿___ va el autobús?",
     answer: "Adónde",
     choices: ["Adónde", "De dónde", "Dónde"],
@@ -52,7 +54,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T10-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Es de Madrid”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Es de Madrid”.",
     prompt: "¿___ es Pablo?",
     answer: "de dónde",
     say: "¿De dónde es Pablo?",
@@ -62,7 +65,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T11-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “A la tienda”.",
+    instruction: "Complete the gap",
+    context: "The reply is “A la tienda”.",
     prompt: "¿___ va Pablo?",
     answer: "adónde",
     accepted: ["a dónde"],
@@ -73,7 +77,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T10-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where are you from?",
     answer: "¿De dónde eres?",
     accepted: ["¿De dónde eres tú?"],
@@ -86,7 +91,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T11-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where are you going?",
     answer: "¿Adónde vas?",
     accepted: ["¿A dónde vas tú?", "¿A dónde vas?", "¿Adónde vas tú?"],
@@ -96,7 +102,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T10-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “De Madrid”.",
+    instruction: "Complete the gap",
+    context: "The reply is “De Madrid”.",
     prompt: "¿___ sale el tren?",
     answer: "de dónde",
     say: "¿De dónde sale el tren?",
@@ -128,7 +135,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T10-N08",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where are you coming from?",
     answer: "¿De dónde vienes?",
     accepted: ["¿De dónde vienes tú?"],
@@ -141,7 +149,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T11-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Al museo”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Al museo”.",
     prompt: "¿___ vas el sábado?",
     answer: "adónde",
     accepted: ["a dónde"],
@@ -172,7 +181,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-T11-N08",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where are you going by bus?",
     answer: "¿Adónde vas en autobús?",
     accepted: [
@@ -188,7 +198,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-M05-X01",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where do you work?",
     answer: "¿Dónde trabajas?",
     accepted: ["¿Dónde trabajas tú?"],
@@ -198,7 +209,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-M05-X02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “En casa”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “En casa”.",
     prompt: "¿___ está Pablo?",
     answer: "Dónde",
     choices: ["Dónde", "Adónde", "De dónde"],
@@ -218,7 +230,8 @@ export const m05Items: Item[] = [
   {
     id: "AQ-M05-X04",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Veinte”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Veinte”.",
     prompt: "¿___ euros tienes?",
     answer: "cuántos",
     say: "¿Cuántos euros tienes?",

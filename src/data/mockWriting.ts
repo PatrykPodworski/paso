@@ -190,7 +190,7 @@ const w2: MockVariant[] = [
   message(1, "a friend's visit", ["Jorge"], {
     task: "Task 2 · Reply to an invitation",
     prompt:
-      "Your friend Jorge writes: “Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Jorge.” Write 30–40 words: greet him, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
+      "Read your friend Jorge's message. Write 30–40 words: greet him, answer the invitation, give a meeting place and time, suggest an activity and say goodbye.",
     passage:
       "Hola. El domingo quiero visitar tu ciudad. ¿Puedes quedar conmigo? ¿Dónde y a qué hora? ¿Qué podemos hacer? Un abrazo, Jorge.",
     answer:
@@ -207,7 +207,7 @@ const w2: MockVariant[] = [
   message(2, "a birthday present", ["Víctor"], {
     task: "Task 2 · Thank a friend",
     prompt:
-      "Your friend Víctor sends you a book for your birthday with this note: “¡Feliz cumpleaños! Es un libro de cocina mexicana. ¿Qué plato vas a preparar primero? Un abrazo, Víctor.” Write 30–40 words: greet him, thank him for the book, say which dish you are going to cook first, invite him to eat it with you and say goodbye.",
+      "Your friend Víctor sends you a book for your birthday. Read his note. Write 30–40 words: greet him, thank him for the book, say which dish you are going to cook first, invite him to eat it with you and say goodbye.",
     passage:
       "¡Feliz cumpleaños! Es un libro de cocina mexicana. ¿Qué plato vas a preparar primero? Un abrazo, Víctor.",
     answer:
@@ -224,7 +224,7 @@ const w2: MockVariant[] = [
   message(3, "weekend excursions", ["Emilio"], {
     task: "Task 2 · Ask for information",
     prompt:
-      "You read this advert: “EXCURSIONES DE FIN DE SEMANA. Visitamos pueblos y montañas cerca de Granada. Grupos pequeños. Para más información, escriba a Emilio.” Write an email of 30–40 words to Emilio: greet him, say who you are, ask how much the excursion costs, ask what time the bus leaves and say goodbye.",
+      "Read the advert for weekend excursions. Write an email of 30–40 words to Emilio: greet him, say who you are, ask how much the excursion costs, ask what time the bus leaves and say goodbye.",
     passage:
       "EXCURSIONES DE FIN DE SEMANA\nVisitamos pueblos y montañas cerca de Granada. Grupos pequeños. Para más información, escriba a Emilio.",
     answer:
@@ -256,7 +256,7 @@ const w2: MockVariant[] = [
   message(5, "a friend's football match", ["Rodrigo"], {
     task: "Task 2 · Say no to a plan",
     prompt:
-      "Your friend Rodrigo writes: “Hola. El viernes por la tarde juego un partido de fútbol con mi equipo. ¿Vienes a verme? Después vamos a cenar todos juntos. Rodrigo.” You cannot go. Write 30–40 words: greet him, say that you cannot go, explain why, suggest another day to meet and say goodbye.",
+      "Read your friend Rodrigo's message. You cannot go. Write 30–40 words: greet him, say that you cannot go, explain why, suggest another day to meet and say goodbye.",
     passage:
       "Hola. El viernes por la tarde juego un partido de fútbol con mi equipo. ¿Vienes a verme? Después vamos a cenar todos juntos. Rodrigo.",
     answer:

@@ -41,7 +41,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T14-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Desde mayo”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Desde mayo”.",
     prompt: "¿___ trabajas aquí?",
     answer: "Desde cuándo",
     choices: ["Desde cuándo", "Hasta cuándo", "Cada cuánto"],
@@ -52,7 +53,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T15-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Hasta el domingo”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Hasta el domingo”.",
     prompt: "¿___ está Pablo en el hotel?",
     answer: "Hasta cuándo",
     choices: ["Hasta cuándo", "Desde cuándo", "Cada cuánto"],
@@ -63,7 +65,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T16-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Cada mes”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Cada mes”.",
     prompt: "¿___ vienes a Madrid?",
     answer: "Cada cuánto",
     choices: ["Cada cuánto", "Desde cuándo", "Hasta cuándo"],
@@ -74,7 +77,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T14-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Desde junio”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Desde junio”.",
     prompt: "¿___ estudias español?",
     answer: "desde cuándo",
     say: "¿Desde cuándo estudias español?",
@@ -84,7 +88,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T15-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Hasta el viernes”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Hasta el viernes”.",
     prompt: "¿___ estás en la oficina?",
     answer: "hasta cuándo",
     say: "¿Hasta cuándo estás en la oficina?",
@@ -94,7 +99,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T16-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Cada lunes”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Cada lunes”.",
     prompt: "¿___ trabajas en casa?",
     answer: "cada cuánto",
     accepted: ["cada cuánto tiempo"],
@@ -105,7 +111,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T14-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Since when have you lived in Madrid?",
     answer: "¿Desde cuándo vives en Madrid?",
     accepted: ["¿Desde cuándo vives en Madrid tú?", "¿Desde cuándo vives tú en Madrid?"],
@@ -115,7 +122,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T15-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Until when are you in Madrid?",
     answer: "¿Hasta cuándo estás en Madrid?",
     accepted: ["¿Hasta cuándo estás en Madrid tú?", "¿Hasta cuándo estás tú en Madrid?"],
@@ -125,7 +133,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T16-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "How often do you go to the museum?",
     answer: "¿Cada cuánto vas al museo?",
     accepted: [
@@ -141,7 +150,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T14-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Desde el domingo”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Desde el domingo”.",
     prompt: "¿___ trabaja Pablo en la tienda?",
     answer: "desde cuándo",
     say: "¿Desde cuándo trabaja Pablo en la tienda?",
@@ -177,7 +187,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T15-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Hasta el lunes”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Hasta el lunes”.",
     prompt: "¿___ tienes clase?",
     answer: "hasta cuándo",
     say: "¿Hasta cuándo tienes clase?",
@@ -207,7 +218,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-T16-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Cada día”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Cada día”.",
     prompt: "¿___ compra Luis pan?",
     answer: "cada cuánto",
     accepted: ["cada cuánto tiempo"],
@@ -242,7 +254,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-M07-X01",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “En junio”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “En junio”.",
     prompt: "¿___ viene tu hermano?",
     answer: "Cuándo",
     choices: ["Cuándo", "Desde cuándo", "Hasta cuándo"],
@@ -253,7 +266,8 @@ export const m07Items: Item[] = [
   {
     id: "AQ-M07-X02",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "What time do you have class?",
     answer: "¿A qué hora tienes clase?",
     accepted: ["¿A qué hora tienes clase tú?", "¿A qué hora tienes tú clase?"],

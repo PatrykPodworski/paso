@@ -55,7 +55,7 @@ const givenAway = (q: Question) => {
     return [];
   }
 
-  const task = ` ${normalize(`${q.instruction ?? ""} ${q.prompt}`)} `;
+  const task = ` ${normalize(`${q.instruction ?? ""} ${q.context ?? ""} ${q.prompt}`)} `;
 
   return [q.answer, ...(q.accepted ?? [])]
     .filter((a) => framesOf(a).some((frame) => task.includes(` ${frame} `)))
@@ -126,11 +126,19 @@ describe("practice-set item rules (#755)", () => {
         accepted: ["Café con Luis: hoy."],
       }),
       question({ id: "D", kind: "type", prompt: "Reunión de Luis: ___.", answer: "hoy" }),
+      question({
+        id: "E",
+        kind: "type",
+        context: "Write it as: El libro está en la mesa.",
+        prompt: "The book is on the table.",
+        answer: "El libro está en la mesa.",
+      }),
     ];
 
     expect(fixture.flatMap(givenAway)).toEqual([
       "B: La taza está en la caja.",
       "C: Café con Luis: hoy.",
+      "E: El libro está en la mesa.",
     ]);
 
     const leaks = lessons.flatMap((l) =>

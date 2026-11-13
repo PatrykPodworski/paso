@@ -5,6 +5,10 @@ export { mergedCorrections } from "../../src/data/corrections.ts";
 // Structured outputs accept no array length limits. Fixes for missed points and for items
 // below correct sit outside this cap; other corrections stop here.
 export const MAX_CORRECTIONS = 8;
+// The most items a talk task grades.
+export const MAX_TALK_ITEMS = 20;
+// A talk score lists one fix per item below correct, then at most MAX_CORRECTIONS others.
+export const MAX_TALK_CORRECTIONS = MAX_TALK_ITEMS + MAX_CORRECTIONS;
 export const CORRECTION_FIELDS = ["original", "corrected", "explanation"] as const;
 
 export const correctionSchema = {

@@ -31,7 +31,8 @@ export const t09Items: Item[] = [
   {
     id: "TM-T09-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Luis works at 9:00.",
+    instruction: "Complete the gap",
+    context: "Luis works at 9:00.",
     prompt: "Luis trabaja ___.",
     answer: "por la mañana",
     say: "Luis trabaja por la mañana.",
@@ -41,7 +42,8 @@ export const t09Items: Item[] = [
   {
     id: "TM-T09-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Diego reads at 9:00.",
+    instruction: "Translate into Spanish",
+    context: "Diego reads at 9:00.",
     prompt: "Diego reads in the morning.",
     answer: "Diego lee por la mañana.",
     accepted: ["Por la mañana Diego lee."],
@@ -67,7 +69,8 @@ export const t09Items: Item[] = [
   {
     id: "TM-T09-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Diego eats at 9:00.",
+    instruction: "Choose the word for the gap",
+    context: "Diego eats at 9:00.",
     prompt: "Diego come ___.",
     answer: "por la mañana",
     choices: ["por la mañana", "por la tarde", "por la noche", "mañana"],
@@ -78,7 +81,8 @@ export const t09Items: Item[] = [
   {
     id: "TM-T09-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo works at 9:00.",
+    instruction: "Complete the gap",
+    context: "Pablo works at 9:00.",
     prompt: "Pablo trabaja ___.",
     answer: "por la mañana",
     say: "Pablo trabaja por la mañana.",
@@ -88,7 +92,8 @@ export const t09Items: Item[] = [
   {
     id: "TM-T09-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo reads at 9:00.",
+    instruction: "Complete the gap",
+    context: "Pablo reads at 9:00.",
     prompt: "Pablo lee ___.",
     answer: "por la mañana",
     say: "Pablo lee por la mañana.",
@@ -98,7 +103,8 @@ export const t09Items: Item[] = [
   {
     id: "TM-T09-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis is at home at 9:00.",
+    instruction: "Translate into Spanish",
+    context: "Luis is at home at 9:00.",
     prompt: "Luis is at home in the morning.",
     answer: "Luis está en casa por la mañana.",
     accepted: ["Por la mañana Luis está en casa."],

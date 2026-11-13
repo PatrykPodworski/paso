@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Attempt, ProgressSnapshot } from "../../data/types";
 import { emptySnapshot } from "../../test/progress";
-import { createProgressClient, type ProgressState } from "./progressClient";
+import { createProgressClient, RETRY_DELAYS, type ProgressState } from "./progressClient";
 
 const LEARNER = "0b7e3c4a-2f6d-4a8e-9c1b-5d3f7e9a1c2b";
 
@@ -16,6 +16,7 @@ type Call = {
 
 let calls: Call[];
 let states: ProgressState[];
+let clients: ReturnType<typeof createProgressClient>[];
 
 const latest = () => states.at(-1);
 const snapshot = (patch: Partial<ProgressSnapshot> = {}) => ({ ...emptySnapshot(), ...patch });
@@ -25,6 +26,10 @@ const ok = (body: object) => Response.json(body);
 beforeEach(() => {
   calls = [];
   states = [];
+  clients = [];
+  localStorage.clear();
+  // Each failed request is reported to the console.
+  vi.spyOn(console, "error").mockImplementation(() => {});
 
   vi.stubGlobal(
     "fetch",
@@ -51,10 +56,21 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  clients.forEach((c) => c.stop());
   vi.useRealTimers();
 });
 
-const client = () => createProgressClient(LEARNER, (state) => states.push(state));
+const client = () => {
+  const c = createProgressClient(LEARNER, (state) => states.push(state));
+
+  clients.push(c);
+
+  return c;
+};
+
+const UNSENT = `paso-unsent-v1-${LEARNER}`;
+const unsent = () => JSON.parse(localStorage.getItem(UNSENT) ?? "null");
+const refuse = (c: Call, status = 400) => c.reply(Response.json({ error: "run" }, { status }));
 
 const call = async (n: number) => {
   await vi.waitFor(() => expect(calls.length).toBeGreaterThan(n));
@@ -230,6 +246,185 @@ describe("writes", () => {
   });
 });
 
+describe("failed writes", () => {
+  const check = { action: "check", checkId: "visa", done: true };
+
+  it.each([
+    ["a network error", (c: Call) => c.fail()],
+    ["a server error", (c: Call) => c.reply(new Response("{}", { status: 503 }))],
+    ["a rate limit", (c: Call) => refuse(c, 429)],
+    ["a timeout", (c: Call) => refuse(c, 408)],
+  ])("sends a write again by itself after %s, with longer waits", async (_, answer) => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.check("visa", true);
+
+    for (const [n, delay] of RETRY_DELAYS.entries()) {
+      answer(calls[n + 1]);
+      await vi.advanceTimersByTimeAsync(delay - 1);
+      expect(calls).toHaveLength(n + 2);
+      await vi.advanceTimersByTimeAsync(1);
+      expect(calls[n + 2].body).toEqual(check);
+    }
+
+    calls.at(-1)!.reply(ok(snapshot({ checks: ["visa"] })));
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(latest()).toEqual({ snapshot: snapshot({ checks: ["visa"] }), problem: null });
+  });
+
+  it("keeps waiting the longest delay between later tries", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.check("visa", true);
+
+    for (const delay of [...RETRY_DELAYS, 30000, 30000]) {
+      calls.at(-1)!.fail();
+      await vi.advanceTimersByTimeAsync(delay);
+    }
+
+    expect(calls).toHaveLength(RETRY_DELAYS.length + 4);
+  });
+
+  it("sends a failed write at once when the browser is back online", async () => {
+    const c = await loaded();
+
+    c.check("visa", true);
+    (await call(1)).fail();
+    await vi.waitFor(() => expect(latest()?.problem).toBe("save"));
+    window.dispatchEvent(new Event("online"));
+
+    expect((await call(2)).body).toEqual(check);
+  });
+
+  it("drops a write the server refuses, says so, and sends the writes behind it", async () => {
+    const c = await loaded();
+
+    c.check("visa", true);
+    c.attempt(attempt);
+    refuse(await call(1));
+
+    const next = await call(2);
+
+    expect(next.body?.action).toBe("attempt");
+    expect(latest()?.problem).toBe("refused");
+    next.reply(ok(snapshot({ xp: 5 })));
+    await vi.waitFor(() => expect(latest()?.snapshot?.xp).toBe(5));
+    expect(latest()?.problem).toBe("refused");
+    expect(unsent()).toBeNull();
+  });
+
+  it("closes the dialog on Continue and does not open it again for background tries", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.check("visa", true);
+    calls[1].fail();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(latest()?.problem).toBe("save");
+
+    c.dismiss();
+    expect(latest()?.problem).toBeNull();
+    await vi.advanceTimersByTimeAsync(RETRY_DELAYS[0]);
+    calls[2].fail();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(latest()?.problem).toBeNull();
+
+    // Once everything is saved, the next failure opens it again.
+    await vi.advanceTimersByTimeAsync(RETRY_DELAYS[1]);
+    calls[3].reply(ok(snapshot()));
+    await vi.advanceTimersByTimeAsync(0);
+    c.attempt(attempt);
+    calls[4].fail();
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(latest()?.problem).toBe("save");
+  });
+
+  it("closes the dialog once a try in the background saves the write", async () => {
+    const c = await loaded();
+
+    vi.useFakeTimers();
+    c.check("visa", true);
+    calls[1].fail();
+    await vi.advanceTimersByTimeAsync(RETRY_DELAYS[0]);
+    calls[2].reply(ok(snapshot()));
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(latest()?.problem).toBeNull();
+  });
+
+  it("keeps unsent writes on this device while a write fails, and forgets them once saved", async () => {
+    const c = await loaded();
+
+    c.check("visa", true);
+    expect(unsent()).toBeNull();
+    (await call(1)).fail();
+    await vi.waitFor(() => expect(unsent()).toEqual([check]));
+    c.attempt(attempt);
+
+    const both = [check, { action: "attempt", attempt, timeZone: "Europe/Madrid" }];
+
+    expect(unsent()).toEqual(both);
+    void c.retry();
+    (await call(2)).reply(ok(snapshot()));
+    await vi.waitFor(() => expect(unsent()).toEqual(both.slice(1)));
+    (await call(3)).reply(ok(snapshot()));
+    await vi.waitFor(() => expect(unsent()).toBeNull());
+  });
+
+  it("sends the writes kept from an earlier visit before it shows progress", async () => {
+    localStorage.setItem(UNSENT, JSON.stringify([check, { action: "reset" }]));
+    void client().load();
+
+    (await call(0)).reply(ok(snapshot({ checks: ["visa"] })));
+    expect((await call(1)).body).toEqual({ action: "reset" });
+    expect(latest()).toBeUndefined();
+    expect(unsent()).toEqual([{ action: "reset" }]);
+    calls[1].reply(ok(snapshot({ xp: 0 })));
+    (await call(2)).reply(ok(snapshot({ name: "Bruno" })));
+
+    await vi.waitFor(() => expect(latest()?.snapshot?.name).toBe("Bruno"));
+    expect(calls.map((c) => c.method)).toEqual(["POST", "POST", "GET"]);
+    expect(unsent()).toBeNull();
+  });
+
+  it("drops a kept write the server refuses on load, and fails the load on a failed one", async () => {
+    localStorage.setItem(UNSENT, JSON.stringify([check, { action: "reset" }]));
+    const c = client();
+
+    void c.load();
+    refuse(await call(0));
+    (await call(1)).fail();
+    await vi.waitFor(() => expect(latest()).toEqual({ snapshot: null, problem: "load" }));
+    expect(unsent()).toEqual([{ action: "reset" }]);
+
+    void c.retry();
+    expect((await call(2)).body).toEqual({ action: "reset" });
+  });
+
+  it("ignores kept writes it cannot read", async () => {
+    localStorage.setItem(UNSENT, "{not json");
+    void client().load();
+
+    expect((await call(0)).method).toBe("GET");
+  });
+
+  it("reports each failed request to the console", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const c = await loaded();
+
+    c.check("visa", true);
+    refuse(await call(1), 413);
+
+    await vi.waitFor(() =>
+      expect(log).toHaveBeenCalledWith("Progress save refused", { action: "check", status: 413 }),
+    );
+  });
+});
+
 describe("drafts", () => {
   it("saves a draft 800 ms after the last change, per question", async () => {
     const c = await loaded();
@@ -256,7 +451,7 @@ describe("drafts", () => {
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
-    c.mockRun({ drafts: { prep: "notas" } });
+    c.mockRun("run-1", { drafts: { prep: "notas" } });
     c.flushDrafts();
     expect(calls).toHaveLength(2);
     vi.advanceTimersByTime(800);
@@ -267,7 +462,12 @@ describe("drafts", () => {
     sent.reply(ok(snapshot()));
     const mock = await call(2);
 
-    expect(mock.body).toEqual({ action: "mockRun", run: { drafts: { prep: "notas" } } });
+    expect(mock.body).toEqual({
+      action: "mockRun",
+      runId: "run-1",
+      run: { drafts: { prep: "notas" } },
+    });
+
     mock.reply(ok(snapshot()));
     await settle();
     expect(calls).toHaveLength(3);
@@ -321,7 +521,7 @@ describe("drafts", () => {
 
     vi.useFakeTimers();
     c.draft("u2-w1", "Me llamo");
-    c.mockRun({ drafts: { prep: "notas" } });
+    c.mockRun("run-1", { drafts: { prep: "notas" } });
     c.reset();
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
@@ -339,15 +539,15 @@ describe("mock run", () => {
     const c = await loaded();
 
     vi.useFakeTimers();
-    c.mockRun({ drafts: { w1: "Ho" } });
+    c.mockRun("run-1", { drafts: { w1: "Ho" } });
     vi.advanceTimersByTime(500);
-    c.mockRun({ drafts: { w1: "Hola" } });
-    c.mockRun({ drafts: { prep: "notas" }, answers: { r1: "a" }, section: 0, index: 1 });
+    c.mockRun("run-1", { drafts: { w1: "Hola" } });
+    c.mockRun("run-1", { drafts: { prep: "notas" }, answers: { r1: "a" }, section: 0, index: 1 });
     vi.advanceTimersByTime(799);
 
     expect(calls.map((call) => call.body)).toEqual([
       undefined,
-      { action: "mockRun", run: { answers: { r1: "a" }, section: 0, index: 1 } },
+      { action: "mockRun", runId: "run-1", run: { answers: { r1: "a" }, section: 0, index: 1 } },
     ]);
 
     vi.advanceTimersByTime(1);
@@ -356,6 +556,7 @@ describe("mock run", () => {
 
     expect((await call(2)).body).toEqual({
       action: "mockRun",
+      runId: "run-1",
       run: { drafts: { w1: "Hola", prep: "notas" } },
     });
   });
@@ -364,8 +565,8 @@ describe("mock run", () => {
     const c = await loaded();
 
     vi.useFakeTimers();
-    c.mockRun({ drafts: { w1: "Hola" } });
-    c.newMockRun(started);
+    c.mockRun("run-1", { drafts: { w1: "Hola" } });
+    c.newMockRun("run-1", { ...started, id: "run-2" });
     vi.advanceTimersByTime(800);
     vi.useRealTimers();
     (await call(1)).reply(ok(snapshot()));
@@ -373,8 +574,34 @@ describe("mock run", () => {
 
     expect(calls.map((call) => call.body)).toEqual([
       undefined,
-      { action: "mockRun", run: started, replace: true },
+      { action: "mockRun", runId: "run-1", run: { ...started, id: "run-2" }, replace: true },
     ]);
+  });
+
+  it("drops a write for an earlier run without a problem and sends the writes behind it", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const c = await loaded();
+
+    c.mockRun("run-1", { answers: { r1: "a" } });
+    c.check("visa", true);
+    refuse(await call(1), 409);
+
+    expect((await call(2)).body).toEqual({ action: "check", checkId: "visa", done: true });
+    expect(latest()?.problem).toBeNull();
+    expect(log).toHaveBeenCalledWith("Progress save stale", { action: "mockRun", status: 409 });
+  });
+
+  it("drops a kept write for an earlier run on load and shows progress", async () => {
+    const stale = { action: "mockRun", runId: "run-1", run: { answers: { r1: "a" } } };
+
+    localStorage.setItem(UNSENT, JSON.stringify([stale]));
+    void client().load();
+    refuse(await call(0), 409);
+    (await call(1)).reply(ok(snapshot({ name: "Bruno" })));
+
+    await vi.waitFor(() => expect(latest()).toMatchObject({ problem: null }));
+    expect(latest()?.snapshot?.name).toBe("Bruno");
+    expect(unsent()).toBeNull();
   });
 });
 

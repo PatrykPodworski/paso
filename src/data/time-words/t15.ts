@@ -28,7 +28,8 @@ export const t15Items: Item[] = [
   {
     id: "TM-T15-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Luis is at the office from 8:00 to 15:00. Say when it starts.",
+    instruction: "Complete the gap",
+    context: "Luis is at the office from 8:00 to 15:00. Say when it starts.",
     prompt: "Luis está en la oficina ___ las ocho.",
     answer: "desde",
     say: "Luis está en la oficina desde las ocho.",
@@ -39,7 +40,8 @@ export const t15Items: Item[] = [
   {
     id: "TM-T15-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Diego studies from 16:00 to 18:00. Say when it starts.",
+    instruction: "Translate into Spanish",
+    context: "Diego studies from 16:00 to 18:00. Say when it starts.",
     prompt: "Diego studies from 16:00.",
     answer: "Diego estudia desde las cuatro.",
     accepted: ["Desde las cuatro Diego estudia."],
@@ -65,8 +67,8 @@ export const t15Items: Item[] = [
   {
     id: "TM-T15-V11",
     mode: "choice",
-    instruction:
-      "Choose the word for the gap. Diego is in class from 16:00 to 18:00. Say when it starts.",
+    instruction: "Choose the word for the gap",
+    context: "Diego is in class from 16:00 to 18:00. Say when it starts.",
     prompt: "Diego está en clase ___ las cuatro.",
     answer: "desde",
     choices: ["desde", "hasta", "antes"],
@@ -77,7 +79,8 @@ export const t15Items: Item[] = [
   {
     id: "TM-T15-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo studies from 9:00 to 17:00. Say when it starts.",
+    instruction: "Complete the gap",
+    context: "Pablo studies from 9:00 to 17:00. Say when it starts.",
     prompt: "Pablo estudia ___ las nueve.",
     answer: "desde",
     say: "Pablo estudia desde las nueve.",
@@ -87,7 +90,8 @@ export const t15Items: Item[] = [
   {
     id: "TM-T15-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis is at home from 8:00 to 15:00. Say when it starts.",
+    instruction: "Translate into Spanish",
+    context: "Luis is at home from 8:00 to 15:00. Say when it starts.",
     prompt: "Luis is at home from 8:00.",
     answer: "Luis está en casa desde las ocho.",
     accepted: ["Desde las ocho Luis está en casa."],

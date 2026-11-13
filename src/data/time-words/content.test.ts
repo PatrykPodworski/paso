@@ -210,77 +210,100 @@ describe("time words content", () => {
       ].map((id) => {
         const q = question(id);
 
-        return [q.instruction, q.prompt, q.pronunciation];
+        return [q.instruction, q.context, q.prompt, q.pronunciation];
       }),
     ).toEqual([
-      ["Choose the English meaning", "hoy", "hoy"],
+      ["Choose the English meaning", undefined, "hoy", "hoy"],
       [
-        "Complete the gap. Today is Tuesday. Luis’s meeting is on Tuesday.",
+        "Complete the gap",
+        "Today is Tuesday. Luis’s meeting is on Tuesday.",
         "Reunión de Luis: ___.",
         "Reunión de Luis: hoy.",
       ],
       [
-        "Translate the calendar note into Spanish. Today is Tuesday. Coffee with Diego is on Wednesday.",
+        "Translate the calendar note into Spanish",
+        "Today is Tuesday. Coffee with Diego is on Wednesday.",
         "Coffee with Diego: tomorrow.",
         "Café con Diego: mañana.",
       ],
       [
-        "Choose the word for the gap. Today is Tuesday. Breakfast with Tomás was on Monday.",
+        "Choose the word for the gap",
+        "Today is Tuesday. Breakfast with Tomás was on Monday.",
         "Desayuno con Tomás: ___.",
         "Desayuno con Tomás: ayer.",
       ],
       [
-        "Complete the gap. Today is Tuesday. Coffee with Luis is on Wednesday.",
+        "Complete the gap",
+        "Today is Tuesday. Coffee with Luis is on Wednesday.",
         "Café con Luis: ___.",
         "Café con Luis: mañana.",
       ],
       [
-        "Complete the gap. Tomás has breakfast at 8:00. Pablo has breakfast at 7:00.",
+        "Complete the gap",
+        "Tomás has breakfast at 8:00. Pablo has breakfast at 7:00.",
         "Tomás desayuna a las ocho. Pablo desayuna ___.",
         "Tomás desayuna a las ocho. Pablo desayuna antes.",
       ],
       [
-        "Translate into Spanish. Luis has breakfast at 8:00. Pablo has breakfast at 9:00.",
+        "Translate into Spanish",
+        "Luis has breakfast at 8:00. Pablo has breakfast at 9:00.",
         "Pablo has breakfast later.",
         "Luis desayuna a las ocho. Pablo desayuna después.",
       ],
       [
-        "Complete the gap. Pablo usually has breakfast at 9:00. Today he has breakfast at 12:00.",
+        "Complete the gap",
+        "Pablo usually has breakfast at 9:00. Today he has breakfast at 12:00.",
         "Hoy Pablo desayuna ___.",
         "Hoy Pablo desayuna tarde.",
       ],
       [
-        "Complete the gap. I am in class at 22:00.",
+        "Complete the gap",
+        "I am in class at 22:00.",
         "Yo estoy en clase ___.",
         "Yo estoy en clase por la noche.",
       ],
       [
-        "Translate into Spanish. Diego reads at 9:00.",
+        "Translate into Spanish",
+        "Diego reads at 9:00.",
         "Diego reads in the morning.",
         "Diego lee por la mañana.",
       ],
       [
-        "Complete the gap. I eat at the office on none of the 7 days this week.",
+        "Complete the gap",
+        "I eat at the office on none of the 7 days this week.",
         "Yo ___ como en la oficina.",
         "Yo nunca como en la oficina.",
       ],
       [
-        "Translate into Spanish. Luis has bread for breakfast on 2 of the 7 days this week.",
+        "Translate into Spanish",
+        "Luis has bread for breakfast on 2 of the 7 days this week.",
         "Luis sometimes has bread for breakfast.",
         "Luis a veces desayuna pan.",
       ],
       [
-        "Complete the gap. Luis is at the office from 8:00 to 15:00. Say when it starts.",
+        "Complete the gap",
+        "Luis is at the office from 8:00 to 15:00. Say when it starts.",
         "Luis está en la oficina ___ las ocho.",
         "Luis está en la oficina desde las ocho.",
       ],
       [
-        "Translate into Spanish. Luis studies from 13:00 to 15:00. Say when it ends.",
+        "Translate into Spanish",
+        "Luis studies from 13:00 to 15:00. Say when it ends.",
         "Luis studies until 15:00.",
         "Luis estudia hasta las tres.",
       ],
-      ["Put the words in time order", "From the earliest day to the latest", "ayer hoy mañana"],
-      ["Put the words in order", "From the most often to the least often", "siempre a veces nunca"],
+      [
+        "Put the words in time order",
+        undefined,
+        "From the earliest day to the latest",
+        "ayer hoy mañana",
+      ],
+      [
+        "Put the words in order",
+        undefined,
+        "From the most often to the least often",
+        "siempre a veces nunca",
+      ],
     ]);
   });
 
@@ -345,7 +368,7 @@ describe("time words content", () => {
     ]);
 
     for (const q of translations) {
-      const task = normalize(`${q.instruction} ${q.prompt}`);
+      const task = normalize(`${q.instruction} ${q.context ?? ""} ${q.prompt}`);
       const leaked = [q.answer, ...(q.accepted ?? [])].filter((a) => task.includes(normalize(a)));
 
       expect(leaked, q.id).toEqual([]);

@@ -2,6 +2,7 @@ import type { Question } from "../../data/types";
 import { answerWords, isCorrect } from "../../data/progress";
 import { Icon } from "../../design-system/Icon";
 import { ResultMark } from "../../design-system/ResultMark";
+import { AnswerComparison } from "../AnswerComparison";
 
 type Props = {
   q: Question;
@@ -43,13 +44,18 @@ export const AnswerReview = ({ q, number, answer, section }: Props) => {
         </span>
       </summary>
       <div className="pb-5 pl-10 text-muted-foreground max-md:pl-0">
-        <p className={LINE}>
-          Your answer: <strong lang="es">{answer || "Not answered"}</strong>
-        </p>
-        <p className={LINE}>
-          {section < 2 ? "Correct answer" : "One possible response"}:{" "}
-          <strong lang="es">{q.answer}</strong>
-        </p>
+        {section < 2 ? (
+          <AnswerComparison className="my-2" answer={answer || ""} correct={q.answer} />
+        ) : (
+          <>
+            <p className={LINE}>
+              Your answer: <strong lang="es">{answer || "Not answered"}</strong>
+            </p>
+            <p className={LINE}>
+              One possible response: <strong lang="es">{q.answer}</strong>
+            </p>
+          </>
+        )}
         <p className={LINE}>{q.explanation}</p>
         {q.audio && (
           <p className={LINE} lang="es">

@@ -92,6 +92,8 @@ const answer = (id: string, patch: Partial<Attempt> = {}, timeZone = "Europe/War
 
 beforeEach(() => {
   store.clear();
+  // Every refusal is logged; the tests that read the log spy on it themselves.
+  vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -1440,6 +1442,71 @@ describe("requests", () => {
 
     expect([response.status, await response.json()]).toEqual([413, { error: "too_large" }]);
     expect(await snapshot(id)).toEqual(EMPTY);
+  });
+
+  it("logs each refusal with its status, error, action, body size and learner", async () => {
+    const id = learner();
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const body = { action: "mockRun", run: { talks: { "mock-s1": { grade: "A", items: [] } } } };
+
+    expect((await send(id, body)).status).toBe(400);
+
+    expect(log).toHaveBeenCalledWith("Progress request failed", {
+      endpoint: "/api/progress",
+      status: 400,
+      method: "POST",
+      learner: id,
+      bytes: JSON.stringify(body).length,
+      action: "mockRun",
+      error: "run",
+      detail: "talks",
+    });
+  });
+
+  it("logs a body over the size cap with its size", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const body = { action: "draft", questionId: "u1-w1", text: "a".repeat(MAX_BODY) };
+
+    expect((await send(me, body)).status).toBe(413);
+
+    expect(log).toHaveBeenCalledWith(
+      "Progress request failed",
+      expect.objectContaining({
+        status: 413,
+        bytes: JSON.stringify(body).length,
+        error: "too_large",
+      }),
+    );
+  });
+
+  it("keeps a learner header that is not an id out of the log", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    await send("<script>", { action: "reset" });
+
+    expect(log).toHaveBeenCalledWith(
+      "Progress request failed",
+      expect.objectContaining({ status: 400, learner: "invalid", error: "learner" }),
+    );
+  });
+
+  it("logs a store failure and answers 500", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const broken = {
+      transaction: async () => {
+        throw new Error("connection reset");
+      },
+    };
+
+    const response = await handleProgress(request(me, { action: "reset" }), broken, progressLimit);
+
+    expect([response.status, await response.json()]).toEqual([500, { error: "server" }]);
+
+    expect(log).toHaveBeenCalledWith(
+      "Progress request failed",
+      expect.objectContaining({ status: 500, action: "reset", error: "connection reset" }),
+    );
   });
 
   it("serves a learner without a passcode, and ignores one that is sent", async () => {

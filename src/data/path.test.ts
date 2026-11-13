@@ -53,6 +53,7 @@ const NUMBERS = [
   ["nu-m09", "nu-m10", "nu-m11", "nu-r03"],
   ["nu-m12", "nu-m13", "nu-m14", "nu-m15", "nu-r04"],
   ["nu-m16", "nu-m17", "nu-m18", "nu-m19", "nu-m20", "nu-m21", "nu-m22", "nu-r05"],
+  ["nu-m23", "nu-m24", "nu-m25", "nu-m26", "nu-m27", "nu-m28", "nu-m29", "nu-r06"],
 ];
 
 const numbersComplete: PracticeSet = {
@@ -99,7 +100,8 @@ it("puts every set unit right after the course unit it builds on, with Weekdays,
     [25, "aq-u3"],
     [26, "u11"],
     [27, "aq-u4"],
-    [28, "u12"],
+    [28, "nu-u6"],
+    [29, "u12"],
   ]);
 
   expect(complete.pathLessons).toHaveLength(
@@ -110,6 +112,7 @@ it("puts every set unit right after the course unit it builds on, with Weekdays,
   expect(complete.pathPlace("nu-m11")).toEqual({ unit: 6, lesson: 3 });
   expect(complete.pathPlace("nu-r04")).toEqual({ unit: 11, lesson: 5 });
   expect(complete.pathPlace("nu-r05")).toEqual({ unit: 20, lesson: 8 });
+  expect(complete.pathPlace("nu-r06")).toEqual({ unit: 28, lesson: 8 });
   expect(complete.pathPlace("tm-r02")).toEqual({ unit: 16, lesson: 4 });
   expect(complete.pathPlace("aq-mr01")).toEqual({ unit: 22, lesson: 3 });
   expect(complete.pathPlace("aq-mr02")).toEqual({ unit: 23, lesson: 3 });
@@ -138,7 +141,7 @@ it("puts the first Numbers unit right after course unit 2", () => {
 
   expect(pathUnits.find((u) => u.id === "nu-u1")).toMatchObject({
     icon: "layers",
-    eyebrow: "Part 1 of 5",
+    eyebrow: "Part 1 of 6",
     title: "Numbers",
     subtitle: "cero to siete",
   });

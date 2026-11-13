@@ -67,6 +67,22 @@ export const savedProgress = async (): Promise<ProgressSnapshot> => {
   return response.json();
 };
 
+// Sends a write as this browser's learner, as another tab of the app would, and returns the
+// response status.
+export const sendProgress = async (body: object) =>
+  (
+    await serve(
+      new Request("http://localhost/api/progress", {
+        method: "POST",
+        headers: {
+          "x-learner-id": localStorage.getItem("paso-learner-v1")!,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }),
+    )
+  ).status;
+
 // The exam variants a learner saw, as one write per time they were seen.
 const seenWrites = (seenVariants: Record<string, string> = {}) => {
   const byTime = new Map<string, string[]>();

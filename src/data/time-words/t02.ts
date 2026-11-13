@@ -31,7 +31,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Today is Tuesday. Luis’s visit is on Wednesday.",
+    instruction: "Complete the gap",
+    context: "Today is Tuesday. Luis’s visit is on Wednesday.",
     prompt: "Visita de Luis: ___.",
     answer: "mañana",
     say: "Visita de Luis: mañana.",
@@ -41,8 +42,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-E05",
     mode: "cloze",
-    instruction:
-      "Translate the calendar note into Spanish. Today is Tuesday. Coffee with Diego is on Wednesday.",
+    instruction: "Translate the calendar note into Spanish",
+    context: "Today is Tuesday. Coffee with Diego is on Wednesday.",
     prompt: "Coffee with Diego: tomorrow.",
     answer: "Café con Diego: mañana.",
     accepted: ["El café con Diego: mañana.", "El café con Diego es mañana."],
@@ -68,8 +69,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-V11",
     mode: "choice",
-    instruction:
-      "Choose the word for the gap. Today is Tuesday. Coffee with Tomás is on Wednesday.",
+    instruction: "Choose the word for the gap",
+    context: "Today is Tuesday. Coffee with Tomás is on Wednesday.",
     prompt: "Café con Tomás: ___.",
     answer: "mañana",
     choices: ["mañana", "hoy", "ayer"],
@@ -80,7 +81,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Today is Tuesday. Coffee with Luis is on Wednesday.",
+    instruction: "Complete the gap",
+    context: "Today is Tuesday. Coffee with Luis is on Wednesday.",
     prompt: "Café con Luis: ___.",
     answer: "mañana",
     say: "Café con Luis: mañana.",
@@ -90,8 +92,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-V04",
     mode: "cloze",
-    instruction:
-      "Translate the calendar note into Spanish. Today is Tuesday. Breakfast with Diego is on Wednesday.",
+    instruction: "Translate the calendar note into Spanish",
+    context: "Today is Tuesday. Breakfast with Diego is on Wednesday.",
     prompt: "Breakfast with Diego: tomorrow.",
     answer: "Desayuno con Diego: mañana.",
     accepted: ["El desayuno con Diego: mañana.", "El desayuno con Diego es mañana."],
@@ -102,7 +104,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Today is Tuesday. Luis’s meeting is on Wednesday.",
+    instruction: "Complete the gap",
+    context: "Today is Tuesday. Luis’s meeting is on Wednesday.",
     prompt: "Reunión de Luis: ___.",
     answer: "mañana",
     say: "Reunión de Luis: mañana.",
@@ -112,8 +115,8 @@ export const t02Items: Item[] = [
   {
     id: "TM-T02-V10",
     mode: "cloze",
-    instruction:
-      "Translate the calendar note into Spanish. Today is Tuesday. Diego’s visit is on Wednesday.",
+    instruction: "Translate the calendar note into Spanish",
+    context: "Today is Tuesday. Diego’s visit is on Wednesday.",
     prompt: "Diego’s visit: tomorrow.",
     answer: "Visita de Diego: mañana.",
     accepted: ["La visita de Diego: mañana.", "La visita de Diego es mañana."],

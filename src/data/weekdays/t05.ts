@@ -36,7 +36,7 @@ export const t05Items: Item[] = [
   {
     id: "WD-T05-E03",
     mode: "cloze",
-    instruction: "Write the Spanish word. One word, not a sentence.",
+    instruction: "Write one Spanish word, not a sentence",
     prompt: "Friday",
     answer: "viernes",
     say: "viernes",
@@ -46,7 +46,8 @@ export const t05Items: Item[] = [
   {
     id: "WD-T05-E04",
     mode: "cloze",
-    instruction: "Complete the gap. An appointment is on Friday.",
+    instruction: "Complete the gap",
+    context: "An appointment is on Friday.",
     prompt: "La cita es el ___.",
     answer: "viernes",
     say: "La cita es el viernes.",
@@ -91,7 +92,8 @@ export const t05Items: Item[] = [
   {
     id: "WD-T05-V01",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo comes Friday.",
+    instruction: "Complete the gap",
+    context: "Pablo comes Friday.",
     prompt: "Pablo viene el ___.",
     answer: "viernes",
     say: "Pablo viene el viernes.",
@@ -101,7 +103,8 @@ export const t05Items: Item[] = [
   {
     id: "WD-T05-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I have a meeting Friday.",
+    instruction: "Complete the gap",
+    context: "I have a meeting Friday.",
     prompt: "Tengo una reunión el ___.",
     answer: "viernes",
     say: "Tengo una reunión el viernes.",
@@ -133,7 +136,8 @@ export const t05Items: Item[] = [
   {
     id: "WD-T05-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo has class on Fridays.",
+    instruction: "Complete the gap",
+    context: "Pablo has class on Fridays.",
     prompt: "Pablo tiene clase los ___.",
     answer: "viernes",
     say: "Pablo tiene clase los viernes.",
@@ -164,7 +168,8 @@ export const t05Items: Item[] = [
   {
     id: "WD-T05-N08",
     mode: "cloze",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "You work at home every Friday.",
     answer: "Trabajas en casa los viernes.",
     accepted: [

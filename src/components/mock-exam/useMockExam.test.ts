@@ -3,7 +3,7 @@ import { expect, it, vi } from "vitest";
 import { buildExam, seenFrom } from "../../data/examBuilder";
 import { examSections, firstVariants, mockExam } from "../../data/mock";
 import { click, mount, now, seed, setupMockExam, state } from "../../test/mockExam";
-import { savedProgress } from "../../test/progressApi";
+import { savedProgress, sendProgress } from "../../test/progressApi";
 
 // The exam as variant 1 of each task.
 const sections = examSections(firstVariants);
@@ -282,4 +282,35 @@ it("resumes a run of one section in that section, with only that section in the 
   ).toEqual(["1Writing"]);
 
   expect(screen.getByRole("timer")).toHaveTextContent("01:00");
+});
+
+it("starts each run under a new id and saves its changes to that run", async () => {
+  await seed({ id: "run-old", stage: "done" });
+  await mount();
+  click("Return to exam overview");
+
+  const overview = (await state()).id;
+
+  click("Start exam rehearsal");
+
+  const { id } = await state();
+
+  expect(new Set(["run-old", overview, id]).size).toBe(3);
+  click("Skip for now →");
+  expect(await state()).toMatchObject({ id, stage: "run", index: 1 });
+});
+
+it("leaves a run another tab started alone when this page changes its earlier run", async () => {
+  await seed({ id: "run-old", section: 2, stage: "review" });
+  await mount();
+
+  const newer = { section: 0, index: 0, stage: "run", id: "run-new" };
+
+  expect(
+    await sendProgress({ action: "mockRun", runId: "run-old", run: newer, replace: true }),
+  ).toBe(200);
+
+  click("Continue to speaking preparation");
+
+  expect(await state()).toMatchObject(newer);
 });

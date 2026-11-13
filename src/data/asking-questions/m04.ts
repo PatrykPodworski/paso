@@ -27,7 +27,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T07-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Diez euros”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Diez euros”.",
     prompt: "¿___ cuesta el libro?",
     answer: "Cuánto",
     choices: ["Cuánto", "Por qué", "Cuál"],
@@ -38,7 +39,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Porque trabajo aquí”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Porque trabajo aquí”.",
     prompt: "¿___ estás aquí?",
     answer: "Por qué",
     choices: ["Por qué", "Cuánto", "Dónde"],
@@ -49,7 +51,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T07-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Dos”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Dos”.",
     prompt: "¿___ hermanos tienes?",
     answer: "cuántos",
     say: "¿Cuántos hermanos tienes?",
@@ -59,7 +62,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Porque es barato”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Porque es barato”.",
     prompt: "¿___ vas en autobús?",
     answer: "por qué",
     say: "¿Por qué vas en autobús?",
@@ -69,7 +73,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T07-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "How much water do you want?",
     answer: "¿Cuánta agua quieres?",
     accepted: ["¿Cuánta agua quieres tú?"],
@@ -79,7 +84,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Why do you work at home?",
     answer: "¿Por qué trabajas en casa?",
     accepted: ["¿Por qué trabajas en casa tú?", "¿Por qué trabajas tú en casa?"],
@@ -89,7 +95,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T07-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Tres”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Tres”.",
     prompt: "¿___ entradas quiere Luis?",
     answer: "cuántas",
     say: "¿Cuántas entradas quiere Luis?",
@@ -118,7 +125,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T07-N08",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "How much bread do you want?",
     answer: "¿Cuánto pan quieres?",
     accepted: ["¿Cuánto pan quieres tú?"],
@@ -128,7 +136,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Porque hoy trabaja”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Porque hoy trabaja”.",
     prompt: "¿___ viene Luis mañana?",
     answer: "por qué",
     say: "¿Por qué viene Luis mañana?",
@@ -158,7 +167,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N08",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Why do you want milk?",
     answer: "¿Por qué quieres leche?",
     accepted: ["¿Por qué quieres leche tú?", "¿Por qué quieres tú leche?"],
@@ -168,7 +178,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-M04-X01",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "How do you want the tea?",
     answer: "¿Cómo quieres el té?",
     accepted: ["¿Cómo quieres el té tú?", "¿Cómo quieres tú el té?"],
@@ -178,7 +189,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-M04-X02",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “El café”.",
+    instruction: "Complete the gap",
+    context: "The reply is “El café”.",
     prompt: "¿___ quieres, el té o el café?",
     answer: "cuál",
     say: "¿Cuál quieres, el té o el café?",
@@ -198,7 +210,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-M04-X04",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Dos libros”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Dos libros”.",
     prompt: "¿___ hay en la mochila?",
     answer: "qué",
     say: "¿Qué hay en la mochila?",
@@ -208,7 +221,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T05-N09",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Mis padres”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Mis padres”.",
     prompt: "¿___ están en casa?",
     answer: "quiénes",
     say: "¿Quiénes están en casa?",
@@ -238,7 +252,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T06-N09",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “La roja”.",
+    instruction: "Complete the gap",
+    context: "The reply is “La roja”.",
     prompt: "¿___ es tu mochila?",
     answer: "cuál",
     say: "¿Cuál es tu mochila?",
@@ -248,7 +263,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T06-N10",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Which one is your book?",
     answer: "¿Cuál es tu libro?",
     feedback: "“Which” is cuál: ¿Cuál es tu libro?",
@@ -267,7 +283,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T07-N09",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Un poco”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Un poco”.",
     prompt: "¿___ leche quieres?",
     answer: "cuánta",
     say: "¿Cuánta leche quieres?",
@@ -296,7 +313,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N09",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Porque le gusta”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Porque le gusta”.",
     prompt: "¿___ estudia Pablo en casa?",
     answer: "por qué",
     say: "¿Por qué estudia Pablo en casa?",
@@ -306,7 +324,8 @@ export const m04Items: Item[] = [
   {
     id: "AQ-T08-N10",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Why do you go on foot?",
     answer: "¿Por qué vas a pie?",
     accepted: ["¿Por qué vas a pie tú?", "¿Por qué vas tú a pie?"],

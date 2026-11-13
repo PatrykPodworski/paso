@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { changeUrl, renderApp } from "./test/renderApp";
 import { allLessons, allQuestions, units } from "./data/curriculum";
@@ -1080,5 +1080,51 @@ describe("progress on the server", () => {
     expect(screen.queryByRole("dialog", { name: "Progress not saved" })).not.toBeInTheDocument();
     expect((await saved()).recent.map((a) => a.id)).toEqual(["first"]);
     expect(Object.keys((await saved()).completed)).toEqual([allLessons[0].id]);
+  });
+
+  const first: Attempt = {
+    id: "first",
+    questionId: "u1-v0",
+    skill: "reading",
+    answer: "wrong",
+    correct: false,
+    at: "2026-09-09T10:00:00.000Z",
+  };
+
+  const dialog = () => screen.getByRole("dialog", { name: "Progress not saved" });
+
+  it("lets the learner go on past a failed write, and saves it with the next try", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    await mount("path");
+    click("Continue learning");
+    refuse(async () => new Response("{}", { status: 503 }));
+    act(() => session.onAttempt(first));
+    await settle();
+
+    expect(dialog()).toHaveTextContent("Your progress is not saved yet.");
+    fireEvent.click(within(dialog()).getByRole("button", { name: "Continue" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    window.dispatchEvent(new Event("online"));
+    await settle();
+    expect((await saved()).recent.map((a) => a.id)).toEqual(["first"]);
+  });
+
+  it("drops a write the server refuses and saves the next ones", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    await mount("path");
+    click("Continue learning");
+    refuse(async () => Response.json({ error: "attempt" }, { status: 400 }));
+    act(() => session.onAttempt(first));
+    await settle();
+
+    expect(dialog()).toHaveTextContent("One change was not saved.");
+    expect(within(dialog()).queryByRole("button", { name: "Retry" })).not.toBeInTheDocument();
+    fireEvent.click(within(dialog()).getByRole("button", { name: "Continue" }));
+    act(() => session.onAttempt({ ...first, id: "second" }));
+    await settle();
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect((await saved()).recent.map((a) => a.id)).toEqual(["second"]);
   });
 });

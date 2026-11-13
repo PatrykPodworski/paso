@@ -133,6 +133,32 @@ test("preferences and reset confirmation", async ({ page }) => {
   await shot(page, "preferences-reset");
 });
 
+test("progress not saved: a failed write and a refused one", async ({ page }) => {
+  let status = 503;
+
+  await page.route("**/api/progress", (route) =>
+    route.request().method() === "POST"
+      ? route.fulfill({ status, json: { error: "unavailable" } })
+      : route.continue(),
+  );
+
+  // A checklist tick writes progress and plays no audio behind the dialog.
+  await page.goto("/guide");
+  await page.getByRole("checkbox").first().click();
+
+  await expect(
+    page.getByRole("heading", { name: "Your progress is not saved yet." }),
+  ).toBeVisible();
+
+  await shot(page, "save-failed");
+
+  status = 400;
+
+  await page.getByRole("button", { name: "Retry" }).click();
+  await expect(page.getByRole("heading", { name: "One change was not saved." })).toBeVisible();
+  await shot(page, "save-refused");
+});
+
 test("mobile navigation drawer", async ({ page }, info) => {
   test.skip(info.project.name !== "mobile", "Drawer is only a phone view");
   await page.goto("/");
@@ -253,28 +279,35 @@ test("asking questions: the set page and M01 on its introduction card", async ({
   await shot(page, "practice-questions-m01-intro");
 });
 
-// A gap item with a long instruction and a translation item with a short one.
+// A gap item with an instruction and a long context, and a translation item with an
+// instruction only.
 const instructionItems = [
   {
     id: "WD-T01-E04",
-    instruction: "Complete the gap. A displayed calendar says Monday, not the actual date.",
+    lead: ["Complete the gap", "A displayed calendar says Monday, not the actual date."],
     prompt: "Hoy es ___.",
   },
   {
     id: "WD-T01-N01",
-    instruction: "Translate into Spanish",
+    lead: ["Translate into Spanish"],
     prompt: "My mother works on Monday.",
   },
 ];
 
-for (const { id, instruction, prompt } of instructionItems) {
-  test(`practice set: ${id} with its instruction apart from the sentence`, async ({ page }) => {
+for (const { id, lead, prompt } of instructionItems) {
+  test(`practice set: ${id} with its instruction and context apart from the sentence`, async ({
+    page,
+  }) => {
     await page.goto("/backoffice");
-    const row = page.getByRole("button", { name: `${instruction} ${prompt}` });
+    const row = page.getByRole("button", { name: [...lead, prompt].join(" ") });
 
     await row.click();
     await expect(page.getByRole("heading", { name: prompt, exact: true })).toBeVisible();
-    await expect(page.getByRole("dialog").getByText(instruction, { exact: true })).toBeVisible();
+
+    for (const line of lead) {
+      await expect(page.getByRole("dialog").getByText(line, { exact: true })).toBeVisible();
+    }
+
     await shot(page, `question-instruction-${id.toLowerCase()}`);
   });
 }
@@ -328,6 +361,57 @@ test("lesson completion", async ({ page }) => {
   }
 
   await shot(page, "lesson-complete");
+});
+
+test("question: a wrong typed answer with its mistakes marked", async ({ page }) => {
+  const l = await openLesson(page, 3);
+
+  await answer(page, l.questions[0]);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  const expected = l.questions[1].answer;
+
+  // One letter left out of the last word.
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill(expected.slice(0, -4) + expected.slice(-3));
+
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "A good moment to learn." })).toBeVisible();
+  await shot(page, "question-type-mistake-marked");
+});
+
+test("question: a typed answer that misses only its accents", async ({ page }) => {
+  const q = allQuestions.find(
+    (question) => question.kind === "type" && /[áéíóú]/.test(question.answer),
+  )!;
+
+  await seedProgress(page, {
+    ...progressSeed(),
+    mistakes: [q.id],
+    attempts: [
+      {
+        id: "wrong",
+        questionId: q.id,
+        skill: q.skill,
+        answer: "",
+        correct: false,
+        at: "2026-09-09T08:00:00Z",
+      },
+    ],
+  });
+
+  await page.goto("/practice");
+  await page.getByRole("button", { name: "My mistakes (1)" }).click();
+  await page.locator("summary").filter({ hasText: q.prompt }).click();
+  await page.getByRole("button", { name: /Try again/ }).click();
+
+  await page
+    .getByRole("textbox", { name: "Your answer in Spanish" })
+    .fill(q.answer.normalize("NFD").replace(/\u0301/g, ""));
+
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByText(/^Missing accents? on/)).toBeVisible();
+  await shot(page, "question-type-accent-marked");
 });
 
 test("question: sentence, typed answer, writing and its feedback", async ({ page }) => {
@@ -459,6 +543,18 @@ for (const [name, section, index, stage] of examCases) {
     }
 
     await shot(page, `exam-${name}`);
+
+    if (name === "reading-review") {
+      // The first question was answered and the second was not.
+      for (const summary of await page
+        .locator("details summary")
+        .all()
+        .then((s) => s.slice(0, 2))) {
+        await summary.click();
+      }
+
+      await shot(page, "exam-reading-review-answers");
+    }
 
     if (name === "reading") {
       await page.getByRole("button", { name: "Finish section", exact: true }).click();

@@ -45,7 +45,9 @@ const App = () => {
   const [filter, setFilter] = useState<Skill | "all" | "mistakes">("all");
   const [toast, setToast] = useToast();
 
-  const problemDialog = problem === "save" && <SaveFailed onRetry={actions.retry} />;
+  const problemDialog = (
+    <SaveFailed problem={problem} onRetry={actions.retry} onContinue={actions.dismiss} />
+  );
 
   if (!progress) {
     return (

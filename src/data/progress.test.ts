@@ -4,6 +4,7 @@ import {
   accentOnlyAnswer,
   answerWords,
   clipText,
+  closestAnswer,
   countWords,
   dailyAnswers,
   isCorrect,
@@ -308,6 +309,28 @@ describe("accent-only answers", () => {
   ])("compares the accents of %s with %s", (accepted, answer, missing, extra) =>
     expect(accentMistakes(accepted, answer)).toEqual({ missing, extra }),
   );
+});
+
+describe("closest accepted answer", () => {
+  const friend = {
+    kind: "type",
+    answer: "Mi amiga está en casa el miércoles.",
+    accepted: ["El miércoles mi amiga está en casa.", "Mi amigo está en casa el miércoles."],
+  } as Question;
+
+  it.each([
+    ["Mi amigo está en casa el martes.", "Mi amigo está en casa el miércoles."],
+    ["el miercoles mi amiga esta", "El miércoles mi amiga está en casa."],
+    ["Mi amiga está en casa el martes.", "Mi amiga está en casa el miércoles."],
+    ["", "Mi amiga está en casa el miércoles."],
+    ["Mi amig está en casa el miércoles.", "Mi amiga está en casa el miércoles."],
+  ])("shows %s the accepted answer %s", (answer, expected) =>
+    expect(closestAnswer(friend, answer)).toBe(expected),
+  );
+
+  it("returns the answer of a question with no accepted variants", () => {
+    expect(closestAnswer({ answer: "hoy" } as Question, "ayer")).toBe("hoy");
+  });
 });
 
 describe("missing question marks", () => {

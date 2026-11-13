@@ -27,7 +27,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T03-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “En casa”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “En casa”.",
     prompt: "¿___ comes hoy?",
     answer: "Dónde",
     choices: ["Dónde", "Cuándo", "Qué"],
@@ -38,7 +39,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T04-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “El sábado”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “El sábado”.",
     prompt: "¿___ viene tu madre?",
     answer: "Cuándo",
     choices: ["Cuándo", "Dónde", "Cómo"],
@@ -49,7 +51,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T03-E02",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “En el centro”.",
+    instruction: "Complete the gap",
+    context: "The reply is “En el centro”.",
     prompt: "¿___ está el hotel?",
     answer: "dónde",
     say: "¿Dónde está el hotel?",
@@ -59,7 +62,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T04-V01",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Mañana”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Mañana”.",
     prompt: "¿___ sale el autobús?",
     answer: "cuándo",
     say: "¿Cuándo sale el autobús?",
@@ -69,7 +73,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T03-N03",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where do you live?",
     answer: "¿Dónde vives?",
     accepted: ["¿Dónde vives tú?"],
@@ -79,7 +84,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T04-N03",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "When do you study?",
     answer: "¿Cuándo estudias?",
     accepted: ["¿Cuándo estudias tú?"],
@@ -89,7 +95,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T03-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “En la mesa”.",
+    instruction: "Complete the gap",
+    context: "The reply is “En la mesa”.",
     prompt: "¿___ están los libros?",
     answer: "dónde",
     say: "¿Dónde están los libros?",
@@ -128,7 +135,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T04-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “El viernes”.",
+    instruction: "Complete the gap",
+    context: "The reply is “El viernes”.",
     prompt: "¿___ es la reunión?",
     answer: "cuándo",
     say: "¿Cuándo es la reunión?",
@@ -148,7 +156,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T04-N06",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "When do you have class?",
     answer: "¿Cuándo tienes clase?",
     accepted: ["¿Cuándo tienes clase tú?", "¿Cuándo tienes tú clase?"],
@@ -167,7 +176,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-M02-X01",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "What do you study?",
     answer: "¿Qué estudias?",
     accepted: ["¿Qué estudias tú?"],
@@ -177,7 +187,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-M02-X02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Un café con leche”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Un café con leche”.",
     prompt: "¿___ quiere Pablo?",
     answer: "Qué",
     choices: ["Qué", "Dónde", "Cuándo"],
@@ -188,7 +199,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-M02-X03",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "How are you today?",
     answer: "¿Cómo estás hoy?",
     accepted: ["¿Cómo estás hoy tú?", "¿Cómo estás tú hoy?"],
@@ -198,7 +210,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-M02-X04",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “A pie”.",
+    instruction: "Complete the gap",
+    context: "The reply is “A pie”.",
     prompt: "¿___ va Luis a la estación?",
     answer: "cómo",
     say: "¿Cómo va Luis a la estación?",
@@ -208,7 +221,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T01-N09",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Un té”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Un té”.",
     prompt: "¿___ quiere tu hermano?",
     answer: "qué",
     say: "¿Qué quiere tu hermano?",
@@ -237,7 +251,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T02-N08",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Es grande”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Es grande”.",
     prompt: "¿___ es tu casa?",
     answer: "cómo",
     say: "¿Cómo es tu casa?",
@@ -267,7 +282,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T03-N08",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “En una tienda”.",
+    instruction: "Complete the gap",
+    context: "The reply is “En una tienda”.",
     prompt: "¿___ trabaja Luis?",
     answer: "dónde",
     say: "¿Dónde trabaja Luis?",
@@ -277,7 +293,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T03-N09",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Where are you?",
     answer: "¿Dónde estás?",
     accepted: ["¿Dónde estás tú?"],
@@ -297,7 +314,8 @@ export const m02Items: Item[] = [
   {
     id: "AQ-T04-N08",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Mañana por la tarde”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Mañana por la tarde”.",
     prompt: "¿___ viene Pablo?",
     answer: "cuándo",
     say: "¿Cuándo viene Pablo?",

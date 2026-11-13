@@ -6,7 +6,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “cerca de”.",
+    instruction: "Choose the English meaning of “cerca de”",
     prompt: "La bolsa está cerca de la caja.",
     answer: "near",
     choices: ["near", "far from", "inside"],
@@ -17,7 +17,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N01",
     mode: "choice",
-    instruction: "Choose the English meaning of “lejos de”.",
+    instruction: "Choose the English meaning of “lejos de”",
     prompt: "La taza está lejos de la puerta.",
     answer: "far from",
     choices: ["far from", "near", "under"],
@@ -28,7 +28,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "near",
     answer: "cerca de",
     say: "cerca de",
@@ -38,7 +38,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N02",
     mode: "cloze",
-    instruction: "Write the Spanish phrase. Give the phrase only, not a sentence.",
+    instruction: "Write the Spanish phrase only, not a sentence",
     prompt: "far from",
     answer: "lejos de",
     say: "lejos de",
@@ -48,7 +48,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The ticket is near the window.",
+    instruction: "Complete the gap",
+    context: "The ticket is near the window.",
     prompt: "El billete está ___ la ventana.",
     answer: "cerca de",
     say: "El billete está cerca de la ventana.",
@@ -61,7 +62,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is far from the suitcase.",
+    instruction: "Complete the gap",
+    context: "The bag is far from the suitcase.",
     prompt: "La bolsa está ___ la maleta.",
     answer: "lejos de",
     say: "La bolsa está lejos de la maleta.",
@@ -74,7 +76,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The cup is near the sofa.",
+    instruction: "Complete the gap",
+    context: "The cup is near the sofa.",
     prompt: "La taza está ___ sofá.",
     answer: "cerca del",
     say: "La taza está cerca del sofá.",
@@ -87,7 +90,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N04",
     mode: "cloze",
-    instruction: "Complete the gap. The ticket is far from the cupboard.",
+    instruction: "Complete the gap",
+    context: "The ticket is far from the cupboard.",
     prompt: "El billete está ___ armario.",
     answer: "lejos del",
     say: "El billete está lejos del armario.",
@@ -100,7 +104,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The book is near the table.",
     answer: "El libro está cerca de la mesa.",
     say: "El libro está cerca de la mesa.",
@@ -114,7 +118,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N05",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The book is far from the chair.",
     answer: "El libro está lejos de la silla.",
     say: "El libro está lejos de la silla.",
@@ -128,7 +132,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: bench = el banco.",
+    instruction: "Translate into Spanish",
+    context: "Words: bench = el banco.",
     prompt: "The phone is near the bench.",
     answer: "El móvil está cerca del banco.",
     accepted: ["El teléfono está cerca del banco.", "El teléfono móvil está cerca del banco."],
@@ -143,7 +148,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N06",
     mode: "cloze",
-    instruction: "Translate into Spanish.",
+    instruction: "Translate into Spanish",
     prompt: "The phone is far from the sofa.",
     answer: "El móvil está lejos del sofá.",
     accepted: ["El teléfono está lejos del sofá.", "El teléfono móvil está lejos del sofá."],
@@ -158,7 +163,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T10-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "La mochila está cerca de la cama.",
     answer: "The backpack is near the bed.",
     choices: [
@@ -173,7 +178,7 @@ export const m05Items: Item[] = [
   {
     id: "SP-T11-N07",
     mode: "choice",
-    instruction: "Choose the scene this sentence describes.",
+    instruction: "Choose the scene this sentence describes",
     prompt: "La mochila está lejos de la mesa.",
     answer: "The backpack is far from the table.",
     choices: [
@@ -188,7 +193,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-M05-X01",
     mode: "cloze",
-    instruction: "Translate into Spanish. Words: cup = la taza; bench = el banco.",
+    instruction: "Translate into Spanish",
+    context: "Words: cup = la taza; bench = el banco.",
     prompt: "The cup is right next to the bench.",
     answer: "La taza está al lado del banco.",
     accepted: ["La taza está junto al banco."],
@@ -203,7 +209,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-M05-X02",
     mode: "cloze",
-    instruction: "Complete the gap. The bag is between the bed and the door.",
+    instruction: "Complete the gap",
+    context: "The bag is between the bed and the door.",
     prompt: "La bolsa está ___ la cama y la puerta.",
     answer: "entre",
     say: "La bolsa está entre la cama y la puerta.",
@@ -213,7 +220,8 @@ export const m05Items: Item[] = [
   {
     id: "SP-M05-X03",
     mode: "cloze",
-    instruction: "Translate into Spanish. You are looking at the door. Words: ticket = el billete.",
+    instruction: "Translate into Spanish",
+    context: "You are looking at the door. Words: ticket = el billete.",
     prompt: "The ticket is in front of the door.",
     answer: "El billete está delante de la puerta.",
     say: "El billete está delante de la puerta.",

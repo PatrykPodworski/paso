@@ -31,7 +31,8 @@ export const t16Items: Item[] = [
   {
     id: "TM-T16-E04",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo is at the office from 7:00 to 9:00. Say when it ends.",
+    instruction: "Complete the gap",
+    context: "Pablo is at the office from 7:00 to 9:00. Say when it ends.",
     prompt: "Pablo está en la oficina ___ las nueve.",
     answer: "hasta",
     say: "Pablo está en la oficina hasta las nueve.",
@@ -42,7 +43,8 @@ export const t16Items: Item[] = [
   {
     id: "TM-T16-E05",
     mode: "cloze",
-    instruction: "Translate into Spanish. Luis studies from 13:00 to 15:00. Say when it ends.",
+    instruction: "Translate into Spanish",
+    context: "Luis studies from 13:00 to 15:00. Say when it ends.",
     prompt: "Luis studies until 15:00.",
     answer: "Luis estudia hasta las tres.",
     accepted: ["Hasta las tres Luis estudia."],
@@ -68,8 +70,8 @@ export const t16Items: Item[] = [
   {
     id: "TM-T16-V11",
     mode: "choice",
-    instruction:
-      "Choose the word for the gap. Tomás is at home from 18:00 to 21:00. Say when it ends.",
+    instruction: "Choose the word for the gap",
+    context: "Tomás is at home from 18:00 to 21:00. Say when it ends.",
     prompt: "Tomás está en casa ___ las nueve.",
     answer: "hasta",
     choices: ["hasta", "desde", "antes"],
@@ -80,7 +82,8 @@ export const t16Items: Item[] = [
   {
     id: "TM-T16-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Luis is at the office from 8:00 to 15:00. Say when it ends.",
+    instruction: "Complete the gap",
+    context: "Luis is at the office from 8:00 to 15:00. Say when it ends.",
     prompt: "Luis está en la oficina ___ las tres.",
     answer: "hasta",
     say: "Luis está en la oficina hasta las tres.",
@@ -91,7 +94,8 @@ export const t16Items: Item[] = [
   {
     id: "TM-T16-V10",
     mode: "cloze",
-    instruction: "Translate into Spanish. Diego studies from 16:00 to 18:00. Say when it ends.",
+    instruction: "Translate into Spanish",
+    context: "Diego studies from 16:00 to 18:00. Say when it ends.",
     prompt: "Diego studies until 18:00.",
     answer: "Diego estudia hasta las seis.",
     accepted: ["Hasta las seis Diego estudia."],

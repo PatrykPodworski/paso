@@ -27,7 +27,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T05-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “Luis”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “Luis”.",
     prompt: "¿___ quiere té?",
     answer: "Quién",
     choices: ["Quién", "Cuál", "Qué"],
@@ -38,7 +39,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T06-N02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “El negro”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “El negro”.",
     prompt: "¿___ es tu móvil?",
     answer: "Cuál",
     choices: ["Cuál", "Quién", "Qué"],
@@ -49,7 +51,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T05-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Pablo y Luis”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Pablo y Luis”.",
     prompt: "¿___ vienen hoy?",
     answer: "quiénes",
     say: "¿Quiénes vienen hoy?",
@@ -59,7 +62,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T06-N03",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Los azules”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Los azules”.",
     prompt: "¿___ son tus libros?",
     answer: "cuáles",
     say: "¿Cuáles son tus libros?",
@@ -79,7 +83,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T06-N04",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "What is your phone number?",
     answer: "¿Cuál es tu número de teléfono?",
     accepted: ["¿Cuál es tu número de móvil?", "¿Cuál es tu número de teléfono móvil?"],
@@ -89,7 +94,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T05-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Es Pablo”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Es Pablo”.",
     prompt: "¿___ es tu profesor?",
     answer: "quién",
     say: "¿Quién es tu profesor?",
@@ -127,7 +133,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T06-N05",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Este”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Este”.",
     prompt: "¿___ de estos dos quieres?",
     answer: "cuál",
     say: "¿Cuál de estos dos quieres?",
@@ -147,7 +154,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T06-N07",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Which ones do you want?",
     answer: "¿Cuáles quieres?",
     accepted: ["¿Cuáles quieres tú?"],
@@ -157,7 +165,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-T06-N08",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "Which one is your hotel?",
     answer: "¿Cuál es tu hotel?",
     feedback: "“Which” is cuál: ¿Cuál es tu hotel?",
@@ -166,7 +175,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-M03-X01",
     mode: "ask",
-    instruction: "Translate into Spanish. You are speaking to a friend.",
+    instruction: "Translate into Spanish",
+    context: "You are speaking to a friend.",
     prompt: "What do you want to eat?",
     answer: "¿Qué quieres comer?",
     accepted: ["¿Qué quieres comer tú?", "¿Qué quieres tú comer?"],
@@ -176,7 +186,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-M03-X02",
     mode: "choice",
-    instruction: "Choose the word for the gap. The reply is “El de Pablo”.",
+    instruction: "Choose the word for the gap",
+    context: "The reply is “El de Pablo”.",
     prompt: "¿___ libro quieres?",
     answer: "Qué",
     choices: ["Qué", "Cuál", "Quién"],
@@ -196,7 +207,8 @@ export const m03Items: Item[] = [
   {
     id: "AQ-M03-X04",
     mode: "cloze",
-    instruction: "Complete the gap. The reply is “Esta noche”.",
+    instruction: "Complete the gap",
+    context: "The reply is “Esta noche”.",
     prompt: "¿___ vienes a casa?",
     answer: "cuándo",
     say: "¿Cuándo vienes a casa?",

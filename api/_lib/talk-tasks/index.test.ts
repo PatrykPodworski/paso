@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
+import { MAX_TALK_ITEMS } from "../corrections.ts";
 import { MAX_LIMIT_SECONDS, type TaskSpec } from "./base.ts";
 import { greetingOf, instructionsOf, linesOf, rubricOf, schemaOf, taskOf, tasks } from "./index.ts";
 
@@ -982,6 +983,8 @@ describe("the list", () => {
 
     for (const task of tasks) {
       expect(task.items.length, task.id).toBeGreaterThanOrEqual(1);
+      // The progress store keeps a score of at most this many items.
+      expect(task.items.length, task.id).toBeLessThanOrEqual(MAX_TALK_ITEMS);
       expect(task.limitSeconds, task.id).toBeLessThanOrEqual(MAX_LIMIT_SECONDS);
     }
   });

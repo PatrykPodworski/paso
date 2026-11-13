@@ -31,8 +31,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-E04",
     mode: "cloze",
-    instruction:
-      "Complete the gap. Pablo usually has breakfast at 9:00. Today he has breakfast at 12:00.",
+    instruction: "Complete the gap",
+    context: "Pablo usually has breakfast at 9:00. Today he has breakfast at 12:00.",
     prompt: "Hoy Pablo desayuna ___.",
     answer: "tarde",
     say: "Hoy Pablo desayuna tarde.",
@@ -43,8 +43,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-E05",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Luis usually goes to bed at 23:00. Today he goes to bed at 2:00.",
+    instruction: "Translate into Spanish",
+    context: "Luis usually goes to bed at 23:00. Today he goes to bed at 2:00.",
     prompt: "Today Luis goes to bed late.",
     answer: "Hoy Luis se acuesta tarde.",
     accepted: [
@@ -74,8 +74,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-V11",
     mode: "choice",
-    instruction:
-      "Choose the word for the gap. Tomás usually eats at 14:00. Today he eats at 16:00.",
+    instruction: "Choose the word for the gap",
+    context: "Tomás usually eats at 14:00. Today he eats at 16:00.",
     prompt: "Hoy Tomás come ___.",
     answer: "tarde",
     choices: ["tarde", "temprano", "después"],
@@ -86,7 +86,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-V03",
     mode: "cloze",
-    instruction: "Complete the gap. I usually read at 21:00. Today I read at 1:00.",
+    instruction: "Complete the gap",
+    context: "I usually read at 21:00. Today I read at 1:00.",
     prompt: "Hoy leo ___.",
     answer: "tarde",
     say: "Hoy leo tarde.",
@@ -96,8 +97,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-V04",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Pablo usually goes to bed at 23:00. Today he goes to bed at 2:00.",
+    instruction: "Translate into Spanish",
+    context: "Pablo usually goes to bed at 23:00. Today he goes to bed at 2:00.",
     prompt: "Today Pablo goes to bed late.",
     answer: "Hoy Pablo se acuesta tarde.",
     accepted: [
@@ -112,8 +113,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-V09",
     mode: "cloze",
-    instruction:
-      "Complete the gap. Luis usually has breakfast at 9:00. Today he has breakfast at 12:00.",
+    instruction: "Complete the gap",
+    context: "Luis usually has breakfast at 9:00. Today he has breakfast at 12:00.",
     prompt: "Hoy Luis desayuna ___.",
     answer: "tarde",
     say: "Hoy Luis desayuna tarde.",
@@ -124,8 +125,8 @@ export const t08Items: Item[] = [
   {
     id: "TM-T08-V10",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Diego usually goes to bed at 23:00. Today he goes to bed at 2:00.",
+    instruction: "Translate into Spanish",
+    context: "Diego usually goes to bed at 23:00. Today he goes to bed at 2:00.",
     prompt: "Today Diego goes to bed late.",
     answer: "Hoy Diego se acuesta tarde.",
     accepted: [

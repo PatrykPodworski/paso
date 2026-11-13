@@ -28,7 +28,8 @@ export const t14Items: Item[] = [
   {
     id: "TM-T14-E04",
     mode: "cloze",
-    instruction: "Complete the gap. I eat at the office on none of the 7 days this week.",
+    instruction: "Complete the gap",
+    context: "I eat at the office on none of the 7 days this week.",
     prompt: "Yo ___ como en la oficina.",
     answer: "nunca",
     say: "Yo nunca como en la oficina.",
@@ -39,8 +40,8 @@ export const t14Items: Item[] = [
   {
     id: "TM-T14-E05",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Pablo has bread for breakfast on none of the 7 days this week.",
+    instruction: "Translate into Spanish",
+    context: "Pablo has bread for breakfast on none of the 7 days this week.",
     prompt: "Pablo never has bread for breakfast.",
     answer: "Pablo nunca desayuna pan.",
     accepted: ["Pablo no desayuna nunca pan.", "Pablo no desayuna pan nunca."],
@@ -66,7 +67,8 @@ export const t14Items: Item[] = [
   {
     id: "TM-T14-V11",
     mode: "choice",
-    instruction: "Choose the word for the gap. Diego works on none of the 4 Saturdays this month.",
+    instruction: "Choose the word for the gap",
+    context: "Diego works on none of the 4 Saturdays this month.",
     prompt: "Diego ___ trabaja los sábados.",
     answer: "nunca",
     choices: ["nunca", "siempre", "a veces"],
@@ -78,7 +80,8 @@ export const t14Items: Item[] = [
   {
     id: "TM-T14-V03",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo studies at home on none of the 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Pablo studies at home on none of the 7 days this week.",
     prompt: "Pablo ___ estudia en casa.",
     answer: "nunca",
     say: "Pablo nunca estudia en casa.",
@@ -89,7 +92,8 @@ export const t14Items: Item[] = [
   {
     id: "TM-T14-V09",
     mode: "cloze",
-    instruction: "Complete the gap. Pablo eats at home on none of the 7 days this week.",
+    instruction: "Complete the gap",
+    context: "Pablo eats at home on none of the 7 days this week.",
     prompt: "Pablo ___ come en casa.",
     answer: "nunca",
     say: "Pablo nunca come en casa.",
@@ -99,8 +103,8 @@ export const t14Items: Item[] = [
   {
     id: "TM-T14-V10",
     mode: "cloze",
-    instruction:
-      "Translate into Spanish. Luis has bread for breakfast on none of the 7 days this week.",
+    instruction: "Translate into Spanish",
+    context: "Luis has bread for breakfast on none of the 7 days this week.",
     prompt: "Luis never has bread for breakfast.",
     answer: "Luis nunca desayuna pan.",
     accepted: ["Luis no desayuna nunca pan.", "Luis no desayuna pan nunca."],

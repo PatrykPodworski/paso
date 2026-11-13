@@ -13,3 +13,4 @@
 - [0011. An accent or ¿ ? mistake passes with a note and joins the mistake review](0011-accent-mistake-joins-the-mistake-review.md) — accepted
 - [0012. Practice sets join the learning path and count toward it](0012-practice-sets-join-the-learning-path.md) — accepted
 - [0013. A failed write waits on the device and never blocks the learner](0013-unsent-writes-wait-on-the-device.md) — accepted
+- [0014. An English task that leaves gender open accepts both genders](0014-accept-both-genders-or-state-one.md) — accepted

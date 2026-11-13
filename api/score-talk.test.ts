@@ -16,6 +16,9 @@ vi.mock("@vercel/functions", () => ({
 
 const { POST } = await import("./score-talk.ts");
 const { PASSCODE_TRIES } = await import("./_lib/passcode.ts");
+const { mockRunPatchOf } = await import("./_lib/progress-fields.ts");
+const { TOPICS } = await import("./_lib/talk-tasks/base.ts");
+const { taskOf } = await import("./_lib/talk-tasks/index.ts");
 
 const openai = vi.fn();
 
@@ -258,6 +261,28 @@ describe("scoring a talk", () => {
       "error 6",
       "error 7",
     ]);
+  });
+
+  // The mock exam keeps each score with its run, so the progress store must accept the
+  // longest score this endpoint can return (#806).
+  it("returns a mock talk score the progress store keeps, even with every item below correct", async () => {
+    const many = Array.from({ length: 10 }, (_, i) => ({ ...age, original: `error ${i}` }));
+
+    const talks: { id: string; topic?: string }[] = [
+      { id: "mock-s1" },
+      ...["mock-s2", "mock-s3"].flatMap((id) => TOPICS.map((topic) => ({ id, topic }))),
+    ];
+
+    for (const { id, topic } of talks) {
+      const task = taskOf(id, topic)!;
+
+      model(Object.fromEntries(task.items.map((item) => [item.id, "understandable"])), many);
+
+      const talk = (await (await score({ turns, task: id, topic })).json()) as LiveScore;
+
+      expect(talk.corrections, `${id} ${topic}`).toHaveLength(task.items.length + 8);
+      expect(mockRunPatchOf({ talks: { [id]: talk } }), `${id} ${topic}`).not.toBeNull();
+    }
   });
 
   it("lists the items in the task's order, whatever order the model used", async () => {

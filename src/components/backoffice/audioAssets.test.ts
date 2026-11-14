@@ -52,9 +52,7 @@ it("orders the clips by unit, then the practice sets, the mock exam, foundations
   expect(order).toEqual([
     ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(unit),
     ...SET_GROUPS,
-    // Numbers texts that already have a clip: the set claims them.
-    setUnit("Numbers", "nu-u3"),
-    setUnit("Numbers", "nu-u4"),
+    ...["nu-u1", "nu-u2", "nu-u3", "nu-u4", "nu-u5", "nu-u6"].map((u) => setUnit("Numbers", u)),
     "Mock exam",
     "Foundations",
     "Topic flashcards",

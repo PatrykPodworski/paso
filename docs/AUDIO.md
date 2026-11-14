@@ -99,6 +99,15 @@ generator never contacts ElevenLabs for these phrases while their files exist.
   as _Clase de Pablo: hoy._ (read as written) and the four answers in order.
   _mañana_, _antes_, _después_, _temprano_, _tarde_, _siempre_, _a veces_,
   _nunca_ and _y_ play the existing clips of the same words.
+- Numbers (units 1–6): 560 texts, the number words, tiles, sentences and number
+  sequences. A number word that Whisper writes as digits cannot be cut by
+  make-words, so it is read whole with make-sentences. _dos_, _siete_,
+  _dieciséis_, _veinte_, _treinta_, _cien_, _Es la una._ and three age sentences
+  play the existing clips of the same texts. _Mil más mil son dos mil._ and _Mil
+  más quinientos son mil quinientos._ are read with two spaces after "Mil":
+  Whisper hears the take of the plain text as "Mi más". _trece_ is read as
+  "trece,", and eight other texts with a changed letter case, which gives a
+  different take.
 - Topic flashcards (Music to (no topic), 9 topics): 250 texts.
 - Topic flashcards (Shopping (verbs) to Cinema, 9 topics): 310 texts.
 - Topic flashcards (Days of the week to Shopping (nouns), 8 topics): 278 texts.

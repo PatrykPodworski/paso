@@ -63,3 +63,16 @@ it("keeps a plain-text form card's heading and text", () => {
     undefined,
   ]);
 });
+
+it("opens a lesson's variations in the same order every time, an order its id draws", () => {
+  const exercises = Array.from({ length: 8 }, (_, i) => ({ ...exercise, id: `WT-T01-V0${i}` }));
+  const ids = exercises.map((q) => q.id);
+  const { lessonFrom } = lessonBuilder(exercises);
+  const review = (id: string) => ({ ...lesson([]), id, base: [], variations: ids });
+  const order = (id: string) => lessonFrom(review(id)).questions.map((q) => q.id);
+
+  expect(order("wt-r01")).toEqual(order("wt-r01"));
+  expect(order("wt-r01")).not.toEqual(ids);
+  expect(order("wt-r01")).not.toEqual(order("wt-r02"));
+  expect(order("wt-r01").toSorted()).toEqual(ids);
+});

@@ -36,25 +36,25 @@ const M03_VARIATIONS = [
   "TM-T08-V11",
 ];
 
-const R01_ORDER = [
-  "TM-T01-V09",
-  "TM-T02-V09",
-  "TM-T03-V09",
-  "TM-T04-V09",
-  "TM-T05-V09",
-  "TM-T06-V09",
-  "TM-T07-V09",
-  "TM-T08-V09",
-  "TM-T01-V10",
-  "TM-T02-V10",
-  "TM-T03-V10",
-  "TM-T04-V10",
-  "TM-T05-V10",
-  "TM-T06-V10",
-  "TM-T07-V10",
-  "TM-T08-V10",
+const R01_ITEMS = [
   "TM-G01",
   "TM-G02",
+  "TM-T01-V09",
+  "TM-T01-V10",
+  "TM-T02-V09",
+  "TM-T02-V10",
+  "TM-T03-V09",
+  "TM-T03-V10",
+  "TM-T04-V09",
+  "TM-T04-V10",
+  "TM-T05-V09",
+  "TM-T05-V10",
+  "TM-T06-V09",
+  "TM-T06-V10",
+  "TM-T07-V09",
+  "TM-T07-V10",
+  "TM-T08-V09",
+  "TM-T08-V10",
 ];
 
 const M04_VARIATIONS = [
@@ -95,25 +95,25 @@ const M06_VARIATIONS = [
   "TM-T16-V11",
 ];
 
-const R02_ORDER = [
-  "TM-T09-V09",
-  "TM-T10-V09",
-  "TM-T11-V09",
-  "TM-T12-V09",
-  "TM-T13-V09",
-  "TM-T14-V09",
-  "TM-T15-V09",
-  "TM-T16-V09",
-  "TM-T09-V10",
-  "TM-T10-V10",
-  "TM-T11-V10",
-  "TM-T12-V10",
-  "TM-T13-V10",
-  "TM-T14-V10",
-  "TM-T15-V10",
-  "TM-T16-V10",
+const R02_ITEMS = [
   "TM-G03",
   "TM-G04",
+  "TM-T09-V09",
+  "TM-T09-V10",
+  "TM-T10-V09",
+  "TM-T10-V10",
+  "TM-T11-V09",
+  "TM-T11-V10",
+  "TM-T12-V09",
+  "TM-T12-V10",
+  "TM-T13-V09",
+  "TM-T13-V10",
+  "TM-T14-V09",
+  "TM-T14-V10",
+  "TM-T15-V09",
+  "TM-T15-V10",
+  "TM-T16-V09",
+  "TM-T16-V10",
 ];
 
 describe("time words lessons", () => {
@@ -358,7 +358,7 @@ describe("time words lessons", () => {
   });
 
   it.each([1, 2, 3])(
-    "opens R01 without an introduction, in its written order on every opening (seed %i)",
+    "opens R01 without an introduction, with every item shuffled (seed %i)",
     (seed) => {
       const lesson = timeWordsLesson("tm-r01", randomFrom(seed));
 
@@ -368,7 +368,7 @@ describe("time words lessons", () => {
         subtitle: "Review this unit's lessons",
       });
 
-      expect(lesson.questions.map((q) => q.id)).toEqual(R01_ORDER);
+      expect(lesson.questions.map((q) => q.id).toSorted()).toEqual(R01_ITEMS);
     },
   );
 
@@ -623,7 +623,7 @@ describe("time words lessons", () => {
   });
 
   it.each([1, 2, 3])(
-    "opens R02 without an introduction, in its written order on every opening (seed %i)",
+    "opens R02 without an introduction, with every item shuffled (seed %i)",
     (seed) => {
       const lesson = timeWordsLesson("tm-r02", randomFrom(seed));
 
@@ -633,7 +633,7 @@ describe("time words lessons", () => {
         subtitle: "Review this unit's lessons",
       });
 
-      expect(lesson.questions.map((q) => q.id)).toEqual(R02_ORDER);
+      expect(lesson.questions.map((q) => q.id).toSorted()).toEqual(R02_ITEMS);
     },
   );
 

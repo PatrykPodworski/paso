@@ -232,7 +232,10 @@ describe("weekdays content", () => {
 
   it("introduces each group's days together", () => {
     const opening = (id: string, length: number) =>
-      weekdaysLessons.find((l) => l.id === id)!.base.slice(0, length);
+      weekdaysLessons
+        .find((l) => l.id === id)!
+        .base.slice(0, length)
+        .toSorted();
 
     expect(opening("wd-m01", 3)).toEqual(["WD-T01-E01", "WD-T02-E01", "WD-T03-E01"]);
     expect(opening("wd-m02", 2)).toEqual(["WD-T04-E01", "WD-T05-E01"]);

@@ -243,8 +243,8 @@ export const m06: SetLesson = {
   ],
   formCards: [],
   variations: [
-    "NU-T11-E06",
     "NU-T12-E06",
+    "NU-T11-E06",
     "NU-T11-V01",
     "NU-T12-V01",
     "NU-T11-V02",

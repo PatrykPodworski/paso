@@ -422,7 +422,7 @@ describe("placement lessons", () => {
   });
 
   it.each([1, 2, 3])(
-    "runs pl-mr01 as the five phrases' del gaps, then their la translations, with no cards (seed %i)",
+    "runs pl-mr01 as the five phrases' del gaps and la translations, shuffled, with no cards (seed %i)",
     (seed) => {
       const lesson = placementLesson("pl-mr01", randomFrom(seed));
 
@@ -432,23 +432,23 @@ describe("placement lessons", () => {
         subtitle: "Review this unit's lessons",
       });
 
-      expect(lesson.questions.map((q) => q.id)).toEqual([
+      expect(lesson.questions.map((q) => q.id).toSorted()).toEqual([
         "SP-T01-N04",
-        "SP-T02-N04",
-        "SP-T03-N04",
-        "SP-T04-N04",
-        "SP-T05-N04",
         "SP-T01-N05",
+        "SP-T02-N04",
         "SP-T02-N05",
+        "SP-T03-N04",
         "SP-T03-N05",
+        "SP-T04-N04",
         "SP-T04-N05",
+        "SP-T05-N04",
         "SP-T05-N05",
       ]);
     },
   );
 
   it.each([1, 2, 3])(
-    "runs pl-mr02 as the five phrases' del gaps, then their la translations, with no cards (seed %i)",
+    "runs pl-mr02 as the five phrases' del gaps and la translations, shuffled, with no cards (seed %i)",
     (seed) => {
       const lesson = placementLesson("pl-mr02", randomFrom(seed));
 
@@ -458,23 +458,23 @@ describe("placement lessons", () => {
         subtitle: "Review this unit's lessons",
       });
 
-      expect(lesson.questions.map((q) => q.id)).toEqual([
+      expect(lesson.questions.map((q) => q.id).toSorted()).toEqual([
         "SP-T06-N04",
-        "SP-T07-N04",
-        "SP-T14-N04",
-        "SP-T08-N04",
-        "SP-T09-N04",
         "SP-T06-N05",
+        "SP-T07-N04",
         "SP-T07-N05",
-        "SP-T14-N05",
+        "SP-T08-N04",
         "SP-T08-N05",
+        "SP-T09-N04",
         "SP-T09-N05",
+        "SP-T14-N04",
+        "SP-T14-N05",
       ]);
     },
   );
 
   it.each([1, 2, 3])(
-    "runs pl-mr03 as the four phrases' del gaps, then their la translations, with no cards (seed %i)",
+    "runs pl-mr03 as the four phrases' del gaps and la translations, shuffled, with no cards (seed %i)",
     (seed) => {
       const lesson = placementLesson("pl-mr03", randomFrom(seed));
 
@@ -484,14 +484,14 @@ describe("placement lessons", () => {
         subtitle: "Review this unit's lessons",
       });
 
-      expect(lesson.questions.map((q) => q.id)).toEqual([
+      expect(lesson.questions.map((q) => q.id).toSorted()).toEqual([
         "SP-T10-N04",
-        "SP-T11-N04",
-        "SP-T12-N04",
-        "SP-T13-N04",
         "SP-T10-N05",
+        "SP-T11-N04",
         "SP-T11-N05",
+        "SP-T12-N04",
         "SP-T12-N05",
+        "SP-T13-N04",
         "SP-T13-N05",
       ]);
     },

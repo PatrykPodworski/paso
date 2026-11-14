@@ -340,8 +340,8 @@ export const m13: SetLesson = {
   ],
   formCards: [],
   variations: [
-    "NU-T24-E06",
     "NU-T25-E06",
+    "NU-T24-E06",
     "NU-T24-V01",
     "NU-T25-V01",
     "NU-T24-V02",

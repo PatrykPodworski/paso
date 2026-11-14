@@ -313,13 +313,16 @@ export const m02: SetLesson = {
   ],
 };
 
-// The unit review: each unit phrase's del gap (N04), then its translation with la (N05), with no cards.
+// The unit review: each unit phrase's del gap (N04) and its translation with la (N05), in
+// the lesson's shuffled order, with no cards.
 export const mr01: SetLesson = {
   id: "pl-mr01",
   title: "Unit review",
   subtitle: "Review this unit's lessons",
   recalled: [],
-  base: [
+  base: [],
+  formCards: [],
+  variations: [
     "SP-T01-N04",
     "SP-T02-N04",
     "SP-T03-N04",
@@ -331,6 +334,4 @@ export const mr01: SetLesson = {
     "SP-T04-N05",
     "SP-T05-N05",
   ],
-  formCards: [],
-  variations: [],
 };

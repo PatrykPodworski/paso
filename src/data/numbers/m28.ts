@@ -277,8 +277,8 @@ export const m28: SetLesson = {
   base: [
     "NU-T49-E01",
     "NU-T50-E01",
-    "NU-T49-E02",
     "NU-T49-E03",
+    "NU-T49-E02",
     "NU-T50-E02",
     "NU-T49-E04",
     "NU-T49-E05",

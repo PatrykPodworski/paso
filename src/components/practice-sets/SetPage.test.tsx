@@ -46,7 +46,7 @@ it("heads each unit with its path number and what it teaches, each lesson with i
   );
 });
 
-it("opens a lesson with its variations in a new order each time", () => {
+it("opens a lesson in the same order each time", () => {
   const opened: Lesson[] = [];
 
   render(
@@ -62,7 +62,7 @@ it("opens a lesson with its variations in a new order each time", () => {
   }
 
   expect(opened.map((l) => l.id)).toEqual(["aq-m01", "aq-m01", "aq-m01", "aq-m01"]);
-  expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBeGreaterThan(1);
+  expect(new Set(opened.map((l) => l.questions.map((q) => q.id).join())).size).toBe(1);
 });
 
 it("lists the two weekdays units", () => {

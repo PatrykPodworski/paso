@@ -3,27 +3,8 @@ import { shownTokens } from "../optionOrder";
 import { randomFrom } from "../random";
 import { weekdaysLesson, weekdaysLessons, weekdaysUnits } from "./weekdays";
 
-const calendar = [
-  ["WD-G01-C01", "type"],
-  ["WD-G01-C02", "type"],
-  ["WD-G01-C03", "type"],
-  ["WD-G01-C04", "type"],
-  ["WD-G01-C05", "type"],
-  ["WD-G01-C06", "type"],
-  ["WD-G01-C07", "type"],
-  ["WD-G02-C01", "choice"],
-  ["WD-G02-C02", "choice"],
-  ["WD-G02-C03", "choice"],
-  ["WD-G02-C04", "choice"],
-  ["WD-G02-C05", "choice"],
-  ["WD-G02-C06", "choice"],
-  ["WD-G02-C07", "choice"],
-  ["WD-G03", "order"],
-  ["WD-G04-C01", "type"],
-  ["WD-G04-C02", "type"],
-];
-
-// Each lesson's opening runs in written order; its variations follow in an order drawn anew.
+// Each lesson's opening runs in written order; its variations follow in an order drawn from the
+// seed. A review has no opening.
 const lessons = [
   {
     id: "wd-m01",
@@ -31,22 +12,22 @@ const lessons = [
     subtitle: "Learn three new days",
     opening: [
       ["WD-M01-INTRO", "teach"],
-      ["WD-T01-E01", "choice"],
       ["WD-T02-E01", "choice"],
+      ["WD-T01-E01", "choice"],
       ["WD-T03-E01", "choice"],
+      ["WD-T03-E03", "type"],
       ["WD-T01-E03", "type"],
       ["WD-T02-E03", "type"],
-      ["WD-T03-E03", "type"],
       ["WD-T01-E04-FORM", "teach"],
       ["WD-T01-E04", "type"],
-      ["WD-T02-E04", "type"],
       ["WD-T03-E04", "type"],
+      ["WD-T02-E04", "type"],
+      ["WD-T03-N01", "type"],
       ["WD-T01-N01", "type"],
       ["WD-T02-N01", "type"],
-      ["WD-T03-N01", "type"],
       ["WD-T01-N02", "type"],
-      ["WD-T02-N02", "type"],
       ["WD-T03-N02", "type"],
+      ["WD-T02-N02", "type"],
     ],
     variations: [
       "WD-T01-N07",
@@ -154,8 +135,25 @@ const lessons = [
     id: "wd-mr02",
     title: "The whole week",
     subtitle: "Review all seven days and their order",
-    opening: calendar,
+    opening: [],
     variations: [
+      "WD-G01-C01",
+      "WD-G01-C02",
+      "WD-G01-C03",
+      "WD-G01-C04",
+      "WD-G01-C05",
+      "WD-G01-C06",
+      "WD-G01-C07",
+      "WD-G02-C01",
+      "WD-G02-C02",
+      "WD-G02-C03",
+      "WD-G02-C04",
+      "WD-G02-C05",
+      "WD-G02-C06",
+      "WD-G02-C07",
+      "WD-G03",
+      "WD-G04-C01",
+      "WD-G04-C02",
       "WD-T06-E02",
       "WD-T06-N04",
       "WD-T07-E02",
@@ -188,7 +186,7 @@ describe("weekdays lessons", () => {
       },
     );
 
-    it("draws a new variation order each time the lesson opens", () => {
+    it("draws its variation order from the seed", () => {
       const orders = [1, 2, 3].map((seed) =>
         weekdaysLesson(id, randomFrom(seed))
           .questions.slice(opening.length)

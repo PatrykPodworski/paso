@@ -28,8 +28,7 @@ const questions = [
 ];
 
 // Practice sets whose clips are still to be generated; each set's audio issue removes its entry.
-// numbers: #828.
-const AWAITING_AUDIO = ["numbers"];
+const AWAITING_AUDIO: string[] = [];
 
 // An instruction says what to do in one sentence without a full stop. A second sentence is the
 // context it refers to and goes to `context`, which the exercise shows on its own line (#816).

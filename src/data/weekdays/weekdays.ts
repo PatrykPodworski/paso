@@ -1,4 +1,3 @@
-import { randomFrom, randomSeed } from "../random.ts";
 import type { Question } from "../types.ts";
 import { questionOf } from "../practice-sets/item.ts";
 import { lessonBuilder } from "../practice-sets/lesson.ts";
@@ -42,7 +41,7 @@ export const weekdaysUnits = UNITS.map(({ after, subtitle, ids }, i) => ({
 
 const { lessonFrom } = lessonBuilder(weekdaysQuestions);
 
-export const weekdaysLesson = (id: string, random = randomFrom(randomSeed())) =>
+export const weekdaysLesson = (id: string, random?: () => number) =>
   lessonFrom(
     weekdaysLessons.find((l) => l.id === id)!,
     random,

@@ -1,4 +1,4 @@
-import { shuffle } from "../random.ts";
+import { hash, randomFrom, shuffle } from "../random.ts";
 import type { Lesson, Question } from "../types.ts";
 import { teachingCard } from "./item.ts";
 import type { SetLesson } from "./setLesson.ts";
@@ -39,7 +39,9 @@ export const lessonBuilder = (questions: Question[]) => {
       ...baseOf(l),
       ...l.variations.map((id) => byId.get(id)!),
     ],
-    lessonFrom: (l: SetLesson, random: () => number): Lesson => ({
+    // The variations' order comes from the lesson's id, so the lesson opens in the same order
+    // every time and Continue resumes where the learner stopped.
+    lessonFrom: (l: SetLesson, random = randomFrom(hash(l.id))): Lesson => ({
       id: l.id,
       title: l.title,
       subtitle: l.subtitle,

@@ -7,7 +7,8 @@ export type FormCard = { before: string } & (
 );
 
 // A set lesson: the recalled items, the introduction (a review has none), the base items in
-// order with their form cards, then the variations in an order drawn when the lesson opens.
+// order with their form cards, then the variations in an order drawn from the lesson's id. A
+// review has no base: all its items are variations, so their order is not the counting order.
 export type SetLesson = {
   id: string;
   title: string;

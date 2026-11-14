@@ -1,7 +1,7 @@
 import type { Item } from "../practice-sets/item.ts";
 import type { SetLesson } from "../practice-sets/setLesson.ts";
 
-// The unit review: each number of the unit again, in a fixed order.
+// The unit review: each number of the unit again, in the lesson's shuffled order.
 export const r04Items: Item[] = [
   {
     id: "NU-T23-V09",
@@ -260,7 +260,9 @@ export const r04: SetLesson = {
   title: "Unit review",
   subtitle: "Review this unit's lessons",
   recalled: [],
-  base: [
+  base: [],
+  formCards: [],
+  variations: [
     "NU-T23-V09",
     "NU-T24-V09",
     "NU-T25-V09",
@@ -284,6 +286,4 @@ export const r04: SetLesson = {
     "NU-G41",
     "NU-G42",
   ],
-  formCards: [],
-  variations: [],
 };

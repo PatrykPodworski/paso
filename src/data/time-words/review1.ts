@@ -29,7 +29,9 @@ export const r01: SetLesson = {
   title: "Unit review",
   subtitle: "Review this unit's lessons",
   recalled: [],
-  base: [
+  base: [],
+  formCards: [],
+  variations: [
     "TM-T01-V09",
     "TM-T02-V09",
     "TM-T03-V09",
@@ -49,6 +51,4 @@ export const r01: SetLesson = {
     "TM-G01",
     "TM-G02",
   ],
-  formCards: [],
-  variations: [],
 };

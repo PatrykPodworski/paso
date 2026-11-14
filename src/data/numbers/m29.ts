@@ -276,8 +276,8 @@ export const m29: SetLesson = {
     "NU-T51-E04",
     "NU-T51-E05",
     "NU-T52-E04",
-    "NU-T51-E06",
     "NU-T52-E05",
+    "NU-T51-E06",
     "NU-T51-E07",
   ],
   formCards: [

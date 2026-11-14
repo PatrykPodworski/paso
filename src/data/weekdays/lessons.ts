@@ -26,21 +26,21 @@ export const l01: SetLesson = {
     ],
   }),
   base: [
-    "WD-T01-E01",
     "WD-T02-E01",
+    "WD-T01-E01",
     "WD-T03-E01",
+    "WD-T03-E03",
     "WD-T01-E03",
     "WD-T02-E03",
-    "WD-T03-E03",
     "WD-T01-E04",
-    "WD-T02-E04",
     "WD-T03-E04",
+    "WD-T02-E04",
+    "WD-T03-N01",
     "WD-T01-N01",
     "WD-T02-N01",
-    "WD-T03-N01",
     "WD-T01-N02",
-    "WD-T02-N02",
     "WD-T03-N02",
+    "WD-T02-N02",
   ],
   formCards: [
     {
@@ -55,7 +55,7 @@ export const l01: SetLesson = {
       },
     },
   ],
-  variations: ["WD-T01-V01", "WD-T02-V01", "WD-T03-V01", "WD-T01-N07", "WD-T02-N07", "WD-T03-N07"],
+  variations: ["WD-T01-V01", "WD-T02-V01", "WD-T03-V01", "WD-T02-N07", "WD-T01-N07", "WD-T03-N07"],
 };
 
 export const l02: SetLesson = {
@@ -124,8 +124,8 @@ export const r01: SetLesson = {
   variations: [
     "WD-T04-E02",
     "WD-T05-E02",
-    "WD-T01-V03",
     "WD-T02-V03",
+    "WD-T01-V03",
     "WD-T03-V03",
     "WD-T04-V03",
     "WD-T05-V03",
@@ -216,7 +216,9 @@ export const r02: SetLesson = {
   title: "The whole week",
   subtitle: "Review all seven days and their order",
   recalled: [],
-  base: [
+  base: [],
+  formCards: [],
+  variations: [
     "WD-G01-C01",
     "WD-G01-C02",
     "WD-G01-C03",
@@ -234,7 +236,11 @@ export const r02: SetLesson = {
     "WD-G03",
     "WD-G04-C01",
     "WD-G04-C02",
+    "WD-T06-E02",
+    "WD-T07-E02",
+    "WD-T06-N04",
+    "WD-T07-N04",
+    "WD-T07-E04",
+    "WD-T07-N08",
   ],
-  formCards: [],
-  variations: ["WD-T06-E02", "WD-T07-E02", "WD-T06-N04", "WD-T07-N04", "WD-T07-E04", "WD-T07-N08"],
 };

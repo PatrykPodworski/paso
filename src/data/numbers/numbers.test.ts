@@ -3,7 +3,8 @@ import { randomFrom } from "../random";
 import { numbersLesson, numbersUnits } from "./numbers";
 
 // Each lesson as written: its intro card and base in order, with form cards before their item,
-// then its variations, which the lesson shuffles. A review has no intro and no variations.
+// then its variations, which the lesson shuffles. A review has no intro and no base, so all its
+// items are shuffled.
 const LESSONS = [
   {
     id: "nu-m01",
@@ -120,27 +121,27 @@ const LESSONS = [
     title: "Unit review",
     subtitle: "Review this unit's lessons",
     terms: [],
-    opening: [
-      "NU-T01-V09",
-      "NU-T02-V09",
-      "NU-T03-V09",
-      "NU-T04-V09",
-      "NU-T05-V09",
-      "NU-T06-V09",
-      "NU-T07-V09",
-      "NU-T08-V09",
-      "NU-T02-V10",
-      "NU-T03-V10",
-      "NU-T04-V10",
-      "NU-T05-V10",
-      "NU-T06-V10",
-      "NU-T07-V10",
-      "NU-T08-V10",
-      "NU-Pr01",
+    opening: [],
+    variations: [
       "NU-G11",
       "NU-G12",
+      "NU-Pr01",
+      "NU-T01-V09",
+      "NU-T02-V09",
+      "NU-T02-V10",
+      "NU-T03-V09",
+      "NU-T03-V10",
+      "NU-T04-V09",
+      "NU-T04-V10",
+      "NU-T05-V09",
+      "NU-T05-V10",
+      "NU-T06-V09",
+      "NU-T06-V10",
+      "NU-T07-V09",
+      "NU-T07-V10",
+      "NU-T08-V09",
+      "NU-T08-V10",
     ],
-    variations: [],
   },
   {
     id: "nu-m05",
@@ -267,28 +268,28 @@ const LESSONS = [
     title: "Unit review",
     subtitle: "Review this unit's lessons",
     terms: [],
-    opening: [
-      "NU-T09-V09",
-      "NU-T10-V09",
-      "NU-T11-V09",
-      "NU-T12-V09",
-      "NU-T13-V09",
-      "NU-T14-V09",
-      "NU-T15-V09",
-      "NU-T16-V09",
-      "NU-T09-V10",
-      "NU-T10-V10",
-      "NU-T11-V10",
-      "NU-T12-V10",
-      "NU-T13-V10",
-      "NU-T14-V10",
-      "NU-T15-V10",
-      "NU-T16-V10",
-      "NU-Pr02",
+    opening: [],
+    variations: [
       "NU-G21",
       "NU-G22",
+      "NU-Pr02",
+      "NU-T09-V09",
+      "NU-T09-V10",
+      "NU-T10-V09",
+      "NU-T10-V10",
+      "NU-T11-V09",
+      "NU-T11-V10",
+      "NU-T12-V09",
+      "NU-T12-V10",
+      "NU-T13-V09",
+      "NU-T13-V10",
+      "NU-T14-V09",
+      "NU-T14-V10",
+      "NU-T15-V09",
+      "NU-T15-V10",
+      "NU-T16-V09",
+      "NU-T16-V10",
     ],
-    variations: [],
   },
   {
     id: "nu-m09",
@@ -327,21 +328,21 @@ const LESSONS = [
     terms: ["dieciocho", "diecinueve", "veinte"],
     opening: [
       "NU-M10-INTRO",
-      "NU-T19-E01",
       "NU-T20-E01",
+      "NU-T19-E01",
       "NU-T21-E01",
+      "NU-T21-E02",
       "NU-T19-E02",
       "NU-T20-E02",
-      "NU-T21-E02",
       "NU-T19-E03",
-      "NU-T20-E03",
       "NU-T21-E03",
+      "NU-T20-E03",
+      "NU-T21-E04",
       "NU-T19-E04",
       "NU-T20-E04",
-      "NU-T21-E04",
       "NU-T19-E05",
-      "NU-T20-E05",
       "NU-T21-E05",
+      "NU-T20-E05",
     ],
     variations: [
       "NU-T17-V03",
@@ -394,24 +395,24 @@ const LESSONS = [
     title: "Unit review",
     subtitle: "Review this unit's lessons",
     terms: [],
-    opening: [
+    opening: [],
+    variations: [
+      "NU-G31",
+      "NU-G32",
       "NU-T17-V09",
-      "NU-T18-V09",
-      "NU-T19-V09",
-      "NU-T20-V09",
-      "NU-T21-V09",
       "NU-T17-V10",
+      "NU-T18-V09",
       "NU-T18-V10",
+      "NU-T19-V09",
       "NU-T19-V10",
+      "NU-T20-V09",
       "NU-T20-V10",
+      "NU-T21-V09",
       "NU-T21-V10",
       "NU-T22-V09",
       "NU-T22-V10",
       "NU-T22-V11",
-      "NU-G31",
-      "NU-G32",
     ],
-    variations: [],
   },
   {
     id: "nu-m12",
@@ -563,31 +564,31 @@ const LESSONS = [
     title: "Unit review",
     subtitle: "Review this unit's lessons",
     terms: [],
-    opening: [
+    opening: [],
+    variations: [
+      "NU-G41",
+      "NU-G42",
       "NU-T23-V09",
-      "NU-T24-V09",
-      "NU-T25-V09",
-      "NU-T26-V09",
-      "NU-T27-V09",
-      "NU-T28-V09",
-      "NU-T29-V09",
-      "NU-T31-V09",
       "NU-T23-V10",
+      "NU-T24-V09",
       "NU-T24-V10",
+      "NU-T25-V09",
       "NU-T25-V10",
+      "NU-T26-V09",
       "NU-T26-V10",
+      "NU-T27-V09",
       "NU-T27-V10",
+      "NU-T28-V09",
       "NU-T28-V10",
+      "NU-T29-V09",
       "NU-T29-V10",
-      "NU-T31-V10",
       "NU-T30-V09",
       "NU-T30-V10",
       "NU-T30-V11",
       "NU-T30-V12",
-      "NU-G41",
-      "NU-G42",
+      "NU-T31-V09",
+      "NU-T31-V10",
     ],
-    variations: [],
   },
   {
     id: "nu-m16",
@@ -741,7 +742,10 @@ const LESSONS = [
     title: "Unit review",
     subtitle: "Review this unit's lessons",
     terms: [],
-    opening: [
+    opening: [],
+    variations: [
+      "NU-G51",
+      "NU-G52",
       "NU-T32-R01",
       "NU-T32-R02",
       "NU-T33-R01",
@@ -756,10 +760,7 @@ const LESSONS = [
       "NU-T37-R02",
       "NU-T38-R01",
       "NU-T38-R02",
-      "NU-G51",
-      "NU-G52",
     ],
-    variations: [],
   },
   {
     id: "nu-m23",
@@ -884,8 +885,8 @@ const LESSONS = [
       "NU-M28-INTRO",
       "NU-T49-E01",
       "NU-T50-E01",
-      "NU-T49-E02",
       "NU-T49-E03",
+      "NU-T49-E02",
       "NU-T50-E02",
       "NU-T49-E04",
       "NU-T49-E05-FORM",
@@ -915,8 +916,8 @@ const LESSONS = [
       "NU-T51-E05-FORM",
       "NU-T51-E05",
       "NU-T52-E04",
-      "NU-T51-E06",
       "NU-T52-E05",
+      "NU-T51-E06",
       "NU-T51-E07",
     ],
     variations: ["NU-T49-X01", "NU-T51-V01", "NU-T51-V02", "NU-T52-V01"],
@@ -926,7 +927,10 @@ const LESSONS = [
     title: "Unit review",
     subtitle: "Review this unit's lessons",
     terms: [],
-    opening: [
+    opening: [],
+    variations: [
+      "NU-G61",
+      "NU-G62",
       "NU-T39-R01",
       "NU-T39-R02",
       "NU-T39-R03",
@@ -956,10 +960,7 @@ const LESSONS = [
       "NU-T51-R02",
       "NU-T52-R01",
       "NU-T52-R02",
-      "NU-G61",
-      "NU-G62",
     ],
-    variations: [],
   },
 ];
 
@@ -988,7 +989,7 @@ describe("numbers lessons", () => {
       expect(first.teach?.terms?.map((t) => t.es) ?? []).toEqual(terms);
     });
 
-    it("draws a new variation order each time it opens, or keeps a review in order", () => {
+    it("draws its variation order from the seed", () => {
       const orders = [1, 2, 3].map((seed) =>
         numbersLesson(id, randomFrom(seed))
           .questions.slice(opening.length)
@@ -996,11 +997,7 @@ describe("numbers lessons", () => {
           .join(),
       );
 
-      if (variations.length) {
-        expect(new Set(orders).size).toBeGreaterThan(1);
-      } else {
-        expect(new Set(orders).size).toBe(1);
-      }
+      expect(new Set(orders).size).toBeGreaterThan(1);
     });
   });
 

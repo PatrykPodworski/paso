@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { resumeIndex } from "./resumeIndex";
 import { allLessons } from "./curriculum";
 import { askingLesson } from "./asking-questions/askingQuestions";
+import { numbersLesson } from "./numbers/numbers";
 import { placementLesson } from "./placement/placement";
 import { timeWordsLesson } from "./time-words/timeWords";
 import { weekdaysLesson } from "./weekdays/weekdays";
@@ -115,13 +116,27 @@ describe("a lesson from the asking-questions set", () => {
   });
 });
 
-it("reopens an unfinished weekdays M01 with Monday's E01 answered at Tuesday's E01", () => {
+it("reopens an unfinished weekdays M01 with Tuesday's E01 answered at Monday's E01", () => {
   const l01 = weekdaysLesson("wd-m01", () => 0);
   const progress = emptySnapshot();
 
-  progress.questions["WD-T01-E01"] = questionState();
+  progress.questions["WD-T02-E01"] = questionState();
 
-  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("WD-T02-E01");
+  expect(l01.questions[resumeIndex(l01, progress)].id).toBe("WD-T01-E01");
+});
+
+it("reopens a shuffled numbers review at the exercise after the ones answered", () => {
+  const first = numbersLesson("nu-r01");
+  const progress = emptySnapshot();
+
+  for (const q of first.questions.slice(0, 5)) {
+    progress.questions[q.id] = questionState();
+  }
+
+  const reopened = numbersLesson("nu-r01");
+
+  expect(reopened.questions.map((q) => q.id)).toEqual(first.questions.map((q) => q.id));
+  expect(resumeIndex(reopened, progress)).toBe(5);
 });
 
 it("reopens an unfinished placement pl-m01 with SP-T01-N01 answered at SP-T02-N01", () => {

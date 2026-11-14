@@ -331,7 +331,9 @@ export const mr03: SetLesson = {
   title: "Unit review",
   subtitle: "Review this unit's lessons",
   recalled: [],
-  base: [
+  base: [],
+  formCards: [],
+  variations: [
     "SP-T10-N04",
     "SP-T11-N04",
     "SP-T12-N04",
@@ -341,6 +343,4 @@ export const mr03: SetLesson = {
     "SP-T12-N05",
     "SP-T13-N05",
   ],
-  formCards: [],
-  variations: [],
 };
